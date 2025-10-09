@@ -1,6 +1,6 @@
 name: BTEConoSur
 version: '3.0.0'
-main: org.btecs.btecscore.BTEConoSur
+main: com.bteconosur.core.BTEConoSur
 api-version: '1.21'
 authors: [PGTech]
-description: Plugin para el servidor de ConoSur
+description: Plugin para el servidor de Cono Sur
