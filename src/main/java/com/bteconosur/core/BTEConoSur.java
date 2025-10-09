@@ -1,4 +1,4 @@
-package org.btecs;
+package com.bteconosur.core;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
