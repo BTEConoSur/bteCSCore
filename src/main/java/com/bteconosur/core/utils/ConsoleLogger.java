@@ -41,28 +41,60 @@ public class ConsoleLogger {
 
         info(lang.getString("logger-loaded"));
         debug(lang.getString("debug-mode-enabled"));
+
     }
 
     public void info(String message) {
-        logger.info(miniMessage.deserialize(prefix + infoPrefix + message));
+        log(prefix + " " + infoPrefix + message);
+    }
+
+    public void info(String message, Object object) {
+        String json = JsonUtils.toJson(object);
+        log(prefix + " " + infoPrefix + message + "\n" + json);
     }
 
     public void debug(String message) {
         if (debugMode) {
-            logger.info(miniMessage.deserialize(prefix + debugPrefix + message));
+            log(prefix + " " + debugPrefix + message);
+        }
+    }
+
+    public void debug(String message, Object object) {
+        if (debugMode) {
+            String json = JsonUtils.toJson(object);
+            log(prefix + " " + debugPrefix + message + "\n" + json);
         }
     }
     
     public void warn(String message) {
-        logger.info(miniMessage.deserialize(prefix + warnPrefix + message));
+        log(prefix + " " + warnPrefix + message);
+    }
+
+    public void warn(String message, Object object) {
+        String json = JsonUtils.toJson(object);
+        log(prefix + " " + warnPrefix + message + "\n" + json);
     }
 
     public void error(String message) {
-        logger.info(miniMessage.deserialize(prefix + errorPrefix + message));
+        log(prefix + " " + errorPrefix + message);
+    }
+
+    public void error(String message, Object object) {
+        String json = JsonUtils.toJson(object);
+        log(prefix + " " + errorPrefix + message + "\n" + json);
     }
 
     public void send(String message) {
-        logger.info(miniMessage.deserialize(prefix + message));
+        log(prefix + " " + message);
+    }
+
+    public void send(String message, Object object) {
+        String json = JsonUtils.toJson(object);
+        log(prefix + " " + message + "\n" + json);
+    }
+
+    private void log(String message) {
+        logger.info(miniMessage.deserialize(message));
     }
 
 }
