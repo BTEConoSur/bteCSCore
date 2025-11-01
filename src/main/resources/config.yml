@@ -1,1 +1,6 @@
 # Config file
+
+# General
+debug-mode: true
+
+# Console Logger

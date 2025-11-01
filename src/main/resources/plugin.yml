@@ -4,3 +4,4 @@ main: com.bteconosur.core.BTEConoSur
 api-version: '1.21'
 authors: [PGTech]
 description: Plugin para el servidor de Cono Sur
+prefix: 'BTEConoSur'
