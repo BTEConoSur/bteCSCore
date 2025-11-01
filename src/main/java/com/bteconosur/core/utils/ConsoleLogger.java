@@ -61,4 +61,8 @@ public class ConsoleLogger {
         logger.info(miniMessage.deserialize(prefix + errorPrefix + message));
     }
 
+    public void send(String message) {
+        logger.info(miniMessage.deserialize(prefix + message));
+    }
+
 }
