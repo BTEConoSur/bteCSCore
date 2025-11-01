@@ -1,14 +1,10 @@
 package com.bteconosur.core.utils;
 
-import java.util.logging.Logger;
-
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.checkerframework.checker.units.qual.s;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
@@ -28,7 +24,6 @@ public class ConsoleLogger {
     private String debugPrefix;
     private String warnPrefix;
     private String errorPrefix;
-
 
     public ConsoleLogger() {
         plugin = BTEConoSur.getInstance();
@@ -65,6 +60,5 @@ public class ConsoleLogger {
     public void error(String message) {
         logger.info(miniMessage.deserialize(prefix + errorPrefix + message));
     }
-
 
 }
