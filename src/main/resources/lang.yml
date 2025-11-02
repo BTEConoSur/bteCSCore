@@ -12,3 +12,10 @@ info-prefix: "<dark_aqua>[INFO]</dark_aqua> <white>"
 debug-prefix: "<dark_purple>[DEBUG]</dark_purple> <light_purple>"
 warn-prefix: "<gold>[WARN]</gold> <yellow>"
 error-prefix: "<dark_red>[ERROR]</dark_red> <red>"
+
+# Base de Datos
+hibernate-initializing: "Inicializando Hibernate..."
+hibernate-shutting-down: "Cerrando Hibernate..."
+
+database-initializing: "Inicializando Módulo: Base de Datos..."
+database-shutting-down: "Cerrando Módulo: Base de Datos..."
