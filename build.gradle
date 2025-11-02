@@ -22,6 +22,7 @@ dependencies {
 
     implementation("org.hibernate.orm:hibernate-core:7.1.6.Final")
     implementation("org.reflections:reflections:0.10.2")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.3.2")
 }
 
 def targetJavaVersion = 21
@@ -37,6 +38,11 @@ java {
 shadowJar {
     archiveFileName = "${project.name}-${project.version}.jar"
     mergeServiceFiles()
+    exclude 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/LICENSE*',
+          'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/NOTICE*',
+          'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.named('build') {
