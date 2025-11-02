@@ -1,5 +1,7 @@
 # User-specific stuff
 .idea/
+.vscode/
+docker-compose.yml
 
 *.iml
 *.ipr
@@ -117,3 +119,5 @@ run/
 
 # Ignore Gradle build output directory
 build
+
+
