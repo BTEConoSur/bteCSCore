@@ -3,4 +3,12 @@
 # General
 debug-mode: true
 
-# Console Logger
+# Base de Datos
+database-url: ""
+database-username: ""
+database-password: ""
+
+database-driver: "org.mariadb.jdbc.Driver"
+database-dialect: "org.hibernate.dialect.MariaDBDialect"
+database-show-sql: "false"
+database-current-session-context-class: "thread"
