@@ -7,13 +7,18 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "player")
 public class Player {
 
     @Id
-    @Column(name = "uuid", length = 36) // Define la columna y su longitud
+    @Column(name = "uuid", columnDefinition = "CHAR(36)", nullable = false)
+    @JdbcTypeCode(SqlTypes.CHAR)
     private UUID uuid;
 
     @Column(name = "nombre", length = 16) // Define la columna y su longitud
@@ -22,15 +27,19 @@ public class Player {
     @Column(name = "f_ingreso")
     private Date fechaIngreso;
 
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_usuario")
+    private TipoUsuario tipoUsuario;
+
     public Player() {
     }
 
-    public Player(UUID uuid, String nombre, Date fechaIngreso) {
+    public Player(UUID uuid, String nombre, Date fechaIngreso, TipoUsuario tipoUsuario) {
         this.uuid = uuid;
         this.nombre = nombre;
         this.fechaIngreso = fechaIngreso;
+        this.tipoUsuario = tipoUsuario;
     }
-    
 
     public UUID getUuid() {
         return uuid;
@@ -56,5 +65,12 @@ public class Player {
         this.fechaIngreso = fechaIngreso;
     }
 
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
 
 }

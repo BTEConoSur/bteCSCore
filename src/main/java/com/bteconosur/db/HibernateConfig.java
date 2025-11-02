@@ -11,15 +11,15 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.utils.ConsoleLogger;
 
-import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 
 public class HibernateConfig {
 
     private final YamlConfiguration config;
     private final YamlConfiguration lang;
 
-    private final ComponentLogger logger;
+    private final ConsoleLogger logger;
 
     private static SessionFactory sessionFactory;
 
@@ -27,7 +27,7 @@ public class HibernateConfig {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
         lang = configHandler.getLang();
-        logger = BTEConoSur.getInstance().getComponentLogger();
+        logger = BTEConoSur.getConsoleLogger();
 
         logger.info(lang.getString("hibernate-initializing"));
     }
@@ -40,13 +40,12 @@ public class HibernateConfig {
         }
 
         Properties settings = new Properties();
-        settings.put("connection.driver_class", config.getString("database-driver"));
-        settings.put("connection.url", config.getString("database-url"));
-        settings.put("connection.username", config.getString("database-username"));
-        settings.put("connection.password", config.getString("database-password"));
-        settings.put("dialect", config.getString("database-dialect"));
-        settings.put("show_sql", config.getString("database-show-sql"));
-        settings.put("current_session_context_class", config.getString("database-current-session-context-class"));
+        settings.put("hibernate.connection.driver_class", config.getString("database-driver"));
+        settings.put("hibernate.connection.url", config.getString("database-url"));
+        settings.put("hibernate.connection.username", config.getString("database-username"));
+        settings.put("hibernate.connection.password", config.getString("database-password"));
+        settings.put("hibernate.show_sql", config.getString("database-show-sql"));
+        settings.put("hibernate.current_session_context_class", config.getString("database-current-session-context-class"));
         settings.put("hibernate.hbm2ddl.auto", "update"); // TODO: Ajustar según entorno (development/production)
 
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -63,7 +62,7 @@ public class HibernateConfig {
             return sessionFactory;
         } catch (Exception e) {
             StandardServiceRegistryBuilder.destroy(registry);
-            logger.error("Error al construir SessionFactory de Hibernate", e);
+            logger.error("Excepción al construir SessionFactory de Hibernate: " + e);
             return null;
         }
     }
