@@ -16,6 +16,8 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    implementation("net.kyori:ansi:1.1.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 }
 
 tasks {

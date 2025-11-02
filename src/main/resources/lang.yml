@@ -1,2 +1,14 @@
+# Usar MiniMessage para formateo de texto - https://webui.advntr.dev/
+
 # Lang file
 config-reloaded: "Configuración recargada correctamente."
+
+# Console Logger
+logger-loaded: "Console Logger inicializado."
+debug-mode-enabled: "Modo debug activado."
+
+prefix: "<gray>[</gray><dark_gray>Core</dark_gray><gray>]</gray>"
+info-prefix: "<dark_aqua>[INFO]</dark_aqua> <white>"
+debug-prefix: "<dark_purple>[DEBUG]</dark_purple> <light_purple>"
+warn-prefix: "<gold>[WARN]</gold> <yellow>"
+error-prefix: "<dark_red>[ERROR]</dark_red> <red>"
