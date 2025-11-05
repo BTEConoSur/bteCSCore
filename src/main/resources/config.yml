@@ -11,3 +11,6 @@ database-password: ""
 database-driver: "org.mariadb.jdbc.Driver"
 database-show-sql: "false"
 database-current-session-context-class: "thread"
+
+# Discord
+discord-bot-token: ""

@@ -14,8 +14,16 @@ warn-prefix: "<gold>[WARN]</gold> <yellow>"
 error-prefix: "<dark_red>[ERROR]</dark_red> <red>"
 
 # Base de Datos
-hibernate-initializing: "Inicializando Hibernate..."
-hibernate-shutting-down: "Cerrando Hibernate..."
-
 database-initializing: "Inicializando Módulo: Base de Datos..."
 database-shutting-down: "Cerrando Módulo: Base de Datos..."
+
+hibernate-initializing: "Prendiendo Hibernate..."
+hibernate-shutting-down: "Apagando Hibernate..."
+
+# Discord
+discord-initializing: "Inicializando Módulo: Discord..."
+discord-shutting-down: "Cerrando Módulo: Discord..."
+
+discord-bot-initializing: "Prendiendo Bot de Discord..."
+discord-bot-shutting-down: "Apagando Bot de Discord..."
+discord-bot-restarting: "Reiniciando Bot de Discord..."

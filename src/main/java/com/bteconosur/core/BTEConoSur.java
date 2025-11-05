@@ -1,23 +1,19 @@
 package com.bteconosur.core;
 
-import java.io.Console;
-import java.io.IOException;
-
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.utils.ConsoleLogger;
 import com.bteconosur.core.utils.PluginRegistry;
 import com.bteconosur.db.DBManager;
-import com.bteconosur.db.DatabaseTester;
+import com.bteconosur.discord.DiscordManager;
 
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.bteconosur.core.config.ConfigFile;
 
 public final class BTEConoSur extends JavaPlugin {
     private static BTEConoSur instance;
 
     private static ConsoleLogger consoleLogger;
     private static DBManager dbManager;
+    private static DiscordManager discordManager;
 
     @Override
     public void onEnable() {
@@ -28,6 +24,8 @@ public final class BTEConoSur extends JavaPlugin {
 
         dbManager = new DBManager();
 
+        discordManager = new DiscordManager();
+
         // Registro de comandos
         PluginRegistry.registerCommand(new BTECSCommand());
         consoleLogger.info("El Plugin se ha activado.");
@@ -35,10 +33,14 @@ public final class BTEConoSur extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
         if (dbManager != null) {
             dbManager.shutdown();
             dbManager = null;
+        }
+
+        if (discordManager != null) {
+            discordManager.shutdown();
+            discordManager = null;
         }
           
         consoleLogger.info("El Plugin se ha desactivado.");
