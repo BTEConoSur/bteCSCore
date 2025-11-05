@@ -75,12 +75,13 @@ public class HibernateConfig {
         return sessionFactory;
     }
 
-    public void shutdown() {
-        if (sessionFactory != null) {
-            logger.info(lang.getString("hibernate-shutting-down"));
-            sessionFactory.close();
-        } else {
-            logger.warn("SessionFactory no estaba inicializado al intentar cerrarlo.");
+    public void shutdown() { // TODO: Ver si coinciden shutdowns de DBManager y DiscordManager
+        logger.info(lang.getString("hibernate-shutting-down"));
+        if (sessionFactory == null) {
+            logger.warn("Hibernate no está inicializado.");
+            return;
         }
+        sessionFactory.close();
+        sessionFactory = null;
     }
 }

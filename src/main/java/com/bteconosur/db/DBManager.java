@@ -27,9 +27,7 @@ import jakarta.persistence.criteria.Predicate;
 
 public class DBManager {
 
-    private final YamlConfiguration config;
     private final YamlConfiguration lang;
-
     private final ConsoleLogger logger;
 
     private HibernateConfig hibernateConfig;
@@ -38,7 +36,6 @@ public class DBManager {
 
     public DBManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
-        config = configHandler.getConfig();
         lang = configHandler.getLang();
         logger = BTEConoSur.getConsoleLogger();
 
@@ -166,9 +163,10 @@ public class DBManager {
 
 
     public void shutdown() {
+        logger.info(lang.getString("database-shutting-down"));
+        hibernateConfig.shutdown();
         if (sessionFactory != null) {
-            logger.info(lang.getString("database-shutting-down"));
-            hibernateConfig.shutdown();
+            sessionFactory = null;
         }
     }
 }
