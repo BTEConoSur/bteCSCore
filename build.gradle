@@ -13,6 +13,8 @@ repositories {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
     }
+
+    maven { url = "https://repo.onarandombox.com/content/groups/public/" }
 }
 
 dependencies {
@@ -21,9 +23,14 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 
     implementation("org.hibernate.orm:hibernate-core:7.1.6.Final")
+    implementation("org.hibernate:hibernate-spatial:7.1.6.Final")
     implementation("org.reflections:reflections:0.10.2")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.3.2")
     implementation("net.dv8tion:JDA:6.1.1")
+
+    implementation("org.locationtech.jts:jts-core:1.20.0")
+
+    compileOnly ("org.mvplugins.multiverse.core:multiverse-core:5.3.3-SNAPSHOT")
 }
 
 def targetJavaVersion = 21
