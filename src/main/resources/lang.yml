@@ -27,3 +27,9 @@ discord-shutting-down: "Cerrando Módulo: Discord..."
 discord-bot-initializing: "Prendiendo Bot de Discord..."
 discord-bot-shutting-down: "Apagando Bot de Discord..."
 discord-bot-restarting: "Reiniciando Bot de Discord..."
+
+# World
+world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
+world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
+bte-world-loading: "Cargando mundo de BTE..."
+label-world-loading: "Cargando capa: %name% con offset %offset%..." # %name% -> Nombre de la capa. %offset% -> Offset de la capa.

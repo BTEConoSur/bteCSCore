@@ -6,6 +6,7 @@ public class ConfigHandler {
     private static ConfigHandler instance;
     private final ConfigFile config = new ConfigFile("config.yml");
     private final ConfigFile lang = new ConfigFile("lang.yml");
+    private final ConfigFile worlds = new ConfigFile("worlds.yml");
 
     public ConfigHandler() {
         registerConfig();
@@ -14,6 +15,7 @@ public class ConfigHandler {
     private void registerConfig() {
         config.register();
         lang.register();
+        worlds.register();
     }
 
     public YamlConfiguration getConfig() {
@@ -24,14 +26,20 @@ public class ConfigHandler {
         return lang.getFileConfiguration();
     }
 
+    public YamlConfiguration getWorlds() {
+        return worlds.getFileConfiguration();
+    }
+
     public void save() {
         config.save();
         lang.save();
+        worlds.save();
     }
 
     public void reload() {
         config.reload();
         lang.reload();
+        worlds.reload();
     }
 
     /**
