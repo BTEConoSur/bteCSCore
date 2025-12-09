@@ -9,6 +9,7 @@ import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;
+import com.bteconosur.world.listener.MovingListeners;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -33,6 +34,7 @@ public final class BTEConoSur extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager, dbManager), this);
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(dbManager), this);
+        getServer().getPluginManager().registerEvents(new MovingListeners(worldManager), this);
             
         // Registro de comandos
         PluginRegistry.registerCommand(new BTECSCommand());

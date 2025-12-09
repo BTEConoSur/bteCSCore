@@ -34,16 +34,15 @@ public class WorldManager {
     public boolean canBuild(Location loc, Player player) {
         if (bteWorld == null || !bteWorld.isValid()) return false;
 
-        // Verificar que es Admin
+        // TODO: Verificar que es Admin
 
         if (loc.getWorld().getName().equalsIgnoreCase("lobby")) return true; // Delego en WorldGuard
         
         LabelWorld lw = bteWorld.getLabelWorld(loc.getX(), loc.getZ());
-        logger.debug("LabelWorld: " + lw);       
         if (lw == null) return false;
-        logger.debug("Is valid location: " + bteWorld.isValidLocation(loc, lw));  
         if (!bteWorld.isValidLocation(loc, lw)) return false;
-        logger.debug("Player: " + player);
+
+        logger.debug("Puedes construir");
         // TODO: Obtener país de la location
         // TODO: Verificar que es manager de este pais
 
@@ -56,6 +55,12 @@ public class WorldManager {
         return true;
     }
 
+    public void checkMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
+        if (bteWorld == null || !bteWorld.isValid()) return;
+        if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return;
+        bteWorld.checkMove(lFrom, lTo, player);
+    }
+
     public BTEWorld getBTEWorld() {
         return this.bteWorld;
     }
@@ -63,6 +68,7 @@ public class WorldManager {
 
     public void shutdown() {
         logger.info(lang.getString("world-module-shutting-down"));
+        bteWorld.shutdown();
     }
 
 }

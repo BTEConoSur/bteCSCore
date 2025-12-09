@@ -47,7 +47,6 @@ public class BuildingListeners implements Listener {
 
         Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId()); // TODO: Ver si es mejor cachear los jugadores.
         if (player == null) {
-            logger.debug("No se econtró el jugador en la base de datos.");
             // Notificación de chat: No se econtró el jugador en la base de datos.
             event.setCancelled(true);
             return;
@@ -65,7 +64,6 @@ public class BuildingListeners implements Listener {
 
         Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId()); // TODO: Ver si es mejor cachear los jugadores.
         if (player == null) {
-            logger.debug("No se econtró el jugador en la base de datos.");
             // Notificación de chat: No se econtró el jugador en la base de datos.
             event.setCancelled(true);
             return;
@@ -88,11 +86,12 @@ public class BuildingListeners implements Listener {
         }
 
         if ((action == Action.RIGHT_CLICK_BLOCK || action == Action.RIGHT_CLICK_AIR) 
-            && event.getItem() != null && event.getItem().getType().isBlock()) return;
+            && event.getItem() != null && event.getItem().getType().isBlock()) {
+                return;
+            }
 
         Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId()); 
         if (player == null) { 
-            logger.debug("No se econtró el jugador en la base de datos.");
             // Notificación de chat: No se econtró el jugador en la base de datos.
             event.setCancelled(true); 
             return; 

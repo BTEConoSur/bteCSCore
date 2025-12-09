@@ -7,7 +7,7 @@ config-reloaded: "Configuración recargada correctamente."
 logger-loaded: "Console Logger inicializado."
 debug-mode-enabled: "Modo debug activado."
 
-prefix: "<gray>[</gray><dark_gray>Core</dark_gray><gray>]</gray>"
+prefix: "<gray>[</gray><dark_gray>Core</dark_gray><gray>]</gray>" 
 info-prefix: "<dark_aqua>[INFO]</dark_aqua> <white>"
 debug-prefix: "<dark_purple>[DEBUG]</dark_purple> <light_purple>"
 warn-prefix: "<gold>[WARN]</gold> <yellow>"
@@ -33,3 +33,6 @@ world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
 world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
 bte-world-loading: "Cargando mundo de BTE..."
 label-world-loading: "Cargando capa: %name% con offset %offset%..." # %name% -> Nombre de la capa. %offset% -> Offset de la capa.
+
+teleport-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
+teleport-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.

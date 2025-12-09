@@ -14,3 +14,8 @@ database-current-session-context-class: "thread"
 
 # Discord
 discord-bot-token: ""
+
+# World
+tp-cooldown-seconds: 5
+layer-1-offset: 1700
+layer-2-offset: 5500
