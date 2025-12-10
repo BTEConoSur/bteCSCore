@@ -12,6 +12,7 @@ import com.bteconosur.world.listener.BuildingListeners;
 import com.bteconosur.world.listener.MovingListeners;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mvplugins.multiverse.core.MultiverseCoreApi;
 
 public final class BTEConoSur extends JavaPlugin {
     private static BTEConoSur instance;
@@ -21,10 +22,14 @@ public final class BTEConoSur extends JavaPlugin {
     private static DiscordManager discordManager;
     private static WorldManager worldManager;
 
+    private static MultiverseCoreApi multiverseCoreApi;
+
     @Override
     public void onEnable() {
         // Guardar instancia del plugin
         instance = this;
+
+        multiverseCoreApi = MultiverseCoreApi.get();
 
         consoleLogger = new ConsoleLogger();
         dbManager = new DBManager();
@@ -67,5 +72,9 @@ public final class BTEConoSur extends JavaPlugin {
 
     public static ConsoleLogger getConsoleLogger() {
         return consoleLogger;
+    }
+
+    public static MultiverseCoreApi getMultiverseCoreApi() {
+        return multiverseCoreApi;
     }
 }

@@ -29,7 +29,9 @@ public class LabelWorld {
     private final Geometry region;
 
     private ConsoleLogger logger = BTEConoSur.getConsoleLogger();
-    private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();;
+    private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
+
+    private static final GeometryFactory gf = new GeometryFactory();
 
     public LabelWorld(String name, String displayName, int offset) {
         String msg = lang.getString("label-world-loading").replace("%name%", name).replace("%offset%", String.valueOf(offset));
@@ -55,7 +57,6 @@ public class LabelWorld {
 
         ConfigurationSection sec = worlds.getConfigurationSection(name);
 
-        GeometryFactory gf = new GeometryFactory();
         Geometry combined = null;
 
         for (String key : sec.getKeys(false)) {

@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.locationtech.jts.geom.Coordinate;
+import org.mvplugins.multiverse.core.MultiverseCoreApi;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
@@ -34,6 +35,8 @@ public class BTEWorld {
     private ConsoleLogger logger = BTEConoSur.getConsoleLogger();
     private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
+
+    private final MultiverseCoreApi multiverseApi = BTEConoSur.getMultiverseCoreApi();
 
     private final Integer tpCooldownSeconds;
     private final String teleportTitle;
@@ -87,8 +90,14 @@ public class BTEWorld {
     public void checkMove(Location lFrom, Location lTo, Player player) {
         LabelWorld currentlw = getLabelWorld(lTo.getX(), lTo.getZ());
         UUID pUuid = player.getUniqueId();
-    
+        
         LabelWorld lastlw = lastLabelWorld.get(pUuid);
+        if (currentlw == null && lastlw == null) {
+            // Notificacion de chat: "No puedes estar en el limbo, te teletransportamos al lobby."
+            player.teleport(multiverseApi.getWorldManager().getLoadedWorld("lobby").get().getSpawnLocation());
+            return;
+        };
+
         if (lastlw == null && currentlw != null) {
             lastLabelWorld.put(pUuid, currentlw);
             return;
@@ -136,6 +145,7 @@ public class BTEWorld {
         }
     }
 
+
     private double convertY(double ySource, LabelWorld sourceLw, LabelWorld destLw) {
         if (sourceLw == null || destLw == null) return ySource;
         return ySource - destLw.getOffset() + sourceLw.getOffset();
@@ -147,6 +157,14 @@ public class BTEWorld {
 
     public List<LabelWorld> getLabelWorlds() {
         return this.labelWorlds;
+    }
+    
+    public void clearPlayerTasks(UUID pUuid) {
+        if (playerTasks.containsKey(pUuid)) {
+            playerTasks.get(pUuid).cancel();
+            playerTasks.remove(pUuid);
+            lastLabelWorld.remove(pUuid);
+        }
     }
 
     public void shutdown() {
