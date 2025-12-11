@@ -11,7 +11,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.core.utils.ConsoleLogger;
+import com.bteconosur.core.util.ConsoleLogger;
 
 
 public class HibernateConfig {

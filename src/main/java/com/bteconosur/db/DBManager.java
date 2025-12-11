@@ -16,8 +16,8 @@ import org.reflections.Reflections;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.core.utils.ConsoleLogger;
-import com.bteconosur.core.utils.PluginRegistry;
+import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.PluginRegistry;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.criteria.CriteriaBuilder;

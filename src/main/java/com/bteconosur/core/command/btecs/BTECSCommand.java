@@ -7,6 +7,7 @@ public class BTECSCommand extends BaseCommand {
     public BTECSCommand() {
         super("btecs");
         this.addSubcommand(new BTECSReloadCommand());
+        this.addSubcommand(new BTECSTestCommand());
     }
 
     @Override

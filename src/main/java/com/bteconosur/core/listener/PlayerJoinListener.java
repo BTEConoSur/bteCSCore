@@ -1,0 +1,38 @@
+package com.bteconosur.core.listener;
+
+import java.util.Date;
+
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+
+import com.bteconosur.db.DBManager;
+import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.TipoUsuario;
+
+public class PlayerJoinListener implements Listener{
+
+    private final DBManager dbManager;
+
+    public PlayerJoinListener(DBManager dbManager) {
+        this.dbManager = dbManager;
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        if (!dbManager.exists(TipoUsuario.class, 1)) {
+            dbManager.save(new TipoUsuario("Default", "Testeo", 10));
+        }
+        TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, 1); // TipoUsuario por defecto);
+
+        if (!dbManager.exists(Player.class, event.getPlayer().getUniqueId())) {
+            dbManager.save(new Player(
+                event.getPlayer().getUniqueId(),
+                event.getPlayer().getName(),
+                new Date(),
+                tipoUsuario
+            ));
+        }
+        
+    }
+}
