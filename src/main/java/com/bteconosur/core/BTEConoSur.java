@@ -85,4 +85,16 @@ public final class BTEConoSur extends JavaPlugin {
     public static WorldEditPlugin getWorldEditPlugin() {
         return worldEditPlugin;
     }
+    
+    public static DBManager getDbManager() {
+        return dbManager;
+    }
+
+    public static DiscordManager getDiscordManager() {
+        return discordManager;
+    }   
+
+    public static WorldManager getWorldManager() {
+        return worldManager;
+    }
 }

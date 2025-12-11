@@ -73,4 +73,6 @@ public class Player {
         this.tipoUsuario = tipoUsuario;
     }
 
+
+    //TODO: Ver cascada
 }

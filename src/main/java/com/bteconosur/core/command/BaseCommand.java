@@ -1,9 +1,15 @@
 package com.bteconosur.core.command;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.ConfigHandler;
+
+import net.kyori.adventure.text.minimessage.MiniMessage;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.h;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -20,29 +26,42 @@ public abstract class BaseCommand extends Command {
     }
 
     private final String command;
+    private final String description;
+    private final String args;
     private final CommandMode commandMode;
     private final String permission;
     private final Map<String, BaseCommand> subcommands = new HashMap<>();
     protected final BTEConoSur plugin;
 
-    public BaseCommand(String command) {
-        this(command, null, CommandMode.BOTH);
+    private final YamlConfiguration lang;
+    private final YamlConfiguration config;
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
+
+    public BaseCommand(String command, String description, String args) {
+        this(command, description, args, null, CommandMode.BOTH);
     }
 
-    public BaseCommand(String command, CommandMode mode) {
-        this(command, null, mode);
+    public BaseCommand(String command, String description, String args, CommandMode mode) {
+        this(command, description, args, null, mode);
     }
 
-    public BaseCommand(String command, String permission) {
-        this(command, permission, CommandMode.BOTH);
+    public BaseCommand(String command, String description, String args, String permission) {
+        this(command, description, args, permission, CommandMode.BOTH);
     }
 
-    public BaseCommand(String command, String permission, CommandMode mode) {
+    public BaseCommand(String command, String description, String args, String permission, CommandMode mode) {
         super(command);
+
+        ConfigHandler configHandler = ConfigHandler.getInstance();
+        lang = configHandler.getLang();
+        config = configHandler.getConfig();
+
         this.command = command;
         this.plugin = BTEConoSur.getInstance();
         this.permission = permission;
         this.commandMode = mode;
+        this.description = description;
+        this.args = args;
     }
 
     @Override
@@ -57,12 +76,17 @@ public abstract class BaseCommand extends Command {
             return false;
         }
 
+        if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
+            showHelp(sender, commandLabel);
+            return true;
+        }
+
         if (args.length > 0 && !subcommands.isEmpty()) {
             String subcommandName = args[0].toLowerCase();
             BaseCommand subcommand = subcommands.get(subcommandName);
 
             if (subcommand != null) {
-                return subcommand.execute(sender, commandLabel, shiftArgs(args));
+                return subcommand.execute(sender, commandLabel + " " + subcommandName, shiftArgs(args));
             }
         }
 
@@ -84,13 +108,56 @@ public abstract class BaseCommand extends Command {
         }
 
         List<String> completions = new ArrayList<>();
+        String currentArg = args[args.length - 1].toLowerCase();
         for (String subcommand : currentCommand.subcommands.keySet()) {
-            if (subcommand.startsWith(args[args.length - 1].toLowerCase())) {
+            if (subcommand.startsWith(currentArg)) {
                 completions.add(subcommand);
             }
         }
 
+        if ("help".startsWith(currentArg)) {
+            completions.add("help");
+        }
+
         return completions.isEmpty() ? super.tabComplete(sender, alias, args) : completions;
+    }
+
+    private void showHelp(CommandSender sender, String fullCommand) {
+        String header = lang.getString("help-command.header")
+            .replace("%command%", fullCommand)
+            .replace("%plugin-prefix%", lang.getString("plugin-prefix"));
+        String usage = lang.getString("help-command.usage");
+        String descriptionLabel = lang.getString("help-command.description");
+        String subcommandsTitle = lang.getString("help-command.subcommands-title");
+        String subcommandLine = lang.getString("help-command.subcommand-line");
+        String footer = lang.getString("help-command.footer");
+
+        sender.sendMessage(miniMessage.deserialize(header));
+        //TODO: Enviar con sistema de notificaciones.
+
+        if (description != null && !description.isEmpty()) {
+            descriptionLabel = descriptionLabel.replace("%description%", description);
+            sender.sendMessage(miniMessage.deserialize(descriptionLabel));
+        }
+        
+        usage = usage.replace("%command%", fullCommand).replace("%args%", args != null ? args : (subcommands.isEmpty() ? "" : "<subcomando>"));
+        sender.sendMessage(miniMessage.deserialize(usage));
+        
+        if (!subcommands.isEmpty()) {
+            sender.sendMessage(miniMessage.deserialize(subcommandsTitle));
+            for (BaseCommand sub : subcommands.values()) {
+                String subDesc = sub.description != null ? sub.description : "";
+                
+                String line = subcommandLine
+                    .replace("%command%", fullCommand)
+                    .replace("%subcommand%", sub.command)
+                    .replace("%description%", subDesc);
+                
+                sender.sendMessage(miniMessage.deserialize(line));
+            }
+        }
+
+        sender.sendMessage(miniMessage.deserialize(footer));
     }
 
     /**
@@ -132,4 +199,12 @@ public abstract class BaseCommand extends Command {
     public String getCommand() {
         return command;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getArgs() {
+        return args;
+    }   
 }

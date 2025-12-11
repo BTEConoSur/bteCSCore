@@ -1,21 +1,21 @@
-package com.bteconosur.core.command.btecs;
+package com.bteconosur.core.command.btecs.test;
 
-import com.bteconosur.core.command.BaseCommand;
-import com.bteconosur.core.command.btecs.test.BTECSTestCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import java.time.Duration;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-public class BTECSCommand extends BaseCommand {
+import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.config.ConfigHandler;
+
+public class BTECSTestCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
 
-    public BTECSCommand() {
-        super("btecs", "Comando principal de BTE Cono Sur", null);
-        this.addSubcommand(new BTECSReloadCommand());
-        this.addSubcommand(new BTECSTestCommand());
-
+    public BTECSTestCommand() {
+        super("test", "Para testear cosas.", null, CommandMode.PLAYER_ONLY);
+        this.addSubcommand(new TestGenericCommand());
+        this.addSubcommand(new TestConsoleLoggerCommand());
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
     }

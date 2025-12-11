@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.btecs;
+package com.bteconosur.core.command.btecs.test;
 
 import java.time.Duration;
 
@@ -12,10 +12,10 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.Title.Times;
 
-public class BTECSTestCommand extends BaseCommand {
+public class TestGenericCommand extends BaseCommand {
 
-    public BTECSTestCommand() {
-        super("test", CommandMode.PLAYER_ONLY);
+    public TestGenericCommand() {
+        super("generic", "Comando genérico de prueba", null, CommandMode.PLAYER_ONLY);
     }
 
     @Override
@@ -27,4 +27,7 @@ public class BTECSTestCommand extends BaseCommand {
         ));
         return true;
     }
+
+
+
 }
