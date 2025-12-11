@@ -5,9 +5,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.world.listener.WorldEditListener;
 import com.bteconosur.world.model.BTEWorld;
 import com.bteconosur.world.model.LabelWorld;
+import com.sk89q.worldedit.WorldEdit;
 
 import org.bukkit.Location;
 
@@ -19,7 +22,7 @@ public class WorldManager {
 
     private BTEWorld bteWorld;
 
-    public WorldManager() {
+    public WorldManager(DBManager dbManager) {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         config = configHandler.getConfig();
@@ -28,7 +31,10 @@ public class WorldManager {
         logger.info(lang.getString("world-module-initializing"));
 
         bteWorld = new BTEWorld();
-
+        WorldEdit worldEdit = BTEConoSur.getWorldEditPlugin().getWorldEdit();
+        if (worldEdit != null) {
+            worldEdit.getEventBus().register(new WorldEditListener(this, dbManager));
+        }
     }
 
     public boolean canBuild(Location loc, Player player) {
@@ -37,12 +43,10 @@ public class WorldManager {
         // TODO: Verificar que es Admin
 
         if (loc.getWorld().getName().equalsIgnoreCase("lobby")) return true; // Delego en WorldGuard
-        
         LabelWorld lw = bteWorld.getLabelWorld(loc.getX(), loc.getZ());
         if (lw == null) return false;
         if (!bteWorld.isValidLocation(loc, lw)) return false;
 
-        logger.debug("Puedes construir");
         // TODO: Obtener país de la location
         // TODO: Verificar que es manager de este pais
 

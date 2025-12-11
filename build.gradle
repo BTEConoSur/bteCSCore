@@ -15,6 +15,7 @@ repositories {
     }
 
     maven { url = "https://repo.onarandombox.com/content/groups/public/" }
+    maven { url = "https://maven.enginehub.org/repo/" }
 }
 
 dependencies {
@@ -31,6 +32,9 @@ dependencies {
     implementation("org.locationtech.jts:jts-core:1.20.0")
 
     compileOnly ("org.mvplugins.multiverse.core:multiverse-core:5.3.3-SNAPSHOT")
+    implementation(platform("com.intellectualsites.bom:bom-newest:1.44")) // Ref: https://github.com/IntellectualSites/bom 
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
 }
 
 def targetJavaVersion = 21
