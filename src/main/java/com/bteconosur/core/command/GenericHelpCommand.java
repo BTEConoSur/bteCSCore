@@ -1,12 +1,9 @@
 package com.bteconosur.core.command;
 
-import java.io.ObjectInputFilter.Config;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
-import com.fasterxml.jackson.databind.JsonSerializable.Base;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
@@ -62,4 +59,3 @@ public class GenericHelpCommand extends BaseCommand {
         return true;
     }
 }
-

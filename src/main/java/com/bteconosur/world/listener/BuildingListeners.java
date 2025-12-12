@@ -17,7 +17,6 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.world.WorldManager;
 
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 

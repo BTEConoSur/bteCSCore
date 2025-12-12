@@ -1,25 +1,20 @@
 package com.bteconosur.core.command;
 
 import com.bteconosur.core.BTEConoSur;
-import com.bteconosur.core.command.btecs.test.TestGenericCommand;
 import com.bteconosur.core.config.ConfigHandler;
 
-import it.unimi.dsi.fastutil.Hash;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.h;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 public abstract class BaseCommand extends Command {

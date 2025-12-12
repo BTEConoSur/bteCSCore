@@ -10,7 +10,6 @@ import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;
 import com.bteconosur.world.listener.MovingListeners;
-import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import org.bukkit.plugin.java.JavaPlugin;

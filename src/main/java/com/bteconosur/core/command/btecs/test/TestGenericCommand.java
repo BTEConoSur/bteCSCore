@@ -5,7 +5,6 @@ import java.time.Duration;
 import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.command.BaseCommand;
-import com.bteconosur.core.command.GenericHelpCommand;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;

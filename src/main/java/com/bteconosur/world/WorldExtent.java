@@ -6,8 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
-import com.bteconosur.core.BTEConoSur;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Player;
 import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.WorldEditException;
