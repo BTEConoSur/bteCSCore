@@ -98,3 +98,5 @@ public final class BTEConoSur extends JavaPlugin {
         return worldManager;
     }
 }
+
+// TODO: Revisar llamadas a config en constructores.

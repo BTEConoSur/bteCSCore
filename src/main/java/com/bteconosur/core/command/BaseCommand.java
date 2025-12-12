@@ -1,8 +1,10 @@
 package com.bteconosur.core.command;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.command.btecs.test.TestGenericCommand;
 import com.bteconosur.core.config.ConfigHandler;
 
+import it.unimi.dsi.fastutil.Hash;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import org.bukkit.command.Command;
@@ -13,9 +15,12 @@ import org.checkerframework.checker.units.qual.h;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
 
 public abstract class BaseCommand extends Command {
 
@@ -25,13 +30,16 @@ public abstract class BaseCommand extends Command {
         BOTH
     }
 
-    private final String command;
-    private final String description;
-    private final String args;
+    protected final String command;
+    protected String fullCommand;
+    protected final String description;
+    protected final String args;
     private final CommandMode commandMode;
     private final String permission;
-    private final Map<String, BaseCommand> subcommands = new HashMap<>();
+    protected final Map<String, BaseCommand> subcommands = new HashMap<>();
     protected final BTEConoSur plugin;
+
+    private HashMap<UUID, Long> timeCooldowns = new HashMap<>();
 
     private final YamlConfiguration lang;
     private final YamlConfiguration config;
@@ -57,6 +65,7 @@ public abstract class BaseCommand extends Command {
         config = configHandler.getConfig();
 
         this.command = command;
+        this.fullCommand = command;
         this.plugin = BTEConoSur.getInstance();
         this.permission = permission;
         this.commandMode = mode;
@@ -76,11 +85,6 @@ public abstract class BaseCommand extends Command {
             return false;
         }
 
-        if (args.length > 0 && args[0].equalsIgnoreCase("help")) {
-            showHelp(sender, commandLabel);
-            return true;
-        }
-
         if (args.length > 0 && !subcommands.isEmpty()) {
             String subcommandName = args[0].toLowerCase();
             BaseCommand subcommand = subcommands.get(subcommandName);
@@ -89,6 +93,8 @@ public abstract class BaseCommand extends Command {
                 return subcommand.execute(sender, commandLabel + " " + subcommandName, shiftArgs(args));
             }
         }
+
+        if (!checkCooldown(sender)) return false;
 
         return onCommand(sender, args);
     }
@@ -115,49 +121,46 @@ public abstract class BaseCommand extends Command {
             }
         }
 
-        if ("help".startsWith(currentArg)) {
-            completions.add("help");
-        }
-
         return completions.isEmpty() ? super.tabComplete(sender, alias, args) : completions;
     }
 
-    private void showHelp(CommandSender sender, String fullCommand) {
-        String header = lang.getString("help-command.header")
-            .replace("%command%", fullCommand)
-            .replace("%plugin-prefix%", lang.getString("plugin-prefix"));
-        String usage = lang.getString("help-command.usage");
-        String descriptionLabel = lang.getString("help-command.description");
-        String subcommandsTitle = lang.getString("help-command.subcommands-title");
-        String subcommandLine = lang.getString("help-command.subcommand-line");
-        String footer = lang.getString("help-command.footer");
+    private boolean checkCooldown(CommandSender sender) {
+        if (sender instanceof Player player) {
+            UUID playerUUID = player.getUniqueId();
+            if (timeCooldowns.containsKey(playerUUID)) {
+                String configPath = fullCommand.replace(" ", ".");
+                Long cooldown = config.getLong("commands-cooldowns." + configPath, config.getLong("default-cooldown"));
+                Long playerCooldown = timeCooldowns.get(playerUUID);
 
-        sender.sendMessage(miniMessage.deserialize(header));
-        //TODO: Enviar con sistema de notificaciones.
-
-        if (description != null && !description.isEmpty()) {
-            descriptionLabel = descriptionLabel.replace("%description%", description);
-            sender.sendMessage(miniMessage.deserialize(descriptionLabel));
-        }
-        
-        usage = usage.replace("%command%", fullCommand).replace("%args%", args != null ? args : (subcommands.isEmpty() ? "" : "<subcomando>"));
-        sender.sendMessage(miniMessage.deserialize(usage));
-        
-        if (!subcommands.isEmpty()) {
-            sender.sendMessage(miniMessage.deserialize(subcommandsTitle));
-            for (BaseCommand sub : subcommands.values()) {
-                String subDesc = sub.description != null ? sub.description : "";
-                
-                String line = subcommandLine
-                    .replace("%command%", fullCommand)
-                    .replace("%subcommand%", sub.command)
-                    .replace("%description%", subDesc);
-                
-                sender.sendMessage(miniMessage.deserialize(line));
+                Long actualCooldown = System.currentTimeMillis() - playerCooldown;
+                if (actualCooldown < (cooldown * 1000)) {
+                    long remainingMillis = cooldown * 1000 - actualCooldown;
+                    String formattedTime = formatTime(remainingMillis);
+                    String message = lang.getString("command-on-cooldown")
+                            .replace("%time%", formattedTime);
+                    sender.sendMessage(miniMessage.deserialize(message));
+                    //TODO: Enviar con sistema de notificaciones.
+                    return false; 
+                } else {
+                    timeCooldowns.put(playerUUID, System.currentTimeMillis());
+                }
+            } else {
+                timeCooldowns.put(playerUUID, System.currentTimeMillis());
             }
-        }
+        }   
+        return true;
+    }
 
-        sender.sendMessage(miniMessage.deserialize(footer));
+    private String formatTime(long millis) {
+        long seconds = millis / 1000;
+        
+        if (seconds < 60) {
+            return seconds + " segundo(s)";
+        } else {
+            long minutes = seconds / 60;
+            long remainingSeconds = seconds % 60;
+            return minutes + " minuto(s) " + remainingSeconds + " segundo(s)";
+        }
     }
 
     /**
@@ -169,6 +172,7 @@ public abstract class BaseCommand extends Command {
      * Agrega un subcomando a este comando.
      */
     public void addSubcommand(BaseCommand subcommand) {
+        subcommand.fullCommand = this.fullCommand + " " + subcommand.command;
         subcommands.put(subcommand.getCommand(), subcommand);
     }
 
@@ -206,5 +210,6 @@ public abstract class BaseCommand extends Command {
 
     public String getArgs() {
         return args;
-    }   
+    }
+
 }

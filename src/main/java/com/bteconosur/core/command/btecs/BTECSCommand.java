@@ -1,6 +1,7 @@
 package com.bteconosur.core.command.btecs;
 
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.command.btecs.test.BTECSTestCommand;
 import com.bteconosur.core.config.ConfigHandler;
 
@@ -15,6 +16,7 @@ public class BTECSCommand extends BaseCommand {
         super("btecs", "Comando principal de BTE Cono Sur", null);
         this.addSubcommand(new BTECSReloadCommand());
         this.addSubcommand(new BTECSTestCommand());
+        this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

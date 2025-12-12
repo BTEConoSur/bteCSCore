@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
 
 public class BTECSTestCommand extends BaseCommand {
@@ -16,6 +17,7 @@ public class BTECSTestCommand extends BaseCommand {
         super("test", "Para testear cosas.", null, CommandMode.PLAYER_ONLY);
         this.addSubcommand(new TestGenericCommand());
         this.addSubcommand(new TestConsoleLoggerCommand());
+        this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
     }

@@ -19,3 +19,13 @@ discord-bot-token: ""
 tp-cooldown-seconds: 5
 layer-1-offset: 1700
 layer-2-offset: 5500
+
+# Commands
+# Cooldowns por comando (En segundos). En caso de no especificar, se usa el valor por defecto. 
+# Nota: El cooldown es por cada comando/subcomando. Es decir, si se especifica un cooldown para "btecs" y otro para "btecs test", ambos se aplican independientemente.
+# Por lo que el cooldown de btecs no afecta al de btecs test y el resto de subcomandos. 
+
+default-cooldown: 5
+commands-cooldowns:
+  btecs: 10
+  btecs.test: 200
