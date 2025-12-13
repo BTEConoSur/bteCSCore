@@ -10,7 +10,6 @@ import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;
 import com.bteconosur.world.listener.MovingListeners;
-import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -85,4 +84,18 @@ public final class BTEConoSur extends JavaPlugin {
     public static WorldEditPlugin getWorldEditPlugin() {
         return worldEditPlugin;
     }
+    
+    public static DBManager getDbManager() {
+        return dbManager;
+    }
+
+    public static DiscordManager getDiscordManager() {
+        return discordManager;
+    }   
+
+    public static WorldManager getWorldManager() {
+        return worldManager;
+    }
 }
+
+// TODO: Revisar llamadas a config en constructores.

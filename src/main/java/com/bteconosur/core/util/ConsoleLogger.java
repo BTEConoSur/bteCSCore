@@ -45,56 +45,52 @@ public class ConsoleLogger {
     }
 
     public void info(String message) {
-        log(prefix + " " + infoPrefix + message);
+        logger.info(miniMessage.deserialize(prefix + " " + infoPrefix + message));
     }
 
     public void info(String message, Object object) {
         String json = JsonUtils.toJson(object);
-        log(prefix + " " + infoPrefix + message + "\n" + json);
+        logger.info(miniMessage.deserialize(prefix + " " + infoPrefix + message + "\n" + json));
     }
 
     public void debug(String message) {
         if (debugMode) {
-            log(prefix + " " + debugPrefix + message);
+            logger.info(miniMessage.deserialize(prefix + " " + debugPrefix + message));
         }
     }
 
     public void debug(String message, Object object) {
         if (debugMode) {
             String json = JsonUtils.toJson(object);
-            log(prefix + " " + debugPrefix + message + "\n" + json);
+            logger.info(miniMessage.deserialize(prefix + " " + debugPrefix + message + "\n" + json));
         }
     }
     
     public void warn(String message) {
-        log(prefix + " " + warnPrefix + message);
+        logger.warn(miniMessage.deserialize(prefix + " " + warnPrefix + message));
     }
 
     public void warn(String message, Object object) {
         String json = JsonUtils.toJson(object);
-        log(prefix + " " + warnPrefix + message + "\n" + json);
+        logger.warn(miniMessage.deserialize(prefix + " " + warnPrefix + message + "\n" + json));
     }
 
     public void error(String message) {
-        log(prefix + " " + errorPrefix + message);
+        logger.error(miniMessage.deserialize(prefix + " " + errorPrefix + message));
     }
 
     public void error(String message, Object object) {
         String json = JsonUtils.toJson(object);
-        log(prefix + " " + errorPrefix + message + "\n" + json);
+        logger.error(miniMessage.deserialize(prefix + " " + errorPrefix + message + "\n" + json));
     }
 
     public void send(String message) {
-        log(prefix + " " + message);
+        logger.info(miniMessage.deserialize(prefix + " " + message));
     }
 
     public void send(String message, Object object) {
         String json = JsonUtils.toJson(object);
-        log(prefix + " " + message + "\n" + json);
-    }
-
-    private void log(String message) {
-        logger.info(miniMessage.deserialize(message));
+        logger.info(miniMessage.deserialize(prefix + " " + message + "\n" + json));
     }
 
 }

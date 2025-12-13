@@ -1,8 +1,13 @@
 package com.bteconosur.core.command;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.ConfigHandler;
+
+import net.kyori.adventure.text.minimessage.MiniMessage;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public abstract class BaseCommand extends Command {
 
@@ -19,30 +25,47 @@ public abstract class BaseCommand extends Command {
         BOTH
     }
 
-    private final String command;
+    protected final String command;
+    protected String fullCommand;
+    protected final String description;
+    protected final String args;
     private final CommandMode commandMode;
     private final String permission;
-    private final Map<String, BaseCommand> subcommands = new HashMap<>();
+    protected final Map<String, BaseCommand> subcommands = new HashMap<>();
     protected final BTEConoSur plugin;
 
-    public BaseCommand(String command) {
-        this(command, null, CommandMode.BOTH);
+    private HashMap<UUID, Long> timeCooldowns = new HashMap<>();
+
+    private final YamlConfiguration lang;
+    private final YamlConfiguration config;
+    private final MiniMessage miniMessage = MiniMessage.miniMessage();
+
+    public BaseCommand(String command, String description, String args) {
+        this(command, description, args, null, CommandMode.BOTH);
     }
 
-    public BaseCommand(String command, CommandMode mode) {
-        this(command, null, mode);
+    public BaseCommand(String command, String description, String args, CommandMode mode) {
+        this(command, description, args, null, mode);
     }
 
-    public BaseCommand(String command, String permission) {
-        this(command, permission, CommandMode.BOTH);
+    public BaseCommand(String command, String description, String args, String permission) {
+        this(command, description, args, permission, CommandMode.BOTH);
     }
 
-    public BaseCommand(String command, String permission, CommandMode mode) {
+    public BaseCommand(String command, String description, String args, String permission, CommandMode mode) {
         super(command);
+
+        ConfigHandler configHandler = ConfigHandler.getInstance();
+        lang = configHandler.getLang();
+        config = configHandler.getConfig();
+
         this.command = command;
+        this.fullCommand = command;
         this.plugin = BTEConoSur.getInstance();
         this.permission = permission;
         this.commandMode = mode;
+        this.description = description;
+        this.args = args;
     }
 
     @Override
@@ -62,9 +85,11 @@ public abstract class BaseCommand extends Command {
             BaseCommand subcommand = subcommands.get(subcommandName);
 
             if (subcommand != null) {
-                return subcommand.execute(sender, commandLabel, shiftArgs(args));
+                return subcommand.execute(sender, commandLabel + " " + subcommandName, shiftArgs(args));
             }
         }
+
+        if (!checkCooldown(sender)) return false;
 
         return onCommand(sender, args);
     }
@@ -84,13 +109,53 @@ public abstract class BaseCommand extends Command {
         }
 
         List<String> completions = new ArrayList<>();
+        String currentArg = args[args.length - 1].toLowerCase();
         for (String subcommand : currentCommand.subcommands.keySet()) {
-            if (subcommand.startsWith(args[args.length - 1].toLowerCase())) {
+            if (subcommand.startsWith(currentArg)) {
                 completions.add(subcommand);
             }
         }
 
         return completions.isEmpty() ? super.tabComplete(sender, alias, args) : completions;
+    }
+
+    private boolean checkCooldown(CommandSender sender) {
+        if (sender instanceof Player player) {
+            UUID playerUUID = player.getUniqueId();
+            if (timeCooldowns.containsKey(playerUUID)) {
+                String configPath = fullCommand.replace(" ", ".");
+                Long cooldown = config.getLong("commands-cooldowns." + configPath, config.getLong("default-cooldown"));
+                Long playerCooldown = timeCooldowns.get(playerUUID);
+
+                Long actualCooldown = System.currentTimeMillis() - playerCooldown;
+                if (actualCooldown < (cooldown * 1000)) {
+                    long remainingMillis = cooldown * 1000 - actualCooldown;
+                    String formattedTime = formatTime(remainingMillis);
+                    String message = lang.getString("command-on-cooldown")
+                            .replace("%time%", formattedTime);
+                    sender.sendMessage(miniMessage.deserialize(message));
+                    //TODO: Enviar con sistema de notificaciones.
+                    return false; 
+                } else {
+                    timeCooldowns.put(playerUUID, System.currentTimeMillis());
+                }
+            } else {
+                timeCooldowns.put(playerUUID, System.currentTimeMillis());
+            }
+        }   
+        return true;
+    }
+
+    private String formatTime(long millis) {
+        long seconds = millis / 1000;
+        
+        if (seconds < 60) {
+            return seconds + " segundo(s)";
+        } else {
+            long minutes = seconds / 60;
+            long remainingSeconds = seconds % 60;
+            return minutes + " minuto(s) " + remainingSeconds + " segundo(s)";
+        }
     }
 
     /**
@@ -102,6 +167,7 @@ public abstract class BaseCommand extends Command {
      * Agrega un subcomando a este comando.
      */
     public void addSubcommand(BaseCommand subcommand) {
+        subcommand.fullCommand = this.fullCommand + " " + subcommand.command;
         subcommands.put(subcommand.getCommand(), subcommand);
     }
 
@@ -132,4 +198,13 @@ public abstract class BaseCommand extends Command {
     public String getCommand() {
         return command;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getArgs() {
+        return args;
+    }
+
 }

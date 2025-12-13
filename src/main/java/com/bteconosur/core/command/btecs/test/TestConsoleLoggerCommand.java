@@ -1,0 +1,28 @@
+package com.bteconosur.core.command.btecs.test;
+
+import org.bukkit.command.CommandSender;
+
+import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.db.model.Player;
+
+public class TestConsoleLoggerCommand extends BaseCommand {
+
+    public TestConsoleLoggerCommand() {
+        super("consolelogger", "Comando de prueba para el logger de consola.", null, CommandMode.PLAYER_ONLY);
+    }
+
+    @Override
+    protected boolean onCommand(CommandSender sender, String[] args) {
+        ConsoleLogger logger = BTEConoSur.getConsoleLogger();
+        logger.info("Este es un mensaje de info de prueba.");
+        logger.warn("Este es un mensaje de advertencia de prueba.");
+        logger.error("Este es un mensaje de error de prueba.");
+        logger.debug("Este es un mensaje de debug de prueba.");
+        Player firstPlayer = BTEConoSur.getDbManager().get(Player.class, ((org.bukkit.entity.Player)sender).getUniqueId());
+        logger.info("Este es un mensaje de prueba: ", firstPlayer); //TODO: Chequear nulls en console logger
+        return true;
+    }   
+
+}

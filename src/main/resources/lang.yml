@@ -3,6 +3,9 @@
 # Lang file
 config-reloaded: "Configuración recargada correctamente."
 
+# General
+plugin-prefix: "<gray>[</gray><dark_gray>BTEConoSur</dark_gray><gray>]</gray>"
+
 # Console Logger
 logger-loaded: "Console Logger inicializado."
 debug-mode-enabled: "Modo debug activado."
@@ -36,3 +39,19 @@ label-world-loading: "Cargando capa: %name% con offset %offset%..." # %name% -> 
 
 teleport-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
 teleport-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
+
+# Commands
+no-permission: "No tienes permiso para ejecutar este comando."
+player-only-command: "Este comando solo puede ser ejecutado por un jugador."
+console-only-command: "Este comando solo puede ser ejecutado desde la consola."
+unknown-command: "Comando desconocido." 
+help-command-usage: "Usa '/<comando> help' para ver la ayuda del comando."
+command-on-cooldown: "Debes esperar %time% antes de usar este comando de nuevo." # %time% -> Tiempo restante en segundos/minutos.
+
+help-command:
+  header: " ===== <gold>Ayuda de /%command%</gold>" # %command% -> Comando completo. %plugin-prefix% -> Prefijo del plugin.
+  usage: "<yellow>Uso:</yellow> /%command% %args%" # %command% -> Comando completo. %args% -> Argumentos del comando. 
+  description: "<yellow>Descripción:</yellow> %description%" # %description% -> Descripción del comando.
+  subcommands-title: "<yellow>Opciones:</yellow>"
+  subcommand-line: " - <gold>/%command% %subcommand%</gold>: %description%" # %command% -> Comando raíz. %subcommands% -> Subcomandos. %description% -> Descripción del subcomando. 
+  footer: ""
