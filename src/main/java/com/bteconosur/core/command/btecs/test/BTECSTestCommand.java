@@ -15,6 +15,8 @@ public class BTECSTestCommand extends BaseCommand {
         super("test", "Para testear cosas.", null, CommandMode.PLAYER_ONLY);
         this.addSubcommand(new TestGenericCommand());
         this.addSubcommand(new TestConsoleLoggerCommand());
+        this.addSubcommand(new TestSimpleMenuCommand());
+        this.addSubcommand(new TestPaginatedMenuCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
