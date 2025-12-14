@@ -9,8 +9,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
+import org.bukkit.Bukkit;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
+import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.command.btecs.BTECSCommand;
+import com.bteconosur.db.DBManager;
 
 @Entity
 @Table(name = "player")
@@ -73,6 +79,13 @@ public class Player {
         this.tipoUsuario = tipoUsuario;
     }
 
+    public org.bukkit.entity.Player getBukkitPlayer() {
+        return Bukkit.getPlayer(this.uuid);
+    }
+
+    public static Player getBTECSPlayer(org.bukkit.entity.Player bukkitPlayer) {
+        return DBManager.getInstance().get(Player.class, bukkitPlayer.getUniqueId()); //TODO Ver si es mejor cachear
+    }
 
     //TODO: Ver cascada
 }
