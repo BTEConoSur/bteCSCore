@@ -19,8 +19,8 @@ public final class BTEConoSur extends JavaPlugin {
     private static BTEConoSur instance;
 
     private static ConsoleLogger consoleLogger;
-    private static DBManager dbManager;
     private static DiscordManager discordManager;
+    private static DBManager dbManager;
     private static WorldManager worldManager;
 
     private static MultiverseCoreApi multiverseCoreApi;
@@ -37,11 +37,11 @@ public final class BTEConoSur extends JavaPlugin {
         consoleLogger = new ConsoleLogger();
         dbManager = new DBManager();
         discordManager = new DiscordManager();
-        worldManager = new WorldManager(dbManager);
+        worldManager = new WorldManager();
 
-        getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager, dbManager), this);
+        getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager), this);
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(dbManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new MovingListeners(worldManager), this);
             
         // Registro de comandos
@@ -84,10 +84,6 @@ public final class BTEConoSur extends JavaPlugin {
     public static WorldEditPlugin getWorldEditPlugin() {
         return worldEditPlugin;
     }
-    
-    public static DBManager getDbManager() {
-        return dbManager;
-    }
 
     public static DiscordManager getDiscordManager() {
         return discordManager;
@@ -98,4 +94,5 @@ public final class BTEConoSur extends JavaPlugin {
     }
 }
 
+// TODO: Todos los managers con getInstance() statico
 // TODO: Revisar llamadas a config en constructores.

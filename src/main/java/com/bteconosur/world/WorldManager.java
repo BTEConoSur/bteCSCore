@@ -22,7 +22,7 @@ public class WorldManager {
 
     private BTEWorld bteWorld;
 
-    public WorldManager(DBManager dbManager) {
+    public WorldManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         config = configHandler.getConfig();
@@ -33,7 +33,7 @@ public class WorldManager {
         bteWorld = new BTEWorld();
         WorldEdit worldEdit = BTEConoSur.getWorldEditPlugin().getWorldEdit();
         if (worldEdit != null) {
-            worldEdit.getEventBus().register(new WorldEditListener(this, dbManager));
+            worldEdit.getEventBus().register(new WorldEditListener(this));
         }
     }
 

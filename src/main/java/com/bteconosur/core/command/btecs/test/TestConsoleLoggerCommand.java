@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
 
 public class TestConsoleLoggerCommand extends BaseCommand {
@@ -20,7 +21,7 @@ public class TestConsoleLoggerCommand extends BaseCommand {
         logger.warn("Este es un mensaje de advertencia de prueba.");
         logger.error("Este es un mensaje de error de prueba.");
         logger.debug("Este es un mensaje de debug de prueba.");
-        Player firstPlayer = BTEConoSur.getDbManager().get(Player.class, ((org.bukkit.entity.Player)sender).getUniqueId());
+        Player firstPlayer = DBManager.getInstance().get(Player.class, ((org.bukkit.entity.Player)sender).getUniqueId());
         logger.info("Este es un mensaje de prueba: ", firstPlayer); //TODO: Chequear nulls en console logger
         return true;
     }   

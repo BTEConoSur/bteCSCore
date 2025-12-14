@@ -26,6 +26,8 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Predicate;
 
 public class DBManager {
+    
+    private static DBManager instance;
 
     private final YamlConfiguration lang;
     private final ConsoleLogger logger;
@@ -161,12 +163,18 @@ public class DBManager {
         });
     }
 
-
     public void shutdown() {
         logger.info(lang.getString("database-shutting-down"));
         hibernateConfig.shutdown();
         if (sessionFactory != null) {
             sessionFactory = null;
         }
+    }
+
+    public static DBManager getInstance() {
+        if (instance == null) {
+            instance = new DBManager();
+        }
+        return instance;
     }
 }
