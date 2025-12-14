@@ -1,5 +1,8 @@
 package com.bteconosur.core.menu;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.db.model.Player;
 
@@ -10,19 +13,19 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public abstract class PaginatedMenu extends Menu {
 
-    PaginatedMenu(String title, Player player) {
+    PaginatedMenu(@NotNull String title, @NotNull Player player) {
         super(title, 6, player);
     }
 
-    PaginatedMenu(String title, Player player, Menu previousMenu) {
+    PaginatedMenu(@NotNull String title, @NotNull Player player, @Nullable Menu previousMenu) {
         super(title, 6, player, previousMenu);
     }
 
-    PaginatedMenu(String title, org.bukkit.entity.Player bukkitPlayer) {
+    PaginatedMenu(@NotNull String title, @NotNull org.bukkit.entity.Player bukkitPlayer) {
         super(title, 6, bukkitPlayer);
     }
 
-    PaginatedMenu(String title, org.bukkit.entity.Player bukkitPlayer, Menu previousMenu) {
+    PaginatedMenu(@NotNull String title, @NotNull org.bukkit.entity.Player bukkitPlayer, @Nullable Menu previousMenu) {
         super(title, 6, bukkitPlayer, previousMenu);
     }
 

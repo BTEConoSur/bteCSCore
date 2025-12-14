@@ -14,6 +14,8 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class TestSimpleMenu extends Menu {
 
+    private ConfirmationMenu confirmationMenu;
+
     public TestSimpleMenu(Player player) {
         super("Menú Simple de Prueba", 3, player);
     }
@@ -51,13 +53,44 @@ public class TestSimpleMenu extends Menu {
                 player.closeInventory();
             }));
 
-        gui.setItem(2, 5, ItemBuilder.from(Material.PAPER)
+        gui.setItem(2, 3, ItemBuilder.from(Material.PAPER)
             .name(Component.text("Información").color(NamedTextColor.WHITE))
             .lore(
                 Component.text("Este es un menú simple de prueba"),
                 Component.text("Creado con el sistema Menu")
             )
             .asGuiItem());
+
+        gui.setItem(2, 7, ItemBuilder.from(Material.BOOK)
+            .name(Component.text("Confirmar").color(NamedTextColor.WHITE))
+            .lore(
+                Component.text("Este es un menú simple de prueba"),
+                Component.text("Creado con el sistema Menu")
+            )
+            .asGuiItem(event -> {
+                    confirmationMenu = new ConfirmationMenu("Confirmar????", player, this, confirmClick -> {
+                        player.sendMessage(Component.text("¡Has confirmado!").color(NamedTextColor.GREEN));
+                        this.open();
+                    }, (cancelClick -> {
+                        player.sendMessage(Component.text("Has cancelado.").color(NamedTextColor.RED));
+                        confirmationMenu.getGui().close(player);
+                    }));
+                    confirmationMenu.open();  
+            }));
+
+        gui.setItem(2, 5, ItemBuilder.from(Material.BOOK)
+            .name(Component.text("Confirmar 2").color(NamedTextColor.WHITE))
+            .lore(
+                Component.text("Este es un menú simple de prueba"),
+                Component.text("Creado con el sistema Menu")
+            )
+            .asGuiItem(event -> {
+                    confirmationMenu = new ConfirmationMenu("Confirmar 2????", player, this, confirmClick -> {
+                        player.sendMessage(Component.text("¡Has confirmado!").color(NamedTextColor.GREEN));
+                        this.open();
+                    });
+                    confirmationMenu.open();  
+            }));
             
         gui.getFiller().fill(MenuUtils.getFillerItem());
 

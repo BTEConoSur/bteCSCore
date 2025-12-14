@@ -47,9 +47,7 @@ public abstract class Menu {
 
     public void open() {
         if (player == null || !player.isOnline()) return;
-        if (gui == null) {
-            gui = createGui();
-        }
+        if (gui == null) gui = createGui();
 
         if (previousMenu != null) {
             gui.setItem(rows, 1,  MenuUtils.getBackItem());

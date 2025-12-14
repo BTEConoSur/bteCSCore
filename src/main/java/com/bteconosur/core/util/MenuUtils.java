@@ -34,4 +34,13 @@ public class MenuUtils {
             .name(Component.text(" ")).asGuiItem();
     }
 
+    public static GuiItem getConfirmItem() {
+        return ItemBuilder.from(Material.GREEN_WOOL)
+            .name(MiniMessage.miniMessage().deserialize("<green>Confirmar")).asGuiItem();
+    }
+
+    public static GuiItem getCancelItem() {
+        return ItemBuilder.from(Material.RED_WOOL)
+            .name(MiniMessage.miniMessage().deserialize("<red>Cancelar")).asGuiItem();
+    }
 }
