@@ -1,10 +1,7 @@
 package com.bteconosur.core.command.btecs.test;
 
-import java.time.Duration;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
-import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.command.BaseCommand;
 

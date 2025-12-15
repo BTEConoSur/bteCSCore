@@ -38,13 +38,25 @@ public abstract class PaginatedMenu extends Menu {
             .pageSize(36)
             .create();
         
-        paginatedGui.getFiller().fillBetweenPoints(rows -1, 1, rows, 9, MenuUtils.getFillerItem());
+        paginatedGui.getFiller().fillBetweenPoints(rows - 1, 1, rows, 9, MenuUtils.getFillerItem());
 
-        paginatedGui.setItem(rows, 3, MenuUtils.getPreviousPageItem());
-        paginatedGui.addSlotAction(rows, 3, event -> paginatedGui.previous());
+        paginatedGui.setItem(rows, 4, MenuUtils.getPreviousPageItem());
+        paginatedGui.addSlotAction(rows, 4, event -> {
+            if (paginatedGui.getCurrentPageNum() > 1) {
+                paginatedGui.previous();
+                updateNavigationButtons();
+            }
+        });
 
-        paginatedGui.setItem(rows, 7, MenuUtils.getNextPageItem());
-        paginatedGui.addSlotAction(rows, 7, event -> paginatedGui.next());
+        paginatedGui.setItem(rows, 6, MenuUtils.getNextPageItem());
+        paginatedGui.addSlotAction(rows, 6, event -> {
+            if (paginatedGui.getCurrentPageNum() < paginatedGui.getPagesNum()) {
+                paginatedGui.next();
+                updateNavigationButtons();
+            }
+        });
+        
+        paginatedGui.setOpenGuiAction(event -> updateNavigationButtons());
         
         this.gui = paginatedGui;
         
@@ -59,6 +71,22 @@ public abstract class PaginatedMenu extends Menu {
 
     protected void openPage(int page) {
         getPaginatedGui().open(player, page);
+    }
+
+    private void updateNavigationButtons() {
+        PaginatedGui paginatedGui = getPaginatedGui();
+        
+        if (paginatedGui.getCurrentPageNum() > 1) {
+            paginatedGui.updateItem(rows, 4, MenuUtils.getPreviousPageItem());
+        } else {
+            paginatedGui.updateItem(rows, 4, MenuUtils.getFillerItem());
+        }
+        
+        if (paginatedGui.getCurrentPageNum() < paginatedGui.getPagesNum()) {
+            paginatedGui.updateItem(rows, 6, MenuUtils.getNextPageItem());
+        } else {
+            paginatedGui.updateItem(rows, 6, MenuUtils.getFillerItem());
+        }
     }
 
     protected abstract void populateItems();
