@@ -30,9 +30,9 @@ public class BuildingListeners implements Listener {
     private final WorldManager worldManager;
     private final DBManager dbManager;
 
-    public BuildingListeners(WorldManager worldManager, DBManager dbManager) {
+    public BuildingListeners(WorldManager worldManager) {
         this.worldManager = worldManager;
-        this.dbManager = dbManager;
+        this.dbManager = DBManager.getInstance();
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

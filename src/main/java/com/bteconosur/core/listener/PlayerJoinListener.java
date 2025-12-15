@@ -14,8 +14,8 @@ public class PlayerJoinListener implements Listener{
 
     private final DBManager dbManager;
 
-    public PlayerJoinListener(DBManager dbManager) {
-        this.dbManager = dbManager;
+    public PlayerJoinListener() {
+        this.dbManager = DBManager.getInstance();
     }
 
     @EventHandler

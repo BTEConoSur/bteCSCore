@@ -31,10 +31,12 @@ dependencies {
 
     implementation("org.locationtech.jts:jts-core:1.20.0")
 
-    compileOnly ("org.mvplugins.multiverse.core:multiverse-core:5.3.3-SNAPSHOT")
+    compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.3.3-SNAPSHOT")
     implementation(platform("com.intellectualsites.bom:bom-newest:1.44")) // Ref: https://github.com/IntellectualSites/bom 
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
+
+    implementation("dev.triumphteam:triumph-gui:3.1.13")
 }
 
 def targetJavaVersion = 21
@@ -53,7 +55,7 @@ shadowJar {
     exclude 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/LICENSE*',
           'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/NOTICE*',
           'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
-
+    relocate("dev.triumphteam.gui", "com.bteconosur.core.gui")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 

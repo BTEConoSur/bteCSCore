@@ -18,9 +18,9 @@ public class WorldEditListener {
     private final WorldManager worldManager;
     private final DBManager dbManager;
     
-    public WorldEditListener(WorldManager worldManager, DBManager dbManager) {
+    public WorldEditListener(WorldManager worldManager) {
         this.worldManager = worldManager;
-        this.dbManager = dbManager;
+        this.dbManager = DBManager.getInstance();
     }
     
     @Subscribe(priority = EventHandler.Priority.VERY_EARLY)

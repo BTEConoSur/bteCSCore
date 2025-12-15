@@ -1,16 +1,13 @@
 package com.bteconosur.core.command.btecs.test;
 
-import java.time.Duration;
-
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
 
 import com.bteconosur.core.command.BaseCommand;
 
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.text.Component;
+import dev.triumphteam.gui.guis.Gui;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.title.Title;
-import net.kyori.adventure.title.Title.Times;
+
 
 public class TestGenericCommand extends BaseCommand {
 
@@ -20,11 +17,12 @@ public class TestGenericCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Audience audience = (Audience) sender;
-        audience.showTitle(Title.title(Component.text("Este es un título de prueba"), 
-            MiniMessage.miniMessage().deserialize("<green>Este es un subtítulo de prueba</green>"), 
-            Times.times(Duration.ofMillis(0), Duration.ofMillis(1000), Duration.ofMillis(0))
-        ));
+        Gui gui = Gui.gui()
+                .title(MiniMessage.miniMessage().deserialize("<gradient:#FF0000:#0000FF>Comando Genérico de Prueba</gradient>"))
+                .rows(3)
+                .create();
+
+        gui.open((HumanEntity) sender);
         return true;
     }
 
