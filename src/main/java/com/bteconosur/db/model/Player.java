@@ -14,8 +14,6 @@ import org.bukkit.Bukkit;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import com.bteconosur.core.BTEConoSur;
-import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.db.DBManager;
 
 @Entity
