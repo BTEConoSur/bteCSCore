@@ -26,12 +26,21 @@ public class PlayerJoinListener implements Listener{
         TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, 2); // TipoUsuario por defecto);
 
         if (!dbManager.exists(Player.class, event.getPlayer().getUniqueId())) {
-            dbManager.save(new Player(
+            Date now = new Date();
+            Player newPlayer = new Player(
                 event.getPlayer().getUniqueId(),
                 event.getPlayer().getName(),
-                new Date(),
+                now,
                 tipoUsuario
-            ));
+            );
+            newPlayer.setNombrePublico(event.getPlayer().getName());
+            newPlayer.setFechaIngreso(now);
+            dbManager.save(newPlayer);
+        } else {
+            Player existingPlayer = dbManager.get(Player.class, event.getPlayer().getUniqueId());
+            existingPlayer.setNombre(event.getPlayer().getName());
+            existingPlayer.setFechaUltimaConexion(new Date());
+            dbManager.merge(existingPlayer);
         }
         
     }
