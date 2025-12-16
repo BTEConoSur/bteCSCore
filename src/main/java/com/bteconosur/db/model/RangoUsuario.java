@@ -1,23 +1,23 @@
 package com.bteconosur.db.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "tipo_usuario")
-public class TipoUsuario {
+@Table(name = "rango_usuario")
+public class RangoUsuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name = "id_tipo_usuario", nullable = false)
+    @Column(name = "id_rango_usuario", nullable = false)
     private Long id;
 
     @Column(name = "nombre", length = 20, nullable = false)
@@ -26,19 +26,15 @@ public class TipoUsuario {
     @Column(name = "descripcion", length = 500, nullable = false)
     private String descripcion;
 
-    @Column(name = "cant_proyec_sim", nullable = false)
-    private Integer cantProyecSim; // "Cantidad de proyectos simultáneos"
-
-    @OneToMany(mappedBy = "tipoUsuario")
+    @OneToMany(mappedBy = "rangoUsuario")
     private Set<Player> players = new HashSet<>();
-    
-    public TipoUsuario() {
+
+    public RangoUsuario() {
     }
 
-    public TipoUsuario(String nombre, String descripcion, Integer cantProyecSim) {
+    public RangoUsuario(String nombre, String descripcion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.cantProyecSim = cantProyecSim;
     }
 
     public Long getId() {
@@ -63,14 +59,6 @@ public class TipoUsuario {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Integer getCantProyecSim() {
-        return cantProyecSim;
-    }
-
-    public void setCantProyecSim(Integer cantProyecSim) {
-        this.cantProyecSim = cantProyecSim;
     }
 
     public Set<Player> getPlayers() {

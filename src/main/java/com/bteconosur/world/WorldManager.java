@@ -55,7 +55,6 @@ public class WorldManager {
 
         // TODO: Verificar que sea reviewer de ese pais
         // TODO: Verificar que sea miembro de algun proyecto 
-
         return true;
     }
 
