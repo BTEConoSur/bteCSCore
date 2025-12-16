@@ -10,7 +10,7 @@ import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.TipoUsuario;
 
-public class PlayerJoinListener implements Listener{
+public class PlayerJoinListener implements Listener {
 
     private final DBManager dbManager;
 
@@ -37,11 +37,9 @@ public class PlayerJoinListener implements Listener{
             newPlayer.setFechaIngreso(now);
             dbManager.save(newPlayer);
         } else {
-            Player existingPlayer = dbManager.get(Player.class, event.getPlayer().getUniqueId());
-            existingPlayer.setNombre(event.getPlayer().getName());
-            existingPlayer.setFechaUltimaConexion(new Date());
-            dbManager.merge(existingPlayer);
+            Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId());
+            player.setNombre(event.getPlayer().getName());
+            dbManager.merge(player  );
         }
-        
     }
 }
