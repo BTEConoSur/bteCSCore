@@ -2,6 +2,7 @@ package com.bteconosur.db.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +34,7 @@ public class TipoProyecto {
     private Integer tamanoMax;
 
     @OneToMany(mappedBy = "tipoProyecto")
+    @JsonIgnore
     private Set<Proyecto> proyectos = new HashSet<>();
 
     public TipoProyecto() {

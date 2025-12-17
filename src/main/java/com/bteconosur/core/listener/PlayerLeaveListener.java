@@ -6,23 +6,23 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.registry.PlayerRegistry;
 
 public class PlayerLeaveListener implements Listener {
 
-    private final DBManager dbManager;
+    private final PlayerRegistry playerRegistry;
 
     public PlayerLeaveListener() {
-        this.dbManager = DBManager.getInstance();
+        playerRegistry = PlayerRegistry.getInstance();
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (dbManager.exists(Player.class, event.getPlayer().getUniqueId())) {
-            Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId());
+        if (playerRegistry.exists(event.getPlayer().getUniqueId())) {
+            Player player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setFechaUltimaConexion(new Date());
-            dbManager.merge(player);
+            playerRegistry.merge(player.getUuid());
         }
     }
 }

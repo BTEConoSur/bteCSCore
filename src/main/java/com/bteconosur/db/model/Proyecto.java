@@ -4,6 +4,7 @@ import org.locationtech.jts.geom.Polygon;
 
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -56,6 +57,7 @@ public class Proyecto {
     private Ciudad ciudad;
 
     @ManyToMany(mappedBy = "proyectos")
+    @JsonIgnore
     private Set<Player> miembros = new HashSet<>();
 
     public Proyecto() {

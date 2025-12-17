@@ -2,6 +2,7 @@ package com.bteconosur.db.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -38,6 +39,7 @@ public class Ciudad {
     private Pais pais;
 
     @OneToMany(mappedBy = "ciudad")
+    @JsonIgnore
     private Set<Proyecto> proyectos = new HashSet<>();
 
     public Ciudad() {

@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.ArrayList;
 import java.util.HashSet;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
@@ -23,6 +24,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.registry.PlayerRegistry;
 
 @Entity
 @Table(name = "player")
@@ -57,21 +59,26 @@ public class Player {
     private RangoUsuario rangoUsuario;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Pwarp> pwarps = new ArrayList<>();
 
     @OneToMany(mappedBy = "lider")
+    @JsonIgnore
     private Set<Proyecto> proyectosLiderados = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "proyecto_miembro", joinColumns = @JoinColumn(name = "uuid_player"), inverseJoinColumns = @JoinColumn(name = "id_proyecto"))
+    @JsonIgnore
     private Set<Proyecto> proyectos = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "pais_manager", joinColumns = @JoinColumn(name = "uuid_player"), inverseJoinColumns = @JoinColumn(name = "id_pais"))
+    @JsonIgnore
     private Set<Pais> paisesManager = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "pais_reviewer", joinColumns = @JoinColumn(name = "uuid_player"), inverseJoinColumns = @JoinColumn(name = "id_pais"))
+    @JsonIgnore //TODO: ver estos casos
     private Set<Pais> paisesReviewer = new HashSet<>();
 
     @ManyToOne
@@ -201,12 +208,14 @@ public class Player {
         this.paisPrefix = paisPrefix;
     }
 
+    @JsonIgnore
     public org.bukkit.entity.Player getBukkitPlayer() {
         return Bukkit.getPlayer(this.uuid);
     }
 
+    @JsonIgnore
     public static Player getBTECSPlayer(org.bukkit.entity.Player bukkitPlayer) {
-        return DBManager.getInstance().get(Player.class, bukkitPlayer.getUniqueId()); //TODO Ver si es mejor cachear
+        return PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId());
     }
 
     //TODO: Ver cascada

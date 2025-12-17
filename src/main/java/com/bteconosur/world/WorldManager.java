@@ -5,7 +5,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
-import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.world.listener.WorldEditListener;
 import com.bteconosur.world.model.BTEWorld;

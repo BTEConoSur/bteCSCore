@@ -9,13 +9,16 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.registry.PlayerRegistry;
 
 public class PlayerJoinListener implements Listener {
 
     private final DBManager dbManager;
+    private final PlayerRegistry playerRegistry;
 
     public PlayerJoinListener() {
-        this.dbManager = DBManager.getInstance();
+        dbManager = DBManager.getInstance();
+        playerRegistry = PlayerRegistry.getInstance();
     }
 
     @EventHandler
@@ -25,7 +28,7 @@ public class PlayerJoinListener implements Listener {
         }
         TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, 2); // TipoUsuario por defecto);
 
-        if (!dbManager.exists(Player.class, event.getPlayer().getUniqueId())) {
+        if (!playerRegistry.exists(event.getPlayer().getUniqueId())) {
             Date now = new Date();
             Player newPlayer = new Player(
                 event.getPlayer().getUniqueId(),
@@ -35,11 +38,11 @@ public class PlayerJoinListener implements Listener {
             );
             newPlayer.setNombrePublico(event.getPlayer().getName());
             newPlayer.setFechaIngreso(now);
-            dbManager.save(newPlayer);
+            playerRegistry.load(newPlayer);
         } else {
-            Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId());
+            Player player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setNombre(event.getPlayer().getName());
-            dbManager.merge(player  );
+            playerRegistry.merge(player.getUuid());
         }
     }
 }

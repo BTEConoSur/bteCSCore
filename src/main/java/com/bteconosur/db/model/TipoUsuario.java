@@ -3,6 +3,8 @@ package com.bteconosur.db.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +32,7 @@ public class TipoUsuario {
     private Integer cantProyecSim; // "Cantidad de proyectos simultáneos"
 
     @OneToMany(mappedBy = "tipoUsuario")
+    @JsonIgnore
     private Set<Player> players = new HashSet<>();
     
     public TipoUsuario() {

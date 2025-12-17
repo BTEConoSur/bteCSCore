@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
-import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.world.WorldExtent;
 import com.bteconosur.world.WorldManager;
 import com.sk89q.worldedit.event.extent.EditSessionEvent;
@@ -16,18 +16,18 @@ import com.sk89q.worldedit.util.eventbus.EventHandler;
 public class WorldEditListener {
 
     private final WorldManager worldManager;
-    private final DBManager dbManager;
+    private final PlayerRegistry playerRegistry;
     
     public WorldEditListener(WorldManager worldManager) {
         this.worldManager = worldManager;
-        this.dbManager = DBManager.getInstance();
+        this.playerRegistry = PlayerRegistry.getInstance();
     }
     
     @Subscribe(priority = EventHandler.Priority.VERY_EARLY)
     public void onEditSession(@NotNull EditSessionEvent event) {
         Actor actor = event.getActor();
         if (actor != null && actor.isPlayer()) {
-            Player player = dbManager.get(Player.class, actor.getUniqueId()); // TODO: Ver si es mejor cachear los jugadores.
+            Player player = playerRegistry.get(actor.getUniqueId());
             if (player == null) return;
             com.sk89q.worldedit.world.World weWorld = event.getWorld();
             if (weWorld == null) return;

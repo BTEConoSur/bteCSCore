@@ -11,6 +11,8 @@ import jakarta.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "rango_usuario")
 public class RangoUsuario {
@@ -27,6 +29,7 @@ public class RangoUsuario {
     private String descripcion;
 
     @OneToMany(mappedBy = "rangoUsuario")
+    @JsonIgnore
     private Set<Player> players = new HashSet<>();
 
     public RangoUsuario() {

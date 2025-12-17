@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,18 +44,23 @@ public class Pais {
     private Long dsIdRequest;
 
     @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<RegionPais> regiones = new ArrayList<>();
 
     @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Ciudad> ciudades = new ArrayList<>();
 
     @ManyToMany(mappedBy = "paisesManager")
+    @JsonIgnore
     private Set<Player> managers = new HashSet<>();
 
     @ManyToMany(mappedBy = "paisesReviewer")
+    @JsonIgnore
     private Set<Player> reviewers = new HashSet<>();
 
     @OneToMany(mappedBy = "paisPrefix")
+    @JsonIgnore
     private List<Player> jugadoresPrefix = new ArrayList<>();
 
     public Pais() {
