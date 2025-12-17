@@ -26,6 +26,9 @@ hibernate-shutting-down: "Apagando Hibernate..."
 player-registry-initializing: "Inicializando Registro de Jugadores..."
 player-registry-shutting-down: "Apagando Registro de Jugadores..."  
 
+proyecto-registry-initializing: "Inicializando Registro de Proyectos..."
+proyecto-registry-shutting-down: "Apagando Registro de Proyectos..."
+
 # Discord
 discord-initializing: "Inicializando Módulo: Discord..."
 discord-shutting-down: "Cerrando Módulo: Discord..."

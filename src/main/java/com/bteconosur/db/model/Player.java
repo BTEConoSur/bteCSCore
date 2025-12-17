@@ -23,7 +23,6 @@ import org.bukkit.Bukkit;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import com.bteconosur.db.DBManager;
 import com.bteconosur.db.registry.PlayerRegistry;
 
 @Entity
@@ -118,7 +117,6 @@ public class Player {
     public void setNombrePublico(String nombrePublico) {
         this.nombrePublico = nombrePublico;
     }
-
 
     public Date getFechaIngreso() {
         return fechaIngreso;
