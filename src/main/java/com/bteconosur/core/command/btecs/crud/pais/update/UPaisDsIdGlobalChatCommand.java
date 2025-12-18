@@ -47,7 +47,7 @@ public class UPaisDsIdGlobalChatCommand extends BaseCommand {
         try {
             nuevoId = Long.parseLong(args[1]);
         } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-parse").replace("%entity%", "Discord ID").replace("%value%", args[1]).replace("%type%", "Long");
+            String message = lang.getString("crud-not-valid-parse").replace("%entity%", "Pais").replace("%value%", args[1]).replace("%type%", "Long");
             sender.sendMessage(message);
             return true;
         }

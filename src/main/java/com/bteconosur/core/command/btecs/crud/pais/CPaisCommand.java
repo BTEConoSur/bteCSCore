@@ -45,7 +45,7 @@ public class CPaisCommand extends BaseCommand {
             dsIdLog = Long.parseLong(args[4]);
             dsIdRequest = Long.parseLong(args[5]);
         } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-parse").replace("%entity%", "Discord ID").replace("%value%", "uno de los argumentos").replace("%type%", "Long");
+            String message = lang.getString("crud-not-valid-parse").replace("%entity%", "Pais").replace("%value%", "uno de los argumentos").replace("%type%", "Long");
             sender.sendMessage(message);
             return true;
         }
