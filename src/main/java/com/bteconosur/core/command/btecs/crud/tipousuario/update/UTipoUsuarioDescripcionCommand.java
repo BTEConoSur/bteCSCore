@@ -14,7 +14,7 @@ public class UTipoUsuarioDescripcionCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UTipoUsuarioDescripcionCommand() {
-        super("descripcion", "Actualizar descripción de un TipoUsuario.", "<id> <nueva_descripcion>", CommandMode.BOTH);
+        super("descripcion", "Actualizar descripción de un TipoUsuario.", "<id> <descripcion>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();

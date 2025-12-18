@@ -17,7 +17,7 @@ public class UPlayerNombreCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UPlayerNombreCommand() {
-        super("nombre", "Actualizar nombre de un Player.", "<uuid> <valor>", CommandMode.BOTH);
+        super("nombre", "Actualizar nombre de un Player.", "<uuid> <nombre>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();

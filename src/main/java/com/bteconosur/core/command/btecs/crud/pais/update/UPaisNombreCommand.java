@@ -14,7 +14,7 @@ public class UPaisNombreCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UPaisNombreCommand() {
-        super("nombre", "Actualizar nombre de un País.", "<id> <nuevo_nombre>", CommandMode.BOTH);
+        super("nombre", "Actualizar nombre de un País.", "<id> <nombre>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();

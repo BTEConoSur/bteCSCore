@@ -14,7 +14,7 @@ public class UTipoUsuarioNombreCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UTipoUsuarioNombreCommand() {
-        super("nombre", "Actualizar nombre de un TipoUsuario.", "<id> <nuevo_nombre>", CommandMode.BOTH);
+        super("nombre", "Actualizar nombre de un TipoUsuario.", "<id> <nombre>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();

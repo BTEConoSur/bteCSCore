@@ -14,7 +14,7 @@ public class UPaisDsIdLogCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UPaisDsIdLogCommand() {
-        super("dsidlog", "Actualizar Discord Log ID de un País.", "<id> <nuevo_ds_id_log>", CommandMode.BOTH);
+        super("dsidlog", "Actualizar Discord Log ID de un País.", "<id> <ds_id_log>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
