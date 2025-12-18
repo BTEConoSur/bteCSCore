@@ -87,10 +87,12 @@ public class Player {
     public Player() {
     }
 
-    public Player(UUID uuid, String nombre, Date fechaUltimaConexion, TipoUsuario tipoUsuario) {
+    public Player(UUID uuid, String nombre, Date fechaIngreso, TipoUsuario tipoUsuario) {
         this.uuid = uuid;
         this.nombre = nombre;
-        this.fechaUltimaConexion = fechaUltimaConexion;
+        this.nombrePublico = nombre;
+        this.fechaIngreso = fechaIngreso;
+        this.fechaUltimaConexion = new Date();
         this.tipoUsuario = tipoUsuario;
     }
 

@@ -33,6 +33,7 @@ public abstract class BaseCommand extends Command {
     private final String permission;
     protected final Map<String, BaseCommand> subcommands = new HashMap<>();
     protected final BTEConoSur plugin;
+    private BaseCommand parent;
 
     private HashMap<UUID, Long> timeCooldowns = new HashMap<>();
 
@@ -167,8 +168,20 @@ public abstract class BaseCommand extends Command {
      * Agrega un subcomando a este comando.
      */
     public void addSubcommand(BaseCommand subcommand) {
-        subcommand.fullCommand = this.fullCommand + " " + subcommand.command;
+        subcommand.parent = this;
+        subcommand.updateFullCommand();
+        BTEConoSur.getConsoleLogger().debug("Registrando subcomando: " + subcommand.fullCommand);
         subcommands.put(subcommand.getCommand(), subcommand);
+    }
+
+
+    private void updateFullCommand() {
+        if (parent != null) {
+            this.fullCommand = parent.fullCommand + " " + this.command;
+        }
+        for (BaseCommand subcommand : subcommands.values()) {
+            subcommand.updateFullCommand();
+        }
     }
 
     /**
@@ -205,6 +218,10 @@ public abstract class BaseCommand extends Command {
 
     public String getArgs() {
         return args;
+    }
+
+    public String getFullCommand() {
+        return fullCommand;
     }
 
 }

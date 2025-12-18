@@ -1,22 +1,20 @@
-package com.bteconosur.core.command.btecs.test;
+package com.bteconosur.core.command.btecs.crud;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
+import com.bteconosur.core.command.btecs.crud.player.CRUDPlayerCommand;
 import com.bteconosur.core.config.ConfigHandler;
 
-public class BTECSTestCommand extends BaseCommand {
+public class BTECSCrudCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
 
-    public BTECSTestCommand() {
-        super("test", "Para testear cosas.", null, CommandMode.PLAYER_ONLY);
-        this.addSubcommand(new TestGenericCommand());
-        this.addSubcommand(new TestConsoleLoggerCommand());
-        this.addSubcommand(new TestSimpleMenuCommand());
-        this.addSubcommand(new TestPaginatedMenuCommand());
+    public BTECSCrudCommand() {
+        super("crud", "Realizar operaciones CRUD. (Crear, Leer, Actualizar, Eliminar).", null, CommandMode.BOTH);
+        this.addSubcommand(new CRUDPlayerCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
@@ -29,4 +27,5 @@ public class BTECSTestCommand extends BaseCommand {
         sender.sendMessage(message);
         return true;
     }
+
 }

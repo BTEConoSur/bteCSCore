@@ -1,23 +1,25 @@
-package com.bteconosur.core.command.btecs.test;
+package com.bteconosur.core.command.btecs.crud.player;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
+import com.bteconosur.core.command.btecs.crud.player.update.UPlayerCommand;
 import com.bteconosur.core.config.ConfigHandler;
 
-public class BTECSTestCommand extends BaseCommand {
+public class CRUDPlayerCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
 
-    public BTECSTestCommand() {
-        super("test", "Para testear cosas.", null, CommandMode.PLAYER_ONLY);
-        this.addSubcommand(new TestGenericCommand());
-        this.addSubcommand(new TestConsoleLoggerCommand());
-        this.addSubcommand(new TestSimpleMenuCommand());
-        this.addSubcommand(new TestPaginatedMenuCommand());
-        this.addSubcommand(new GenericHelpCommand(this));
+    public CRUDPlayerCommand() {
+        super("player", "Realizar operaciones CRUD sobre jugadores. No se actualiza el PlayerRegistry.", null, CommandMode.BOTH);
+        this.addSubcommand(new CPlayerCommand());
+        this.addSubcommand(new RPlayerCommand());
+        this.addSubcommand(new UPlayerCommand());
+        this.addSubcommand(new DPlayerCommand());
+            this.addSubcommand(new GenericHelpCommand(this));
+
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
     }
@@ -29,4 +31,5 @@ public class BTECSTestCommand extends BaseCommand {
         sender.sendMessage(message);
         return true;
     }
+
 }
