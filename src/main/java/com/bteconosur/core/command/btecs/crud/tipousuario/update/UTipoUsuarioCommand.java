@@ -1,33 +1,31 @@
-package com.bteconosur.core.command.btecs.crud;
+package com.bteconosur.core.command.btecs.crud.tipousuario.update;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
-import com.bteconosur.core.command.btecs.crud.player.CRUDPlayerCommand;
-import com.bteconosur.core.command.btecs.crud.tipousuario.CRUDTipoUsuarioCommand;
 import com.bteconosur.core.config.ConfigHandler;
 
-public class BTECSCrudCommand extends BaseCommand {
+public class UTipoUsuarioCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
 
-    public BTECSCrudCommand() {
-        super("crud", "Realizar operaciones CRUD. (Crear, Leer, Actualizar, Eliminar).", null, CommandMode.BOTH);
-        this.addSubcommand(new CRUDPlayerCommand());
-        this.addSubcommand(new CRUDTipoUsuarioCommand());
+    public UTipoUsuarioCommand() {
+        super("update", "Actualizar propiedad de un TipoUsuario.", "<propiedad> <id> <valor>", CommandMode.BOTH);
+        this.addSubcommand(new UTipoUsuarioNombreCommand());
+        this.addSubcommand(new UTipoUsuarioDescripcionCommand());
+        this.addSubcommand(new UTipoUsuarioCantProyecSimCommand());
         this.addSubcommand(new GenericHelpCommand(this));
+
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        // TODO: Enviar por sistema de notificaciones que use help
         String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
         sender.sendMessage(message);
         return true;
     }
-
 }

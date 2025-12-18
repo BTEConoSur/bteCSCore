@@ -73,3 +73,4 @@ crud-read-not-found: "La entidad '%entity%' con id '%id%' no fue encontrada." # 
 crud-not-valid-parse: "No se pudo convertir el valor '%value%' al tipo '%type%' para la entidad '%entity%'." # %entity% -> Nombre de la entidad. %value% -> Valor inválido. %type% -> Tipo esperado.  
 crud-not-valid-id: "El id '%id%' proporcionado no es válido para la entidad '%entity%'." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
 crud-not-valid-name: "El nombre '%name%' proporcionado no es válido para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %name% -> Nombre inválido. %reason% -> Razón de la invalidez.
+crud-not-valid-description: "La descripción proporcionada no es válida para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %reason% -> Razón de la invalidez.
