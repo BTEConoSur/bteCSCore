@@ -56,7 +56,7 @@ public class UTipoUsuarioCantProyecSimCommand extends BaseCommand {
         tipoUsuario.setCantProyecSim(nuevaCantidad);
         dbManager.merge(tipoUsuario);
 
-        String message = lang.getString("crud-update").replace("%entity%", "TipoUsuario").replace("%property%", "cant_proyec_sim");
+        String message = lang.getString("crud-update").replace("%entity%", "TipoUsuario").replace("%id%", args[0]);
         sender.sendMessage(message);
         return true;
     }

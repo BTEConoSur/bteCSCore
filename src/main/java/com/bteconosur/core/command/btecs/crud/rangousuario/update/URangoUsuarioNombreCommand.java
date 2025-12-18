@@ -54,7 +54,7 @@ public class URangoUsuarioNombreCommand extends BaseCommand {
         rangoUsuario.setNombre(nuevoNombre);
         dbManager.merge(rangoUsuario);
 
-        String message = lang.getString("crud-update").replace("%entity%", "RangoUsuario").replace("%property%", "nombre");
+        String message = lang.getString("crud-update").replace("%entity%", "RangoUsuario").replace("%id%", args[0]);
         sender.sendMessage(message);
         return true;
     }

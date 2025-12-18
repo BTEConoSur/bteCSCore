@@ -54,7 +54,7 @@ public class UPaisNombreCommand extends BaseCommand {
         pais.setNombre(nuevoNombre);
         dbManager.merge(pais);
 
-        String message = lang.getString("crud-update").replace("%entity%", "Pais").replace("%property%", "nombre");
+        String message = lang.getString("crud-update").replace("%entity%", "Pais").replace("%id%", args[0]);
         sender.sendMessage(message);
         return true;
     }

@@ -59,7 +59,7 @@ public class UTipoUsuarioDescripcionCommand extends BaseCommand {
         tipoUsuario.setDescripcion(nuevaDescripcion);
         dbManager.merge(tipoUsuario);
 
-        String message = lang.getString("crud-update").replace("%entity%", "TipoUsuario").replace("%property%", "descripcion");
+        String message = lang.getString("crud-update").replace("%entity%", "TipoUsuario").replace("%id%", args[0]);
         sender.sendMessage(message);
         return true;
     }

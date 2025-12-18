@@ -56,7 +56,7 @@ public class UPaisDsIdLogCommand extends BaseCommand {
         pais.setDsIdLog(nuevoId);
         dbManager.merge(pais);
 
-        String message = lang.getString("crud-update").replace("%entity%", "Pais").replace("%property%", "ds_id_log");
+        String message = lang.getString("crud-update").replace("%entity%", "Pais").replace("%id%", args[0]);
         sender.sendMessage(message);
         return true;
     }
