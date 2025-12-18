@@ -10,6 +10,7 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
 
 public class CPlayerCommand extends BaseCommand {
@@ -17,8 +18,8 @@ public class CPlayerCommand extends BaseCommand {
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public CPlayerCommand() { //TODO: Agregar rango usuario
-        super("create", "Crear un nuevo Player. <fecha_ingreso> con formato UNIX ms.", "<uuid> <nombre> <fecha_ingreso> <id_tipo_usuario>", CommandMode.BOTH);
+    public CPlayerCommand() {
+        super("create", "Crear un nuevo Player. <fecha_ingreso> con formato UNIX ms.", "<uuid> <nombre> <fecha_ingreso> <id_tipo_usuario> <id_rango_usuario>", CommandMode.BOTH);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
@@ -28,7 +29,7 @@ public class CPlayerCommand extends BaseCommand {
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         // TODO: Enviar por sistema de notificaciones
-        if (args.length != 4) {
+        if (args.length != 5) {
             String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
             sender.sendMessage(message);
             return true;
@@ -36,6 +37,7 @@ public class CPlayerCommand extends BaseCommand {
 
         UUID uuid;
         Long tipoId;
+        Long rangoId;
         Long fechaIngreso;
     
         try{
@@ -49,7 +51,15 @@ public class CPlayerCommand extends BaseCommand {
         try {
             tipoId = Long.parseLong(args[3]);
         } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-parse").replace("%entity%", "TipoUsuario").replace("%value%", args[1]).replace("%type%", "Long");
+            String message = lang.getString("crud-not-valid-parse").replace("%entity%", "TipoUsuario").replace("%value%", args[3]).replace("%type%", "Long");
+            sender.sendMessage(message);
+            return true;
+        }
+
+        try {
+            rangoId = Long.parseLong(args[4]);
+        } catch (NumberFormatException ex) {
+            String message = lang.getString("crud-not-valid-parse").replace("%entity%", "RangoUsuario").replace("%value%", args[4]).replace("%type%", "Long");
             sender.sendMessage(message);
             return true;
         }
@@ -80,9 +90,16 @@ public class CPlayerCommand extends BaseCommand {
             return true;
         }
 
-        TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, tipoId);
+        if(!dbManager.exists(RangoUsuario.class, rangoId)) {
+            String message = lang.getString("crud-read-not-found").replace("%entity%", "RangoUsuario").replace("%id%", args[4]);
+            sender.sendMessage(message);
+            return true;
+        }
 
-        Player player = new Player(uuid, args[1], new Date(fechaIngreso), tipoUsuario);
+        TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, tipoId);
+        RangoUsuario rangoUsuario = dbManager.get(RangoUsuario.class, rangoId);
+
+        Player player = new Player(uuid, args[1], new Date(fechaIngreso), tipoUsuario, rangoUsuario);
         dbManager.save(player);
 
         String message = lang.getString("crud-create").replace("%entity%", "Player");

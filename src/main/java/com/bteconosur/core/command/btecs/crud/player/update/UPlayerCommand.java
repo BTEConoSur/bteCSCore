@@ -17,6 +17,7 @@ public class UPlayerCommand extends BaseCommand {
         this.addSubcommand(new UPlayerNombreCommand());
         this.addSubcommand(new UPlayerNombrePublicoCommand());
         this.addSubcommand(new UPlayerTipoUsuarioCommand());    
+        this.addSubcommand(new URangoUsuarioCommand());
         this.addSubcommand(new UPlayerFechaIngresoCommand());
         this.addSubcommand(new UPlayerFechaUltimaConexionCommand());
         this.addSubcommand(new UPlayerDsIdUsuarioCommand());

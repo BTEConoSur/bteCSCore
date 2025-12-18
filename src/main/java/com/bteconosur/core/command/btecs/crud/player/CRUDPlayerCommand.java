@@ -13,7 +13,7 @@ public class CRUDPlayerCommand extends BaseCommand {
     private final YamlConfiguration lang;
 
     public CRUDPlayerCommand() {
-        super("player", "Realizar operaciones CRUD sobre jugadores. No se actualiza el PlayerRegistry.", null, CommandMode.BOTH);
+        super("player", "Realizar operaciones CRUD sobre jugadores.", null, CommandMode.BOTH);
         this.addSubcommand(new CPlayerCommand());
         this.addSubcommand(new RPlayerCommand());
         this.addSubcommand(new UPlayerCommand());

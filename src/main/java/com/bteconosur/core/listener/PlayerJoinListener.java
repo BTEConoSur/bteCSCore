@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.PlayerRegistry;
 
@@ -25,11 +26,13 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (!playerRegistry.exists(event.getPlayer().getUniqueId())) {
             TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, 1); // TipoUsuario por defecto;
+            RangoUsuario rangoUsuario = dbManager.get(RangoUsuario.class, 1); // RangoUsuario por defecto;
             Player newPlayer = new Player(
                 event.getPlayer().getUniqueId(),
                 event.getPlayer().getName(),
                 new Date(),
-                tipoUsuario
+                tipoUsuario,
+                rangoUsuario
             );
             playerRegistry.load(newPlayer);
         } else {
