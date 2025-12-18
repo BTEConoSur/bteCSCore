@@ -27,9 +27,6 @@ public class PlayerRegistry extends Registry<UUID, Player> {
 
     public void shutdown() {
         logger.info(lang.getString("player-registry-shutting-down"));
-        for (Player player : loadedObjects.values()) {
-            dbManager.merge(player);
-        }
         loadedObjects.clear();
         loadedObjects = null;
     }

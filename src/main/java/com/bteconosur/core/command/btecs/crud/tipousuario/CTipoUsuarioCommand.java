@@ -14,7 +14,7 @@ public class CTipoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CTipoUsuarioCommand() {
-        super("create", "Crear un nuevo TipoUsuario.", "<nombre> <cant_proyec_sim> <descripcion...>", CommandMode.BOTH);
+        super("create", "Crear un nuevo TipoUsuario.", "<nombre> <cant_proyec_sim> <descripcion>", CommandMode.BOTH);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

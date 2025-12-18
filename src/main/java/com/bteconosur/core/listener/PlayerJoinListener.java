@@ -23,12 +23,8 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!dbManager.exists(TipoUsuario.class, 2)) {
-            dbManager.save(new TipoUsuario("Default", "Testeo", 10));
-        }
-        TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, 2); // TipoUsuario por defecto);
-
         if (!playerRegistry.exists(event.getPlayer().getUniqueId())) {
+            TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, 1); // TipoUsuario por defecto;
             Player newPlayer = new Player(
                 event.getPlayer().getUniqueId(),
                 event.getPlayer().getName(),

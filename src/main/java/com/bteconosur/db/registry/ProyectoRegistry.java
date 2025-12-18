@@ -26,9 +26,6 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
 
     public void shutdown() {
         logger.info(lang.getString("proyecto-registry-shutting-down"));
-        for (Proyecto proyecto : loadedObjects.values()) {
-            dbManager.merge(proyecto);
-        }
         loadedObjects.clear();
         loadedObjects = null;
     }

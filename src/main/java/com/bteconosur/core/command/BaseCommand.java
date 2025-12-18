@@ -170,7 +170,6 @@ public abstract class BaseCommand extends Command {
     public void addSubcommand(BaseCommand subcommand) {
         subcommand.parent = this;
         subcommand.updateFullCommand();
-        BTEConoSur.getConsoleLogger().debug("Registrando subcomando: " + subcommand.fullCommand);
         subcommands.put(subcommand.getCommand(), subcommand);
     }
 
