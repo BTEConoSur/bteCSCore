@@ -3,6 +3,7 @@ package com.bteconosur.db.model;
 import java.util.HashSet;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -32,6 +33,7 @@ public class Ciudad {
 
     @Column(name = "poligono")
     @JdbcTypeCode(SqlTypes.GEOMETRY)
+    @JsonIgnore // evita que Jackson intente serializar la geometría cruda
     private Polygon poligono;
 
     @ManyToOne
@@ -74,7 +76,7 @@ public class Ciudad {
     public void setPoligono(Polygon poligono) {
         this.poligono = poligono;
     }
-
+    
     public Pais getPais() {
         return pais;
     }

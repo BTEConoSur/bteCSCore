@@ -18,6 +18,7 @@ public class CRUDRangoUsuarioCommand extends BaseCommand {
         this.addSubcommand(new RRangoUsuarioCommand());
         this.addSubcommand(new URangoUsuarioCommand());
         this.addSubcommand(new DRangoUsuarioCommand());
+        this.addSubcommand(new GetListRangoUsuarioCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();

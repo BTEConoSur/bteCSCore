@@ -18,6 +18,7 @@ public class CRUDTipoUsuarioCommand extends BaseCommand {
         this.addSubcommand(new RTipoUsuarioCommand());
         this.addSubcommand(new UTipoUsuarioCommand());
         this.addSubcommand(new DTipoUsuarioCommand());
+        this.addSubcommand(new GetListTipoUsuarioCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();

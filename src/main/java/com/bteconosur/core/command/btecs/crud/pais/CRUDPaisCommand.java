@@ -18,6 +18,8 @@ public class CRUDPaisCommand extends BaseCommand {
         this.addSubcommand(new RPaisCommand());
         this.addSubcommand(new UPaisCommand());
         this.addSubcommand(new DPaisCommand());
+        this.addSubcommand(new GetListPaisCommand());
+        this.addSubcommand(new GetListRegionPaisCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
