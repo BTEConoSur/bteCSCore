@@ -37,14 +37,23 @@ public class WorldManager {
     }
 
     public boolean canBuild(Location loc, Player player) {
-        if (bteWorld == null || !bteWorld.isValid()) return false;
+        if (bteWorld == null || !bteWorld.isValid()) {
+            logger.debug("[WorldManager] canBuild false: bteWorld null o inválido");
+            return false;
+        }
 
         // TODO: Verificar que es Admin
 
         if (loc.getWorld().getName().equalsIgnoreCase("lobby")) return true; // Delego en WorldGuard
         LabelWorld lw = bteWorld.getLabelWorld(loc.getX(), loc.getZ());
-        if (lw == null) return false;
-        if (!bteWorld.isValidLocation(loc, lw)) return false;
+        if (lw == null) {
+            logger.debug("[WorldManager] canBuild false: LabelWorld no encontrada para (" + loc.getX() + ", " + loc.getZ() + ")");
+            return false;
+        }
+        if (!bteWorld.isValidLocation(loc, lw)) {
+            logger.debug("[WorldManager] canBuild false: Ubicación inválida para LabelWorld " + lw.getName());
+            return false;
+        }
 
         // TODO: Obtener país de la location
         // TODO: Verificar que es manager de este pais
@@ -54,6 +63,7 @@ public class WorldManager {
 
         // TODO: Verificar que sea reviewer de ese pais
         // TODO: Verificar que sea miembro de algun proyecto 
+        logger.debug("[WorldManager] canBuild true: Permitido en " + lw.getName());
         return true;
     }
 
