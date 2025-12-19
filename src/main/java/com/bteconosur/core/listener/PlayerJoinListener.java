@@ -8,31 +8,37 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.registry.PlayerRegistry;
 
-public class PlayerJoinListener implements Listener{
+public class PlayerJoinListener implements Listener {
 
     private final DBManager dbManager;
+    private final PlayerRegistry playerRegistry;
 
     public PlayerJoinListener() {
-        this.dbManager = DBManager.getInstance();
+        dbManager = DBManager.getInstance();
+        playerRegistry = PlayerRegistry.getInstance();
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!dbManager.exists(TipoUsuario.class, 1)) {
-            dbManager.save(new TipoUsuario("Default", "Testeo", 10));
-        }
-        TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, 1); // TipoUsuario por defecto);
-
-        if (!dbManager.exists(Player.class, event.getPlayer().getUniqueId())) {
-            dbManager.save(new Player(
+        if (!playerRegistry.exists(event.getPlayer().getUniqueId())) {
+            TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, 1); // TipoUsuario por defecto;
+            RangoUsuario rangoUsuario = dbManager.get(RangoUsuario.class, 1); // RangoUsuario por defecto;
+            Player newPlayer = new Player(
                 event.getPlayer().getUniqueId(),
                 event.getPlayer().getName(),
                 new Date(),
-                tipoUsuario
-            ));
+                tipoUsuario,
+                rangoUsuario
+            );
+            playerRegistry.load(newPlayer);
+        } else {
+            Player player = playerRegistry.get(event.getPlayer().getUniqueId());
+            player.setNombre(event.getPlayer().getName());
+            playerRegistry.merge(player.getUuid());
         }
-        
     }
 }

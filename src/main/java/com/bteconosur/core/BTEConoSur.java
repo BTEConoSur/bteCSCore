@@ -2,9 +2,12 @@ package com.bteconosur.core;
 
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.listener.PlayerJoinListener;
+import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
@@ -23,6 +26,9 @@ public final class BTEConoSur extends JavaPlugin {
     private static DBManager dbManager;
     private static WorldManager worldManager;
 
+    private static PlayerRegistry playerRegistry;
+    private static ProyectoRegistry proyectoRegistry;
+
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
 
@@ -39,9 +45,13 @@ public final class BTEConoSur extends JavaPlugin {
         discordManager = new DiscordManager();
         worldManager = new WorldManager();
 
+        playerRegistry = PlayerRegistry.getInstance();
+        proyectoRegistry = ProyectoRegistry.getInstance();
+
         getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager), this);
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new MovingListeners(worldManager), this);
             
         // Registro de comandos
@@ -51,6 +61,17 @@ public final class BTEConoSur extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        
+        if (playerRegistry != null) {
+            playerRegistry.shutdown();
+            playerRegistry = null;
+        }
+
+        if (proyectoRegistry != null) {
+            proyectoRegistry.shutdown();
+            proyectoRegistry = null;
+        }
+
         if (dbManager != null) {
             dbManager.shutdown();
             dbManager = null;

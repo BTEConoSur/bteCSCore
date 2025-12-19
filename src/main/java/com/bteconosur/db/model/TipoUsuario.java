@@ -3,6 +3,8 @@ package com.bteconosur.db.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,19 +19,20 @@ public class TipoUsuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    @Column(name = "id_tipo_usuario")
+    @Column(name = "id_tipo_usuario", nullable = false)
     private Long id;
 
-    @Column(name = "nombre", length = 20)
+    @Column(name = "nombre", length = 20, nullable = false)
     private String nombre;
 
-    @Column(name = "descripcion")
+    @Column(name = "descripcion", length = 500, nullable = false)
     private String descripcion;
 
-    @Column(name = "cant_proyec_sim")
+    @Column(name = "cant_proyec_sim", nullable = false)
     private Integer cantProyecSim; // "Cantidad de proyectos simultáneos"
 
     @OneToMany(mappedBy = "tipoUsuario")
+    @JsonIgnore
     private Set<Player> players = new HashSet<>();
     
     public TipoUsuario() {

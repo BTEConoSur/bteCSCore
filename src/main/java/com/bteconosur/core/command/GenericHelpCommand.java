@@ -23,12 +23,13 @@ public class GenericHelpCommand extends BaseCommand {
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         String header = lang.getString("help-command.header")
-            .replace("%command%", parentCommand.fullCommand)
+            .replace("%command%", parentCommand.getFullCommand())
             .replace("%plugin-prefix%", lang.getString("plugin-prefix"));
         String usage = lang.getString("help-command.usage");
         String descriptionLabel = lang.getString("help-command.description");
         String subcommandsTitle = lang.getString("help-command.subcommands-title");
-        String subcommandLine = lang.getString("help-command.subcommand-line");
+        String subcommandLine1 = lang.getString("help-command.subcommand-line-1");
+        String subcommandLine2 = lang.getString("help-command.subcommand-line-2");
         String footer = lang.getString("help-command.footer");
 
         sender.sendMessage(miniMessage.deserialize(header));
@@ -38,7 +39,7 @@ public class GenericHelpCommand extends BaseCommand {
             sender.sendMessage(miniMessage.deserialize(descriptionLabel));
         }
         
-        usage = usage.replace("%command%", parentCommand.fullCommand).replace("%args%", parentCommand.args != null ? parentCommand.args : (parentCommand.subcommands.isEmpty() ? "" : "<subcomando>"));
+        usage = usage.replace("%command%", parentCommand.getFullCommand()).replace("%args%", parentCommand.args != null ? parentCommand.args : (parentCommand.subcommands.isEmpty() ? "" : "<subcomando>"));
         sender.sendMessage(miniMessage.deserialize(usage));
         
         if (!parentCommand.subcommands.isEmpty()) {
@@ -46,12 +47,15 @@ public class GenericHelpCommand extends BaseCommand {
             for (BaseCommand sub : parentCommand.subcommands.values()) {
                 String subDesc = sub.description != null ? sub.description : "";
                 
-                String line = subcommandLine
-                    .replace("%command%", parentCommand.fullCommand)
+                String line1 = subcommandLine1
+                    .replace("%command%", parentCommand.getFullCommand())
                     .replace("%subcommand%", sub.command)
-                    .replace("%description%", subDesc);
+                    .replace("%args%", ' ' + (sub.args != null ? sub.args : (sub.subcommands.isEmpty() ? "" : " <subcomando>")));
                 
-                sender.sendMessage(miniMessage.deserialize(line));
+                String line2 = subcommandLine2.replace("%description%", subDesc);
+                
+                sender.sendMessage(miniMessage.deserialize(line1));
+                sender.sendMessage(miniMessage.deserialize(line2));
             }
         }
 

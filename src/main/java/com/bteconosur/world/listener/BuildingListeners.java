@@ -14,6 +14,7 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.world.WorldManager;
 
 import org.bukkit.Location;
@@ -29,10 +30,12 @@ public class BuildingListeners implements Listener {
 
     private final WorldManager worldManager;
     private final DBManager dbManager;
+    private final PlayerRegistry playerRegistry;
 
     public BuildingListeners(WorldManager worldManager) {
         this.worldManager = worldManager;
-        this.dbManager = DBManager.getInstance();
+        dbManager = DBManager.getInstance();
+        playerRegistry = PlayerRegistry.getInstance();
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
@@ -44,7 +47,7 @@ public class BuildingListeners implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         Block block = event.getBlockPlaced();
 
-        Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId()); // TODO: Ver si es mejor cachear los jugadores.
+        Player player = playerRegistry.get(event.getPlayer().getUniqueId());
         if (player == null) {
             // Notificación de chat: No se econtró el jugador en la base de datos.
             event.setCancelled(true);
@@ -61,7 +64,7 @@ public class BuildingListeners implements Listener {
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
 
-        Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId()); // TODO: Ver si es mejor cachear los jugadores.
+        Player player = playerRegistry.get(event.getPlayer().getUniqueId());
         if (player == null) {
             // Notificación de chat: No se econtró el jugador en la base de datos.
             event.setCancelled(true);

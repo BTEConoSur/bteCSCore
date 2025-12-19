@@ -25,7 +25,7 @@ public class BTECSTestCommand extends BaseCommand {
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         // TODO: Enviar por sistema de notificaciones que use help
-        String message = lang.getString("help-command-usage");
+        String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
         sender.sendMessage(message);
         return true;
     }

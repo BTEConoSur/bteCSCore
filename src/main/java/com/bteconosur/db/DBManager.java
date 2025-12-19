@@ -54,17 +54,20 @@ public class DBManager {
     }
 
     public void executeTransaction(Consumer<Session> action) {
-        Transaction transaction = null;
-
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            action.accept(session); 
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
+            Transaction transaction = session.beginTransaction();
+            try {
+                action.accept(session); 
+                transaction.commit();
+            } catch (Exception e) {
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                }
+                throw e;
             }
-            logger.error("Excepción en transacción de Hibernate: " + e); // TODO: Mejorar muestreo de excepciones
+        } catch (Exception e) {
+            logger.error("Excepción en transacción de Hibernate: " + e);// TODO: Mejorar muestreo de excepciones
+            e.printStackTrace();
         }
     }
 

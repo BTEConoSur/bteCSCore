@@ -23,6 +23,15 @@ database-shutting-down: "Cerrando Módulo: Base de Datos..."
 hibernate-initializing: "Prendiendo Hibernate..."
 hibernate-shutting-down: "Apagando Hibernate..."
 
+player-registry-initializing: "Inicializando Registro de Jugadores..."
+player-registry-shutting-down: "Apagando Registro de Jugadores..."  
+
+proyecto-registry-initializing: "Inicializando Registro de Proyectos..."
+proyecto-registry-shutting-down: "Apagando Registro de Proyectos..."
+
+pais-registry-initializing: "Inicializando Registro de Países..."
+pais-registry-shutting-down: "Apagando Registro de Países..."
+
 # Discord
 discord-initializing: "Inicializando Módulo: Discord..."
 discord-shutting-down: "Cerrando Módulo: Discord..."
@@ -45,7 +54,7 @@ no-permission: "No tienes permiso para ejecutar este comando."
 player-only-command: "Este comando solo puede ser ejecutado por un jugador."
 console-only-command: "Este comando solo puede ser ejecutado desde la consola."
 unknown-command: "Comando desconocido." 
-help-command-usage: "Usa '/<comando> help' para ver la ayuda del comando."
+help-command-usage: "Usa '/%command% help' para ver la ayuda del comando." # %command% -> Comando completo.
 command-on-cooldown: "Debes esperar %time% antes de usar este comando de nuevo." # %time% -> Tiempo restante en segundos/minutos.
 
 help-command:
@@ -53,5 +62,30 @@ help-command:
   usage: "<yellow>Uso:</yellow> /%command% %args%" # %command% -> Comando completo. %args% -> Argumentos del comando. 
   description: "<yellow>Descripción:</yellow> %description%" # %description% -> Descripción del comando.
   subcommands-title: "<yellow>Opciones:</yellow>"
-  subcommand-line: " - <gold>/%command% %subcommand%</gold>: %description%" # %command% -> Comando raíz. %subcommands% -> Subcomandos. %description% -> Descripción del subcomando. 
+  subcommand-line-1: " - <gold>/%command% %subcommand%%args%</gold>:" # %command% -> Comando raíz. %subcommands% -> Subcomandos. %args% -> Argumentos del subcomando. (No preguntés porqué pero subcomand y args van pegados)
+  subcommand-line-2: "   <white>%description%" # %description% -> Descripción del subcomando.
   footer: ""
+
+crud-create: "Entidad '%entity%' creada exitosamente." # %entity% -> Nombre de la entidad.
+crud-read: "Entidad '%entity%' con id '%id%':" # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+crud-update: "Entidad '%entity%' con id '%id%' actualizada exitosamente." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+crud-delete: "Entidad '%entity%' con id '%id%' eliminada exitosamente." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.  
+crud-already-exists: "La entidad '%entity%' con id '%id%' ya existe." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+crud-read-not-found: "La entidad '%entity%' con id '%id%' no fue encontrada." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+
+crud-not-valid-parse: "No se pudo convertir el valor '%value%' al tipo '%type%' para la entidad '%entity%'." # %entity% -> Nombre de la entidad. %value% -> Valor inválido. %type% -> Tipo esperado.  
+crud-not-valid-id: "El id '%id%' proporcionado no es válido para la entidad '%entity%'." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+crud-not-valid-name: "El nombre '%name%' proporcionado no es válido para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %name% -> Nombre inválido. %reason% -> Razón de la invalidez.
+crud-not-valid-description: "La descripción proporcionada no es válida para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %reason% -> Razón de la invalidez.
+
+region-not-selected: "No tienes una región seleccionada."
+region-not-complete: "La selección de la región está incompleta."
+region-not-supported: "Tipo de selección de WorldEdit no soportado. Usa cuboid o poly."
+we-error: "Error de WorldEdit."
+
+get-list-command:
+  header: " ===== <gold>Lista de %entity%s</gold>" # %entity% -> Nombre de la entidad en plural.
+  line: " - <gold>%id%:</gold> %details%" # %id% -> Identificador de la entidad. %details% -> Detalles de la entidad.
+  footer: ""
+
+get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entidad en plural.
