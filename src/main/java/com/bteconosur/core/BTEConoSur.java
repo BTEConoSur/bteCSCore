@@ -6,14 +6,20 @@ import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.registry.RangoUsuarioRegistry;
+import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;
 import com.bteconosur.world.listener.MovingListeners;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
@@ -25,20 +31,42 @@ public final class BTEConoSur extends JavaPlugin {
     private static DiscordManager discordManager;
     private static DBManager dbManager;
     private static WorldManager worldManager;
+    private static PermissionManager permissionManager;
 
     private static PlayerRegistry playerRegistry;
     private static ProyectoRegistry proyectoRegistry;
+    private static TipoUsuarioRegistry tipoUsuarioRegistry;
+    private static RangoUsuarioRegistry rangoUsuarioRegistry;
 
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
+    private static LuckPerms luckPermsApi;
 
     @Override
     public void onEnable() {
         // Guardar instancia del plugin
         instance = this;
 
-        multiverseCoreApi = MultiverseCoreApi.get();
+        try {
+            multiverseCoreApi = MultiverseCoreApi.get();
+        } catch (IllegalStateException ex) {
+            PluginRegistry.disablePlugin("MultiverseCore API no cargada. Asegurar de que MultiverseCore esté instalado y habilitado.");
+            return;
+        }
+
         worldEditPlugin = (WorldEditPlugin) this.getServer().getPluginManager().getPlugin("WorldEdit");
+
+        if (worldEditPlugin == null) {
+            PluginRegistry.disablePlugin("WorldEdit no encontrado. Asegurar de que WorldEdit esté instalado y habilitado.");
+            return;
+        }
+
+        try {
+            luckPermsApi = LuckPermsProvider.get();
+        } catch (IllegalStateException ex) {
+            PluginRegistry.disablePlugin("Luckperms API no cargada. Asegurar de que LuckPerms esté instalado y habilitado.");
+            return;
+        }
 
         consoleLogger = new ConsoleLogger();
         dbManager = new DBManager();
@@ -47,6 +75,11 @@ public final class BTEConoSur extends JavaPlugin {
 
         playerRegistry = PlayerRegistry.getInstance();
         proyectoRegistry = ProyectoRegistry.getInstance();
+        tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
+        rangoUsuarioRegistry = RangoUsuarioRegistry.getInstance();
+
+        permissionManager = new PermissionManager();
+        
 
         getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager), this);
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
@@ -72,6 +105,21 @@ public final class BTEConoSur extends JavaPlugin {
             proyectoRegistry = null;
         }
 
+        if (tipoUsuarioRegistry != null) {
+            tipoUsuarioRegistry.shutdown();
+            tipoUsuarioRegistry = null;
+        }
+
+        if (rangoUsuarioRegistry != null) {
+            rangoUsuarioRegistry.shutdown();
+            rangoUsuarioRegistry = null;
+        }
+        
+        if (permissionManager != null) {
+            permissionManager.shutdown();
+            permissionManager = null;
+        }
+
         if (dbManager != null) {
             dbManager.shutdown();
             dbManager = null;
@@ -86,6 +134,8 @@ public final class BTEConoSur extends JavaPlugin {
             worldManager.shutdown();
             worldManager = null;
         }
+
+        luckPermsApi = null;
           
         consoleLogger.info("El Plugin se ha desactivado.");
     }
@@ -104,6 +154,10 @@ public final class BTEConoSur extends JavaPlugin {
 
     public static WorldEditPlugin getWorldEditPlugin() {
         return worldEditPlugin;
+    }
+
+    public static LuckPerms getLuckPermsApi() {
+        return luckPermsApi;
     }
 
     public static DiscordManager getDiscordManager() {

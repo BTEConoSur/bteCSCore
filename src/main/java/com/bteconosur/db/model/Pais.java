@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.Fetch;
@@ -175,6 +176,20 @@ public class Pais {
 
     public void setJugadoresPrefix(List<Player> jugadoresPrefix) {
         this.jugadoresPrefix = jugadoresPrefix;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pais pais = (Pais) o;
+        if (id == null || pais.id == null) return false;
+        return Objects.equals(id, pais.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
 }

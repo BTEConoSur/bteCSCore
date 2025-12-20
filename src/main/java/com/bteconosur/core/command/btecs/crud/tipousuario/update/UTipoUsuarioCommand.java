@@ -16,6 +16,9 @@ public class UTipoUsuarioCommand extends BaseCommand {
         this.addSubcommand(new UTipoUsuarioNombreCommand());
         this.addSubcommand(new UTipoUsuarioDescripcionCommand());
         this.addSubcommand(new UTipoUsuarioCantProyecSimCommand());
+        this.addSubcommand(new UTipoUsuarioAddPermisoCommand());
+        this.addSubcommand(new UTipoUsuarioRemovePermisoCommand());
+        this.addSubcommand(new UTipoUsuarioListPermisosCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
