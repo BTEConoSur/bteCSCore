@@ -6,8 +6,11 @@ import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.registry.RangoUsuarioRegistry;
+import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
@@ -18,7 +21,6 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 
-import org.apache.maven.artifact.repository.metadata.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
 
@@ -29,9 +31,12 @@ public final class BTEConoSur extends JavaPlugin {
     private static DiscordManager discordManager;
     private static DBManager dbManager;
     private static WorldManager worldManager;
+    private static PermissionManager permissionManager;
 
     private static PlayerRegistry playerRegistry;
     private static ProyectoRegistry proyectoRegistry;
+    private static TipoUsuarioRegistry tipoUsuarioRegistry;
+    private static RangoUsuarioRegistry rangoUsuarioRegistry;
 
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
@@ -70,6 +75,10 @@ public final class BTEConoSur extends JavaPlugin {
 
         playerRegistry = PlayerRegistry.getInstance();
         proyectoRegistry = ProyectoRegistry.getInstance();
+        tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
+        rangoUsuarioRegistry = RangoUsuarioRegistry.getInstance();
+
+        permissionManager = new PermissionManager();
         
 
         getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager), this);
@@ -94,6 +103,21 @@ public final class BTEConoSur extends JavaPlugin {
         if (proyectoRegistry != null) {
             proyectoRegistry.shutdown();
             proyectoRegistry = null;
+        }
+
+        if (tipoUsuarioRegistry != null) {
+            tipoUsuarioRegistry.shutdown();
+            tipoUsuarioRegistry = null;
+        }
+
+        if (rangoUsuarioRegistry != null) {
+            rangoUsuarioRegistry.shutdown();
+            rangoUsuarioRegistry = null;
+        }
+        
+        if (permissionManager != null) {
+            permissionManager.shutdown();
+            permissionManager = null;
         }
 
         if (dbManager != null) {

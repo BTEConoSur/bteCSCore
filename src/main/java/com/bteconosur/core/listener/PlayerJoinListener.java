@@ -6,39 +6,45 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import com.bteconosur.db.DBManager;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
-import com.bteconosur.db.model.RangoUsuario;
-import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.RangoUsuarioRegistry;
+import com.bteconosur.db.registry.TipoUsuarioRegistry;
 
 public class PlayerJoinListener implements Listener {
 
-    private final DBManager dbManager;
     private final PlayerRegistry playerRegistry;
+    private final TipoUsuarioRegistry tipoUsuarioRegistry;
+    private final RangoUsuarioRegistry rangoUsuarioRegistry;
+    private final PermissionManager permissionManager;
 
     public PlayerJoinListener() {
-        dbManager = DBManager.getInstance();
         playerRegistry = PlayerRegistry.getInstance();
+        tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
+        rangoUsuarioRegistry = RangoUsuarioRegistry.getInstance();
+        permissionManager = PermissionManager.getInstance();
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player;
         if (!playerRegistry.exists(event.getPlayer().getUniqueId())) {
-            TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, 1); // TipoUsuario por defecto;
-            RangoUsuario rangoUsuario = dbManager.get(RangoUsuario.class, 1); // RangoUsuario por defecto;
-            Player newPlayer = new Player(
+            player = new Player(
                 event.getPlayer().getUniqueId(),
                 event.getPlayer().getName(),
                 new Date(),
-                tipoUsuario,
-                rangoUsuario
+                tipoUsuarioRegistry.getVisita(),
+                rangoUsuarioRegistry.getNormal()
             );
-            playerRegistry.load(newPlayer);
+            playerRegistry.load(player);
         } else {
-            Player player = playerRegistry.get(event.getPlayer().getUniqueId());
+            player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setNombre(event.getPlayer().getName());
             playerRegistry.merge(player.getUuid());
         }
+
+        permissionManager.checkTipoUsuario(player);
+        permissionManager.checkRangoUsuario(player);
     }
 }
