@@ -37,6 +37,8 @@ dependencies {
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
 
     implementation("dev.triumphteam:triumph-gui:3.1.13")
+
+    compileOnly("net.luckperms:api:5.4")
 }
 
 def targetJavaVersion = 21
