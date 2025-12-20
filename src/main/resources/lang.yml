@@ -23,6 +23,9 @@ database-shutting-down: "Cerrando Módulo: Base de Datos..."
 hibernate-initializing: "Prendiendo Hibernate..."
 hibernate-shutting-down: "Apagando Hibernate..."
 
+permission-manager-initializing: "Inicializando Gestor de Permisos..."
+permission-manager-shutting-down: "Apagando Gestor de Permisos..."  
+
 player-registry-initializing: "Inicializando Registro de Jugadores..."
 player-registry-shutting-down: "Apagando Registro de Jugadores..."  
 
@@ -31,6 +34,12 @@ proyecto-registry-shutting-down: "Apagando Registro de Proyectos..."
 
 pais-registry-initializing: "Inicializando Registro de Países..."
 pais-registry-shutting-down: "Apagando Registro de Países..."
+
+tipo-usuario-registry-initializing: "Inicializando Registro de Tipos de Usuario..."
+tipo-usuario-registry-shutting-down: "Apagando Registro de Tipos de Usuario..."
+
+rango-usuario-registry-initializing: "Inicializando Registro de Rangos de Usuario..."
+rango-usuario-registry-shutting-down: "Apagando Registro de Rangos de Usuario..."
 
 # Discord
 discord-initializing: "Inicializando Módulo: Discord..."
@@ -89,3 +98,5 @@ get-list-command:
   footer: ""
 
 get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entidad en plural.
+
+# Permissions
