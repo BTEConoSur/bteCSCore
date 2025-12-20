@@ -117,7 +117,7 @@ public class PermissionManager {
         }
 
         for (TipoUsuario tipo : tipos) {
-            String groupName = "tipo_" + tipo.getNombre();
+            String groupName = "tipo_" + tipo.getNombre().toLowerCase();
             Group group = groupManager.getGroup(groupName);
             if (group == null) {
                 logger.warn("El grupo de LuckPerms para TipoUsuario '" + tipo.getNombre() + "' no existe. Creándolo...");
@@ -178,7 +178,7 @@ public class PermissionManager {
         }
 
         for (RangoUsuario rango : rangos) {
-            String groupName = "rango_" + rango.getNombre();
+            String groupName = "rango_" + rango.getNombre().toLowerCase();
             Group group = groupManager.getGroup(groupName);
             if (group == null) {
                 logger.warn("El grupo de LuckPerms para RangoUsuario '" + rango.getNombre() + "' no existe. Creándolo...");
@@ -242,7 +242,7 @@ public class PermissionManager {
         }
 
         TipoUsuario tipo = player.getTipoUsuario();
-        String targetGroupName = "tipo_" + tipo.getNombre();
+        String targetGroupName = "tipo_" + tipo.getNombre().toLowerCase();
         InheritanceNode targetNode = InheritanceNode.builder(targetGroupName).build();
 
         boolean modified = false;
@@ -250,7 +250,7 @@ public class PermissionManager {
         List<InheritanceNode> toRemove = user.getNodes().stream()
             .filter(node -> node instanceof InheritanceNode)
             .map(node -> (InheritanceNode) node)
-            .filter(node -> node.getGroupName().startsWith("tipo_") && !node.getGroupName().equals(targetGroupName))
+            .filter(node -> node.getGroupName().toLowerCase().startsWith("tipo_") && !node.getGroupName().equalsIgnoreCase(targetGroupName))
             .toList();
         
         for (InheritanceNode node : toRemove) {
@@ -280,7 +280,7 @@ public class PermissionManager {
         }
 
         RangoUsuario rango = player.getRangoUsuario();
-        String targetGroupName = "rango_" + rango.getNombre();
+        String targetGroupName = "rango_" + rango.getNombre().toLowerCase();
         InheritanceNode targetNode = InheritanceNode.builder(targetGroupName).build();
 
         boolean modified = false;
@@ -288,7 +288,7 @@ public class PermissionManager {
         List<InheritanceNode> toRemove = user.getNodes().stream()
             .filter(node -> node instanceof InheritanceNode)
             .map(node -> (InheritanceNode) node)
-            .filter(node -> node.getGroupName().startsWith("rango_") && !node.getGroupName().equals(targetGroupName))
+            .filter(node -> node.getGroupName().toLowerCase().startsWith("rango_") && !node.getGroupName().equalsIgnoreCase(targetGroupName))
             .toList();
         
         for (InheritanceNode node : toRemove) {
