@@ -31,6 +31,20 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         loadedObjects = null;
     }
 
+    public Player findByDiscordId(Long discordUserId) {
+        if (discordUserId == null) return null;
+        for (Player cached : loadedObjects.values()) {
+            if (discordUserId.equals(cached.getDsIdUsuario())) return cached;
+        }
+
+        List<Player> results = dbManager.findByProperty(Player.class, "dsIdUsuario", discordUserId);
+        if (results == null || results.isEmpty()) return null;
+
+        Player found = results.get(0);
+        loadedObjects.put(found.getUuid(), found);
+        return found;
+    }
+
     public static PlayerRegistry getInstance() {
         if (instance == null) {
             instance = new PlayerRegistry();
