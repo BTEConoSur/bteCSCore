@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Table;
@@ -18,6 +19,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
 
 import org.bukkit.Bukkit;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -70,12 +72,12 @@ public class Player {
     @JsonIgnore
     private Set<Proyecto> proyectos = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "pais_manager", joinColumns = @JoinColumn(name = "uuid_player"), inverseJoinColumns = @JoinColumn(name = "id_pais"))
     @JsonIgnore
     private Set<Pais> paisesManager = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "pais_reviewer", joinColumns = @JoinColumn(name = "uuid_player"), inverseJoinColumns = @JoinColumn(name = "id_pais"))
     @JsonIgnore //TODO: ver estos casos
     private Set<Pais> paisesReviewer = new HashSet<>();
@@ -217,6 +219,21 @@ public class Player {
     @JsonIgnore
     public static Player getBTECSPlayer(org.bukkit.entity.Player bukkitPlayer) {
         return PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId());
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(uuid, player.uuid);
+    }
+
+    @JsonIgnore
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid);
     }
 
     //TODO: Ver cascada

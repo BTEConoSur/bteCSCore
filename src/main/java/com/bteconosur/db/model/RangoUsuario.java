@@ -7,9 +7,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.FetchType;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -31,6 +36,11 @@ public class RangoUsuario {
     @OneToMany(mappedBy = "rangoUsuario")
     @JsonIgnore
     private Set<Player> players = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "rango_usuario_permiso", joinColumns = @JoinColumn(name = "id_rango_usuario"), inverseJoinColumns = @JoinColumn(name = "id_permiso"))
+    @JsonIgnore
+    private Set<NodoPermiso> permisos = new HashSet<>();
 
     public RangoUsuario() {
     }
@@ -72,4 +82,25 @@ public class RangoUsuario {
         this.players = players;
     }
 
+    public Set<NodoPermiso> getPermisos() {
+        return permisos;
+    }
+
+    public void setPermisos(Set<NodoPermiso> permisos) {
+        this.permisos = permisos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RangoUsuario that = (RangoUsuario) o;
+        if (id == null || that.id == null) return false;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
