@@ -20,6 +20,7 @@ public abstract class Registry<K extends Serializable, V> {
 
     protected final DBManager dbManager;
     protected final YamlConfiguration lang;
+    protected final YamlConfiguration config;
     protected final ConsoleLogger logger;
 
     private final Class<V> clazz;
@@ -29,6 +30,7 @@ public abstract class Registry<K extends Serializable, V> {
         dbManager = DBManager.getInstance();
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
+        config = configHandler.getConfig(); 
         logger = BTEConoSur.getConsoleLogger();
     }
 
