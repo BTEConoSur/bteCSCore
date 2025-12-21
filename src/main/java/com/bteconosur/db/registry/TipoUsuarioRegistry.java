@@ -1,7 +1,7 @@
 package com.bteconosur.db.registry;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.db.model.TipoUsuario;
 
@@ -12,7 +12,7 @@ public class TipoUsuarioRegistry extends Registry<String, TipoUsuario> {
     public TipoUsuarioRegistry() {
         super(TipoUsuario.class);
         logger.info(lang.getString("tipo-usuario-registry-initializing"));
-        loadedObjects = new HashMap<>();
+        loadedObjects = new ConcurrentHashMap<>();
         List<TipoUsuario> tipos = dbManager.selectAll(TipoUsuario.class);
         if (tipos != null) {
             for (TipoUsuario tipo : tipos) {
