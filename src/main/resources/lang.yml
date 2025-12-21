@@ -41,6 +41,9 @@ tipo-usuario-registry-shutting-down: "Apagando Registro de Tipos de Usuario..."
 rango-usuario-registry-initializing: "Inicializando Registro de Rangos de Usuario..."
 rango-usuario-registry-shutting-down: "Apagando Registro de Rangos de Usuario..."
 
+discord-interaction-registry-initializing: "Inicializando Registro de Interacciones de Discord..."
+discord-interaction-registry-shutting-down: "Apagando Registro de Interacciones de Discord..."
+
 # Discord
 discord-initializing: "Inicializando Módulo: Discord..."
 discord-shutting-down: "Cerrando Módulo: Discord..."
@@ -48,6 +51,9 @@ discord-shutting-down: "Cerrando Módulo: Discord..."
 discord-bot-initializing: "Prendiendo Bot de Discord..."
 discord-bot-shutting-down: "Apagando Bot de Discord..."
 discord-bot-restarting: "Reiniciando Bot de Discord..."
+
+discord-internal-error: "Un error interno ha ocurrido."
+discord-interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
 
 # World
 world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
