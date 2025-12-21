@@ -5,6 +5,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.discord.listener.ButtonListener;
+import com.bteconosur.discord.listener.ModalListener;
+import com.bteconosur.discord.listener.SelectListener;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -37,6 +40,7 @@ public class BotConfig {
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                     .enableIntents(GatewayIntent.GUILD_PRESENCES)
                     .setActivity(Activity.playing("Testando bot para Cono Sur"))
+                    .addEventListeners(new ButtonListener(), new ModalListener(), new SelectListener())
                     .build().awaitReady();
         } catch (Exception e) {
             logger.error("Error al iniciar el Bot de Discord: " + e);
