@@ -10,6 +10,8 @@ import net.dv8tion.jda.api.JDA;
 
 public class DiscordManager {
 
+    public static DiscordManager instance;
+
     private final YamlConfiguration lang;
     private final ConsoleLogger logger;
 
@@ -32,6 +34,13 @@ public class DiscordManager {
 
     public JDA getJda() {
         return botConfig.getJDA();
+    }
+
+    public static DiscordManager getInstance() {
+        if (instance == null) {
+            instance = new DiscordManager();
+        }
+        return instance;
     }
 
     public void shutdown() {
