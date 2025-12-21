@@ -7,6 +7,7 @@ import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.PermissionManager;
+import com.bteconosur.db.registry.DiscordInteractionRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
@@ -37,6 +38,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static ProyectoRegistry proyectoRegistry;
     private static TipoUsuarioRegistry tipoUsuarioRegistry;
     private static RangoUsuarioRegistry rangoUsuarioRegistry;
+    private static DiscordInteractionRegistry discordInteractionRegistry;
 
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
@@ -72,11 +74,13 @@ public final class BTEConoSur extends JavaPlugin {
         dbManager = new DBManager();
         discordManager = new DiscordManager();
         worldManager = new WorldManager();
+        
 
         playerRegistry = PlayerRegistry.getInstance();
         proyectoRegistry = ProyectoRegistry.getInstance();
         tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
         rangoUsuarioRegistry = RangoUsuarioRegistry.getInstance();
+        discordInteractionRegistry = DiscordInteractionRegistry.getInstance();
 
         permissionManager = new PermissionManager();
         
@@ -90,6 +94,7 @@ public final class BTEConoSur extends JavaPlugin {
         // Registro de comandos
         PluginRegistry.registerCommand(new BTECSCommand());
         consoleLogger.info("El Plugin se ha activado.");
+        
     }
 
     @Override
@@ -114,6 +119,11 @@ public final class BTEConoSur extends JavaPlugin {
             rangoUsuarioRegistry.shutdown();
             rangoUsuarioRegistry = null;
         }
+
+        if (discordInteractionRegistry != null) {
+            discordInteractionRegistry.shutdown();
+            discordInteractionRegistry = null;
+        }
         
         if (permissionManager != null) {
             permissionManager.shutdown();
@@ -125,14 +135,15 @@ public final class BTEConoSur extends JavaPlugin {
             dbManager = null;
         }
 
-        if (discordManager != null) {
-            discordManager.shutdown();
-            discordManager = null;
-        }
-
         if (worldManager != null) {
             worldManager.shutdown();
             worldManager = null;
+        }
+
+
+        if (discordManager != null) {
+            discordManager.shutdown();
+            discordManager = null;
         }
 
         luckPermsApi = null;
