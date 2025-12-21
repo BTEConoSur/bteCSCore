@@ -1,7 +1,7 @@
 package com.bteconosur.db.registry;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.db.model.Pais;
 
@@ -12,7 +12,7 @@ public class PaisRegistry extends Registry<String, Pais> {
     public PaisRegistry() {
         super(Pais.class);
         logger.info(lang.getString("pais-registry-initializing"));
-        loadedObjects = new HashMap<>();
+        loadedObjects = new ConcurrentHashMap<>();
         List<Pais> paises = dbManager.selectAll(Pais.class);
         if (paises != null) for (Pais p : paises) loadedObjects.put(p.getNombre().toLowerCase(), p);
     }

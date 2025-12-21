@@ -1,7 +1,7 @@
 package com.bteconosur.db.registry;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.db.model.RangoUsuario;
 
@@ -12,7 +12,7 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
     public RangoUsuarioRegistry() {
         super(RangoUsuario.class);
         logger.info(lang.getString("rango-usuario-registry-initializing"));
-        loadedObjects = new HashMap<>();
+        loadedObjects = new ConcurrentHashMap<>();
         List<RangoUsuario> rangos = dbManager.selectAll(RangoUsuario.class);
         if (rangos != null) {
             for (RangoUsuario rango : rangos) {

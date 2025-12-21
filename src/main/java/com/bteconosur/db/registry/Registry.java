@@ -1,11 +1,11 @@
 package com.bteconosur.db.registry;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -16,7 +16,7 @@ import com.bteconosur.db.DBManager;
 
 public abstract class Registry<K extends Serializable, V> {
 
-    protected Map<K, V> loadedObjects = new HashMap<>();
+    protected ConcurrentHashMap<K, V> loadedObjects = new ConcurrentHashMap<>();
 
     protected final DBManager dbManager;
     protected final YamlConfiguration lang;
