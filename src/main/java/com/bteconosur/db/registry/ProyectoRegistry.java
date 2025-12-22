@@ -1,7 +1,7 @@
 package com.bteconosur.db.registry;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.db.model.Proyecto;
 
@@ -12,7 +12,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     public ProyectoRegistry() {
         super(Proyecto.class);
         logger.info(lang.getString("proyecto-registry-initializing"));  
-        loadedObjects = new HashMap<>();
+        loadedObjects = new ConcurrentHashMap<>();
         List<Proyecto> proyectos = dbManager.selectAll(Proyecto.class);
         if (proyectos != null) for (Proyecto p : proyectos) loadedObjects.put(p.getId(), p);
     }

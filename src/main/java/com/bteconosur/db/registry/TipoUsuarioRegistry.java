@@ -1,7 +1,7 @@
 package com.bteconosur.db.registry;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.db.model.TipoUsuario;
 
@@ -12,7 +12,7 @@ public class TipoUsuarioRegistry extends Registry<String, TipoUsuario> {
     public TipoUsuarioRegistry() {
         super(TipoUsuario.class);
         logger.info(lang.getString("tipo-usuario-registry-initializing"));
-        loadedObjects = new HashMap<>();
+        loadedObjects = new ConcurrentHashMap<>();
         List<TipoUsuario> tipos = dbManager.selectAll(TipoUsuario.class);
         if (tipos != null) {
             for (TipoUsuario tipo : tipos) {
@@ -45,24 +45,15 @@ public class TipoUsuarioRegistry extends Registry<String, TipoUsuario> {
 
     private void ensureDefaults() {
         if (get("Visita") == null) {
-            TipoUsuario tipo = new TipoUsuario();
-            tipo.setNombre("Visita");
-            tipo.setDescripcion("Tipo de usuario: Visita");
-            tipo.setCantProyecSim(5);
+            TipoUsuario tipo = new TipoUsuario("Visita", "Tipo de usuario: Visita", 5);
             load(tipo);
         }
         if (get("Postulante") == null) {
-            TipoUsuario tipo = new TipoUsuario();
-            tipo.setNombre("Postulante");
-            tipo.setDescripcion("Tipo de usuario: Postulante");
-            tipo.setCantProyecSim(10);
+            TipoUsuario tipo = new TipoUsuario("Postulante", "Tipo de usuario: Postulante", 10);
             load(tipo);
         }
         if (get("Constructor") == null) {
-            TipoUsuario tipo = new TipoUsuario();
-            tipo.setNombre("Constructor");
-            tipo.setDescripcion("Tipo de usuario: Constructor");
-            tipo.setCantProyecSim(20);
+            TipoUsuario tipo = new TipoUsuario("Constructor", "Tipo de usuario: Constructor", 20);
             load(tipo);
         }
     }

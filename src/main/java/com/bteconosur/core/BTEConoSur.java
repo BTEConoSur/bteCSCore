@@ -7,11 +7,13 @@ import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.PermissionManager;
+import com.bteconosur.db.registry.DiscordInteractionRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
+import com.bteconosur.discord.command.DsCommandManager;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;
@@ -29,6 +31,7 @@ public final class BTEConoSur extends JavaPlugin {
 
     private static ConsoleLogger consoleLogger;
     private static DiscordManager discordManager;
+    private static DsCommandManager dsCommandManager; 
     private static DBManager dbManager;
     private static WorldManager worldManager;
     private static PermissionManager permissionManager;
@@ -37,6 +40,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static ProyectoRegistry proyectoRegistry;
     private static TipoUsuarioRegistry tipoUsuarioRegistry;
     private static RangoUsuarioRegistry rangoUsuarioRegistry;
+    private static DiscordInteractionRegistry discordInteractionRegistry;
 
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
@@ -69,16 +73,19 @@ public final class BTEConoSur extends JavaPlugin {
         }
 
         consoleLogger = new ConsoleLogger();
-        dbManager = new DBManager();
-        discordManager = new DiscordManager();
-        worldManager = new WorldManager();
+        dbManager = DBManager.getInstance();
+        discordManager = DiscordManager.getInstance();
+        dsCommandManager = DsCommandManager.getInstance();
+        worldManager = new WorldManager(); //TODO: hacer singleton
+        
 
         playerRegistry = PlayerRegistry.getInstance();
         proyectoRegistry = ProyectoRegistry.getInstance();
         tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
         rangoUsuarioRegistry = RangoUsuarioRegistry.getInstance();
+        discordInteractionRegistry = DiscordInteractionRegistry.getInstance();
 
-        permissionManager = new PermissionManager();
+        permissionManager = PermissionManager.getInstance();
         
 
         getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager), this);
@@ -90,6 +97,7 @@ public final class BTEConoSur extends JavaPlugin {
         // Registro de comandos
         PluginRegistry.registerCommand(new BTECSCommand());
         consoleLogger.info("El Plugin se ha activado.");
+        
     }
 
     @Override
@@ -114,6 +122,11 @@ public final class BTEConoSur extends JavaPlugin {
             rangoUsuarioRegistry.shutdown();
             rangoUsuarioRegistry = null;
         }
+
+        if (discordInteractionRegistry != null) {
+            discordInteractionRegistry.shutdown();
+            discordInteractionRegistry = null;
+        }
         
         if (permissionManager != null) {
             permissionManager.shutdown();
@@ -125,14 +138,19 @@ public final class BTEConoSur extends JavaPlugin {
             dbManager = null;
         }
 
-        if (discordManager != null) {
-            discordManager.shutdown();
-            discordManager = null;
-        }
-
         if (worldManager != null) {
             worldManager.shutdown();
             worldManager = null;
+        }
+
+        if (dsCommandManager != null) {
+            dsCommandManager.shutdown();
+            dsCommandManager = null;
+        }
+
+        if (discordManager != null) {
+            discordManager.shutdown();
+            discordManager = null;
         }
 
         luckPermsApi = null;
