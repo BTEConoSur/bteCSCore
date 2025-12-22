@@ -52,6 +52,9 @@ discord-bot-initializing: "Prendiendo Bot de Discord..."
 discord-bot-shutting-down: "Apagando Bot de Discord..."
 discord-bot-restarting: "Reiniciando Bot de Discord..."
 
+discord-command-manager-initializing: "Inicializando Gestor de Comandos de Discord..."
+discord-command-manager-shutting-down: "Apagando Gestor de Comandos de Discord..."
+
 discord-internal-error: "Un error interno ha ocurrido."
 discord-interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
 

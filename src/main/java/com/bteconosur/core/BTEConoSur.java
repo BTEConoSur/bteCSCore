@@ -13,6 +13,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
+import com.bteconosur.discord.command.DsCommandManager;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;
@@ -30,6 +31,7 @@ public final class BTEConoSur extends JavaPlugin {
 
     private static ConsoleLogger consoleLogger;
     private static DiscordManager discordManager;
+    private static DsCommandManager dsCommandManager; 
     private static DBManager dbManager;
     private static WorldManager worldManager;
     private static PermissionManager permissionManager;
@@ -71,9 +73,10 @@ public final class BTEConoSur extends JavaPlugin {
         }
 
         consoleLogger = new ConsoleLogger();
-        dbManager = new DBManager();
-        discordManager = new DiscordManager();
-        worldManager = new WorldManager();
+        dbManager = DBManager.getInstance();
+        discordManager = DiscordManager.getInstance();
+        dsCommandManager = DsCommandManager.getInstance();
+        worldManager = new WorldManager(); //TODO: hacer singleton
         
 
         playerRegistry = PlayerRegistry.getInstance();
@@ -82,7 +85,7 @@ public final class BTEConoSur extends JavaPlugin {
         rangoUsuarioRegistry = RangoUsuarioRegistry.getInstance();
         discordInteractionRegistry = DiscordInteractionRegistry.getInstance();
 
-        permissionManager = new PermissionManager();
+        permissionManager = PermissionManager.getInstance();
         
 
         getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager), this);
@@ -140,6 +143,10 @@ public final class BTEConoSur extends JavaPlugin {
             worldManager = null;
         }
 
+        if (dsCommandManager != null) {
+            dsCommandManager.shutdown();
+            dsCommandManager = null;
+        }
 
         if (discordManager != null) {
             discordManager.shutdown();

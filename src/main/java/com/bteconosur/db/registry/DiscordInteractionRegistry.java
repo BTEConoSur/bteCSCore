@@ -37,7 +37,7 @@ public class DiscordInteractionRegistry extends Registry<Long, DiscordInteractio
             BTEConoSur.getInstance().getServer().getScheduler().runTaskTimer(BTEConoSur.getInstance(), () -> {
                 purgeExpired();
             }, periodTicks, periodTicks);
-            logger.debug("Tarea de purga de interacciones de Discord programada cada " + expirationMinutes + " minutos.");
+            logger.info("Tarea de purga de interacciones de Discord programada cada " + expirationMinutes + " minutos.");
         } catch (Exception e) {
             logger.warn("No se pudo programar la purga periódica de interacciones de Discord: " + e.getMessage());
         }

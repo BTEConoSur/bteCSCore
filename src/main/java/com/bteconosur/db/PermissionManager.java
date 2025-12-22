@@ -60,8 +60,6 @@ public class PermissionManager {
             PluginRegistry.disablePlugin("Error al verificar los Rangos de Usuario y sus permisos.");
             return;
         }
-
-        instance = this;
     }
 
     public boolean isMiembro(Player player, Proyecto proyecto) {
