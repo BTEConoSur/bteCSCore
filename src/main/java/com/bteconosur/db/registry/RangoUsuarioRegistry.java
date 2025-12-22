@@ -57,39 +57,27 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
 
     private void ensureDefaults() {
         if (get("Normal") == null) {
-            RangoUsuario rango = new RangoUsuario();
-            rango.setNombre("Normal");
-            rango.setDescripcion("Rango de usuario: Normal");
+            RangoUsuario rango = new RangoUsuario("Normal", "Rango de usuario: Normal");
             load(rango);
         }
         if (get("Admin") == null) {
-            RangoUsuario rango = new RangoUsuario();
-            rango.setNombre("Admin");
-            rango.setDescripcion("Rango de usuario: Admin");
+            RangoUsuario rango = new RangoUsuario("Admin", "Rango de usuario: Admin");
             load(rango);
         }
         if (get("Mod") == null) {
-            RangoUsuario rango = new RangoUsuario();
-            rango.setNombre("Mod");
-            rango.setDescripcion("Rango de usuario: Mod");
+            RangoUsuario rango = new RangoUsuario("Mod", "Rango de usuario: Mod");
             load(rango);
         }
         if (get("Reviewer") == null) {
-            RangoUsuario rango = new RangoUsuario();
-            rango.setNombre("Reviewer");
-            rango.setDescripcion("Rango de usuario: Reviewer");
+            RangoUsuario rango = new RangoUsuario("Reviewer", "Rango de usuario: Reviewer");
             load(rango);
         }
         if (get("Influencer") == null) {
-            RangoUsuario rango = new RangoUsuario();
-            rango.setNombre("Influencer");
-            rango.setDescripcion("Rango de usuario: Influencer");
+            RangoUsuario rango = new RangoUsuario("Influencer", "Rango de usuario: Influencer");
             load(rango);
         }
         if (get("Donador") == null) {
-            RangoUsuario rango = new RangoUsuario();
-            rango.setNombre("Donador");
-            rango.setDescripcion("Rango de usuario: Donador");
+            RangoUsuario rango = new RangoUsuario("Donador", "Rango de usuario: Donador");
             load(rango);
         }
     }
