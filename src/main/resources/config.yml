@@ -69,3 +69,12 @@ items:
     name: "<red>Cancelar"
     lore:
       - "<gray>Haz clic para cancelar."
+
+# Configuración de Players
+player-defaults:
+  general:
+    toggle-test: true
+  reviewer:
+    toggle-test: true
+  manager:
+    toggle-test: true

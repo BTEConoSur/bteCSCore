@@ -16,8 +16,6 @@ public class DiscordManager {
     private final YamlConfiguration lang;
     private final ConsoleLogger logger;
 
-    private static DsCommandManager commandManager;
-
     private BotConfig botConfig;
 
     public DiscordManager() {
