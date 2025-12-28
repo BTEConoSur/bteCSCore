@@ -14,10 +14,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "player")
+@Table(name = "configuration")
 public class Configuration {
     @Id
-    @Column(name = "uuid", columnDefinition = "CHAR(36)", nullable = false)
+    @Column(name = "uuid_player", columnDefinition = "CHAR(36)", nullable = false)
     @JdbcTypeCode(SqlTypes.CHAR)
     private UUID uuid;
 
@@ -39,6 +39,7 @@ public class Configuration {
     }
 
     public Configuration(Player player) {
+        this.uuid = player.getUuid();
         this.player = player;
         this.generalToggleTest = false;
         this.reviewerToggleTest = false;

@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
@@ -100,6 +101,7 @@ public class CPlayerCommand extends BaseCommand {
         RangoUsuario rangoUsuario = dbManager.get(RangoUsuario.class, rangoId);
 
         Player player = new Player(uuid, args[1], new Date(fechaIngreso), tipoUsuario, rangoUsuario);
+        player.setConfiguration(new Configuration(player));
         dbManager.save(player);
 
         String message = lang.getString("crud-create").replace("%entity%", "Player");

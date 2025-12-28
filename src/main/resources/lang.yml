@@ -108,4 +108,48 @@ get-list-command:
 
 get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entidad en plural.
 
-# Permissions
+# GUI
+# 'material' debe ser proveniente de https://jd.papermc.io/folia/1.21/org/bukkit/Material.html.
+# En caso de un material inválido, se usará STONE por defecto.
+items: 
+  back:
+    material: "STRUCTURE_VOID"
+    name: "Volver"
+    lore:
+      - "<gray>Haz clic para volver al menú anterior."
+  close:
+    material: "BARRIER"
+    name: "Cerrar"
+    lore:
+      - "<gray>Haz clic para cerrar el menú."
+  previous-page:
+    material: "STONE_BUTTON"
+    name: "Página Anterior"
+    lore:
+      - "<gray>Haz clic para ir a la página anterior."
+  next-page:
+    material: "STONE_BUTTON"
+    name: "Página Siguiente"
+    lore: 
+      - "<gray>Haz clic para ir a la página siguiente."
+  filler:
+    material: "GRAY_STAINED_GLASS_PANE"
+    name: " "
+    lore: []
+  confirm:
+    material: "GREEN_WOOL"
+    name: "<green>Confirmar"
+    lore:
+      - "<gray>Haz clic para confirmar."
+  cancel:
+    material: "RED_WOOL"
+    name: "<red>Cancelar"
+    lore:
+      - "<gray>Haz clic para cancelar."
+  config:
+    name: "<red>%name%" # %name% -> Nombre de la configuración.
+    value-true: "<green>Activado"
+    value-false: "<red>Desactivado"
+    lore:
+      - "<gray>%desc%" # %desc% -> Descripción de la configuración.
+      - "<gold>Estado: %value%" # %value% -> Estado actual de la configuración.

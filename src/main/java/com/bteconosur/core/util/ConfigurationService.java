@@ -31,7 +31,7 @@ public class ConfigurationService {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(uuid).getConfiguration();
 
-        configuration.setGeneralToggleTest(config.getBoolean("players.general.toggle-test"));
+        configuration.setGeneralToggleTest(config.getBoolean("player-defaults.general.toggle-test"));
 
         playerRegistry.merge(uuid);
     }
@@ -40,7 +40,7 @@ public class ConfigurationService {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(uuid).getConfiguration();
 
-        configuration.setReviewerToggleTest(config.getBoolean("players.reviewer.toggle-test"));
+        configuration.setReviewerToggleTest(config.getBoolean("player-defaults.reviewer.toggle-test"));
 
         playerRegistry.merge(uuid);
     }
@@ -49,7 +49,7 @@ public class ConfigurationService {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(uuid).getConfiguration();
 
-        configuration.setManagerToggleTest(config.getBoolean("players.manager.toggle-test"));
+        configuration.setManagerToggleTest(config.getBoolean("player-defaults.manager.toggle-test"));
 
         playerRegistry.merge(uuid);
     }

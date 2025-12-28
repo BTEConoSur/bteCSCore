@@ -39,12 +39,12 @@ public class TestSimpleMenu extends Menu {
                 player.sendMessage(Component.text("clickeaste en un diamante!"));
             }));
 
-            gui.setItem(1, 5, ItemBuilder.from(Material.GOLD_INGOT)
-                .name(Component.text("Abrir menú paginado").color(NamedTextColor.GOLD))
-                .lore(Component.text("Click para abrir el paginado de prueba"))
-                .asGuiItem(event -> {
-                    new TestPaginatedMenu(player, this).open();
-                }));
+        gui.setItem(1, 5, ItemBuilder.from(Material.GOLD_INGOT)
+            .name(Component.text("Abrir menú paginado").color(NamedTextColor.GOLD))
+            .lore(Component.text("Click para abrir el paginado de prueba"))
+            .asGuiItem(event -> {
+                new TestPaginatedMenu(player, this).open();
+            }));
 
         gui.setItem(1, 7, ItemBuilder.from(Material.EMERALD)
             .name(Component.text("Esmeralda").color(NamedTextColor.GREEN))

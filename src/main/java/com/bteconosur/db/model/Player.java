@@ -60,7 +60,7 @@ public class Player {
     @JoinColumn(name = "id_rango_usuario")
     private RangoUsuario rangoUsuario;
 
-    @OneToOne(mappedBy = "player", cascade = CascadeType.ALL, optional = false)
+    @OneToOne(mappedBy = "player", cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private Configuration configuration;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)

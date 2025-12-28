@@ -31,45 +31,6 @@ commands-cooldowns:
   btecs: 10
   btecs.test: 200
 
-# GUI
-# 'material' debe ser proveniente de https://jd.papermc.io/folia/1.21/org/bukkit/Material.html.
-# En caso de un material inválido, se usará STONE por defecto.
-items: 
-  back:
-    material: "STRUCTURE_VOID"
-    name: "Volver"
-    lore:
-      - "<gray>Haz clic para volver al menú anterior."
-  close:
-    material: "BARRIER"
-    name: "Cerrar"
-    lore:
-      - "<gray>Haz clic para cerrar el menú."
-  previous-page:
-    material: "STONE_BUTTON"
-    name: "Página Anterior"
-    lore:
-      - "<gray>Haz clic para ir a la página anterior."
-  next-page:
-    material: "STONE_BUTTON"
-    name: "Página Siguiente"
-    lore: 
-      - "<gray>Haz clic para ir a la página siguiente."
-  filler:
-    material: "GRAY_STAINED_GLASS_PANE"
-    name: " "
-    lore: []
-  confirm:
-    material: "GREEN_WOOL"
-    name: "<green>Confirmar"
-    lore:
-      - "<gray>Haz clic para confirmar."
-  cancel:
-    material: "RED_WOOL"
-    name: "<red>Cancelar"
-    lore:
-      - "<gray>Haz clic para cancelar."
-
 # Configuración de Players
 player-defaults:
   general:
