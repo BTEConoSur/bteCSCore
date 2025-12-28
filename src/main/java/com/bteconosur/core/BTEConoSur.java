@@ -1,6 +1,9 @@
 package com.bteconosur.core;
 
 import com.bteconosur.core.command.btecs.BTECSCommand;
+import com.bteconosur.core.command.config.GeneralConfigCommand;
+import com.bteconosur.core.command.config.ManagerConfigCommand;
+import com.bteconosur.core.command.config.ReviewerConfigCommand;
 import com.bteconosur.core.listener.PlayerJoinListener;
 import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.util.ConsoleLogger;
@@ -96,6 +99,9 @@ public final class BTEConoSur extends JavaPlugin {
             
         // Registro de comandos
         PluginRegistry.registerCommand(new BTECSCommand());
+        PluginRegistry.registerCommand(new ManagerConfigCommand());
+        PluginRegistry.registerCommand(new GeneralConfigCommand());
+        PluginRegistry.registerCommand(new ReviewerConfigCommand());
         consoleLogger.info("El Plugin se ha activado.");
         
     }

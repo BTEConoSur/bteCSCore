@@ -6,7 +6,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.db.PermissionManager;
+import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
@@ -37,7 +39,9 @@ public class PlayerJoinListener implements Listener {
                 tipoUsuarioRegistry.getVisita(),
                 rangoUsuarioRegistry.getNormal()
             );
+            player.setConfiguration(new Configuration(player));
             playerRegistry.load(player);
+            ConfigurationService.setDefaults(player.getUuid());
         } else {
             player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setNombre(event.getPlayer().getName());

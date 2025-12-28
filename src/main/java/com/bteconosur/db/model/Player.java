@@ -18,6 +18,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
 
@@ -58,6 +59,9 @@ public class Player {
     @ManyToOne
     @JoinColumn(name = "id_rango_usuario")
     private RangoUsuario rangoUsuario;
+
+    @OneToOne(mappedBy = "player", cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    private Configuration configuration;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
@@ -209,6 +213,14 @@ public class Player {
 
     public void setPaisPrefix(Pais paisPrefix) {
         this.paisPrefix = paisPrefix;
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
     }
 
     @JsonIgnore
