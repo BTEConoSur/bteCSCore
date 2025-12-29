@@ -71,19 +71,12 @@ public abstract class Registry<K extends Serializable, V> {
 
     public boolean exists(K id) {
         if (id == null) return false;
-        if (loadedObjects.containsKey(id)) return true;
-        return dbManager.exists(clazz, id);
+        return loadedObjects.containsKey(id);
     }
 
     public V get(K id) {
         if (id == null) return null;
-        V cached = loadedObjects.get(id);
-        if (cached != null) return cached;
-        V dbObject = dbManager.get(clazz, id);
-        if (dbObject != null) {
-            loadedObjects.put(id, dbObject);
-        }
-        return dbObject;
+        return loadedObjects.get(id);
     }
 
     public abstract void shutdown();
