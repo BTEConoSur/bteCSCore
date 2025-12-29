@@ -4,6 +4,7 @@ import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
 import com.bteconosur.core.command.config.ManagerConfigCommand;
 import com.bteconosur.core.command.config.ReviewerConfigCommand;
+import com.bteconosur.core.listener.ChatListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
 import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.util.ConsoleLogger;
@@ -95,6 +96,7 @@ public final class BTEConoSur extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
         getServer().getPluginManager().registerEvents(new MovingListeners(worldManager), this);
             
         // Registro de comandos

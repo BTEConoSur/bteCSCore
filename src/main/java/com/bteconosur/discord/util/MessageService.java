@@ -14,7 +14,7 @@ public class MessageService {
     private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
 
     @SuppressWarnings("null")
-    public void sendMessage(TextChannel channel, String message) {
+    public static void sendMessage(TextChannel channel, String message) {
         if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
         try {
             channel.sendMessage(message).queue();
@@ -24,7 +24,19 @@ public class MessageService {
     }
 
     @SuppressWarnings("null")
-    public void sendEmbed(TextChannel channel, MessageEmbed embed) {
+    public static void sendMessage(Long channelId, String message) {
+        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.messageContent(message)) return;
+
+        try {
+            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            channel.sendMessage(message).queue();
+        } catch (Exception e) {
+            logger.error("Discord: Error al enviar el mensaje al canal '" + channelId + "': ", e);
+        }
+    }
+
+    @SuppressWarnings("null")
+    public static void sendEmbed(TextChannel channel, MessageEmbed embed) {
         if (!DiscordValidate.channel(channel) || !DiscordValidate.embed(embed)) return;
         try {
             channel.sendMessageEmbeds(embed).queue();
@@ -34,7 +46,18 @@ public class MessageService {
     }
 
     @SuppressWarnings("null")
-    public void sendReplyMessage(TextChannel channel, Message replyMessage, String message) {
+    public static void sendEmbed(Long channelId, MessageEmbed embed) {
+        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.embed(embed)) return;
+        try {
+            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            channel.sendMessageEmbeds(embed).queue();
+        } catch (Exception e) {
+            logger.error("Discord: Error al enviar el embed al canal '" + channelId + "': ", e);
+        }
+    }
+
+    @SuppressWarnings("null")
+    public static void sendReplyMessage(TextChannel channel, Message replyMessage, String message) {
         if (!DiscordValidate.channel(channel) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.messageContent(message)) return;
         try {
             channel.sendMessage(message).setMessageReference(replyMessage).queue();
@@ -44,7 +67,18 @@ public class MessageService {
     }
 
     @SuppressWarnings("null")
-    public void sendReplyEmbed(TextChannel channel, Message replyMessage, MessageEmbed embed) {
+    public static void sendReplyMessage(Long channelId, Message replyMessage, String message) {
+        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.messageContent(message)) return;
+        try {
+            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            channel.sendMessage(message).setMessageReference(replyMessage).queue();
+        } catch (Exception e) {
+            logger.error("Discord: Error al enviar el mensaje de respuesta al canal '" + channelId + "': ", e);
+        }
+    }
+
+    @SuppressWarnings("null")
+    public static void sendReplyEmbed(TextChannel channel, Message replyMessage, MessageEmbed embed) {
         if (!DiscordValidate.channel(channel) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.embed(embed)) return;
         try {
             channel.sendMessageEmbeds(embed).setMessageReference(replyMessage).queue();
@@ -53,12 +87,31 @@ public class MessageService {
         }
     }
 
-    public void sendBroadcastMessage(List<TextChannel> channels, String message) {
-        for (TextChannel channel : channels) sendMessage(channel, message);
+    @SuppressWarnings("null")
+    public static void sendReplyEmbed(Long channelId, Message replyMessage, MessageEmbed embed) {
+        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.embed(embed)) return;
+        try {
+            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            channel.sendMessageEmbeds(embed).setMessageReference(replyMessage).queue();
+        } catch (Exception e) {
+            logger.error("Discord: Error al enviar el embed de respuesta al canal '" + channelId + "': ", e);
+        }
     }
 
-    public void sendBroadcastEmbed(List<TextChannel> channels, MessageEmbed embed) {
-        for (TextChannel channel : channels) sendEmbed(channel, embed);
+    public static void sendBroadcastMessage(List<Long> channelsIds, String message) {
+        for (Long channelId : channelsIds) {
+            if (!DiscordValidate.channelId(channelId)) continue;
+            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            sendMessage(channel, message);
+        }
+    }
+
+    public static void sendBroadcastEmbed(List<Long> channelsIds, MessageEmbed embed) {
+        for (Long channelId : channelsIds) {
+            if (!DiscordValidate.channelId(channelId)) continue;
+            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            sendEmbed(channel, embed);
+        }
     }
 
 }

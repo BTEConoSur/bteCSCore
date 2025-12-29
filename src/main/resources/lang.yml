@@ -153,3 +153,64 @@ items:
     lore:
       - "<gray>%desc%" # %desc% -> Descripción de la configuración.
       - "<gold>Estado: %value%" # %value% -> Estado actual de la configuración.
+
+# Chat
+# %paisPrefix% -> Prefijo del país. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
+# %dsPrefix% -> Prefijo de Discord. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
+# En caso de que el mensaje venga de Discord, se usa %dsPrefix%. En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
+mc-message: "%dsPrefix%%paisPrefix%%rangoPrefix%%tipoPrefix% <gold>%player%</gold><gray>: </gray>%message%"
+mc-prefixes:
+  pais:
+    internacional: "<gray>[</gray><white>INT</white><gray>]</gray>"
+    argentina: "<gray>[</gray><aqua>AR</aqua><gray>]</gray>"
+    chile: "<gray>[</gray><red>CL</red><gray>]</gray>"
+    uruguay: "<gray>[</gray><white>UY</white><gray>]</gray>"
+    paraguay: "<gray>[</gray><yellow>PY</yellow><gray>]</gray>"
+    bolivia: "<gray>[</gray><green>BO</green><gray>]</gray>"
+    peru: "<gray>[</gray><red>PE</red><gray>]</gray>"
+  rango:
+    normal: ""
+    admin: "<gray>[</gray><dark_red>ADMIN</dark_red><gray>]</gray>"
+    mod: "<gray>[</gray><red>MOD</red><gray>]</gray>"
+    reviewer: "<gray>[</gray><blue>REVIEWER</blue><gray>]</gray>"
+    influencer: "<gray>[</gray><purple>INFLUENCER</purple><gray>]</gray>"
+    donador: "<gray>[</gray><gold>DONADOR</gold><gray>]</gray>"
+  tipo:
+    visita: "<gray>[</gray><white>VISITA</white><gray>]</gray>"
+    postulante: "<gray>[</gray><yellow>POSTULANTE</yellow><gray>]</gray>"
+    constructor: "<gray>[</gray><green>CONSTRUCTOR</green><gray>]</gray>"
+  ds: "<gray>[</gray><blue>DS-%pais%</blue><gray>]</gray> " # %pais% -> Pais de donde viene el mensaje.
+
+# %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
+# %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
+# En caso de que el mensaje venga de Minecraft, se usa %mcPrefix% y no %dsPais%.
+ds-message: "**%mcPrefix%%dsPais%%paisPrefix%%rangoPrefix%%tipoPrefix% %player%**: %message%"
+ds-prefixes:
+  pais:
+    internacional: "[INT]"
+    argentina: "[🇦🇷]"
+    chile: "[🇨🇱]"
+    uruguay: "[🇺🇾]"
+    paraguay: "[🇵🇾]"
+    bolivia: "[🇧🇴]"
+    peru: "[🇵🇪]"
+  pais-logo:
+    argentina: "<:ARLogoDiscord:1455209909665661184>"
+    chile: "<:CLLogoDiscord:1455209939378372749>"
+    uruguay: "<:BTE_Guay:1455248093791649826>"
+    paraguay: "<:BTE_Guay:1455248093791649826>"
+    bolivia: "<:BOLLogo:1455209926640140413>"
+    peru: "<:PELogoDiscord:1455209955706540135>"
+  rango:
+    normal: ""
+    admin: "[<:Screenshot_20251212_003900_com_z:1455195552802148586>]"
+    mod: "[🛡️]"
+    reviewer: "[🔍]"
+    influencer: "[📸]"
+    donador: "[🤑]"
+  tipo:
+    visita: "[👀]"
+    postulante: "[📚]"
+    constructor: "[⚒️]"
+  mc: "🗨️ "
+  ds: "%paisLogo% " # %paisLogo% -> Logo del país de donde viene el mensaje.
