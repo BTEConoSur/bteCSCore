@@ -33,6 +33,9 @@ public class Pais {
     @Column(name = "nombre", length = 50, nullable = false)
     private String nombre;
 
+    @Column(name = "nombre_publico", length = 50, nullable = false)
+    private String nombrePublico;
+
     @Column(name = "ds_id_guild", nullable = false)
     private Long dsIdGuild;
 
@@ -73,8 +76,9 @@ public class Pais {
     public Pais() {
     }
 
-    public Pais(String nombre, Long dsIdGuild, Long dsIdGlobalChat, Long dsIdCountryChat, Long dsIdLog, Long dsIdRequest) {
+    public Pais(String nombre, String nombrePublico, Long dsIdGuild, Long dsIdGlobalChat, Long dsIdCountryChat, Long dsIdLog, Long dsIdRequest) {
         this.nombre = nombre;
+        this.nombrePublico = nombrePublico;
         this.dsIdGuild = dsIdGuild;
         this.dsIdGlobalChat = dsIdGlobalChat;
         this.dsIdCountryChat = dsIdCountryChat;
@@ -96,6 +100,14 @@ public class Pais {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getNombrePublico() {
+        return nombrePublico;
+    }
+
+    public void setNombrePublico(String nombrePublico) {
+        this.nombrePublico = nombrePublico;
     }
 
     public Long getDsIdGuild() {
