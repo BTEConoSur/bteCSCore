@@ -76,6 +76,7 @@ public class DBManager {
             return action.apply(session);
         } catch (Exception e) {
             logger.error("Excepción en consulta de Hibernate: " + e);
+            e.printStackTrace();
             return null; 
         }
     }

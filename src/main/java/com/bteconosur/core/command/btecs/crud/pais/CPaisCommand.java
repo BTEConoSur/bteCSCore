@@ -14,7 +14,7 @@ public class CPaisCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CPaisCommand() {
-        super("create", "Crear un nuevo País.", "<nombre> <ds_id_guild> <ds_id_global_chat> <ds_id_country_chat> <ds_id_log> <ds_id_request>", CommandMode.BOTH);
+        super("create", "Crear un nuevo País.", "<nombre> <nombre_publico> <ds_id_guild> <ds_id_global_chat> <ds_id_country_chat> <ds_id_log> <ds_id_request>", CommandMode.BOTH);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
@@ -30,6 +30,7 @@ public class CPaisCommand extends BaseCommand {
         }
 
         String nombre = args[0];
+        String nombrePublico = args[1];
         Long dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest;
 
         if (nombre.length() > 50) {
@@ -38,19 +39,25 @@ public class CPaisCommand extends BaseCommand {
             return true;
         }
 
+        if (nombrePublico.length() > 50) {
+            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Pais").replace("%name%", nombrePublico).replace("%reason%", "Máximo 50 caracteres.");
+            sender.sendMessage(message);
+            return true;
+        }
+
         try {
-            dsIdGuild = Long.parseLong(args[1]);
-            dsIdGlobalChat = Long.parseLong(args[2]);
-            dsIdCountryChat = Long.parseLong(args[3]);
-            dsIdLog = Long.parseLong(args[4]);
-            dsIdRequest = Long.parseLong(args[5]);
+            dsIdGuild = Long.parseLong(args[2]);
+            dsIdGlobalChat = Long.parseLong(args[3]);
+            dsIdCountryChat = Long.parseLong(args[4]);
+            dsIdLog = Long.parseLong(args[5]);
+            dsIdRequest = Long.parseLong(args[6]);
         } catch (NumberFormatException ex) {
             String message = lang.getString("crud-not-valid-parse").replace("%entity%", "Pais").replace("%value%", "uno de los argumentos").replace("%type%", "Long");
             sender.sendMessage(message);
             return true;
         }
 
-        Pais pais = new Pais(nombre, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest);
+        Pais pais = new Pais(nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest);
         dbManager.save(pais);
 
         String message = lang.getString("crud-create").replace("%entity%", "Pais");
