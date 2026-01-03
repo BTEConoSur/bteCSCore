@@ -17,7 +17,8 @@ import com.bteconosur.discord.util.MessageService;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class ChatService {
-    
+    //TODO: Reply de mensajes
+    //TODO: archivos
     private static YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     public static String getMcFormatedMessage(Player player, String message) {
@@ -38,13 +39,11 @@ public class ChatService {
         formatedMessage = formatedMessage.replace("%player%", player.getNombrePublico());
         formatedMessage = formatedMessage.replace("%message%", message);
 
-        formatedMessage = formatedMessage.replace("%dsPrefix%", "");
-
         return formatedMessage;
     }
 
     public static String getMcFormatedMessage(String username, String message, Pais dsPais) {
-        String formatedMessage = lang.getString("mc-message");
+        String formatedMessage = lang.getString("from-ds-message");
 
         String dsPrefix = lang.getString("mc-prefixes.ds");
         dsPrefix = dsPrefix.replace("%pais%", dsPais.getNombrePublico());
@@ -55,13 +54,13 @@ public class ChatService {
 
         formatedMessage = formatedMessage.replace("%paisPrefix%", "");
         formatedMessage = formatedMessage.replace("%rangoPrefix%", "");
-        formatedMessage = formatedMessage.replace("%tipoPrefix% ", "");
+        formatedMessage = formatedMessage.replace("%tipoPrefix%", "");
 
         return formatedMessage;
     }
 
     public static String getMcFormatedMessage(Player player, String message, Pais dsPais) {
-        String formatedMessage = lang.getString("mc-message");
+        String formatedMessage = lang.getString("from-ds-message");
 
         String dsPrefix = lang.getString("mc-prefixes.ds");
         dsPrefix = dsPrefix.replace("%pais%", dsPais.getNombrePublico());
@@ -83,13 +82,11 @@ public class ChatService {
         formatedMessage = formatedMessage.replace("%player%", player.getNombrePublico());
         formatedMessage = formatedMessage.replace("%message%", message);
 
-        formatedMessage = formatedMessage.replace("%paisPrefix%", "");
-
         return formatedMessage;
     }
 
     public static String getDsFormatedMessage(Player player, String message) {
-        String formatedMessage = lang.getString("ds-message");
+        String formatedMessage = lang.getString("from-mc-message");
 
         formatedMessage = formatedMessage.replace("%mcPrefix%", lang.getString("ds-prefixes.mc"));
 
@@ -107,8 +104,6 @@ public class ChatService {
 
         formatedMessage = formatedMessage.replace("%player%", player.getNombrePublico());
         formatedMessage = formatedMessage.replace("%message%", message);
-
-        formatedMessage = formatedMessage.replace("%dsPais%", "");
 
         return formatedMessage;
     }
@@ -136,9 +131,6 @@ public class ChatService {
         formatedMessage = formatedMessage.replace("%player%", player.getNombrePublico());
         formatedMessage = formatedMessage.replace("%message%", message);
 
-        formatedMessage = formatedMessage.replace("%mcPrefix%", "");
-        formatedMessage = formatedMessage.replace("%paisPrefix%", "");
-
         return formatedMessage;
     }
 
@@ -156,7 +148,7 @@ public class ChatService {
         formatedMessage = formatedMessage.replace("%mcPrefix%", "");
         formatedMessage = formatedMessage.replace("%paisPrefix%", "");
         formatedMessage = formatedMessage.replace("%rangoPrefix%", "");
-        formatedMessage = formatedMessage.replace("%tipoPrefix% ", "");
+        formatedMessage = formatedMessage.replace("%tipoPrefix%", "");
 
         return formatedMessage;
     }

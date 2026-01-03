@@ -157,8 +157,9 @@ items:
 # Chat
 # %paisPrefix% -> Prefijo del país. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
 # %dsPrefix% -> Prefijo de Discord. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
-# En caso de que el mensaje venga de Discord, se usa %dsPrefix%. En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
-mc-message: "%dsPrefix%%paisPrefix%%rangoPrefix%%tipoPrefix% <gold>%player%</gold><gray>: </gray>%message%"
+# En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
+mc-message: "%paisPrefix%%rangoPrefix%%tipoPrefix% <gold>%player%</gold><gray>: </gray>%message%"
+from-ds-message: "%dsPrefix% <gold>%player%</gold><gray>: </gray>%message%"
 mc-prefixes:
   pais:
     internacional: "<gray>[</gray><white>INT</white><gray>]</gray>"
@@ -179,12 +180,12 @@ mc-prefixes:
     visita: "<gray>[</gray><white>VISITA</white><gray>]</gray>"
     postulante: "<gray>[</gray><yellow>POSTULANTE</yellow><gray>]</gray>"
     constructor: "<gray>[</gray><green>CONSTRUCTOR</green><gray>]</gray>"
-  ds: "<gray>[</gray><blue>DS-%pais%</blue><gray>]</gray> " # %pais% -> Pais de donde viene el mensaje.
+  ds: "<gray>[</gray><blue>DS-%pais%</blue><gray>]</gray>" # %pais% -> Pais de donde viene el mensaje.
 
 # %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
 # %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
-# En caso de que el mensaje venga de Minecraft, se usa %mcPrefix% y no %dsPais%.
-ds-message: "**%mcPrefix%%dsPais%%paisPrefix%%rangoPrefix%%tipoPrefix% %player%**: %message%"
+ds-message: "**%dsPais% %player%**: %message%"
+from-mc-message: "**%mcPrefix% %paisPrefix%%rangoPrefix%%tipoPrefix% %player%**: %message%"
 ds-prefixes:
   pais:
     internacional: "[INT]"
@@ -212,5 +213,5 @@ ds-prefixes:
     visita: "[👀]"
     postulante: "[📚]"
     constructor: "[⚒️]"
-  mc: "🗨️ "
-  ds: "%paisLogo% " # %paisLogo% -> Logo del país de donde viene el mensaje.
+  mc: "🗨️"
+  ds: "%paisLogo%" # %paisLogo% -> Logo del país de donde viene el mensaje.
