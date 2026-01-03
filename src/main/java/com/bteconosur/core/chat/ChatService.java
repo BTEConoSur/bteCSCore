@@ -14,8 +14,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class ChatService {
-    //TODO: Reply de mensajes
-    //TODO: archivos
 
     private static YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
@@ -43,6 +41,21 @@ public class ChatService {
         List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
         broadcastMc(mcMessage);
 
+        MessageService.sendBroadcastEmbed(ids, embed);
+    }
+
+    public static void broadcastGlobalChatEmbed(MessageEmbed embed, String mcMessage, Long dsFrom) {
+        broadcastMc(mcMessage);
+        if (!config.getBoolean("discord-global-chat")) return;
+        List<Long> ids = new ArrayList<>(PaisRegistry.getInstance().getDsGlobalChatIds());
+        ids.remove(dsFrom);
+        MessageService.sendBroadcastEmbed(ids, embed);
+    }
+
+    public static void broadcastGlobalChatEmbed(MessageEmbed embed, String mcMessage) {
+        broadcastMc(mcMessage);
+        if (!config.getBoolean("discord-global-chat")) return;
+        List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
         MessageService.sendBroadcastEmbed(ids, embed);
     }
 

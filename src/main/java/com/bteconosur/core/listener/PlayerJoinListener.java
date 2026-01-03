@@ -35,6 +35,8 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        event.joinMessage(null);
+        
         Player player;
         if (!playerRegistry.exists(event.getPlayer().getUniqueId())) {
             player = new Player(

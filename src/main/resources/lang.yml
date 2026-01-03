@@ -182,6 +182,9 @@ mc-prefixes:
     constructor: "<gray>[</gray><green>CONSTRUCTOR</green><gray>]</gray>"
   ds: "<gray>[</gray><blue>DS-%pais%</blue><gray>]</gray>" # %pais% -> Pais de donde viene el mensaje.
 
+mc-image: "<gray>[</gray><white>IMAGEN</white><gray>]</gray>"
+mc-video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
+
 # %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
 # %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
 ds-message: "**%dsPais% %player%**: %message%"
@@ -226,12 +229,12 @@ ds-embeds:
     description: "Nos vemos!"
     color: "0xED4245"
   player-join:
-    message: "**%player% se ha unido al servidor.**" # %player% -> Nombre del jugador.
+    message: "%player% se ha unido al servidor." # %player% -> Nombre del jugador.
     color: "0x43B581"
   player-left:
-    message: "**%player% ha salido del servidor.**" # %player% -> Nombre del jugador.
+    message: "%player% ha salido del servidor." # %player% -> Nombre del jugador.
     color: "0xED4245"
 
-  player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
-  player-left: "<red>%player% ha salido del servidor.</red>" # %player  -> Nombre del jugador.
+player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
+player-left: "<red>%player% ha salido del servidor.</red>" # %player  -> Nombre del jugador.
 

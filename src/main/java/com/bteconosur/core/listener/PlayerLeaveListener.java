@@ -23,6 +23,7 @@ public class PlayerLeaveListener implements Listener {
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
+        event.quitMessage(null);
         if (playerRegistry.exists(event.getPlayer().getUniqueId())) {
             Player player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setFechaUltimaConexion(new Date());

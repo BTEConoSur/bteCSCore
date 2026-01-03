@@ -5,7 +5,6 @@ import java.util.List;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.util.ConsoleLogger;
 
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
@@ -53,48 +52,6 @@ public class MessageService {
             channel.sendMessageEmbeds(embed).queue();
         } catch (Exception e) {
             logger.error("Discord: Error al enviar el embed al canal '" + channelId + "': ", e);
-        }
-    }
-
-    @SuppressWarnings("null")
-    public static void sendReplyMessage(TextChannel channel, Message replyMessage, String message) {
-        if (!DiscordValidate.channel(channel) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.messageContent(message)) return;
-        try {
-            channel.sendMessage(message).setMessageReference(replyMessage).queue();
-        } catch (Exception e) {
-            logger.error("Discord: Error al enviar el mensaje de respuesta al canal '" + channel.getName() + "': ", e);
-        }
-    }
-
-    @SuppressWarnings("null")
-    public static void sendReplyMessage(Long channelId, Message replyMessage, String message) {
-        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.messageContent(message)) return;
-        try {
-            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
-            channel.sendMessage(message).setMessageReference(replyMessage).queue();
-        } catch (Exception e) {
-            logger.error("Discord: Error al enviar el mensaje de respuesta al canal '" + channelId + "': ", e);
-        }
-    }
-
-    @SuppressWarnings("null")
-    public static void sendReplyEmbed(TextChannel channel, Message replyMessage, MessageEmbed embed) {
-        if (!DiscordValidate.channel(channel) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.embed(embed)) return;
-        try {
-            channel.sendMessageEmbeds(embed).setMessageReference(replyMessage).queue();
-        } catch (Exception e) {
-            logger.error("Discord: Error al enviar el embed de respuesta al canal '" + channel.getName() + "': ", e);
-        }
-    }
-
-    @SuppressWarnings("null")
-    public static void sendReplyEmbed(Long channelId, Message replyMessage, MessageEmbed embed) {
-        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.embed(embed)) return;
-        try {
-            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
-            channel.sendMessageEmbeds(embed).setMessageReference(replyMessage).queue();
-        } catch (Exception e) {
-            logger.error("Discord: Error al enviar el embed de respuesta al canal '" + channelId + "': ", e);
         }
     }
 
