@@ -1,6 +1,7 @@
 package com.bteconosur.discord.listener;
 
 import com.bteconosur.core.chat.ChatService;
+import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
@@ -23,14 +24,14 @@ public class ChatListener extends ListenerAdapter {
 
         Player player = playerRegistry.findByDiscordId(event.getAuthor().getIdLong());
         
-        if (player != null) ChatService.broadcastMessage(
-            ChatService.getDsFormatedMessage(player, event.getMessage().getContentDisplay(), pais),
-            ChatService.getMcFormatedMessage(player, event.getMessage().getContentDisplay(), pais),
+        if (player != null) ChatService.broadcastGlobalChat(
+            ChatUtil.getDsFormatedMessage(player, event.getMessage().getContentDisplay(), pais),
+            ChatUtil.getMcFormatedMessage(player, event.getMessage().getContentDisplay(), pais),
             event.getChannel().getIdLong()
         );
-        else ChatService.broadcastMessage(
-            ChatService.getDsFormatedMessage(event.getAuthor().getName(), event.getMessage().getContentDisplay(), pais),
-            ChatService.getMcFormatedMessage(event.getAuthor().getName(), event.getMessage().getContentDisplay(), pais),
+        else ChatService.broadcastGlobalChat(
+            ChatUtil.getDsFormatedMessage(event.getAuthor().getName(), event.getMessage().getContentDisplay(), pais),
+            ChatUtil.getMcFormatedMessage(event.getAuthor().getName(), event.getMessage().getContentDisplay(), pais),
             event.getChannel().getIdLong()
         );
     }

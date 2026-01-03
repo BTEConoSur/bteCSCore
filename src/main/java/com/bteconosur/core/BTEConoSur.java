@@ -1,9 +1,12 @@
 package com.bteconosur.core;
 
+import com.bteconosur.core.chat.ChatService;
+import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
 import com.bteconosur.core.command.config.ManagerConfigCommand;
 import com.bteconosur.core.command.config.ReviewerConfigCommand;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.listener.ChatListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
 import com.bteconosur.core.listener.PlayerLeaveListener;
@@ -18,6 +21,7 @@ import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.discord.command.DsCommandManager;
+import com.bteconosur.discord.util.MessageService;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;
@@ -27,6 +31,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
 
@@ -49,6 +54,8 @@ public final class BTEConoSur extends JavaPlugin {
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
     private static LuckPerms luckPermsApi;
+
+    private static YamlConfiguration config;
 
     @Override
     public void onEnable() {
@@ -106,6 +113,8 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new ReviewerConfigCommand());
         consoleLogger.info("El Plugin se ha activado.");
         
+        config = ConfigHandler.getInstance().getConfig();
+        if (config.getBoolean("discord-server-start-stop")) ChatService.broadcastEmbed(ChatUtil.getServerStarted());
     }
 
     @Override
@@ -157,6 +166,7 @@ public final class BTEConoSur extends JavaPlugin {
         }
 
         if (discordManager != null) {
+            if (config.getBoolean("discord-server-start-stop")) ChatService.broadcastEmbed(ChatUtil.getServerStopped());
             discordManager.shutdown();
             discordManager = null;
         }

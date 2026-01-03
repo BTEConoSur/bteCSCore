@@ -215,3 +215,23 @@ ds-prefixes:
     constructor: "[⚒️]"
   mc: "🗨️"
   ds: "%paisLogo%" # %paisLogo% -> Logo del país de donde viene el mensaje.
+
+avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png" # %uuid% -> UUID del jugador.
+ds-embeds:
+  start:
+    title: "El servidor se ha iniciado."
+    color: "0x43B581"
+  stop:
+    title: "**El servidor se ha detenido.**"
+    description: "Nos vemos!"
+    color: "0xED4245"
+  player-join:
+    message: "**%player% se ha unido al servidor.**" # %player% -> Nombre del jugador.
+    color: "0x43B581"
+  player-left:
+    message: "**%player% ha salido del servidor.**" # %player% -> Nombre del jugador.
+    color: "0xED4245"
+
+  player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
+  player-left: "<red>%player% ha salido del servidor.</red>" # %player  -> Nombre del jugador.
+

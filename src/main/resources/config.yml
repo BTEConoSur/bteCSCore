@@ -16,6 +16,10 @@ database-current-session-context-class: "thread"
 discord-bot-token: ""
 discord-interaction-expiration: 15 # Cada cuantos minutos expiran las interacciones de Discord.
 
+discord-global-chat: true # Habilitar chat global entre servidor y Discord.
+discord-player-join-leave: true # Habilitar mensajes de entrada y salida de jugadores en Discord.
+discord-server-start-stop: true # Habilitar mensajes de inicio y stop del servidor en Discord.
+
 # World
 tp-cooldown-seconds: 5
 layer-1-offset: 1700
