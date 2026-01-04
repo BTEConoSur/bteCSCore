@@ -57,7 +57,7 @@ public class PlayerJoinListener implements Listener {
 
         YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
-        if (config.getBoolean("discord-player-join-leave")) ChatService.broadcastEmbed(
+        if (config.getBoolean("discord-player-join-leave")) ChatService.broadcastGlobalChatEmbed(
             ChatUtil.getDsPlayerJoined(player.getNombrePublico(), player.getUuid()),
             ChatUtil.getMcPlayerJoined(player.getNombrePublico())
         );

@@ -30,7 +30,7 @@ public class PlayerLeaveListener implements Listener {
             playerRegistry.merge(player.getUuid());
             
             YamlConfiguration config = ConfigHandler.getInstance().getConfig();
-            if (config.getBoolean("discord-player-join-leave")) ChatService.broadcastEmbed(
+            if (config.getBoolean("discord-player-join-leave")) ChatService.broadcastGlobalChatEmbed(
                 ChatUtil.getDsPlayerLeft(player.getNombrePublico(), player.getUuid()),
                 ChatUtil.getMcPlayerLeft(player.getNombrePublico())
             );

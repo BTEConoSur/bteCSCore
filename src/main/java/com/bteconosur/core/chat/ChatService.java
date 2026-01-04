@@ -32,15 +32,9 @@ public class ChatService {
         MessageService.sendBroadcastMessage(ids, dsMessage);
     }
 
-    public static void broadcastEmbed(MessageEmbed embed) {
+    public static void broadcastGlobalChatEmbed(MessageEmbed embed) {
+        if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
-        MessageService.sendBroadcastEmbed(ids, embed);
-    }
-
-    public static void broadcastEmbed(MessageEmbed embed, String mcMessage) {
-        List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
-        broadcastMc(mcMessage);
-
         MessageService.sendBroadcastEmbed(ids, embed);
     }
 

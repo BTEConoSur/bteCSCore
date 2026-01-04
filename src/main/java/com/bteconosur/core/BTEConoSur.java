@@ -114,7 +114,7 @@ public final class BTEConoSur extends JavaPlugin {
         consoleLogger.info("El Plugin se ha activado.");
         
         config = ConfigHandler.getInstance().getConfig();
-        if (config.getBoolean("discord-server-start-stop")) ChatService.broadcastEmbed(ChatUtil.getServerStarted());
+        if (config.getBoolean("discord-server-start-stop")) ChatService.broadcastGlobalChatEmbed(ChatUtil.getServerStarted());
     }
 
     @Override
@@ -166,7 +166,7 @@ public final class BTEConoSur extends JavaPlugin {
         }
 
         if (discordManager != null) {
-            if (config.getBoolean("discord-server-start-stop")) ChatService.broadcastEmbed(ChatUtil.getServerStopped());
+            if (config.getBoolean("discord-server-start-stop")) ChatService.broadcastGlobalChatEmbed(ChatUtil.getServerStopped());
             discordManager.shutdown();
             discordManager = null;
         }

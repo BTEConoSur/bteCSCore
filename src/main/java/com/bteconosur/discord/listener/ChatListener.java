@@ -1,5 +1,7 @@
 package com.bteconosur.discord.listener;
 
+import java.util.List;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.chat.ChatService;
@@ -44,14 +46,14 @@ public class ChatListener extends ListenerAdapter {
             mcMessage = ChatUtil.getMcFormatedMessage(authorName, message, pais);
         }
         
-        for (Attachment attachment : event.getMessage().getAttachments()) {
+        List<Attachment> attachments = event.getMessage().getAttachments();
+
+        for (Attachment attachment : attachments) {
             if (attachment.isImage()) mcMessage += " " + lang.getString("mc-image");
             else if (attachment.isVideo()) mcMessage += " " + lang.getString("mc-video");
             else if (attachment.isSpoiler()) mcMessage += " " + lang.getString("mc-spoiler");
             else mcMessage += " " + lang.getString("mc-file");
-            dsMessage += " " + attachment.getUrl();
         }
 
         ChatService.broadcastGlobalChat(dsMessage, mcMessage, channelId);
-    }
 }
