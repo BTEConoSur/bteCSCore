@@ -2,12 +2,18 @@ package com.bteconosur.core.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -114,7 +120,21 @@ public class MenuUtils {
             builder.lore(components);
         }
         
+        return builder.asGuiItem();
+    }
 
+    private static GuiItem buildGuiItem(ItemStack itemStack, String name, List<String> lore) {
+        ItemBuilder builder = ItemBuilder.from(itemStack)
+            .name(MiniMessage.miniMessage().deserialize("<!italic>" + name));
+        
+        List<Component> components = new ArrayList<>();
+        if (lore != null && !lore.isEmpty()) {
+            for (String line : lore) {
+                components.add(MiniMessage.miniMessage().deserialize("<!italic>" + line));
+            }
+            builder.lore(components);
+        }
+        
         return builder.asGuiItem();
     }
 
@@ -124,5 +144,71 @@ public class MenuUtils {
         } catch (IllegalArgumentException e) {
             return Material.STONE;
         }
+    }
+
+    public static GuiItem getArgentinaHeadItem() {
+        return buildGuiItem(
+            buildHead(lang.getString("items.argentina-head.base64")),
+            lang.getString("items.argentina-head.name"),
+            lang.getStringList("items.argentina-head.lore")
+        );
+    }
+
+    public static GuiItem getChileHeadItem() {
+        return buildGuiItem(
+            buildHead(lang.getString("items.chile-head.base64")),
+            lang.getString("items.chile-head.name"),
+            lang.getStringList("items.chile-head.lore")
+        );
+    }
+
+    public static GuiItem getUruguayHeadItem() {
+        return buildGuiItem(
+            buildHead(lang.getString("items.uruguay-head.base64")),
+            lang.getString("items.uruguay-head.name"),
+            lang.getStringList("items.uruguay-head.lore")
+        );
+    }
+
+    public static GuiItem getParaguayHeadItem() {
+        return buildGuiItem(
+            buildHead(lang.getString("items.paraguay-head.base64")),
+            lang.getString("items.paraguay-head.name"),
+            lang.getStringList("items.paraguay-head.lore")
+        );
+    }
+
+    public static GuiItem getBoliviaHeadItem() {
+        return buildGuiItem(
+            buildHead(lang.getString("items.bolivia-head.base64")),
+            lang.getString("items.bolivia-head.name"),
+            lang.getStringList("items.bolivia-head.lore")
+        );
+    }
+
+    public static GuiItem getPeruHeadItem() {
+        return buildGuiItem(
+            buildHead(lang.getString("items.peru-head.base64")),
+            lang.getString("items.peru-head.name"),
+            lang.getStringList("items.peru-head.lore")
+        );
+    }
+
+    public static GuiItem getGlobalChatHeadItem() {
+        return buildGuiItem(
+            buildHead(lang.getString("items.global-chat-head.base64")),
+            lang.getString("items.global-chat-head.name"),
+            lang.getStringList("items.global-chat-head.lore")
+        );
+    }
+
+    private static ItemStack buildHead(String base64) {
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
+        PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());
+        profile.getProperties().add(new ProfileProperty("textures", base64));
+        headMeta.setPlayerProfile(profile);
+        head.setItemMeta(headMeta);
+        return head;
     }
 }
