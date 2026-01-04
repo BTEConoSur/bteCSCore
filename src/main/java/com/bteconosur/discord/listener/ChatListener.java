@@ -43,16 +43,13 @@ public class ChatListener extends ListenerAdapter {
             dsMessage = ChatUtil.getDsFormatedMessage(authorName, message, pais);
             mcMessage = ChatUtil.getMcFormatedMessage(authorName, message, pais);
         }
-
+        
         for (Attachment attachment : event.getMessage().getAttachments()) {
-            if (attachment.isImage()) {
-                dsMessage += " " + attachment.getUrl();
-                mcMessage += " " + lang.getString("mc-image");
-            }
-            else if (attachment.isVideo()) {
-                dsMessage += " " + attachment.getUrl();
-                mcMessage += " " + lang.getString("mc-video");
-            }
+            if (attachment.isImage()) mcMessage += " " + lang.getString("mc-image");
+            else if (attachment.isVideo()) mcMessage += " " + lang.getString("mc-video");
+            else if (attachment.isSpoiler()) mcMessage += " " + lang.getString("mc-spoiler");
+            else mcMessage += " " + lang.getString("mc-file");
+            dsMessage += " " + attachment.getUrl();
         }
 
         ChatService.broadcastGlobalChat(dsMessage, mcMessage, channelId);
