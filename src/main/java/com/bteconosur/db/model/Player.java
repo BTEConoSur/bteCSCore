@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Table;
@@ -231,6 +232,16 @@ public class Player {
     @JsonIgnore
     public static Player getBTECSPlayer(org.bukkit.entity.Player bukkitPlayer) {
         return PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId());
+    }
+
+    @JsonIgnore
+    public static List<Player> getOnlinePlayers() {
+        PlayerRegistry registry = PlayerRegistry.getInstance();
+        return Bukkit.getOnlinePlayers()
+                .stream()
+                .map(player -> registry.get(player.getUniqueId()))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     @JsonIgnore

@@ -236,7 +236,15 @@ ds-embeds:
   player-left:
     message: "%player% ha salido del servidor." # %player% -> Nombre del jugador.
     color: "0xED4245"
+  country-chat-join:
+    message: "%player% se ha unido al chat." # %player% -> Nombre del jugador.
+    color: "0xf2cc0d"
+  country-chat-left:
+    message: "%player% ha salido del chat." # %player% -> Nombre del jugador
+    color: "0x#0D33F2" 
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
-player-left: "<red>%player% ha salido del servidor.</red>" # %player  -> Nombre del jugador.
+player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
+country-chat-join: "<yellow>%player% se ha unido al chat.</yellow>" # %player% -> Nombre del jugador.
+country-chat-left: "<blue>%player% ha salido del chat.</blue>" # %player% -> Nombre del jugador.
 

@@ -1,10 +1,15 @@
 package com.bteconosur.core.listener;
 
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-import com.bteconosur.core.chat.ChatService;
+import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
+import com.bteconosur.core.chat.CountryChatService;
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 
@@ -18,6 +23,17 @@ public class ChatListener implements Listener {
         event.setCancelled(true);
         Player player = PlayerRegistry.getInstance().get(event.getPlayer().getUniqueId());
         String message = PlainTextComponentSerializer.plainText().serialize(event.message());
-        ChatService.broadcastGlobalChat(ChatUtil.getDsFormatedMessage(player, message), ChatUtil.getMcFormatedMessage(player, message));
+
+        String dsMessage = ChatUtil.getDsFormatedMessage(player, message);
+        String mcMessage = ChatUtil.getMcFormatedMessage(player, message);
+
+        Map<Player, Pais> playersInChat = CountryChatService.getPlayersInChat();
+        if (playersInChat.containsKey(player)) {
+            Pais pais = playersInChat.get(player);
+            CountryChatService.sendChat(dsMessage, mcMessage, pais);
+            return;
+        }
+
+        GlobalChatService.broadcastChat(dsMessage, mcMessage);
     }
 }

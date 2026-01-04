@@ -7,17 +7,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.discord.util.MessageService;
 
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
-public class ChatService {
+public class GlobalChatService {
 
     private static YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
-    public static void broadcastGlobalChat(String dsMessage, String mcMessage, Long dsFrom) {
+    public static void broadcastChat(String dsMessage, String mcMessage, Long dsFrom) {
         broadcastMc(mcMessage);
         if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = new ArrayList<>(PaisRegistry.getInstance().getDsGlobalChatIds());
@@ -25,20 +26,20 @@ public class ChatService {
         MessageService.sendBroadcastMessage(ids, dsMessage);
     }
 
-    public static void broadcastGlobalChat(String dsMessage, String mcMessage) {
+    public static void broadcastChat(String dsMessage, String mcMessage) {
         broadcastMc(mcMessage);
         if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
         MessageService.sendBroadcastMessage(ids, dsMessage);
     }
 
-    public static void broadcastGlobalChatEmbed(MessageEmbed embed) {
+    public static void broadcastEmbed(MessageEmbed embed) {
         if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
         MessageService.sendBroadcastEmbed(ids, embed);
     }
 
-    public static void broadcastGlobalChatEmbed(MessageEmbed embed, String mcMessage, Long dsFrom) {
+    public static void broadcastEmbed(MessageEmbed embed, String mcMessage, Long dsFrom) {
         broadcastMc(mcMessage);
         if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = new ArrayList<>(PaisRegistry.getInstance().getDsGlobalChatIds());
@@ -46,7 +47,7 @@ public class ChatService {
         MessageService.sendBroadcastEmbed(ids, embed);
     }
 
-    public static void broadcastGlobalChatEmbed(MessageEmbed embed, String mcMessage) {
+    public static void broadcastEmbed(MessageEmbed embed, String mcMessage) {
         broadcastMc(mcMessage);
         if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
@@ -54,8 +55,11 @@ public class ChatService {
     }
 
     private static void broadcastMc(String mcMessage) {
-        for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(mcMessage));
+        List<Player> globalChatPlayers = CountryChatService.getPlayersListInChat();
+        for (Player player : Player.getOnlinePlayers()) {
+            if (globalChatPlayers.contains(player)) continue;
+            player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(mcMessage));
         }
     }
+
 }

@@ -1,6 +1,6 @@
 package com.bteconosur.core;
 
-import com.bteconosur.core.chat.ChatService;
+import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
@@ -114,7 +114,7 @@ public final class BTEConoSur extends JavaPlugin {
         consoleLogger.info("El Plugin se ha activado.");
         
         config = ConfigHandler.getInstance().getConfig();
-        if (config.getBoolean("discord-server-start-stop")) ChatService.broadcastGlobalChatEmbed(ChatUtil.getServerStarted());
+        if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
     }
 
     @Override
@@ -166,7 +166,7 @@ public final class BTEConoSur extends JavaPlugin {
         }
 
         if (discordManager != null) {
-            if (config.getBoolean("discord-server-start-stop")) ChatService.broadcastGlobalChatEmbed(ChatUtil.getServerStopped());
+            if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStopped());
             discordManager.shutdown();
             discordManager = null;
         }
