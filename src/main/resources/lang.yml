@@ -184,6 +184,8 @@ mc-prefixes:
 
 mc-image: "<gray>[</gray><white>IMAGEN</white><gray>]</gray>"
 mc-video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
+mc-spoiler: "<gray>[</gray><white>SPOILER</white><gray>]</gray>"
+mc-file: "<gray>[</gray><white>ARCHIVO</white><gray>]</gray>"
 
 # %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
 # %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
@@ -199,24 +201,24 @@ ds-prefixes:
     bolivia: "[🇧🇴]"
     peru: "[🇵🇪]"
   pais-logo:
-    argentina: "<:ARLogoDiscord:1455209909665661184>"
-    chile: "<:CLLogoDiscord:1455209939378372749>"
-    uruguay: "<:BTE_Guay:1455248093791649826>"
-    paraguay: "<:BTE_Guay:1455248093791649826>"
-    bolivia: "<:BOLLogo:1455209926640140413>"
-    peru: "<:PELogoDiscord:1455209955706540135>"
+    argentina: "<:BTEArgentina:1455209909665661184>"
+    chile: "<:BTEChile:1455209939378372749>"
+    uruguay: "<:BTEGuay:1455248093791649826>"
+    paraguay: "<:BTEGuay:1455248093791649826>"
+    bolivia: "<:BTEBolivia:1455209926640140413>"
+    peru: "<:BTEPeru:1455209955706540135>"
   rango:
     normal: ""
-    admin: "[<:Screenshot_20251212_003900_com_z:1455195552802148586>]"
+    admin: "[<:Test:1455195552802148586>]"
     mod: "[🛡️]"
     reviewer: "[🔍]"
     influencer: "[📸]"
-    donador: "[🤑]"
+    donador: "[💸]"
   tipo:
     visita: "[👀]"
     postulante: "[📚]"
     constructor: "[⚒️]"
-  mc: "🗨️"
+  mc: "<:Minecraft:1457374388575014923>"
   ds: "%paisLogo%" # %paisLogo% -> Logo del país de donde viene el mensaje.
 
 avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png" # %uuid% -> UUID del jugador.
