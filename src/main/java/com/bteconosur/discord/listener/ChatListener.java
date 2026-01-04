@@ -56,4 +56,5 @@ public class ChatListener extends ListenerAdapter {
         }
 
         ChatService.broadcastGlobalChat(dsMessage, mcMessage, channelId);
+    }
 }
