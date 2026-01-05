@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import com.bteconosur.core.chat.GlobalChatService;
+import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.chat.CountryChatService;
 import com.bteconosur.db.model.Pais;
@@ -27,13 +28,15 @@ public class ChatListener implements Listener {
         String dsMessage = ChatUtil.getDsFormatedMessage(player, message);
         String mcMessage = ChatUtil.getMcFormatedMessage(player, message);
 
-        Map<Player, Pais> playersInChat = CountryChatService.getPlayersInChat();
-        if (playersInChat.containsKey(player)) {
-            Pais pais = playersInChat.get(player);
+        if (ChatService.isInCountryChat(player)) {
+            Pais pais = ChatService.getCountry(player);
             CountryChatService.sendChat(dsMessage, mcMessage, pais);
             return;
         }
 
-        GlobalChatService.broadcastChat(dsMessage, mcMessage);
+        if (ChatService.isInGlobalChat(player)) {
+            GlobalChatService.broadcastChat(dsMessage, mcMessage);
+            return;
+        }
     }
 }

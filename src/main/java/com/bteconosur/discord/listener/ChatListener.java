@@ -1,7 +1,6 @@
 package com.bteconosur.discord.listener;
 
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -28,9 +27,10 @@ public class ChatListener extends ListenerAdapter {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         PaisRegistry paisRegistry = PaisRegistry.getInstance();
 
-        Pais pais = paisRegistry.findByDsGuildId(event.getGuild().getIdLong());
+        Pais pais = paisRegistry.findByDsGlobalChatId(event.getChannel().getIdLong());
+        Boolean isGlobalChat = pais != null;
+        if (pais == null) pais = paisRegistry.findByDsCountryChatId(event.getChannel().getIdLong());
         if (pais == null) return;
-        if (!paisRegistry.getDsGlobalChatIds().contains(event.getChannel().getIdLong())) return;
 
         Player player = playerRegistry.findByDiscordId(event.getAuthor().getIdLong());
         String message = event.getMessage().getContentDisplay();
@@ -55,12 +55,11 @@ public class ChatListener extends ListenerAdapter {
             else mcMessage += " " + lang.getString("mc-file");
         }
 
-        Map<Player, Pais> playersInChat = CountryChatService.getPlayersInChat();
-        if (playersInChat.containsKey(player)) {
-            CountryChatService.sendChat(dsMessage, mcMessage, playersInChat.get(player));
+        if (isGlobalChat) {
+            GlobalChatService.broadcastChat(dsMessage, mcMessage, channelId);
             return;
         }
 
-        GlobalChatService.broadcastChat(dsMessage, mcMessage, channelId);
+        CountryChatService.sendChat(mcMessage, pais);
     }
 }

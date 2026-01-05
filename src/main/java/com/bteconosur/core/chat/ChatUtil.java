@@ -191,30 +191,30 @@ public class ChatUtil {
         return lang.getString("player-left").replace("%player%", playerName);
     }
 
-    public static MessageEmbed getDsCountryChatJoined(String playerName, UUID playerUUID) {
-        String message = lang.getString("ds-embeds.country-chat-join.message").replace("%player%", playerName);
+    public static MessageEmbed getDsChatJoined(String playerName, UUID playerUUID) {
+        String message = lang.getString("ds-embeds.chat-join.message").replace("%player%", playerName);
         String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
         return new EmbedBuilder()
             .setAuthor(message, null, avatarUrl)
-            .setColor(Integer.decode(lang.getString("ds-embeds.country-chat-join.color")))
+            .setColor(Integer.decode(lang.getString("ds-embeds.chat-join.color")))
             .build();
     }
 
-    public static MessageEmbed getDsCountryChatLeft(String playerName, UUID playerUUID) {
-        String message = lang.getString("ds-embeds.country-chat-left.message").replace("%player%", playerName);
+    public static MessageEmbed getDsChatLeft(String playerName, UUID playerUUID) {
+        String message = lang.getString("ds-embeds.chat-left.message").replace("%player%", playerName);
         String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
         return new EmbedBuilder()
             .setAuthor(message, null, avatarUrl)
-            .setColor(Integer.decode(lang.getString("ds-embeds.country-chat-left.color")))
+            .setColor(Integer.decode(lang.getString("ds-embeds.chat-left.color")))
             .build();
     }
 
-    public static String getMcCountryChatJoined(String playerName) {
-        return lang.getString("country-chat-join").replace("%player%", playerName);
+    public static String getMcChatJoined(String playerName) {
+        return lang.getString("chat-join").replace("%player%", playerName);
     }
 
-    public static String getMcCountryChatLeft(String playerName) {
-        return lang.getString("country-chat-left").replace("%player%", playerName);
+    public static String getMcChatLeft(String playerName) {
+        return lang.getString("chat-left").replace("%player%", playerName);
     }
 
 }

@@ -18,8 +18,11 @@ discord-interaction-expiration: 15 # Cada cuantos minutos expiran las interaccio
 
 discord-global-chat: true # Habilitar chat global entre servidor y Discord.
 discord-country-chat: true # Habilitar chat por país entre servidor y Discord.
-discord-player-join-leave: true # Habilitar mensajes de entrada y salida de jugadores en Discord.
-discord-server-start-stop: true # Habilitar mensajes de inicio y stop del servidor en Discord.
+
+discord-player-join-leave: true # Habilitar mensajes de entrada y salida de jugadores en Discord. Depende de discord-country-chat para mostrarse en Discord.
+discord-player-join-leave-chat: true # Habilitar mensajes de entrada y salida del chat de jugadores en Discord. Depende de discord-country-chat para mostrarse en Discord.
+
+discord-server-start-stop: true # Habilitar mensajes de inicio y stop del servidor en Discord. Depende de discord-country-chat para mostrarse en Discord.
 
 # World
 tp-cooldown-seconds: 5
@@ -39,7 +42,7 @@ commands-cooldowns:
 # Configuración de Players
 player-defaults:
   general:
-    toggle-test: true
+    global-chat-on-join: true
   reviewer:
     toggle-test: true
   manager:

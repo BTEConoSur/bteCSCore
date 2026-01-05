@@ -73,6 +73,24 @@ public class PaisRegistry extends Registry<String, Pais> {
         return null;
     }
 
+    public Pais findByDsGlobalChatId(Long dsGlobalChatId) {
+        if (dsGlobalChatId == null) return null;
+        for (Pais pais : loadedObjects.values()) {
+            if (dsGlobalChatId.equals(pais.getDsIdGlobalChat())) return pais;
+        }
+        
+        return null;
+    }
+
+    public Pais findByDsCountryChatId(Long dsCountryChatId) {
+        if (dsCountryChatId == null) return null;
+        for (Pais pais : loadedObjects.values()) {
+            if (dsCountryChatId.equals(pais.getDsIdCountryChat())) return pais;
+        }
+        
+        return null;
+    }
+
     private void ensureDefaults() {
         if (get("argentina") == null) {
             Pais pais = new Pais("argentina", "Argentina", 1425856269029474304L, 1451333771319050320L, 1451333825149014118L, 1451333852046950583L, 1451333884749807616L);

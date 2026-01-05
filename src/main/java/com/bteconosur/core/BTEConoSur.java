@@ -3,6 +3,7 @@ package com.bteconosur.core;
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.btecs.BTECSCommand;
+import com.bteconosur.core.command.chat.ChatCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
 import com.bteconosur.core.command.config.ManagerConfigCommand;
 import com.bteconosur.core.command.config.ReviewerConfigCommand;
@@ -111,6 +112,7 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new ManagerConfigCommand());
         PluginRegistry.registerCommand(new GeneralConfigCommand());
         PluginRegistry.registerCommand(new ReviewerConfigCommand());
+        PluginRegistry.registerCommand(new ChatCommand());
         consoleLogger.info("El Plugin se ha activado.");
         
         config = ConfigHandler.getInstance().getConfig();

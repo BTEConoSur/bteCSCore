@@ -80,12 +80,38 @@ public class MenuUtils {
         );
     }
 
-    public static GuiItem getConfigItem(String name, String desc, Boolean value, Material trueMaterial, Material falseMaterial) {
-        String displayName = lang.getString("items.config.name").replace("%name%", name);
+    public static GuiItem getBlockOfNoteItem(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.bloc-of-note.lore");
+        if (lore == null) lore = new ArrayList<>();
+        if (isSelected) lore.addFirst(lang.getString("selected-chat"));
+        
+        return buildGuiItem(
+            lang.getString("items.bloc-of-note.material"),
+            (isSelected ? "<b>" : "") + lang.getString("items.bloc-of-note.name"),
+            lore
+        );
+    }   
+
+    public static GuiItem getGeneralConfigItem(String name, Boolean value, Material trueMaterial, Material falseMaterial) {
+        return getConfigItem("general", name, value, trueMaterial, falseMaterial);
+    }
+
+    public static GuiItem getManagerConfigItem(String name, Boolean value, Material trueMaterial, Material falseMaterial) {
+        return getConfigItem("manager", name, value, trueMaterial, falseMaterial);
+    }
+
+    public static GuiItem getReviewerConfigItem(String name, Boolean value, Material trueMaterial, Material falseMaterial) {
+        return getConfigItem("reviewer", name, value, trueMaterial, falseMaterial);
+    }
+
+    private static GuiItem getConfigItem(String context, String name, Boolean value, Material trueMaterial, Material falseMaterial) {
+        String displayName = lang.getString("items.config.name");
+        displayName = displayName.replace("%name%", lang.getString("items.config.configs." + context + "." + name + ".name"));
+
         List<String> displayDesc = lang.getStringList("items.config.lore");
         List<String> processedDesc = new ArrayList<>();
         for (String line : displayDesc) {
-            if (line.contains("%desc%")) line = line.replace("%desc%", desc);
+            if (line.contains("%desc%")) line = line.replace("%desc%", lang.getString("items.config.configs." + context + "." + name + ".desc"));
             if (line.contains("%value%")) line = line.replace("%value%", value ? lang.getString("items.config.value-true") : lang.getString("items.config.value-false"));
             processedDesc.add(line);
         }
@@ -146,63 +172,85 @@ public class MenuUtils {
         }
     }
 
-    public static GuiItem getArgentinaHeadItem() {
+    public static GuiItem getArgentinaHeadItem(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.argentina-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        if (isSelected) lore.add(0, lang.getString("selected-chat"));
         return buildGuiItem(
             buildHead(lang.getString("items.argentina-head.base64")),
-            lang.getString("items.argentina-head.name"),
-            lang.getStringList("items.argentina-head.lore")
+            (isSelected ? "<b>" : "") + lang.getString("items.argentina-head.name"),
+            lore
         );
     }
 
-    public static GuiItem getChileHeadItem() {
+    public static GuiItem getChileHeadItem(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.chile-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        if (isSelected) lore.add(0, lang.getString("selected-chat"));
         return buildGuiItem(
             buildHead(lang.getString("items.chile-head.base64")),
-            lang.getString("items.chile-head.name"),
-            lang.getStringList("items.chile-head.lore")
+            (isSelected ? "<b>" : "") + lang.getString("items.chile-head.name"),
+            lore
         );
     }
 
-    public static GuiItem getUruguayHeadItem() {
+    public static GuiItem getUruguayHeadItem(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.uruguay-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        if (isSelected) lore.add(0, lang.getString("selected-chat"));
         return buildGuiItem(
             buildHead(lang.getString("items.uruguay-head.base64")),
-            lang.getString("items.uruguay-head.name"),
-            lang.getStringList("items.uruguay-head.lore")
+            (isSelected ? "<b>" : "") + lang.getString("items.uruguay-head.name"),
+            lore
         );
     }
 
-    public static GuiItem getParaguayHeadItem() {
+    public static GuiItem getParaguayHeadItem(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.paraguay-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        if (isSelected) lore.add(0, lang.getString("selected-chat"));
         return buildGuiItem(
             buildHead(lang.getString("items.paraguay-head.base64")),
-            lang.getString("items.paraguay-head.name"),
-            lang.getStringList("items.paraguay-head.lore")
+            (isSelected ? "<b>" : "") + lang.getString("items.paraguay-head.name"),
+            lore
         );
     }
 
-    public static GuiItem getBoliviaHeadItem() {
+    public static GuiItem getBoliviaHeadItem(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.bolivia-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        if (isSelected) lore.add(0, lang.getString("selected-chat"));
         return buildGuiItem(
             buildHead(lang.getString("items.bolivia-head.base64")),
-            lang.getString("items.bolivia-head.name"),
-            lang.getStringList("items.bolivia-head.lore")
+            (isSelected ? "<b>" : "") + lang.getString("items.bolivia-head.name"),
+            lore
         );
     }
 
-    public static GuiItem getPeruHeadItem() {
+    public static GuiItem getPeruHeadItem(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.peru-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        if (isSelected) lore.add(0, lang.getString("selected-chat"));   
         return buildGuiItem(
             buildHead(lang.getString("items.peru-head.base64")),
-            lang.getString("items.peru-head.name"),
-            lang.getStringList("items.peru-head.lore")
+            (isSelected ? "<b>" : "") + lang.getString("items.peru-head.name"),
+            lore
         );
     }
 
-    public static GuiItem getGlobalChatHeadItem() {
+    public static GuiItem getGlobalChatHeadItem(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.global-chat-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        if (isSelected) lore.add(0, lang.getString("selected-chat"));
         return buildGuiItem(
             buildHead(lang.getString("items.global-chat-head.base64")),
-            lang.getString("items.global-chat-head.name"),
-            lang.getStringList("items.global-chat-head.lore")
+            (isSelected ? "<b>" : "") + lang.getString("items.global-chat-head.name"),
+            lore
         );
     }
 
     private static ItemStack buildHead(String base64) {
+        //TODO: Ver de usar el plugin de cabezas
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta headMeta = (SkullMeta) head.getItemMeta();
         PlayerProfile profile = Bukkit.createProfile(UUID.randomUUID());

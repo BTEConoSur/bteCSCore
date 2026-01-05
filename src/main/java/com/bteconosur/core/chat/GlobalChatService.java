@@ -18,6 +18,18 @@ public class GlobalChatService {
 
     private static YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    public static void joinChat(Player player) {
+        broadcastMc(ChatUtil.getMcChatJoined(player.getNombrePublico()));
+
+        if (config.getBoolean("discord-player-join-leave-chat")) broadcastEmbed(ChatUtil.getDsChatJoined(player.getNombrePublico(), player.getUuid()));
+    }
+
+    public static void leaveChat(Player player) {
+        broadcastMc(ChatUtil.getMcChatLeft(player.getNombrePublico()));
+
+        if (config.getBoolean("discord-player-join-leave-chat")) broadcastEmbed(ChatUtil.getDsChatLeft(player.getNombrePublico(), player.getUuid()));
+    }
+
     public static void broadcastChat(String dsMessage, String mcMessage, Long dsFrom) {
         broadcastMc(mcMessage);
         if (!config.getBoolean("discord-global-chat")) return;
@@ -54,10 +66,10 @@ public class GlobalChatService {
         MessageService.sendBroadcastEmbed(ids, embed);
     }
 
-    private static void broadcastMc(String mcMessage) {
-        List<Player> globalChatPlayers = CountryChatService.getPlayersListInChat();
+    public static void broadcastMc(String mcMessage) {
+        List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player player : Player.getOnlinePlayers()) {
-            if (globalChatPlayers.contains(player)) continue;
+            if (!globalChatPlayers.contains(player)) continue;
             player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(mcMessage));
         }
     }

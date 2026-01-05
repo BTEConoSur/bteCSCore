@@ -111,6 +111,8 @@ get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entid
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/folia/1.21/org/bukkit/Material.html.
 # En caso de un material inválido, se usará STONE por defecto.
+gui-titles:
+  chat-select: "Selección de Chat"
 items: 
   back:
     material: "STRUCTURE_VOID"
@@ -153,6 +155,25 @@ items:
     lore:
       - "<gray>%desc%" # %desc% -> Descripción de la configuración.
       - "<gold>Estado: %value%" # %value% -> Estado actual de la configuración.
+    configs:
+      general:
+        global-chat-on-join:
+          name: "Chat Global al Unirse"
+          desc: "Al activarse, el jugador se unirá automáticamente al chat global al entrar al servidor.<newline>Si no, se unirá al chat seleccionado previamente.<newline>Al reiniciar el servidor, todos los jugadores se unirán al chat global."
+      manager:
+        toggle-test:
+          name: "Toggle Test"
+          desc: "Toggle para testear."
+      reviewer:
+        toggle-test:
+          name: "Toggle Test"
+          desc: "Toggle para testear."
+  bloc-of-note:
+    material: "WRITABLE_BOOK"
+    name: "<yellow>Bloc de Notas"
+    lore:
+      - "<gray>No se reciben ni envían mensajes."
+      - "<gray>Sólo se ven los propios."
   argentina-head:
     name: "<aqua>Argentina"
     base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjZkMDMzZGM1ZjY3NWFkNTFiYzA2YzdhMTk0OWMzNWExZDM3ZTQ4YTJlMWMyNzg5YzJjZjdkMzBlYzU4ZjMyYyJ9fX0="
@@ -174,6 +195,9 @@ items:
   global-chat-head:
     name: "<aqua>Chat Global"
     base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU3N2M0ZGUxZjUxYTcwNzIyMDIzZTg1NmI1NDNjZDU3MGYxZDBlZTZiOWQxNjdiNTkwMjhjZTFiYzkyZTQ1OCJ9fX0="
+
+selected-chat: "<b><green>Seleccionado"
+
 # Chat
 # %paisPrefix% -> Prefijo del país. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
 # %dsPrefix% -> Prefijo de Discord. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
@@ -256,15 +280,15 @@ ds-embeds:
   player-left:
     message: "%player% ha salido del servidor." # %player% -> Nombre del jugador.
     color: "0xED4245"
-  country-chat-join:
+  chat-join:
     message: "%player% se ha unido al chat." # %player% -> Nombre del jugador.
     color: "0xf2cc0d"
-  country-chat-left:
+  chat-left:
     message: "%player% ha salido del chat." # %player% -> Nombre del jugador
-    color: "0x#0D33F2" 
+    color: "0x0D33F2" 
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
-country-chat-join: "<yellow>%player% se ha unido al chat.</yellow>" # %player% -> Nombre del jugador.
-country-chat-left: "<blue>%player% ha salido del chat.</blue>" # %player% -> Nombre del jugador.
+chat-join: "<yellow>%player% se ha unido al chat.</yellow>" # %player% -> Nombre del jugador.
+chat-left: "<blue>%player% ha salido del chat.</blue>" # %player% -> Nombre del jugador.
 
