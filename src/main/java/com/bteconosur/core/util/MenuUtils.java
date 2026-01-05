@@ -92,30 +92,36 @@ public class MenuUtils {
         );
     }   
 
-    public static GuiItem getGeneralConfigItem(String name, Boolean value, Material trueMaterial, Material falseMaterial) {
-        return getConfigItem("general", name, value, trueMaterial, falseMaterial);
+    public static GuiItem getGeneralConfigItem(String name, Boolean value) {
+        return getConfigItem("general", name, value);
     }
 
-    public static GuiItem getManagerConfigItem(String name, Boolean value, Material trueMaterial, Material falseMaterial) {
-        return getConfigItem("manager", name, value, trueMaterial, falseMaterial);
+    public static GuiItem getManagerConfigItem(String name, Boolean value) {
+        return getConfigItem("manager", name, value);
     }
 
-    public static GuiItem getReviewerConfigItem(String name, Boolean value, Material trueMaterial, Material falseMaterial) {
-        return getConfigItem("reviewer", name, value, trueMaterial, falseMaterial);
+    public static GuiItem getReviewerConfigItem(String name, Boolean value) {
+        return getConfigItem("reviewer", name, value);
     }
 
-    private static GuiItem getConfigItem(String context, String name, Boolean value, Material trueMaterial, Material falseMaterial) {
+    private static GuiItem getConfigItem(String context, String name, Boolean value) {
         String displayName = lang.getString("items.config.name");
         displayName = displayName.replace("%name%", lang.getString("items.config.configs." + context + "." + name + ".name"));
 
-        List<String> displayDesc = lang.getStringList("items.config.lore");
+        List<String> displayDesc = lang.getStringList("items.config.configs." + context + "." + name + ".desc");
         List<String> processedDesc = new ArrayList<>();
         for (String line : displayDesc) {
-            if (line.contains("%desc%")) line = line.replace("%desc%", lang.getString("items.config.configs." + context + "." + name + ".desc"));
-            if (line.contains("%value%")) line = line.replace("%value%", value ? lang.getString("items.config.value-true") : lang.getString("items.config.value-false"));
-            processedDesc.add(line);
+            String descLine = lang.getString("items.config.desc-line");
+            descLine = descLine.replace("%desc%", line);
+            processedDesc.add(descLine);
         }
 
+        String valueLine = lang.getString("items.config.value-line");
+        valueLine = valueLine.replace("%value%", value ? lang.getString("items.config.value-true") : lang.getString("items.config.value-false"));
+        processedDesc.add(valueLine);
+
+        String trueMaterial = lang.getString("items.config.configs." + context + "." + name + ".material-true");
+        String falseMaterial = lang.getString("items.config.configs." + context + "." + name + ".material-false");
         return buildGuiItem(value ? trueMaterial : falseMaterial, displayName, processedDesc);
     }
 

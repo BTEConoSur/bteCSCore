@@ -12,6 +12,7 @@ public class ChatService {
 
     private static List<Player> playersInGlobalChat = new ArrayList<>();
     private static Map<Player, Pais> playersInCountryChat = new HashMap<>();
+    private static Map<Player, Pais> playersLastCountryChat = new HashMap<>();
 
     public static void switchChatToGlobal(Player player) {
         if (playersInGlobalChat.contains(player)) return;
@@ -19,6 +20,7 @@ public class ChatService {
         if (playersInCountryChat.containsKey(player)) {
             Pais pais = playersInCountryChat.get(player);
             playersInCountryChat.remove(player);
+            playersLastCountryChat.remove(player);
             CountryChatService.leaveChat(player, pais);
         }
 
@@ -30,9 +32,22 @@ public class ChatService {
     public static void setChatToGlobal(Player player) {
         if (playersInGlobalChat.contains(player)) return;
 
-        if (playersInCountryChat.containsKey(player)) playersInCountryChat.remove(player);
+        if (playersLastCountryChat.containsKey(player)) {
+            playersLastCountryChat.remove(player);
+            GlobalChatService.joinChat(player);
+        }
 
         playersInGlobalChat.add(player);
+    }
+
+    public static void setCountryChat(Player player) {
+        Pais pais = playersLastCountryChat.get(player);
+        if (playersInCountryChat.containsKey(player) && playersInCountryChat.get(player).equals(pais)) return;
+
+        if (playersInGlobalChat.contains(player)) playersInGlobalChat.remove(player);
+        GlobalChatService.leaveChat(player);
+        CountryChatService.joinChat(player, pais);
+        playersInCountryChat.put(player, pais);
     }
 
     public static void switchChatToCountry(Player player, Pais pais) {
@@ -52,6 +67,7 @@ public class ChatService {
         //TODO: Notificacion al jugador
         CountryChatService.joinChat(player, pais);
         playersInCountryChat.put(player, pais);
+        playersLastCountryChat.put(player, pais);
     }
 
     public static void leaveChat(Player player) {
@@ -74,6 +90,10 @@ public class ChatService {
     public static boolean isInCountryChat(Player player) {
         return playersInCountryChat.containsKey(player);
     }
+
+    public static boolean wasInCountryChat(Player player) {
+        return playersLastCountryChat.containsKey(player);
+    }   
 
     public static boolean isInCountryChat(Player player, Pais pais) {
         return playersInCountryChat.containsKey(player) && playersInCountryChat.get(player).equals(pais);

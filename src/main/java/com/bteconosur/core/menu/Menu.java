@@ -1,9 +1,11 @@
 package com.bteconosur.core.menu;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.MenuUtils;
 
 import dev.triumphteam.gui.guis.BaseGui;

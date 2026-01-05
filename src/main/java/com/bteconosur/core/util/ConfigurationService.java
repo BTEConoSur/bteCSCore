@@ -14,8 +14,10 @@ public class ConfigurationService {
 
     // 1- Crear configuración en la clase Configuración.
     // 2- Agregar valores por defecto en el config.yml.
-    // 3- Agregar seteos de default según corresponda.
-    // 4- Agregar configuración al enum ConfigurationKey.
+    // 3- Agregar el nombre y descripcion en lang.yml
+    // 4- Agregar seteos de default según corresponda.
+    // 5- Agregar configuración al enum ConfigurationKey.
+    // 6- Añadir al menu de configuración.
 
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
     private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
@@ -31,7 +33,7 @@ public class ConfigurationService {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(uuid).getConfiguration();
 
-        configuration.setGeneralToggleTest(config.getBoolean("player-defaults.general.toggle-test"));
+        configuration.setGeneralGlobalChatOnJoin(config.getBoolean("player-defaults.general.global-chat-on-join"));
 
         playerRegistry.merge(uuid);
     }
@@ -59,8 +61,8 @@ public class ConfigurationService {
         Configuration configuration = playerRegistry.get(uuid).getConfiguration();
 
         switch (key) {
-            case GENERAL_TOGGLE_TEST:
-                configuration.toggleGeneralTest();
+            case GENERAL_GLOBAL_CHAT_ON_JOIN:
+                configuration.toggleGeneralGlobalChatOnJoin();
                 break;
             case REVIEWER_TOGGLE_TEST:
                 configuration.toggleReviewerTest();

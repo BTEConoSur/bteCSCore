@@ -152,22 +152,32 @@ items:
     name: "<red>%name%" # %name% -> Nombre de la configuración.
     value-true: "<green>Activado"
     value-false: "<red>Desactivado"
-    lore:
-      - "<gray>%desc%" # %desc% -> Descripción de la configuración.
-      - "<gold>Estado: %value%" # %value% -> Estado actual de la configuración.
+    desc-line: "<gray>%desc%" # %desc% -> Línea de la descripción de la configuración.
+    value-line: "<gold>Estado: %value%" # %value% -> Estado actual de la configuración.
     configs:
       general:
         global-chat-on-join:
+          material-true: "RED_GLAZED_TERRACOTTA"
+          material-false: "RED_CONCRETE"
           name: "Chat Global al Unirse"
-          desc: "Al activarse, el jugador se unirá automáticamente al chat global al entrar al servidor.<newline>Si no, se unirá al chat seleccionado previamente.<newline>Al reiniciar el servidor, todos los jugadores se unirán al chat global."
+          desc: 
+            - "El jugador se unirá al chat global al entrar al servidor."
+            - "Si no, se unirá al chat seleccionado previamente."
+            - "Al reiniciar el servidor, todos los jugadores se unirán al chat global."
       manager:
         toggle-test:
+          material-true: "WHITE_GLAZED_TERRACOTTA"
+          material-false: "WHITE_CONCRETE"
           name: "Toggle Test"
-          desc: "Toggle para testear."
+          desc: 
+            - "Toggle para testear."
       reviewer:
         toggle-test:
+          material-true: "WHITE_GLAZED_TERRACOTTA"
+          material-false: "WHITE_CONCRETE"
           name: "Toggle Test"
-          desc: "Toggle para testear."
+          desc:
+            - "Toggle para testear."
   bloc-of-note:
     material: "WRITABLE_BOOK"
     name: "<yellow>Bloc de Notas"

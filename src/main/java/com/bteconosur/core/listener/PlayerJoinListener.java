@@ -66,7 +66,9 @@ public class PlayerJoinListener implements Listener {
         else GlobalChatService.broadcastMc(mcMessage);
         GlobalChatService.broadcastMc(mcMessage);
         
-        ChatService.setChatToGlobal(player);
+        if (player.getConfiguration().getGeneralGlobalChatOnJoin()) ChatService.setChatToGlobal(player);
+        else if (ChatService.wasInCountryChat(player)) ChatService.setCountryChat(player);
+        else ChatService.setChatToGlobal(player);
         
         permissionManager.checkTipoUsuario(player);
         permissionManager.checkRangoUsuario(player);
