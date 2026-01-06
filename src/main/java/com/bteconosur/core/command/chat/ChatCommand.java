@@ -11,6 +11,7 @@ public class ChatCommand extends BaseCommand {
 
     public ChatCommand() {
         super("chat", "Para cambiar el chat.", "[subcomando]");
+        this.addSubcommand(new ChatSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

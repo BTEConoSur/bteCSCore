@@ -96,6 +96,8 @@ crud-not-valid-id: "El id '%id%' proporcionado no es válido para la entidad '%e
 crud-not-valid-name: "El nombre '%name%' proporcionado no es válido para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %name% -> Nombre inválido. %reason% -> Razón de la invalidez.
 crud-not-valid-description: "La descripción proporcionada no es válida para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %reason% -> Razón de la invalidez.
 
+player-not-found: "El jugador '%player%' no fue encontrado o no está online-." # %player% -> Nombre del jugador.
+
 region-not-selected: "No tienes una región seleccionada."
 region-not-complete: "La selección de la región está incompleta."
 region-not-supported: "Tipo de selección de WorldEdit no soportado. Usa cuboid o poly."
@@ -113,6 +115,7 @@ get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entid
 # En caso de un material inválido, se usará STONE por defecto.
 gui-titles:
   chat-select: "Selección de Chat"
+  chat-set: "Selección de Chat para %player%" # %player% -> Nombre del jugador.
 items: 
   back:
     material: "STRUCTURE_VOID"
