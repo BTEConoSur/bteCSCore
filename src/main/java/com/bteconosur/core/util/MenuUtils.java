@@ -255,6 +255,17 @@ public class MenuUtils {
         );
     }
 
+    public static GuiItem getInternationalHead(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.international-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        if (isSelected) lore.add(0, lang.getString("selected-chat"));
+        return buildGuiItem(
+            buildHead(lang.getString("items.international-head.base64")),
+            (isSelected ? "<b>" : "") + lang.getString("items.international-head.name"),
+            lore
+        );
+    }
+
     private static ItemStack buildHead(String base64) {
         //TODO: Ver de usar el plugin de cabezas
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);

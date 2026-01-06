@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.chat;
+package com.bteconosur.core.command.pais;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -7,15 +7,16 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.menu.chat.ChatSelectMenu;
+import com.bteconosur.core.menu.config.PaisPrefixSelectMenu;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 
-public class ChatSetCommand extends BaseCommand {
+public class PaisPrefixSetCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
 
-    public ChatSetCommand() {
-        super("set", "Cambia el chat de un Jugador Online", "<nombre_jugador>", "btecs.command.chat.set", CommandMode.PLAYER_ONLY);
+    public PaisPrefixSetCommand() {
+        super("set", "Cambia el prefix de un Jugador Online", "<nombre_jugador>", "btecs.command.prefix.set", CommandMode.PLAYER_ONLY);
         lang = ConfigHandler.getInstance().getLang();
     }
 
@@ -38,8 +39,8 @@ public class ChatSetCommand extends BaseCommand {
         Player targetPlayer = PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId());
 
         Player player = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
-        String title = lang.getString("gui-titles.chat-set").replace("%player%", targetPlayer.getNombre());
-        ChatSelectMenu menu = new ChatSelectMenu(player, title);
+        String title = lang.getString("gui-titles.pais-prefix-set").replace("%player%", targetPlayer.getNombre());
+        PaisPrefixSelectMenu menu = new PaisPrefixSelectMenu(player, title);
         menu.setBTECSPlayer(targetPlayer);
         menu.open();
 

@@ -7,6 +7,7 @@ import com.bteconosur.core.command.chat.ChatCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
 import com.bteconosur.core.command.config.ManagerConfigCommand;
 import com.bteconosur.core.command.config.ReviewerConfigCommand;
+import com.bteconosur.core.command.pais.PaisPrefixCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.listener.ChatListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
@@ -113,6 +114,7 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new GeneralConfigCommand());
         PluginRegistry.registerCommand(new ReviewerConfigCommand());
         PluginRegistry.registerCommand(new ChatCommand());
+        PluginRegistry.registerCommand(new PaisPrefixCommand());
         consoleLogger.info("El Plugin se ha activado.");
         
         config = ConfigHandler.getInstance().getConfig();

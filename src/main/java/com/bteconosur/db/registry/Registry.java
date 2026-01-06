@@ -24,7 +24,7 @@ public abstract class Registry<K extends Serializable, V> {
     protected final ConsoleLogger logger;
 
     private final Class<V> clazz;
-
+    
     public Registry(Class<V> clazz) {
         this.clazz = clazz;
         dbManager = DBManager.getInstance();

@@ -96,7 +96,7 @@ crud-not-valid-id: "El id '%id%' proporcionado no es válido para la entidad '%e
 crud-not-valid-name: "El nombre '%name%' proporcionado no es válido para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %name% -> Nombre inválido. %reason% -> Razón de la invalidez.
 crud-not-valid-description: "La descripción proporcionada no es válida para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %reason% -> Razón de la invalidez.
 
-player-not-found: "El jugador '%player%' no fue encontrado o no está online-." # %player% -> Nombre del jugador.
+player-not-found: "El jugador '%player%' no fue encontrado o no está online." # %player% -> Nombre del jugador.
 
 region-not-selected: "No tienes una región seleccionada."
 region-not-complete: "La selección de la región está incompleta."
@@ -116,6 +116,8 @@ get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entid
 gui-titles:
   chat-select: "Selección de Chat"
   chat-set: "Selección de Chat para %player%" # %player% -> Nombre del jugador.
+  pais-prefix-select: "Selección de País"
+  pais-prefix-set: "Selección de País para %player%" # %
 items: 
   back:
     material: "STRUCTURE_VOID"
@@ -207,8 +209,11 @@ items:
     base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjRkMDNiZDQ0MTBiYWJkYzY4MjQ5M2IzYzJiYmEyNmU3MzBlNmJjNjU4ZDM4ODhlNzliZjcxMmY4NTMifX19"
   global-chat-head:
     name: "<aqua>Chat Global"
+    international-name: "<gray>Internacional"
     base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU3N2M0ZGUxZjUxYTcwNzIyMDIzZTg1NmI1NDNjZDU3MGYxZDBlZTZiOWQxNjdiNTkwMjhjZTFiYzkyZTQ1OCJ9fX0="
-
+  international-head:
+    name: "<gray>Internacional"
+    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU3N2M0ZGUxZjUxYTcwNzIyMDIzZTg1NmI1NDNjZDU3MGYxZDBlZTZiOWQxNjdiNTkwMjhjZTFiYzkyZTQ1OCJ9fX0="
 selected-chat: "<b><green>Seleccionado"
 
 # Chat

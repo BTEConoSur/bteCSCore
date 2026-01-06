@@ -46,57 +46,70 @@ public class ChatSelectMenu extends Menu {
 
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
-        Pais arg = PaisRegistry.getInstance().getArgentina();
+        PaisRegistry paisRegistry = PaisRegistry.getInstance();
+        
+        Pais arg = paisRegistry.getArgentina();
         gui.setItem(3,2, MenuUtils.getArgentinaHeadItem(ChatService.isInCountryChat(BTECSPlayer, arg)));
         gui.addSlotAction(3,2, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, arg);
-            gui.updateItem(3, 2, MenuUtils.getArgentinaHeadItem(ChatService.isInCountryChat(BTECSPlayer, arg)));
+            updateItems();
         });
 
-        Pais chile = PaisRegistry.getInstance().getChile();
+        Pais chile = paisRegistry.getChile();
         gui.setItem(3,3, MenuUtils.getChileHeadItem(ChatService.isInCountryChat(BTECSPlayer, chile)));
         gui.addSlotAction(3,3, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, chile);
-            gui.updateItem(3, 3, MenuUtils.getChileHeadItem(ChatService.isInCountryChat(BTECSPlayer, chile)));
+            updateItems();
         });
 
-        Pais peru = PaisRegistry.getInstance().getPeru();
+        Pais peru = paisRegistry.getPeru();
         gui.setItem(3,4, MenuUtils.getPeruHeadItem(ChatService.isInCountryChat(BTECSPlayer, peru)));
         gui.addSlotAction(3,4, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, peru);
-            gui.updateItem(3, 4, MenuUtils.getPeruHeadItem(ChatService.isInCountryChat(BTECSPlayer, peru)));
+            updateItems();
         });
 
         gui.setItem(2,4, MenuUtils.getGlobalChatHeadItem(ChatService.isInGlobalChat(BTECSPlayer)));
         gui.addSlotAction(2,4, event -> {
             ChatService.switchChatToGlobal(BTECSPlayer);
-            gui.updateItem(2, 4, MenuUtils.getGlobalChatHeadItem(ChatService.isInGlobalChat(BTECSPlayer)));
+            updateItems();
         });
 
         gui.setItem(2,6, MenuUtils.getBlockOfNoteItem(false));
 
-        Pais bolivia = PaisRegistry.getInstance().getBolivia();
+        Pais bolivia = paisRegistry.getBolivia();
         gui.setItem(3,6, MenuUtils.getBoliviaHeadItem(ChatService.isInCountryChat(BTECSPlayer, bolivia)));
         gui.addSlotAction(3,6, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, bolivia);
-            gui.updateItem(3, 6, MenuUtils.getBoliviaHeadItem(ChatService.isInCountryChat(BTECSPlayer, bolivia)));
+            updateItems();
         });
 
-        Pais uruguay = PaisRegistry.getInstance().getUruguay();
+        Pais uruguay = paisRegistry.getUruguay();
         gui.setItem(3,7, MenuUtils.getUruguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, uruguay)));
         gui.addSlotAction(3,7, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, uruguay);
-            gui.updateItem(3, 7, MenuUtils.getUruguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, uruguay)));
+            updateItems();
         });
 
-        Pais paraguay = PaisRegistry.getInstance().getParaguay();
+        Pais paraguay = paisRegistry.getParaguay();
         gui.setItem(3,8, MenuUtils.getParaguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, paraguay)));
         gui.addSlotAction(3,8, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, paraguay);
-            gui.updateItem(3, 8, MenuUtils.getParaguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, paraguay)));
+            updateItems();
         });
         
         return gui;
+    }
+
+    private void updateItems() {
+        PaisRegistry paisRegistry = PaisRegistry.getInstance();
+        gui.updateItem(3,2, MenuUtils.getArgentinaHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getArgentina())));
+        gui.updateItem(3,3, MenuUtils.getChileHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getChile())));
+        gui.updateItem(3,4, MenuUtils.getPeruHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getPeru())));
+        gui.updateItem(2,4, MenuUtils.getGlobalChatHeadItem(ChatService.isInGlobalChat(BTECSPlayer)));
+        gui.updateItem(3,6, MenuUtils.getBoliviaHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getBolivia())));
+        gui.updateItem(3,7, MenuUtils.getUruguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getUruguay())));
+        gui.updateItem(3,8, MenuUtils.getParaguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getParaguay())));
     }
 
     public void setBTECSPlayer(Player BTECSPlayer) {
