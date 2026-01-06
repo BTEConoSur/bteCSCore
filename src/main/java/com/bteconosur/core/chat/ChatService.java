@@ -11,8 +11,11 @@ import com.bteconosur.db.model.Player;
 public class ChatService {
 
     private static List<Player> playersInGlobalChat = new ArrayList<>();
+
     private static Map<Player, Pais> playersInCountryChat = new HashMap<>();
     private static Map<Player, Pais> playersLastCountryChat = new HashMap<>();
+
+    private static List<Player> playersInNotePad = new ArrayList<>();
 
     public static void switchChatToGlobal(Player player) {
         if (playersInGlobalChat.contains(player)) return;
@@ -22,6 +25,10 @@ public class ChatService {
             playersInCountryChat.remove(player);
             playersLastCountryChat.remove(player);
             CountryChatService.leaveChat(player, pais);
+        }
+
+        if (playersInNotePad.contains(player)) {
+            playersInNotePad.remove(player);
         }
 
         //TODO: Notificacion al jugador
@@ -37,10 +44,15 @@ public class ChatService {
             GlobalChatService.joinChat(player);
         }
 
+        if (playersInNotePad.contains(player)) {
+            playersInNotePad.remove(player);
+            GlobalChatService.joinChat(player);
+        }
+
         playersInGlobalChat.add(player);
     }
 
-    public static void setCountryChat(Player player) {
+    public static void setChatToCountry(Player player) {
         Pais pais = playersLastCountryChat.get(player);
         if (playersInCountryChat.containsKey(player) && playersInCountryChat.get(player).equals(pais)) return;
 
@@ -48,6 +60,11 @@ public class ChatService {
         GlobalChatService.leaveChat(player);
         CountryChatService.joinChat(player, pais);
         playersInCountryChat.put(player, pais);
+    }
+
+    public static void setChatToNotePad(Player player) {
+        GlobalChatService.leaveChat(player);
+        //TODO: Notificacion al jugador
     }
 
     public static void switchChatToCountry(Player player, Pais pais) {
@@ -64,10 +81,32 @@ public class ChatService {
             CountryChatService.leaveChat(player, previousPais);
         }
 
+        if (playersInNotePad.contains(player)) {
+            playersInNotePad.remove(player);
+        }
+
         //TODO: Notificacion al jugador
         CountryChatService.joinChat(player, pais);
         playersInCountryChat.put(player, pais);
         playersLastCountryChat.put(player, pais);
+    }
+
+    public static void switchChatToNotePad(Player player) {
+        if (playersInNotePad.contains(player)) return;
+
+        if (playersInGlobalChat.contains(player)) {
+            playersInGlobalChat.remove(player);
+            GlobalChatService.leaveChat(player);
+        }
+
+        if (playersInCountryChat.containsKey(player)) {
+            Pais pais = playersInCountryChat.get(player);
+            playersInCountryChat.remove(player);
+            CountryChatService.leaveChat(player, pais);
+        }
+
+        //TODO: Notificacion al jugador
+        playersInNotePad.add(player);
     }
 
     public static void leaveChat(Player player) {
@@ -93,7 +132,11 @@ public class ChatService {
 
     public static boolean wasInCountryChat(Player player) {
         return playersLastCountryChat.containsKey(player);
-    }   
+    }
+
+    public static boolean isInNotePad(Player player) {
+        return playersInNotePad.contains(player);
+    }
 
     public static boolean isInCountryChat(Player player, Pais pais) {
         return playersInCountryChat.containsKey(player) && playersInCountryChat.get(player).equals(pais);
@@ -105,6 +148,10 @@ public class ChatService {
 
     public static List<Player> getPlayersInGlobalChatList() {
         return playersInGlobalChat;
+    }
+
+    public static List<Player> getPlayersInNotePadList() {
+        return playersInNotePad;
     }
 
     public static Map<Player, Pais> getPlayersInCountryChat() {

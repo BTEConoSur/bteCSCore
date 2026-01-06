@@ -1,12 +1,10 @@
 package com.bteconosur.core.listener;
 
-import java.util.List;
-import java.util.Map;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import com.bteconosur.core.chat.GlobalChatService;
+import com.bteconosur.core.chat.NotePadService;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.chat.CountryChatService;
@@ -36,6 +34,11 @@ public class ChatListener implements Listener {
 
         if (ChatService.isInGlobalChat(player)) {
             GlobalChatService.broadcastChat(dsMessage, mcMessage);
+            return;
+        }
+
+        if (ChatService.isInNotePad(player)) {
+            NotePadService.sendChat(mcMessage, player);
             return;
         }
     }

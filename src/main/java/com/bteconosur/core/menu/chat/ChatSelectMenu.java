@@ -75,7 +75,11 @@ public class ChatSelectMenu extends Menu {
             updateItems();
         });
 
-        gui.setItem(2,6, MenuUtils.getBlockOfNoteItem(false));
+        gui.setItem(2,6, MenuUtils.getNotePadItem(ChatService.isInNotePad(BTECSPlayer)));
+        gui.addSlotAction(2,6, event -> {
+            ChatService.switchChatToNotePad(BTECSPlayer);
+            updateItems();
+        });
 
         Pais bolivia = paisRegistry.getBolivia();
         gui.setItem(3,6, MenuUtils.getBoliviaHeadItem(ChatService.isInCountryChat(BTECSPlayer, bolivia)));
@@ -107,6 +111,7 @@ public class ChatSelectMenu extends Menu {
         gui.updateItem(3,3, MenuUtils.getChileHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getChile())));
         gui.updateItem(3,4, MenuUtils.getPeruHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getPeru())));
         gui.updateItem(2,4, MenuUtils.getGlobalChatHeadItem(ChatService.isInGlobalChat(BTECSPlayer)));
+        gui.updateItem(2,6, MenuUtils.getNotePadItem(ChatService.isInNotePad(BTECSPlayer)));
         gui.updateItem(3,6, MenuUtils.getBoliviaHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getBolivia())));
         gui.updateItem(3,7, MenuUtils.getUruguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getUruguay())));
         gui.updateItem(3,8, MenuUtils.getParaguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, paisRegistry.getParaguay())));

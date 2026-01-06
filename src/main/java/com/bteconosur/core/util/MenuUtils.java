@@ -80,14 +80,14 @@ public class MenuUtils {
         );
     }
 
-    public static GuiItem getBlockOfNoteItem(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.bloc-of-note.lore");
+    public static GuiItem getNotePadItem(Boolean isSelected) {
+        List<String> lore = lang.getStringList("items.notepad.lore");
         if (lore == null) lore = new ArrayList<>();
         if (isSelected) lore.addFirst(lang.getString("selected-chat"));
         
         return buildGuiItem(
-            lang.getString("items.bloc-of-note.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.bloc-of-note.name"),
+            lang.getString("items.notepad.material"),
+            (isSelected ? "<b>" : "") + lang.getString("items.notepad.name"),
             lore
         );
     }   

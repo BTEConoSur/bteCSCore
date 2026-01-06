@@ -183,7 +183,7 @@ items:
           name: "Toggle Test"
           desc:
             - "Toggle para testear."
-  bloc-of-note:
+  notepad:
     material: "WRITABLE_BOOK"
     name: "<yellow>Bloc de Notas"
     lore:

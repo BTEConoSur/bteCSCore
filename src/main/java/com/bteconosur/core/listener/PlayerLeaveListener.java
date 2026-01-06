@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.bteconosur.core.chat.GlobalChatService;
+import com.bteconosur.core.chat.NotePadService;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.chat.CountryChatService;
@@ -41,7 +42,8 @@ public class PlayerLeaveListener implements Listener {
             if (config.getBoolean("discord-player-join-leave")) GlobalChatService.broadcastEmbed(dsMessage, mcMessage);
             else GlobalChatService.broadcastMc(mcMessage);
             CountryChatService.broadcastMc(mcMessage);
-
+            NotePadService.broadcastMc(mcMessage);
+            
             ChatService.leaveChat(player);
         }
     }
