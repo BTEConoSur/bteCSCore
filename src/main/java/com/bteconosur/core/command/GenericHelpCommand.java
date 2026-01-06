@@ -45,6 +45,14 @@ public class GenericHelpCommand extends BaseCommand {
         if (!parentCommand.subcommands.isEmpty()) {
             sender.sendMessage(miniMessage.deserialize(subcommandsTitle));
             for (BaseCommand sub : parentCommand.subcommands.values()) {
+                if (sub.getPermission() != null && !sender.hasPermission(sub.getPermission())) {
+                    continue;
+                }
+                
+                if (!sub.isAllowedSender(sender)) {
+                    continue;
+                }
+                
                 String subDesc = sub.description != null ? sub.description : "";
                 
                 String line1 = subcommandLine1

@@ -111,9 +111,20 @@ public abstract class BaseCommand extends Command {
 
         List<String> completions = new ArrayList<>();
         String currentArg = args[args.length - 1].toLowerCase();
-        for (String subcommand : currentCommand.subcommands.keySet()) {
-            if (subcommand.startsWith(currentArg)) {
-                completions.add(subcommand);
+        for (Map.Entry<String, BaseCommand> entry : currentCommand.subcommands.entrySet()) {
+            String subcommandName = entry.getKey();
+            BaseCommand subcommand = entry.getValue();
+            
+            if (subcommand.permission != null && !sender.hasPermission(subcommand.permission)) {
+                continue;
+            }
+            
+            if (!subcommand.isAllowedSender(sender)) {
+                continue;
+            }
+            
+            if (subcommandName.startsWith(currentArg)) {
+                completions.add(subcommandName);
             }
         }
 
@@ -186,7 +197,7 @@ public abstract class BaseCommand extends Command {
     /**
      * Verifica si el sender es un tipo de sender permitido.
      */
-    private boolean isAllowedSender(CommandSender sender) {
+    protected boolean isAllowedSender(CommandSender sender) {
         return switch (commandMode) {
             case PLAYER_ONLY -> sender instanceof Player;
             case CONSOLE_ONLY -> !(sender instanceof Player);
@@ -221,6 +232,10 @@ public abstract class BaseCommand extends Command {
 
     public String getFullCommand() {
         return fullCommand;
+    }
+
+    public String getPermission() {
+        return permission;
     }
 
 }
