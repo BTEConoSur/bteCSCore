@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.chat.ChatUtil;
+import com.bteconosur.core.chat.CountryChatService;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.db.PermissionManager;
@@ -64,7 +65,7 @@ public class PlayerJoinListener implements Listener {
 
         if (config.getBoolean("discord-player-join-leave")) GlobalChatService.broadcastEmbed(dsMessage, mcMessage);
         else GlobalChatService.broadcastMc(mcMessage);
-        GlobalChatService.broadcastMc(mcMessage);
+        CountryChatService.broadcastMc(mcMessage);
         
         if (player.getConfiguration().getGeneralGlobalChatOnJoin()) ChatService.setChatToGlobal(player);
         else if (ChatService.wasInCountryChat(player)) ChatService.setCountryChat(player);
