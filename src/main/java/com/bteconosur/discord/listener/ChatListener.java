@@ -53,6 +53,7 @@ public class ChatListener extends ListenerAdapter {
             else if (attachment.isVideo()) mcMessage += " " + lang.getString("mc-video");
             else if (attachment.isSpoiler()) mcMessage += " " + lang.getString("mc-spoiler");
             else mcMessage += " " + lang.getString("mc-file");
+            dsMessage += " " + attachment.getUrl();
         }
 
         if (isGlobalChat) {
