@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.registry.PlayerRegistry;
 
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
@@ -20,7 +21,7 @@ public class NotePadService {
 
     public static void broadcastMc(String mcMessage) {
         List<Player> notePadPlayers = ChatService.getPlayersInNotePadList();
-        for (Player player : Player.getOnlinePlayers()) {
+        for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (!notePadPlayers.contains(player)) continue;
             player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(mcMessage));
         }

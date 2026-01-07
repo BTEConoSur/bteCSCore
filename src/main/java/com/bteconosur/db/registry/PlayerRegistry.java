@@ -1,10 +1,17 @@
 package com.bteconosur.db.registry;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
+
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.RangoUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class PlayerRegistry extends Registry<UUID, Player> {
 
@@ -43,6 +50,29 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         Player found = results.get(0);
         loadedObjects.put(found.getUuid(), found);
         return found;
+    }
+
+    public List<Player> getReviewers(Pais pais) {
+        RangoUsuario reviewerRango = RangoUsuarioRegistry.getInstance().getReviewer();
+        return loadedObjects.values()
+                .stream()
+                .filter(player -> player.getRangoUsuario().equals(reviewerRango))
+                .filter(player -> player.getPaisesReviewer().contains(pais))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getManagers(Pais pais) {
+        return loadedObjects.values()
+                .stream()
+                .filter(player -> player.getPaisesManager().contains(pais))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getOnlinePlayers() {
+        return Bukkit.getOnlinePlayers()
+                .stream()
+                .map(player -> get(player.getUniqueId()))
+                .collect(Collectors.toList());
     }
 
     public static PlayerRegistry getInstance() {

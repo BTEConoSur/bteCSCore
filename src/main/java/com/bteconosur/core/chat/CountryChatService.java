@@ -8,6 +8,7 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.util.MessageService;
 
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -58,7 +59,7 @@ public class CountryChatService {
 
     public static void broadcastMc(String mcMessage, Pais pais) {
         Map<Player, Pais> playersInChat = ChatService.getPlayersInCountryChat();
-        for (Player player : Player.getOnlinePlayers()) {
+        for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (playersInChat.containsKey(player) && playersInChat.get(player).equals(pais)) {
                 player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(mcMessage));
             }
@@ -67,7 +68,7 @@ public class CountryChatService {
 
     public static void broadcastMc(String mcMessage) {
         Map<Player, Pais> playersInChat = ChatService.getPlayersInCountryChat();
-        for (Player player : Player.getOnlinePlayers()) {
+        for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (!playersInChat.containsKey(player)) continue;
             player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(mcMessage));
         }

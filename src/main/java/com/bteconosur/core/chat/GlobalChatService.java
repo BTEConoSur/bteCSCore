@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.util.MessageService;
 
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -68,7 +69,7 @@ public class GlobalChatService {
 
     public static void broadcastMc(String mcMessage) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
-        for (Player player : Player.getOnlinePlayers()) {
+        for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (!globalChatPlayers.contains(player)) continue;
             player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(mcMessage));
         }

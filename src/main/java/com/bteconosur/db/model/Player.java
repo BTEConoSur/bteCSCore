@@ -235,16 +235,6 @@ public class Player {
     }
 
     @JsonIgnore
-    public static List<Player> getOnlinePlayers() {
-        PlayerRegistry registry = PlayerRegistry.getInstance();
-        return Bukkit.getOnlinePlayers()
-                .stream()
-                .map(player -> registry.get(player.getUniqueId()))
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-    }
-
-    @JsonIgnore
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
