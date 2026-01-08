@@ -292,29 +292,29 @@ avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png" # %uuid% -> UUID del
 ds-embeds:
   start:
     title: "El servidor se ha iniciado."
-    color: "0x43B581"
+    color: 0x43B581
   stop:
     title: "**El servidor se ha detenido.**"
     description: "Nos vemos!"
-    color: "0xED4245"
+    color: 0xED4245
   player-join:
     message: "%player% se ha unido al servidor." # %player% -> Nombre del jugador.
-    color: "0x43B581"
+    color: 0x43B581
   player-left:
     message: "%player% ha salido del servidor." # %player% -> Nombre del jugador.
-    color: "0xED4245"
+    color: 0xED4245
   chat-join:
     message: "%player% se ha unido al chat." # %player% -> Nombre del jugador.
-    color: "0xf2cc0d"
+    color: 0xf2cc0d
   chat-left:
     message: "%player% ha salido del chat." # %player% -> Nombre del jugador
-    color: "0x0D33F2"
+    color: 0x0D33F2
   error:
     title: "Error"
-    color: "0xED4245"
+    color: 0xED4245
   warn:
     title: "Warn"
-    color: "0xf2cc0d"
+    color: 0xf2cc0d
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.

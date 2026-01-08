@@ -153,7 +153,7 @@ public class ChatUtil {
         return new EmbedBuilder()
             .setTitle(lang.getString("ds-embeds.start.title"))
             .setDescription(lang.getString("ds-embeds.start.description"))
-            .setColor(Integer.decode(lang.getString("ds-embeds.start.color")))
+            .setColor(lang.getInt("ds-embeds.start.color"))
             .build();
     }
 
@@ -161,7 +161,7 @@ public class ChatUtil {
         return new EmbedBuilder()
             .setTitle(lang.getString("ds-embeds.stop.title"))
             .setDescription(lang.getString("ds-embeds.stop.description"))
-            .setColor(Integer.decode(lang.getString("ds-embeds.stop.color")))
+            .setColor(lang.getInt("ds-embeds.stop.color"))
             .build();
     }
 
@@ -170,7 +170,7 @@ public class ChatUtil {
         String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
         return new EmbedBuilder()
             .setAuthor(message, null, avatarUrl)
-            .setColor(Integer.decode(lang.getString("ds-embeds.player-join.color")))
+            .setColor(lang.getInt("ds-embeds.player-join.color"))
             .build();
     }
 
@@ -179,7 +179,7 @@ public class ChatUtil {
         String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
         return new EmbedBuilder()
             .setAuthor(message, null, avatarUrl)
-            .setColor(Integer.decode(lang.getString("ds-embeds.player-left.color")))
+            .setColor(lang.getInt("ds-embeds.player-left.color"))
             .build();
     }
 
@@ -196,7 +196,7 @@ public class ChatUtil {
         String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
         return new EmbedBuilder()
             .setAuthor(message, null, avatarUrl)
-            .setColor(Integer.decode(lang.getString("ds-embeds.chat-join.color")))
+            .setColor(lang.getInt("ds-embeds.chat-join.color"))
             .build();
     }
 
@@ -205,7 +205,7 @@ public class ChatUtil {
         String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
         return new EmbedBuilder()
             .setAuthor(message, null, avatarUrl)
-            .setColor(Integer.decode(lang.getString("ds-embeds.chat-left.color")))
+            .setColor(lang.getInt("ds-embeds.chat-left.color"))
             .build();
     }
 
