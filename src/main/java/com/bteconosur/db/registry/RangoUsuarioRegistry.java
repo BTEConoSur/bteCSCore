@@ -43,10 +43,6 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
         return get("Mod");
     }
 
-    public RangoUsuario getReviewer() {
-        return get("Reviewer");
-    }
-
     public RangoUsuario getInfluencer() {
         return get("Influencer");
     }
@@ -66,10 +62,6 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
         }
         if (get("Mod") == null) {
             RangoUsuario rango = new RangoUsuario("Mod", "Rango de usuario: Mod");
-            load(rango);
-        }
-        if (get("Reviewer") == null) {
-            RangoUsuario rango = new RangoUsuario("Reviewer", "Rango de usuario: Reviewer");
             load(rango);
         }
         if (get("Influencer") == null) {
