@@ -27,31 +27,37 @@ public class DiscordLogger {
     private static boolean enableStaffConsoleLog = false;
 
     public static void countryLog(String message, Pais pais) {
+        if (!config.getBoolean("discord-country-log")) return;
         MessageService.sendMessage(pais.getDsIdLog(), message);
     }
 
     public static void countryLog(String message, List<Pais> paises) {
+        if (!config.getBoolean("discord-country-log")) return;
         List<Long> channelIds = paises.stream().map(Pais::getDsIdLog).toList();
         MessageService.sendBroadcastMessage(channelIds, message);
     }
 
     public static void globalLog(String message) {
+        if (!config.getBoolean("discord-country-log")) return;
         MessageService.sendBroadcastMessage(PaisRegistry.getInstance().getDsLogIds(), message);
     }
 
     public static void staffLog(String message) {
+        if (!config.getBoolean("discord-staff-log")) return;
         MessageService.sendMessage(config.getLong("discord-staff-log-id"), message);
+    }
+
+    public static void staffLog(String message, Pais pais) {
+        if (!config.getBoolean("discord-staff-log")) return;
+        String prefix = lang.getString("ds-prefixes.pais-logo." + pais.getNombre());
+        String formattedMessage = lang.getString("ds-staff-country-log").replace("%dsPais%", prefix).replace("%message%", message);
+        MessageService.sendMessage(config.getLong("discord-staff-log-id"), formattedMessage);
     }
 
     public static void staffConsoleLog(MessageEmbed embed) {
         if (!enableStaffConsoleLog) return;
+        if (!config.getBoolean("discord-staff-console-log")) return;
         MessageService.sendEmbed(config.getLong("discord-staff-console-log-id"), embed);
-    }
-
-    public static void staffLog(String message, Pais pais) {
-        String prefix = lang.getString("ds-prefixes.pais-logo." + pais.getNombre());
-        String formattedMessage = lang.getString("ds-staff-country-log").replace("%dsPais%", prefix).replace("%message%", message);
-        MessageService.sendMessage(config.getLong("discord-staff-log-id"), formattedMessage);
     }
 
     public static void notifyManagers(String message, Pais pais) {

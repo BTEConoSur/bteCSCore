@@ -23,7 +23,8 @@ discord-dev-role-id:  # ID del rol de Discord que identifica a los desarrollador
 
 discord-global-chat: true # Habilitar chat global entre servidor y Discord.
 discord-country-chat: true # Habilitar chat por país entre servidor y Discord.
-discord-staff-log: true # Habilitar logs de acciones en el Staff Hub.
+discord-country-log: true # Habilitar logs de acciones de proyectos por país. 
+discord-staff-log: true # Habilitar logs de acciones de proyectos en el Staff Hub.
 discord-staff-console-log: true # Habilitar logs de la consola del servidor en el Staff Hub.
 
 discord-player-join-leave: true # Habilitar mensajes de entrada y salida de jugadores en Discord. Depende de discord-country-chat y/o discord-global-chat para mostrarse en Discord.
