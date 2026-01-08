@@ -30,6 +30,7 @@ public class DsCommandManager {
         addCommand(new TestCommand());
         addCommand(new Test2Command());
         addCommand(new DeleteDsCommand());
+        addCommand(new DsExecCommand());
     }
 
     private void addCommand(DsCommand command) {

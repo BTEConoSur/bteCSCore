@@ -187,7 +187,7 @@ public class PermissionManager {
             boolean modified = false;
             Set<NodoPermiso> permisos = rango.getPermisos();
             if (permisos == null || permisos.isEmpty()) {
-                logger.warn("El RangoUsuario '" + rango.getNombre() + "' no tiene permisos asignados en la base de datos.");
+                //logger.warn("El RangoUsuario '" + rango.getNombre() + "' no tiene permisos asignados en la base de datos.");
                 continue;
             }
 

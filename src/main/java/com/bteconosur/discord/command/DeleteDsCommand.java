@@ -20,7 +20,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 public class DeleteDsCommand extends DsCommand {
 
     public DeleteDsCommand() {
-        super("delete", "Borrar un comando del registro de Discord,", 
+        super("delete", "Borrar un comando del registro de Discord.", 
             Arrays.asList(
                 new OptionData(OptionType.STRING, "comando", "Nombre del comando a borrar", true)
             ),
