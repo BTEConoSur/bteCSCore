@@ -37,10 +37,10 @@ public class ManagerConfigMenu extends Menu {
 
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
-        gui.setItem(2, 2, MenuUtils.getManagerConfigItem("toggle-test", configuration.getManagerToggleTest()));
+        gui.setItem(2, 2, MenuUtils.getManagerConfigItem("notifications", configuration.getManagerDsNotifications()));
         gui.addSlotAction(2, 2, event -> {
-            ConfigurationService.toggle(player.getUniqueId(), ConfigurationKey.MANAGER_TOGGLE_TEST); // TODO: Capaz es mejor obtener la configuracion con configurationService 
-            gui.updateItem(2, 2, MenuUtils.getManagerConfigItem("toggle-test", configuration.getManagerToggleTest()));
+            ConfigurationService.toggle(player.getUniqueId(), ConfigurationKey.MANAGER_DS_NOTIFICATIONS); // TODO: Capaz es mejor obtener la configuracion con configurationService 
+            gui.updateItem(2, 2, MenuUtils.getManagerConfigItem("notifications", configuration.getManagerDsNotifications()));
         });
         
         return gui;

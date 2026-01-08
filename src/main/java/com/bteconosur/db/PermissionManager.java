@@ -126,7 +126,7 @@ public class PermissionManager {
             boolean modified = false;
             Set<NodoPermiso> permisos = tipo.getPermisos();
             if (permisos == null || permisos.isEmpty()) {
-                logger.warn("El TipoUsuario '" + tipo.getNombre() + "' no tiene permisos asignados en la base de datos.");
+                //logger.warn("El TipoUsuario '" + tipo.getNombre() + "' no tiene permisos asignados en la base de datos.");
                 continue;
             }
 

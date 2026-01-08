@@ -13,6 +13,7 @@ import com.bteconosur.core.listener.ChatListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
 import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.PermissionManager;
@@ -58,6 +59,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static LuckPerms luckPermsApi;
 
     private static YamlConfiguration config;
+    private static YamlConfiguration lang;
 
     @Override
     public void onEnable() {
@@ -85,9 +87,17 @@ public final class BTEConoSur extends JavaPlugin {
             return;
         }
 
+        ConfigHandler configHandler = ConfigHandler.getInstance();
+        config = configHandler.getConfig();
+        lang = configHandler.getLang();
+
         consoleLogger = new ConsoleLogger();
-        dbManager = DBManager.getInstance();
+
         discordManager = DiscordManager.getInstance();
+        if (discordManager.getJda() != null) DiscordLogger.toggleStaffConsoleLog();
+        consoleLogger.debug(lang.getString("debug-mode-enabled"));
+
+        dbManager = DBManager.getInstance();
         dsCommandManager = DsCommandManager.getInstance();
         worldManager = new WorldManager(); //TODO: hacer singleton
         
@@ -117,7 +127,6 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new PaisPrefixCommand());
         consoleLogger.info("El Plugin se ha activado.");
         
-        config = ConfigHandler.getInstance().getConfig();
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
     }
 
@@ -170,6 +179,7 @@ public final class BTEConoSur extends JavaPlugin {
         }
 
         if (discordManager != null) {
+            DiscordLogger.toggleStaffConsoleLog();
             if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStopped());
             discordManager.shutdown();
             discordManager = null;

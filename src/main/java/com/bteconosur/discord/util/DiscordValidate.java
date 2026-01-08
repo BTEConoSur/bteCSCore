@@ -5,6 +5,7 @@ import com.bteconosur.core.util.ConsoleLogger;
 
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 public final class DiscordValidate {
@@ -14,6 +15,22 @@ public final class DiscordValidate {
     public static boolean channelId(Long channelId) {
         if (channelId == null) {
             logger.warn("Discord: El ID del canal es nulo o vacío.");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean userId(Long userId) {
+        if (userId == null) {
+            logger.warn("Discord: El ID del usuario es nulo o vacío.");
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean user(User user) {
+        if (user == null) {
+            logger.warn("Discord: El usuario es nulo.");
             return false;
         }
         return true;

@@ -22,7 +22,7 @@ public class TestConsoleLoggerCommand extends BaseCommand {
         logger.error("Este es un mensaje de error de prueba.");
         logger.debug("Este es un mensaje de debug de prueba.");
         Player firstPlayer = DBManager.getInstance().get(Player.class, ((org.bukkit.entity.Player)sender).getUniqueId());
-        logger.info("Este es un mensaje de prueba: ", firstPlayer); //TODO: Chequear nulls en console logger
+        logger.warn("Este es un mensaje de prueba: ", firstPlayer);
         return true;
     }   
 

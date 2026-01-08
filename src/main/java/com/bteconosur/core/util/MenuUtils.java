@@ -92,15 +92,15 @@ public class MenuUtils {
         );
     }   
 
-    public static GuiItem getGeneralConfigItem(String name, Boolean value) {
+    public static GuiItem getGeneralConfigItem(String name, Boolean value) { // name -> Nombre de la sección de la config en lang.yml. Ej: "global-chat-on-join"
         return getConfigItem("general", name, value);
     }
 
-    public static GuiItem getManagerConfigItem(String name, Boolean value) {
+    public static GuiItem getManagerConfigItem(String name, Boolean value) { // name -> Nombre de la sección de la config en lang.yml. Ej: "notifications"
         return getConfigItem("manager", name, value);
     }
 
-    public static GuiItem getReviewerConfigItem(String name, Boolean value) {
+    public static GuiItem getReviewerConfigItem(String name, Boolean value) { // name -> Nombre de la sección de la config en lang.yml. Ej: "notifications"
         return getConfigItem("reviewer", name, value);
     }
 

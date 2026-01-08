@@ -37,10 +37,10 @@ public class ReviewerConfigMenu extends Menu {
 
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
-        gui.setItem(2, 2, MenuUtils.getReviewerConfigItem("toggle-test", configuration.getReviewerToggleTest()));
+        gui.setItem(2, 2, MenuUtils.getReviewerConfigItem("notifications", configuration.getReviewerDsNotifications()));
         gui.addSlotAction(2, 2, event -> {
-            ConfigurationService.toggle(player.getUniqueId(), ConfigurationKey.REVIEWER_TOGGLE_TEST); // TODO: Capaz es mejor obtener la configuracion con configurationService 
-            gui.updateItem(2, 2, MenuUtils.getReviewerConfigItem("toggle-test", configuration.getReviewerToggleTest()));
+            ConfigurationService.toggle(player.getUniqueId(), ConfigurationKey.REVIEWER_DS_NOTIFICATIONS); // TODO: Capaz es mejor obtener la configuracion con configurationService 
+            gui.updateItem(2, 2, MenuUtils.getReviewerConfigItem("notifications", configuration.getReviewerDsNotifications()));
         });
         
         return gui;

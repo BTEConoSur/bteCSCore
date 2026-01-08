@@ -7,7 +7,6 @@ config-reloaded: "Configuración recargada correctamente."
 plugin-prefix: "<gray>[</gray><dark_gray>BTEConoSur</dark_gray><gray>]</gray>"
 
 # Console Logger
-logger-loaded: "Console Logger inicializado."
 debug-mode-enabled: "Modo debug activado."
 
 prefix: "<gray>[</gray><dark_gray>Core</dark_gray><gray>]</gray>" 
@@ -57,6 +56,12 @@ discord-command-manager-shutting-down: "Apagando Gestor de Comandos de Discord..
 
 discord-internal-error: "Un error interno ha ocurrido."
 discord-interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
+
+ds-manager-notification: "%mention%: %message%" # %mention% -> Mención al usuario. %message% -> Mensaje a enviar.
+ds-reviewer-notification: "%mention%: %message%" # %mention% -> Mención al reviewer. %message% -> Mensaje a enviar.
+ds-dev-notification: "%mention%: %message%" # %mention% -> Mención al rol de developer. %message% -> Mensaje a enviar. 
+
+ds-staff-country-log: "%dsPais% %message%" # %dsPais% -> Logo del país. %message% -> Mensaje enviado.
 
 # World
 world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
@@ -170,19 +175,19 @@ items:
             - "Si no, se unirá al chat seleccionado previamente."
             - "Al reiniciar el servidor, todos los jugadores se unirán al chat global."
       manager:
-        toggle-test:
+        notifications:
           material-true: "WHITE_GLAZED_TERRACOTTA"
           material-false: "WHITE_CONCRETE"
-          name: "Toggle Test"
+          name: "Notificaciones de Manager"
           desc: 
-            - "Toggle para testear."
+            - "Habilitar las notificaciones para Managers de discord."
       reviewer:
-        toggle-test:
+        notifications:
           material-true: "WHITE_GLAZED_TERRACOTTA"
           material-false: "WHITE_CONCRETE"
-          name: "Toggle Test"
+          name: "Notificaciones de Reviewer"
           desc:
-            - "Toggle para testear."
+            - "Habilitar las notificaciones para Reviewers de discord."
   notepad:
     material: "WRITABLE_BOOK"
     name: "<yellow>Bloc de Notas"
@@ -303,7 +308,13 @@ ds-embeds:
     color: "0xf2cc0d"
   chat-left:
     message: "%player% ha salido del chat." # %player% -> Nombre del jugador
-    color: "0x0D33F2" 
+    color: "0x0D33F2"
+  error:
+    title: "Error"
+    color: "0xED4245"
+  warn:
+    title: "Warn"
+    color: "0xf2cc0d"
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.

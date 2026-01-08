@@ -42,7 +42,7 @@ public class ConfigurationService {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(uuid).getConfiguration();
 
-        configuration.setReviewerToggleTest(config.getBoolean("player-defaults.reviewer.toggle-test"));
+        configuration.setReviewerDsNotifications(config.getBoolean("player-defaults.reviewer.notifications"));
 
         playerRegistry.merge(uuid);
     }
@@ -51,7 +51,7 @@ public class ConfigurationService {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(uuid).getConfiguration();
 
-        configuration.setManagerToggleTest(config.getBoolean("player-defaults.manager.toggle-test"));
+        configuration.setManagerDsNotifications(config.getBoolean("player-defaults.manager.notifications"));
 
         playerRegistry.merge(uuid);
     }
@@ -64,11 +64,11 @@ public class ConfigurationService {
             case GENERAL_GLOBAL_CHAT_ON_JOIN:
                 configuration.toggleGeneralGlobalChatOnJoin();
                 break;
-            case REVIEWER_TOGGLE_TEST:
-                configuration.toggleReviewerTest();
+            case REVIEWER_DS_NOTIFICATIONS:
+                configuration.toggleReviewerDsNotifications();
                 break;
-            case MANAGER_TOGGLE_TEST:
-                configuration.toggleManagerTest();
+            case MANAGER_DS_NOTIFICATIONS:
+                configuration.toggleManagerDsNotifications();
                 break;
             default:
                 logger.warn("Key no reconocida: " + key);

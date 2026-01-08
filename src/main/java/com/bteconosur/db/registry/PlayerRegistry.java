@@ -10,8 +10,6 @@ import org.bukkit.Bukkit;
 
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
-import com.bteconosur.db.model.RangoUsuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class PlayerRegistry extends Registry<UUID, Player> {
 
@@ -53,10 +51,8 @@ public class PlayerRegistry extends Registry<UUID, Player> {
     }
 
     public List<Player> getReviewers(Pais pais) {
-        RangoUsuario reviewerRango = RangoUsuarioRegistry.getInstance().getReviewer();
         return loadedObjects.values()
                 .stream()
-                .filter(player -> player.getRangoUsuario().equals(reviewerRango))
                 .filter(player -> player.getPaisesReviewer().contains(pais))
                 .collect(Collectors.toList());
     }

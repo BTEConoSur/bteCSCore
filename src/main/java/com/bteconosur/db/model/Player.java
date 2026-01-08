@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Table;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -27,6 +29,7 @@ import org.bukkit.Bukkit;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.db.registry.PlayerRegistry;
 
 @Entity
@@ -232,6 +235,14 @@ public class Player {
     @JsonIgnore
     public static Player getBTECSPlayer(org.bukkit.entity.Player bukkitPlayer) {
         return PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId());
+    }
+
+    @JsonIgnore
+    public static User getDsUser(Player player) {
+        if (player.getDsIdUsuario() == null) return null;
+        JDA jda = BTEConoSur.getDiscordManager().getJda();
+        if (jda == null) return null;
+        return jda.getUserById(player.getDsIdUsuario());
     }
 
     @JsonIgnore
