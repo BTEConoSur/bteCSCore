@@ -1,11 +1,8 @@
 package com.bteconosur.discord.listener;
 
-import java.io.ObjectInputFilter.Config;
-
 import javax.annotation.Nonnull;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.yaml.snakeyaml.Yaml;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;

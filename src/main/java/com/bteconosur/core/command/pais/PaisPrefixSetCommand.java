@@ -6,7 +6,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.core.menu.chat.ChatSelectMenu;
 import com.bteconosur.core.menu.config.PaisPrefixSelectMenu;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;

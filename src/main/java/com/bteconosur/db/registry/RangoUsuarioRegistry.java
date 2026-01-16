@@ -10,7 +10,7 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
     private static RangoUsuarioRegistry instance;
 
     public RangoUsuarioRegistry() {
-        super(RangoUsuario.class);
+        super();
         logger.info(lang.getString("rango-usuario-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<RangoUsuario> rangos = dbManager.selectAll(RangoUsuario.class);

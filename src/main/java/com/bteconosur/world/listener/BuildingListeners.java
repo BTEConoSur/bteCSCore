@@ -9,9 +9,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import com.bteconosur.core.BTEConoSur;
-import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -19,14 +16,9 @@ import com.bteconosur.world.WorldManager;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 
 public class BuildingListeners implements Listener {
-
-    private final YamlConfiguration lang;
-    private final YamlConfiguration config;
-    private final ConsoleLogger logger;
 
     private final WorldManager worldManager;
     private final DBManager dbManager;
@@ -36,11 +28,6 @@ public class BuildingListeners implements Listener {
         this.worldManager = worldManager;
         dbManager = DBManager.getInstance();
         playerRegistry = PlayerRegistry.getInstance();
-
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
-        config = configHandler.getConfig();
-        logger = BTEConoSur.getConsoleLogger();
     }
 
     @EventHandler

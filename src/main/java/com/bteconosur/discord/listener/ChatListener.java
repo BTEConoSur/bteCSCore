@@ -2,6 +2,8 @@ package com.bteconosur.discord.listener;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.chat.GlobalChatService;
@@ -22,7 +24,7 @@ public class ChatListener extends ListenerAdapter {
     public static YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     @Override 
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         PaisRegistry paisRegistry = PaisRegistry.getInstance();

@@ -22,6 +22,7 @@ public class Test2Command extends DsCommand {
         );
     }
 
+    @SuppressWarnings("null")
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         String texto = event.getOption("texto").getAsString();

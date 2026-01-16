@@ -10,7 +10,7 @@ public class PaisRegistry extends Registry<String, Pais> {
     private static PaisRegistry instance;
 
     public PaisRegistry() {
-        super(Pais.class);
+        super();
         logger.info(lang.getString("pais-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<Pais> paises = dbManager.selectAll(Pais.class);

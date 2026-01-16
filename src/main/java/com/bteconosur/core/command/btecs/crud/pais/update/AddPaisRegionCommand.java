@@ -1,16 +1,11 @@
 package com.bteconosur.core.command.btecs.crud.pais.update;
 
-import java.io.Console;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.locationtech.jts.geom.Polygon;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Pais;

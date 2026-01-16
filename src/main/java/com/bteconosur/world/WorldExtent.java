@@ -47,6 +47,7 @@ public class WorldExtent extends AbstractDelegateExtent {
         return super.setBiome(x, y, z, biome);
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public boolean setBlock(BlockVector3 location, BlockStateHolder block) throws WorldEditException
     {
@@ -57,6 +58,7 @@ public class WorldExtent extends AbstractDelegateExtent {
         return super.setBlock(location, block);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean setBlock(int x, int y, int z, BlockStateHolder block) throws WorldEditException
     {

@@ -10,7 +10,7 @@ public class TipoUsuarioRegistry extends Registry<String, TipoUsuario> {
     private static TipoUsuarioRegistry instance;
 
     public TipoUsuarioRegistry() {
-        super(TipoUsuario.class);
+        super();
         logger.info(lang.getString("tipo-usuario-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<TipoUsuario> tipos = dbManager.selectAll(TipoUsuario.class);

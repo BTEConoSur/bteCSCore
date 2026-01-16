@@ -5,7 +5,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
-import com.bteconosur.discord.command.DsCommandManager;
 
 import net.dv8tion.jda.api.JDA;
 

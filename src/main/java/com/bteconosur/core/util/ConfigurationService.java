@@ -20,7 +20,6 @@ public class ConfigurationService {
     // 6- Añadir al menu de configuración.
 
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
-    private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
 
     public static void setDefaults(UUID uuid) {

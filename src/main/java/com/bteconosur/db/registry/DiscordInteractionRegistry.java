@@ -21,7 +21,7 @@ public class DiscordInteractionRegistry extends Registry<Long, DiscordInteractio
     private final Map<InteractionKey, SelectAction> selectActions = new HashMap<>();
 
     public DiscordInteractionRegistry() {
-        super(DiscordInteraction.class);
+        super();
         logger.info(lang.getString("discord-interaction-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<DiscordInteraction> interactions = dbManager.selectAll(DiscordInteraction.class);
@@ -41,10 +41,6 @@ public class DiscordInteractionRegistry extends Registry<Long, DiscordInteractio
         } catch (Exception e) {
             logger.warn("No se pudo programar la purga periódica de interacciones de Discord: " + e.getMessage());
         }
-    }
-
-    private void registerActions() {
-
     }
 
     @Override

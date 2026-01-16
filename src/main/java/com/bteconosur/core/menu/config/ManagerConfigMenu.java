@@ -1,7 +1,5 @@
 package com.bteconosur.core.menu.config;
 
-import org.bukkit.Material;
-
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.core.util.MenuUtils;

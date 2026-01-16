@@ -16,7 +16,6 @@ import org.bukkit.Location;
 public class WorldManager {
 
     private final YamlConfiguration lang;
-    private final YamlConfiguration config;
     private final ConsoleLogger logger;
 
     private BTEWorld bteWorld;
@@ -24,7 +23,6 @@ public class WorldManager {
     public WorldManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
-        config = configHandler.getConfig();
         logger = BTEConoSur.getConsoleLogger();
 
         logger.info(lang.getString("world-module-initializing"));

@@ -7,7 +7,6 @@ import java.util.UUID;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Table;

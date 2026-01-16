@@ -3,10 +3,8 @@ package com.bteconosur.core.command.btecs.crud.pais.update;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.RegionPais;
@@ -15,14 +13,12 @@ public class RemovePaisRegionCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
-    private final ConsoleLogger logger;
 
     public RemovePaisRegionCommand() {
         super("removeregion", "Eliminar región de un País.", "<id_pais> <id_region>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
-        logger = BTEConoSur.getConsoleLogger();
     }
 
     @Override

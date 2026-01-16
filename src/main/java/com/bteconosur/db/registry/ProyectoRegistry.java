@@ -10,7 +10,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     private static ProyectoRegistry instance;
 
     public ProyectoRegistry() {
-        super(Proyecto.class);
+        super();
         logger.info(lang.getString("proyecto-registry-initializing"));  
         loadedObjects = new ConcurrentHashMap<>();
         List<Proyecto> proyectos = dbManager.selectAll(Proyecto.class);

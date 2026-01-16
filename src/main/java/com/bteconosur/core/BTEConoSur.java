@@ -24,7 +24,6 @@ import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.discord.command.DsCommandManager;
-import com.bteconosur.discord.util.MessageService;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;

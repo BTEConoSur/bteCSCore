@@ -22,11 +22,8 @@ public abstract class Registry<K extends Serializable, V> {
     protected final YamlConfiguration lang;
     protected final YamlConfiguration config;
     protected final ConsoleLogger logger;
-
-    private final Class<V> clazz;
     
-    public Registry(Class<V> clazz) {
-        this.clazz = clazz;
+    public Registry() {
         dbManager = DBManager.getInstance();
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

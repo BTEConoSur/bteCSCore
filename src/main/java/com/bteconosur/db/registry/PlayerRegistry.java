@@ -1,7 +1,6 @@
 package com.bteconosur.db.registry;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -16,7 +15,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
     private static PlayerRegistry instance;
 
     public PlayerRegistry() {
-        super(Player.class);
+        super();
         logger.info(lang.getString("player-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<Player> players = dbManager.selectAll(Player.class);

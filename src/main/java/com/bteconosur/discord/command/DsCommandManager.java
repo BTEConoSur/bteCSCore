@@ -14,7 +14,6 @@ public class DsCommandManager {
     private static DsCommandManager instance;
 
     private final YamlConfiguration lang;
-    private final YamlConfiguration config;
     private final ConsoleLogger logger;
 
     private Map<String, DsCommand> commands = new HashMap<>();
@@ -22,7 +21,6 @@ public class DsCommandManager {
     public DsCommandManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
-        config = configHandler.getConfig();
         logger = BTEConoSur.getConsoleLogger();
 
         logger.info(lang.getString("discord-command-manager-initializing"));

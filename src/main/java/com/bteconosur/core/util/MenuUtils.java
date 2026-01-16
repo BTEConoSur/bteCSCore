@@ -10,7 +10,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
@@ -137,21 +136,6 @@ public class MenuUtils {
             builder.lore(components);
         }
 
-        return builder.asGuiItem();
-    }
-
-    private static GuiItem buildGuiItem(Material material, String name, List<String> lore) {
-        ItemBuilder builder = ItemBuilder.from(material)
-            .name(MiniMessage.miniMessage().deserialize("<!italic>" + name));
-        
-        List<Component> components = new ArrayList<>();
-        if (lore != null && !lore.isEmpty()) {
-            for (String line : lore) {
-                components.add(MiniMessage.miniMessage().deserialize("<!italic>" + line));
-            }
-            builder.lore(components);
-        }
-        
         return builder.asGuiItem();
     }
 
