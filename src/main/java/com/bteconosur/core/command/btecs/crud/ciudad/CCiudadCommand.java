@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Ciudad;
 import com.bteconosur.db.model.Pais;
@@ -26,7 +27,7 @@ public class CCiudadCommand extends BaseCommand {
     protected boolean onCommand(CommandSender sender, String[] args) {
         if (args.length != 2) {
             String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
-            sender.sendMessage(message);
+            PlayerLogger.info(sender, message, (String) null);
             return true;
         }
 
@@ -34,7 +35,7 @@ public class CCiudadCommand extends BaseCommand {
         
         if (nombre.length() > 50) {
             String message = lang.getString("crud-not-valid-name").replace("%entity%", "Ciudad").replace("%name%", nombre).replace("%reason%", "Máximo 50 caracteres.");
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
@@ -43,13 +44,13 @@ public class CCiudadCommand extends BaseCommand {
             paisId = Long.parseLong(args[1]);
         } catch (NumberFormatException ex) {
             String message = lang.getString("crud-not-valid-id").replace("%entity%", "Pais").replace("%id%", args[1]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if (!dbManager.exists(Pais.class, paisId)) {
             String message = lang.getString("crud-read-not-found").replace("%entity%", "Pais").replace("%id%", args[1]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
@@ -58,7 +59,7 @@ public class CCiudadCommand extends BaseCommand {
         dbManager.save(ciudad);
 
         String message = lang.getString("crud-create").replace("%entity%", "Ciudad");
-        sender.sendMessage(message);
+        PlayerLogger.info(sender, message, (String) null);
         return true;
     }
     

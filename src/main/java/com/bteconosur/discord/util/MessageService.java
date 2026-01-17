@@ -12,15 +12,16 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 public class MessageService {
 
     private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
-    //TODO: Mejorar cuando jda es null.
     @SuppressWarnings("null")
     public static void sendMessage(Long channelId, String message) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channelId(channelId) || !DiscordValidate.messageContent(message)) return;
         sendMessage(BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId), message);
     }
 
     @SuppressWarnings("null")
     public static void sendMessage(TextChannel channel, String message) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
         try {
             channel.sendMessage(message).queue();
@@ -31,12 +32,14 @@ public class MessageService {
 
     @SuppressWarnings("null")
     public static void sendDM(Long dsUserId, String message) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.messageContent(message)) return;
         sendDM(BTEConoSur.getDiscordManager().getJda().getUserById(dsUserId), message);
     }
 
     @SuppressWarnings("null")
     public static void sendDM(User user, String message) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.user(user) || !DiscordValidate.messageContent(message)) return;
 
         try {
@@ -48,12 +51,14 @@ public class MessageService {
 
     @SuppressWarnings("null")
     public static void sendEmbed(Long channelId, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channelId(channelId) || !DiscordValidate.embed(embed)) return;
         sendEmbed(BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId), embed);
     }
 
     @SuppressWarnings("null")
     public static void sendEmbed(TextChannel channel, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.embed(embed)) return;
         try {
             channel.sendMessageEmbeds(embed).queue();
@@ -64,12 +69,14 @@ public class MessageService {
 
     @SuppressWarnings("null")
     public static void sendEmbedDM(Long dsUserId, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.embed(embed)) return;
         sendEmbedDM(BTEConoSur.getDiscordManager().getJda().getUserById(dsUserId), embed);
     }
 
     @SuppressWarnings("null")
     public static void sendEmbedDM(User user, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.user(user) || !DiscordValidate.embed(embed)) return;
         try {
             user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessageEmbeds(embed).queue());
@@ -79,6 +86,7 @@ public class MessageService {
     }
 
     public static void sendBroadcastMessage(List<Long> channelsIds, String message) {
+        if (!DiscordValidate.jda()) return;
         for (Long channelId : channelsIds) {
             if (!DiscordValidate.channelId(channelId)) continue;
             TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
@@ -87,6 +95,7 @@ public class MessageService {
     }
 
     public static void sendBroadcastEmbed(List<Long> channelsIds, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
         for (Long channelId : channelsIds) {
             if (!DiscordValidate.channelId(channelId)) continue;
             TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
@@ -95,6 +104,7 @@ public class MessageService {
     }
 
     public static void sendBroadcastDM(List<Long> usersIds, String message) {
+        if (!DiscordValidate.jda()) return;
         for (Long userId : usersIds) {
             if (!DiscordValidate.userId(userId)) continue;
             sendDM(userId, message);
@@ -102,6 +112,7 @@ public class MessageService {
     }
 
     public static void sendBroadcastEmbedDM(List<Long> usersIds, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
         for (Long userId : usersIds) {
             if (!DiscordValidate.userId(userId)) continue;
             sendEmbedDM(userId, embed);

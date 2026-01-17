@@ -69,9 +69,8 @@ public class DiscordLogger {
                 logger.warn("El Manager '" + manager.getNombre() + "' no tiene la cuenta de Discord enlazada.");
                 continue;
             };
-            //TODO: Hacer con sistema de notificaciones. añadir mensaje a minecraft.
             String dsMessage = lang.getString("ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", message);
-            MessageService.sendDM(user, dsMessage);
+            PlayerLogger.info(manager, message, dsMessage, manager);
         }
     }
 
@@ -84,9 +83,8 @@ public class DiscordLogger {
                 logger.warn("El Reviewer '" + reviewer.getNombre() + "' no tiene la cuenta de Discord enlazada.");
                 continue;
             };
-            //TODO: Hacer con sistema de notificaciones. añadir mensaje a minecraft.
             String dsMessage = lang.getString("ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", message);
-            MessageService.sendDM(user, dsMessage);
+            PlayerLogger.info(reviewer, message, dsMessage, reviewer);
         }
     }
 

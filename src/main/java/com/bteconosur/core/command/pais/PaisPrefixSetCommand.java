@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.menu.config.PaisPrefixSelectMenu;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 
@@ -23,7 +24,7 @@ public class PaisPrefixSetCommand extends BaseCommand {
     protected boolean onCommand(CommandSender sender, String[] args) {
         if (args.length != 1) {
             String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
-            sender.sendMessage(message);
+            PlayerLogger.info(sender, message, (String) null);
             return true;
         }
 
@@ -31,7 +32,7 @@ public class PaisPrefixSetCommand extends BaseCommand {
 
         if(bukkitPlayer == null) {
             String message = lang.getString("player-not-found").replace("%player%", args[0]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 

@@ -77,6 +77,7 @@ public class BotConfig {
         if (jda == null) {
             logger.error("JDA no inicializado.");
         }
+        
         return jda;
     }
 }

@@ -7,6 +7,7 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.command.btecs.crud.tipousuario.update.UTipoUsuarioCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.PlayerLogger;
 
 public class CRUDTipoUsuarioCommand extends BaseCommand {
 
@@ -28,7 +29,7 @@ public class CRUDTipoUsuarioCommand extends BaseCommand {
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
-        sender.sendMessage(message);
+        PlayerLogger.info(sender, message, (String) null);
         return true;
     }
 

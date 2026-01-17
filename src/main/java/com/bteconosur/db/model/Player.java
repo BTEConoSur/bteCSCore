@@ -86,7 +86,7 @@ public class Player {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "pais_reviewer", joinColumns = @JoinColumn(name = "uuid_player"), inverseJoinColumns = @JoinColumn(name = "id_pais"))
-    @JsonIgnore //TODO: ver estos casos
+    @JsonIgnore
     private Set<Pais> paisesReviewer = new HashSet<>();
 
     @ManyToOne
@@ -258,6 +258,4 @@ public class Player {
     public int hashCode() {
         return Objects.hash(uuid);
     }
-
-    //TODO: Ver cascada
 }

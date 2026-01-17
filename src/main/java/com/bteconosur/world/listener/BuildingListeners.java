@@ -9,6 +9,8 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
+import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -16,6 +18,7 @@ import com.bteconosur.world.WorldManager;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 
 public class BuildingListeners implements Listener {
@@ -23,6 +26,7 @@ public class BuildingListeners implements Listener {
     private final WorldManager worldManager;
     private final DBManager dbManager;
     private final PlayerRegistry playerRegistry;
+    private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     public BuildingListeners(WorldManager worldManager) {
         this.worldManager = worldManager;
@@ -36,14 +40,14 @@ public class BuildingListeners implements Listener {
 
         Player player = playerRegistry.get(event.getPlayer().getUniqueId());
         if (player == null) {
-            // Notificación de chat: No se econtró el jugador en la base de datos.
+            // TODO: Console logger No se econtró el jugador en la base de datos.
             event.setCancelled(true);
             return;
         }
 
         if (!worldManager.canBuild(block.getLocation(), player)) {
             event.setCancelled(true);
-            // Notificación de chat: No tienes permiso para construir aquí.
+            PlayerLogger.warn(player, lang.getString("no-building-permissions"), (String) null);
         }
     }
 
@@ -53,14 +57,14 @@ public class BuildingListeners implements Listener {
 
         Player player = playerRegistry.get(event.getPlayer().getUniqueId());
         if (player == null) {
-            // Notificación de chat: No se econtró el jugador en la base de datos.
+            // TODO: Console logger No se econtró el jugador en la base de datos.
             event.setCancelled(true);
             return;
         }
 
         if (!worldManager.canBuild(block.getLocation(), player)) {
             event.setCancelled(true);
-            // Notificación de chat: No tienes permiso para construir aquí.
+            PlayerLogger.warn(player, lang.getString("no-building-permissions"), (String) null);
         }
     }
 
@@ -81,7 +85,7 @@ public class BuildingListeners implements Listener {
 
         Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId()); 
         if (player == null) { 
-            // Notificación de chat: No se econtró el jugador en la base de datos.
+            // TODO: Console logger No se econtró el jugador en la base de datos.
             event.setCancelled(true); 
             return; 
         }
@@ -91,7 +95,7 @@ public class BuildingListeners implements Listener {
             event.setCancelled(true);
             event.setUseInteractedBlock(Result.DENY);
             event.setUseItemInHand(Result.DENY);
-            // Notificación de chat: No tienes permiso para interactuar aquí.
+            PlayerLogger.warn(player, lang.getString("no-building-permissions"), (String) null);
         }
     }
 }

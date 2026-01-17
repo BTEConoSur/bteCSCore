@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.RegionPais;
@@ -26,7 +27,7 @@ public class GetListRegionPaisCommand extends BaseCommand {
     protected boolean onCommand(CommandSender sender, String[] args) {
         if (args.length != 1) {
             String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
-            sender.sendMessage(message);
+            PlayerLogger.info(sender, message, (String) null);
             return true;
         }
 
@@ -35,13 +36,13 @@ public class GetListRegionPaisCommand extends BaseCommand {
             paisId = Long.parseLong(args[0]);
         } catch (NumberFormatException ex) {
             String message = lang.getString("crud-not-valid-id").replace("%entity%", "Pais").replace("%id%", args[0]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if (!dbManager.exists(Pais.class, paisId)) {
             String message = lang.getString("crud-read-not-found").replace("%entity%", "Pais").replace("%id%", args[0]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
@@ -49,24 +50,24 @@ public class GetListRegionPaisCommand extends BaseCommand {
 
         if (pais.getRegiones().isEmpty()) {
             String message = lang.getString("get-list-empty").replace("%entity%", "Regiones de " + pais.getNombre());
-            sender.sendMessage(message);
+            PlayerLogger.warn(sender, message, (String) null);
             return true;
         }
 
-        String header = lang.getString("get-list-command.header").replace("%entity%", "Regiones de " + pais.getNombre());
-        sender.sendMessage(header);
+        String message = lang.getString("get-list-command.header").replace("%entity%", "Regiones de " + pais.getNombre());
 
         String lineFormat = lang.getString("get-list-command.line");
         for (RegionPais region : pais.getRegiones()) {
             String line = lineFormat
                 .replace("%id%", String.valueOf(region.getId()))
                 .replace("%details%", region.getNombre());
-            sender.sendMessage(line);
+            message += "\n" + line;
         }
 
         String footer = lang.getString("get-list-command.footer");
-        if (footer != null && !footer.isEmpty()) sender.sendMessage(footer);
+        if (footer != null && !footer.isEmpty()) PlayerLogger.info(sender, footer, (String) null);
 
+        PlayerLogger.send(sender, message, (String) null);
         return true;
     }
     

@@ -12,6 +12,14 @@ public final class DiscordValidate {
 
     private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
 
+    public static boolean jda() {
+        if (BTEConoSur.getDiscordManager() == null || BTEConoSur.getDiscordManager().getJda() == null) {
+            logger.warn("Discord: Acción salteada. El bot de Discord no está inicializado.");
+            return false;
+        }
+        return true;
+    }   
+
     public static boolean channelId(Long channelId) {
         if (channelId == null) {
             logger.warn("Discord: El ID del canal es nulo o vacío.");

@@ -38,6 +38,11 @@ public class PlayerLogger {
         if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
+    public static void info(CommandSender sender, String mcMessage, String dsMessage, Object object) {
+        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { logger.info(mcMessage, object); return; }
+        info(PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId()), mcMessage, dsMessage, object);
+    }
+
     public static void info(Player player, String mcMessage, String dsMessage, Object object) {
         String json = JsonUtils.toJson(object);
         if (mcMessage != null) sendMc(lang.getString("player-info").replace("%pluginPrefix%", lang.getString("plugin-prefix")).replace("%message%", mcMessage) + "\n" + json, player);
@@ -68,6 +73,12 @@ public class PlayerLogger {
         if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
+    public static void debug(CommandSender sender, String mcMessage, String dsMessage, Object object) {
+        if (!config.getBoolean("debug-mode", false)) return;
+        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { logger.debug(mcMessage, object); return; }
+        debug(PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId()), mcMessage, dsMessage, object);
+    }
+
     public static void debug(Player player, String mcMessage, String dsMessage, Object object) {
         if (!config.getBoolean("debug-mode", false)) return;
         String json = JsonUtils.toJson(object);
@@ -93,6 +104,11 @@ public class PlayerLogger {
     public static void warn(Player player, String mcMessage, MessageEmbed dsMessage) {
         if (mcMessage != null) sendMc(lang.getString("player-warn").replace("%message%", mcMessage), player);
         if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
+    }
+
+    public static void warn(CommandSender sender, String mcMessage, String dsMessage, Object object) {
+        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { logger.warn(mcMessage, object); return; }
+        warn(PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId()), mcMessage, dsMessage, object);
     }
 
     public static void warn(Player player, String mcMessage, String dsMessage, Object object) {
@@ -121,6 +137,11 @@ public class PlayerLogger {
         if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
+    public static void error(CommandSender sender, String mcMessage, String dsMessage, Object object) {
+        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { logger.error(mcMessage, object); return; }
+        error(PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId()), mcMessage, dsMessage, object);
+    }
+
     public static void error(Player player, String mcMessage, String dsMessage, Object object) {
         String json = JsonUtils.toJson(object);
         if (mcMessage != null) sendMc(lang.getString("player-error").replace("%message%", mcMessage) + "\n" + json, player);
@@ -146,6 +167,11 @@ public class PlayerLogger {
         if (mcMessage != null) sendMc(mcMessage, player);
         if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
+
+    public static void send(CommandSender sender, String mcMessage, String dsMessage, Object object) {
+        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { logger.debug(mcMessage, object); return; }
+        send(PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId()), mcMessage, dsMessage, object);
+    }   
 
     public static void send(Player player, String mcMessage, String dsMessage, Object object) {
         String json = JsonUtils.toJson(object);

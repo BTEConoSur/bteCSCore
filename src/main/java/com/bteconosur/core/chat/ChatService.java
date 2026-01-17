@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 
@@ -16,6 +20,8 @@ public class ChatService {
     private static Map<Player, Pais> playersLastCountryChat = new HashMap<>();
 
     private static List<Player> playersInNotePad = new ArrayList<>();
+
+    private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     public static void switchChatToGlobal(Player player) {
         if (playersInGlobalChat.contains(player)) return;
@@ -31,7 +37,7 @@ public class ChatService {
             playersInNotePad.remove(player);
         }
 
-        //TODO: Notificacion al jugador
+        PlayerLogger.info(player, lang.getString("global-chat-switched"), (String) null);
         GlobalChatService.joinChat(player);
         playersInGlobalChat.add(player);
     }
@@ -64,7 +70,7 @@ public class ChatService {
 
     public static void setChatToNotePad(Player player) {
         GlobalChatService.leaveChat(player);
-        //TODO: Notificacion al jugador
+        PlayerLogger.info(player, lang.getString("note-pad-chat-switched"), (String) null);
     }
 
     public static void switchChatToCountry(Player player, Pais pais) {
@@ -85,7 +91,7 @@ public class ChatService {
             playersInNotePad.remove(player);
         }
 
-        //TODO: Notificacion al jugador
+        PlayerLogger.info(player, lang.getString("country-chat-switched").replace("%pais%", pais.getNombrePublico()), (String) null);
         CountryChatService.joinChat(player, pais);
         playersInCountryChat.put(player, pais);
         playersLastCountryChat.put(player, pais);
@@ -105,7 +111,7 @@ public class ChatService {
             CountryChatService.leaveChat(player, pais);
         }
 
-        //TODO: Notificacion al jugador
+        PlayerLogger.info(player, lang.getString("notepad-switched"), (String) null);
         playersInNotePad.add(player);
     }
 

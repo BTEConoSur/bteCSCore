@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
@@ -29,10 +30,9 @@ public class CPlayerCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        // TODO: Enviar por sistema de notificaciones
         if (args.length != 5) {
             String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
-            sender.sendMessage(message);
+            PlayerLogger.info(sender, message, (String) null);
             return true;
         }
 
@@ -45,7 +45,7 @@ public class CPlayerCommand extends BaseCommand {
             uuid = UUID.fromString(args[0]);
         } catch (IllegalArgumentException exception){
             String message = lang.getString("crud-not-valid-id").replace("%entity%", "Player").replace("%id%", args[0]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
@@ -53,7 +53,7 @@ public class CPlayerCommand extends BaseCommand {
             tipoId = Long.parseLong(args[3]);
         } catch (NumberFormatException ex) {
             String message = lang.getString("crud-not-valid-parse").replace("%entity%", "TipoUsuario").replace("%value%", args[3]).replace("%type%", "Long");
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
@@ -61,7 +61,7 @@ public class CPlayerCommand extends BaseCommand {
             rangoId = Long.parseLong(args[4]);
         } catch (NumberFormatException ex) {
             String message = lang.getString("crud-not-valid-parse").replace("%entity%", "RangoUsuario").replace("%value%", args[4]).replace("%type%", "Long");
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
@@ -69,31 +69,31 @@ public class CPlayerCommand extends BaseCommand {
             fechaIngreso = Long.parseLong(args[2]);
         } catch (NumberFormatException ex) {
             String message = lang.getString("crud-not-valid-parse").replace("%entity%", "fecha_ingreso").replace("%value%", args[2]).replace("%type%", "Long");
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if (args[1].length() > 16) {
             String message = lang.getString("crud-not-valid-name").replace("%entity%", "Player").replace("%name%", args[1]).replace("%reason%", "Máximo 16 caracteres.");
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if(dbManager.exists(Player.class, uuid)) {
             String message = lang.getString("crud-already-exists").replace("%entity%", "Player").replace("%id%", args[0]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
         
         if(!dbManager.exists(TipoUsuario.class, tipoId)) {
             String message = lang.getString("crud-read-not-found").replace("%entity%", "TipoUsuario").replace("%id%", args[3]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if(!dbManager.exists(RangoUsuario.class, rangoId)) {
             String message = lang.getString("crud-read-not-found").replace("%entity%", "RangoUsuario").replace("%id%", args[4]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
@@ -105,7 +105,7 @@ public class CPlayerCommand extends BaseCommand {
         dbManager.save(player);
 
         String message = lang.getString("crud-create").replace("%entity%", "Player");
-        sender.sendMessage(message);
+        PlayerLogger.info(sender, message, (String) null);
         return true;
     }
     

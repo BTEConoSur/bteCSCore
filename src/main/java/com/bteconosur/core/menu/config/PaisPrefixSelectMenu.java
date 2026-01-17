@@ -1,8 +1,11 @@
 package com.bteconosur.core.menu.config;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.MenuUtils;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
@@ -44,7 +47,12 @@ public class PaisPrefixSelectMenu extends Menu {
             .rows(rows)
             .disableAllInteractions()
             .create();
-        //TODO: Notificar cambio por chat.
+
+        YamlConfiguration lang = ConfigHandler.getInstance().getLang();
+        String messageSwitch = lang.getString("country-prefix-switched");
+        String messageSet = lang.getString("country-prefix-set");
+        Player playerMenu = Player.getBTECSPlayer(player);
+
         gui.getFiller().fill(MenuUtils.getFillerItem());
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Pais arg = PaisRegistry.getInstance().getArgentina();
@@ -54,6 +62,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (arg.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(arg);
             playerRegistry.merge(BTECSPlayer.getUuid());
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", arg.getNombrePublico()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", arg.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = arg;
             updateItems();
         });
@@ -64,6 +74,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (chile.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(chile);
             playerRegistry.merge(BTECSPlayer.getUuid());
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", chile.getNombrePublico()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", chile.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = chile;
             updateItems();
         });
@@ -74,6 +86,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (peru.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(peru);
             playerRegistry.merge(BTECSPlayer.getUuid());
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", peru.getNombrePublico()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", peru.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = peru;
             updateItems();
         });
@@ -83,6 +97,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (previousPais == null) return;
             BTECSPlayer.setPaisPrefix(null);
             playerRegistry.merge(BTECSPlayer.getUuid());
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", "Internacional"), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", "Internacional").replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = null;
             updateItems();
         });
@@ -93,6 +109,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (bolivia.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(bolivia);
             playerRegistry.merge(BTECSPlayer.getUuid());
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", bolivia.getNombrePublico()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", bolivia.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = bolivia;
             updateItems();
         });
@@ -103,6 +121,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (uruguay.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(uruguay);
             playerRegistry.merge(BTECSPlayer.getUuid());
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", uruguay.getNombrePublico()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", uruguay.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = uruguay;
             updateItems();
         });
@@ -113,6 +133,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (paraguay.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(paraguay);
             playerRegistry.merge(BTECSPlayer.getUuid());
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", paraguay.getNombrePublico()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", paraguay.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = paraguay;
             updateItems();
         });

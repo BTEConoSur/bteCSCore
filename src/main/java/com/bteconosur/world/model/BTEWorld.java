@@ -18,6 +18,7 @@ import org.mvplugins.multiverse.core.MultiverseCoreApi;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.PlayerLogger;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -93,7 +94,7 @@ public class BTEWorld {
         
         LabelWorld lastlw = lastLabelWorld.get(pUuid);
         if (currentlw == null && lastlw == null) {
-            // Notificacion de chat: "No puedes estar en el limbo, te teletransportamos al lobby."
+            PlayerLogger.warn(com.bteconosur.db.model.Player.getBTECSPlayer(player), lang.getString("not-limbo"), (String) null);
             player.teleport(multiverseApi.getWorldManager().getLoadedWorld("lobby").get().getSpawnLocation());
             return;
         };

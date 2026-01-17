@@ -4,14 +4,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
-
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import com.bteconosur.core.util.PlayerLogger;
 
 public class GenericHelpCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final BaseCommand parentCommand;
-    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
 
     public GenericHelpCommand(BaseCommand parentCommand) {
@@ -32,18 +30,18 @@ public class GenericHelpCommand extends BaseCommand {
         String subcommandLine2 = lang.getString("help-command.subcommand-line-2");
         String footer = lang.getString("help-command.footer");
 
-        sender.sendMessage(miniMessage.deserialize(header));
+        String message = header;
 
         if (parentCommand.description != null && !parentCommand.description.isEmpty()) {
             descriptionLabel = descriptionLabel.replace("%description%", parentCommand.description);
-            sender.sendMessage(miniMessage.deserialize(descriptionLabel));
+            message += "\n" + descriptionLabel;
         }
         
         usage = usage.replace("%command%", parentCommand.getFullCommand()).replace("%args%", parentCommand.args != null ? parentCommand.args : (parentCommand.subcommands.isEmpty() ? "" : "<subcomando>"));
-        sender.sendMessage(miniMessage.deserialize(usage));
+        message += "\n" + usage;
         
         if (!parentCommand.subcommands.isEmpty()) {
-            sender.sendMessage(miniMessage.deserialize(subcommandsTitle));
+            message += "\n" + subcommandsTitle;
             for (BaseCommand sub : parentCommand.subcommands.values()) {
                 if (sub.getPermission() != null && !sender.hasPermission(sub.getPermission())) {
                     continue;
@@ -62,12 +60,13 @@ public class GenericHelpCommand extends BaseCommand {
                 
                 String line2 = subcommandLine2.replace("%description%", subDesc);
                 
-                sender.sendMessage(miniMessage.deserialize(line1));
-                sender.sendMessage(miniMessage.deserialize(line2));
+                message += "\n" + line1;
+                message += "\n" + line2;
             }
         }
 
-        sender.sendMessage(miniMessage.deserialize(footer));
+        message += "\n" + footer;
+        PlayerLogger.send(sender, message, (String) null);
         return true;
     }
 }

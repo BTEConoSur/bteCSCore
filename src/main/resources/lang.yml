@@ -78,6 +78,10 @@ label-world-loading: "Cargando capa: %name% con offset %offset%..." # %name% -> 
 teleport-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
 teleport-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
 
+not-limbo: "No puedes estar en el limbo, te teletransportamos al lobby."
+
+no-building-permissions: "No tienes permisos para construir aquí."
+
 # Commands
 no-permission: "No tienes permiso para ejecutar este comando."
 player-only-command: "Este comando solo puede ser ejecutado por un jugador."
@@ -326,4 +330,14 @@ player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> No
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
 chat-join: "<yellow>%player% se ha unido al chat.</yellow>" # %player% -> Nombre del jugador.
 chat-left: "<blue>%player% ha salido del chat.</blue>" # %player% -> Nombre del jugador.
+
+global-chat-set: "<green>El chat global de %player% ha sido establecido." # %player% -> Nombre del jugador.
+country-chat-set: "<green>El chat de %country% de %player% ha sido establecido." # %player% -> Nombre del jugador. %country% -> Nombre del país.
+notepad-set: "<green>El bloc de notas de %player% ha sido abierto." # %player% -> Nombre del jugador.
+global-chat-switched: "<aqua>Has cambiado al chat global."
+country-chat-switched: "<aqua>Has cambiado al chat de <yellow>%country%<aqua>." # %country% -> Nombre del país.
+notepad-switched: "<aqua>Has abierto el bloc de notas."
+
+country-prefix-set: "<green>El prefijo de país de %player% ha sido establecido a %country%." # %player% -> Nombre del jugador. %country% -> Nombre del país.
+country-prefix-switched: "<aqua>Tu prefijo de país ha sido cambiado a %country%." # %country% -> Nombre del país.
 

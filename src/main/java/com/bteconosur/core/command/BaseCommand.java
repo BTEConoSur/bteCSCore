@@ -2,8 +2,7 @@ package com.bteconosur.core.command;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
-
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import com.bteconosur.core.util.PlayerLogger;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,7 +38,6 @@ public abstract class BaseCommand extends Command {
 
     private final YamlConfiguration lang;
     private final YamlConfiguration config;
-    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public BaseCommand(String command, String description, String args) {
         this(command, description, args, null, CommandMode.BOTH);
@@ -145,8 +143,7 @@ public abstract class BaseCommand extends Command {
                     String formattedTime = formatTime(remainingMillis);
                     String message = lang.getString("command-on-cooldown")
                             .replace("%time%", formattedTime);
-                    sender.sendMessage(miniMessage.deserialize(message));
-                    //TODO: Enviar con sistema de notificaciones.
+                    PlayerLogger.warn(sender, message, (String) null);
                     return false; 
                 } else {
                     timeCooldowns.put(playerUUID, System.currentTimeMillis());
