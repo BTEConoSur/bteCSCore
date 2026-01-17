@@ -4,10 +4,9 @@
 config-reloaded: "Configuración recargada correctamente."
 
 # General
-plugin-prefix: "<gray>[</gray><dark_gray>BTEConoSur</dark_gray><gray>]</gray>"
+plugin-prefix: "<gray>[</gray><blue>Cono</blue><red>Sur</red><gray>]</gray>"
 
 # Console Logger
-logger-loaded: "Console Logger inicializado."
 debug-mode-enabled: "Modo debug activado."
 
 prefix: "<gray>[</gray><dark_gray>Core</dark_gray><gray>]</gray>" 
@@ -15,6 +14,12 @@ info-prefix: "<dark_aqua>[INFO]</dark_aqua> <white>"
 debug-prefix: "<dark_purple>[DEBUG]</dark_purple> <light_purple>"
 warn-prefix: "<gold>[WARN]</gold> <yellow>"
 error-prefix: "<dark_red>[ERROR]</dark_red> <red>"
+
+# Player Logger
+player-info: "%pluginPrefix% <white>%message%" # %pluginPrefix% -> Prefijo del plugin. %message% -> Mensaje a enviar.
+player-debug: "<dark_purple>[DEBUG]</dark_purple> <light_purple>%message%" # %message% -> Mensaje a enviar.
+player-warn: "<gold>[!]</gold> <yellow>%message%" # %message% -> Mensaje a enviar.
+player-error: "<dark_red>[!]</dark_red> <red>%message%" # %message% -> Mensaje a enviar.
 
 # Base de Datos
 database-initializing: "Inicializando Módulo: Base de Datos..."
@@ -58,6 +63,12 @@ discord-command-manager-shutting-down: "Apagando Gestor de Comandos de Discord..
 discord-internal-error: "Un error interno ha ocurrido."
 discord-interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
 
+ds-manager-notification: "%mention%: %message%" # %mention% -> Mención al usuario. %message% -> Mensaje a enviar.
+ds-reviewer-notification: "%mention%: %message%" # %mention% -> Mención al reviewer. %message% -> Mensaje a enviar.
+ds-dev-notification: "%mention%: %message%" # %mention% -> Mención al rol de developer. %message% -> Mensaje a enviar. 
+
+ds-staff-country-log: "%dsPais% %message%" # %dsPais% -> Logo del país. %message% -> Mensaje enviado.
+
 # World
 world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
 world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
@@ -67,8 +78,12 @@ label-world-loading: "Cargando capa: %name% con offset %offset%..." # %name% -> 
 teleport-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
 teleport-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
 
+not-limbo: "No puedes estar en el limbo, te teletransportamos al lobby."
+
+no-building-permissions: "No tienes permisos para construir aquí."
+
 # Commands
-no-permission: "No tienes permiso para ejecutar este comando."
+no-permission: "No tienes permisos para ejecutar este comando."
 player-only-command: "Este comando solo puede ser ejecutado por un jugador."
 console-only-command: "Este comando solo puede ser ejecutado desde la consola."
 unknown-command: "Comando desconocido." 
@@ -96,6 +111,8 @@ crud-not-valid-id: "El id '%id%' proporcionado no es válido para la entidad '%e
 crud-not-valid-name: "El nombre '%name%' proporcionado no es válido para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %name% -> Nombre inválido. %reason% -> Razón de la invalidez.
 crud-not-valid-description: "La descripción proporcionada no es válida para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %reason% -> Razón de la invalidez.
 
+player-not-found: "El jugador '%player%' no fue encontrado o no está online." # %player% -> Nombre del jugador.
+
 region-not-selected: "No tienes una región seleccionada."
 region-not-complete: "La selección de la región está incompleta."
 region-not-supported: "Tipo de selección de WorldEdit no soportado. Usa cuboid o poly."
@@ -111,6 +128,11 @@ get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entid
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/folia/1.21/org/bukkit/Material.html.
 # En caso de un material inválido, se usará STONE por defecto.
+gui-titles:
+  chat-select: "Selección de Chat"
+  chat-set: "Selección de Chat para %player%" # %player% -> Nombre del jugador.
+  pais-prefix-select: "Selección de País"
+  pais-prefix-set: "Selección de País para %player%" # %
 items: 
   back:
     material: "STRUCTURE_VOID"
@@ -150,6 +172,171 @@ items:
     name: "<red>%name%" # %name% -> Nombre de la configuración.
     value-true: "<green>Activado"
     value-false: "<red>Desactivado"
+    desc-line: "<gray>%desc%" # %desc% -> Línea de la descripción de la configuración.
+    value-line: "<gold>Estado: %value%" # %value% -> Estado actual de la configuración.
+    configs:
+      general:
+        global-chat-on-join:
+          material-true: "RED_GLAZED_TERRACOTTA"
+          material-false: "RED_CONCRETE"
+          name: "Chat Global al Unirse"
+          desc: 
+            - "El jugador se unirá al chat global al entrar al servidor."
+            - "Si no, se unirá al chat seleccionado previamente."
+            - "Al reiniciar el servidor, todos los jugadores se unirán al chat global."
+      manager:
+        notifications:
+          material-true: "WHITE_GLAZED_TERRACOTTA"
+          material-false: "WHITE_CONCRETE"
+          name: "Notificaciones de Manager"
+          desc: 
+            - "Habilitar las notificaciones para Managers de discord."
+      reviewer:
+        notifications:
+          material-true: "WHITE_GLAZED_TERRACOTTA"
+          material-false: "WHITE_CONCRETE"
+          name: "Notificaciones de Reviewer"
+          desc:
+            - "Habilitar las notificaciones para Reviewers de discord."
+  notepad:
+    material: "WRITABLE_BOOK"
+    name: "<yellow>Bloc de Notas"
     lore:
-      - "<gray>%desc%" # %desc% -> Descripción de la configuración.
-      - "<gold>Estado: %value%" # %value% -> Estado actual de la configuración.
+      - "<gray>No se reciben ni envían mensajes."
+      - "<gray>Sólo se ven los propios."
+  argentina-head:
+    name: "<aqua>Argentina"
+    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjZkMDMzZGM1ZjY3NWFkNTFiYzA2YzdhMTk0OWMzNWExZDM3ZTQ4YTJlMWMyNzg5YzJjZjdkMzBlYzU4ZjMyYyJ9fX0="
+  chile-head:
+    name: "<red>Chile"
+    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjExMWU4MDI0MjJiNTM5MjkyZjFmOTJiMzgzM2VkZmQ2NTEzODYwODU5NGFhYWI0YWNiMzIyMDc3YzM2NTg3YiJ9fX0="
+  uruguay-head:
+    name: "<white>Uruguay"
+    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzMwOTY5MjhjMTUzMDdlYTRkMjlhNWM3MTM0MWFhMzVmZjdiODlmNTY1M2I5M2RiNDk2MDZmNWEyMGY0NzcifX19"
+  paraguay-head:
+    name: "<yellow>Paraguay"
+    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODE3OGRlNjkxYjUwOGQ2MjQ5MTA5ZmM1NGFmNmZiYTQ5YmFhODM3N2FkMzcwNjEyZWQ2MTdkNzdkZDZhZDU4OCJ9fX0="
+  bolivia-head:
+    name: "<green>Bolivia"
+    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmQyYzlmOTg2MThjZDVmN2RiZjBjMWE1NGVlMDk0NzQ2NjJiNzEzYjVhYTI2NWM4NWVmYmZjNDY0MThlOTE1In19fQ=="
+  peru-head:
+    name: "<red>Perú"
+    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjRkMDNiZDQ0MTBiYWJkYzY4MjQ5M2IzYzJiYmEyNmU3MzBlNmJjNjU4ZDM4ODhlNzliZjcxMmY4NTMifX19"
+  global-chat-head:
+    name: "<aqua>Chat Global"
+    international-name: "<gray>Internacional"
+    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU3N2M0ZGUxZjUxYTcwNzIyMDIzZTg1NmI1NDNjZDU3MGYxZDBlZTZiOWQxNjdiNTkwMjhjZTFiYzkyZTQ1OCJ9fX0="
+  international-head:
+    name: "<gray>Internacional"
+    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU3N2M0ZGUxZjUxYTcwNzIyMDIzZTg1NmI1NDNjZDU3MGYxZDBlZTZiOWQxNjdiNTkwMjhjZTFiYzkyZTQ1OCJ9fX0="
+selected-chat: "<b><green>Seleccionado"
+
+# Chat
+# %paisPrefix% -> Prefijo del país. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
+# %dsPrefix% -> Prefijo de Discord. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
+# En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
+mc-message: "%paisPrefix%%rangoPrefix%%tipoPrefix% <gold>%player%</gold><gray>: </gray>%message%"
+from-ds-message: "%dsPrefix% <gold>%player%</gold><gray>: </gray>%message%"
+mc-prefixes:
+  pais:
+    internacional: "<gray>[</gray><white>INT</white><gray>]</gray>"
+    argentina: "<gray>[</gray><aqua>AR</aqua><gray>]</gray>"
+    chile: "<gray>[</gray><red>CL</red><gray>]</gray>"
+    uruguay: "<gray>[</gray><white>UY</white><gray>]</gray>"
+    paraguay: "<gray>[</gray><yellow>PY</yellow><gray>]</gray>"
+    bolivia: "<gray>[</gray><green>BO</green><gray>]</gray>"
+    peru: "<gray>[</gray><red>PE</red><gray>]</gray>"
+  rango:
+    normal: ""
+    admin: "<gray>[</gray><dark_red>ADMIN</dark_red><gray>]</gray>"
+    mod: "<gray>[</gray><red>MOD</red><gray>]</gray>"
+    reviewer: "<gray>[</gray><blue>REVIEWER</blue><gray>]</gray>"
+    influencer: "<gray>[</gray><purple>INFLUENCER</purple><gray>]</gray>"
+    donador: "<gray>[</gray><gold>DONADOR</gold><gray>]</gray>"
+  tipo:
+    visita: "<gray>[</gray><white>VISITA</white><gray>]</gray>"
+    postulante: "<gray>[</gray><yellow>POSTULANTE</yellow><gray>]</gray>"
+    constructor: "<gray>[</gray><green>CONSTRUCTOR</green><gray>]</gray>"
+  ds: "<gray>[</gray><blue>DS-%pais%</blue><gray>]</gray>" # %pais% -> Pais de donde viene el mensaje.
+
+mc-image: "<gray>[</gray><white>IMAGEN</white><gray>]</gray>"
+mc-video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
+mc-spoiler: "<gray>[</gray><white>SPOILER</white><gray>]</gray>"
+mc-file: "<gray>[</gray><white>ARCHIVO</white><gray>]</gray>"
+
+# %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
+# %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
+ds-message: "**%dsPais% %player%**: %message%"
+from-mc-message: "**%mcPrefix% %paisPrefix%%rangoPrefix%%tipoPrefix% %player%**: %message%"
+ds-prefixes:
+  pais:
+    internacional: "[INT]"
+    argentina: "[🇦🇷]"
+    chile: "[🇨🇱]"
+    uruguay: "[🇺🇾]"
+    paraguay: "[🇵🇾]"
+    bolivia: "[🇧🇴]"
+    peru: "[🇵🇪]"
+  pais-logo:
+    argentina: "<:BTEArgentina:1455209909665661184>"
+    chile: "<:BTEChile:1455209939378372749>"
+    uruguay: "<:BTEGuay:1455248093791649826>"
+    paraguay: "<:BTEGuay:1455248093791649826>"
+    bolivia: "<:BTEBolivia:1455209926640140413>"
+    peru: "<:BTEPeru:1455209955706540135>"
+  rango:
+    normal: ""
+    admin: "[<:Test:1455195552802148586>]"
+    mod: "[🛡️]"
+    reviewer: "[🔍]"
+    influencer: "[📸]"
+    donador: "[💸]"
+  tipo:
+    visita: "[👀]"
+    postulante: "[📚]"
+    constructor: "[⚒️]"
+  mc: "<:Minecraft:1457374388575014923>"
+  ds: "%paisLogo%" # %paisLogo% -> Logo del país de donde viene el mensaje.
+
+avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png" # %uuid% -> UUID del jugador.
+ds-embeds:
+  start:
+    title: "El servidor se ha iniciado."
+    color: 0x43B581
+  stop:
+    title: "**El servidor se ha detenido.**"
+    description: "Nos vemos!"
+    color: 0xED4245
+  player-join:
+    message: "%player% se ha unido al servidor." # %player% -> Nombre del jugador.
+    color: 0x43B581
+  player-left:
+    message: "%player% ha salido del servidor." # %player% -> Nombre del jugador.
+    color: 0xED4245
+  chat-join:
+    message: "%player% se ha unido al chat." # %player% -> Nombre del jugador.
+    color: 0xf2cc0d
+  chat-left:
+    message: "%player% ha salido del chat." # %player% -> Nombre del jugador
+    color: 0x0D33F2
+  error:
+    title: "Error"
+    color: 0xED4245
+  warn:
+    title: "Warn"
+    color: 0xf2cc0d
+
+player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
+player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
+chat-join: "<yellow>%player% se ha unido al chat.</yellow>" # %player% -> Nombre del jugador.
+chat-left: "<blue>%player% ha salido del chat.</blue>" # %player% -> Nombre del jugador.
+
+global-chat-set: "<green>El chat %player% ha sido cambiado al chat global." # %player% -> Nombre del jugador.
+country-chat-set: "<green>El chat de %player% ha sido cambiado al chat de <yellow>%pais%<green>." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
+notepad-set: "<green>El bloc de notas de %player% ha sido abierto." # %player% -> Nombre del jugador.
+global-chat-switched: "<aqua>Has cambiado al chat global."
+country-chat-switched: "<aqua>Has cambiado al chat de <yellow>%pais%<aqua>." # %pais% -> Nombre del país.
+notepad-switched: "<aqua>Has abierto el bloc de notas."
+
+country-prefix-set: "<green>El prefijo de país de %player% ha sido establecido a <yellow>%paisPrefix%<green>." # %player% -> Nombre del jugador. %paisPrefix% -> Prefijo del país.
+country-prefix-switched: "<aqua>Tu prefijo de país ha sido cambiado a <yellow>%paisPrefix%<aqua>." # %paisPrefix% -> Prefijo del país.

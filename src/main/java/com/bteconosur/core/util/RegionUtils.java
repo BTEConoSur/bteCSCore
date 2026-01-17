@@ -7,7 +7,6 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
@@ -20,7 +19,6 @@ import com.sk89q.worldedit.regions.Region;
 public class RegionUtils {
 
     private static final GeometryFactory gf = new GeometryFactory();
-    private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
     private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     public static Polygon toPolygon(CuboidRegion region) {
@@ -44,7 +42,6 @@ public class RegionUtils {
     }
 
     public static Polygon getPolygon(CommandSender sender) {
-        // TODO: Usar sistema de notificaciones
         Player player = (Player) sender;
         LocalSession session = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(player));
         Polygon regionPolygon = null;
@@ -58,20 +55,20 @@ public class RegionUtils {
             } else if (region instanceof Polygonal2DRegion) {
                 Polygonal2DRegion poly = (Polygonal2DRegion) region;
                 if (poly.getPoints().size() < 3) {
-                    sender.sendMessage(lang.getString("region-not-complete"));
+                    PlayerLogger.error(player, lang.getString("region-not-complete"), (String) null);
                     return null;
                 }
                 regionPolygon = toPolygon(poly);
             } else {
-                sender.sendMessage(lang.getString("region-not-supported"));
+                PlayerLogger.error(player, lang.getString("region-not-supported"), (String) null);
                 return null;
             }
         } catch (IncompleteRegionException e) {
-            sender.sendMessage(lang.getString("region-not-selected"));
+            PlayerLogger.error(player, lang.getString("region-not-selected"), (String) null);
             return null;
         } catch (Exception e) {
-            sender.sendMessage(lang.getString("we-error"));
-            logger.error("Error al obtener la región seleccionada: " + e.getMessage());
+            PlayerLogger.error(player, lang.getString("we-error"), (String) null);
+            ConsoleLogger.error("Error al obtener la región seleccionada: " + e.getMessage());
             return null;
         }
         return regionPolygon;

@@ -14,7 +14,6 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.reflections.Reflections;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PluginRegistry;
@@ -30,7 +29,6 @@ public class DBManager {
     private static DBManager instance;
 
     private final YamlConfiguration lang;
-    private final ConsoleLogger logger;
 
     private HibernateConfig hibernateConfig;
 
@@ -39,9 +37,8 @@ public class DBManager {
     public DBManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
-        logger = BTEConoSur.getConsoleLogger();
 
-        logger.info(lang.getString("database-initializing"));
+        ConsoleLogger.info(lang.getString("database-initializing"));
 
         List<Class<?>> entityClasses = new ArrayList<>();
         Reflections reflections = new Reflections("com.bteconosur.db.model");
@@ -66,7 +63,7 @@ public class DBManager {
                 throw e;
             }
         } catch (Exception e) {
-            logger.error("Excepción en transacción de Hibernate: " + e);// TODO: Mejorar muestreo de excepciones
+            ConsoleLogger.error("Excepción en transacción de Hibernate: " + e);// TODO: Mejorar muestreo de excepciones
             e.printStackTrace();
         }
     }
@@ -75,7 +72,7 @@ public class DBManager {
         try (Session session = sessionFactory.openSession()) {
             return action.apply(session);
         } catch (Exception e) {
-            logger.error("Excepción en consulta de Hibernate: " + e);
+            ConsoleLogger.error("Excepción en consulta de Hibernate: " + e);
             e.printStackTrace();
             return null; 
         }
@@ -168,7 +165,7 @@ public class DBManager {
     }
 
     public void shutdown() {
-        logger.info(lang.getString("database-shutting-down"));
+        ConsoleLogger.info(lang.getString("database-shutting-down"));
         hibernateConfig.shutdown();
         if (sessionFactory != null) {
             sessionFactory = null;

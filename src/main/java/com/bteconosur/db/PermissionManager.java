@@ -34,7 +34,6 @@ public class PermissionManager {
     private static PermissionManager instance;
 
     private final YamlConfiguration lang;
-    private final ConsoleLogger logger;
 
     private final LuckPerms lpApi;
     private final TipoUsuarioRegistry tipoUsuarioRegistry;
@@ -43,9 +42,8 @@ public class PermissionManager {
     public PermissionManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
-        logger = BTEConoSur.getConsoleLogger();
 
-        logger.info(lang.getString("permission-manager-initializing"));
+        ConsoleLogger.info(lang.getString("permission-manager-initializing"));
 
         lpApi = BTEConoSur.getLuckPermsApi();
         tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
@@ -106,11 +104,11 @@ public class PermissionManager {
     }
 
     private boolean checkTipoUsuario() {
-        logger.info("Verificando Tipos de Usuario..."); 
+        ConsoleLogger.info("Verificando Tipos de Usuario..."); 
         GroupManager groupManager = lpApi.getGroupManager();
         List<TipoUsuario> tipos = tipoUsuarioRegistry.getList();
         if (tipos == null || tipos.isEmpty()) {
-            logger.warn("No se encontraron TiposUsuario en la base de datos.");
+            ConsoleLogger.warn("No se encontraron TiposUsuario en la base de datos.");
             return false;
         }
 
@@ -118,7 +116,7 @@ public class PermissionManager {
             String groupName = "tipo_" + tipo.getNombre().toLowerCase();
             Group group = groupManager.getGroup(groupName);
             if (group == null) {
-                logger.warn("El grupo de LuckPerms para TipoUsuario '" + tipo.getNombre() + "' no existe. Creándolo...");
+                ConsoleLogger.warn("El grupo de LuckPerms para TipoUsuario '" + tipo.getNombre() + "' no existe. Creándolo...");
                 group = groupManager.createAndLoadGroup(groupName).join();
             }
             final Group groupRef = group;
@@ -126,7 +124,7 @@ public class PermissionManager {
             boolean modified = false;
             Set<NodoPermiso> permisos = tipo.getPermisos();
             if (permisos == null || permisos.isEmpty()) {
-                logger.warn("El TipoUsuario '" + tipo.getNombre() + "' no tiene permisos asignados en la base de datos.");
+                //ConsoleLogger.warn("El TipoUsuario '" + tipo.getNombre() + "' no tiene permisos asignados en la base de datos.");
                 continue;
             }
 
@@ -144,7 +142,7 @@ public class PermissionManager {
             for (PermissionNode node : toRemove) {
                 group.data().remove(node);
                 modified = true;
-                logger.warn("Desincronizacón detectada: Se removió el permiso '" + node.getPermission() + "' del grupo '" + groupName + "'.");
+                ConsoleLogger.warn("Desincronizacón detectada: Se removió el permiso '" + node.getPermission() + "' del grupo '" + groupName + "'.");
             }
             
             List<String> toAdd = permisosEsperados.stream()
@@ -158,7 +156,7 @@ public class PermissionManager {
                 PermissionNode node = PermissionNode.builder(permisoNombre).build();
                 groupRef.data().add(node);
                 modified = true;
-                logger.warn("Se añadió automáticamente el permiso '" + permisoNombre + "' al grupo '" + groupName + "'.");
+                ConsoleLogger.warn("Se añadió automáticamente el permiso '" + permisoNombre + "' al grupo '" + groupName + "'.");
             }
             if (modified) groupManager.saveGroup(groupRef).join();
         }
@@ -167,11 +165,11 @@ public class PermissionManager {
     }
 
     private boolean checkRangoUsuario() {
-        logger.info("Verificando Rangos de Usuario...");
+        ConsoleLogger.info("Verificando Rangos de Usuario...");
         GroupManager groupManager = lpApi.getGroupManager();
         List<RangoUsuario> rangos = rangoUsuarioRegistry.getList();
         if (rangos == null || rangos.isEmpty()) {
-            logger.warn("No se encontraron RangosUsuario en la base de datos.");
+            ConsoleLogger.warn("No se encontraron RangosUsuario en la base de datos.");
             return false;
         }
 
@@ -179,7 +177,7 @@ public class PermissionManager {
             String groupName = "rango_" + rango.getNombre().toLowerCase();
             Group group = groupManager.getGroup(groupName);
             if (group == null) {
-                logger.warn("El grupo de LuckPerms para RangoUsuario '" + rango.getNombre() + "' no existe. Creándolo...");
+                ConsoleLogger.warn("El grupo de LuckPerms para RangoUsuario '" + rango.getNombre() + "' no existe. Creándolo...");
                 group = groupManager.createAndLoadGroup(groupName).join();
             }
             final Group groupRef = group;
@@ -187,7 +185,7 @@ public class PermissionManager {
             boolean modified = false;
             Set<NodoPermiso> permisos = rango.getPermisos();
             if (permisos == null || permisos.isEmpty()) {
-                logger.warn("El RangoUsuario '" + rango.getNombre() + "' no tiene permisos asignados en la base de datos.");
+                //ConsoleLogger.warn("El RangoUsuario '" + rango.getNombre() + "' no tiene permisos asignados en la base de datos.");
                 continue;
             }
 
@@ -206,7 +204,7 @@ public class PermissionManager {
             for (PermissionNode node : toRemove) {
                 group.data().remove(node);
                 modified = true;
-                logger.warn("Desincronizacón detectada: Se removió el permiso '" + node.getPermission() + "' del grupo '" + groupName + "'.");
+                ConsoleLogger.warn("Desincronizacón detectada: Se removió el permiso '" + node.getPermission() + "' del grupo '" + groupName + "'.");
             }
 
             // Añadir permisos faltantes
@@ -221,7 +219,7 @@ public class PermissionManager {
                 PermissionNode node = PermissionNode.builder(permisoNombre).build();
                 groupRef.data().add(node);
                 modified = true;
-                logger.warn("Se añadió automáticamente el permiso '" + permisoNombre + "' al grupo '" + groupName + "'.");
+                ConsoleLogger.warn("Se añadió automáticamente el permiso '" + permisoNombre + "' al grupo '" + groupName + "'.");
             }
             if (modified) groupManager.saveGroup(groupRef).join();
         }
@@ -235,7 +233,7 @@ public class PermissionManager {
         UserManager userManager = lpApi.getUserManager();
         User user = userManager.getUser(player.getUuid());
         if (user == null) {
-            logger.warn("No se pudo obtener el usuario de LuckPerms para " + player.getNombre());
+            ConsoleLogger.warn("No se pudo obtener el usuario de LuckPerms para " + player.getNombre());
             return;
         }
 
@@ -254,14 +252,14 @@ public class PermissionManager {
         for (InheritanceNode node : toRemove) {
             user.data().remove(node);
             modified = true;
-            logger.warn("Desincronizacón detectada: Se removió el grupo '" + node.getGroupName() + "' del jugador " + player.getNombre());
+            ConsoleLogger.warn("Desincronizacón detectada: Se removió el grupo '" + node.getGroupName() + "' del jugador " + player.getNombre());
         }
 
         Tristate state = user.data().contains(targetNode, NodeEqualityPredicate.EXACT);
         if (state == Tristate.UNDEFINED) {
             user.data().add(targetNode);
             modified = true;
-            logger.warn("Desincronizacón detectada: Se añadió el grupo '" + targetGroupName + "' al jugador " + player.getNombre());
+            ConsoleLogger.warn("Desincronizacón detectada: Se añadió el grupo '" + targetGroupName + "' al jugador " + player.getNombre());
         }
 
         if (modified) userManager.saveUser(user).join();
@@ -273,7 +271,7 @@ public class PermissionManager {
         UserManager userManager = lpApi.getUserManager();
         User user = userManager.getUser(player.getUuid());
         if (user == null) {
-            logger.warn("No se pudo obtener el usuario de LuckPerms para " + player.getNombre());
+            ConsoleLogger.warn("No se pudo obtener el usuario de LuckPerms para " + player.getNombre());
             return;
         }
 
@@ -292,21 +290,21 @@ public class PermissionManager {
         for (InheritanceNode node : toRemove) {
             user.data().remove(node);
             modified = true;
-            logger.warn("Desincronizacón detectada: Se removió el grupo '" + node.getGroupName() + "' del jugador " + player.getNombre());
+            ConsoleLogger.warn("Desincronizacón detectada: Se removió el grupo '" + node.getGroupName() + "' del jugador " + player.getNombre());
         }
 
         Tristate state = user.data().contains(targetNode, NodeEqualityPredicate.EXACT);
         if (state == Tristate.UNDEFINED) {
             user.data().add(targetNode);
             modified = true;
-            logger.warn("Desincronizacón detectada: Se añadió el grupo '" + targetGroupName + "' al jugador " + player.getNombre());
+            ConsoleLogger.warn("Desincronizacón detectada: Se añadió el grupo '" + targetGroupName + "' al jugador " + player.getNombre());
         }
 
         if (modified) userManager.saveUser(user).join();
     }
 
     public void shutdown() {
-        logger.info(lang.getString("permission-manager-shutting-down"));
+        ConsoleLogger.info(lang.getString("permission-manager-shutting-down"));
     }
 
     public static PermissionManager getInstance() {

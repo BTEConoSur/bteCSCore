@@ -3,6 +3,7 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.RangoUsuario;
 
 public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
@@ -10,8 +11,8 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
     private static RangoUsuarioRegistry instance;
 
     public RangoUsuarioRegistry() {
-        super(RangoUsuario.class);
-        logger.info(lang.getString("rango-usuario-registry-initializing"));
+        super();
+        ConsoleLogger.info(lang.getString("rango-usuario-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<RangoUsuario> rangos = dbManager.selectAll(RangoUsuario.class);
         if (rangos != null) {
@@ -43,10 +44,6 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
         return get("Mod");
     }
 
-    public RangoUsuario getReviewer() {
-        return get("Reviewer");
-    }
-
     public RangoUsuario getInfluencer() {
         return get("Influencer");
     }
@@ -68,10 +65,6 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
             RangoUsuario rango = new RangoUsuario("Mod", "Rango de usuario: Mod");
             load(rango);
         }
-        if (get("Reviewer") == null) {
-            RangoUsuario rango = new RangoUsuario("Reviewer", "Rango de usuario: Reviewer");
-            load(rango);
-        }
         if (get("Influencer") == null) {
             RangoUsuario rango = new RangoUsuario("Influencer", "Rango de usuario: Influencer");
             load(rango);
@@ -83,7 +76,7 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
     }
 
     public void shutdown() {
-        logger.info(lang.getString("rango-usuario-registry-shutting-down"));
+        ConsoleLogger.info(lang.getString("rango-usuario-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }

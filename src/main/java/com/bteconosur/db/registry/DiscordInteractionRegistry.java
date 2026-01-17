@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.DiscordInteraction;
 import com.bteconosur.db.util.InteractionKey;
 import com.bteconosur.discord.action.ButtonAction;
@@ -21,8 +22,8 @@ public class DiscordInteractionRegistry extends Registry<Long, DiscordInteractio
     private final Map<InteractionKey, SelectAction> selectActions = new HashMap<>();
 
     public DiscordInteractionRegistry() {
-        super(DiscordInteraction.class);
-        logger.info(lang.getString("discord-interaction-registry-initializing"));
+        super();
+        ConsoleLogger.info(lang.getString("discord-interaction-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<DiscordInteraction> interactions = dbManager.selectAll(DiscordInteraction.class);
         if (interactions != null) {
@@ -37,14 +38,10 @@ public class DiscordInteractionRegistry extends Registry<Long, DiscordInteractio
             BTEConoSur.getInstance().getServer().getScheduler().runTaskTimer(BTEConoSur.getInstance(), () -> {
                 purgeExpired();
             }, periodTicks, periodTicks);
-            logger.info("Tarea de purga de interacciones de Discord programada cada " + expirationMinutes + " minutos.");
+            ConsoleLogger.info("Tarea de purga de interacciones de Discord programada cada " + expirationMinutes + " minutos.");
         } catch (Exception e) {
-            logger.warn("No se pudo programar la purga periódica de interacciones de Discord: " + e.getMessage());
+            ConsoleLogger.warn("No se pudo programar la purga periódica de interacciones de Discord: " + e.getMessage());
         }
-    }
-
-    private void registerActions() {
-
     }
 
     @Override
@@ -56,7 +53,7 @@ public class DiscordInteractionRegistry extends Registry<Long, DiscordInteractio
 
     @Override
     public void shutdown() {
-        logger.info(lang.getString("discord-interaction-registry-shutting-down"));
+        ConsoleLogger.info(lang.getString("discord-interaction-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }

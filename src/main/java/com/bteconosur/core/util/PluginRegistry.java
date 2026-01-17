@@ -9,7 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 
 public class PluginRegistry {
     
-    private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
     /**
      * Obtiene el CommandMap de Bukkit.
      * @return CommandMap de Bukkit.
@@ -37,7 +36,7 @@ public class PluginRegistry {
      * Deshabilita el plugin con un mensaje de error.
      */
     public static void disablePlugin(String reason) {
-        logger.error("Desabilitando plugin: " + reason);
+        ConsoleLogger.error("Desabilitando plugin: " + reason);
         Bukkit.getServer().getPluginManager().disablePlugin(BTEConoSur.getInstance());
     }
 }

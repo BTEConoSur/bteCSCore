@@ -1,16 +1,12 @@
 package com.bteconosur.core.command.btecs.crud.pais.update;
 
-import java.io.Console;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.locationtech.jts.geom.Polygon;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Pais;
@@ -30,10 +26,9 @@ public class AddPaisRegionCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        // Validación de argumentos
         if (args.length != 2) {
             String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
-            sender.sendMessage(message);
+            PlayerLogger.info(sender, message, (String) null);
             return true;
         }
 
@@ -42,20 +37,20 @@ public class AddPaisRegionCommand extends BaseCommand {
             id = Long.parseLong(args[0]);
         } catch (NumberFormatException ex) {
             String message = lang.getString("crud-not-valid-id").replace("%entity%", "Pais").replace("%id%", args[0]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if (!dbManager.exists(Pais.class, id)) {
             String message = lang.getString("crud-read-not-found").replace("%entity%", "Pais").replace("%id%", args[0]);
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         String nuevoNombre = args[1];
         if (nuevoNombre.length() > 50) {
             String message = lang.getString("crud-not-valid-name").replace("%entity%", "RegionPais").replace("%name%", nuevoNombre).replace("%reason%", "Máximo 50 caracteres.");
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
@@ -67,7 +62,7 @@ public class AddPaisRegionCommand extends BaseCommand {
         dbManager.save(nuevaRegion);
 
         String message = lang.getString("crud-update").replace("%entity%", "Pais").replace("%id%", args[0]);
-        sender.sendMessage(message);
+        PlayerLogger.info(sender, message, (String) null);
         return true;
     }
 

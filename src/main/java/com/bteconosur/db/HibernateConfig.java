@@ -9,7 +9,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 
@@ -19,23 +18,20 @@ public class HibernateConfig {
     private final YamlConfiguration config;
     private final YamlConfiguration lang;
 
-    private final ConsoleLogger logger;
-
     private static SessionFactory sessionFactory;
 
     public HibernateConfig() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
         lang = configHandler.getLang();
-        logger = BTEConoSur.getConsoleLogger();
 
-        logger.info(lang.getString("hibernate-initializing"));
+        ConsoleLogger.info(lang.getString("hibernate-initializing"));
     }
 
 
     public synchronized SessionFactory buildSessionFactory(List<Class<?>> entities) {
         if (sessionFactory != null) {
-            logger.warn("SessionFactory ya está inicializado. Usar getSessionFactory().");
+            ConsoleLogger.warn("SessionFactory ya está inicializado. Usar getSessionFactory().");
             return sessionFactory;
         }
 
@@ -62,23 +58,23 @@ public class HibernateConfig {
             return sessionFactory;
         } catch (Exception e) {
             StandardServiceRegistryBuilder.destroy(registry);
-            logger.error("Excepción al construir SessionFactory de Hibernate: " + e);
+            ConsoleLogger.error("Excepción al construir SessionFactory de Hibernate: " + e);
             return null;
         }
     }
 
     public SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
-            logger.error("SessionFactory no inicializado.");
+            ConsoleLogger.error("SessionFactory no inicializado.");
             return null;
         }
         return sessionFactory;
     }
 
     public void shutdown() { // TODO: Ver si coinciden shutdowns de DBManager y DiscordManager
-        logger.info(lang.getString("hibernate-shutting-down"));
+        ConsoleLogger.info(lang.getString("hibernate-shutting-down"));
         if (sessionFactory == null) {
-            logger.warn("Hibernate no está inicializado.");
+            ConsoleLogger.warn("Hibernate no está inicializado.");
             return;
         }
         sessionFactory.close();

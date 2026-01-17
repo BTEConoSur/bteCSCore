@@ -1,7 +1,5 @@
 package com.bteconosur.core.menu.config;
 
-import org.bukkit.Material;
-
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.core.util.MenuUtils;
@@ -37,10 +35,10 @@ public class GeneralConfigMenu extends Menu {
 
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
-        gui.setItem(2, 2, MenuUtils.getConfigItem("Toggle Test", "Toggle para testear.", configuration.getGeneralToggleTest(), Material.RED_GLAZED_TERRACOTTA, Material.RED_CONCRETE));
+        gui.setItem(2, 2, MenuUtils.getGeneralConfigItem("global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
         gui.addSlotAction(2, 2, event -> {
-            ConfigurationService.toggle(player.getUniqueId(), ConfigurationKey.GENERAL_TOGGLE_TEST); // TODO: Capaz es mejor obtener la configuracion con configurationService 
-            gui.updateItem(2, 2, MenuUtils.getConfigItem("Toggle Test", "Toggle para testear.", configuration.getGeneralToggleTest(), Material.RED_GLAZED_TERRACOTTA, Material.RED_CONCRETE));
+            ConfigurationService.toggle(player.getUniqueId(), ConfigurationKey.GENERAL_GLOBAL_CHAT_ON_JOIN); // TODO: Capaz es mejor obtener la configuracion con configurationService 
+            gui.updateItem(2, 2, MenuUtils.getGeneralConfigItem("global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
         });
         
         return gui;

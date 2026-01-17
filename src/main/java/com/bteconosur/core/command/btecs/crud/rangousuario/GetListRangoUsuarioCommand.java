@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.RangoUsuario;
 
@@ -29,24 +30,23 @@ public class GetListRangoUsuarioCommand extends BaseCommand {
 
         if (rangos.isEmpty()) {
             String message = lang.getString("get-list-empty").replace("%entity%", "Rangos de Usuario");
-            sender.sendMessage(message);
+            PlayerLogger.warn(sender, message, (String) null);
             return true;
         }
 
-        String header = lang.getString("get-list-command.header").replace("%entity%", "Rangos de Usuario");
-        sender.sendMessage(header);
+        String message = lang.getString("get-list-command.header").replace("%entity%", "Rangos de Usuario");
 
         String lineFormat = lang.getString("get-list-command.line");
         for (RangoUsuario rango : rangos) {
             String line = lineFormat
                 .replace("%id%", String.valueOf(rango.getId()))
                 .replace("%details%", rango.getNombre());
-            sender.sendMessage(line);
+            message += "\n" + line;
         }
 
         String footer = lang.getString("get-list-command.footer");
-        if (footer != null && !footer.isEmpty()) sender.sendMessage(footer);
-
+        if (footer != null && !footer.isEmpty()) message += "\n" + footer;
+        PlayerLogger.send(sender, message, (String) null);
         return true;
     }
     

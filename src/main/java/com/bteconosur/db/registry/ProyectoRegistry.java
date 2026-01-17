@@ -3,6 +3,7 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Proyecto;
 
 public class ProyectoRegistry extends Registry<String, Proyecto> {
@@ -10,8 +11,8 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     private static ProyectoRegistry instance;
 
     public ProyectoRegistry() {
-        super(Proyecto.class);
-        logger.info(lang.getString("proyecto-registry-initializing"));  
+        super();
+        ConsoleLogger.info(lang.getString("proyecto-registry-initializing"));  
         loadedObjects = new ConcurrentHashMap<>();
         List<Proyecto> proyectos = dbManager.selectAll(Proyecto.class);
         if (proyectos != null) for (Proyecto p : proyectos) loadedObjects.put(p.getId(), p);
@@ -25,7 +26,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     }
 
     public void shutdown() {
-        logger.info(lang.getString("proyecto-registry-shutting-down"));
+        ConsoleLogger.info(lang.getString("proyecto-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }

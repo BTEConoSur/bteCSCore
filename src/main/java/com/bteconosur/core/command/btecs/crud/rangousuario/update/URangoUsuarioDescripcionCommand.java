@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.RangoUsuario;
 
@@ -24,7 +25,7 @@ public class URangoUsuarioDescripcionCommand extends BaseCommand {
     protected boolean onCommand(CommandSender sender, String[] args) {
         if (args.length < 2) {
             String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
-            sender.sendMessage(message);
+            PlayerLogger.info(sender, message, (String) null);
             return true;
         }
 
@@ -33,17 +34,16 @@ public class URangoUsuarioDescripcionCommand extends BaseCommand {
             id = Long.parseLong(args[0]);
         } catch (NumberFormatException ex) {
             String message = lang.getString("crud-not-valid-id").replace("%entity%", "RangoUsuario").replace("%id%", args[0]);
-            sender.sendMessage(message);
+            PlayerLogger.info(sender, message, (String) null);
             return true;
         }
 
         if (!dbManager.exists(RangoUsuario.class, id)) {
             String message = lang.getString("crud-read-not-found").replace("%entity%", "RangoUsuario").replace("%id%", args[0]);
-            sender.sendMessage(message);
+            PlayerLogger.info(sender, message, (String) null);
             return true;
         }
 
-        // Concatenar todos los argumentos restantes para la descripción
         StringBuilder descripcionBuilder = new StringBuilder();
         for (int i = 1; i < args.length; i++) {
             if (i > 1) descripcionBuilder.append(" ");
@@ -53,7 +53,7 @@ public class URangoUsuarioDescripcionCommand extends BaseCommand {
 
         if (nuevaDescripcion.length() > 500) {
             String message = lang.getString("crud-not-valid-name").replace("%entity%", "RangoUsuario").replace("%name%", nuevaDescripcion).replace("%reason%", "Máximo 500 caracteres.");
-            sender.sendMessage(message);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
@@ -62,7 +62,7 @@ public class URangoUsuarioDescripcionCommand extends BaseCommand {
         dbManager.merge(rangoUsuario);
 
         String message = lang.getString("crud-update").replace("%entity%", "RangoUsuario").replace("%id%", args[0]);
-        sender.sendMessage(message);
+        PlayerLogger.info(sender, message, (String) null);
         return true;
     }
 }

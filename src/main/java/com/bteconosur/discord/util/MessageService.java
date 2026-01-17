@@ -5,60 +5,117 @@ import java.util.List;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.util.ConsoleLogger;
 
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 public class MessageService {
 
-    private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
+    @SuppressWarnings("null")
+    public static void sendMessage(Long channelId, String message) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.messageContent(message)) return;
+        sendMessage(BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId), message);
+    }
 
     @SuppressWarnings("null")
-    public void sendMessage(TextChannel channel, String message) {
+    public static void sendMessage(TextChannel channel, String message) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
         try {
             channel.sendMessage(message).queue();
         } catch (Exception e) {
-            logger.error("Discord: Error al enviar el mensaje al canal '" + channel.getName() + "': ", e);
+            ConsoleLogger.error("Discord: Error al enviar el mensaje al canal '" + channel.getName() + "': ", e);
         }
     }
 
     @SuppressWarnings("null")
-    public void sendEmbed(TextChannel channel, MessageEmbed embed) {
+    public static void sendDM(Long dsUserId, String message) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.messageContent(message)) return;
+        sendDM(BTEConoSur.getDiscordManager().getJda().getUserById(dsUserId), message);
+    }
+
+    @SuppressWarnings("null")
+    public static void sendDM(User user, String message) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.user(user) || !DiscordValidate.messageContent(message)) return;
+
+        try {
+            user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(message).queue());
+        } catch (Exception e) {
+            ConsoleLogger.error("Discord: Error al enviar el mensaje al usuario '" + user.getIdLong() + "': ", e);
+        }
+    }
+
+    @SuppressWarnings("null")
+    public static void sendEmbed(Long channelId, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.embed(embed)) return;
+        sendEmbed(BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId), embed);
+    }
+
+    @SuppressWarnings("null")
+    public static void sendEmbed(TextChannel channel, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.embed(embed)) return;
         try {
             channel.sendMessageEmbeds(embed).queue();
         } catch (Exception e) {
-            logger.error("Discord: Error al enviar el embed al canal '" + channel.getName() + "': ", e);
+            ConsoleLogger.error("Discord: Error al enviar el embed al canal '" + channel.getName() + "': ", e);
         }
     }
 
     @SuppressWarnings("null")
-    public void sendReplyMessage(TextChannel channel, Message replyMessage, String message) {
-        if (!DiscordValidate.channel(channel) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.messageContent(message)) return;
-        try {
-            channel.sendMessage(message).setMessageReference(replyMessage).queue();
-        } catch (Exception e) {
-            logger.error("Discord: Error al enviar el mensaje de respuesta al canal '" + channel.getName() + "': ", e);
-        }
+    public static void sendEmbedDM(Long dsUserId, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.embed(embed)) return;
+        sendEmbedDM(BTEConoSur.getDiscordManager().getJda().getUserById(dsUserId), embed);
     }
 
     @SuppressWarnings("null")
-    public void sendReplyEmbed(TextChannel channel, Message replyMessage, MessageEmbed embed) {
-        if (!DiscordValidate.channel(channel) || !DiscordValidate.replyMessage(replyMessage) || !DiscordValidate.embed(embed)) return;
+    public static void sendEmbedDM(User user, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.user(user) || !DiscordValidate.embed(embed)) return;
         try {
-            channel.sendMessageEmbeds(embed).setMessageReference(replyMessage).queue();
+            user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessageEmbeds(embed).queue());
         } catch (Exception e) {
-            logger.error("Discord: Error al enviar el embed de respuesta al canal '" + channel.getName() + "': ", e);
+            ConsoleLogger.error("Discord: Error al enviar el mensaje al usuario '" + user.getIdLong() + "': ", e);
         }
     }
 
-    public void sendBroadcastMessage(List<TextChannel> channels, String message) {
-        for (TextChannel channel : channels) sendMessage(channel, message);
+    public static void sendBroadcastMessage(List<Long> channelsIds, String message) {
+        if (!DiscordValidate.jda()) return;
+        for (Long channelId : channelsIds) {
+            if (!DiscordValidate.channelId(channelId)) continue;
+            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            sendMessage(channel, message);
+        }
     }
 
-    public void sendBroadcastEmbed(List<TextChannel> channels, MessageEmbed embed) {
-        for (TextChannel channel : channels) sendEmbed(channel, embed);
+    public static void sendBroadcastEmbed(List<Long> channelsIds, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
+        for (Long channelId : channelsIds) {
+            if (!DiscordValidate.channelId(channelId)) continue;
+            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            sendEmbed(channel, embed);
+        }
+    }
+
+    public static void sendBroadcastDM(List<Long> usersIds, String message) {
+        if (!DiscordValidate.jda()) return;
+        for (Long userId : usersIds) {
+            if (!DiscordValidate.userId(userId)) continue;
+            sendDM(userId, message);
+        }
+    }
+
+    public static void sendBroadcastEmbedDM(List<Long> usersIds, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
+        for (Long userId : usersIds) {
+            if (!DiscordValidate.userId(userId)) continue;
+            sendEmbedDM(userId, embed);
+        }
     }
 
 }

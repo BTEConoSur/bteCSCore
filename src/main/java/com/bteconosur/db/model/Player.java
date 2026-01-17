@@ -10,6 +10,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Table;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -26,6 +28,7 @@ import org.bukkit.Bukkit;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.db.registry.PlayerRegistry;
 
 @Entity
@@ -83,7 +86,7 @@ public class Player {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "pais_reviewer", joinColumns = @JoinColumn(name = "uuid_player"), inverseJoinColumns = @JoinColumn(name = "id_pais"))
-    @JsonIgnore //TODO: ver estos casos
+    @JsonIgnore
     private Set<Pais> paisesReviewer = new HashSet<>();
 
     @ManyToOne
@@ -234,6 +237,14 @@ public class Player {
     }
 
     @JsonIgnore
+    public static User getDsUser(Player player) {
+        if (player.getDsIdUsuario() == null) return null;
+        JDA jda = BTEConoSur.getDiscordManager().getJda();
+        if (jda == null) return null;
+        return jda.getUserById(player.getDsIdUsuario());
+    }
+
+    @JsonIgnore
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -247,6 +258,4 @@ public class Player {
     public int hashCode() {
         return Objects.hash(uuid);
     }
-
-    //TODO: Ver cascada
 }

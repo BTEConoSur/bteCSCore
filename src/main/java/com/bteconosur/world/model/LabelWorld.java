@@ -28,21 +28,20 @@ public class LabelWorld {
     private final World bukkitWorld;
     private final Geometry region;
 
-    private ConsoleLogger logger = BTEConoSur.getConsoleLogger();
     private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     private static final GeometryFactory gf = new GeometryFactory();
 
     public LabelWorld(String name, String displayName, int offset) {
         String msg = lang.getString("label-world-loading").replace("%name%", name).replace("%offset%", String.valueOf(offset));
-        logger.info(msg);
+        ConsoleLogger.info(msg);
 
         this.name = name;
         this.displayName = displayName;
         this.offset = offset;
 
         bukkitWorld = BTEConoSur.getInstance().getServer().getWorld(name);
-        if (bukkitWorld == null) logger.error("La capa '" + name + "' no está creada en el servidor.");
+        if (bukkitWorld == null) ConsoleLogger.error("La capa '" + name + "' no está creada en el servidor.");
 
         // Null si ocurre un error al cargar la región
         this.region = loadRegionFromConfig();
@@ -51,7 +50,7 @@ public class LabelWorld {
     private Geometry loadRegionFromConfig() {
         YamlConfiguration worlds = ConfigHandler.getInstance().getWorlds();
         if (!worlds.contains(name)) {
-            logger.error("No se ha encontrado en worlds.yml la región del mundo: " + name);
+            ConsoleLogger.error("No se ha encontrado en worlds.yml la región del mundo: " + name);
             return null;
         }
 
@@ -66,14 +65,14 @@ public class LabelWorld {
             List<Coordinate> coords = new ArrayList<>();
             for (Object o : raw) {
                 if (!(o instanceof Map)) {
-                    logger.error("Punto inválido en worlds.yml (" + name + ", id: " + key + "): " + String.valueOf(o));
+                    ConsoleLogger.error("Punto inválido en worlds.yml (" + name + ", id: " + key + "): " + String.valueOf(o));
                     return null;
                 }
                 Map<?,?> m = (Map<?,?>) o;
                 Object ox = m.get("x");
                 Object oz = m.get("z");
                 if (!(ox instanceof Number) || !(oz instanceof Number)) {
-                    logger.error("Punto inválido en worlds.yml (" + name + ", id: " + key + "): x/z no son numéricos - x=" + ox + " z=" + oz);
+                    ConsoleLogger.error("Punto inválido en worlds.yml (" + name + ", id: " + key + "): x/z no son numéricos - x=" + ox + " z=" + oz);
                     return null;
                 }
                 double x = ((Number) ox).doubleValue();
@@ -96,7 +95,7 @@ public class LabelWorld {
                 if (combined == null) combined = poly;
                 else combined = combined.union(poly);
             } catch (Exception e) {
-                logger.error("Polígono inválido en worlds.yml (" + name + ", id: " + key + "): " + e);
+                ConsoleLogger.error("Polígono inválido en worlds.yml (" + name + ", id: " + key + "): " + e);
                 return null;
             }
         }

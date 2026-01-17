@@ -3,7 +3,12 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
+
+import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 
 public class PlayerRegistry extends Registry<UUID, Player> {
@@ -11,8 +16,8 @@ public class PlayerRegistry extends Registry<UUID, Player> {
     private static PlayerRegistry instance;
 
     public PlayerRegistry() {
-        super(Player.class);
-        logger.info(lang.getString("player-registry-initializing"));
+        super();
+        ConsoleLogger.info(lang.getString("player-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<Player> players = dbManager.selectAll(Player.class);
         if (players != null) for (Player p : players) loadedObjects.put(p.getUuid(), p);
@@ -26,7 +31,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
     }
 
     public void shutdown() {
-        logger.info(lang.getString("player-registry-shutting-down"));
+        ConsoleLogger.info(lang.getString("player-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }
@@ -43,6 +48,31 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         Player found = results.get(0);
         loadedObjects.put(found.getUuid(), found);
         return found;
+    }
+
+    public List<Player> getReviewers(Pais pais) {
+        return loadedObjects.values()
+                .stream()
+                .filter(player -> player.getPaisesReviewer().contains(pais))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getManagers(Pais pais) {
+        return loadedObjects.values()
+                .stream()
+                .filter(player -> player.getPaisesManager().contains(pais))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getOnlinePlayers() {
+        return Bukkit.getOnlinePlayers()
+                .stream()
+                .map(player -> get(player.getUniqueId()))
+                .collect(Collectors.toList());
+    }
+
+    public boolean isOnline(UUID uuid) {
+        return Bukkit.getPlayer(uuid) != null;
     }
 
     public static PlayerRegistry getInstance() {

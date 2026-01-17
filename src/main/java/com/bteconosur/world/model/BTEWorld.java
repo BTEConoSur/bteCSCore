@@ -18,6 +18,7 @@ import org.mvplugins.multiverse.core.MultiverseCoreApi;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.PlayerLogger;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -32,7 +33,6 @@ public class BTEWorld {
     private HashMap<UUID, LabelWorld> lastLabelWorld = new HashMap<>();
     private boolean isValid = false;
 
-    private ConsoleLogger logger = BTEConoSur.getConsoleLogger();
     private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
@@ -44,7 +44,7 @@ public class BTEWorld {
   
     public BTEWorld() {
 
-        logger.info(lang.getString("bte-world-loading"));
+        ConsoleLogger.info(lang.getString("bte-world-loading"));
         labelWorlds.add(new LabelWorld("capa_1", "Capa 1", config.getInt("layer-1-offset")));
         labelWorlds.add(new LabelWorld("capa_2", "Capa 2", config.getInt("layer-2-offset")));
 
@@ -54,7 +54,7 @@ public class BTEWorld {
 
         loadWorld();
 
-        if (!isValid) logger.error("El mundo de BTE es inválido.");
+        if (!isValid) ConsoleLogger.error("El mundo de BTE es inválido.");
     }
 
     private void loadWorld() {
@@ -93,7 +93,7 @@ public class BTEWorld {
         
         LabelWorld lastlw = lastLabelWorld.get(pUuid);
         if (currentlw == null && lastlw == null) {
-            // Notificacion de chat: "No puedes estar en el limbo, te teletransportamos al lobby."
+            PlayerLogger.warn(com.bteconosur.db.model.Player.getBTECSPlayer(player), lang.getString("not-limbo"), (String) null);
             player.teleport(multiverseApi.getWorldManager().getLoadedWorld("lobby").get().getSpawnLocation());
             return;
         };

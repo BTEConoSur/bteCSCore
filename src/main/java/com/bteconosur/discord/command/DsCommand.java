@@ -6,11 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.command.Command;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.discord.util.CommandMode;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.registry.PaisRegistry;
@@ -38,13 +35,11 @@ public abstract class DsCommand {
 
     protected final YamlConfiguration lang;
     protected final YamlConfiguration config;
-    protected final ConsoleLogger logger;
 
     public DsCommand(String command, String description, Collection<OptionData> options, Collection<Permission> permissions, CommandMode mode) {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         config = configHandler.getConfig();
-        logger = BTEConoSur.getConsoleLogger();
 
         this.command = command;
         this.description = description;
@@ -90,7 +85,7 @@ public abstract class DsCommand {
                 commandData = staffHubGuild.upsertCommand(command, description);
                 registerCommandData(commandData);
             } else {
-                logger.warn("Error de Discord: No se pudo encontrar el StaffHub.");
+                ConsoleLogger.warn("Error de Discord: No se pudo encontrar el StaffHub.");
             }
         }
     }
@@ -102,13 +97,13 @@ public abstract class DsCommand {
         if (options != null && !options.isEmpty()) commandData.addOptions(options);
         if (subcommands.isEmpty()) {
             commandData.queue();
-            logger.debug("Comando de Discord '"+ mode +"' registrado: /" + command);
+            ConsoleLogger.debug("Comando de Discord '"+ mode +"' registrado en un servidor: /" + command);
         } else {
             for (DsSubcommand subcommand : subcommands.values()) {
                 commandData.addSubcommands(subcommand.geSubcommandData());
             }
             commandData.queue();
-            logger.debug("Comando de Discord '"+ mode + "' con subcomandos registrado: /" + command);
+            ConsoleLogger.debug("Comando de Discord '"+ mode + "' con subcomandos registrado: /" + command);
         }
     }
 

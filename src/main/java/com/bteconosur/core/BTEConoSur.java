@@ -1,12 +1,19 @@
 package com.bteconosur.core;
 
+import com.bteconosur.core.chat.GlobalChatService;
+import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.btecs.BTECSCommand;
+import com.bteconosur.core.command.chat.ChatCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
 import com.bteconosur.core.command.config.ManagerConfigCommand;
 import com.bteconosur.core.command.config.ReviewerConfigCommand;
+import com.bteconosur.core.command.pais.PaisPrefixCommand;
+import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.listener.ChatListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
 import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.PermissionManager;
@@ -26,13 +33,13 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
 
 public final class BTEConoSur extends JavaPlugin {
     private static BTEConoSur instance;
 
-    private static ConsoleLogger consoleLogger;
     private static DiscordManager discordManager;
     private static DsCommandManager dsCommandManager; 
     private static DBManager dbManager;
@@ -48,6 +55,9 @@ public final class BTEConoSur extends JavaPlugin {
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
     private static LuckPerms luckPermsApi;
+
+    private static YamlConfiguration config;
+    private static YamlConfiguration lang;
 
     @Override
     public void onEnable() {
@@ -75,9 +85,16 @@ public final class BTEConoSur extends JavaPlugin {
             return;
         }
 
-        consoleLogger = new ConsoleLogger();
-        dbManager = DBManager.getInstance();
+        ConfigHandler configHandler = ConfigHandler.getInstance();
+        config = configHandler.getConfig();
+        lang = configHandler.getLang();
+
+
         discordManager = DiscordManager.getInstance();
+        if (discordManager.getJda() != null) DiscordLogger.toggleStaffConsoleLog();
+        ConsoleLogger.debug(lang.getString("debug-mode-enabled"));
+
+        dbManager = DBManager.getInstance();
         dsCommandManager = DsCommandManager.getInstance();
         worldManager = new WorldManager(); //TODO: hacer singleton
         
@@ -95,6 +112,7 @@ public final class BTEConoSur extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
         getServer().getPluginManager().registerEvents(new MovingListeners(worldManager), this);
             
         // Registro de comandos
@@ -102,8 +120,11 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new ManagerConfigCommand());
         PluginRegistry.registerCommand(new GeneralConfigCommand());
         PluginRegistry.registerCommand(new ReviewerConfigCommand());
-        consoleLogger.info("El Plugin se ha activado.");
+        PluginRegistry.registerCommand(new ChatCommand());
+        PluginRegistry.registerCommand(new PaisPrefixCommand());
+        ConsoleLogger.info("El Plugin se ha activado.");
         
+        if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
     }
 
     @Override
@@ -155,21 +176,19 @@ public final class BTEConoSur extends JavaPlugin {
         }
 
         if (discordManager != null) {
+            DiscordLogger.toggleStaffConsoleLog();
+            if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStopped());
             discordManager.shutdown();
             discordManager = null;
         }
 
         luckPermsApi = null;
           
-        consoleLogger.info("El Plugin se ha desactivado.");
+        ConsoleLogger.info("El Plugin se ha desactivado.");
     }
 
     public static BTEConoSur getInstance() {
         return instance;
-    }
-
-    public static ConsoleLogger getConsoleLogger() {
-        return consoleLogger;
     }
 
     public static MultiverseCoreApi getMultiverseCoreApi() {

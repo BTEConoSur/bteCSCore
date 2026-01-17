@@ -16,6 +16,21 @@ database-current-session-context-class: "thread"
 discord-bot-token: ""
 discord-interaction-expiration: 15 # Cada cuantos minutos expiran las interacciones de Discord.
 
+discord-staff-guild-id:  # ID del servidor del Staff Hub.
+discord-staff-log-id:  # ID del canal de Discord donde se enviarán los logs del staff.
+discord-staff-console-log-id:  # ID del canal de Discord donde se enviarán los logs de la consola del servidor.
+discord-dev-role-id:  # ID del rol de Discord que identifica a los desarrolladores.
+
+discord-global-chat: true # Habilitar chat global entre servidor y Discord.
+discord-country-chat: true # Habilitar chat por país entre servidor y Discord.
+discord-country-log: true # Habilitar logs de acciones de proyectos por país. 
+discord-staff-log: true # Habilitar logs de acciones de proyectos en el Staff Hub.
+discord-staff-console-log: true # Habilitar logs de la consola del servidor en el Staff Hub.
+
+discord-player-join-leave: true # Habilitar mensajes de entrada y salida de jugadores en Discord. Depende de discord-country-chat y/o discord-global-chat para mostrarse en Discord.
+discord-player-join-leave-chat: true # Habilitar mensajes de entrada y salida del chat de jugadores en Discord. Depende de discord-country-chat y/o discord-global-chat para mostrarse en Discord.
+discord-server-start-stop: true # Habilitar mensajes de inicio y stop del servidor en Discord. Depende de discord-country-chat para mostrarse en Discord.
+
 # World
 tp-cooldown-seconds: 5
 layer-1-offset: 1700
@@ -34,8 +49,8 @@ commands-cooldowns:
 # Configuración de Players
 player-defaults:
   general:
-    toggle-test: true
+    global-chat-on-join: true
   reviewer:
-    toggle-test: true
+    notifications: true
   manager:
-    toggle-test: true
+    notifications: true

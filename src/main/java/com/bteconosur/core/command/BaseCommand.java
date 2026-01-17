@@ -2,8 +2,7 @@ package com.bteconosur.core.command;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
-
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import com.bteconosur.core.util.PlayerLogger;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,7 +38,6 @@ public abstract class BaseCommand extends Command {
 
     private final YamlConfiguration lang;
     private final YamlConfiguration config;
-    private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public BaseCommand(String command, String description, String args) {
         this(command, description, args, null, CommandMode.BOTH);
@@ -72,12 +70,13 @@ public abstract class BaseCommand extends Command {
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         if (!isAllowedSender(sender)) {
-            // Implementar mensaje de que el comando no puede ser ejecutado por ese tipo de sender.
+            if (commandMode == CommandMode.PLAYER_ONLY && !(sender instanceof Player)) PlayerLogger.error(sender, lang.getString("player-only-command"), (String) null);
+            else if (commandMode == CommandMode.CONSOLE_ONLY && sender instanceof Player) PlayerLogger.error(sender, lang.getString("console-only-command"), (String) null);
             return false;
-        }
+        };
 
         if (permission != null && !sender.hasPermission(permission)) {
-            // Implementar mensaje de que el jugador no tiene permisos.
+            PlayerLogger.error(sender, lang.getString("no-permission"), (String) null);
             return false;
         }
 
@@ -111,9 +110,20 @@ public abstract class BaseCommand extends Command {
 
         List<String> completions = new ArrayList<>();
         String currentArg = args[args.length - 1].toLowerCase();
-        for (String subcommand : currentCommand.subcommands.keySet()) {
-            if (subcommand.startsWith(currentArg)) {
-                completions.add(subcommand);
+        for (Map.Entry<String, BaseCommand> entry : currentCommand.subcommands.entrySet()) {
+            String subcommandName = entry.getKey();
+            BaseCommand subcommand = entry.getValue();
+            
+            if (subcommand.permission != null && !sender.hasPermission(subcommand.permission)) {
+                continue;
+            }
+            
+            if (!subcommand.isAllowedSender(sender)) {
+                continue;
+            }
+            
+            if (subcommandName.startsWith(currentArg)) {
+                completions.add(subcommandName);
             }
         }
 
@@ -134,8 +144,7 @@ public abstract class BaseCommand extends Command {
                     String formattedTime = formatTime(remainingMillis);
                     String message = lang.getString("command-on-cooldown")
                             .replace("%time%", formattedTime);
-                    sender.sendMessage(miniMessage.deserialize(message));
-                    //TODO: Enviar con sistema de notificaciones.
+                    PlayerLogger.warn(sender, message, (String) null);
                     return false; 
                 } else {
                     timeCooldowns.put(playerUUID, System.currentTimeMillis());
@@ -186,7 +195,7 @@ public abstract class BaseCommand extends Command {
     /**
      * Verifica si el sender es un tipo de sender permitido.
      */
-    private boolean isAllowedSender(CommandSender sender) {
+    protected boolean isAllowedSender(CommandSender sender) {
         return switch (commandMode) {
             case PLAYER_ONLY -> sender instanceof Player;
             case CONSOLE_ONLY -> !(sender instanceof Player);
@@ -221,6 +230,10 @@ public abstract class BaseCommand extends Command {
 
     public String getFullCommand() {
         return fullCommand;
+    }
+
+    public String getPermission() {
+        return permission;
     }
 
 }

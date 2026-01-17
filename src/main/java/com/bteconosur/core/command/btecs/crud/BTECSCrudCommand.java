@@ -11,6 +11,7 @@ import com.bteconosur.core.command.btecs.crud.tipousuario.CRUDTipoUsuarioCommand
 import com.bteconosur.core.command.btecs.crud.rangousuario.CRUDRangoUsuarioCommand;
 import com.bteconosur.core.command.btecs.crud.pais.CRUDPaisCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.PlayerLogger;
 
 public class BTECSCrudCommand extends BaseCommand {
 
@@ -30,9 +31,8 @@ public class BTECSCrudCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        // TODO: Enviar por sistema de notificaciones que use help
         String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
-        sender.sendMessage(message);
+        PlayerLogger.info(sender, message, (String) null);
         return true;
     }
 
