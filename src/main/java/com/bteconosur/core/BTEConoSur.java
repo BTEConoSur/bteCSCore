@@ -40,7 +40,6 @@ import org.mvplugins.multiverse.core.MultiverseCoreApi;
 public final class BTEConoSur extends JavaPlugin {
     private static BTEConoSur instance;
 
-    private static ConsoleLogger consoleLogger;
     private static DiscordManager discordManager;
     private static DsCommandManager dsCommandManager; 
     private static DBManager dbManager;
@@ -90,11 +89,10 @@ public final class BTEConoSur extends JavaPlugin {
         config = configHandler.getConfig();
         lang = configHandler.getLang();
 
-        consoleLogger = new ConsoleLogger();
 
         discordManager = DiscordManager.getInstance();
         if (discordManager.getJda() != null) DiscordLogger.toggleStaffConsoleLog();
-        consoleLogger.debug(lang.getString("debug-mode-enabled"));
+        ConsoleLogger.debug(lang.getString("debug-mode-enabled"));
 
         dbManager = DBManager.getInstance();
         dsCommandManager = DsCommandManager.getInstance();
@@ -124,7 +122,7 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new ReviewerConfigCommand());
         PluginRegistry.registerCommand(new ChatCommand());
         PluginRegistry.registerCommand(new PaisPrefixCommand());
-        consoleLogger.info("El Plugin se ha activado.");
+        ConsoleLogger.info("El Plugin se ha activado.");
         
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
     }
@@ -186,15 +184,11 @@ public final class BTEConoSur extends JavaPlugin {
 
         luckPermsApi = null;
           
-        consoleLogger.info("El Plugin se ha desactivado.");
+        ConsoleLogger.info("El Plugin se ha desactivado.");
     }
 
     public static BTEConoSur getInstance() {
         return instance;
-    }
-
-    public static ConsoleLogger getConsoleLogger() {
-        return consoleLogger;
     }
 
     public static MultiverseCoreApi getMultiverseCoreApi() {

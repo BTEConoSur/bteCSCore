@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 public class MessageService {
 
-    private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
     @SuppressWarnings("null")
     public static void sendMessage(Long channelId, String message) {
         if (!DiscordValidate.jda()) return;
@@ -26,7 +25,7 @@ public class MessageService {
         try {
             channel.sendMessage(message).queue();
         } catch (Exception e) {
-            logger.error("Discord: Error al enviar el mensaje al canal '" + channel.getName() + "': ", e);
+            ConsoleLogger.error("Discord: Error al enviar el mensaje al canal '" + channel.getName() + "': ", e);
         }
     }
 
@@ -45,7 +44,7 @@ public class MessageService {
         try {
             user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(message).queue());
         } catch (Exception e) {
-            logger.error("Discord: Error al enviar el mensaje al usuario '" + user.getIdLong() + "': ", e);
+            ConsoleLogger.error("Discord: Error al enviar el mensaje al usuario '" + user.getIdLong() + "': ", e);
         }
     }
 
@@ -63,7 +62,7 @@ public class MessageService {
         try {
             channel.sendMessageEmbeds(embed).queue();
         } catch (Exception e) {
-            logger.error("Discord: Error al enviar el embed al canal '" + channel.getName() + "': ", e);
+            ConsoleLogger.error("Discord: Error al enviar el embed al canal '" + channel.getName() + "': ", e);
         }
     }
 
@@ -81,7 +80,7 @@ public class MessageService {
         try {
             user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessageEmbeds(embed).queue());
         } catch (Exception e) {
-            logger.error("Discord: Error al enviar el mensaje al usuario '" + user.getIdLong() + "': ", e);
+            ConsoleLogger.error("Discord: Error al enviar el mensaje al usuario '" + user.getIdLong() + "': ", e);
         }
     }
 

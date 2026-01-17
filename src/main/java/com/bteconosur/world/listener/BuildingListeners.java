@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Player;
@@ -40,7 +41,7 @@ public class BuildingListeners implements Listener {
 
         Player player = playerRegistry.get(event.getPlayer().getUniqueId());
         if (player == null) {
-            // TODO: Console logger No se econtró el jugador en la base de datos.
+            ConsoleLogger.warn("No se encontró al jugador '" + event.getPlayer().getName() + "' en la base de datos.");
             event.setCancelled(true);
             return;
         }
@@ -57,7 +58,7 @@ public class BuildingListeners implements Listener {
 
         Player player = playerRegistry.get(event.getPlayer().getUniqueId());
         if (player == null) {
-            // TODO: Console logger No se econtró el jugador en la base de datos.
+            ConsoleLogger.warn("No se encontró al jugador '" + event.getPlayer().getName() + "' en la base de datos.");
             event.setCancelled(true);
             return;
         }
@@ -85,7 +86,7 @@ public class BuildingListeners implements Listener {
 
         Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId()); 
         if (player == null) { 
-            // TODO: Console logger No se econtró el jugador en la base de datos.
+            ConsoleLogger.warn("No se encontró al jugador '" + event.getPlayer().getName() + "' en la base de datos.");
             event.setCancelled(true); 
             return; 
         }

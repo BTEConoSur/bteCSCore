@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 
@@ -16,7 +17,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
 
     public PlayerRegistry() {
         super();
-        logger.info(lang.getString("player-registry-initializing"));
+        ConsoleLogger.info(lang.getString("player-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<Player> players = dbManager.selectAll(Player.class);
         if (players != null) for (Player p : players) loadedObjects.put(p.getUuid(), p);
@@ -30,7 +31,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
     }
 
     public void shutdown() {
-        logger.info(lang.getString("player-registry-shutting-down"));
+        ConsoleLogger.info(lang.getString("player-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }

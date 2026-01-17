@@ -2,7 +2,6 @@ package com.bteconosur.core.command.btecs.test;
 
 import org.bukkit.command.CommandSender;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.DBManager;
@@ -16,13 +15,12 @@ public class TestConsoleLoggerCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        ConsoleLogger logger = BTEConoSur.getConsoleLogger();
-        logger.info("Este es un mensaje de info de prueba.");
-        logger.warn("Este es un mensaje de advertencia de prueba.");
-        logger.error("Este es un mensaje de error de prueba.");
-        logger.debug("Este es un mensaje de debug de prueba.");
+        ConsoleLogger.info("Este es un mensaje de info de prueba.");
+        ConsoleLogger.warn("Este es un mensaje de advertencia de prueba.");
+        ConsoleLogger.error("Este es un mensaje de error de prueba.");
+        ConsoleLogger.debug("Este es un mensaje de debug de prueba.");
         Player firstPlayer = DBManager.getInstance().get(Player.class, ((org.bukkit.entity.Player)sender).getUniqueId());
-        logger.warn("Este es un mensaje de prueba: ", firstPlayer);
+        ConsoleLogger.warn("Este es un mensaje de prueba: ", firstPlayer);
         return true;
     }   
 

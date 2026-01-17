@@ -3,7 +3,6 @@ package com.bteconosur.core.command.btecs.crud.ciudad;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
@@ -49,8 +48,7 @@ public class RCiudadCommand extends BaseCommand {
         Ciudad ciudad = dbManager.get(Ciudad.class, id);
 
         String message = lang.getString("crud-read").replace("%entity%", "Ciudad").replace("%id%", args[0]);
-        BTEConoSur.getConsoleLogger().debug(message, ciudad);
-        PlayerLogger.info(sender, message, (String) null);
+        PlayerLogger.info(sender, message, (String) null, ciudad);
         return true;
     }
     

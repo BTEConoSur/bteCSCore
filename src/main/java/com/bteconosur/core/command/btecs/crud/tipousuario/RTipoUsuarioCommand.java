@@ -3,7 +3,6 @@ package com.bteconosur.core.command.btecs.crud.tipousuario;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
@@ -50,8 +49,7 @@ public class RTipoUsuarioCommand extends BaseCommand {
         TipoUsuario tipoUsuario = dbManager.get(TipoUsuario.class, id);
 
         String message = lang.getString("crud-read").replace("%entity%", "TipoUsuario").replace("%id%", args[0]);
-        BTEConoSur.getConsoleLogger().debug(message, tipoUsuario);
-        PlayerLogger.info(sender, message, (String) null);
+        PlayerLogger.info(sender, message, (String) null, tipoUsuario);
         return true;
     }
     

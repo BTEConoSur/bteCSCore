@@ -9,9 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.DBManager;
 
 public abstract class Registry<K extends Serializable, V> {
@@ -21,14 +19,12 @@ public abstract class Registry<K extends Serializable, V> {
     protected final DBManager dbManager;
     protected final YamlConfiguration lang;
     protected final YamlConfiguration config;
-    protected final ConsoleLogger logger;
     
     public Registry() {
         dbManager = DBManager.getInstance();
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         config = configHandler.getConfig(); 
-        logger = BTEConoSur.getConsoleLogger();
     }
 
 

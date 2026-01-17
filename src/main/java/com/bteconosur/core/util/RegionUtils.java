@@ -7,7 +7,6 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
@@ -20,7 +19,6 @@ import com.sk89q.worldedit.regions.Region;
 public class RegionUtils {
 
     private static final GeometryFactory gf = new GeometryFactory();
-    private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
     private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     public static Polygon toPolygon(CuboidRegion region) {
@@ -70,7 +68,7 @@ public class RegionUtils {
             return null;
         } catch (Exception e) {
             PlayerLogger.error(player, lang.getString("we-error"), (String) null);
-            logger.error("Error al obtener la región seleccionada: " + e.getMessage());
+            ConsoleLogger.error("Error al obtener la región seleccionada: " + e.getMessage());
             return null;
         }
         return regionPolygon;

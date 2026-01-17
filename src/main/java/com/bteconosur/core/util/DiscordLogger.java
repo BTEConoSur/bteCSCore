@@ -19,8 +19,6 @@ import net.dv8tion.jda.api.entities.User;
 
 public class DiscordLogger {
 
-    public static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
-
     public static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
     public static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
@@ -66,7 +64,7 @@ public class DiscordLogger {
             if (!manager.getConfiguration().getManagerDsNotifications()) continue;
             User user = Player.getDsUser(manager);
             if (user == null) {
-                logger.warn("El Manager '" + manager.getNombre() + "' no tiene la cuenta de Discord enlazada.");
+                ConsoleLogger.warn("El Manager '" + manager.getNombre() + "' no tiene la cuenta de Discord enlazada.");
                 continue;
             };
             String dsMessage = lang.getString("ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", message);
@@ -80,7 +78,7 @@ public class DiscordLogger {
             if (!reviewer.getConfiguration().getReviewerDsNotifications()) continue;
             User user = Player.getDsUser(reviewer);
             if (user == null) {
-                logger.warn("El Reviewer '" + reviewer.getNombre() + "' no tiene la cuenta de Discord enlazada.");
+                ConsoleLogger.warn("El Reviewer '" + reviewer.getNombre() + "' no tiene la cuenta de Discord enlazada.");
                 continue;
             };
             String dsMessage = lang.getString("ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", message);
@@ -91,12 +89,12 @@ public class DiscordLogger {
     public static void notifyDevs(String message) {
         Guild guild = BTEConoSur.getDiscordManager().getJda().getGuildById(config.getLong("discord-staff-guild-id")); 
         if (guild == null) {
-            logger.warn("No se ha podido encontrar el Staff Hub en Discord.");
+            ConsoleLogger.warn("No se ha podido encontrar el Staff Hub en Discord.");
             return;
         }
         Role devRole = guild.getRoleById(config.getLong("discord-dev-role-id"));
         if (devRole == null) {
-            logger.warn("No se ha podido encontrar el rol de developers en el Staff Hub.");
+            ConsoleLogger.warn("No se ha podido encontrar el rol de developers en el Staff Hub.");
             return;
         }
         String dsMessage = lang.getString("ds-dev-notification").replace("%mention%", devRole.getAsMention()).replace("%message%", message);

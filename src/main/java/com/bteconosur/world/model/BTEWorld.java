@@ -33,7 +33,6 @@ public class BTEWorld {
     private HashMap<UUID, LabelWorld> lastLabelWorld = new HashMap<>();
     private boolean isValid = false;
 
-    private ConsoleLogger logger = BTEConoSur.getConsoleLogger();
     private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
@@ -45,7 +44,7 @@ public class BTEWorld {
   
     public BTEWorld() {
 
-        logger.info(lang.getString("bte-world-loading"));
+        ConsoleLogger.info(lang.getString("bte-world-loading"));
         labelWorlds.add(new LabelWorld("capa_1", "Capa 1", config.getInt("layer-1-offset")));
         labelWorlds.add(new LabelWorld("capa_2", "Capa 2", config.getInt("layer-2-offset")));
 
@@ -55,7 +54,7 @@ public class BTEWorld {
 
         loadWorld();
 
-        if (!isValid) logger.error("El mundo de BTE es inválido.");
+        if (!isValid) ConsoleLogger.error("El mundo de BTE es inválido.");
     }
 
     private void loadWorld() {

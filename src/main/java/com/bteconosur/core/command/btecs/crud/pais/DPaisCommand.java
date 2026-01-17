@@ -3,7 +3,6 @@ package com.bteconosur.core.command.btecs.crud.pais;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
@@ -51,8 +50,7 @@ public class DPaisCommand extends BaseCommand {
         }
 
         String message = lang.getString("crud-delete").replace("%entity%", "Pais").replace("%id%", args[0]);
-        BTEConoSur.getConsoleLogger().debug(message, pais);
-        PlayerLogger.info(sender, message, (String) null);
+        PlayerLogger.info(sender, message, (String) null, pais);
         return true;
     }
 }

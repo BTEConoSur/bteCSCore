@@ -16,16 +16,14 @@ import org.bukkit.Location;
 public class WorldManager {
 
     private final YamlConfiguration lang;
-    private final ConsoleLogger logger;
 
     private BTEWorld bteWorld;
 
     public WorldManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
-        logger = BTEConoSur.getConsoleLogger();
 
-        logger.info(lang.getString("world-module-initializing"));
+        ConsoleLogger.info(lang.getString("world-module-initializing"));
 
         bteWorld = new BTEWorld();
         WorldEdit worldEdit = BTEConoSur.getWorldEditPlugin().getWorldEdit();
@@ -36,7 +34,7 @@ public class WorldManager {
 
     public boolean canBuild(Location loc, Player player) {
         if (bteWorld == null || !bteWorld.isValid()) {
-            logger.debug("[WorldManager] canBuild false: bteWorld null o inválido");
+            ConsoleLogger.debug("[WorldManager] canBuild false: bteWorld null o inválido");
             return false;
         }
 
@@ -45,11 +43,11 @@ public class WorldManager {
         if (loc.getWorld().getName().equalsIgnoreCase("lobby")) return true; // Delego en WorldGuard
         LabelWorld lw = bteWorld.getLabelWorld(loc.getX(), loc.getZ());
         if (lw == null) {
-            logger.debug("[WorldManager] canBuild false: LabelWorld no encontrada para (" + loc.getX() + ", " + loc.getZ() + ")");
+            ConsoleLogger.debug("[WorldManager] canBuild false: LabelWorld no encontrada para (" + loc.getX() + ", " + loc.getZ() + ")");
             return false;
         }
         if (!bteWorld.isValidLocation(loc, lw)) {
-            logger.debug("[WorldManager] canBuild false: Ubicación inválida para LabelWorld " + lw.getName());
+            ConsoleLogger.debug("[WorldManager] canBuild false: Ubicación inválida para LabelWorld " + lw.getName());
             return false;
         }
 
@@ -61,7 +59,7 @@ public class WorldManager {
 
         // TODO: Verificar que sea reviewer de ese pais
         // TODO: Verificar que sea miembro de algun proyecto 
-        logger.debug("[WorldManager] canBuild true: Permitido en " + lw.getName());
+        ConsoleLogger.debug("[WorldManager] canBuild true: Permitido en " + lw.getName());
         return true;
     }
 
@@ -77,7 +75,7 @@ public class WorldManager {
 
 
     public void shutdown() {
-        logger.info(lang.getString("world-module-shutting-down"));
+        ConsoleLogger.info(lang.getString("world-module-shutting-down"));
         bteWorld.shutdown();
     }
 

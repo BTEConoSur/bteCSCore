@@ -3,6 +3,7 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.RangoUsuario;
 
 public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
@@ -11,7 +12,7 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
 
     public RangoUsuarioRegistry() {
         super();
-        logger.info(lang.getString("rango-usuario-registry-initializing"));
+        ConsoleLogger.info(lang.getString("rango-usuario-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<RangoUsuario> rangos = dbManager.selectAll(RangoUsuario.class);
         if (rangos != null) {
@@ -75,7 +76,7 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
     }
 
     public void shutdown() {
-        logger.info(lang.getString("rango-usuario-registry-shutting-down"));
+        ConsoleLogger.info(lang.getString("rango-usuario-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }

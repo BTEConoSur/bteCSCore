@@ -2,7 +2,6 @@ package com.bteconosur.discord;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.discord.listener.ButtonListener;
@@ -20,7 +19,6 @@ public class BotConfig {
 
     private final YamlConfiguration config;
     private final YamlConfiguration lang;
-    private final ConsoleLogger logger;
 
     private JDA jda;
 
@@ -28,15 +26,14 @@ public class BotConfig {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
         lang = configHandler.getLang();
-        logger = BTEConoSur.getConsoleLogger();
     }
 
     public void startBot() {
         if (jda != null) {
-            logger.warn("El Bot de Discord ya está iniciado. Usar restartBot() para reiniciarlo.");
+            ConsoleLogger.warn("El Bot de Discord ya está iniciado. Usar restartBot() para reiniciarlo.");
         }
         
-        logger.info(lang.getString("discord-bot-initializing"));
+        ConsoleLogger.info(lang.getString("discord-bot-initializing"));
         try {
             jda = JDABuilder.createDefault(config.getString("discord-bot-token"))
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
@@ -45,14 +42,14 @@ public class BotConfig {
                     .addEventListeners(new ButtonListener(), new ModalListener(), new SelectListener(), new SlashCommandListener(), new ChatListener())
                     .build().awaitReady();
         } catch (Exception e) {
-            logger.error("Error al iniciar el Bot de Discord: " + e);
+            ConsoleLogger.error("Error al iniciar el Bot de Discord: " + e);
         }
     }
 
     public void stopBot() {
-        logger.info(lang.getString("discord-bot-shutting-down"));
+        ConsoleLogger.info(lang.getString("discord-bot-shutting-down"));
         if (jda == null) {
-            logger.warn("El Bot de Discord no está iniciado.");
+            ConsoleLogger.warn("El Bot de Discord no está iniciado.");
             return;
         }
         
@@ -61,21 +58,21 @@ public class BotConfig {
             jda.awaitShutdown();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            logger.error("Error al esperar el apagado del Bot de Discord: " + e);
+            ConsoleLogger.error("Error al esperar el apagado del Bot de Discord: " + e);
         }
         jda = null;
         
     }
 
     public void restartBot() {
-        logger.info(lang.getString("discord-bot-restarting"));
+        ConsoleLogger.info(lang.getString("discord-bot-restarting"));
         stopBot();
         startBot();
     }
 
     public JDA getJDA() {
         if (jda == null) {
-            logger.error("JDA no inicializado.");
+            ConsoleLogger.error("JDA no inicializado.");
         }
         
         return jda;

@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -20,7 +19,6 @@ public class ConfigurationService {
     // 6- Añadir al menu de configuración.
 
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
-    private static final ConsoleLogger logger = BTEConoSur.getConsoleLogger();
 
     public static void setDefaults(UUID uuid) {
         setGeneralDefaults(uuid);
@@ -70,7 +68,7 @@ public class ConfigurationService {
                 configuration.toggleManagerDsNotifications();
                 break;
             default:
-                logger.warn("Key no reconocida: " + key);
+                ConsoleLogger.warn("Key no reconocida: " + key);
         }
 
         playerRegistry.merge(uuid);

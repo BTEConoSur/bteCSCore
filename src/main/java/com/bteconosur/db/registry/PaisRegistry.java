@@ -3,6 +3,7 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Pais;
 
 public class PaisRegistry extends Registry<String, Pais> {
@@ -11,7 +12,7 @@ public class PaisRegistry extends Registry<String, Pais> {
 
     public PaisRegistry() {
         super();
-        logger.info(lang.getString("pais-registry-initializing"));
+        ConsoleLogger.info(lang.getString("pais-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<Pais> paises = dbManager.selectAll(Pais.class);
         if (paises != null) for (Pais p : paises) loadedObjects.put(p.getNombre(), p);
@@ -119,7 +120,7 @@ public class PaisRegistry extends Registry<String, Pais> {
     }
 
     public void shutdown() {
-        logger.info(lang.getString("pais-registry-shutting-down"));
+        ConsoleLogger.info(lang.getString("pais-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }
