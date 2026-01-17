@@ -60,7 +60,7 @@ public class ChatSelectMenu extends Menu {
         gui.setItem(3,2, MenuUtils.getArgentinaHeadItem(ChatService.isInCountryChat(BTECSPlayer, arg)));
         gui.addSlotAction(3,2, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, arg);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%country%", arg.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%pais%", arg.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             updateItems();
         });
 
@@ -68,7 +68,7 @@ public class ChatSelectMenu extends Menu {
         gui.setItem(3,3, MenuUtils.getChileHeadItem(ChatService.isInCountryChat(BTECSPlayer, chile)));
         gui.addSlotAction(3,3, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, chile);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%country%", chile.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%pais%", chile.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             updateItems();
         });
 
@@ -76,7 +76,7 @@ public class ChatSelectMenu extends Menu {
         gui.setItem(3,4, MenuUtils.getPeruHeadItem(ChatService.isInCountryChat(BTECSPlayer, peru)));
         gui.addSlotAction(3,4, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, peru);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%country%", peru.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%pais%", peru.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             updateItems();
         });
 
@@ -98,7 +98,7 @@ public class ChatSelectMenu extends Menu {
         gui.setItem(3,6, MenuUtils.getBoliviaHeadItem(ChatService.isInCountryChat(BTECSPlayer, bolivia)));
         gui.addSlotAction(3,6, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, bolivia);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%country%", bolivia.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%pais%", bolivia.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             updateItems();
         });
 
@@ -106,7 +106,7 @@ public class ChatSelectMenu extends Menu {
         gui.setItem(3,7, MenuUtils.getUruguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, uruguay)));
         gui.addSlotAction(3,7, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, uruguay);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%country%", uruguay.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%pais%", uruguay.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             updateItems();
         });
 
@@ -114,7 +114,7 @@ public class ChatSelectMenu extends Menu {
         gui.setItem(3,8, MenuUtils.getParaguayHeadItem(ChatService.isInCountryChat(BTECSPlayer, paraguay)));
         gui.addSlotAction(3,8, event -> {
             ChatService.switchChatToCountry(BTECSPlayer, paraguay);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%country%", paraguay.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageCountrySet.replace("%pais%", paraguay.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             updateItems();
         });
         

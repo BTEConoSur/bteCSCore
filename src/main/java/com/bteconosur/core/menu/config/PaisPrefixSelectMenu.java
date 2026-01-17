@@ -62,8 +62,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (arg.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(arg);
             playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", arg.getNombrePublico()), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", arg.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.argentina")), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.argentina")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = arg;
             updateItems();
         });
@@ -74,8 +74,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (chile.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(chile);
             playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", chile.getNombrePublico()), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", chile.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.chile")), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.chile")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = chile;
             updateItems();
         });
@@ -86,8 +86,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (peru.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(peru);
             playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", peru.getNombrePublico()), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", peru.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.peru")), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.peru")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = peru;
             updateItems();
         });
@@ -97,8 +97,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (previousPais == null) return;
             BTECSPlayer.setPaisPrefix(null);
             playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", "Internacional"), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", "Internacional").replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.international")), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.international")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = null;
             updateItems();
         });
@@ -109,8 +109,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (bolivia.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(bolivia);
             playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", bolivia.getNombrePublico()), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", bolivia.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.bolivia")), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.bolivia")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = bolivia;
             updateItems();
         });
@@ -121,8 +121,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (uruguay.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(uruguay);
             playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", uruguay.getNombrePublico()), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", uruguay.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.uruguay")), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.uruguay")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = uruguay;
             updateItems();
         });
@@ -133,8 +133,8 @@ public class PaisPrefixSelectMenu extends Menu {
             if (paraguay.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(paraguay);
             playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%country%", paraguay.getNombrePublico()), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%country%", paraguay.getNombrePublico()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
+            PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.paraguay")), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.paraguay")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = paraguay;
             updateItems();
         });

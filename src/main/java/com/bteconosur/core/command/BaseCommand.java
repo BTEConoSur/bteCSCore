@@ -69,7 +69,11 @@ public abstract class BaseCommand extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        if (!isAllowedSender(sender)) return false;
+        if (!isAllowedSender(sender)) {
+            if (commandMode == CommandMode.PLAYER_ONLY && !(sender instanceof Player)) PlayerLogger.error(sender, lang.getString("player-only-command"), (String) null);
+            else if (commandMode == CommandMode.CONSOLE_ONLY && sender instanceof Player) PlayerLogger.error(sender, lang.getString("console-only-command"), (String) null);
+            return false;
+        };
 
         if (permission != null && !sender.hasPermission(permission)) {
             PlayerLogger.error(sender, lang.getString("no-permission"), (String) null);
@@ -192,19 +196,11 @@ public abstract class BaseCommand extends Command {
      * Verifica si el sender es un tipo de sender permitido.
      */
     protected boolean isAllowedSender(CommandSender sender) {
-        Boolean allowed = false;
-        switch (commandMode) {
-            case PLAYER_ONLY -> {
-                PlayerLogger.error(sender, lang.getString("player-only-command"), (String) null);
-                allowed = sender instanceof Player;
-            }
-            case CONSOLE_ONLY -> {
-                PlayerLogger.error(sender, lang.getString("console-only-command"), (String) null);
-                allowed = !(sender instanceof Player);
-            }
-            case BOTH -> allowed = true;
-        }
-        return allowed;
+        return switch (commandMode) {
+            case PLAYER_ONLY -> sender instanceof Player;
+            case CONSOLE_ONLY -> !(sender instanceof Player);
+            case BOTH -> true;
+        };
     }
 
     /**

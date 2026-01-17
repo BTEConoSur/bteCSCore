@@ -331,13 +331,12 @@ player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre 
 chat-join: "<yellow>%player% se ha unido al chat.</yellow>" # %player% -> Nombre del jugador.
 chat-left: "<blue>%player% ha salido del chat.</blue>" # %player% -> Nombre del jugador.
 
-global-chat-set: "<green>El chat global de %player% ha sido establecido." # %player% -> Nombre del jugador.
-country-chat-set: "<green>El chat de %country% de %player% ha sido establecido." # %player% -> Nombre del jugador. %country% -> Nombre del país.
+global-chat-set: "<green>El chat %player% ha sido cambiado al chat global." # %player% -> Nombre del jugador.
+country-chat-set: "<green>El chat de %player% ha sido cambiado al chat de <yellow>%pais%<green>." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
 notepad-set: "<green>El bloc de notas de %player% ha sido abierto." # %player% -> Nombre del jugador.
 global-chat-switched: "<aqua>Has cambiado al chat global."
-country-chat-switched: "<aqua>Has cambiado al chat de <yellow>%country%<aqua>." # %country% -> Nombre del país.
+country-chat-switched: "<aqua>Has cambiado al chat de <yellow>%pais%<aqua>." # %pais% -> Nombre del país.
 notepad-switched: "<aqua>Has abierto el bloc de notas."
 
-country-prefix-set: "<green>El prefijo de país de %player% ha sido establecido a %country%." # %player% -> Nombre del jugador. %country% -> Nombre del país.
-country-prefix-switched: "<aqua>Tu prefijo de país ha sido cambiado a %country%." # %country% -> Nombre del país.
-
+country-prefix-set: "<green>El prefijo de país de %player% ha sido establecido a <yellow>%paisPrefix%<green>." # %player% -> Nombre del jugador. %paisPrefix% -> Prefijo del país.
+country-prefix-switched: "<aqua>Tu prefijo de país ha sido cambiado a <yellow>%paisPrefix%<aqua>." # %paisPrefix% -> Prefijo del país.
