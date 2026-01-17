@@ -70,6 +70,10 @@ public class PlayerRegistry extends Registry<UUID, Player> {
                 .collect(Collectors.toList());
     }
 
+    public boolean isOnline(UUID uuid) {
+        return Bukkit.getPlayer(uuid) != null;
+    }
+
     public static PlayerRegistry getInstance() {
         if (instance == null) {
             instance = new PlayerRegistry();

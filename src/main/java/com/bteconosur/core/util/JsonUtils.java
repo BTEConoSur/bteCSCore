@@ -12,6 +12,7 @@ public class JsonUtils {
 
         try {
             json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
+            json = json.replace("\r", "");
         } catch (Exception e) {
             consoleLogger.error("Error al serializar objeto a JSON: " + e.getMessage());
         }

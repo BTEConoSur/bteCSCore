@@ -100,7 +100,7 @@ public abstract class DsCommand {
         if (options != null && !options.isEmpty()) commandData.addOptions(options);
         if (subcommands.isEmpty()) {
             commandData.queue();
-            logger.debug("Comando de Discord '"+ mode +"' registrado: /" + command);
+            logger.debug("Comando de Discord '"+ mode +"' registrado en : /" + command);
         } else {
             for (DsSubcommand subcommand : subcommands.values()) {
                 commandData.addSubcommands(subcommand.geSubcommandData());

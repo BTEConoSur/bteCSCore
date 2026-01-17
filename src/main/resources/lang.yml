@@ -4,7 +4,7 @@
 config-reloaded: "Configuración recargada correctamente."
 
 # General
-plugin-prefix: "<gray>[</gray><dark_gray>BTEConoSur</dark_gray><gray>]</gray>"
+plugin-prefix: "<gray>[</gray><blue>Cono</blue><red>Sur</red><gray>]</gray>"
 
 # Console Logger
 debug-mode-enabled: "Modo debug activado."
@@ -14,6 +14,12 @@ info-prefix: "<dark_aqua>[INFO]</dark_aqua> <white>"
 debug-prefix: "<dark_purple>[DEBUG]</dark_purple> <light_purple>"
 warn-prefix: "<gold>[WARN]</gold> <yellow>"
 error-prefix: "<dark_red>[ERROR]</dark_red> <red>"
+
+# Player Logger
+player-info: "%pluginPrefix% <white>%message%" # %pluginPrefix% -> Prefijo del plugin. %message% -> Mensaje a enviar.
+player-debug: "<dark_purple>[DEBUG]</dark_purple> <light_purple>%message%" # %message% -> Mensaje a enviar.
+player-warn: "<gold>[!]</gold> <yellow>%message%" # %message% -> Mensaje a enviar.
+player-error: "<dark_red>[!]</dark_red> <red>%message%" # %message% -> Mensaje a enviar.
 
 # Base de Datos
 database-initializing: "Inicializando Módulo: Base de Datos..."

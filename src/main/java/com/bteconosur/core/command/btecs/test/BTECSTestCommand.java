@@ -18,6 +18,7 @@ public class BTECSTestCommand extends BaseCommand {
         this.addSubcommand(new TestSimpleMenuCommand());
         this.addSubcommand(new TestPaginatedMenuCommand());
         this.addSubcommand(new TestDiscordLogger());
+        this.addSubcommand(new TestPlayerLoggerCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
