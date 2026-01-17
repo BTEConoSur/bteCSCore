@@ -83,7 +83,7 @@ not-limbo: "No puedes estar en el limbo, te teletransportamos al lobby."
 no-building-permissions: "No tienes permisos para construir aquí."
 
 # Commands
-no-permission: "No tienes permiso para ejecutar este comando."
+no-permission: "No tienes permisos para ejecutar este comando."
 player-only-command: "Este comando solo puede ser ejecutado por un jugador."
 console-only-command: "Este comando solo puede ser ejecutado desde la consola."
 unknown-command: "Comando desconocido." 
