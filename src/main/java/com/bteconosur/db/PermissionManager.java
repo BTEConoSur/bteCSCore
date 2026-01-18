@@ -124,7 +124,20 @@ public class PermissionManager {
             boolean modified = false;
             Set<NodoPermiso> permisos = tipo.getPermisos();
             if (permisos == null || permisos.isEmpty()) {
-                //ConsoleLogger.warn("El TipoUsuario '" + tipo.getNombre() + "' no tiene permisos asignados en la base de datos.");
+                List<PermissionNode> existingPerms = groupRef.data().toCollection().stream()
+                    .filter(node -> node instanceof PermissionNode)
+                    .map(node -> (PermissionNode) node)
+                    .toList();
+
+                if (!existingPerms.isEmpty()) {
+                    for (PermissionNode node : existingPerms) {
+                        group.data().remove(node);
+                        modified = true;
+                        ConsoleLogger.warn("Desincronizacón detectada: Se removió el permiso '" + node.getPermission() + "' del grupo '" + groupName + "'.");
+                    }
+                }
+
+                if (modified) groupManager.saveGroup(groupRef).join();
                 continue;
             }
 
@@ -185,7 +198,20 @@ public class PermissionManager {
             boolean modified = false;
             Set<NodoPermiso> permisos = rango.getPermisos();
             if (permisos == null || permisos.isEmpty()) {
-                //ConsoleLogger.warn("El RangoUsuario '" + rango.getNombre() + "' no tiene permisos asignados en la base de datos.");
+                List<PermissionNode> existingPerms = groupRef.data().toCollection().stream()
+                    .filter(node -> node instanceof PermissionNode)
+                    .map(node -> (PermissionNode) node)
+                    .toList();
+
+                if (!existingPerms.isEmpty()) {
+                    for (PermissionNode node : existingPerms) {
+                        group.data().remove(node);
+                        modified = true;
+                        ConsoleLogger.warn("Desincronizacón detectada: Se removió el permiso '" + node.getPermission() + "' del grupo '" + groupName + "'.");
+                    }
+                }
+
+                if (modified) groupManager.saveGroup(groupRef).join();
                 continue;
             }
 

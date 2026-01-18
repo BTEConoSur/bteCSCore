@@ -18,7 +18,6 @@ public class URangoUsuarioCommand extends BaseCommand {
         this.addSubcommand(new URangoUsuarioDescripcionCommand());
         this.addSubcommand(new URangoUsuarioAddPermisoCommand());
         this.addSubcommand(new URangoUsuarioRemovePermisoCommand());
-        this.addSubcommand(new URangoUsuarioListPermisosCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();

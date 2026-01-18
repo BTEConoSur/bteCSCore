@@ -24,9 +24,14 @@ public class HeadDBUtil implements Listener {
             return ItemStack.of(Material.PLAYER_HEAD);
         }
         HeadDatabaseAPI api = new HeadDatabaseAPI();
-        
+
         try {
-            return api.getItemHead(headId);
+            ItemStack head = api.getItemHead(headId);
+            if (head == null) {
+                ConsoleLogger.warn("No se ha encontrado la cabeza con ID: " + headId);
+                return ItemStack.of(Material.PLAYER_HEAD);
+            }
+            return head;
         } catch (NullPointerException nullPointerException) {
             ConsoleLogger.warn("No se ha encontrado la cabeza con ID: " + headId);
         }

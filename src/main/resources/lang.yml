@@ -112,6 +112,7 @@ crud-not-valid-name: "El nombre '%name%' proporcionado no es válido para la ent
 crud-not-valid-description: "La descripción proporcionada no es válida para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %reason% -> Razón de la invalidez.
 
 player-not-found: "El jugador '%player%' no fue encontrado o no está online." # %player% -> Nombre del jugador.
+player-not-registered: "El jugador '%player%' no está registrado en la base de datos." # %player% -> Nombre del jugador.
 
 region-not-selected: "No tienes una región seleccionada."
 region-not-complete: "La selección de la región está incompleta."
@@ -125,6 +126,8 @@ get-list-command:
 
 get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entidad en plural.
 
+
+
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
@@ -136,6 +139,7 @@ gui-titles:
   pais-prefix-select: "Selección de País"
   pais-prefix-set: "Selección de País: %player%" # %player% -> Nombre del jugador.
   promote: "Cambiar Rol Usuario: %player%" # %player% -> Nombre del jugador.
+  rango-confirm: "Confirmar cambio de Rango"
 
 
 items: 
@@ -232,32 +236,37 @@ items:
     name: "<aqua>Chat Global"
     international-name: "<gray>Internacional"
   international-head:
+    material: "hdb:104673"
     name: "<gray>Internacional"
-    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU3N2M0ZGUxZjUxYTcwNzIyMDIzZTg1NmI1NDNjZDU3MGYxZDBlZTZiOWQxNjdiNTkwMjhjZTFiYzkyZTQ1OCJ9fX0="
-  rango-normal:
-    material: "hdb:991"
-    name: "<green>Normal"
-  rango-admin:
-    material: "NETHERITE_HELMET"
-    name: "<dark_red>Admin"
-  rango-mod:
-    material: "IRON_SWORD"
-    name: "<red>Mod"
-  rango-influencer:
-    material: "hdb:120246"
-    name: "<blue>Influencer"
-  rango-donador:
-    material: "EMERALD"
-    name: "<gold>Donador"
-  tipo-visita:
-    material: "SPYGLASS"
-    name: "<white>Visita"
-  tipo-postulante:
-    material: "WRITABLE_BOOK"
-    name: "<yellow>Postulante"  
-  tipo-constructor:
-    material: "BRICKS"
-    name: "<green>Constructor"
+  rango-usuario:
+    description: "<gray>%descripcionRango%" # %descripcionRango% -> Descripción del rango en la base de datos.
+    normal:
+      material: "PLAYER_HEAD"
+      name: "<green>%nombreRango%" # %nombreRango% -> Nombre del rango en la base de datos.
+    admin:
+      material: "ENDER_EYE"
+      name: "<dark_red>%nombreRango%" # %nombreRango% -> Nombre del rango en la base de datos.
+    mod:
+      material: "ENDER_PEARL"
+      name: "<red>%nombreRango%" # %nombreRango% -> Nombre del rango en la base de datos.
+    influencer:
+      material: "hdb:120246"
+      name: "<blue>%nombreRango%" # %nombreRango% -> Nombre del rango en la base de datos.
+    donador:
+      material: "EMERALD"
+      name: "<gold>%nombreRango%" # %nombreRango% -> Nombre del rango en la base de datos.
+  tipo-usuario:
+    description: "<gray>%descripcionTipo%" # %descripcionTipo% -> Descripción del tipo de usuario en la base de datos.
+    max-projects: "<gray>Máx. de proyectos: <white>%maxProyectos%" # %maxProyectos% -> Máximo de proyectos simultáneos permitidos para este tipo de usuario.
+    visita:
+      material: "SPYGLASS"
+      name: "<white>%nombreTipo%" # %nombreTipo% -> Nombre del tipo de usuario en la base de datos.
+    postulante:
+      material: "WRITABLE_BOOK"
+      name: "<yellow>%nombreTipo%" # %nombreTipo% -> Nombre del tipo de usuario en la base de datos.
+    constructor:
+      material: "BRICKS"
+      name: "<green>%nombreTipo%" # %nombreTipo% -> Nombre del tipo de usuario en la base de datos.
 
 
 selected: "<b><green>Seleccionado"
@@ -282,7 +291,7 @@ mc-prefixes:
     admin: "<gray>[</gray><dark_red>ADMIN</dark_red><gray>]</gray>"
     mod: "<gray>[</gray><red>MOD</red><gray>]</gray>"
     reviewer: "<gray>[</gray><blue>REVIEWER</blue><gray>]</gray>"
-    influencer: "<gray>[</gray><purple>INFLUENCER</purple><gray>]</gray>"
+    influencer: "<gray>[</gray><dark_purple>INFLUENCER</dark_purple><gray>]</gray>"
     donador: "<gray>[</gray><gold>DONADOR</gold><gray>]</gray>"
   tipo:
     visita: "<gray>[</gray><white>VISITA</white><gray>]</gray>"
@@ -356,18 +365,33 @@ ds-embeds:
   warn:
     title: "Warn"
     color: 0xf2cc0d
+  rango-switched:
+    title: "Tu rango ha sido cambiado '%rango%'" # %rango% -> Nuevo rango.
+    description: "%descripcion%" # %descripcion% -> Descripción del nuevo rango.
+    color: 0xF48245
+  tipo-switched:
+    title: "Has sido promovido a '%tipo%'" # %tipo% -> Nuevo tipo de usuario.
+    description: "%descripcion%" # %descripcion% -> Descripción del nuevo tipo de usuario.
+    max-projects: "Máx. de proyectos simultáneos: %maxProyectos%" # %maxProyectos% -> Máximo de proyectos simultáneos permitidos para este tipo de usuario.
+    color: 0x45B7F4
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
 chat-join: "<yellow>%player% se ha unido al chat.</yellow>" # %player% -> Nombre del jugador.
 chat-left: "<blue>%player% ha salido del chat.</blue>" # %player% -> Nombre del jugador.
 
-global-chat-set: "<green>El chat %player% ha sido cambiado al chat global." # %player% -> Nombre del jugador.
-country-chat-set: "<green>El chat de %player% ha sido cambiado al chat de <yellow>%pais%<green>." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
-notepad-set: "<green>El bloc de notas de %player% ha sido abierto." # %player% -> Nombre del jugador.
+global-chat-set: "<green>El chat <yellow>%player% <green>ha sido cambiado al chat global." # %player% -> Nombre del jugador.
+country-chat-set: "<green>El chat de <yellow>%player% <green>ha sido cambiado al chat de <yellow>%pais%<green>." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
+notepad-set: "<green>El bloc de notas de <yellow>%player% <green>ha sido abierto." # %player% -> Nombre del jugador.
 global-chat-switched: "<aqua>Has cambiado al chat global."
 country-chat-switched: "<aqua>Has cambiado al chat de <yellow>%pais%<aqua>." # %pais% -> Nombre del país.
 notepad-switched: "<aqua>Has abierto el bloc de notas."
 
 country-prefix-set: "<green>El prefijo de país de %player% ha sido establecido a <yellow>%paisPrefix%<green>." # %player% -> Nombre del jugador. %paisPrefix% -> Prefijo del país.
 country-prefix-switched: "<aqua>Tu prefijo de país ha sido cambiado a <yellow>%paisPrefix%<aqua>." # %paisPrefix% -> Prefijo del país.
+
+rango-set: "<green>El rango de <yellow>%player% <green>ha sido cambiado a <yellow>%rango%<green>." # %player% -> Nombre del jugador. %rango% -> Nuevo rango.
+tipo-set: "<green>El tipo de usuario de <yellow>%player% <green>ha sido cambiado a <yellow>%tipo%<green>." # %player% -> Nombre del jugador. %tipo% -> Nuevo tipo de usuario.
+
+rango-switched: "<aqua>Tu rango ha sido cambiado a <yellow>%rango%<aqua>." # %rango% -> Nuevo rango.
+tipo-switched: "<aqua>Has sido promovido a <yellow>%tipo%<aqua>." # %tipo% -> Nuevo tipo de usuario.

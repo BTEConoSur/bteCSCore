@@ -17,13 +17,13 @@ public class ConfirmationMenu extends Menu {
     private final GuiAction<InventoryClickEvent> onConfirm;
     private final GuiAction<InventoryClickEvent> onCancel;
 
-    ConfirmationMenu(@NotNull String title, @NotNull Player bukkitPlayer, @NotNull Menu previousMenu, @NotNull GuiAction<InventoryClickEvent> onConfirm, @NotNull GuiAction<InventoryClickEvent> onCancel) {
+    public ConfirmationMenu(@NotNull String title, @NotNull Player bukkitPlayer, @NotNull Menu previousMenu, @NotNull GuiAction<InventoryClickEvent> onConfirm, @NotNull GuiAction<InventoryClickEvent> onCancel) {
         super(title, 1, bukkitPlayer, previousMenu);
         this.onConfirm = onConfirm;
         this.onCancel = onCancel;
     }
 
-    ConfirmationMenu(@NotNull String title, @NotNull Player bukkitPlayer, @NotNull Menu previousMenu, @NotNull GuiAction<InventoryClickEvent> onConfirm) {
+    public ConfirmationMenu(@NotNull String title, @NotNull Player bukkitPlayer, @NotNull Menu previousMenu, @NotNull GuiAction<InventoryClickEvent> onConfirm) {
         super(title, 1, bukkitPlayer, previousMenu);
         this.onConfirm = onConfirm;
         this.onCancel = event -> previousMenu.open();

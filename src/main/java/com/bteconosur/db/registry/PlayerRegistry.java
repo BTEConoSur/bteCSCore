@@ -50,6 +50,20 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         return found;
     }
 
+    public Player findByName(String playerName) {
+        if (playerName == null) return null;
+        for (Player cached : loadedObjects.values()) {
+            if (playerName.equals(cached.getNombre())) return cached;
+        }
+
+        List<Player> results = dbManager.findByProperty(Player.class, "nombre", playerName);
+        if (results == null || results.isEmpty()) return null;
+
+        Player found = results.get(0);
+        loadedObjects.put(found.getUuid(), found);
+        return found;
+    }
+
     public List<Player> getReviewers(Pais pais) {
         return loadedObjects.values()
                 .stream()

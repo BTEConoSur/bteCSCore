@@ -217,4 +217,23 @@ public class ChatUtil {
         return lang.getString("chat-left").replace("%player%", playerName);
     }
 
+    public static MessageEmbed getDsRangoUsuarioSwitched(RangoUsuario rangoUsuario) {
+        return new EmbedBuilder()
+            .setTitle(lang.getString("ds-embeds.rango-switched.title").replace("%rango%", rangoUsuario.getNombre()))
+            .setDescription(lang.getString("ds-embeds.rango-switched.description").replace("%descripcion%", rangoUsuario.getDescripcion()))
+            .setColor(lang.getInt("ds-embeds.rango-switched.color"))
+            .build();
+    }
+
+    public static MessageEmbed getDsTipoUsuarioSwitched(TipoUsuario tipoUsuario) {
+        return new EmbedBuilder()
+            .setTitle(lang.getString("ds-embeds.tipo-switched.title").replace("%tipo%", tipoUsuario.getNombre()))
+            .setDescription(
+                lang.getString("ds-embeds.tipo-switched.description").replace("%descripcion%", tipoUsuario.getDescripcion()
+                + "\n" + lang.getString("ds-embeds.tipo-switched.max-projects").replace("%maxProyectos%", String.valueOf(tipoUsuario.getCantProyecSim()))
+            ))
+            .setColor(lang.getInt("ds-embeds.tipo-switched.color"))
+            .build();
+    }
+
 }

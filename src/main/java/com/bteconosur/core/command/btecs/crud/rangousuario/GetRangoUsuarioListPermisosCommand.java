@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.btecs.crud.rangousuario.update;
+package com.bteconosur.core.command.btecs.crud.rangousuario;
 
 import java.util.stream.Collectors;
 
@@ -11,12 +11,12 @@ import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.RangoUsuario;
 
-public class URangoUsuarioListPermisosCommand extends BaseCommand {
+public class GetRangoUsuarioListPermisosCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public URangoUsuarioListPermisosCommand() {
+    public GetRangoUsuarioListPermisosCommand() {
         super("listpermisos", "Listar permisos de un RangoUsuario.", "<id_rango>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

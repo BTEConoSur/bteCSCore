@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.btecs.crud.tipousuario.update;
+package com.bteconosur.core.command.btecs.crud.tipousuario;
 
 import java.util.stream.Collectors;
 
@@ -11,12 +11,12 @@ import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.TipoUsuario;
 
-public class UTipoUsuarioListPermisosCommand extends BaseCommand {
+public class GetTipoUsuarioListPermisosCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public UTipoUsuarioListPermisosCommand() {
+    public GetTipoUsuarioListPermisosCommand() {
         super("listpermisos", "Listar permisos de un TipoUsuario.", "<id_tipo>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

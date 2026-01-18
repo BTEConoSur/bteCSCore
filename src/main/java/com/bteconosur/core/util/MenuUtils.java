@@ -2,15 +2,14 @@ package com.bteconosur.core.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import com.bteconosur.core.config.ConfigHandler;
-
+import com.bteconosur.db.model.RangoUsuario;
+import com.bteconosur.db.model.TipoUsuario;
 
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -169,7 +168,7 @@ public class MenuUtils {
     public static GuiItem getArgentinaHeadItem(Boolean isSelected) {
         List<String> lore = lang.getStringList("items.argentina-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
+        if (isSelected) lore.addFirst(lang.getString("selected"));
         return buildGuiItem(
             lang.getString("items.argentina-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.argentina-head.name"),
@@ -180,7 +179,7 @@ public class MenuUtils {
     public static GuiItem getChileHeadItem(Boolean isSelected) {
         List<String> lore = lang.getStringList("items.chile-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
+        if (isSelected) lore.addFirst(lang.getString("selected"));
         return buildGuiItem(
             lang.getString("items.chile-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.chile-head.name"),
@@ -191,7 +190,7 @@ public class MenuUtils {
     public static GuiItem getUruguayHeadItem(Boolean isSelected) {
         List<String> lore = lang.getStringList("items.uruguay-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
+        if (isSelected) lore.addFirst(lang.getString("selected"));
         return buildGuiItem(
             lang.getString("items.uruguay-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.uruguay-head.name"),
@@ -202,7 +201,7 @@ public class MenuUtils {
     public static GuiItem getParaguayHeadItem(Boolean isSelected) {
         List<String> lore = lang.getStringList("items.paraguay-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
+        if (isSelected) lore.addFirst(lang.getString("selected"));
         return buildGuiItem(
             lang.getString("items.paraguay-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.paraguay-head.name"),
@@ -213,7 +212,7 @@ public class MenuUtils {
     public static GuiItem getBoliviaHeadItem(Boolean isSelected) {
         List<String> lore = lang.getStringList("items.bolivia-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
+        if (isSelected) lore.addFirst(lang.getString("selected"));
         return buildGuiItem(
             lang.getString("items.bolivia-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.bolivia-head.name"),
@@ -224,7 +223,7 @@ public class MenuUtils {
     public static GuiItem getPeruHeadItem(Boolean isSelected) {
         List<String> lore = lang.getStringList("items.peru-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));   
+        if (isSelected) lore.addFirst(lang.getString("selected"));  
         return buildGuiItem(
             lang.getString("items.peru-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.peru-head.name"),
@@ -235,7 +234,7 @@ public class MenuUtils {
     public static GuiItem getGlobalChatHeadItem(Boolean isSelected) {
         List<String> lore = lang.getStringList("items.global-chat-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
+        if (isSelected) lore.addFirst(lang.getString("selected"));
         return buildGuiItem(
             lang.getString("items.global-chat-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.global-chat-head.name"),
@@ -254,79 +253,27 @@ public class MenuUtils {
         );
     }
 
-    public static GuiItem getRangoNormal(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.rango-normal.lore");
-        if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
+    public static GuiItem getRangoUsuario(RangoUsuario rangoUsuario, Boolean isSelected) {
+        List<String> lore = new ArrayList<>();
+        String path = "items.rango-usuario." + rangoUsuario.getNombre().toLowerCase();
+        lore.add(lang.getString("items.rango-usuario.description"). replace("%descripcionRango%", rangoUsuario.getDescripcion()));
+        if (isSelected) lore.addFirst(lang.getString("selected"));
         return buildGuiItem(
-            lang.getString("items.rango-normal.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.rango-normal.name"),
+            lang.getString(path + ".material"),
+            (isSelected ? "<b>" : "") + lang.getString(path + ".name").replace("%nombreRango%", rangoUsuario.getNombre()),
             lore
         );
     }
 
-    public static GuiItem getRangoAdmin(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.rango-admin.lore");
-        if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
+    public static GuiItem getTipoUsuario(TipoUsuario tipoUsuario, Boolean isSelected) {
+        List<String> lore = new ArrayList<>();
+        String path = "items.tipo-usuario." + tipoUsuario.getNombre().toLowerCase();
+        lore.add(lang.getString("items.tipo-usuario.description"). replace("%descripcionTipo%", tipoUsuario.getDescripcion()));
+        lore.add(lang.getString("items.tipo-usuario.max-projects"). replace("%maxProyectos%", String.valueOf(tipoUsuario.getCantProyecSim())));
+        if (isSelected) lore.addFirst(lang.getString("selected"));
         return buildGuiItem(
-            lang.getString("items.rango-admin.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.rango-admin.name"),
-            lore
-        );
-    }
-
-    public static GuiItem getRangoInfluencer(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.rango-influencer.lore");
-        if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
-        return buildGuiItem(
-            lang.getString("items.rango-influencer.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.rango-influencer.name"),
-            lore
-        );
-    }
-
-    public static GuiItem getRangoDonador(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.rango-donador.lore");
-        if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
-        return buildGuiItem(
-            lang.getString("items.rango-donador.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.rango-donador.name"),
-            lore
-        );
-    }
-
-    public static GuiItem getTipoVisita(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.tipo-visita.lore");
-        if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
-        return buildGuiItem(
-            lang.getString("items.tipo-visita.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.tipo-visita.name"),
-            lore
-        );
-    }
-
-    public static GuiItem getTipoPostulante(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.tipo-postulante.lore");
-        if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
-        return buildGuiItem(
-            lang.getString("items.tipo-postulante.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.tipo-postulante.name"),
-            lore
-        );
-    }
-
-    public static GuiItem getTipoConstructor(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.tipo-constructor.lore");
-        if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
-        return buildGuiItem(
-            lang.getString("items.tipo-constructor.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.tipo-constructor.name"),
+            lang.getString(path + ".material"),
+            (isSelected ? "<b>" : "") + lang.getString(path + ".name").replace("%nombreTipo%", tipoUsuario.getNombre()),
             lore
         );
     }
