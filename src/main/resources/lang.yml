@@ -140,7 +140,8 @@ gui-titles:
   pais-prefix-set: "Selección de País: %player%" # %player% -> Nombre del jugador.
   promote: "Cambiar Rol Usuario: %player%" # %player% -> Nombre del jugador.
   rango-confirm: "Confirmar cambio de Rango"
-
+  project-promote: "Promover Jugador: %player%" # %player% -> Nombre del jugador.
+  tipo-confirm: "Confirmar cambio de Tipo"
 
 items: 
   back:
@@ -395,3 +396,7 @@ tipo-set: "<green>El tipo de usuario de <yellow>%player% <green>ha sido cambiado
 
 rango-switched: "<aqua>Tu rango ha sido cambiado a <yellow>%rango%<aqua>." # %rango% -> Nuevo rango.
 tipo-switched: "<aqua>Has sido promovido a <yellow>%tipo%<aqua>." # %tipo% -> Nuevo tipo de usuario.
+
+# Staff Logs
+tipo-promote-log: "💪 **%staff%** ha promovido a **%player%** al Tipo de Usuario **%tipo%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %tipo% -> Nuevo tipo de usuario.
+rango-promote-log: "🛡️ **%staff%** ha cambiado el Rango de Usuario de **%player%** a **%rango%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %rango% -> Nuevo rango.

@@ -9,6 +9,7 @@ import com.bteconosur.core.command.config.ManagerConfigCommand;
 import com.bteconosur.core.command.config.PromoteCommand;
 import com.bteconosur.core.command.config.ReviewerConfigCommand;
 import com.bteconosur.core.command.pais.PaisPrefixCommand;
+import com.bteconosur.core.command.project.ProjectCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.listener.ChatListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
@@ -126,6 +127,7 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new ChatCommand());
         PluginRegistry.registerCommand(new PaisPrefixCommand());
         PluginRegistry.registerCommand(new PromoteCommand());
+        PluginRegistry.registerCommand(new ProjectCommand());
         ConsoleLogger.info("El Plugin se ha activado.");
         
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
