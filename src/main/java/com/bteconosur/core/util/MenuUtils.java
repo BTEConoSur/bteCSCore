@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import com.bteconosur.core.config.ConfigHandler;
@@ -129,7 +130,8 @@ public class MenuUtils {
         }
 
         ItemBuilder builder = ItemBuilder.from(getMaterialFromString(materialName))
-            .name(MiniMessage.miniMessage().deserialize("<!italic>" + name));
+            .name(MiniMessage.miniMessage().deserialize("<!italic>" + name))
+            .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
             
         List<Component> components = new ArrayList<>();
         if (lore != null && !lore.isEmpty()) {
@@ -144,7 +146,8 @@ public class MenuUtils {
 
     private static GuiItem buildGuiItem(ItemStack itemStack, String name, List<String> lore) {
         ItemBuilder builder = ItemBuilder.from(itemStack)
-            .name(MiniMessage.miniMessage().deserialize("<!italic>" + name));
+            .name(MiniMessage.miniMessage().deserialize("<!italic>" + name))
+            .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
         
         List<Component> components = new ArrayList<>();
         if (lore != null && !lore.isEmpty()) {

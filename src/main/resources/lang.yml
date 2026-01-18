@@ -244,10 +244,10 @@ items:
       material: "PLAYER_HEAD"
       name: "<green>%nombreRango%" # %nombreRango% -> Nombre del rango en la base de datos.
     admin:
-      material: "ENDER_EYE"
+      material: "NETHERITE_HELMET"
       name: "<dark_red>%nombreRango%" # %nombreRango% -> Nombre del rango en la base de datos.
     mod:
-      material: "ENDER_PEARL"
+      material: "IRON_SWORD"
       name: "<red>%nombreRango%" # %nombreRango% -> Nombre del rango en la base de datos.
     influencer:
       material: "hdb:120246"
@@ -366,7 +366,7 @@ ds-embeds:
     title: "Warn"
     color: 0xf2cc0d
   rango-switched:
-    title: "Tu rango ha sido cambiado '%rango%'" # %rango% -> Nuevo rango.
+    title: "Tu rango ha sido cambiado a '%rango%'" # %rango% -> Nuevo rango.
     description: "%descripcion%" # %descripcion% -> Descripción del nuevo rango.
     color: 0xF48245
   tipo-switched:

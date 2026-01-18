@@ -33,7 +33,7 @@ public class MessageService {
     public static void sendDM(Long dsUserId, String message) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.messageContent(message)) return;
-        sendDM(BTEConoSur.getDiscordManager().getJda().getUserById(dsUserId), message);
+        BTEConoSur.getDiscordManager().getJda().retrieveUserById(dsUserId).queue(user -> sendDM(user, message));
     }
 
     @SuppressWarnings("null")
@@ -70,7 +70,7 @@ public class MessageService {
     public static void sendEmbedDM(Long dsUserId, MessageEmbed embed) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.embed(embed)) return;
-        sendEmbedDM(BTEConoSur.getDiscordManager().getJda().getUserById(dsUserId), embed);
+        BTEConoSur.getDiscordManager().getJda().retrieveUserById(dsUserId).queue(user -> sendEmbedDM(user, embed));
     }
 
     @SuppressWarnings("null")

@@ -38,6 +38,7 @@ public class BotConfig {
             jda = JDABuilder.createDefault(config.getString("discord-bot-token"))
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                     .enableIntents(GatewayIntent.GUILD_PRESENCES)
+                    .enableIntents(GatewayIntent.GUILD_MEMBERS)
                     .setActivity(Activity.playing("Testando bot para Cono Sur"))
                     .addEventListeners(new ButtonListener(), new ModalListener(), new SelectListener(), new SlashCommandListener(), new ChatListener())
                     .build().awaitReady();
