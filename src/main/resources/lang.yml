@@ -126,13 +126,18 @@ get-list-command:
 get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entidad en plural.
 
 # GUI
-# 'material' debe ser proveniente de https://jd.papermc.io/folia/1.21/org/bukkit/Material.html.
+# 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
+# En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
+# La 'head-id' es la que se obtiene desde Head Database - https://minecraft-heads.com/.
 # En caso de un material inválido, se usará STONE por defecto.
 gui-titles:
   chat-select: "Selección de Chat"
-  chat-set: "Selección de Chat para %player%" # %player% -> Nombre del jugador.
+  chat-set: "Selección de Chat: %player%" # %player% -> Nombre del jugador.
   pais-prefix-select: "Selección de País"
-  pais-prefix-set: "Selección de País para %player%" # %
+  pais-prefix-set: "Selección de País: %player%" # %player% -> Nombre del jugador.
+  promote: "Cambiar Rol Usuario: %player%" # %player% -> Nombre del jugador.
+
+
 items: 
   back:
     material: "STRUCTURE_VOID"
@@ -205,31 +210,57 @@ items:
       - "<gray>No se reciben ni envían mensajes."
       - "<gray>Sólo se ven los propios."
   argentina-head:
+    material: "hdb:4408"
     name: "<aqua>Argentina"
-    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjZkMDMzZGM1ZjY3NWFkNTFiYzA2YzdhMTk0OWMzNWExZDM3ZTQ4YTJlMWMyNzg5YzJjZjdkMzBlYzU4ZjMyYyJ9fX0="
   chile-head:
+    material: "hdb:24746"
     name: "<red>Chile"
-    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjExMWU4MDI0MjJiNTM5MjkyZjFmOTJiMzgzM2VkZmQ2NTEzODYwODU5NGFhYWI0YWNiMzIyMDc3YzM2NTg3YiJ9fX0="
   uruguay-head:
+    material: "hdb:27575"
     name: "<white>Uruguay"
-    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzMwOTY5MjhjMTUzMDdlYTRkMjlhNWM3MTM0MWFhMzVmZjdiODlmNTY1M2I5M2RiNDk2MDZmNWEyMGY0NzcifX19"
   paraguay-head:
+    material: "hdb:26394"
     name: "<yellow>Paraguay"
-    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODE3OGRlNjkxYjUwOGQ2MjQ5MTA5ZmM1NGFmNmZiYTQ5YmFhODM3N2FkMzcwNjEyZWQ2MTdkNzdkZDZhZDU4OCJ9fX0="
   bolivia-head:
+    material: "hdb:4409"
     name: "<green>Bolivia"
-    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmQyYzlmOTg2MThjZDVmN2RiZjBjMWE1NGVlMDk0NzQ2NjJiNzEzYjVhYTI2NWM4NWVmYmZjNDY0MThlOTE1In19fQ=="
   peru-head:
+    material: "hdb:4413"
     name: "<red>Perú"
-    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjRkMDNiZDQ0MTBiYWJkYzY4MjQ5M2IzYzJiYmEyNmU3MzBlNmJjNjU4ZDM4ODhlNzliZjcxMmY4NTMifX19"
   global-chat-head:
+    material: "hdb:104673"
     name: "<aqua>Chat Global"
     international-name: "<gray>Internacional"
-    base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU3N2M0ZGUxZjUxYTcwNzIyMDIzZTg1NmI1NDNjZDU3MGYxZDBlZTZiOWQxNjdiNTkwMjhjZTFiYzkyZTQ1OCJ9fX0="
   international-head:
     name: "<gray>Internacional"
     base64: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTU3N2M0ZGUxZjUxYTcwNzIyMDIzZTg1NmI1NDNjZDU3MGYxZDBlZTZiOWQxNjdiNTkwMjhjZTFiYzkyZTQ1OCJ9fX0="
-selected-chat: "<b><green>Seleccionado"
+  rango-normal:
+    material: "hdb:991"
+    name: "<green>Normal"
+  rango-admin:
+    material: "NETHERITE_HELMET"
+    name: "<dark_red>Admin"
+  rango-mod:
+    material: "IRON_SWORD"
+    name: "<red>Mod"
+  rango-influencer:
+    material: "hdb:120246"
+    name: "<blue>Influencer"
+  rango-donador:
+    material: "EMERALD"
+    name: "<gold>Donador"
+  tipo-visita:
+    material: "SPYGLASS"
+    name: "<white>Visita"
+  tipo-postulante:
+    material: "WRITABLE_BOOK"
+    name: "<yellow>Postulante"  
+  tipo-constructor:
+    material: "BRICKS"
+    name: "<green>Constructor"
+
+
+selected: "<b><green>Seleccionado"
 
 # Chat
 # %paisPrefix% -> Prefijo del país. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 

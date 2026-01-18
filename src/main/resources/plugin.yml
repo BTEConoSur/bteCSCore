@@ -5,4 +5,4 @@ api-version: '1.21'
 authors: [PGTech]
 description: Plugin para el servidor de Cono Sur
 prefix: 'BTEConoSur'
-depend: [Multiverse-Core, LuckPerms, WorldEdit]
+depend: [Multiverse-Core, LuckPerms, WorldEdit, HeadDatabase]

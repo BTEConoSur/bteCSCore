@@ -37,6 +37,7 @@ dependencies {
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
 
     implementation("dev.triumphteam:triumph-gui:3.1.13")
+    compileOnly("com.arcaniax:HeadDatabase-API:1.3.2")
 
     compileOnly("net.luckperms:api:5.4")
 }
