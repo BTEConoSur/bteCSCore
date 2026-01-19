@@ -18,7 +18,7 @@ public class PromoteCommand extends BaseCommand {
     private final YamlConfiguration lang;
 
     public PromoteCommand() {
-        super("promote", "Cambiar el Rango de Usuario de un jugador.", "<nombre>|<uuid>", "btecs.command.promote", CommandMode.PLAYER_ONLY);
+        super("promote", "Cambiar el Rango de Usuario de un jugador.", "<uuid/nombre_jugador>", "btecs.command.promote", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
         lang = ConfigHandler.getInstance().getLang();
     }

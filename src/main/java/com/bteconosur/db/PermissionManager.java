@@ -391,6 +391,38 @@ public class PermissionManager {
         userManager.saveUser(user).join();
     }
 
+    public void addManager(Player player, Pais pais) {
+        if (player == null || pais == null) return;
+        if (isManager(player, pais)) return;
+
+        player.addPaisManager(pais);
+        PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
+    public void removeManager(Player player, Pais pais) {
+        if (player == null || pais == null) return;
+        if (!isManager(player, pais)) return;
+
+        player.getPaisesManager().remove(pais);
+        PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
+    public void addReviewer(Player player, Pais pais) {
+        if (player == null || pais == null) return;
+        if (isReviewer(player, pais)) return;
+
+        player.addPaisReviewer(pais);
+        PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
+    public void removeReviewer(Player player, Pais pais) {
+        if (player == null || pais == null) return;
+        if (!isReviewer(player, pais)) return;
+
+        player.getPaisesReviewer().remove(pais);
+        PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
     public static PermissionManager getInstance() {
         if (instance == null) {
             instance = new PermissionManager();

@@ -226,6 +226,22 @@ public class Player {
         this.configuration = configuration;
     }
 
+    public void addPaisManager(Pais pais) {
+        this.paisesManager.add(pais);
+    }
+
+    public void removePaisManager(Pais pais) {
+        this.paisesManager.remove(pais);
+    }
+
+    public void addPaisReviewer(Pais pais) {
+        this.paisesReviewer.add(pais);
+    }
+
+    public void removePaisReviewer(Pais pais) {
+        this.paisesReviewer.remove(pais);
+    }
+
     @JsonIgnore
     public org.bukkit.entity.Player getBukkitPlayer() {
         return Bukkit.getPlayer(this.uuid);

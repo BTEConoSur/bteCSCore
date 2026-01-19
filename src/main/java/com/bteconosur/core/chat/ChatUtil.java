@@ -236,4 +236,24 @@ public class ChatUtil {
             .build();
     }
 
+    public static MessageEmbed getDsManagerAdded(String paisName) {
+        String message = lang.getString("ds-embeds.manager-target-added.title").replace("%pais%", paisName);
+        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.manager-target-added.color")).build();
+    }
+
+    public static MessageEmbed getDsManagerRemoved(String paisName) {
+        String message = lang.getString("ds-embeds.manager-target-removed.title").replace("%pais%", paisName);
+        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.manager-target-removed.color")).build();
+    }
+
+    public static MessageEmbed getDsReviewerAdded(String paisName) {
+        String message = lang.getString("ds-embeds.reviewer-target-added.title").replace("%pais%", paisName);
+        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.reviewer-target-added.color")).build();
+    }
+
+    public static MessageEmbed getDsReviewerRemoved(String paisName) {
+        String message = lang.getString("ds-embeds.reviewer-target-removed.title").replace("%pais%", paisName);
+        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.reviewer-target-removed.color")).build();
+    }
+
 }

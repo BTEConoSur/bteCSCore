@@ -27,6 +27,7 @@ public class DiscordLogger {
     public static void countryLog(String message, Pais pais) {
         if (!config.getBoolean("discord-country-log")) return;
         MessageService.sendMessage(pais.getDsIdLog(), message);
+        staffLog(message, pais);
     }
 
     public static void countryLog(String message, List<Pais> paises) {

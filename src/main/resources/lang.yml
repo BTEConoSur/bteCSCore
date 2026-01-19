@@ -67,8 +67,6 @@ ds-manager-notification: "%mention%: %message%" # %mention% -> Mención al usuar
 ds-reviewer-notification: "%mention%: %message%" # %mention% -> Mención al reviewer. %message% -> Mensaje a enviar.
 ds-dev-notification: "%mention%: %message%" # %mention% -> Mención al rol de developer. %message% -> Mensaje a enviar. 
 
-ds-staff-country-log: "%dsPais% %message%" # %dsPais% -> Logo del país. %message% -> Mensaje enviado.
-
 # World
 world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
 world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
@@ -114,6 +112,8 @@ crud-not-valid-description: "La descripción proporcionada no es válida para la
 player-not-found: "El jugador '%player%' no fue encontrado o no está online." # %player% -> Nombre del jugador.
 player-not-registered: "El jugador '%player%' no está registrado en la base de datos." # %player% -> Nombre del jugador.
 
+pais-not-found: "El país '%pais%' no fue encontrado." # %pais% -> Nombre del país.
+
 region-not-selected: "No tienes una región seleccionada."
 region-not-complete: "La selección de la región está incompleta."
 region-not-supported: "Tipo de selección de WorldEdit no soportado. Usa cuboid o poly."
@@ -126,8 +126,19 @@ get-list-command:
 
 get-list-empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entidad en plural.
 
+manager-added: "<green>El jugador <yellow>'%player%' <green>ha sido agregado como Manager del país <yellow>'%pais%'<green>." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
+manager-removed: "<red>El jugador <yellow>'%player%' <red>ha sido removido como Manager del país <yellow>'%pais%'<red>." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
+manager-already-added: "El jugador '%player%' ya es Manager del país '%pais%'." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
+manager-not-added: "El jugador '%player%' no es Manager del país '%pais%'." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
+manager-target-added: "<aqua>Has sido agregado como Manager del país <yellow>'%pais%'<aqua>." # %pais% -> Nombre del país.
+manager-target-removed: "<red>Has sido removido como Manager del país <yellow>'%pais%'<red>." # %pais% -> Nombre del país.
 
-
+reviewer-added: "<green>El jugador <yellow>'%player%' <green>ha sido agregado como Reviewer del país <yellow>'%pais%'<green>." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
+reviewer-removed: "<red>El jugador <yellow>'%player%' <red>ha sido removido como Reviewer del país <yellow>'%pais%'<red>." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
+reviewer-already-added: "El jugador '%player%' ya es Reviewer del país '%pais%'." # %player% -> Nombre del jugador. %pais% -> Nombre del país.
+reviewer-not-added: "El jugador '%player%' no es Reviewer del país '%pais%'." # %player% -> Nombre del jugador. %pais% -> Nombre del país.  
+reviewer-target-added: "<aqua>Has sido agregado como Reviewer del país <yellow>'%pais%'<aqua>." # %pais% -> Nombre del país.
+reviewer-target-removed: "<red>Has sido removido como Reviewer del país <yellow>'%pais%'<red>." # %pais% -> Nombre del país.
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
@@ -375,6 +386,18 @@ ds-embeds:
     description: "%descripcion%" # %descripcion% -> Descripción del nuevo tipo de usuario.
     max-projects: "Máx. de proyectos simultáneos: %maxProyectos%" # %maxProyectos% -> Máximo de proyectos simultáneos permitidos para este tipo de usuario.
     color: 0x45B7F4
+  manager-target-added:
+    title: "Has sido agregado como Manager del país '%pais%'" # %pais% -> Nombre del país.
+    color: 0x45B7F4
+  manager-target-removed:
+    title: "Has sido removido como Manager del país '%pais%'" # %pais% -> Nombre del país.
+    color: 0xF48245
+  reviewer-target-added:
+    title: "Has sido agregado como Reviewer del país '%pais%'" # %pais% -> Nombre del país.
+    color: 0x45B7F4
+  reviewer-target-removed:
+    title: "Has sido removido como Reviewer del país '%pais%'" # %pais% -> Nombre del país.
+    color: 0xF48245
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
@@ -398,5 +421,12 @@ rango-switched: "<aqua>Tu rango ha sido cambiado a <yellow>%rango%<aqua>." # %ra
 tipo-switched: "<aqua>Has sido promovido a <yellow>%tipo%<aqua>." # %tipo% -> Nuevo tipo de usuario.
 
 # Staff Logs
-tipo-promote-log: "💪 **%staff%** ha promovido a **%player%** al Tipo de Usuario **%tipo%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %tipo% -> Nuevo tipo de usuario.
-rango-promote-log: "🛡️ **%staff%** ha cambiado el Rango de Usuario de **%player%** a **%rango%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %rango% -> Nuevo rango.
+ds-staff-country-log: "%dsPais% >> %message%" # %dsPais% -> Logo del país. %message% -> Mensaje enviado.
+tipo-promote-log: "💪 | **%staff%** ha promovido a **%player%** al Tipo de Usuario **%tipo%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %tipo% -> Nuevo tipo de usuario.
+rango-promote-log: "🛡️ | **%staff%** ha cambiado el Rango de Usuario de **%player%** a **%rango%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %rango% -> Nuevo rango.
+
+# Country Logs
+manager-add-log: "👔 | **%staff%** ha agregado a **%player%** como Manager del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
+manager-remove-log: "❌ | **%staff%** ha removido a **%player%** como Manager del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
+reviewer-add-log: "🔍 | **%staff%** ha agregado a **%player%** como Reviewer del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
+reviewer-remove-log: "❌ | **%staff%** ha removido a **%player%** como Reviewer del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
