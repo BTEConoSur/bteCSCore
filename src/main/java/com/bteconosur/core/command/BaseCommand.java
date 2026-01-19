@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,34 +101,48 @@ public abstract class BaseCommand extends Command {
     @Override
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         BaseCommand currentCommand = this;
+        int subcommandDepth = 0;
+        
         for (int i = 0; i < args.length - 1; i++) {
             BaseCommand nextCommand = currentCommand.subcommands.get(args[i].toLowerCase());
             if (nextCommand == null) {
                 return super.tabComplete(sender, alias, args);
             }
             currentCommand = nextCommand;
+            subcommandDepth++;
         }
 
-        List<String> completions = new ArrayList<>();
-        String currentArg = args[args.length - 1].toLowerCase();
-        for (Map.Entry<String, BaseCommand> entry : currentCommand.subcommands.entrySet()) {
-            String subcommandName = entry.getKey();
-            BaseCommand subcommand = entry.getValue();
-            
-            if (subcommand.permission != null && !sender.hasPermission(subcommand.permission)) {
-                continue;
+        if (!currentCommand.subcommands.isEmpty()) {
+            List<String> completions = new ArrayList<>();
+            String currentArg = args[args.length - 1].toLowerCase();
+            for (Map.Entry<String, BaseCommand> entry : currentCommand.subcommands.entrySet()) {
+                String subcommandName = entry.getKey();
+                BaseCommand subcommand = entry.getValue();
+                
+                if (subcommand.permission != null && !sender.hasPermission(subcommand.permission)) {
+                    continue;
+                }
+                
+                if (!subcommand.isAllowedSender(sender)) {
+                    continue;
+                }
+                
+                if (subcommandName.startsWith(currentArg)) {
+                    completions.add(subcommandName);
+                }
             }
-            
-            if (!subcommand.isAllowedSender(sender)) {
-                continue;
-            }
-            
-            if (subcommandName.startsWith(currentArg)) {
-                completions.add(subcommandName);
-            }
+            return completions.isEmpty() ? super.tabComplete(sender, alias, args) : completions;
         }
 
-        return completions.isEmpty() ? super.tabComplete(sender, alias, args) : completions;
+        String[] remainingArgs = Arrays.copyOfRange(args, subcommandDepth, args.length);
+        return currentCommand.tabCompleteArgs(sender, alias, remainingArgs);
+    }
+
+    /**
+     * Método para sobrescribir en subclases que necesiten tab-complete de argumentos.
+     */
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        return super.tabComplete(sender, alias, args);
     }
 
     private boolean checkCooldown(CommandSender sender) {
