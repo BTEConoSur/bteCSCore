@@ -82,8 +82,10 @@ public class DBManager {
         executeTransaction(session -> session.persist(entity));
     }
 
-    public void merge(Object entity) {
-        executeTransaction(session -> session.merge(entity));
+    public Object merge(Object entity) {
+        final Object[] merged = new Object[1];
+        executeTransaction(session -> merged[0] = session.merge(entity));
+        return merged[0];
     }
 
     public void remove(Object entity) {

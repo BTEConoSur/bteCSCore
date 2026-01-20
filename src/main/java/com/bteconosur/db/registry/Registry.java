@@ -50,11 +50,14 @@ public abstract class Registry<K extends Serializable, V> {
     
     public abstract void load(V obj);
 
-    public void merge(K id) {
-        if (id == null) return;
+    @SuppressWarnings("unchecked")
+    public V merge(K id) {
+        if (id == null) return null;
         V obj = loadedObjects.get(id);
-        if (obj == null) return;
-        dbManager.merge(obj);
+        if (obj == null) return null;
+        V mergedObj = (V) dbManager.merge(obj);
+        loadedObjects.put(id, mergedObj);
+        return mergedObj;
     }
 
     public void unload(K id) {
