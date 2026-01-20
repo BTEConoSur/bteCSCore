@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.command.project.admin.ProjectAdminCommand;
+import com.bteconosur.core.command.project.manager.ProjectManagerCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
 
@@ -17,6 +18,7 @@ public class ProjectCommand extends BaseCommand {
         super("project", "Comando principal de los Proyectos.", null, "btecs.command.project", CommandMode.BOTH);
         this.addSubcommand(new ProjectPromoteCommand());
         this.addSubcommand(new ProjectAdminCommand());
+        this.addSubcommand(new ProjectManagerCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         
         ConfigHandler configHandler = ConfigHandler.getInstance();

@@ -3,6 +3,7 @@ package com.bteconosur.db.model;
 import org.locationtech.jts.geom.Polygon;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -142,6 +143,20 @@ public class Proyecto {
 
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Proyecto proyecto = (Proyecto) o;
+        if (id == null || proyecto.id == null) return false;
+        return Objects.equals(id, proyecto  .id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
 }

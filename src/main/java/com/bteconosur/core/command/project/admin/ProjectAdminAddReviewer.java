@@ -25,7 +25,7 @@ public class ProjectAdminAddReviewer extends BaseCommand {
     private final Set<String> paises = PaisRegistry.getInstance().getMap().keySet();
 
     public ProjectAdminAddReviewer() {
-        super("addreviewer", "Añadir Reviewer a un país.", "<nombre_pais> <uuid/nombre_reviewer>", "btecs.command.project.admin.addreviewer", CommandMode.BOTH);
+        super("addreviewer", "Añadir Reviewer a un país.", "<nombre_pais> <uuid/nombre_reviewer>", "btecs.command.project.admin.addreviewer", CommandMode.PLAYER_ONLY);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
@@ -43,6 +43,14 @@ public class ProjectAdminAddReviewer extends BaseCommand {
         Player targetPlayer;
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
 
+        Pais pais = PaisRegistry.getInstance().get(args[0].toLowerCase());
+
+        if (pais == null) {
+            String message = lang.getString("pais-not-found").replace("%pais%", args[0] );
+            PlayerLogger.error(sender, message, (String) null);
+            return true;
+        }
+
         try {
             uuid = UUID.fromString(args[1]);
             targetPlayer = playerRegistry.get(uuid);
@@ -52,15 +60,6 @@ public class ProjectAdminAddReviewer extends BaseCommand {
 
         if (targetPlayer == null) {
             String message = lang.getString("player-not-registered").replace("%player%", args[1]);
-            PlayerLogger.error(sender, message, (String) null);
-            return true;
-        }
-
-        String paisNombre = args[0];
-        Pais pais = PaisRegistry.getInstance().get(paisNombre.toLowerCase());
-
-        if (pais == null) {
-            String message = lang.getString("pais-not-found").replace("%pais%", paisNombre);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }

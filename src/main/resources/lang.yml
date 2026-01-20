@@ -139,6 +139,9 @@ reviewer-already-added: "El jugador '%player%' ya es Reviewer del país '%pais%'
 reviewer-not-added: "El jugador '%player%' no es Reviewer del país '%pais%'." # %player% -> Nombre del jugador. %pais% -> Nombre del país.  
 reviewer-target-added: "<aqua>Has sido agregado como Reviewer del país <yellow>'%pais%'<aqua>." # %pais% -> Nombre del país.
 reviewer-target-removed: "<red>Has sido removido como Reviewer del país <yellow>'%pais%'<red>." # %pais% -> Nombre del país.
+
+not-a-manager-country: "No eres Manager del país '%pais%'." # %pais% -> Nombre del país.
+not-a-reviewer-country: "No eres Reviewer del país '%pais%'." # %pais% -> Nombre del país.
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.

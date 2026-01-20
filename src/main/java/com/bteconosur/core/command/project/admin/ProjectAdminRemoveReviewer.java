@@ -43,6 +43,14 @@ public class ProjectAdminRemoveReviewer extends BaseCommand {
         Player targetPlayer;
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
 
+        Pais pais = PaisRegistry.getInstance().get(args[0].toLowerCase());
+
+        if (pais == null) {
+            String message = lang.getString("pais-not-found").replace("%pais%", args[0]);
+            PlayerLogger.error(sender, message, (String) null);
+            return true;
+        }
+
         try {
             uuid = UUID.fromString(args[1]);
             targetPlayer = playerRegistry.get(uuid);
@@ -52,15 +60,6 @@ public class ProjectAdminRemoveReviewer extends BaseCommand {
 
         if (targetPlayer == null) {
             String message = lang.getString("player-not-registered").replace("%player%", args[1]);
-            PlayerLogger.error(sender, message, (String) null);
-            return true;
-        }
-
-        String paisNombre = args[0];
-        Pais pais = PaisRegistry.getInstance().get(paisNombre.toLowerCase());
-
-        if (pais == null) {
-            String message = lang.getString("pais-not-found").replace("%pais%", paisNombre);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -78,8 +77,7 @@ public class ProjectAdminRemoveReviewer extends BaseCommand {
         PlayerLogger.info(targetPlayer, lang.getString("reviewer-target-removed").replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico()),
             ChatUtil.getDsReviewerRemoved(pais.getNombrePublico()));
         if (commandPlayer != targetPlayer) PlayerLogger.info(sender, lang.getString("reviewer-removed").replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico()), (String) null);
-        String staffName = commandPlayer != null ? commandPlayer.getNombre() : sender.getName();
-        String countryLogMessage = lang.getString("reviewer-remove-log").replace("%staff%", staffName).replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico());
+        String countryLogMessage = lang.getString("reviewer-remove-log").replace("%staff%", commandPlayer.getNombre()).replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico());
         DiscordLogger.countryLog(countryLogMessage, pais);
 
         return true;

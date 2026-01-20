@@ -76,7 +76,7 @@ public abstract class BaseCommand extends Command {
             return false;
         };
 
-        if (permission != null && !sender.hasPermission(permission)) {
+        if (permission != null && !sender.hasPermission(permission) && !customPermissionCheck(sender)) {
             PlayerLogger.error(sender, lang.getString("no-permission"), (String) null);
             return false;
         }
@@ -127,7 +127,7 @@ public abstract class BaseCommand extends Command {
                     continue;
                 }
                 
-                if (subcommandName.startsWith(currentArg)) {
+                if (subcommandName.startsWith(currentArg) && subcommand.customPermissionCheck(sender)) {
                     completions.add(subcommandName);
                 }
             }
@@ -143,6 +143,10 @@ public abstract class BaseCommand extends Command {
      */
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         return super.tabComplete(sender, alias, args);
+    }
+
+    protected boolean customPermissionCheck(CommandSender sender) {
+        return true;
     }
 
     private boolean checkCooldown(CommandSender sender) {

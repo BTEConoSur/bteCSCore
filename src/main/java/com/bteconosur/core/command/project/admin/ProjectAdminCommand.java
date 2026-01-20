@@ -13,7 +13,7 @@ public class ProjectAdminCommand extends BaseCommand {
     private final YamlConfiguration lang;
 
     public ProjectAdminCommand() {
-        super("admin", "Comando Admin de los proyectos.", null, "btecs.command.project.admin", CommandMode.BOTH);
+        super("admin", "Comando para Admin de los proyectos.", null, "btecs.command.project.admin", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new ProjectAdminAddManager());
         this.addSubcommand(new ProjectAdminRemoveManager());
         this.addSubcommand(new ProjectAdminAddReviewer());

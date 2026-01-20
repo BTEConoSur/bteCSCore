@@ -61,11 +61,13 @@ public class Pais {
     @JsonIgnore
     private List<Ciudad> ciudades = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "paisesManager")
+    @ManyToMany(mappedBy = "paisesManager", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JsonIgnore
     private Set<Player> managers = new HashSet<>();
 
-    @ManyToMany(mappedBy = "paisesReviewer")
+    @ManyToMany(mappedBy = "paisesReviewer", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JsonIgnore
     private Set<Player> reviewers = new HashSet<>();
 
@@ -188,6 +190,22 @@ public class Pais {
 
     public void setJugadoresPrefix(List<Player> jugadoresPrefix) {
         this.jugadoresPrefix = jugadoresPrefix;
+    }
+
+    public void addPlayerManager(Player player) {
+        this.managers.add(player);
+    }
+
+    public void removePlayerManager(Player player) {
+        this.managers.remove(player);
+    }
+
+    public void addPlayerReviewer(Player player) {
+        this.reviewers.add(player);
+    }
+
+    public void removePlayerReviewer(Player player) {
+        this.reviewers.remove(player);
     }
 
     @Override

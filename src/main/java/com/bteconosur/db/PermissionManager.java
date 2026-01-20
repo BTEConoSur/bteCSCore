@@ -79,10 +79,20 @@ public class PermissionManager {
         return player.getPaisesManager().contains(pais);
     }
 
+    public boolean isManager(Player player) {
+        if (player == null) return false;
+        return player.getPaisesManager() != null && !player.getPaisesManager().isEmpty();
+    }
+
     public boolean isReviewer(Player player, Pais pais) {
         if (player == null) return false;
         if (pais == null) return false;
         return player.getPaisesReviewer().contains(pais);
+    }
+
+    public boolean isReviewer(Player player) {
+        if (player == null) return false;
+        return player.getPaisesReviewer() != null && !player.getPaisesReviewer().isEmpty();
     }
 
     public boolean isRangoUsuario(Player player, RangoUsuario rango) {
@@ -396,6 +406,7 @@ public class PermissionManager {
         if (isManager(player, pais)) return;
 
         player.addPaisManager(pais);
+        ConsoleLogger.debug(player.getPaisesManager().toString());
         PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
@@ -403,7 +414,8 @@ public class PermissionManager {
         if (player == null || pais == null) return;
         if (!isManager(player, pais)) return;
 
-        player.getPaisesManager().remove(pais);
+        player.removePaisManager(pais);
+        ConsoleLogger.debug(player.getPaisesManager().toString());
         PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
@@ -412,6 +424,7 @@ public class PermissionManager {
         if (isReviewer(player, pais)) return;
 
         player.addPaisReviewer(pais);
+        ConsoleLogger.debug(player.getPaisesReviewer().toString());
         PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
@@ -419,7 +432,8 @@ public class PermissionManager {
         if (player == null || pais == null) return;
         if (!isReviewer(player, pais)) return;
 
-        player.getPaisesReviewer().remove(pais);
+        player.removePaisReviewer(pais);
+        ConsoleLogger.debug(player.getPaisesReviewer().toString()); 
         PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
@@ -429,5 +443,5 @@ public class PermissionManager {
         }
         return instance;
     }
-
+//TODO: Display de managers y reviewers.
 }
