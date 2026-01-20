@@ -50,7 +50,8 @@ commands-cooldowns:
 player-defaults:
   general:
     global-chat-on-join: true
+    simultaneous-notifications: true
   reviewer:
-    notifications: true
+    ds-notifications: true
   manager:
-    notifications: true
+    ds-notifications: true

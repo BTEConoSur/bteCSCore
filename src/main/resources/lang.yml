@@ -208,20 +208,28 @@ items:
             - "El jugador se unirá al chat global al entrar al servidor."
             - "Si no, se unirá al chat seleccionado previamente."
             - "Al reiniciar el servidor, todos los jugadores se unirán al chat global."
+        simultaneous-notifications:
+          material-true: "YELLOW_GLAZED_TERRACOTTA"
+          material-false: "YELLOW_CONCRETE"
+          name: "Notificaciones Simultáneas"
+          desc:
+            - "El jugador recibirá notificaciones desde"
+            - "Discord (DM) y Minecraft simultáneamente."
+            - "Si no, las recibirá sólo desde Minecraft si está online."
       manager:
-        notifications:
+        ds-notifications:
           material-true: "WHITE_GLAZED_TERRACOTTA"
           material-false: "WHITE_CONCRETE"
           name: "Notificaciones de Manager"
           desc: 
-            - "Habilitar las notificaciones para Managers de discord."
+            - "Habilitar las notificaciones para Managers de Discord."
       reviewer:
-        notifications:
+        ds-notifications:
           material-true: "WHITE_GLAZED_TERRACOTTA"
           material-false: "WHITE_CONCRETE"
           name: "Notificaciones de Reviewer"
           desc:
-            - "Habilitar las notificaciones para Reviewers de discord."
+            - "Habilitar las notificaciones para Reviewers de Discord."
   notepad:
     material: "WRITABLE_BOOK"
     name: "<yellow>Bloc de Notas"

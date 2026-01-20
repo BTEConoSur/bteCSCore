@@ -15,7 +15,7 @@ public class ConfigurationService {
     // 3- Agregar el nombre y descripcion en lang.yml
     // 4- Agregar seteos de default según corresponda.
     // 5- Agregar configuración al enum ConfigurationKey.
-    // 6- Añadir al menu de configuración.
+    // 6- Añadir al menú de configuración correspondiente.
 
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
@@ -31,6 +31,7 @@ public class ConfigurationService {
         Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
 
         configuration.setGeneralGlobalChatOnJoin(config.getBoolean("player-defaults.general.global-chat-on-join"));
+        configuration.setGeneralSimultaneousNotifications(config.getBoolean("player-defaults.general.simultaneous-notifications"));
 
         return playerRegistry.merge(player.getUuid());
     }
@@ -39,7 +40,7 @@ public class ConfigurationService {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
 
-        configuration.setReviewerDsNotifications(config.getBoolean("player-defaults.reviewer.notifications"));
+        configuration.setReviewerDsNotifications(config.getBoolean("player-defaults.reviewer.ds-notifications"));
 
         return playerRegistry.merge(player.getUuid());
     }
@@ -48,7 +49,7 @@ public class ConfigurationService {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
 
-        configuration.setManagerDsNotifications(config.getBoolean("player-defaults.manager.notifications"));
+        configuration.setManagerDsNotifications(config.getBoolean("player-defaults.manager.ds-notifications"));
 
         return playerRegistry.merge(player.getUuid());
     }
@@ -60,6 +61,9 @@ public class ConfigurationService {
         switch (key) {
             case GENERAL_GLOBAL_CHAT_ON_JOIN:
                 configuration.toggleGeneralGlobalChatOnJoin();
+                break;
+            case GENERAL_SIMULTANEOUS_NOTIFICATIONS:
+                configuration.toggleGeneralSimultaneousNotifications();
                 break;
             case REVIEWER_DS_NOTIFICATIONS:
                 configuration.toggleReviewerDsNotifications();

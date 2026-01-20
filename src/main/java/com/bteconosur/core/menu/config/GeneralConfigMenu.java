@@ -44,6 +44,13 @@ public class GeneralConfigMenu extends Menu {
             configuration = btecsPlayer.getConfiguration();
             gui.updateItem(2, 2, MenuUtils.getGeneralConfigItem("global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
         });
+
+        gui.setItem(2, 4, MenuUtils.getGeneralConfigItem("simultaneous-notifications", configuration.getGeneralSimultaneousNotifications()));
+        gui.addSlotAction(2, 4, event -> {
+            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_SIMULTANEOUS_NOTIFICATIONS); 
+            configuration = btecsPlayer.getConfiguration();
+            gui.updateItem(2, 4, MenuUtils.getGeneralConfigItem("simultaneous-notifications", configuration.getGeneralSimultaneousNotifications()));
+        }); 
         
         return gui;
     }

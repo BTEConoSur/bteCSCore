@@ -28,12 +28,12 @@ public class PlayerLogger {
 
     public static void info(Player player, String mcMessage, String dsMessage) {
         if (mcMessage != null) sendMc(lang.getString("player-info").replace("%pluginPrefix%", lang.getString("plugin-prefix")).replace("%message%", mcMessage), player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void info(Player player, String mcMessage, MessageEmbed dsMessage) {
         if (mcMessage != null) sendMc(lang.getString("player-info").replace("%pluginPrefix%", lang.getString("plugin-prefix")).replace("%message%", mcMessage), player);
-        if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void info(CommandSender sender, String mcMessage, String dsMessage, Object object) {
@@ -44,7 +44,7 @@ public class PlayerLogger {
     public static void info(Player player, String mcMessage, String dsMessage, Object object) {
         String json = JsonUtils.toJson(object);
         if (mcMessage != null) sendMc(lang.getString("player-info").replace("%pluginPrefix%", lang.getString("plugin-prefix")).replace("%message%", mcMessage) + "\n" + json, player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
     }
 
     public static void debug(CommandSender sender, String mcMessage, String dsMessage) {
@@ -62,13 +62,13 @@ public class PlayerLogger {
     public static void debug(Player player, String mcMessage, String dsMessage) {
         if (!config.getBoolean("debug-mode", false)) return;
         if (mcMessage != null) sendMc(lang.getString("player-debug").replace("%message%", mcMessage), player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void debug(Player player, String mcMessage, MessageEmbed dsMessage) {
         if (!config.getBoolean("debug-mode", false)) return;
         if (mcMessage != null) sendMc(lang.getString("player-debug").replace("%message%", mcMessage), player);
-        if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void debug(CommandSender sender, String mcMessage, String dsMessage, Object object) {
@@ -81,7 +81,7 @@ public class PlayerLogger {
         if (!config.getBoolean("debug-mode", false)) return;
         String json = JsonUtils.toJson(object);
         if (mcMessage != null) sendMc(lang.getString("player-debug").replace("%message%", mcMessage) + "\n" + json, player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
     }
 
     public static void warn(CommandSender sender, String mcMessage, String dsMessage) {
@@ -96,12 +96,12 @@ public class PlayerLogger {
 
     public static void warn(Player player, String mcMessage, String dsMessage) {
         if (mcMessage != null) sendMc(lang.getString("player-warn").replace("%message%", mcMessage), player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void warn(Player player, String mcMessage, MessageEmbed dsMessage) {
         if (mcMessage != null) sendMc(lang.getString("player-warn").replace("%message%", mcMessage), player);
-        if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void warn(CommandSender sender, String mcMessage, String dsMessage, Object object) {
@@ -112,7 +112,7 @@ public class PlayerLogger {
     public static void warn(Player player, String mcMessage, String dsMessage, Object object) {
         String json = JsonUtils.toJson(object);
         if (mcMessage != null) sendMc(lang.getString("player-warn").replace("%message%", mcMessage) + "\n" + json, player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
     }
 
     public static void error(CommandSender sender, String mcMessage, String dsMessage) {
@@ -127,12 +127,12 @@ public class PlayerLogger {
 
     public static void error(Player player, String mcMessage, String dsMessage) {
         if (mcMessage != null) sendMc(lang.getString("player-error").replace("%message%", mcMessage), player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void error(Player player, String mcMessage, MessageEmbed dsMessage) {
         if (mcMessage != null) sendMc(lang.getString("player-error").replace("%message%", mcMessage), player);
-        if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void error(CommandSender sender, String mcMessage, String dsMessage, Object object) {
@@ -143,7 +143,7 @@ public class PlayerLogger {
     public static void error(Player player, String mcMessage, String dsMessage, Object object) {
         String json = JsonUtils.toJson(object);
         if (mcMessage != null) sendMc(lang.getString("player-error").replace("%message%", mcMessage) + "\n" + json, player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
     }
 
     public static void send(CommandSender sender, String mcMessage, String dsMessage) {
@@ -158,12 +158,12 @@ public class PlayerLogger {
 
     public static void send(Player player, String mcMessage, String dsMessage) {
         if (mcMessage != null) sendMc(mcMessage, player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void send(Player player, String mcMessage, MessageEmbed dsMessage) {
         if (mcMessage != null) sendMc(mcMessage, player);
-        if (dsMessage != null) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void send(CommandSender sender, String mcMessage, String dsMessage, Object object) {
@@ -174,11 +174,15 @@ public class PlayerLogger {
     public static void send(Player player, String mcMessage, String dsMessage, Object object) {
         String json = JsonUtils.toJson(object);
         if (mcMessage != null) sendMc(mcMessage + "\n" + json, player);
-        if (dsMessage != null) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
+        if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
     }
 
-    private static final void sendMc(String message, Player player) {
+    private static void sendMc(String message, Player player) {
         if (PlayerRegistry.getInstance().isOnline(player.getUuid())) player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(message));
+    }
+
+    private static boolean checkSimultaneousNotifications(Player player) {
+        return !PlayerRegistry.getInstance().isOnline(player.getUuid()) || player.getConfiguration().getGeneralSimultaneousNotifications();
     }
 
 }

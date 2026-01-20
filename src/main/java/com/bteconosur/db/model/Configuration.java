@@ -24,6 +24,9 @@ public class Configuration {
     @Column(name = "general_global_chat_on_join")
     private Boolean generalGlobalChatOnJoin;
 
+    @Column(name = "general_simultaneous_notifications")
+    private Boolean generalSimultaneousNotifications;
+
     @Column(name = "reviewer_ds_notifications")
     private Boolean reviewerDsNotifications;
 
@@ -44,6 +47,7 @@ public class Configuration {
         this.generalGlobalChatOnJoin = false;
         this.reviewerDsNotifications = false;
         this.managerDsNotifications = false;
+        this.generalSimultaneousNotifications = true;
     }
 
     public UUID getUuid() {
@@ -56,6 +60,14 @@ public class Configuration {
 
     public void setGeneralGlobalChatOnJoin(Boolean generalGlobalChatOnJoin) {
         this.generalGlobalChatOnJoin = generalGlobalChatOnJoin;
+    }
+
+    public Boolean getGeneralSimultaneousNotifications() {
+        return generalSimultaneousNotifications;
+    }
+
+    public void setGeneralSimultaneousNotifications(Boolean generalSimultaneousNotifications) {
+        this.generalSimultaneousNotifications = generalSimultaneousNotifications;
     }
 
     public Boolean getReviewerDsNotifications() {
@@ -76,6 +88,10 @@ public class Configuration {
 
     public void toggleGeneralGlobalChatOnJoin() {
         this.generalGlobalChatOnJoin = !this.generalGlobalChatOnJoin;
+    }
+
+    public void toggleGeneralSimultaneousNotifications() {
+        this.generalSimultaneousNotifications = !this.generalSimultaneousNotifications;
     }
 
     public void toggleReviewerDsNotifications() {
