@@ -56,7 +56,9 @@ public abstract class Registry<K extends Serializable, V> {
         V obj = loadedObjects.get(id);
         if (obj == null) return null;
         V mergedObj = (V) dbManager.merge(obj);
-        loadedObjects.put(id, mergedObj);
+        if (mergedObj != null) {
+            loadedObjects.put(id, mergedObj);
+        }
         return mergedObj;
     }
 

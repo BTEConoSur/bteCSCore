@@ -43,7 +43,11 @@ public class GenericHelpCommand extends BaseCommand {
         if (!parentCommand.subcommands.isEmpty()) {
             message += "\n" + subcommandsTitle;
             for (BaseCommand sub : parentCommand.subcommands.values()) {
-                if (sub.getPermission() != null && !sender.hasPermission(sub.getPermission()) && !sub.customPermissionCheck(sender)) {
+                if (sub.getPermission() != null && !sender.hasPermission(sub.getPermission())) {
+                    continue;
+                }
+
+                if (!sub.customPermissionCheck(sender)) {
                     continue;
                 }
                 

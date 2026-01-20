@@ -72,7 +72,7 @@ public class ProjectAdminAddReviewer extends BaseCommand {
             return true;
         }
 
-        permissionManager.addReviewer(targetPlayer, pais);
+        targetPlayer = permissionManager.addReviewer(targetPlayer, pais);
         Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
         PlayerLogger.info(targetPlayer, lang.getString("reviewer-target-added").replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico()),
             ChatUtil.getDsReviewerAdded(pais.getNombrePublico()));

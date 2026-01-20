@@ -5,11 +5,12 @@ import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.command.chat.ChatCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
-import com.bteconosur.core.command.config.ManagerConfigCommand;
 import com.bteconosur.core.command.config.PromoteCommand;
-import com.bteconosur.core.command.config.ReviewerConfigCommand;
+import com.bteconosur.core.command.crud.CrudCommand;
+import com.bteconosur.core.command.manager.ManagerCommand;
 import com.bteconosur.core.command.pais.PaisPrefixCommand;
 import com.bteconosur.core.command.project.ProjectCommand;
+import com.bteconosur.core.command.reviewer.ReviewerCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.listener.ChatListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
@@ -121,13 +122,14 @@ public final class BTEConoSur extends JavaPlugin {
             
         // Registro de comandos
         PluginRegistry.registerCommand(new BTECSCommand());
-        PluginRegistry.registerCommand(new ManagerConfigCommand());
         PluginRegistry.registerCommand(new GeneralConfigCommand());
-        PluginRegistry.registerCommand(new ReviewerConfigCommand());
         PluginRegistry.registerCommand(new ChatCommand());
         PluginRegistry.registerCommand(new PaisPrefixCommand());
         PluginRegistry.registerCommand(new PromoteCommand());
         PluginRegistry.registerCommand(new ProjectCommand());
+        PluginRegistry.registerCommand(new CrudCommand());
+        PluginRegistry.registerCommand(new ManagerCommand());
+        PluginRegistry.registerCommand(new ReviewerCommand());
         ConsoleLogger.info("El Plugin se ha activado.");
         
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());

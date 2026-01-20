@@ -71,7 +71,7 @@ public class ProjectAdminAddManager extends BaseCommand {
             return true;
         }
 
-        permissionManager.addManager(targetPlayer, pais);
+        targetPlayer = permissionManager.addManager(targetPlayer, pais);
         Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
         PlayerLogger.info(targetPlayer, lang.getString("manager-target-added").replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico()),
             ChatUtil.getDsManagerAdded(pais.getNombrePublico()));

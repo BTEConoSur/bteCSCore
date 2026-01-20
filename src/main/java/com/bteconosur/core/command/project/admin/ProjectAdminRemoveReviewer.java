@@ -72,7 +72,7 @@ public class ProjectAdminRemoveReviewer extends BaseCommand {
             return true;
         }
 
-        permissionManager.removeReviewer(targetPlayer, pais);
+        targetPlayer = permissionManager.removeReviewer(targetPlayer, pais);
         Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
         PlayerLogger.info(targetPlayer, lang.getString("reviewer-target-removed").replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico()),
             ChatUtil.getDsReviewerRemoved(pais.getNombrePublico()));

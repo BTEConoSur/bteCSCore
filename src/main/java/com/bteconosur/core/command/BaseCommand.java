@@ -76,7 +76,12 @@ public abstract class BaseCommand extends Command {
             return false;
         };
 
-        if (permission != null && !sender.hasPermission(permission) && !customPermissionCheck(sender)) {
+        if (permission != null && !sender.hasPermission(permission)) {
+            PlayerLogger.error(sender, lang.getString("no-permission"), (String) null);
+            return false;
+        }
+
+        if (!customPermissionCheck(sender)) {
             PlayerLogger.error(sender, lang.getString("no-permission"), (String) null);
             return false;
         }

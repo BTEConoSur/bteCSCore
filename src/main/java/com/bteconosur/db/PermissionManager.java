@@ -408,7 +408,6 @@ public class PermissionManager {
         if (isManager(player, pais)) return player;
 
         player.addPaisManager(pais);
-        ConsoleLogger.debug(player.getPaisesManager().toString());
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
@@ -416,7 +415,6 @@ public class PermissionManager {
         if (player == null || pais == null) return player;
         if (!isManager(player, pais)) return player;
         player.removePaisManager(pais);
-        ConsoleLogger.debug(player.getPaisesManager().toString());
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
@@ -425,7 +423,6 @@ public class PermissionManager {
         if (isReviewer(player, pais)) return player;
 
         player.addPaisReviewer(pais);
-        ConsoleLogger.debug(player.getPaisesReviewer().toString());
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
@@ -434,7 +431,6 @@ public class PermissionManager {
         if (!isReviewer(player, pais)) return player;
 
         player.removePaisReviewer(pais);
-        ConsoleLogger.debug(player.getPaisesReviewer().toString()); 
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 

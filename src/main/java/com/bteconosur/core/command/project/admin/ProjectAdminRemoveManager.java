@@ -72,7 +72,7 @@ public class ProjectAdminRemoveManager extends BaseCommand {
             return true;
         }
 
-        permissionManager.removeManager(targetPlayer, pais);
+        targetPlayer = permissionManager.removeManager(targetPlayer, pais);
         Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
         PlayerLogger.info(targetPlayer, lang.getString("manager-target-removed").replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico()),
             ChatUtil.getDsManagerRemoved(pais.getNombrePublico()));

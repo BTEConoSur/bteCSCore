@@ -38,11 +38,11 @@ public class ReviewerConfigMenu extends Menu {
 
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
-        gui.setItem(2, 2, MenuUtils.getReviewerConfigItem("notifications", configuration.getReviewerDsNotifications()));
+        gui.setItem(2, 2, MenuUtils.getReviewerConfigItem("ds-notifications", configuration.getReviewerDsNotifications()));
         gui.addSlotAction(2, 2, event -> {
             btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.REVIEWER_DS_NOTIFICATIONS); // TODO: Capaz es mejor obtener la configuracion con configurationService 
             configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 2, MenuUtils.getReviewerConfigItem("notifications", configuration.getReviewerDsNotifications()));
+            gui.updateItem(2, 2, MenuUtils.getReviewerConfigItem("ds-notifications", configuration.getReviewerDsNotifications()));
         });
         
         return gui;
