@@ -52,11 +52,11 @@ public class PlayerJoinListener implements Listener {
             );
             player.setConfiguration(new Configuration(player));
             playerRegistry.load(player);
-            ConfigurationService.setDefaults(player.getUuid());
+            player = ConfigurationService.setDefaults(player);
         } else {
             player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setNombre(event.getPlayer().getName());
-            playerRegistry.merge(player.getUuid());
+            player = playerRegistry.merge(player.getUuid());
         }
 
         YamlConfiguration config = ConfigHandler.getInstance().getConfig();

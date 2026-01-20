@@ -1,11 +1,10 @@
 package com.bteconosur.core.util;
 
-import java.util.UUID;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.model.Configuration;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.util.ConfigurationKey;
 
@@ -20,42 +19,43 @@ public class ConfigurationService {
 
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
-    public static void setDefaults(UUID uuid) {
-        setGeneralDefaults(uuid);
-        setReviewerDefaults(uuid);
-        setManagerDefaults(uuid);
+    public static Player setDefaults(Player player) {
+        player = setGeneralDefaults(player);
+        player = setReviewerDefaults(player);
+        player = setManagerDefaults(player);
+        return player;
     }
 
-    public static void setGeneralDefaults(UUID uuid) {
+    public static Player setGeneralDefaults(Player player) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
-        Configuration configuration = playerRegistry.get(uuid).getConfiguration();
+        Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
 
         configuration.setGeneralGlobalChatOnJoin(config.getBoolean("player-defaults.general.global-chat-on-join"));
 
-        playerRegistry.merge(uuid);
+        return playerRegistry.merge(player.getUuid());
     }
 
-    public static void setReviewerDefaults(UUID uuid) {
+    public static Player setReviewerDefaults(Player player) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
-        Configuration configuration = playerRegistry.get(uuid).getConfiguration();
+        Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
 
         configuration.setReviewerDsNotifications(config.getBoolean("player-defaults.reviewer.notifications"));
 
-        playerRegistry.merge(uuid);
+        return playerRegistry.merge(player.getUuid());
     }
 
-    public static void setManagerDefaults(UUID uuid) {
+    public static Player setManagerDefaults(Player player) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
-        Configuration configuration = playerRegistry.get(uuid).getConfiguration();
+        Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
 
         configuration.setManagerDsNotifications(config.getBoolean("player-defaults.manager.notifications"));
 
-        playerRegistry.merge(uuid);
+        return playerRegistry.merge(player.getUuid());
     }
 
-    public static void toggle(UUID uuid, ConfigurationKey key) {
+    public static Player toggle(Player player, ConfigurationKey key) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
-        Configuration configuration = playerRegistry.get(uuid).getConfiguration();
+        Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
 
         switch (key) {
             case GENERAL_GLOBAL_CHAT_ON_JOIN:
@@ -71,7 +71,7 @@ public class ConfigurationService {
                 ConsoleLogger.warn("Key no reconocida: " + key);
         }
 
-        playerRegistry.merge(uuid);
+        return playerRegistry.merge(player.getUuid());
     }
 
 }

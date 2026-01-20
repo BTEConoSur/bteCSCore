@@ -344,15 +344,15 @@ public class PermissionManager {
         ConsoleLogger.info(lang.getString("permission-manager-shutting-down"));
     }
 
-    public void switchTipoUsuario(Player player, TipoUsuario tipo) {
+    public Player switchTipoUsuario(Player player, TipoUsuario tipo) {
         player.setTipoUsuario(tipo);
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        player = PlayerRegistry.getInstance().merge(player.getUuid());
         
         UserManager userManager = lpApi.getUserManager();
         User user = userManager.getUser(player.getUuid());
         if (user == null) { 
             ConsoleLogger.info("No se pudo obtener el usuario de LuckPerms para " + player.getNombre());
-            return;
+            return player;
         }
         
         String targetGroupName = "tipo_" + tipo.getNombre().toLowerCase();
@@ -369,20 +369,21 @@ public class PermissionManager {
         }
         
         userManager.saveUser(user).join();
+        return player;  
     }
 
-    public void switchRangoUsuario(Player player, RangoUsuario rango) {
-        if (player == null || rango == null) return;
-        if (rango.equals(player.getRangoUsuario())) return;
+    public Player switchRangoUsuario(Player player, RangoUsuario rango) {
+        if (player == null || rango == null) return player;
+        if (rango.equals(player.getRangoUsuario())) return player;
         
         player.setRangoUsuario(rango);
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        player = PlayerRegistry.getInstance().merge(player.getUuid());
         
         UserManager userManager = lpApi.getUserManager();
         User user = userManager.getUser(player.getUuid());
         if (user == null) { 
             ConsoleLogger.info("No se pudo obtener el usuario de LuckPerms para " + player.getNombre());
-            return;
+            return player;
         }
         
         String targetGroupName = "rango_" + rango.getNombre().toLowerCase();
@@ -399,42 +400,42 @@ public class PermissionManager {
         }
         
         userManager.saveUser(user).join();
+        return player;
     }
 
-    public void addManager(Player player, Pais pais) {
-        if (player == null || pais == null) return;
-        if (isManager(player, pais)) return;
+    public Player addManager(Player player, Pais pais) {
+        if (player == null || pais == null) return player;
+        if (isManager(player, pais)) return player;
 
         player.addPaisManager(pais);
         ConsoleLogger.debug(player.getPaisesManager().toString());
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
-    public void removeManager(Player player, Pais pais) {
-        if (player == null || pais == null) return;
-        if (!isManager(player, pais)) return;
-
+    public Player removeManager(Player player, Pais pais) {
+        if (player == null || pais == null) return player;
+        if (!isManager(player, pais)) return player;
         player.removePaisManager(pais);
         ConsoleLogger.debug(player.getPaisesManager().toString());
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
-    public void addReviewer(Player player, Pais pais) {
-        if (player == null || pais == null) return;
-        if (isReviewer(player, pais)) return;
+    public Player addReviewer(Player player, Pais pais) {
+        if (player == null || pais == null) return player;
+        if (isReviewer(player, pais)) return player;
 
         player.addPaisReviewer(pais);
         ConsoleLogger.debug(player.getPaisesReviewer().toString());
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
-    public void removeReviewer(Player player, Pais pais) {
-        if (player == null || pais == null) return;
-        if (!isReviewer(player, pais)) return;
+    public Player removeReviewer(Player player, Pais pais) {
+        if (player == null || pais == null) return player;
+        if (!isReviewer(player, pais)) return player;
 
         player.removePaisReviewer(pais);
         ConsoleLogger.debug(player.getPaisesReviewer().toString()); 
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
     public static PermissionManager getInstance() {

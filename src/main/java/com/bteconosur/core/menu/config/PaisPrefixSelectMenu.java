@@ -61,7 +61,7 @@ public class PaisPrefixSelectMenu extends Menu {
         gui.addSlotAction(2,2, event -> {
             if (arg.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(arg);
-            playerRegistry.merge(BTECSPlayer.getUuid());
+            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
             PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.argentina")), (String) null);
             if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.argentina")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = arg;
@@ -73,7 +73,7 @@ public class PaisPrefixSelectMenu extends Menu {
         gui.addSlotAction(2,3, event -> {
             if (chile.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(chile);
-            playerRegistry.merge(BTECSPlayer.getUuid());
+            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
             PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.chile")), (String) null);
             if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.chile")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = chile;
@@ -85,7 +85,7 @@ public class PaisPrefixSelectMenu extends Menu {
         gui.addSlotAction(2,4, event -> {
             if (peru.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(peru);
-            playerRegistry.merge(BTECSPlayer.getUuid());
+            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
             PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.peru")), (String) null);
             if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.peru")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = peru;
@@ -96,7 +96,7 @@ public class PaisPrefixSelectMenu extends Menu {
         gui.addSlotAction(2,5, event -> {
             if (previousPais == null) return;
             BTECSPlayer.setPaisPrefix(null);
-            playerRegistry.merge(BTECSPlayer.getUuid());
+            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
             PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.international")), (String) null);
             if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.international")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = null;
@@ -108,7 +108,7 @@ public class PaisPrefixSelectMenu extends Menu {
         gui.addSlotAction(2,6, event -> {
             if (bolivia.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(bolivia);
-            playerRegistry.merge(BTECSPlayer.getUuid());
+            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
             PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.bolivia")), (String) null);
             if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.bolivia")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = bolivia;
@@ -120,7 +120,7 @@ public class PaisPrefixSelectMenu extends Menu {
         gui.addSlotAction(2,7, event -> {
             if (uruguay.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(uruguay);
-            playerRegistry.merge(BTECSPlayer.getUuid());
+            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
             PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.uruguay")), (String) null);
             if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.uruguay")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = uruguay;
@@ -132,7 +132,7 @@ public class PaisPrefixSelectMenu extends Menu {
         gui.addSlotAction(2,8, event -> {
             if (paraguay.equals(previousPais)) return;
             BTECSPlayer.setPaisPrefix(paraguay);
-            playerRegistry.merge(BTECSPlayer.getUuid());
+            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
             PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.paraguay")), (String) null);
             if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.paraguay")).replace("%player%", BTECSPlayer.getNombre()), (String) null);
             previousPais = paraguay;

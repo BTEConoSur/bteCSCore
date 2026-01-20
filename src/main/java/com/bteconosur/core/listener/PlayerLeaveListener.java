@@ -32,7 +32,7 @@ public class PlayerLeaveListener implements Listener {
         if (playerRegistry.exists(event.getPlayer().getUniqueId())) {
             Player player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setFechaUltimaConexion(new Date());
-            playerRegistry.merge(player.getUuid());
+            player = playerRegistry.merge(player.getUuid());
             
             YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
