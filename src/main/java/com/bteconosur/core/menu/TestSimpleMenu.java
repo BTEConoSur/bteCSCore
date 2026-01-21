@@ -75,7 +75,7 @@ public class TestSimpleMenu extends Menu {
                         player.sendMessage(Component.text("Has cancelado.").color(NamedTextColor.RED));
                         confirmationMenu.getGui().close(player);
                     }));
-                    confirmationMenu.open();  
+                    confirmationMenu.open();
             }));
 
         gui.setItem(2, 5, ItemBuilder.from(Material.BOOK)

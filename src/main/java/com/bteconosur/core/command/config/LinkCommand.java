@@ -40,6 +40,7 @@ public class LinkCommand extends BaseCommand {
         }
 
         if (args.length == 0) {
+            if (LinkService.hasDiscordCode(null))
             String code;
             if (LinkService.hasMinecraftCode(player)) code = LinkService.getMinecraftCode(player);
             else code = LinkService.generateMinecraftCode(player);

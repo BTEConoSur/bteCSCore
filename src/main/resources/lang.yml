@@ -145,11 +145,11 @@ not-a-reviewer-country: "No eres Reviewer del país '%pais%'." # %pais% -> Nombr
 
 minecraft-already-linked: "Tu cuenta de Minecraft ya está vinculada a una cuenta de Discord."
 discord-already-linked: "Tu cuenta de Discord ya está vinculada a una cuenta de Minecraft."
+minecraft-not-linked: "Tu cuenta de Minecraft no está vinculada a ninguna cuenta de Discord."
 invalid-link-code: "El código proporcionado no es válido o ha expirado."
 minecraft-link-success: "Cuenta vinculada exitosamente."
 discord-link-success: "Cuenta vinculada exitosamente a **%player%**." # %player% -> Nombre del jugador de Minecraft.
 minecraft-unlink-success: "Cuenta desvinculada exitosamente."
-discord-unlink-success: "Cuenta de Discord desvinculada exitosamente de **%player%**." # %player% -> Nombre del jugador de Minecraft.
 
 link-set-success: "La cuenta de Discord ha sido vinculada a '%player%' correctamente." # %player% -> Nombre del jugador de Minecraft.
 unlink-set-success: "La cuenta de Discord ha sido desvinculada de '%player%' correctamente." # %player% -> Nombre del jugador de Minecraft.
@@ -172,6 +172,7 @@ gui-titles:
   rango-confirm: "Confirmar cambio de Rango"
   project-promote: "Promover Jugador: %player%" # %player% -> Nombre del jugador.
   tipo-confirm: "Confirmar cambio de Tipo"
+  unlink-confirm: "Confirmar desvinculación"
 
 items: 
   back:

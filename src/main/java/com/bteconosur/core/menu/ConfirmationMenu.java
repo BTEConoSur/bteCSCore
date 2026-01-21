@@ -29,16 +29,28 @@ public class ConfirmationMenu extends Menu {
         this.onCancel = event -> previousMenu.open();
     }
 
-    ConfirmationMenu(@NotNull String title, @NotNull com.bteconosur.db.model.Player player, @NotNull Menu previousMenu, @NotNull GuiAction<InventoryClickEvent> onConfirm, @NotNull  GuiAction<InventoryClickEvent> onCancel) {
+    public ConfirmationMenu(@NotNull String title, @NotNull com.bteconosur.db.model.Player player, @NotNull Menu previousMenu, @NotNull GuiAction<InventoryClickEvent> onConfirm, @NotNull  GuiAction<InventoryClickEvent> onCancel) {
         super(title, 1, player, previousMenu);
         this.onConfirm = onConfirm;
         this.onCancel = onCancel;
     }
 
-    ConfirmationMenu(@NotNull String title, @NotNull com.bteconosur.db.model.Player player, @NotNull Menu previousMenu, @NotNull GuiAction<InventoryClickEvent> onConfirm) {
+    public ConfirmationMenu(@NotNull String title, @NotNull com.bteconosur.db.model.Player player, @NotNull Menu previousMenu, @NotNull GuiAction<InventoryClickEvent> onConfirm) {
         super(title, 1, player, previousMenu);
         this.onConfirm = onConfirm;
         this.onCancel = event -> previousMenu.open();
+    }
+
+    public ConfirmationMenu(@NotNull String title, @NotNull Player bukkitPlayer, @NotNull GuiAction<InventoryClickEvent> onConfirm, @NotNull GuiAction<InventoryClickEvent> onCancel) {
+        super(title, 1, bukkitPlayer);
+        this.onConfirm = onConfirm;
+        this.onCancel = onCancel;
+    }
+
+    public ConfirmationMenu(@NotNull String title, @NotNull com.bteconosur.db.model.Player player, @NotNull GuiAction<InventoryClickEvent> onConfirm, @NotNull  GuiAction<InventoryClickEvent> onCancel) {
+        super(title, 1, player);
+        this.onConfirm = onConfirm;
+        this.onCancel = onCancel;
     }
 
     @Override

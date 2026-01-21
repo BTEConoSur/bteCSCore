@@ -70,6 +70,11 @@ public class LinkService {
         PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
+    public static Player unlink(Player player) {
+        player.setDsIdUsuario(null);
+        return PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
     public static void linkMinecraft(String discordCode, Player player) {
         if (!isDiscordCodeValid(discordCode)) return;
         Long discordId = discordCodes.entrySet().stream()
