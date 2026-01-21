@@ -151,13 +151,14 @@ minecraft-link-success: "Cuenta vinculada exitosamente."
 discord-link-success: "Cuenta vinculada exitosamente a **%player%**." # %player% -> Nombre del jugador de Minecraft.
 minecraft-unlink-success: "Cuenta desvinculada exitosamente."
 
-link-set-success: "La cuenta de Discord ha sido vinculada a '%player%' correctamente." # %player% -> Nombre del jugador de Minecraft.
-unlink-set-success: "La cuenta de Discord ha sido desvinculada de '%player%' correctamente." # %player% -> Nombre del jugador de Minecraft.
+link-set-success: "La cuenta de Discord ha sido vinculada a <yellow>'%player%'</yellow> correctamente." # %player% -> Nombre del jugador de Minecraft.
+unlink-set-success: "La cuenta de Discord ha sido desvinculada de <yellow>'%player%'</yellow> correctamente." # %player% -> Nombre del jugador de Minecraft.
 
 minecraft-code: "Tu código es: <yellow><codigo></yellow>. Usa <gray>/link %codigo%</gray> en Discord." # <codigo> -> Código copiable de vinculación generado.
 discord-code: "Tu código es: `%code%`. Usa **/link %code%** en Minecraft." # %code% -> Código de vinculación generado.
 
 internal-error: "Ha ocurrido un error interno. Por favor, contacta a un administrador."
+invalid-discord-id: "El ID de Discord proporcionado no es válido."
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
@@ -429,9 +430,6 @@ ds-embeds:
   link-success:
     title: "Tu cuenta ha sido vinculada a '%player%'" # %player% -> Nombre del jugador de Minecraft.
     color: 0x43B581
-  unlink-success:
-    title: "Tu cuenta ha sido desvinculada de '%player%'" # %player -> Nombre del jugador de Minecraft.
-    color: 0xED4245
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.

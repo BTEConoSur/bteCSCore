@@ -6,11 +6,18 @@ import java.util.Map;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.util.IDUtils;
+import com.bteconosur.discord.DiscordManager;
 
 public class LinkService {
 
     private static Map<Player, String> minecraftCodes = new HashMap<>();
     private static Map<Long, String> discordCodes = new HashMap<>() ;
+
+    public static boolean isValidUserId(Long discordId) {
+        if (DiscordManager.getInstance().getJda() == null) return false;
+        if (DiscordManager.getInstance().getJda().retrieveUserById(discordId) == null) return false;
+        return true;
+    }   
 
     public static boolean isMinecraftCodeValid(String code) {
         return minecraftCodes.containsValue(code);
@@ -65,9 +72,9 @@ public class LinkService {
     }
 
 
-    public static void link(Long discordId, Player player) {
+    public static Player link(Long discordId, Player player) {
         player.setDsIdUsuario(discordId);
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
     public static Player unlink(Player player) {
@@ -83,7 +90,8 @@ public class LinkService {
         if (player.getDsIdUsuario() != null) return;
 
         player.setDsIdUsuario(discordId);
-        discordCodes.remove(discordCode);
+        discordCodes.remove(discordId);
         PlayerRegistry.getInstance().merge(player.getUuid());
     }
+
 }

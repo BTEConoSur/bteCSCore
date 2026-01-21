@@ -3,7 +3,6 @@ package com.bteconosur.core.command.config;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
@@ -18,8 +17,8 @@ public class UnlinkCommand extends BaseCommand {
     private ConfirmationMenu confirmationMenu;
 
     public UnlinkCommand() {
-        super("unlink", "Desvincular la cuenta de Discord.", "[subcomando]");
-        //this.addSubcommand(new UnlinkSetCommand());
+        super("unlink", "Desvincular la cuenta de Discord.", "[subcomando]", "btecs.command.unlink");
+        this.addSubcommand(new UnlinkSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         lang = ConfigHandler.getInstance().getLang();
     }
@@ -42,11 +41,11 @@ public class UnlinkCommand extends BaseCommand {
 
         confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.unlink-confirm"), bukkitPlayer, confirmClick -> {
                 LinkService.unlink(player);
-                PlayerLogger.info(sender, lang.getString("minecraft-unlink-success"), ChatUtil.getDsUnlinkSuccess(player.getNombre()));
+                PlayerLogger.info(sender, lang.getString("minecraft-unlink-success"), (String) null);
                 confirmationMenu.getGui().close(bukkitPlayer);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(bukkitPlayer);
-            }));
+        }));
 
         confirmationMenu.open();
         return true;

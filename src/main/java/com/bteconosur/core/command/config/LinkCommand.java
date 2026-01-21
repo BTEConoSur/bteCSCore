@@ -19,8 +19,8 @@ public class LinkCommand extends BaseCommand {
     private final YamlConfiguration lang;
 
     public LinkCommand() {
-        super("link", "Linkear la cuenta de Discord.", "<código>|[subcomando]");
-        //this.addSubcommand(new LinkSetCommand());
+        super("link", "Linkear la cuenta de Discord.", "<código>|[subcomando]", "btecs.command.link");
+        this.addSubcommand(new LinkSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         lang = ConfigHandler.getInstance().getLang();
     }
@@ -40,7 +40,6 @@ public class LinkCommand extends BaseCommand {
         }
 
         if (args.length == 0) {
-            if (LinkService.hasDiscordCode(null))
             String code;
             if (LinkService.hasMinecraftCode(player)) code = LinkService.getMinecraftCode(player);
             else code = LinkService.generateMinecraftCode(player);

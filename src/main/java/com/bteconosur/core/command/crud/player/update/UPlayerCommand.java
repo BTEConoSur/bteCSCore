@@ -21,7 +21,6 @@ public class UPlayerCommand extends BaseCommand {
         this.addSubcommand(new URangoUsuarioCommand());
         this.addSubcommand(new UPlayerFechaIngresoCommand());
         this.addSubcommand(new UPlayerFechaUltimaConexionCommand());
-        this.addSubcommand(new UPlayerDsIdUsuarioCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
