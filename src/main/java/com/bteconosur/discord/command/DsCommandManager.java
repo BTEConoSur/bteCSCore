@@ -26,6 +26,7 @@ public class DsCommandManager {
         addCommand(new Test2Command());
         addCommand(new DeleteDsCommand());
         addCommand(new DsExecCommand());
+        addCommand(new DsLinkCommand());
     }
 
     private void addCommand(DsCommand command) {

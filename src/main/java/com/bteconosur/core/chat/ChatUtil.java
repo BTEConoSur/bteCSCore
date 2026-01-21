@@ -256,4 +256,14 @@ public class ChatUtil {
         return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.reviewer-target-removed.color")).build();
     }
 
+    public static MessageEmbed getDsLinkSuccess(String playerName) {
+        String message = lang.getString("ds-embeds.link-success.title").replace("%player%", playerName);
+        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.link-success.color")).build();
+    }
+
+    public static MessageEmbed getDsUnlinkSuccess(String playerName) {
+        String message = lang.getString("ds-embeds.unlink-success.title").replace("%player%", playerName);
+        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.unlink-success.color")).build();
+    }
+    
 }

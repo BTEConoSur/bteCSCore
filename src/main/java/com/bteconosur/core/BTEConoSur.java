@@ -5,6 +5,7 @@ import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.command.chat.ChatCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
+import com.bteconosur.core.command.config.LinkCommand;
 import com.bteconosur.core.command.config.PromoteCommand;
 import com.bteconosur.core.command.crud.CrudCommand;
 import com.bteconosur.core.command.manager.ManagerCommand;
@@ -130,6 +131,7 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new CrudCommand());
         PluginRegistry.registerCommand(new ManagerCommand());
         PluginRegistry.registerCommand(new ReviewerCommand());
+        PluginRegistry.registerCommand(new LinkCommand());
         ConsoleLogger.info("El Plugin se ha activado.");
         
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
