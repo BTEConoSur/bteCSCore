@@ -159,6 +159,10 @@ discord-code: "Tu código es: `%code%`. Usa **/link %code%** en Minecraft." # %c
 
 internal-error: "Ha ocurrido un error interno. Por favor, contacta a un administrador."
 invalid-discord-id: "El ID de Discord proporcionado no es válido."
+
+invalid-player-name: "Máximo 16 caracteres permitidos para el nombre del jugador."
+nickname-change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
+nickname-set: "<green>El nombre público de <yellow>'%player%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.

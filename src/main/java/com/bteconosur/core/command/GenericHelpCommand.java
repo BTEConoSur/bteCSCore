@@ -74,3 +74,5 @@ public class GenericHelpCommand extends BaseCommand {
         return true;
     }
 }
+
+// TODO: Capaz es mejor añadir el uso como una opción.

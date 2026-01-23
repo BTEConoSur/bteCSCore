@@ -36,7 +36,7 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 * ✔️ /chat -> Selección de chat.
 * ✔️ Modo Bloc de Notas: No se envían ni reciben mensajes.
 * ✔️ /configuration -> Configuración del jugador.
-* ⏳ /nickname -> Seteo del nombre público.
+* ✔️ /nickname -> Seteo del nombre público.
 * 🕙 /lobby -> Ir hacia el lobby general o de un país.
 * 🕙 /nightvision -> Activa/Desactiva visión nocturna.
 * 🕙 /pwarp -> Comando general para gestionar warps personales.
