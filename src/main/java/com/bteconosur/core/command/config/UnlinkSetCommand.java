@@ -60,7 +60,7 @@ public class UnlinkSetCommand extends BaseCommand {
         confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.unlink-confirm"), bukkitPlayer, confirmClick -> {
                 Player newTargetPlayer = LinkService.unlink(finalTargetPlayer);
                 PlayerLogger.info(newTargetPlayer, lang.getString("minecraft-unlink-success"), (String) null);
-                if (newTargetPlayer != commandPlayer) {
+                if (!newTargetPlayer.equals(commandPlayer)) {
                     String message = lang.getString("unlink-set-success").replace("%player%", newTargetPlayer.getNombre());
                     PlayerLogger.info(sender, message, (String) null);
                 }

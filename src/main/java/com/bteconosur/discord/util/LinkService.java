@@ -8,15 +8,21 @@ import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.util.IDUtils;
 import com.bteconosur.discord.DiscordManager;
 
+import net.dv8tion.jda.api.entities.User;
+
 public class LinkService {
 
     private static Map<Player, String> minecraftCodes = new HashMap<>();
     private static Map<Long, String> discordCodes = new HashMap<>() ;
 
     public static boolean isValidUserId(Long discordId) {
-        if (DiscordManager.getInstance().getJda() == null) return false;
-        if (DiscordManager.getInstance().getJda().retrieveUserById(discordId) == null) return false;
-        return true;
+        if (discordId == null || discordId <= 0) return false;
+        try {
+            User user = DiscordManager.getInstance().getJda().retrieveUserById(discordId).complete();
+            return user != null;
+        } catch (Exception ex) {
+            return false;
+        }
     }   
 
     public static boolean isMinecraftCodeValid(String code) {

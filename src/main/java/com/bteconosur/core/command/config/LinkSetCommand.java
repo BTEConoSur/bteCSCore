@@ -69,7 +69,7 @@ public class LinkSetCommand extends BaseCommand {
         Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
         targetPlayer = LinkService.link(dsId, targetPlayer);
         PlayerLogger.info(targetPlayer, lang.getString("minecraft-link-success"), ChatUtil.getDsLinkSuccess(targetPlayer.getNombre()));
-        if (targetPlayer != commandPlayer) {
+        if (!targetPlayer.equals(commandPlayer)) {
             String message = lang.getString("link-set-success").replace("%player%", targetPlayer.getNombre());
             PlayerLogger.info(sender, message, (String) null);
         }
