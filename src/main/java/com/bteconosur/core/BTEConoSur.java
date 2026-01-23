@@ -226,3 +226,7 @@ public final class BTEConoSur extends JavaPlugin {
 
 // TODO: Todos los managers con getInstance() statico
 // TODO: Revisar llamadas a config en constructores.
+// TODO: Alias de comandos.
+// TODO: Comando de borrar mensajes en chat global de discord.
+// TODO: Tab
+// TODO: Get
