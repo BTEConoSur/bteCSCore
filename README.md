@@ -41,6 +41,7 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 * 🕙 /nightvision -> Activa/Desactiva visión nocturna.
 * 🕙 /pwarp -> Comando general para gestionar warps personales.
 * ⏳ /help -> Comando general de ayuda.
+* 🕙 /get -> Obtener bloques especiales.
 
 ## Proyectos
 
