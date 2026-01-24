@@ -466,3 +466,7 @@ manager-add-log: "👔 | **%staff%** ha agregado a **%player%** como Manager del
 manager-remove-log: "❌ | **%staff%** ha removido a **%player%** como Manager del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
 reviewer-add-log: "🔍 | **%staff%** ha agregado a **%player%** como Reviewer del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
 reviewer-remove-log: "❌ | **%staff%** ha removido a **%player%** como Reviewer del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
+
+# Project
+project-manager-initializing: "Inicializando Gestor de Proyectos..."
+project-manager-shutting-down: "Cerrando Gestor de Proyectos..."
