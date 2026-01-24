@@ -52,6 +52,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static DBManager dbManager;
     private static WorldManager worldManager;
     private static PermissionManager permissionManager;
+    private static ProjectManager projectManager;
 
     private static PlayerRegistry playerRegistry;
     private static ProyectoRegistry proyectoRegistry;
@@ -103,7 +104,8 @@ public final class BTEConoSur extends JavaPlugin {
 
         dbManager = DBManager.getInstance();
         dsCommandManager = DsCommandManager.getInstance();
-        worldManager = WorldManager.getInstance(); //TODO: hacer singleton
+        worldManager = WorldManager.getInstance();
+        projectManager = ProjectManager.getInstance();
         
 
         playerRegistry = PlayerRegistry.getInstance();
@@ -143,6 +145,7 @@ public final class BTEConoSur extends JavaPlugin {
 
     @Override
     public void onDisable() {
+    
         
         if (playerRegistry != null) {
             playerRegistry.shutdown();
@@ -167,6 +170,11 @@ public final class BTEConoSur extends JavaPlugin {
         if (discordInteractionRegistry != null) {
             discordInteractionRegistry.shutdown();
             discordInteractionRegistry = null;
+        }
+
+        if (projectManager != null) {
+            projectManager.shutdown();
+            projectManager = null;
         }
         
         if (permissionManager != null) {

@@ -98,6 +98,10 @@ public class RegionUtils {
         return result;
     }
 
+    public static boolean intersectsChunk(Polygon poly, ChunkKey chunkKey) {
+        return intersectsChunk(poly, chunkKey.x(), chunkKey.z());
+    }
+
     private static boolean intersectsChunk(Polygon poly, int chunkX, int chunkZ) {
         double x0 = chunkX * 16.0;
         double z0 = chunkZ * 16.0;
