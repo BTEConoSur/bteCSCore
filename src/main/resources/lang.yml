@@ -46,8 +46,8 @@ tipo-usuario-registry-shutting-down: "Apagando Registro de Tipos de Usuario..."
 rango-usuario-registry-initializing: "Inicializando Registro de Rangos de Usuario..."
 rango-usuario-registry-shutting-down: "Apagando Registro de Rangos de Usuario..."
 
-discord-interaction-registry-initializing: "Inicializando Registro de Interacciones de Discord..."
-discord-interaction-registry-shutting-down: "Apagando Registro de Interacciones de Discord..."
+interaction-registry-initializing: "Inicializando Registro de Interacciones de Discord..."
+interaction-registry-shutting-down: "Apagando Registro de Interacciones de Discord..."
 
 # Discord
 discord-initializing: "Inicializando Módulo: Discord..."
@@ -62,6 +62,7 @@ discord-command-manager-shutting-down: "Apagando Gestor de Comandos de Discord..
 
 discord-internal-error: "Un error interno ha ocurrido."
 discord-interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
+interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
 
 ds-manager-notification: "%mention%: %message%" # %mention% -> Mención al usuario. %message% -> Mensaje a enviar.
 ds-reviewer-notification: "%mention%: %message%" # %mention% -> Mención al reviewer. %message% -> Mensaje a enviar.
@@ -461,11 +462,43 @@ ds-staff-country-log: "%dsPais% >> %message%" # %dsPais% -> Logo del país. %mes
 tipo-promote-log: "💪 | **%staff%** ha promovido a **%player%** al Tipo de Usuario **%tipo%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %tipo% -> Nuevo tipo de usuario.
 rango-promote-log: "🛡️ | **%staff%** ha cambiado el Rango de Usuario de **%player%** a **%rango%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %rango% -> Nuevo rango.
 
-# Country Logs
-manager-add-log: "👔 | **%staff%** ha agregado a **%player%** como Manager del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
-manager-remove-log: "❌ | **%staff%** ha removido a **%player%** como Manager del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
-reviewer-add-log: "🔍 | **%staff%** ha agregado a **%player%** como Reviewer del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
-reviewer-remove-log: "❌ | **%staff%** ha removido a **%player%** como Reviewer del país." # %staff% -> Nombre del staff. %player% -> Nombre del jugador.
+# Project Logs
+# %staff% -> Nombre del staff. %player% -> Nombre del jugador. %lider% -> Nombre del líder del proyecto.
+# %proyectoId% -> Id del proyecto.
+# %tipoId% -> Id del tipo de proyecto. %tipoNombre% -> Nombre del tipo de proyecto.
+# %ciudadId% -> Id de la ciudad. %ciudadNombre% -> Ciudad donde se ubica el proyecto.
+manager-add-log: "👔 | **%staff%** ha agregado a **%player%** como Manager del país."
+manager-remove-log: "❌ | **%staff%** ha removido a **%player%** como Manager del país."
+reviewer-add-log: "🔍 | **%staff%** ha agregado a **%player%** como Reviewer del país."
+reviewer-remove-log: "❌ | **%staff%** ha removido a **%player%** como Reviewer del país."
+
+project-create-log: "📋 | **%player%** ha creado el proyecto `%proyectoId%`. Tipo: `%tipoId%`-`%tipoNombre%`. Ciudad: `%ciudadId%`-`%ciudadNombre%`."
+project-delete-player-log: "🗑️ | **%player%** ha eliminado su proyecto `%proyectoId%`."
+
+project-add-member-log: "➕ | **%lider%** ha agregado a **%player%** al proyecto `%proyectoId%`."
+project-remove-member-log: "➖ | **%lider%** ha removido a **%player%** del proyecto `%proyectoId%`."
+
+project-join-request-log: "🔔 | **%player%** ha solicitado unirse al proyecto `%proyectoId%`."
+project-join-request-expired-log: "❌ | La solicitud para unirse al proyecto `%proyectoId%` ha expirado."
+project-join-accepted-log: "✅ | **%lider%** ha aceptado la solicitud de **%player%** para unirse al proyecto `%proyectoId%`."
+project-join-denied-log: "❌ | **%lider%** ha denegado la solicitud de **%player%** para unirse al proyecto `%proyectoId%`."
+project-join-log: "➕ | **%player%** se ha unido al proyecto `%proyectoId%`."
+project-leave-log: "➖ | **%player%** ha salido del proyecto `%proyectoId%`."
+
+project-finish-request-log: "⏰ | **%lider%** ha marcado el proyecto `%proyectoId%` como finalizado."
+project-finish-request-expired-log: "❌ | La solicitud de finalización del proyecto `%proyectoId%` ha expirado."
+project-finish-accepted-log: "✅ | **%staff%** ha aceptado la finalización del proyecto `%proyectoId%`."
+project-finish-denied-log: "❌ | **%staff%** ha denegado la finalización del proyecto `%proyectoId%`."
+
+project-redefine-request-log: "♻️ | **%lider%** ha solicitado re-definir el proyecto `%proyectoId%`."
+project-redefine-request-expired-log: "❌ | La solicitud de redefinición del proyecto `%proyectoId%` ha expirado. "
+project-redefine-accepted-log: "✅ | **%staff%** ha aceptado la redefinición del proyecto `%proyectoId%`."
+project-redefine-denied-log: "❌ | **%staff%** ha denegado la redefinición del proyecto `%proyectoId%`."
+
+project-edit-request-log: "✏️ | **%lider%** ha solicitado editar el proyecto `%proyectoId%`."
+project-edit-request-expired-log: "❌ | La solicitud de edición del proyecto `%proyectoId%` ha expirado."  
+project-edit-accepted-log: "✅ | **%staff%** ha aceptado la edición del proyecto `%proyectoId%`."
+project-edit-denied-log: "❌ | **%staff%** ha denegado la edición del proyecto `%proyectoId%`." 
 
 # Project
 project-manager-initializing: "Inicializando Gestor de Proyectos..."

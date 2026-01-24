@@ -6,8 +6,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
-import com.bteconosur.db.model.DiscordInteraction;
-import com.bteconosur.db.registry.DiscordInteractionRegistry;
+import com.bteconosur.db.model.Interaction;
+import com.bteconosur.db.registry.InteractionRegistry;
 import com.bteconosur.discord.action.ModalAction;
 
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
@@ -16,7 +16,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class ModalListener extends ListenerAdapter {
 
     private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
-    private static final DiscordInteractionRegistry registry = DiscordInteractionRegistry.getInstance();
+    private static final InteractionRegistry registry = InteractionRegistry.getInstance();
 
     @SuppressWarnings("null")
     @Override
@@ -24,7 +24,7 @@ public class ModalListener extends ListenerAdapter {
         String modalId = event.getModalId();
         if (modalId == null || modalId.isBlank()) return;
 
-        DiscordInteraction ctx = registry.findByComponentId(modalId);
+        Interaction ctx = registry.findByComponentId(modalId);
         if (ctx == null) {
             ConsoleLogger.warn("Error de Discord: Interacción de modal con ID '" + modalId + "' no encontrada en el registro.");
             return;

@@ -60,7 +60,7 @@ public class Proyecto {
 
     @ManyToMany(mappedBy = "proyectos", fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Player> miembros = new HashSet<>();
+    private Set<Player> miembros = new HashSet<>(); // Players detached, usar ProjectManager para obtener miembros.
 
     public Proyecto() {
     }
@@ -143,6 +143,18 @@ public class Proyecto {
 
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
+    }
+
+    public Pais getPais() {
+        return ciudad.getPais();
+    }
+
+    public void addMiembro(Player player) {
+        this.miembros.add(player);
+    }
+
+    public void removeMiembro(Player player) {
+        this.miembros.remove(player);
     }
 
     @Override

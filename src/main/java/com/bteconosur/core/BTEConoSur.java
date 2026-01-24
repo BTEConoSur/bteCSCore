@@ -24,7 +24,7 @@ import com.bteconosur.core.util.HeadDBUtil;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.PermissionManager;
-import com.bteconosur.db.registry.DiscordInteractionRegistry;
+import com.bteconosur.db.registry.InteractionRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
@@ -58,7 +58,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static ProyectoRegistry proyectoRegistry;
     private static TipoUsuarioRegistry tipoUsuarioRegistry;
     private static RangoUsuarioRegistry rangoUsuarioRegistry;
-    private static DiscordInteractionRegistry discordInteractionRegistry;
+    private static InteractionRegistry interactionRegistry;
 
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
@@ -112,7 +112,7 @@ public final class BTEConoSur extends JavaPlugin {
         proyectoRegistry = ProyectoRegistry.getInstance();
         tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
         rangoUsuarioRegistry = RangoUsuarioRegistry.getInstance();
-        discordInteractionRegistry = DiscordInteractionRegistry.getInstance();
+        interactionRegistry = InteractionRegistry.getInstance();
 
         permissionManager = PermissionManager.getInstance();
         
@@ -167,9 +167,9 @@ public final class BTEConoSur extends JavaPlugin {
             rangoUsuarioRegistry = null;
         }
 
-        if (discordInteractionRegistry != null) {
-            discordInteractionRegistry.shutdown();
-            discordInteractionRegistry = null;
+        if (interactionRegistry != null) {
+            interactionRegistry.shutdown();
+            interactionRegistry = null;
         }
 
         if (projectManager != null) {

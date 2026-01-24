@@ -16,8 +16,8 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "discord_interaction")
-public class DiscordInteraction {
+@Table(name = "interaction")
+public class Interaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,66 +50,66 @@ public class DiscordInteraction {
     @Column(name = "payload_json")
     private String payloadJson;
 
-    public DiscordInteraction() {
+    public Interaction() {
     }
 
-    public DiscordInteraction(UUID playerId, String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(playerId, projectId, null, null, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(null, projectId, null, null, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(UUID playerId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(playerId, null, null, null, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(UUID playerId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(playerId, null, messageId, componentId, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(null, projectId, messageId, componentId, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(null, null, null, null, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(null, null, messageId, componentId, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(UUID playerId, String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(UUID playerId, String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(playerId, projectId, null, null, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(null, projectId, null, null, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(UUID playerId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(UUID playerId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(playerId, null, null, null, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(UUID playerId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(UUID playerId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(playerId, null, messageId, componentId, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(null, projectId, messageId, componentId, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(null, null, null, null, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(null, null, messageId, componentId, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(UUID playerId, String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this.playerId = playerId;
         this.projectId = projectId;
         this.interactionKey = interactionKey;
