@@ -103,7 +103,7 @@ public final class BTEConoSur extends JavaPlugin {
 
         dbManager = DBManager.getInstance();
         dsCommandManager = DsCommandManager.getInstance();
-        worldManager = new WorldManager(); //TODO: hacer singleton
+        worldManager = WorldManager.getInstance(); //TODO: hacer singleton
         
 
         playerRegistry = PlayerRegistry.getInstance();
@@ -115,12 +115,12 @@ public final class BTEConoSur extends JavaPlugin {
         permissionManager = PermissionManager.getInstance();
         
 
-        getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager), this);
+        getServer().getPluginManager().registerEvents(new BuildingListeners(), this);
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
-        getServer().getPluginManager().registerEvents(new MovingListeners(worldManager), this);
+        getServer().getPluginManager().registerEvents(new MovingListeners(), this);
         getServer().getPluginManager().registerEvents(new HeadDBUtil(), this);
             
         // Registro de comandos

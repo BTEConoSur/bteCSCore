@@ -15,6 +15,8 @@ import org.bukkit.Location;
 
 public class WorldManager {
 
+    private static WorldManager instance;
+
     private final YamlConfiguration lang;
 
     private BTEWorld bteWorld;
@@ -77,6 +79,13 @@ public class WorldManager {
     public void shutdown() {
         ConsoleLogger.info(lang.getString("world-module-shutting-down"));
         bteWorld.shutdown();
+    }
+
+    public static WorldManager getInstance() {
+        if (instance == null) {
+            instance = new WorldManager();
+        }
+        return instance;
     }
 
 }

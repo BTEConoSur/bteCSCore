@@ -12,8 +12,8 @@ public class MovingListeners implements Listener {
 
     private final WorldManager worldManager;
 
-    public MovingListeners(WorldManager worldManager) {
-        this.worldManager = worldManager;
+    public MovingListeners() {
+        this.worldManager = WorldManager.getInstance();
     }
 
     @EventHandler
