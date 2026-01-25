@@ -21,7 +21,6 @@ database-current-session-context-class: "thread"
 # Discord
 discord-bot-token: ""
 
-
 discord-staff-guild-id:  # ID del servidor del Staff Hub.
 discord-staff-log-id:  # ID del canal de Discord donde se enviarán los logs del staff.
 discord-staff-console-log-id:  # ID del canal de Discord donde se enviarán los logs de la consola del servidor.

@@ -117,4 +117,8 @@ public class RegionUtils {
         return poly.intersects(chunkPoly);
     }
 
+    public static boolean containsCoordinate(Polygon poly, double x, double z) {
+        return poly.contains(gf.createPoint(new Coordinate(x, z)));
+    }
+
 }

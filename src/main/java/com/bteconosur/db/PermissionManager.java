@@ -67,10 +67,32 @@ public class PermissionManager {
         return proyecto.getMiembros().contains(player);
     }
 
+    public boolean isMiembro(Player player, Set<Proyecto> proyectos) {
+        if (player == null) return false;
+        if (proyectos == null || proyectos.isEmpty()) return false;
+        for (Proyecto proyecto : proyectos) {
+            if (proyecto.getMiembros().contains(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isLider(Player player, Proyecto proyecto) {
         if (player == null) return false;
         if (proyecto == null) return false;
         return proyecto.getLider().equals(player);
+    }
+
+    public boolean isLider(Player player, Set<Proyecto> proyectos) {
+        if (player == null) return false;
+        if (proyectos == null || proyectos.isEmpty()) return false;
+        for (Proyecto proyecto : proyectos) {
+            if (proyecto.getLider().equals(player)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isManager(Player player, Pais pais) {

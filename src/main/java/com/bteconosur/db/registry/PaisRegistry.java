@@ -8,7 +8,6 @@ import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.model.Ciudad;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.RegionPais;
-import com.bteconosur.db.util.ChunkKey;
 
 public class PaisRegistry extends Registry<String, Pais> {
 
@@ -96,25 +95,25 @@ public class PaisRegistry extends Registry<String, Pais> {
         return null;
     }
 
-    public Pais findByChunk(ChunkKey chunkKey) {
-        if (chunkKey == null) return null;
+    public Pais findByLocation(int x, int z) {
         for (Pais pais : loadedObjects.values()) {
             List<RegionPais> regiones = pais.getRegiones();
             if (regiones != null) {
                 for (RegionPais region : regiones) {
-                    if (RegionUtils.intersectsChunk(region.getPoligono(), chunkKey)) return pais;
+                    if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
+                        return pais;
+                    }
                 }
             }
         }
         return null;
     }
 
-    public Ciudad findCiudadByChunk(ChunkKey chunkKey) {
-        if (chunkKey == null) return null;
-        for (Pais pais : loadedObjects.values()) {
-            List<Ciudad> ciudades = pais.getCiudades();
-            if (ciudades != null) {
-                for (Ciudad ciudad : ciudades) if (RegionUtils.intersectsChunk(ciudad.getPoligono(), chunkKey)) return ciudad;
+
+    public Ciudad findCiudadByLocation(int x, int z, Pais pais) {
+        for (Ciudad ciudad : pais.getCiudades()) {
+            if (RegionUtils.containsCoordinate(ciudad.getPoligono(), x, z)) {
+                return ciudad;
             }
         }
         return null;

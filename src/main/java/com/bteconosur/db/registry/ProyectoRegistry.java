@@ -1,9 +1,12 @@
 package com.bteconosur.db.registry;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
@@ -58,14 +61,23 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         loadedObjects.remove(id);
     }
 
-    public List<Proyecto> getByChunk(ChunkKey chunkKey) {
-        List<Proyecto> proyectos = new ArrayList<>();
+    public Set<Proyecto> getByChunk(ChunkKey chunkKey) {
+        Set<Proyecto> proyectos = new HashSet<>();
         List<String> proyectoIds = loadedChunkProyectos.get(chunkKey);
         if (proyectoIds != null) {
             for (String proyectoId : proyectoIds) {
                 Proyecto proyecto = loadedObjects.get(proyectoId);
                 proyectos.add(proyecto);
             }
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getByLocation(int x, int z, Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            Polygon poly = proyecto.getPoligono();
+            if (poly != null && RegionUtils.containsCoordinate(poly, x, z)) proyectos.add(proyecto);
         }
         return proyectos;
     }
