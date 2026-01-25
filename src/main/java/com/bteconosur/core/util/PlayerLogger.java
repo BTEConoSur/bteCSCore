@@ -148,12 +148,12 @@ public class PlayerLogger {
     }
 
     public static void send(CommandSender sender, String mcMessage, String dsMessage, TagResolver... resolvers) {
-        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { ConsoleLogger.debug(mcMessage); return; }
+        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { ConsoleLogger.send(mcMessage); return; }
         send(PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId()), mcMessage, dsMessage, resolvers);
     }
 
     public static void send(CommandSender sender, String mcMessage, MessageEmbed dsMessage, TagResolver... resolvers) {
-        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { ConsoleLogger.debug(mcMessage); return; }
+        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { ConsoleLogger.send(mcMessage); return; }
         send(PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId()), mcMessage, dsMessage, resolvers);
     }
 
@@ -168,7 +168,7 @@ public class PlayerLogger {
     }
 
     public static void send(CommandSender sender, String mcMessage, String dsMessage, Object object, TagResolver... resolvers) {
-        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { ConsoleLogger.debug(mcMessage, object); return; }
+        if (!(sender instanceof org.bukkit.entity.Player bukkitPlayer)) { ConsoleLogger.send(mcMessage, object); return; }
         send(PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId()), mcMessage, dsMessage, object, resolvers);
     }   
 
