@@ -46,6 +46,9 @@ public class Proyecto {
     @JdbcTypeCode(SqlTypes.GEOMETRY)
     private Polygon poligono;
 
+    @Column(name = "tamaño")
+    private double tamaño;
+
     @ManyToOne
     @JoinColumn(name = "id_tipo_proyecto")
     private TipoProyecto tipoProyecto;
@@ -65,12 +68,17 @@ public class Proyecto {
     public Proyecto() {
     }
 
-    public Proyecto(String nombre, String descripcion, Estado estado, Polygon poligono) {
+    public Proyecto(String nombre, String descripcion, Estado estado, Polygon poligono, Double tamaño, TipoProyecto tipoProyecto, Player lider, Ciudad ciudad) {
         this.id = IDUtils.generarCodigoProyecto();
-        this.nombre = nombre;
+        if (nombre == null) nombre = this.id;
+        else this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
         this.poligono = poligono;
+        this.tamaño = tamaño;
+        this.tipoProyecto = tipoProyecto;
+        this.lider = lider;
+        this.ciudad = ciudad;
     }
 
     public String getId() {
@@ -155,6 +163,14 @@ public class Proyecto {
 
     public void removeMiembro(Player player) {
         this.miembros.remove(player);
+    }
+
+    public double getTamaño() {
+        return tamaño;
+    }
+
+public void updateTamaño() {
+        this.tamaño = poligono.getArea();
     }
 
     @Override

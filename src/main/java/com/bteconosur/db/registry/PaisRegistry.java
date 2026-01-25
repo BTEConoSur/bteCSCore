@@ -3,6 +3,8 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.locationtech.jts.geom.Polygon;
+
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.model.Ciudad;
@@ -115,6 +117,27 @@ public class PaisRegistry extends Registry<String, Pais> {
             if (RegionUtils.containsCoordinate(ciudad.getPoligono(), x, z)) {
                 return ciudad;
             }
+        }
+        return null;
+    }
+
+    public Pais findByPolygon(Polygon polygon) {
+        for (Pais pais : loadedObjects.values()) {
+            List<RegionPais> regiones = pais.getRegiones();
+            if (regiones != null) {
+                for (RegionPais region : regiones) {
+                    if (polygon.intersects(region.getPoligono())) {
+                        return pais;
+                    }
+                }
+            }
+        }
+        return null;
+    }   
+
+    public Ciudad findCiudadByPolygon(Polygon polygon, Pais pais) {
+        for (Ciudad ciudad : pais.getCiudades()) {
+            if (polygon.intersects(ciudad.getPoligono())) return ciudad;
         }
         return null;
     }

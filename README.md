@@ -24,7 +24,7 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 
 * ✔️ Vinculación de cuentas Minecraft y Discord.
 * ✔️ Notificaciones con interacciones.
-* 🕙 Revisión y aprobación de proyectos desde Discord.
+* ⏳ Revisión y aprobación de proyectos desde Discord.
 * ✔️ Chat Global.
 * ✔️ Chat de País.
 * 🕙 /player -> Muestra información de un Jugador.
@@ -57,7 +57,7 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 ## Gestor de Mundos
 
 * ✔️ Sistema de mundos por regiones.
-* ⏳ Sistema de Países y Ciudades.
+* ✔️ Sistema de Países y Ciudades.
 * 🕙 Cargado de regiones con geo data.
 
 ## Admin

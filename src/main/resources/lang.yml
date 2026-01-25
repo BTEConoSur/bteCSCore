@@ -49,6 +49,9 @@ rango-usuario-registry-shutting-down: "Apagando Registro de Rangos de Usuario...
 interaction-registry-initializing: "Inicializando Registro de Interacciones de Discord..."
 interaction-registry-shutting-down: "Apagando Registro de Interacciones de Discord..."
 
+tipo-proyecto-registry-initializing: "Inicializando Registro de Tipos de Proyecto..."
+tipo-proyecto-registry-shutting-down: "Apagando Registro de Tipos de Proyecto..."
+
 # Discord
 discord-initializing: "Inicializando Módulo: Discord..."
 discord-shutting-down: "Cerrando Módulo: Discord..."
@@ -162,6 +165,9 @@ internal-error: "Ha ocurrido un error interno. Por favor, contacta a un administ
 invalid-discord-id: "El ID de Discord proporcionado no es válido."
 
 invalid-player-name: "Máximo 16 caracteres permitidos para el nombre del jugador."
+invalid-project-name: "Máximo 50 caracteres permitidos para el nombre del proyecto."
+invalid-project-description: "Máximo 500 caracteres permitidos para la descripción del proyecto."
+invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50m²."
 nickname-change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 nickname-set: "<green>El nombre público de <yellow>'%player%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 # GUI
