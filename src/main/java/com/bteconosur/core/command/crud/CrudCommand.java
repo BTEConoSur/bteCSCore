@@ -9,6 +9,7 @@ import com.bteconosur.core.command.crud.ciudad.CRUDCiudadCommand;
 import com.bteconosur.core.command.crud.pais.CRUDPaisCommand;
 import com.bteconosur.core.command.crud.player.CRUDPlayerCommand;
 import com.bteconosur.core.command.crud.rangousuario.CRUDRangoUsuarioCommand;
+import com.bteconosur.core.command.crud.tipoproyecto.CRUDTipoProyectoCommand;
 import com.bteconosur.core.command.crud.tipousuario.CRUDTipoUsuarioCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
@@ -24,6 +25,7 @@ public class CrudCommand extends BaseCommand {
         this.addSubcommand(new CRUDRangoUsuarioCommand());
         this.addSubcommand(new CRUDPaisCommand());
         this.addSubcommand(new CRUDCiudadCommand());
+            this.addSubcommand(new CRUDTipoProyectoCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
