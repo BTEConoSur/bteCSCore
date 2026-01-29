@@ -1,14 +1,24 @@
 package com.bteconosur.core.chat;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.TerraUtils;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.registry.TipoUsuarioRegistry;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -259,6 +269,79 @@ public class ChatUtil {
     public static MessageEmbed getDsLinkSuccess(String playerName) {
         String message = lang.getString("ds-embeds.link-success.title").replace("%player%", playerName);
         return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.link-success.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectAccepted(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-accepted.title");
+        String description = lang.getString("ds-embeds.project-accepted.id").replace("%proyectoId%", proyectoId);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-accepted.comment").replace("%comentario%", comentario);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-accepted.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-accepted.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectRejected(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-rejected.title");
+        String description = lang.getString("ds-embeds.project-rejected.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-rejected.nombre").replace("%nombre%", nombre);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-rejected.comment").replace("%comentario%", comentario);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-rejected.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectRequestExpired(String proyectoId, String nombre) {
+        String title = lang.getString("ds-embeds.project-expired.title");
+        String description = lang.getString("ds-embeds.project-expired.description").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-expired.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-expired.color")).build();
+    }
+
+    @SuppressWarnings("null")
+    public static MessageEmbed getDsProjectCreated(Proyecto proyecto) {
+        Player player = proyecto.getLider();
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        int[] counts = ProyectoRegistry.getInstance().getCounts(player);    
+        String title = lang.getString("ds-embeds.project-created.title").replace("%player%",player.getNombre());
+        Polygon polygon = proyecto.getPoligono();
+        Point centroid = polygon.getCentroid();
+        double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
+        String coords = geoCoords[0] + ", " + geoCoords[1];
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
+        if (tur.getVisita().equals(player.getTipoUsuario())) eb.appendDescription(lang.getString("ds-embeds.project-created.player-is-visita"));
+        if (tur.getPostulante().equals(player.getTipoUsuario())) eb.appendDescription(lang.getString("ds-embeds.project-created.player-is-postulante"));
+        if (pr.hasCollisions(proyecto)) eb.appendDescription("\n" + lang.getString("ds-embeds.project-created.has-collisions"));
+
+        eb.addField("Rango", player.getRangoUsuario().getNombre(), true)   
+            .addField("Tipo", player.getTipoUsuario().getNombre(), true)
+            .addField("Fecha de Ingreso", getDsTimestamp(player.getFechaIngreso()), true)
+            .addField("Proyectos Completados", String.valueOf(counts[0]), true)
+            .addField("Proyectos Activos", String.valueOf(counts[1]), true)
+            .addField("────────────────────────────────────────", "", false)
+            .addField("Tipo Proyecto", proyecto.getTipoProyecto().getNombre(), true)
+            .addField("Max. Miembros", String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
+            .addField("Tamaño", String.valueOf(polygon.getArea()), true)
+            .addField("Coordenadas", coords, false)
+            .setImage("attachment://map.png")
+            .setColor(lang.getInt("ds-embeds.project-created.color"))
+            .setFooter("Creado el " + formatDate(proyecto.getFechaCreado()) + ".");
+        if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField("Nombre del Proyecto", proyecto.getNombre(), false);
+        if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField("Descripción", proyecto.getDescripcion(), false);
+        eb.addField("", lang.getString("ds-embeds.project-created.polygons-colors"), false);
+        return eb.build();
+    } 
+
+    public static String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy 'a las' HH:mm", Locale.forLanguageTag("es-ES"));
+        return sdf.format(date);
+    }
+
+    private static String getDsTimestamp(Date date) {
+        long unixTimestamp = date.getTime() / 1000;
+        return "<t:" + unixTimestamp + ":F>";
     }
 
 }

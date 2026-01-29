@@ -16,6 +16,7 @@ public class UCiudadCommand extends BaseCommand {
         super("update", "Actualizar atributos de una Ciudad.", null, CommandMode.BOTH);
         this.addSubcommand(new UCiudadNombreCommand());
         this.addSubcommand(new UpdateCiudadPoligonoCommand());
+        this.addSubcommand(new UCiudadNombrePublicoCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();

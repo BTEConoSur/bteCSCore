@@ -30,6 +30,9 @@ public class Ciudad {
     @Column(name = "nombre", length = 50, nullable = false)
     private String nombre;
 
+    @Column(name = "nombre_publico", length = 50, nullable = false)
+    private String nombrePublico;
+
     @Column(name = "poligono")
     @JdbcTypeCode(SqlTypes.GEOMETRY)
     @JsonIgnore // evita que Jackson intente serializar la geometría cruda
@@ -46,8 +49,9 @@ public class Ciudad {
     public Ciudad() {
     }
 
-    public Ciudad(Pais pais, String nombre, Polygon poligono) {
+    public Ciudad(Pais pais, String nombre, String nombrePublico, Polygon poligono) {
         this.nombre = nombre;
+        this.nombrePublico = nombrePublico;
         this.poligono = poligono;
         this.pais = pais;
     }
@@ -66,6 +70,14 @@ public class Ciudad {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getNombrePublico() {
+        return nombrePublico;
+    }
+
+    public void setNombrePublico(String nombrePublico) {
+        this.nombrePublico = nombrePublico;
     }
 
     public Polygon getPoligono() {

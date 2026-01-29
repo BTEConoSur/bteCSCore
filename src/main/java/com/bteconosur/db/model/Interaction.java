@@ -3,7 +3,11 @@ package com.bteconosur.db.model;
 import java.time.Instant;
 import java.util.UUID;
 
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.util.InteractionKey;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
+import java.util.Map;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -195,4 +199,36 @@ public class Interaction {
     public boolean isExpired() {
         return expiresAt != null && expiresAt.isBefore(Instant.now());
     }
+
+    public void setPayloadData(Map<String, Object> data) {
+        try {
+            this.payloadJson = new ObjectMapper().writeValueAsString(data);
+        } catch (Exception e) {
+            ConsoleLogger.error("Error serializando payload: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getPayloadData() {
+        if (payloadJson == null || payloadJson.isEmpty()) {
+            return new HashMap<>();
+        }
+        try {
+            return new ObjectMapper().readValue(payloadJson, Map.class);
+        } catch (Exception e) {
+            ConsoleLogger.error("Error deserializando payload: " + e.getMessage());
+            return new HashMap<>();
+        }
+    }
+
+    public Object getPayloadValue(String key) {
+        return getPayloadData().get(key);
+    }
+
+    public void addPayloadValue(String key, Object value) {
+        Map<String, Object> data = getPayloadData();
+        data.put(key, value);
+        setPayloadData(data);
+    }
+
 }

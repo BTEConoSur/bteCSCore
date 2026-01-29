@@ -88,7 +88,7 @@ public class MessageService {
         if (!DiscordValidate.jda()) return;
         for (Long channelId : channelsIds) {
             if (!DiscordValidate.channelId(channelId)) continue;
-            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            TextChannel channel = getTextChannelById(channelId);
             sendMessage(channel, message);
         }
     }
@@ -97,7 +97,7 @@ public class MessageService {
         if (!DiscordValidate.jda()) return;
         for (Long channelId : channelsIds) {
             if (!DiscordValidate.channelId(channelId)) continue;
-            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            TextChannel channel = getTextChannelById(channelId);
             sendEmbed(channel, embed);
         }
     }
@@ -116,6 +116,24 @@ public class MessageService {
             if (!DiscordValidate.userId(userId)) continue;
             sendEmbedDM(userId, embed);
         }
+    }
+    
+    public static void deleteMessage(Long channelId, Long messageId) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.messageId(messageId)) return;
+        TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+        if (channel == null) return;
+        try {
+            channel.deleteMessageById(messageId).queue();
+        } catch (Exception e) {
+            ConsoleLogger.error("Discord: Error al eliminar el mensaje '" + messageId + "' del canal '" + channel.getName() + "': ", e);
+        }
+    }
+
+    public static TextChannel getTextChannelById(Long channelId) {
+        if (!DiscordValidate.jda()) return null;
+        if (!DiscordValidate.channelId(channelId)) return null;
+        return BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
     }
 
 }

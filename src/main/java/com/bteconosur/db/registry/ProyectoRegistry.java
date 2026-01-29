@@ -3,15 +3,19 @@ package com.bteconosur.db.registry;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.util.ChunkKey;
+import com.bteconosur.db.util.Estado;
 
 public class ProyectoRegistry extends Registry<String, Proyecto> {
 
@@ -24,7 +28,13 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         ConsoleLogger.info(lang.getString("proyecto-registry-initializing"));  
         loadedObjects = new ConcurrentHashMap<>();
         List<Proyecto> proyectos = dbManager.selectAll(Proyecto.class);
-        if (proyectos != null) for (Proyecto p : proyectos) loadedObjects.put(p.getId(), p);
+        if (proyectos != null) {
+            for (Proyecto p : proyectos) {
+                loadedObjects.put(p.getId(), p);
+                Set<ChunkKey> chunkKeys = RegionUtils.chunksFor(p);
+                for (ChunkKey chunkKey : chunkKeys) loadedChunkProyectos.computeIfAbsent(chunkKey, k -> new ArrayList<>()).add(p.getId());
+            }
+        }
     }
 
     @Override
@@ -59,6 +69,52 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
             removeFromChunkIndex(proyecto);
         }
         loadedObjects.remove(id);
+        dbManager.remove(proyecto);
+    }
+
+    public Set<Proyecto> getByPlayer(Player player) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : loadedObjects.values()) {
+            if (proyecto.getLider().equals(player) || proyecto.getMiembros().contains(player)) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public int[] getCounts(Player player) { // returns [Finalizados, Activos]
+        int[] count = new int[2];
+        for (Proyecto proyecto : loadedObjects.values()) {
+            if (proyecto.getLider().equals(player) || proyecto.getMiembros().contains(player)) {
+                if(proyecto.getEstado() == Estado.COMPLETADO) count[0]++;
+                if(proyecto.getEstado() == Estado.ACTIVO) count[1]++;
+            }
+        }
+        return count;
+    }
+
+    public Set<Proyecto> getOverlapping(Proyecto proyecto) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        Set<ChunkKey> chunkKeys = loadedChunkProyectos.entrySet().stream()
+            .filter(entry -> entry.getValue().contains(proyecto.getId()))
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toSet());
+
+        for (ChunkKey chunkKey : chunkKeys) {
+            List<String> proyectoIds = loadedChunkProyectos.get(chunkKey);
+            if (proyectoIds == null) continue;
+            for (String proyectoId : proyectoIds) {
+                if (proyectoId.equals(proyecto.getId())) continue;
+                Proyecto otherProyecto = loadedObjects.get(proyectoId);
+                if (proyecto.getPoligono().intersects(otherProyecto.getPoligono()))  proyectos.add(otherProyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public boolean hasCollisions(Proyecto proyecto) {
+        Set<Proyecto> overlapping = getOverlapping(proyecto);
+        return !overlapping.isEmpty();
     }
 
     public Set<Proyecto> getByChunk(ChunkKey chunkKey) {

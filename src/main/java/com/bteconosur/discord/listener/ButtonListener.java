@@ -4,10 +4,12 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.registry.InteractionRegistry;
+import com.bteconosur.db.util.InteractionKey;
 import com.bteconosur.discord.action.ButtonAction;
 
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -22,20 +24,22 @@ public class ButtonListener extends ListenerAdapter {
     @Override
     public void onButtonInteraction(@Nonnull ButtonInteractionEvent event) {
         String buttonId = event.getComponentId();
+        String messageId = event.getMessage().getId();
         if (buttonId == null || buttonId.isBlank()) return;
 
         Interaction ctx = registry.findByComponentId(buttonId);
         if (ctx == null) ctx = registry.findByMessageId(event.getMessage().getIdLong());
         
         if (ctx == null) {
-            ConsoleLogger.warn("Error de Discord: Interacción de botón con ID ''" + buttonId + "'no encontrada en el registro.");
+            ConsoleLogger.warn("Error de Discord: Interacción de botón con ID '" + buttonId + "' / mensaje con ID '" + messageId + "' no encontrada en el registro.");
+            event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
             return;
         }
 
         if (ctx.isExpired()) {
             ConsoleLogger.debug("Interacción de botón expirada: " + buttonId + ", " + ctx.getInteractionKey());
+            if (ctx.getInteractionKey() == InteractionKey.CREATE_PROJECT) ProjectManager.getInstance().expiredCreateRequest(ctx.getProjectId(), ctx.getId());
             event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
-            registry.removeInteraction(ctx);
             return;
         }
 

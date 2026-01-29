@@ -3,7 +3,6 @@ package com.bteconosur.discord.listener;
 import javax.annotation.Nonnull;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Interaction;
@@ -28,14 +27,14 @@ public class SelectListener extends ListenerAdapter {
         if (ctx == null) ctx = registry.findByMessageId(event.getMessage().getIdLong());
         
         if (ctx == null) {
-            ConsoleLogger.warn("Error de Discord: Interacción de selector con ID '" + selectId + "' no encontrada en el registro.");
+            ConsoleLogger.warn("Error de Discord: Interacción de selector con ID '" + selectId + "' / mensaje con ID '" + event.getMessage().getId() + "' no encontrada en el registro.");
+            event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
             return;
         }
 
         if (ctx.isExpired()) {
             ConsoleLogger.debug("Interacción de selector expirada: " + selectId + ", " + ctx.getInteractionKey());
             event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
-            registry.removeInteraction(ctx);
             return;
         }
 

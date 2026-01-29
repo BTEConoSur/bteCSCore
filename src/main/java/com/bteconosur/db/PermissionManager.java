@@ -17,6 +17,7 @@ import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
+import com.bteconosur.db.util.Estado;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 
@@ -59,6 +60,14 @@ public class PermissionManager {
             PluginRegistry.disablePlugin("Error al verificar los Rangos de Usuario y sus permisos.");
             return;
         }
+    }
+
+    public boolean areActiveOrEditing(Set<Proyecto> proyectos) {
+        if (proyectos == null || proyectos.isEmpty()) return false;
+        for (Proyecto proyecto : proyectos) {
+            if (proyecto.getEstado().equals(Estado.ACTIVO) || proyecto.getEstado().equals(Estado.EDITANDO)) return true;
+        }
+        return false;
     }
 
     public boolean isMiembro(Player player, Proyecto proyecto) {
@@ -109,12 +118,14 @@ public class PermissionManager {
     public boolean isReviewer(Player player, Pais pais) {
         if (player == null) return false;
         if (pais == null) return false;
-        return player.getPaisesReviewer().contains(pais);
+        if (player.getPaisesReviewer().contains(pais)) return true;
+        return isManager(player, pais);
     }
 
     public boolean isReviewer(Player player) {
         if (player == null) return false;
-        return player.getPaisesReviewer() != null && !player.getPaisesReviewer().isEmpty();
+        if (player.getPaisesReviewer() != null && !player.getPaisesReviewer().isEmpty()) return true;
+        return isManager(player);
     }
 
     public boolean isRangoUsuario(Player player, RangoUsuario rango) {

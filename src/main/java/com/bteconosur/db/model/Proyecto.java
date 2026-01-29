@@ -2,6 +2,7 @@ package com.bteconosur.db.model;
 
 import org.locationtech.jts.geom.Polygon;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -49,6 +50,12 @@ public class Proyecto {
     @Column(name = "tamaño")
     private double tamaño;
 
+    @Column(name = "f_creado", nullable = false)
+    private Date fechaCreado;
+
+    @Column(name = "f_terminado")
+    private Date fechaTerminado;
+
     @ManyToOne
     @JoinColumn(name = "id_tipo_proyecto")
     private TipoProyecto tipoProyecto;
@@ -68,7 +75,7 @@ public class Proyecto {
     public Proyecto() {
     }
 
-    public Proyecto(String nombre, String descripcion, Estado estado, Polygon poligono, Double tamaño, TipoProyecto tipoProyecto, Player lider, Ciudad ciudad) {
+    public Proyecto(String nombre, String descripcion, Estado estado, Polygon poligono, Double tamaño, TipoProyecto tipoProyecto, Player lider, Ciudad ciudad, Date fechaCreado) {
         this.id = IDUtils.generarCodigoProyecto();
         if (nombre == null) nombre = this.id;
         else this.nombre = nombre;
@@ -79,6 +86,7 @@ public class Proyecto {
         this.tipoProyecto = tipoProyecto;
         this.lider = lider;
         this.ciudad = ciudad;
+        this.fechaCreado = fechaCreado;
     }
 
     public String getId() {
@@ -154,6 +162,7 @@ public class Proyecto {
     }
 
     public Pais getPais() {
+        if (ciudad == null) return null;
         return ciudad.getPais();
     }
 
@@ -169,8 +178,24 @@ public class Proyecto {
         return tamaño;
     }
 
-public void updateTamaño() {
+    public void updateTamaño() {
         this.tamaño = poligono.getArea();
+    }
+
+    public Date getFechaCreado() {
+        return fechaCreado;
+    }
+
+    public void setFechaCreado(Date fechaCreado) {
+        this.fechaCreado = fechaCreado;
+    }
+
+    public Date getFechaTerminado() {
+        return fechaTerminado;
+    }
+
+    public void setFechaTerminado(Date fechaTerminado) {
+        this.fechaTerminado = fechaTerminado;
     }
 
     @Override

@@ -28,6 +28,7 @@ import com.bteconosur.db.registry.InteractionRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
+import com.bteconosur.db.registry.TipoProyectoRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.discord.command.DsCommandManager;
@@ -59,6 +60,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static TipoUsuarioRegistry tipoUsuarioRegistry;
     private static RangoUsuarioRegistry rangoUsuarioRegistry;
     private static InteractionRegistry interactionRegistry;
+    private static TipoProyectoRegistry tipoProyectoRegistry;
 
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
@@ -113,6 +115,7 @@ public final class BTEConoSur extends JavaPlugin {
         tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
         rangoUsuarioRegistry = RangoUsuarioRegistry.getInstance();
         interactionRegistry = InteractionRegistry.getInstance();
+        tipoProyectoRegistry = TipoProyectoRegistry.getInstance();
 
         permissionManager = PermissionManager.getInstance();
         
@@ -172,6 +175,11 @@ public final class BTEConoSur extends JavaPlugin {
             interactionRegistry = null;
         }
 
+        if (tipoProyectoRegistry != null) {
+            tipoProyectoRegistry.shutdown();
+            tipoProyectoRegistry = null;
+        }
+
         if (projectManager != null) {
             projectManager.shutdown();
             projectManager = null;
@@ -229,9 +237,6 @@ public final class BTEConoSur extends JavaPlugin {
         return discordManager;
     }   
 
-    public static WorldManager getWorldManager() {
-        return worldManager;
-    }
 }
 
 // TODO: Revisar llamadas a config en constructores.

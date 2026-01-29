@@ -19,7 +19,7 @@ public class TestDiscordLogger extends BaseCommand {
         
         DiscordLogger.globalLog("Este es un mensaje de prueba global.");
         DiscordLogger.staffLog("Este es un mensaje de prueba de staff.");
-        DiscordLogger.staffLog("Este es un mensaje de prueba de staff de un pais.", paisRegistry.getChile());
+        //DiscordLogger.staffLog("Este es un mensaje de prueba de staff de un pais.", paisRegistry.getChile());
 
         DiscordLogger.notifyManagers("Este es un mensaje de prueba para managers.", paisRegistry.getArgentina());
         DiscordLogger.notifyReviewers("Este es un mensaje de prueba para reviewers.", paisRegistry.getArgentina());

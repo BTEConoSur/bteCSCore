@@ -71,6 +71,13 @@ ds-manager-notification: "%mention%: %message%" # %mention% -> Mención al usuar
 ds-reviewer-notification: "%mention%: %message%" # %mention% -> Mención al reviewer. %message% -> Mensaje a enviar.
 ds-dev-notification: "%mention%: %message%" # %mention% -> Mención al rol de developer. %message% -> Mensaje a enviar. 
 
+discord-invalid-action: "Acción desconocida."
+ds-reviewer-needed: "No sos Reviewer del país **'%pais%'**." # %pais% -> Nombre del país.
+
+ds-project-accepted: "Proyecto aceptado."
+ds-project-rejected: "Proyecto rechazado."
+ds-reviewer-notification-new-project: "Nueva solicitud de creación de proyecto de %pais%. [Ver solicitud](%link%)" # %pais% -> Nombre del país. %link% -> Enlace a la solicitud de proyecto en el Staff Hub.
+
 # World
 world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
 world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
@@ -150,6 +157,7 @@ not-a-reviewer-country: "No eres Reviewer del país '%pais%'." # %pais% -> Nombr
 minecraft-already-linked: "Tu cuenta de Minecraft ya está vinculada a una cuenta de Discord."
 discord-already-linked: "Tu cuenta de Discord ya está vinculada a una cuenta de Minecraft."
 minecraft-not-linked: "Tu cuenta de Minecraft no está vinculada a ninguna cuenta de Discord."
+discord-not-linked: "Tu cuenta de Discord no está vinculada a ninguna cuenta de Minecraft." 
 invalid-link-code: "El código proporcionado no es válido o ha expirado."
 minecraft-link-success: "Cuenta vinculada exitosamente."
 discord-link-success: "Cuenta vinculada exitosamente a **%player%**." # %player% -> Nombre del jugador de Minecraft.
@@ -160,16 +168,27 @@ unlink-set-success: "La cuenta de Discord ha sido desvinculada de <yellow>'%play
 
 minecraft-code: "Tu código es: <yellow><codigo></yellow>. Usa <gray>/link %codigo%</gray> en Discord." # <codigo> -> Código copiable de vinculación generado.
 discord-code: "Tu código es: `%code%`. Usa **/link %code%** en Minecraft." # %code% -> Código de vinculación generado.
+minecraft-link-needed: "Debes vincular tu cuenta de Discord para usar este comando. Usa '/link'."
+discord-link-needed: "Debes vincular tu cuenta de Minecraft para realizar esta acción. Usa '/link'."
 
 internal-error: "Ha ocurrido un error interno. Por favor, contacta a un administrador."
 invalid-discord-id: "El ID de Discord proporcionado no es válido."
 
 invalid-player-name: "Máximo 16 caracteres permitidos para el nombre del jugador."
 invalid-project-name: "Máximo 50 caracteres permitidos para el nombre del proyecto."
-invalid-project-description: "Máximo 500 caracteres permitidos para la descripción del proyecto."
+invalid-project-description: "Máximo 100 caracteres permitidos para la descripción del proyecto."
 invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50m²."
+invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una ciudad válida."
 nickname-change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 nickname-set: "<green>El nombre público de <yellow>'%player%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
+
+project-request-success: "<green>Solicitud de proyecto con ID <yellow>'%proyectoId%'</yellow> enviada correctamente. Espera a que un Reviewer la revise."
+project-request-failed: "<red>Error al enviar la solicitud de proyecto. Por favor, contacta a un administrador."
+project-create-request-accepted: "<green>El Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido aceptado." # %proyectoId% -> Identificador del proyecto.
+project-create-request-comment-accepted: "<green>Comentario: %comentario%" # %comentario% -> Comentario del staff.
+project-create-request-rejected: "<red>El Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido rechazado."
+project-create-request-comment-rejected: "<red>Comentario: <gray>\"<white>%comentario%<gray>\"" # %comentario% -> Comentario del staff.
+project-create-request-expired: "<red>La solicitud de proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
@@ -441,6 +460,30 @@ ds-embeds:
   link-success:
     title: "Tu cuenta ha sido vinculada a '%player%'" # %player% -> Nombre del jugador de Minecraft.
     color: 0x43B581
+  project-accepted:
+    title: "Proyecto aceptado"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    comment: "Comentario: %comentario%" # %comentario% -> Comentario del staff.
+    color: 0x43B581
+  project-expired:
+    title: "La solicitud de proyecto ha expirado."
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0xED4245
+  project-rejected:
+    title: "Proyecto rechazado"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    comment: "Comentario: %comentario%" # %comentario% -> Comentario del staff. 
+    color: 0xED4245
+  project-created:
+    title: "%player% quiere crear un nuevo proyecto." # %player% -> Nombre del jugador.
+    player-is-visita: "> **[!]** El jugador es de tipo 'Visita'."
+    player-is-postulante: "> **[!]** El jugador es de tipo 'Postulante'." 
+    has-collisions: "> **[!]** El proyecto tiene colisiones con otros proyectos."
+    polygons-colors: "> 🟦 - Proyecto  🟩 - Otros Proyectos"
+    color: 0x00b0f4
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
@@ -465,7 +508,8 @@ tipo-switched: "<aqua>Has sido promovido a <yellow>%tipo%<aqua>." # %tipo% -> Nu
 
 # Staff Logs
 ds-staff-country-log: "%dsPais% >> %message%" # %dsPais% -> Logo del país. %message% -> Mensaje enviado.
-tipo-promote-log: "💪 | **%staff%** ha promovido a **%player%** al Tipo de Usuario **%tipo%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %tipo% -> Nuevo tipo de usuario.
+tipo-promote-staff-log: "💪 | **%staff%** ha promovido a **%player%** al Tipo de Usuario **%tipo%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %tipo% -> Nuevo tipo de usuario.
+tipo-promote-log: "💪 | Se ha cambiado el Tipo de Usuario de **%player%** a **%tipo%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %tipo% -> Nuevo tipo de usuario.
 rango-promote-log: "🛡️ | **%staff%** ha cambiado el Rango de Usuario de **%player%** a **%rango%**." # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %rango% -> Nuevo rango.
 
 # Project Logs
@@ -478,7 +522,13 @@ manager-remove-log: "❌ | **%staff%** ha removido a **%player%** como Manager d
 reviewer-add-log: "🔍 | **%staff%** ha agregado a **%player%** como Reviewer del país."
 reviewer-remove-log: "❌ | **%staff%** ha removido a **%player%** como Reviewer del país."
 
-project-create-log: "📋 | **%player%** ha creado el proyecto `%proyectoId%`. Tipo: `%tipoId%`-`%tipoNombre%`. Ciudad: `%ciudadId%`-`%ciudadNombre%`."
+project-create-log: "📋 | **%player%** ha creado el proyecto `%proyectoId%`. Tipo: `%tipoId%`-`%tipoNombre%`. Ciudad: `%ciudadId%`-`%ciudadNombre%`. Nombre: `%proyectoNombre%`. Descripción: `%proyectoDescripcion%`."
+project-create-request-accepted-log: "✅ | **%staff%** ha aceptado el proyecto `%proyectoId%` de **%lider%**."
+project-create-request-denied-log: "❌ | **%staff%** ha denegado el proyecto `%proyectoId%` de **%lider%**."
+project-create-request-expired-log: "❌ | La solicitud de creación del proyecto `%proyectoId%` de **%lider%** ha expirado."
+
+project-delete-log: "🗑️ | Se ha eliminado el proyecto `%proyectoId%` de **%lider%**."
+
 project-delete-player-log: "🗑️ | **%player%** ha eliminado su proyecto `%proyectoId%`."
 
 project-add-member-log: "➕ | **%lider%** ha agregado a **%player%** al proyecto `%proyectoId%`."
@@ -509,3 +559,19 @@ project-edit-denied-log: "❌ | **%staff%** ha denegado la edición del proyecto
 # Project
 project-manager-initializing: "Inicializando Gestor de Proyectos..."
 project-manager-shutting-down: "Cerrando Gestor de Proyectos..."
+
+# Map Sat
+map:
+  border-width: 2 # Ancho del borde de los proyectos en el mapa.
+  border-opacity: 0.8 # Opacidad del borde de los proyectos en el mapa. (0.0 - 1.0)
+  fill-opacity: 0.3 # Opacidad del relleno de los proyectos en el mapa. (0.0 - 1.0)
+  padding: 0.005
+  project:
+    fill-color: "#5742DE" # Color del proyecto en el mapa.
+    border-color: "#343434" # Color del borde del proyecto en el mapa.
+  others-projects:
+    fill-color: "#42DE57" # Color de los otros proyectos en el mapa.
+    border-color: "#343434" # Color del borde de los otros proyectos en el mapa.
+  redefine:
+    fill-color: "#DE5742" # Color de la redefinición en el mapa.
+    border-color: "#343434" # Color del borde de la redefinición en el mapa.

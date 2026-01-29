@@ -6,6 +6,6 @@ public enum Estado {
     EDITANDO,
     REDEFINIENDO,
     ABANDONADO,
-    RECLAMADO,
+    ACTIVO,
     EN_CREACION
 }

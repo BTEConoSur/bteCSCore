@@ -58,6 +58,14 @@ public final class DiscordValidate {
         return true;
     }
 
+    public static boolean messageId(Long messageId) {
+        if (messageId == null) {
+            ConsoleLogger.warn("Discord: El ID del mensaje es nulo o vacío.");
+            return false;
+        }
+        return true;
+    }
+
     public static boolean replyMessage(Message replyMessage) {
         if (replyMessage == null) {
             ConsoleLogger.warn("Discord: El mensaje de respuesta es nulo.");

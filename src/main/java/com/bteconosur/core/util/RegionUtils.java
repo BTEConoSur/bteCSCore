@@ -103,6 +103,7 @@ public class RegionUtils {
     }
 
     private static boolean intersectsChunk(Polygon poly, int chunkX, int chunkZ) {
+        if (poly == null || poly.isEmpty()) return false;
         double x0 = chunkX * 16.0;
         double z0 = chunkZ * 16.0;
         double x1 = x0 + 16.0;
@@ -118,6 +119,7 @@ public class RegionUtils {
     }
 
     public static boolean containsCoordinate(Polygon poly, double x, double z) {
+        if (poly == null || poly.isEmpty()) return false;
         return poly.contains(gf.createPoint(new Coordinate(x, z)));
     }
 

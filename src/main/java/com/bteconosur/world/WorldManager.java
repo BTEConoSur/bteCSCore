@@ -59,10 +59,10 @@ public class WorldManager {
             return true;
         }
 
-        if (!bukkitPlayer.hasPermission("btecs.world.build")) {
-            ConsoleLogger.debug("[WorldManager] canBuild false: No permiso build");
-            return false;
-        }
+        //if (!bukkitPlayer.hasPermission("btecs.world.build") && !bukkitPlayer.hasPermission("btecs.world.select")) {
+        //   ConsoleLogger.debug("[WorldManager] canBuild false: No permiso build");
+        //    return false;
+        //}
 
         LabelWorld lw = bteWorld.getLabelWorld(loc.getX(), loc.getZ());
         if (lw == null) {
@@ -92,6 +92,11 @@ public class WorldManager {
 
         if (proyectos == null || proyectos.isEmpty()) {
             ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
+            return false;
+        }
+
+        if (!pm.areActiveOrEditing(proyectos)) {
+            ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos activos o en edición en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
             return false;
         }
 
