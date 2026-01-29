@@ -13,13 +13,14 @@ public class BTECSTestCommand extends BaseCommand {
     private final YamlConfiguration lang;
 
     public BTECSTestCommand() {
-        super("test", "Para testear cosas.", null, CommandMode.PLAYER_ONLY);
+        super("test", "Para testear cosas.", null, CommandMode.BOTH);
         this.addSubcommand(new TestGenericCommand());
         this.addSubcommand(new TestConsoleLoggerCommand());
         this.addSubcommand(new TestSimpleMenuCommand());
         this.addSubcommand(new TestPaginatedMenuCommand());
         this.addSubcommand(new TestDiscordLogger());
         this.addSubcommand(new TestPlayerLoggerCommand());
+        this.addSubcommand(new TestRegionGeoJsonCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

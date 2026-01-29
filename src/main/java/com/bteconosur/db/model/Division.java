@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.MultiPolygon;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,20 +39,20 @@ public class Division {
     @Column(name = "poligono")
     @JdbcTypeCode(SqlTypes.GEOMETRY)
     @JsonIgnore // evita que Jackson intente serializar la geometría cruda
-    private Polygon poligono;
+    private MultiPolygon poligono;
 
     @ManyToOne
     @JoinColumn(name = "id_pais")
     private Pais pais;
 
-    @OneToMany(mappedBy = "ciudad")
+    @OneToMany(mappedBy = "division")
     @JsonIgnore
     private Set<Proyecto> proyectos = new HashSet<>();
 
     public Division() {
     }
 
-    public Division(Pais pais, String nombre, String tipoDivision, String contexto, Polygon poligono) {
+    public Division(Pais pais, String nombre, String tipoDivision, String contexto, MultiPolygon poligono) {
         this.nombre = nombre;
         this.tipoDivision = tipoDivision;
         this.contexto = contexto;
@@ -92,11 +92,11 @@ public class Division {
         this.contexto = contexto;
     }
 
-    public Polygon getPoligono() {
+    public MultiPolygon getPoligono() {
         return poligono;
     }
 
-    public void setPoligono(Polygon poligono) {
+    public void setPoligono(MultiPolygon poligono) {
         this.poligono = poligono;
     }
     

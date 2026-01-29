@@ -3,6 +3,7 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
@@ -120,7 +121,7 @@ public class PaisRegistry extends Registry<String, Pais> {
 
     public Division findDivisionByLocation(double x, double z, Pais pais) {
         for (Division division : pais.getDivisiones()) {
-            Polygon poly = division.getPoligono();
+            MultiPolygon poly = division.getPoligono();
             if (poly != null && RegionUtils.containsCoordinate(poly, x, z)) {
                 return division;
             }
@@ -147,7 +148,7 @@ public class PaisRegistry extends Registry<String, Pais> {
         ConsoleLogger.warn("No se encontró la ciudad Default para el país: " + pais.getNombre());
         return null;
     }
-    //TODO: right click mensaje
+    //TODO: right click mensaje can build 
 
     private void ensureDefaults() {
         if (get("argentina") == null) {

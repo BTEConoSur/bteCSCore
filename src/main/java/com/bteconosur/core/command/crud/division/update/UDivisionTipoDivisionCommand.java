@@ -2,23 +2,20 @@ package com.bteconosur.core.command.crud.division.update;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
-import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Division;
 
-public class UpdateDivisionPoligonoCommand extends BaseCommand {
+public class UDivisionTipoDivisionCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public UpdateDivisionPoligonoCommand() {
-        super("poligono", "Actualizar polígono de una Division con la región seleccionada.", "<id>", CommandMode.PLAYER_ONLY);
+    public UDivisionTipoDivisionCommand() {
+        super("tipo", "Actualizar tipo de una Division.", "<id> <nuevo_tipo>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
@@ -26,7 +23,7 @@ public class UpdateDivisionPoligonoCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        if (args.length != 1) {
+        if (args.length != 2) {
             String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
@@ -47,14 +44,17 @@ public class UpdateDivisionPoligonoCommand extends BaseCommand {
             return true;
         }
 
-        Player player = (Player) sender;
-        Polygon regionPolygon = RegionUtils.getPolygon(player);
-        if (regionPolygon == null) return true;
+        String nuevoTipo = args[1];
+        if (nuevoTipo.length() > 50) {
+            String message = lang.getString("crud-not-valid-type").replace("%entity%", "Division").replace("%type%", nuevoTipo).replace("%reason%", "Máximo 50 caracteres.");
+            PlayerLogger.error(sender, message, (String) null);
+            return true;
+        }
 
         Division division = dbManager.get(Division.class, id);
-        //division.set(regionPolygon);
+        division.setTipoDivision(nuevoTipo);
         dbManager.merge(division);
-        //TODO: poligono desde geojson
+
         String message = lang.getString("crud-update").replace("%entity%", "Division").replace("%id%", args[0]);
         PlayerLogger.info(sender, message, (String) null);
         return true;

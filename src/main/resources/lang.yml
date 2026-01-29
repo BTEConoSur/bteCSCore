@@ -108,10 +108,10 @@ help-command:
   subcommand-line-2: "   <white>%description%" # %description% -> Descripción del subcomando.
   footer: ""
 
-crud-create: "Entidad '%entity%' creada exitosamente." # %entity% -> Nombre de la entidad.
+crud-create: "Entidad '%entity%' creada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad.
 crud-read: "Entidad '%entity%' con id '%id%':" # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
-crud-update: "Entidad '%entity%' con id '%id%' actualizada exitosamente." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
-crud-delete: "Entidad '%entity%' con id '%id%' eliminada exitosamente." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.  
+crud-update: "Entidad '%entity%' con id '%id%' actualizada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+crud-delete: "Entidad '%entity%' con id '%id%' eliminada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.  
 crud-already-exists: "La entidad '%entity%' con id '%id%' ya existe." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
 crud-read-not-found: "La entidad '%entity%' con id '%id%' no fue encontrada." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
 
@@ -189,6 +189,11 @@ project-create-request-comment-accepted: "<green>Comentario: %comentario%" # %co
 project-create-request-rejected: "<red>El Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido rechazado."
 project-create-request-comment-rejected: "<red>Comentario: <gray>\"<white>%comentario%<gray>\"" # %comentario% -> Comentario del staff.
 project-create-request-expired: "<red>La solicitud de proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
+
+where-pais: "Estas en el país: <yellow>'%pais%'</yellow>." # %pais% -> Nombre del país.
+where-no-pais: "No estás dentro de ningún país."
+where-division: "Estás en la división: <yellow>'%division%'</yellow> del país <yellow>'%pais%'</yellow>." # %division% -> Nombre de la división. %pais% -> Nombre del país.
+where-no-division: "No estás dentro de ninguna división."
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.

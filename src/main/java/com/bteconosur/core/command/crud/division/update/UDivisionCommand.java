@@ -16,7 +16,8 @@ public class UDivisionCommand extends BaseCommand {
         super("update", "Actualizar atributos de una Division.", null, CommandMode.BOTH);
         this.addSubcommand(new UDivisionNombreCommand());
         this.addSubcommand(new UpdateDivisionPoligonoCommand());
-        this.addSubcommand(new UDivisionNombrePublicoCommand());
+        this.addSubcommand(new UDivisionTipoDivisionCommand());
+        this.addSubcommand(new UDivisionContextoCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();

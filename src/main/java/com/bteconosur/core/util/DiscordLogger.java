@@ -85,6 +85,7 @@ public class DiscordLogger {
             String dsMessage = lang.getString("ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", message);
             PlayerLogger.info(reviewer, message, dsMessage);
         }
+        notifyManagers(message, pais);
     }
 
     public static void notifyDevs(String message) {
