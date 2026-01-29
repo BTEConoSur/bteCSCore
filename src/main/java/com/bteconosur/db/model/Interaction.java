@@ -3,7 +3,11 @@ package com.bteconosur.db.model;
 import java.time.Instant;
 import java.util.UUID;
 
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.util.InteractionKey;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
+import java.util.Map;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,8 +20,8 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "discord_interaction")
-public class DiscordInteraction {
+@Table(name = "interaction")
+public class Interaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,66 +54,66 @@ public class DiscordInteraction {
     @Column(name = "payload_json")
     private String payloadJson;
 
-    public DiscordInteraction() {
+    public Interaction() {
     }
 
-    public DiscordInteraction(UUID playerId, String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(playerId, projectId, null, null, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(null, projectId, null, null, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(UUID playerId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(playerId, null, null, null, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(UUID playerId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(playerId, null, messageId, componentId, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(null, projectId, messageId, componentId, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(null, null, null, null, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this(null, null, messageId, componentId, interactionKey, createdAt, expiresAt, payloadJson);
     }
 
-    public DiscordInteraction(UUID playerId, String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(UUID playerId, String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(playerId, projectId, null, null, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(String projectId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(null, projectId, null, null, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(UUID playerId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(UUID playerId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(playerId, null, null, null, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(UUID playerId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(UUID playerId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(playerId, null, messageId, componentId, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(null, projectId, messageId, componentId, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(null, null, null, null, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
+    public Interaction(Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt) {
         this(null, null, messageId, componentId, interactionKey, createdAt, expiresAt, null);
     }
 
-    public DiscordInteraction(UUID playerId, String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this.playerId = playerId;
         this.projectId = projectId;
         this.interactionKey = interactionKey;
@@ -195,4 +199,36 @@ public class DiscordInteraction {
     public boolean isExpired() {
         return expiresAt != null && expiresAt.isBefore(Instant.now());
     }
+
+    public void setPayloadData(Map<String, Object> data) {
+        try {
+            this.payloadJson = new ObjectMapper().writeValueAsString(data);
+        } catch (Exception e) {
+            ConsoleLogger.error("Error serializando payload: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getPayloadData() {
+        if (payloadJson == null || payloadJson.isEmpty()) {
+            return new HashMap<>();
+        }
+        try {
+            return new ObjectMapper().readValue(payloadJson, Map.class);
+        } catch (Exception e) {
+            ConsoleLogger.error("Error deserializando payload: " + e.getMessage());
+            return new HashMap<>();
+        }
+    }
+
+    public Object getPayloadValue(String key) {
+        return getPayloadData().get(key);
+    }
+
+    public void addPayloadValue(String key, Object value) {
+        Map<String, Object> data = getPayloadData();
+        data.put(key, value);
+        setPayloadData(data);
+    }
+
 }

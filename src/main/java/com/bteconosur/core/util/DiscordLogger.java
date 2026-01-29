@@ -46,7 +46,7 @@ public class DiscordLogger {
         MessageService.sendMessage(config.getLong("discord-staff-log-id"), message);
     }
 
-    public static void staffLog(String message, Pais pais) {
+    private static void staffLog(String message, Pais pais) {
         if (!config.getBoolean("discord-staff-log")) return;
         String prefix = lang.getString("ds-prefixes.pais-logo." + pais.getNombre());
         String formattedMessage = lang.getString("ds-staff-country-log").replace("%dsPais%", prefix).replace("%message%", message);
@@ -69,7 +69,7 @@ public class DiscordLogger {
                 continue;
             };
             String dsMessage = lang.getString("ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", message);
-            PlayerLogger.info(manager, message, dsMessage, manager);
+            PlayerLogger.info(manager, message, dsMessage);
         }
     }
 
@@ -83,11 +83,13 @@ public class DiscordLogger {
                 continue;
             };
             String dsMessage = lang.getString("ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", message);
-            PlayerLogger.info(reviewer, message, dsMessage, reviewer);
+            PlayerLogger.info(reviewer, message, dsMessage);
         }
     }
 
     public static void notifyDevs(String message) {
+        if (!enableStaffConsoleLog) return;
+        if (!config.getBoolean("discord-staff-console-log")) return;
         Guild guild = BTEConoSur.getDiscordManager().getJda().getGuildById(config.getLong("discord-staff-guild-id")); 
         if (guild == null) {
             ConsoleLogger.warn("No se ha podido encontrar el Staff Hub en Discord.");

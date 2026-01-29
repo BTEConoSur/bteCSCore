@@ -24,10 +24,11 @@ import com.bteconosur.core.util.HeadDBUtil;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.PermissionManager;
-import com.bteconosur.db.registry.DiscordInteractionRegistry;
+import com.bteconosur.db.registry.InteractionRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
+import com.bteconosur.db.registry.TipoProyectoRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.discord.command.DsCommandManager;
@@ -52,12 +53,14 @@ public final class BTEConoSur extends JavaPlugin {
     private static DBManager dbManager;
     private static WorldManager worldManager;
     private static PermissionManager permissionManager;
+    private static ProjectManager projectManager;
 
     private static PlayerRegistry playerRegistry;
     private static ProyectoRegistry proyectoRegistry;
     private static TipoUsuarioRegistry tipoUsuarioRegistry;
     private static RangoUsuarioRegistry rangoUsuarioRegistry;
-    private static DiscordInteractionRegistry discordInteractionRegistry;
+    private static InteractionRegistry interactionRegistry;
+    private static TipoProyectoRegistry tipoProyectoRegistry;
 
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
@@ -103,24 +106,26 @@ public final class BTEConoSur extends JavaPlugin {
 
         dbManager = DBManager.getInstance();
         dsCommandManager = DsCommandManager.getInstance();
-        worldManager = new WorldManager(); //TODO: hacer singleton
+        worldManager = WorldManager.getInstance();
+        projectManager = ProjectManager.getInstance();
         
 
         playerRegistry = PlayerRegistry.getInstance();
         proyectoRegistry = ProyectoRegistry.getInstance();
         tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
         rangoUsuarioRegistry = RangoUsuarioRegistry.getInstance();
-        discordInteractionRegistry = DiscordInteractionRegistry.getInstance();
+        interactionRegistry = InteractionRegistry.getInstance();
+        tipoProyectoRegistry = TipoProyectoRegistry.getInstance();
 
         permissionManager = PermissionManager.getInstance();
         
 
-        getServer().getPluginManager().registerEvents(new BuildingListeners(worldManager), this);
+        getServer().getPluginManager().registerEvents(new BuildingListeners(), this);
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new ChatListener(), this);
-        getServer().getPluginManager().registerEvents(new MovingListeners(worldManager), this);
+        getServer().getPluginManager().registerEvents(new MovingListeners(), this);
         getServer().getPluginManager().registerEvents(new HeadDBUtil(), this);
             
         // Registro de comandos
@@ -143,6 +148,7 @@ public final class BTEConoSur extends JavaPlugin {
 
     @Override
     public void onDisable() {
+    
         
         if (playerRegistry != null) {
             playerRegistry.shutdown();
@@ -164,9 +170,19 @@ public final class BTEConoSur extends JavaPlugin {
             rangoUsuarioRegistry = null;
         }
 
-        if (discordInteractionRegistry != null) {
-            discordInteractionRegistry.shutdown();
-            discordInteractionRegistry = null;
+        if (interactionRegistry != null) {
+            interactionRegistry.shutdown();
+            interactionRegistry = null;
+        }
+
+        if (tipoProyectoRegistry != null) {
+            tipoProyectoRegistry.shutdown();
+            tipoProyectoRegistry = null;
+        }
+
+        if (projectManager != null) {
+            projectManager.shutdown();
+            projectManager = null;
         }
         
         if (permissionManager != null) {
@@ -221,14 +237,13 @@ public final class BTEConoSur extends JavaPlugin {
         return discordManager;
     }   
 
-    public static WorldManager getWorldManager() {
-        return worldManager;
-    }
 }
 
-// TODO: Todos los managers con getInstance() statico
 // TODO: Revisar llamadas a config en constructores.
 // TODO: Alias de comandos.
 // TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab
 // TODO: Get
+
+// TODO: Configuracion para managers / reviewers desactivar bypass
+// TODO: easter egg en coords

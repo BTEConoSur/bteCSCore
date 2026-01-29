@@ -29,8 +29,8 @@ public class BuildingListeners implements Listener {
     private final PlayerRegistry playerRegistry;
     private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
-    public BuildingListeners(WorldManager worldManager) {
-        this.worldManager = worldManager;
+    public BuildingListeners() {
+        this.worldManager = WorldManager.getInstance();
         dbManager = DBManager.getInstance();
         playerRegistry = PlayerRegistry.getInstance();
     }

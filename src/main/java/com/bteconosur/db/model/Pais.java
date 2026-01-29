@@ -208,6 +208,14 @@ public class Pais {
         this.reviewers.remove(player);
     }
 
+    public void addCiudad(Ciudad ciudad) {
+        this.ciudades.add(ciudad);
+    }
+
+    public void removeCiudad(Ciudad ciudad) {
+        this.ciudades.remove(ciudad);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

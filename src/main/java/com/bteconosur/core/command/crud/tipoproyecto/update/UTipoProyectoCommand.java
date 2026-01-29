@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.crud.ciudad.update;
+package com.bteconosur.core.command.crud.tipoproyecto.update;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -8,15 +8,16 @@ import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
 
-public class UCiudadCommand extends BaseCommand {
+public class UTipoProyectoCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
 
-    public UCiudadCommand() {
-        super("update", "Actualizar atributos de una Ciudad.", null, CommandMode.BOTH);
-        this.addSubcommand(new UCiudadNombreCommand());
-        this.addSubcommand(new UpdateCiudadPoligonoCommand());
-        this.addSubcommand(new UCiudadNombrePublicoCommand());
+    public UTipoProyectoCommand() {
+        super("update", "Actualizar propiedad de un TipoProyecto.", "<propiedad> <id> <valor>", CommandMode.BOTH);
+        this.addSubcommand(new UTipoProyectoNombreCommand());
+        this.addSubcommand(new UTipoProyectoMaxMiembrosCommand());
+        this.addSubcommand(new UTipoProyectoTamañoMinCommand());
+        this.addSubcommand(new UTipoProyectoTamañoMaxCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
@@ -29,5 +30,4 @@ public class UCiudadCommand extends BaseCommand {
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }
-
 }

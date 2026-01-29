@@ -44,7 +44,7 @@ public class ProjectPromoteMenu extends Menu {
         YamlConfiguration lang = ConfigHandler.getInstance().getLang();
         String messageSwitch = lang.getString("tipo-switched");
         String messageSet = lang.getString("tipo-set");
-        String promoteLog = lang.getString("tipo-promote-log");
+        String promoteLog = lang.getString("tipo-promote-staff-log");
         Player playerMenu = Player.getBTECSPlayer(player);
 
         gui.getFiller().fill(MenuUtils.getFillerItem());

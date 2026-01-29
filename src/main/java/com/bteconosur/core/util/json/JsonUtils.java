@@ -1,8 +1,10 @@
-package com.bteconosur.core.util;
+package com.bteconosur.core.util.json;
 
+import com.bteconosur.core.util.ConsoleLogger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils {
+    
     private static final ObjectMapper mapper = new ObjectMapper();
     
     public static String toJson(Object obj) {

@@ -1,5 +1,8 @@
 package com.bteconosur.core.util;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -8,6 +11,8 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.db.model.Proyecto;
+import com.bteconosur.db.util.ChunkKey;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -73,4 +78,49 @@ public class RegionUtils {
         }
         return regionPolygon;
     }
+
+    public static Set<ChunkKey> chunksFor(Proyecto proyecto) {
+        Polygon poly = proyecto.getPoligono();
+        if (poly == null || poly.isEmpty()) return Set.of();
+
+        var env = poly.getEnvelopeInternal();
+        int minChunkX = Math.floorDiv((int) Math.floor(env.getMinX()), 16);
+        int maxChunkX = Math.floorDiv((int) Math.floor(env.getMaxX()), 16);
+        int minChunkZ = Math.floorDiv((int) Math.floor(env.getMinY()), 16);
+        int maxChunkZ = Math.floorDiv((int) Math.floor(env.getMaxY()), 16);
+
+        Set<ChunkKey> result = new HashSet<>();
+        for (int cx = minChunkX; cx <= maxChunkX; cx++) {
+            for (int cz = minChunkZ; cz <= maxChunkZ; cz++) {
+                if (intersectsChunk(poly, cx, cz)) result.add(ChunkKey.of(cx, cz));
+            }
+        }
+        return result;
+    }
+
+    public static boolean intersectsChunk(Polygon poly, ChunkKey chunkKey) {
+        return intersectsChunk(poly, chunkKey.x(), chunkKey.z());
+    }
+
+    private static boolean intersectsChunk(Polygon poly, int chunkX, int chunkZ) {
+        if (poly == null || poly.isEmpty()) return false;
+        double x0 = chunkX * 16.0;
+        double z0 = chunkZ * 16.0;
+        double x1 = x0 + 16.0;
+        double z1 = z0 + 16.0;
+        var geomFactory = poly.getFactory();
+        var ring = geomFactory.createLinearRing(new Coordinate[]{
+            new Coordinate(x0, z0), new Coordinate(x1, z0),
+            new Coordinate(x1, z1), new Coordinate(x0, z1),
+            new Coordinate(x0, z0)
+        });
+        var chunkPoly = geomFactory.createPolygon(ring, null);
+        return poly.intersects(chunkPoly);
+    }
+
+    public static boolean containsCoordinate(Polygon poly, double x, double z) {
+        if (poly == null || poly.isEmpty()) return false;
+        return poly.contains(gf.createPoint(new Coordinate(x, z)));
+    }
+
 }

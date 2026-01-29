@@ -1,0 +1,3 @@
+# MapBox
+mapbox-requests: 0 # Número de requests realizados a MapBox en el mes.
+mapbox-requests-month: "" # Mes en formato AAAA-MM del último reseteo de requests a MapBox.

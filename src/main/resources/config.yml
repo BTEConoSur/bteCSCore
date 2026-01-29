@@ -2,6 +2,20 @@
 
 # General
 debug-mode: true
+interaction-expiration: 15 # Cada cuantos minutos se revisa las interacciones expiradas.
+interaction-expirations:
+  join-project: 1440 # Expiración de solicitudes de unión a proyectos (en minutos). 1440 = 1 día.
+  finish-project: 1440 # Expiración de solicitudes de finalización de proyectos (en minutos). 1440 = 1 día.
+  redefine-project: 1440 # Expiración de solicitudes de redefinición de proyectos (en minutos). 1440 = 1 día.
+  edit-project: 1440 # Expiración de solicitudes de edición de proyectos (en minutos). 1440 = 1 día.
+  create-project: 10080 # Expiración de solicitudes de creación de proyectos (en minutos). 10080 = 7 días.
+  accept-reject-create-project: 60 # Expiración del modal de aceptación/rechazo de creación de proyecto (en minutos). 60 = 1 hora.
+
+# Map Sat
+mapbox-access-token: ""
+map-padding: 0.005
+map-link: "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/%geojson%/[%minLon%,%minLat%,%maxLon%,%maxLat%]/800x600?attribution=false&logo=false&access_token=%token%"
+mapbox-month-limit: 45000 # Límite mensual de requests a MapBox.
 
 # Base de Datos
 database-url: ""
@@ -14,7 +28,6 @@ database-current-session-context-class: "thread"
 
 # Discord
 discord-bot-token: ""
-discord-interaction-expiration: 15 # Cada cuantos minutos expiran las interacciones de Discord.
 
 discord-staff-guild-id:  # ID del servidor del Staff Hub.
 discord-staff-log-id:  # ID del canal de Discord donde se enviarán los logs del staff.

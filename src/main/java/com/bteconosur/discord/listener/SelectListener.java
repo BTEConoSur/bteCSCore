@@ -3,11 +3,10 @@ package com.bteconosur.discord.listener;
 import javax.annotation.Nonnull;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
-import com.bteconosur.db.model.DiscordInteraction;
-import com.bteconosur.db.registry.DiscordInteractionRegistry;
+import com.bteconosur.db.model.Interaction;
+import com.bteconosur.db.registry.InteractionRegistry;
 import com.bteconosur.discord.action.SelectAction;
 
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
@@ -16,7 +15,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class SelectListener extends ListenerAdapter {
 
     private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
-    private static final DiscordInteractionRegistry registry = DiscordInteractionRegistry.getInstance();
+    private static final InteractionRegistry registry = InteractionRegistry.getInstance();
 
     @SuppressWarnings("null")
     @Override
@@ -24,18 +23,18 @@ public class SelectListener extends ListenerAdapter {
         String selectId = event.getComponentId();
         if (selectId == null || selectId.isBlank()) return;
 
-        DiscordInteraction ctx = registry.findByComponentId(selectId);
+        Interaction ctx = registry.findByComponentId(selectId);
         if (ctx == null) ctx = registry.findByMessageId(event.getMessage().getIdLong());
         
         if (ctx == null) {
-            ConsoleLogger.warn("Error de Discord: Interacción de selector con ID '" + selectId + "' no encontrada en el registro.");
+            ConsoleLogger.warn("Error de Discord: Interacción de selector con ID '" + selectId + "' / mensaje con ID '" + event.getMessage().getId() + "' no encontrada en el registro.");
+            event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
             return;
         }
 
         if (ctx.isExpired()) {
             ConsoleLogger.debug("Interacción de selector expirada: " + selectId + ", " + ctx.getInteractionKey());
             event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
-            registry.removeInteraction(ctx);
             return;
         }
 

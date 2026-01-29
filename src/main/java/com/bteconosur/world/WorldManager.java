@@ -5,15 +5,25 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.db.PermissionManager;
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Proyecto;
+import com.bteconosur.db.registry.PaisRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.util.ChunkKey;
 import com.bteconosur.world.listener.WorldEditListener;
 import com.bteconosur.world.model.BTEWorld;
 import com.bteconosur.world.model.LabelWorld;
 import com.sk89q.worldedit.WorldEdit;
 
+import java.util.Set;
+
 import org.bukkit.Location;
 
 public class WorldManager {
+
+    private static WorldManager instance;
 
     private final YamlConfiguration lang;
 
@@ -33,14 +43,27 @@ public class WorldManager {
     }
 
     public boolean canBuild(Location loc, Player player) {
+        if (loc.getWorld().getName().equalsIgnoreCase("lobby")) return true; // Delego en WorldGuard
         if (bteWorld == null || !bteWorld.isValid()) {
             ConsoleLogger.debug("[WorldManager] canBuild false: bteWorld null o inválido");
             return false;
         }
 
-        // TODO: Verificar que es Admin
+        org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
+        if (bukkitPlayer == null) {
+            ConsoleLogger.debug("[WorldManager] canBuild false: bukkitPlayer null");
+            return false;
+        }
+        if (bukkitPlayer.hasPermission("btecs.world.bypass")) {
+            ConsoleLogger.debug("[WorldManager] canBuild true: Permiso bypass");
+            return true;
+        }
 
-        if (loc.getWorld().getName().equalsIgnoreCase("lobby")) return true; // Delego en WorldGuard
+        //if (!bukkitPlayer.hasPermission("btecs.world.build") && !bukkitPlayer.hasPermission("btecs.world.select")) {
+        //   ConsoleLogger.debug("[WorldManager] canBuild false: No permiso build");
+        //    return false;
+        //}
+
         LabelWorld lw = bteWorld.getLabelWorld(loc.getX(), loc.getZ());
         if (lw == null) {
             ConsoleLogger.debug("[WorldManager] canBuild false: LabelWorld no encontrada para (" + loc.getX() + ", " + loc.getZ() + ")");
@@ -51,16 +74,44 @@ public class WorldManager {
             return false;
         }
 
-        // TODO: Obtener país de la location
-        // TODO: Verificar que es manager de este pais
+        ChunkKey chunkKey = ChunkKey.fromBlock(loc.blockX(), loc.blockZ());
+        Pais pais = PaisRegistry.getInstance().findByLocation(loc.getBlockX(), loc.getBlockZ());
+        if (pais == null) {
+            ConsoleLogger.debug("[WorldManager] canBuild false: País no encontrado en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
+            return false;
+        }
 
-        // TODO: Obtener los proyectos en esa location
-        // TODO: Verificar que no sean null
+        PermissionManager pm = PermissionManager.getInstance();
+        if (pm.isManager(player, pais)) {
+            ConsoleLogger.debug("[WorldManager] canBuild true: Es manager del país " + pais.getNombre());
+            return true;
+        }
 
-        // TODO: Verificar que sea reviewer de ese pais
-        // TODO: Verificar que sea miembro de algun proyecto 
-        ConsoleLogger.debug("[WorldManager] canBuild true: Permitido en " + lw.getName());
-        return true;
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        Set<Proyecto> proyectos = pr.getByLocation(loc.getBlockX(), loc.getBlockZ(), pr.getByChunk(chunkKey));
+
+        if (proyectos == null || proyectos.isEmpty()) {
+            ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
+            return false;
+        }
+
+        if (!pm.areActiveOrEditing(proyectos)) {
+            ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos activos o en edición en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
+            return false;
+        }
+
+        if (pm.isReviewer(player, pais)) {
+            ConsoleLogger.debug("[WorldManager] canBuild true: Es reviewer del país " + pais.getNombre());
+            return true;
+        }
+
+        if (pm.isMiembro(player, proyectos) || pm.isLider(player, proyectos)) {
+            ConsoleLogger.debug("[WorldManager] canBuild true: Tiene permisos en los proyectos de la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
+            return true;
+        }
+
+        ConsoleLogger.debug("[WorldManager] canBuild false: No permitido en " + lw.getName());
+        return false;
     }
 
     public void checkMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
@@ -77,6 +128,13 @@ public class WorldManager {
     public void shutdown() {
         ConsoleLogger.info(lang.getString("world-module-shutting-down"));
         bteWorld.shutdown();
+    }
+
+    public static WorldManager getInstance() {
+        if (instance == null) {
+            instance = new WorldManager();
+        }
+        return instance;
     }
 
 }

@@ -2,6 +2,7 @@ package com.bteconosur.db.model;
 
 import org.locationtech.jts.geom.Polygon;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -46,6 +47,15 @@ public class Proyecto {
     @JdbcTypeCode(SqlTypes.GEOMETRY)
     private Polygon poligono;
 
+    @Column(name = "tamaño")
+    private double tamaño;
+
+    @Column(name = "f_creado", nullable = false)
+    private Date fechaCreado;
+
+    @Column(name = "f_terminado")
+    private Date fechaTerminado;
+
     @ManyToOne
     @JoinColumn(name = "id_tipo_proyecto")
     private TipoProyecto tipoProyecto;
@@ -60,17 +70,23 @@ public class Proyecto {
 
     @ManyToMany(mappedBy = "proyectos", fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Player> miembros = new HashSet<>();
+    private Set<Player> miembros = new HashSet<>(); // Players detached, usar ProjectManager para obtener miembros.
 
     public Proyecto() {
     }
 
-    public Proyecto(String nombre, String descripcion, Estado estado, Polygon poligono) {
+    public Proyecto(String nombre, String descripcion, Estado estado, Polygon poligono, Double tamaño, TipoProyecto tipoProyecto, Player lider, Ciudad ciudad, Date fechaCreado) {
         this.id = IDUtils.generarCodigoProyecto();
-        this.nombre = nombre;
+        if (nombre == null) nombre = this.id;
+        else this.nombre = nombre;
         this.descripcion = descripcion;
         this.estado = estado;
         this.poligono = poligono;
+        this.tamaño = tamaño;
+        this.tipoProyecto = tipoProyecto;
+        this.lider = lider;
+        this.ciudad = ciudad;
+        this.fechaCreado = fechaCreado;
     }
 
     public String getId() {
@@ -143,6 +159,43 @@ public class Proyecto {
 
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
+    }
+
+    public Pais getPais() {
+        if (ciudad == null) return null;
+        return ciudad.getPais();
+    }
+
+    public void addMiembro(Player player) {
+        this.miembros.add(player);
+    }
+
+    public void removeMiembro(Player player) {
+        this.miembros.remove(player);
+    }
+
+    public double getTamaño() {
+        return tamaño;
+    }
+
+    public void updateTamaño() {
+        this.tamaño = poligono.getArea();
+    }
+
+    public Date getFechaCreado() {
+        return fechaCreado;
+    }
+
+    public void setFechaCreado(Date fechaCreado) {
+        this.fechaCreado = fechaCreado;
+    }
+
+    public Date getFechaTerminado() {
+        return fechaTerminado;
+    }
+
+    public void setFechaTerminado(Date fechaTerminado) {
+        this.fechaTerminado = fechaTerminado;
     }
 
     @Override

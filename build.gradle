@@ -14,14 +14,23 @@ repositories {
         url = "https://repo.papermc.io/repository/maven-public/"
     }
 
+    maven {
+        name = "Smyler Releases"
+        url = "https://maven.smyler.net/releases/"
+    }
+
     maven { url = "https://repo.onarandombox.com/content/groups/public/" }
     maven { url = "https://maven.enginehub.org/repo/" }
+    jcenter()
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation("net.kyori:ansi:1.1.1")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+
+    compileOnly("net.buildtheearth.terraminusminus:terraminusminus-core:2.1.2-1.21.8")
+    compileOnly("net.buildtheearth.terraminusminus:terraminusminus-bukkit:2.1.2-1.21.8")
 
     implementation("org.hibernate.orm:hibernate-core:7.1.6.Final")
     implementation("org.hibernate:hibernate-spatial:7.1.6.Final")
@@ -30,6 +39,7 @@ dependencies {
     implementation("net.dv8tion:JDA:6.1.1")
 
     implementation("org.locationtech.jts:jts-core:1.20.0")
+    implementation("org.locationtech.jts.io:jts-io-common:1.20.0")
 
     compileOnly("org.mvplugins.multiverse.core:multiverse-core:5.3.3-SNAPSHOT")
     implementation(platform("com.intellectualsites.bom:bom-newest:1.44")) // Ref: https://github.com/IntellectualSites/bom 
