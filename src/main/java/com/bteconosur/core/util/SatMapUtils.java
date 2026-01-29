@@ -47,7 +47,7 @@ public class SatMapUtils {
     
     private static boolean checkMonthlyRequests() {
         YamlConfiguration data = ConfigHandler.getInstance().getData();
-        int currentRequests = data.getInt("mapbox-requests");
+        int currentRequests = data.getInt("mapbox-requests") + 1;
         if (currentRequests >= config.getInt("mapbox-month-limit")) {
             ConsoleLogger.warn("Límite mensual de requests a MapBox alcanzado. No se podrá descargar la imagen del mapa.");
             return false;
@@ -75,19 +75,22 @@ public class SatMapUtils {
             }
             
             File contextFile = new File(folder, proyecto.getId() + "_context.png");
-            
+            File imageFile = new File(folder, proyecto.getId() + ".png");
+            File defaultFile = new File(plugin.getDataFolder(), "images/projects/default_map.png");
             //URL mapUrl = URI.create(createMapSatLink(proyecto.getPoligono(), otrosProyectos.stream().map(Proyecto::getPoligono).toList())).toURL();
             @SuppressWarnings("deprecation")
             URL mapUrl = new URL(createMapSatLink(proyecto.getPoligono(), otrosProyectos.stream().map(Proyecto::getPoligono).toList()));
-            if (!checkMonthlyRequests()) return null;
+            if (!checkMonthlyRequests()) {
+                Files.copy(defaultFile.toPath(), imageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(defaultFile.toPath(), contextFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                return contextFile;
+            };
 
             try (InputStream is = HttpRequest.get(mapUrl).execute().getInputStream()) {
                 Files.copy(is, contextFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 incrementMonthlyRequests();
             }
 
-            
-            File imageFile = new File(folder, proyecto.getId() + ".png");
             if (otrosProyectos == null || otrosProyectos.isEmpty()) {
                 Files.copy(contextFile.toPath(), imageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } else {

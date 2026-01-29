@@ -1,6 +1,5 @@
-package com.bteconosur.core.util.json;
+package com.bteconosur.core.util;
 
-import com.bteconosur.core.util.ConsoleLogger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonUtils {
