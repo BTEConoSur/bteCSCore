@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.crud.ciudad;
+package com.bteconosur.core.command.crud.division;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -7,16 +7,16 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
-import com.bteconosur.db.model.Ciudad;
+import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 
-public class CCiudadCommand extends BaseCommand {
+public class CDivisionCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public CCiudadCommand() {
-        super("create", "Crear una nueva Ciudad. Se crea sin poligono.", "<nombre> <nombre_publico> <id_pais>", CommandMode.BOTH);
+    public CDivisionCommand() {
+        super("create", "Crear una nueva Division. Se crea sin poligono.", "<nombre> <nombre_publico> <id_pais>", CommandMode.BOTH);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
@@ -35,13 +35,13 @@ public class CCiudadCommand extends BaseCommand {
         String nombrePublico = args[1];
         
         if (nombre.length() > 50) {
-            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Ciudad").replace("%name%", nombre).replace("%reason%", "Máximo 50 caracteres.");
+            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Division").replace("%name%", nombre).replace("%reason%", "Máximo 50 caracteres.");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if (nombrePublico.length() > 50) {
-            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Ciudad").replace("%name%", nombrePublico).replace("%reason%", "Máximo 50 caracteres.");
+            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Division").replace("%name%", nombrePublico).replace("%reason%", "Máximo 50 caracteres.");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -62,10 +62,10 @@ public class CCiudadCommand extends BaseCommand {
         }
 
         Pais pais = dbManager.get(Pais.class, paisId);
-        Ciudad ciudad = new Ciudad(pais, nombre, nombrePublico, null);
-        dbManager.save(ciudad);
+        Division division = new Division(pais, nombre, nombrePublico, null);
+        dbManager.save(division);
 
-        String message = lang.getString("crud-create").replace("%entity%", "Ciudad");
+        String message = lang.getString("crud-create").replace("%entity%", "Division");
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }

@@ -10,7 +10,6 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.TerraUtils;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;

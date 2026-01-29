@@ -10,7 +10,7 @@ public class TerraUtils {
     public static double[] toMc(double lat, double lon) {
         try {
             //ConsoleLogger.debug("Convirtiendo coordenadas geográficas a Minecraft: Lat=" + lat + ", Lon=" + lon);   
-            return geographicProjection.fromGeo(lat, lon);
+            return geographicProjection.fromGeo(lon, lat);
         } catch (Exception e) {
             ConsoleLogger.error("Error al convertir coordenadas geográficas a Minecraft: " + e.getMessage()); //TODO: mejorar manejo de excepciones
             e.printStackTrace();
@@ -30,3 +30,5 @@ public class TerraUtils {
     }
 
 }
+//Maps -> Lat Lon
+//GeoJson -> Lon Lat

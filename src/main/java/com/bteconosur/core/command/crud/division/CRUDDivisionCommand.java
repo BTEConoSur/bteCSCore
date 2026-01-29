@@ -1,22 +1,24 @@
-package com.bteconosur.core.command.crud.ciudad.update;
+package com.bteconosur.core.command.crud.division;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
+import com.bteconosur.core.command.crud.division.update.UDivisionCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
 
-public class UCiudadCommand extends BaseCommand {
+public class CRUDDivisionCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
 
-    public UCiudadCommand() {
-        super("update", "Actualizar atributos de una Ciudad.", null, CommandMode.BOTH);
-        this.addSubcommand(new UCiudadNombreCommand());
-        this.addSubcommand(new UpdateCiudadPoligonoCommand());
-        this.addSubcommand(new UCiudadNombrePublicoCommand());
+    public CRUDDivisionCommand() {
+        super("division", "Realizar operaciones CRUD sobre divisiones.", null, CommandMode.BOTH);
+        this.addSubcommand(new CDivisionCommand());
+        this.addSubcommand(new RDivisionCommand());
+        this.addSubcommand(new UDivisionCommand());
+        this.addSubcommand(new DDivisionCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();

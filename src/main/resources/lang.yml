@@ -178,7 +178,7 @@ invalid-player-name: "Máximo 16 caracteres permitidos para el nombre del jugado
 invalid-project-name: "Máximo 50 caracteres permitidos para el nombre del proyecto."
 invalid-project-description: "Máximo 100 caracteres permitidos para la descripción del proyecto."
 invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50m²."
-invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una ciudad válida."
+invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una división válida."
 nickname-change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 nickname-set: "<green>El nombre público de <yellow>'%player%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 
@@ -516,13 +516,13 @@ rango-promote-log: "🛡️ | **%staff%** ha cambiado el Rango de Usuario de **%
 # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %lider% -> Nombre del líder del proyecto.
 # %proyectoId% -> Id del proyecto.
 # %tipoId% -> Id del tipo de proyecto. %tipoNombre% -> Nombre del tipo de proyecto.
-# %ciudadId% -> Id de la ciudad. %ciudadNombre% -> Ciudad donde se ubica el proyecto.
+# %divisionId% -> Id de la division. %divisionNombre% -> division donde se ubica el proyecto.
 manager-add-log: "👔 | **%staff%** ha agregado a **%player%** como Manager del país."
 manager-remove-log: "❌ | **%staff%** ha removido a **%player%** como Manager del país."
 reviewer-add-log: "🔍 | **%staff%** ha agregado a **%player%** como Reviewer del país."
 reviewer-remove-log: "❌ | **%staff%** ha removido a **%player%** como Reviewer del país."
 
-project-create-log: "📋 | **%player%** ha creado el proyecto `%proyectoId%`. Tipo: `%tipoId%`-`%tipoNombre%`. Ciudad: `%ciudadId%`-`%ciudadNombre%`. Nombre: `%proyectoNombre%`. Descripción: `%proyectoDescripcion%`."
+project-create-log: "📋 | **%player%** ha creado el proyecto `%proyectoId%`. Tipo: `%tipoId%`-`%tipoNombre%`. division: `%divisionId%`-`%divisionNombre%`. Nombre: `%proyectoNombre%`. Descripción: `%proyectoDescripcion%`."
 project-create-request-accepted-log: "✅ | **%staff%** ha aceptado el proyecto `%proyectoId%` de **%lider%**."
 project-create-request-denied-log: "❌ | **%staff%** ha denegado el proyecto `%proyectoId%` de **%lider%**."
 project-create-request-expired-log: "❌ | La solicitud de creación del proyecto `%proyectoId%` de **%lider%** ha expirado."

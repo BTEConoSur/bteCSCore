@@ -5,7 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
-import com.bteconosur.core.command.crud.ciudad.CRUDCiudadCommand;
+import com.bteconosur.core.command.crud.division.CRUDDivisionCommand;
 import com.bteconosur.core.command.crud.pais.CRUDPaisCommand;
 import com.bteconosur.core.command.crud.player.CRUDPlayerCommand;
 import com.bteconosur.core.command.crud.rangousuario.CRUDRangoUsuarioCommand;
@@ -24,7 +24,7 @@ public class CrudCommand extends BaseCommand {
         this.addSubcommand(new CRUDTipoUsuarioCommand());
         this.addSubcommand(new CRUDRangoUsuarioCommand());
         this.addSubcommand(new CRUDPaisCommand());
-        this.addSubcommand(new CRUDCiudadCommand());
+        this.addSubcommand(new CRUDDivisionCommand());
             this.addSubcommand(new CRUDTipoProyectoCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();

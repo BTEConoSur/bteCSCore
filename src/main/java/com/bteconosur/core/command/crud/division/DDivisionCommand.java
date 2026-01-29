@@ -1,24 +1,22 @@
-package com.bteconosur.core.command.crud.ciudad.update;
+package com.bteconosur.core.command.crud.division;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
-import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.DBManager;
-import com.bteconosur.db.model.Ciudad;
+import com.bteconosur.db.model.Division;
 
-public class UpdateCiudadPoligonoCommand extends BaseCommand {
+public class DDivisionCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public UpdateCiudadPoligonoCommand() {
-        super("poligono", "Actualizar polígono de una Ciudad con la región seleccionada.", "<id>", CommandMode.PLAYER_ONLY);
+    public DDivisionCommand() {
+        super("delete", "Eliminar Division.", "<id>", CommandMode.BOTH);
+        
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
@@ -35,29 +33,24 @@ public class UpdateCiudadPoligonoCommand extends BaseCommand {
         Long id;
         try {
             id = Long.parseLong(args[0]);
-        } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-id").replace("%entity%", "Ciudad").replace("%id%", args[0]);
+        } catch (NumberFormatException exception) {
+            String message = lang.getString("crud-not-valid-id").replace("%entity%", "Division").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        if (!dbManager.exists(Ciudad.class, id)) {
-            String message = lang.getString("crud-read-not-found").replace("%entity%", "Ciudad").replace("%id%", args[0]);
+        if (!dbManager.exists(Division.class, id)) {
+            String message = lang.getString("crud-read-not-found").replace("%entity%", "Division").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        Player player = (Player) sender;
-        Polygon regionPolygon = RegionUtils.getPolygon(player);
-        if (regionPolygon == null) return true;
+        Division division = dbManager.get(Division.class, id);
+        dbManager.remove(division);
 
-        Ciudad ciudad = dbManager.get(Ciudad.class, id);
-        ciudad.setPoligono(regionPolygon);
-        dbManager.merge(ciudad);
-
-        String message = lang.getString("crud-update").replace("%entity%", "Ciudad").replace("%id%", args[0]);
+        String message = lang.getString("crud-delete").replace("%entity%", "Division").replace("%id%", args[0]);
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }
-
+    
 }

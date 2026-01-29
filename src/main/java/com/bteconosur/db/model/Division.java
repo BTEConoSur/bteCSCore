@@ -19,19 +19,22 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ciudad")
-public class Ciudad {
+@Table(name = "division")
+public class Division {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_ciudad", nullable = false)
+    @Column(name = "id_division", nullable = false)
     private Long id;
 
     @Column(name = "nombre", length = 50, nullable = false)
     private String nombre;
 
-    @Column(name = "nombre_publico", length = 50, nullable = false)
-    private String nombrePublico;
+    @Column(name = "tipo_division", length = 50)
+    private String tipoDivision;
+
+    @Column(name = "contexto", length = 100)
+    private String contexto;
 
     @Column(name = "poligono")
     @JdbcTypeCode(SqlTypes.GEOMETRY)
@@ -46,12 +49,13 @@ public class Ciudad {
     @JsonIgnore
     private Set<Proyecto> proyectos = new HashSet<>();
 
-    public Ciudad() {
+    public Division() {
     }
 
-    public Ciudad(Pais pais, String nombre, String nombrePublico, Polygon poligono) {
+    public Division(Pais pais, String nombre, String tipoDivision, String contexto, Polygon poligono) {
         this.nombre = nombre;
-        this.nombrePublico = nombrePublico;
+        this.tipoDivision = tipoDivision;
+        this.contexto = contexto;
         this.poligono = poligono;
         this.pais = pais;
     }
@@ -72,12 +76,20 @@ public class Ciudad {
         this.nombre = nombre;
     }
 
-    public String getNombrePublico() {
-        return nombrePublico;
+    public String getTipoDivision() {
+        return tipoDivision;
     }
 
-    public void setNombrePublico(String nombrePublico) {
-        this.nombrePublico = nombrePublico;
+    public void setTipoDivision(String tipoDivision) {
+        this.tipoDivision = tipoDivision;
+    }
+
+    public String getContexto() {
+        return contexto;
+    }
+
+    public void setContexto(String contexto) {
+        this.contexto = contexto;
     }
 
     public Polygon getPoligono() {

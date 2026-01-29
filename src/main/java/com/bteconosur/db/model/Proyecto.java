@@ -65,8 +65,8 @@ public class Proyecto {
     private Player lider;
 
     @ManyToOne
-    @JoinColumn(name = "id_ciudad")
-    private Ciudad ciudad;
+    @JoinColumn(name = "id_division")
+    private Division division;
 
     @ManyToMany(mappedBy = "proyectos", fetch = FetchType.EAGER)
     @JsonIgnore
@@ -75,7 +75,7 @@ public class Proyecto {
     public Proyecto() {
     }
 
-    public Proyecto(String nombre, String descripcion, Estado estado, Polygon poligono, Double tamaño, TipoProyecto tipoProyecto, Player lider, Ciudad ciudad, Date fechaCreado) {
+    public Proyecto(String nombre, String descripcion, Estado estado, Polygon poligono, Double tamaño, TipoProyecto tipoProyecto, Player lider, Division division, Date fechaCreado) {
         this.id = IDUtils.generarCodigoProyecto();
         if (nombre == null) nombre = this.id;
         else this.nombre = nombre;
@@ -85,7 +85,7 @@ public class Proyecto {
         this.tamaño = tamaño;
         this.tipoProyecto = tipoProyecto;
         this.lider = lider;
-        this.ciudad = ciudad;
+        this.division = division;
         this.fechaCreado = fechaCreado;
     }
 
@@ -153,17 +153,17 @@ public class Proyecto {
         this.miembros = miembros;
     }
 
-    public Ciudad getCiudad() {
-        return ciudad;
+    public Division getDivision() {
+        return division;
     }
 
-    public void setCiudad(Ciudad ciudad) {
-        this.ciudad = ciudad;
+    public void setDivision(Division division) {
+        this.division = division;
     }
 
     public Pais getPais() {
-        if (ciudad == null) return null;
-        return ciudad.getPais();
+        if (division == null) return null;
+        return division.getPais();
     }
 
     public void addMiembro(Player player) {

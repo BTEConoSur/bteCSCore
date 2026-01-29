@@ -59,7 +59,7 @@ public class Pais {
     @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JsonIgnore
-    private List<Ciudad> ciudades = new ArrayList<>();
+    private List<Division> divisiones = new ArrayList<>();
 
     @ManyToMany(mappedBy = "paisesManager", fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
@@ -160,12 +160,12 @@ public class Pais {
         this.regiones = regiones;
     }
 
-    public List<Ciudad> getCiudades() {
-        return ciudades;
+    public List<Division> getDivisiones() {
+        return divisiones;
     }
 
-    public void setCiudades(List<Ciudad> ciudades) {
-        this.ciudades = ciudades;
+    public void setDivisiones(List<Division> divisiones) {
+        this.divisiones = divisiones;
     }
 
     public Set<Player> getManagers() {
@@ -208,12 +208,12 @@ public class Pais {
         this.reviewers.remove(player);
     }
 
-    public void addCiudad(Ciudad ciudad) {
-        this.ciudades.add(ciudad);
+    public void addDivision(Division division) {
+        this.divisiones.add(division);
     }
 
-    public void removeCiudad(Ciudad ciudad) {
-        this.ciudades.remove(ciudad);
+    public void removeDivision(Division division) {
+        this.divisiones.remove(division);
     }
 
     @Override

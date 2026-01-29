@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.crud.ciudad.update;
+package com.bteconosur.core.command.crud.division.update;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -7,15 +7,15 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
-import com.bteconosur.db.model.Ciudad;
+import com.bteconosur.db.model.Division;
 
-public class UCiudadNombreCommand extends BaseCommand {
+public class UDivisionNombreCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public UCiudadNombreCommand() {
-        super("nombre", "Actualizar nombre de una Ciudad.", "<id> <nuevo_nombre>", CommandMode.BOTH);
+    public UDivisionNombreCommand() {
+        super("nombre", "Actualizar nombre de una Division.", "<id> <nuevo_nombre>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
@@ -33,29 +33,29 @@ public class UCiudadNombreCommand extends BaseCommand {
         try {
             id = Long.parseLong(args[0]);
         } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-id").replace("%entity%", "Ciudad").replace("%id%", args[0]);
+            String message = lang.getString("crud-not-valid-id").replace("%entity%", "Division").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        if (!dbManager.exists(Ciudad.class, id)) {
-            String message = lang.getString("crud-read-not-found").replace("%entity%", "Ciudad").replace("%id%", args[0]);
+        if (!dbManager.exists(Division.class, id)) {
+            String message = lang.getString("crud-read-not-found").replace("%entity%", "Division").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         String nuevoNombre = args[1];
         if (nuevoNombre.length() > 50) {
-            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Ciudad").replace("%name%", nuevoNombre).replace("%reason%", "Máximo 50 caracteres.");
+            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Division").replace("%name%", nuevoNombre).replace("%reason%", "Máximo 50 caracteres.");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        Ciudad ciudad = dbManager.get(Ciudad.class, id);
-        ciudad.setNombre(nuevoNombre);
-        dbManager.merge(ciudad);
+        Division division = dbManager.get(Division.class, id);
+        division.setNombre(nuevoNombre);
+        dbManager.merge(division);
 
-        String message = lang.getString("crud-update").replace("%entity%", "Ciudad").replace("%id%", args[0]);
+        String message = lang.getString("crud-update").replace("%entity%", "Division").replace("%id%", args[0]);
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }
