@@ -53,7 +53,7 @@ public class AddDivisionesGeojsonCommand extends BaseCommand {
         String path = args[1];
         Pais pais = dbManager.get(Pais.class, paisId);
         
-        PlayerLogger.info(sender, "Cargando divisiones de pais " + pais.getNombre() + " en segundo plano...", (String) null);
+        PlayerLogger.info(sender, "Cargando divisiones del país '" + pais.getNombre() + "' en segundo plano...", (String) null);
         
         Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
             try {

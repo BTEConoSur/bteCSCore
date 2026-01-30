@@ -12,6 +12,7 @@ import com.bteconosur.core.command.config.UnlinkCommand;
 import com.bteconosur.core.command.crud.CrudCommand;
 import com.bteconosur.core.command.manager.ManagerCommand;
 import com.bteconosur.core.command.pais.PaisPrefixCommand;
+import com.bteconosur.core.command.pais.WhereIAmCommand;
 import com.bteconosur.core.command.project.ProjectCommand;
 import com.bteconosur.core.command.reviewer.ReviewerCommand;
 import com.bteconosur.core.config.ConfigHandler;
@@ -141,6 +142,7 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new LinkCommand());
         PluginRegistry.registerCommand(new UnlinkCommand());
         PluginRegistry.registerCommand(new NicknameCommand());
+        PluginRegistry.registerCommand(new WhereIAmCommand());
         ConsoleLogger.info("El Plugin se ha activado.");
         
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());

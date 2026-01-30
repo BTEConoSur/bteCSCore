@@ -210,9 +210,9 @@ public class GeoJsonUtils {
 
                 List<Polygon> polygons = geoJsonToPolygons(fullPath, file.getName());
                 Set<RegionDivision> regiones = new HashSet<>();
-                Division division = new Division(pais, name, type, context);
+                Division division = new Division(pais, file.getName(), name, type, context);
                 for (int g = 0; g < polygons.size(); g++) {
-                    String regionName = division.getNombre() + "_" + file.getName() + "_" + (g + 1);
+                    String regionName = division.getNombre() + "_" + (g + 1);
                     regiones.add(new RegionDivision(division, regionName, polygons.get(g)));
                 }
                 division.setRegiones(new ArrayList<>(regiones));

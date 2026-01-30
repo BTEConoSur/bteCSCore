@@ -190,10 +190,9 @@ project-create-request-rejected: "<red>El Proyecto de ID <yellow>'%proyectoId%'<
 project-create-request-comment-rejected: "<red>Comentario: <gray>\"<white>%comentario%<gray>\"" # %comentario% -> Comentario del staff.
 project-create-request-expired: "<red>La solicitud de proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
 
-where-pais: "Estas en el país: <yellow>'%pais%'</yellow>." # %pais% -> Nombre del país.
+where-division: "Pais: <yellow>%pais%</yellow> %divisionType%: <yellow>%divisionContext%, %divisionName%</yellow>" # %pais% -> Nombre del país. %divisionType% -> Tipo de división. %divisionContext% -> Contexto de la división. %divisionName% -> Nombre oficial de la división.
+where-no-division: "No estás dentro de ninguna división del '%pais%'." # %pais% -> Nombre del país.
 where-no-pais: "No estás dentro de ningún país."
-where-division: "Estás en la división: <yellow>'%division%'</yellow> del país <yellow>'%pais%'</yellow>." # %division% -> Nombre de la división. %pais% -> Nombre del país.
-where-no-division: "No estás dentro de ninguna división."
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.

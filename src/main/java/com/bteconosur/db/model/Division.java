@@ -33,6 +33,9 @@ public class Division {
     @Column(name = "nombre", length = 100, nullable = false)
     private String nombre;
 
+     @Column(name = "nombre_publico", length = 100, nullable = false)
+    private String nombrePublico;
+
     @Column(name = "tipo_division", length = 100)
     private String tipoDivision;
 
@@ -55,8 +58,9 @@ public class Division {
     public Division() {
     }
 
-    public Division(Pais pais, String nombre, String tipoDivision, String contexto) {
+    public Division(Pais pais, String nombre, String nombrePublico, String tipoDivision, String contexto) {
         this.nombre = nombre;
+        this.nombrePublico = nombrePublico;
         this.tipoDivision = tipoDivision;
         this.contexto = contexto;
         this.pais = pais;
@@ -76,6 +80,14 @@ public class Division {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getNombrePublico() {
+        return nombrePublico;
+    }
+
+    public void setNombrePublico(String nombrePublico) {
+        this.nombrePublico = nombrePublico;
     }
 
     public String getTipoDivision() {
