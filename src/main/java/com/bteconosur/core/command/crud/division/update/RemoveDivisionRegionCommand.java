@@ -8,14 +8,15 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Division;
+import com.bteconosur.db.model.RegionDivision;
 
-public class UDivisionNombreCommand extends BaseCommand {
+public class RemoveDivisionRegionCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public UDivisionNombreCommand() {
-        super("nombre", "Actualizar nombre de una Division.", "<id> <nuevo_nombre>", CommandMode.BOTH);
+    public RemoveDivisionRegionCommand() {
+        super("removeregion", "Eliminar región de una División.", "<id_division> <id_region>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
@@ -29,33 +30,48 @@ public class UDivisionNombreCommand extends BaseCommand {
             return true;
         }
 
-        Long id;
+        Long divisionId;
         try {
-            id = Long.parseLong(args[0]);
+            divisionId = Long.parseLong(args[0]);
         } catch (NumberFormatException ex) {
             String message = lang.getString("crud-not-valid-id").replace("%entity%", "Division").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        if (!dbManager.exists(Division.class, id)) {
+        if (!dbManager.exists(Division.class, divisionId)) {
             String message = lang.getString("crud-read-not-found").replace("%entity%", "Division").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        String nuevoNombre = args[1];
-        if (nuevoNombre.length() > 100) {
-            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Division").replace("%name%", nuevoNombre).replace("%reason%", "Máximo 100 caracteres.");
+        Long regionId;
+        try {
+            regionId = Long.parseLong(args[1]);
+        } catch (NumberFormatException ex) {
+            String message = lang.getString("crud-not-valid-id").replace("%entity%", "RegionDivision").replace("%id%", args[1]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        Division division = dbManager.get(Division.class, id);
-        division.setNombre(nuevoNombre);
+        if (!dbManager.exists(RegionDivision.class, regionId)) {
+            String message = lang.getString("crud-read-not-found").replace("%entity%", "RegionDivision").replace("%id%", args[1]);
+            PlayerLogger.error(sender, message, (String) null);
+            return true;
+        }
+
+        RegionDivision region = dbManager.get(RegionDivision.class, regionId);
+        if (!region.getDivision().getId().equals(divisionId)) {
+            PlayerLogger.error(sender, "La región con ID " + regionId + " no pertenece a la división con ID " + divisionId, (String) null);
+            return true;
+        }
+
+        Division division = dbManager.get(Division.class, divisionId);
+        division.getRegiones().remove(region);
+        dbManager.remove(region);
         dbManager.merge(division);
 
-        String message = lang.getString("crud-update").replace("%entity%", "Division").replace("%id%", args[0]);
+        String message = lang.getString("crud-delete").replace("%entity%", "RegionDivision").replace("%id%", args[1]);
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }

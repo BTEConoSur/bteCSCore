@@ -20,7 +20,10 @@ public class BTECSTestCommand extends BaseCommand {
         this.addSubcommand(new TestPaginatedMenuCommand());
         this.addSubcommand(new TestDiscordLogger());
         this.addSubcommand(new TestPlayerLoggerCommand());
-        this.addSubcommand(new TestRegionGeoJsonCommand());
+        this.addSubcommand(new TestRegionPaisGeojsonCommand());
+        this.addSubcommand(new TestRegionDivisionGeojsonCommand());
+        this.addSubcommand(new TestAllRegionPaisGeojsonCommand());
+        this.addSubcommand(new TestAllRegionDivisionGeojsonCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

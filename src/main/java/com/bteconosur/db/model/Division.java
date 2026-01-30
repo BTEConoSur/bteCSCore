@@ -1,15 +1,18 @@
 package com.bteconosur.db.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-import org.locationtech.jts.geom.MultiPolygon;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,23 +30,23 @@ public class Division {
     @Column(name = "id_division", nullable = false)
     private Long id;
 
-    @Column(name = "nombre", length = 50, nullable = false)
+    @Column(name = "nombre", length = 100, nullable = false)
     private String nombre;
 
-    @Column(name = "tipo_division", length = 50)
+    @Column(name = "tipo_division", length = 100)
     private String tipoDivision;
 
     @Column(name = "contexto", length = 100)
     private String contexto;
 
-    @Column(name = "poligono")
-    @JdbcTypeCode(SqlTypes.GEOMETRY)
-    @JsonIgnore // evita que Jackson intente serializar la geometría cruda
-    private MultiPolygon poligono;
-
     @ManyToOne
     @JoinColumn(name = "id_pais")
     private Pais pais;
+
+    @OneToMany(mappedBy = "division", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    @JsonIgnore
+    private List<RegionDivision> regiones = new ArrayList<>();
 
     @OneToMany(mappedBy = "division")
     @JsonIgnore
@@ -52,11 +55,10 @@ public class Division {
     public Division() {
     }
 
-    public Division(Pais pais, String nombre, String tipoDivision, String contexto, MultiPolygon poligono) {
+    public Division(Pais pais, String nombre, String tipoDivision, String contexto) {
         this.nombre = nombre;
         this.tipoDivision = tipoDivision;
         this.contexto = contexto;
-        this.poligono = poligono;
         this.pais = pais;
     }
 
@@ -92,14 +94,14 @@ public class Division {
         this.contexto = contexto;
     }
 
-    public MultiPolygon getPoligono() {
-        return poligono;
+    public List<RegionDivision> getRegiones() {
+        return regiones;
     }
 
-    public void setPoligono(MultiPolygon poligono) {
-        this.poligono = poligono;
+    public void setRegiones(List<RegionDivision> regiones) {
+        this.regiones = regiones;
     }
-    
+
     public Pais getPais() {
         return pais;
     }

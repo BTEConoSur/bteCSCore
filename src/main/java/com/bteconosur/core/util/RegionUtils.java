@@ -8,7 +8,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.config.ConfigHandler;
@@ -122,11 +121,6 @@ public class RegionUtils {
     public static boolean containsCoordinate(Polygon poly, double x, double z) {
         if (poly == null || poly.isEmpty()) return false;
         return poly.contains(gf.createPoint(new Coordinate(x, z)));
-    }
-
-    public static boolean containsCoordinate(MultiPolygon multiPoly, double x, double z) {
-        if (multiPoly == null || multiPoly.isEmpty()) return false;
-        return multiPoly.contains(gf.createPoint(new Coordinate(x, z)));
     }
 
 }

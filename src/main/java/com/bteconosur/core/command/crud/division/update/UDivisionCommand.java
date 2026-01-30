@@ -18,6 +18,9 @@ public class UDivisionCommand extends BaseCommand {
         this.addSubcommand(new UpdateDivisionPoligonoCommand());
         this.addSubcommand(new UDivisionTipoDivisionCommand());
         this.addSubcommand(new UDivisionContextoCommand());
+        this.addSubcommand(new UDivisionPaisCommand());
+        this.addSubcommand(new AddDivisionRegionGeojsonCommand());
+        this.addSubcommand(new RemoveDivisionRegionCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();

@@ -45,8 +45,8 @@ public class UDivisionTipoDivisionCommand extends BaseCommand {
         }
 
         String nuevoTipo = args[1];
-        if (nuevoTipo.length() > 50) {
-            String message = lang.getString("crud-not-valid-type").replace("%entity%", "Division").replace("%type%", nuevoTipo).replace("%reason%", "Máximo 50 caracteres.");
+        if (nuevoTipo.length() > 100) {
+            String message = lang.getString("crud-not-valid-type").replace("%entity%", "Division").replace("%type%", nuevoTipo).replace("%reason%", "Máximo 100 caracteres.");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }

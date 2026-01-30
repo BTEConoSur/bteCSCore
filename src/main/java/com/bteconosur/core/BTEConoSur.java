@@ -248,3 +248,4 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: Configuracion para managers / reviewers desactivar bypass
 // TODO: easter egg en coords
 // TODO: Cuando vinculas mensaje
+// TODO: Configuracion para desactivar bypass

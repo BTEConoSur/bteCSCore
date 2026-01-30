@@ -75,7 +75,7 @@ public class CDivisionCommand extends BaseCommand {
         }
 
         Pais pais = dbManager.get(Pais.class, paisId);
-        Division division = new Division(pais, nombre, tipoDivision, contexto, null); //TODO: poligono desde geojson
+        Division division = new Division(pais, nombre, tipoDivision, contexto); //TODO: poligono desde geojson
         dbManager.save(division);
 
         String message = lang.getString("crud-create").replace("%entity%", "Division");

@@ -1,12 +1,12 @@
 package com.bteconosur.core.command.btecs.test;
 
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.locationtech.jts.geom.Polygon;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
@@ -14,16 +14,16 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.GeoJsonUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
-import com.bteconosur.db.model.RegionPais;
+import com.bteconosur.db.model.RegionDivision;
 
-public class TestRegionGeoJsonCommand extends BaseCommand {
+public class TestRegionDivisionGeojsonCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
     private final BTEConoSur plugin;
 
-    public TestRegionGeoJsonCommand() {
-        super("regiongeojson", "Imprimir GeoJSON de una región por ID.", "<id_region>", CommandMode.BOTH);
+    public TestRegionDivisionGeojsonCommand() {
+        super("regiondivisiongeojson", "Crear GeoJSON de una región de división por ID. Se guarda en geojson/output", "<id_region>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
@@ -42,26 +42,26 @@ public class TestRegionGeoJsonCommand extends BaseCommand {
         try {
             regionId = Long.parseLong(args[0]);
         } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-id").replace("%entity%", "RegionPais").replace("%id%", args[0]);
+            String message = lang.getString("crud-not-valid-id").replace("%entity%", "RegionDivision").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        if (!dbManager.exists(RegionPais.class, regionId)) {
-            String message = lang.getString("crud-read-not-found").replace("%entity%", "RegionPais").replace("%id%", args[0]);
+        if (!dbManager.exists(RegionDivision.class, regionId)) {
+            String message = lang.getString("crud-read-not-found").replace("%entity%", "RegionDivision").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        RegionPais region = dbManager.get(RegionPais.class, regionId);
+        RegionDivision region = dbManager.get(RegionDivision.class, regionId);
         Polygon polygon = region.getPoligono();
         if (polygon == null) {
             PlayerLogger.error(sender, "La región no tiene polígono asociado.", (String) null);
             return true;
         }
 
-        String borderColor = lang.getString("map.project.border-color").replace("#", "%23");
-        String fillColor = lang.getString("map.project.fill-color").replace("#", "%23");
+        String borderColor = lang.getString("map.project.border-color");
+        String fillColor = lang.getString("map.project.fill-color");
         String geoJson = GeoJsonUtils.polygonToGeoJson(polygon, fillColor, borderColor);
 
         try {
@@ -70,7 +70,7 @@ public class TestRegionGeoJsonCommand extends BaseCommand {
                 folder.mkdirs();
             }
 
-            String fileName = "region_" + regionId + ".geojson";
+            String fileName = "regiondivision_" + regionId + ".geojson";
             Path filePath = new File(folder, fileName).toPath();
             Files.writeString(filePath, geoJson);
 
@@ -79,7 +79,7 @@ public class TestRegionGeoJsonCommand extends BaseCommand {
         } catch (Exception e) {
             PlayerLogger.error(sender, "Error al guardar GeoJSON: " + e.getMessage(), (String) null);
         }
-        return true;
+        return true; 
     }
 
 }

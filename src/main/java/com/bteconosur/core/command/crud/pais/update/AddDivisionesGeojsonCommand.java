@@ -2,25 +2,26 @@ package com.bteconosur.core.command.crud.pais.update;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.locationtech.jts.geom.Polygon;
 
+import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.GeoJsonUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
-import com.bteconosur.db.model.RegionPais;
 
-public class UPaisGeoJsonCommand extends BaseCommand {
+public class AddDivisionesGeojsonCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public UPaisGeoJsonCommand() {
-        super("geojson", "Cargar regiones de un País desde un archivo GeoJSON.", "<id_pais> <archivo_geojson>", CommandMode.BOTH);
+    public AddDivisionesGeojsonCommand() {
+        super("adddivisiones", "Cargar divisiones de un País desde archivos GeoJSON.", "<id_pais> <carpeta_geojson>", CommandMode.CONSOLE_ONLY);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
@@ -49,25 +50,32 @@ public class UPaisGeoJsonCommand extends BaseCommand {
             return true;
         }
 
-        String fileName = args[1];
-        List<Polygon> polygons = GeoJsonUtils.geoJsonToCountry(fileName);
-        if (polygons == null || polygons.isEmpty()) {
-            PlayerLogger.error(sender, "No se pudo cargar el GeoJSON o no contiene polígonos.", (String) null);
-            return true;
-        }
-
+        String path = args[1];
         Pais pais = dbManager.get(Pais.class, paisId);
+        
+        PlayerLogger.info(sender, "Cargando divisiones de pais " + pais.getNombre() + " en segundo plano...", (String) null);
+        
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            try {
+                List<Division> divisions = GeoJsonUtils.geoJsonToDivisions(pais, path);
+                
+                if (divisions == null || divisions.isEmpty()) {
+                    PlayerLogger.error(sender, "No se pudo cargar los GeoJSON o \"" + path + "\" no contiene divisiones.", (String) null);
+                    return;
+                }
 
-        for (int i = 0; i < polygons.size(); i++) {
-            String regionName = pais.getNombre() + "_" + fileName + "_" + (i + 1);
-            RegionPais region = new RegionPais(pais, regionName, polygons.get(i));
-            dbManager.save(region);
-        }
+                for (Division division : divisions) {
+                    dbManager.save(division);
+                }
 
-        String message = lang.getString("crud-update").replace("%entity%", "Pais").replace("%id%", args[0]);
-        PlayerLogger.info(sender, message, (String) null);
+                String message = lang.getString("crud-update").replace("%entity%", "Pais").replace("%id%", args[0]);
+                PlayerLogger.info(sender, message + " (" + divisions.size() + " divisiones cargadas)", (String) null);
+            } catch (Exception e) {
+                PlayerLogger.error(sender, "Error al cargar divisiones: " + e.getMessage(), (String) null);
+                e.printStackTrace();
+            }
+        });
         return true;
     }
-
 
 }

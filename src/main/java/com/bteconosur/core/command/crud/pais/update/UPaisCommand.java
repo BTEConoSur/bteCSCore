@@ -21,8 +21,9 @@ public class UPaisCommand extends BaseCommand {
         this.addSubcommand(new UPaisDsIdLogCommand());
         this.addSubcommand(new UPaisDsIdRequestCommand());
         this.addSubcommand(new UPaisNombrePublicoCommand());
-        this.addSubcommand(new AddPaisRegionCommand());
-        this.addSubcommand(new UPaisGeoJsonCommand());
+        this.addSubcommand(new AddPaisRegionGeojsonCommand());
+        this.addSubcommand(new AddDivisionesGeojsonCommand());
+        this.addSubcommand(new RemovePaisRegionCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
