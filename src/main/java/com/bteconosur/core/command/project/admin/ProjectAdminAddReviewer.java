@@ -3,6 +3,7 @@ package com.bteconosur.core.command.project.admin;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -22,7 +23,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class ProjectAdminAddReviewer extends BaseCommand {
 
     private final YamlConfiguration lang;
-    private final Set<String> paises = PaisRegistry.getInstance().getMap().keySet();
+    private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
     public ProjectAdminAddReviewer() {
         super("addreviewer", "Añadir Reviewer a un país.", "<nombre_pais> <uuid/nombre_reviewer>", "btecs.command.project.admin.addreviewer", CommandMode.PLAYER_ONLY);

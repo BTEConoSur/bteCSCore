@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.TipoUsuario;
 
-public class TipoUsuarioRegistry extends Registry<String, TipoUsuario> {
+public class TipoUsuarioRegistry extends Registry<Long, TipoUsuario> {
 
     private static TipoUsuarioRegistry instance;
 
@@ -17,8 +17,8 @@ public class TipoUsuarioRegistry extends Registry<String, TipoUsuario> {
         List<TipoUsuario> tipos = dbManager.selectAll(TipoUsuario.class);
         if (tipos != null) {
             for (TipoUsuario tipo : tipos) {
-                if (tipo.getNombre() != null) {
-                    loadedObjects.put(tipo.getNombre(), tipo);
+                if (tipo.getId() != null) {
+                    loadedObjects.put(tipo.getId(), tipo);
                 }
             }
         }
@@ -27,9 +27,18 @@ public class TipoUsuarioRegistry extends Registry<String, TipoUsuario> {
 
     @Override
     public void load(TipoUsuario obj) {
-        if (obj == null || obj.getNombre() == null) return;
-        loadedObjects.put(obj.getNombre(), obj);
+        if (obj == null || obj.getId() == null) return;
         dbManager.save(obj);
+        loadedObjects.put(obj.getId(), obj);
+    }
+
+    public TipoUsuario get(String name) {
+        for (TipoUsuario tipo : loadedObjects.values()) {
+            if (tipo.getNombre().equalsIgnoreCase(name)) {
+                return tipo;
+            }
+        }
+        return null;
     }
 
     public TipoUsuario getVisita() {

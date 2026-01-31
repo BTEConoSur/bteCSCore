@@ -160,7 +160,7 @@ public class RegionUtils {
             if (distance <= maxDistance) {
                 for (int layer = 0; layer < layers; layer++) {
                     Location loc = new Location(world, coord.x, height + layer, coord.y);
-                    ConsoleLogger.debug("Spawning particle " + particleName + " at (" + coord.x + ", " + (height + layer) + ", " + coord.y + ")");
+                    //ConsoleLogger.debug("Spawning particle " + particleName + " at (" + coord.x + ", " + (height + layer) + ", " + coord.y + ")");
                     world.spawnParticle(particle, loc, 1, 0, 0, 0, 0);
                 }
             }

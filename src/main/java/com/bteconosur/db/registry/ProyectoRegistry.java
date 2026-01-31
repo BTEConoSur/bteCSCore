@@ -40,10 +40,10 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     @Override
     public void load(Proyecto obj) {
         if (obj == null || obj.getId() == null) return;
+        dbManager.save(obj);
         loadedObjects.put(obj.getId(), obj);
         Set<ChunkKey> chunkKeys = RegionUtils.chunksFor(obj);
         for (ChunkKey chunkKey : chunkKeys) loadedChunkProyectos.computeIfAbsent(chunkKey, k -> new ArrayList<>()).add(obj.getId());
-        dbManager.save(obj);
     }
 
     @Override

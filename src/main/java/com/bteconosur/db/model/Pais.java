@@ -51,22 +51,22 @@ public class Pais {
     @Column(name = "ds_id_request", nullable = false)
     private Long dsIdRequest;
 
-    @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pais", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     @JsonIgnore
     private List<RegionPais> regiones = new ArrayList<>();
 
-    @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pais", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     @JsonIgnore
     private List<Division> divisiones = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "paisesManager", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "paisesManager", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     @JsonIgnore
     private Set<Player> managers = new HashSet<>();
 
-    @ManyToMany(mappedBy = "paisesReviewer", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "paisesReviewer", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     @JsonIgnore
     private Set<Player> reviewers = new HashSet<>();
@@ -151,17 +151,9 @@ public class Pais {
     public void setDsIdRequest(Long dsIdRequest) {
         this.dsIdRequest = dsIdRequest;
     }
-
-    public List<RegionPais> getRegiones() {
-        return regiones;
-    }
-
+    
     public void setRegiones(List<RegionPais> regiones) {
         this.regiones = regiones;
-    }
-
-    public List<Division> getDivisiones() {
-        return divisiones;
     }
 
     public void setDivisiones(List<Division> divisiones) {

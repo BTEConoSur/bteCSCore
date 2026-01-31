@@ -26,8 +26,8 @@ public class PlayerRegistry extends Registry<UUID, Player> {
     @Override
     public void load(Player obj) {
         if (obj == null || obj.getUuid() == null) return;
-        loadedObjects.put(obj.getUuid(), obj);
         dbManager.save(obj);
+        loadedObjects.put(obj.getUuid(), obj);
     }
 
     public void shutdown() {

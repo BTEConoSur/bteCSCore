@@ -1,5 +1,7 @@
 package com.bteconosur.core.command.crud.pais;
 
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -9,6 +11,7 @@ import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.RegionPais;
+import com.bteconosur.db.registry.PaisRegistry;
 
 public class GetListRegionPaisCommand extends BaseCommand {
 
@@ -47,8 +50,8 @@ public class GetListRegionPaisCommand extends BaseCommand {
         }
 
         Pais pais = dbManager.get(Pais.class, paisId);
-
-        if (pais.getRegiones().isEmpty()) {
+        List<RegionPais> regiones = PaisRegistry.getInstance().getRegions(pais);
+        if (regiones == null || regiones.isEmpty()) {
             String message = lang.getString("get-list-empty").replace("%entity%", "Regiones de " + pais.getNombre());
             PlayerLogger.warn(sender, message, (String) null);
             return true;
@@ -57,7 +60,7 @@ public class GetListRegionPaisCommand extends BaseCommand {
         String message = lang.getString("get-list-command.header").replace("%entity%", "Regiones de " + pais.getNombre());
 
         String lineFormat = lang.getString("get-list-command.line");
-        for (RegionPais region : pais.getRegiones()) {
+        for (RegionPais region : regiones) {
             String line = lineFormat
                 .replace("%id%", String.valueOf(region.getId()))
                 .replace("%details%", region.getNombre());

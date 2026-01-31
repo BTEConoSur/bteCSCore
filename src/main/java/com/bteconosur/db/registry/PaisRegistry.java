@@ -1,5 +1,6 @@
 package com.bteconosur.db.registry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -18,16 +19,46 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.RegionDivision;
 import com.bteconosur.db.model.RegionPais;
 
-public class PaisRegistry extends Registry<String, Pais> {
+public class PaisRegistry extends Registry<Long, Pais> {
 
     private static PaisRegistry instance;
+
+    private ConcurrentHashMap<Long, List<RegionPais>> loadedRegions = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Long, List<Division>> loadedDivisions = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Long, List<RegionDivision>> loadedRegionDivisions = new ConcurrentHashMap<>();
+
 
     public PaisRegistry() {
         super();
         ConsoleLogger.info(lang.getString("pais-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<Pais> paises = dbManager.selectAll(Pais.class);
-        if (paises != null) for (Pais p : paises) loadedObjects.put(p.getNombre(), p);
+        if (paises != null) for (Pais p : paises) loadedObjects.put(p.getId(), p);
+
+        List<RegionPais> todasRegiones = dbManager.selectAll(RegionPais.class);
+        List<Division> todasDivisiones = dbManager.selectAll(Division.class);
+        List<RegionDivision> todasRegionDivisiones = dbManager.selectAll(RegionDivision.class);
+
+        if (todasRegiones != null) {
+            for (RegionPais region : todasRegiones) {
+                Long paisId = region.getPais().getId();
+                loadedRegions.computeIfAbsent(paisId, k -> new ArrayList<>()).add(region);
+            }
+        }
+
+        if (todasDivisiones != null) {
+            for (Division division : todasDivisiones) {
+                Long paisId = division.getPais().getId();
+                loadedDivisions.computeIfAbsent(paisId, k -> new ArrayList<>()).add(division);
+            }
+        }
+
+        if (todasRegionDivisiones != null) {
+            for (RegionDivision region : todasRegionDivisiones) {
+                Long divisionId = region.getDivision().getId();
+                loadedRegionDivisions.computeIfAbsent(divisionId, k -> new ArrayList<>()).add(region);
+            }
+        }
 
         ensureDefaults();
         enableParticlesSpawning();
@@ -35,9 +66,18 @@ public class PaisRegistry extends Registry<String, Pais> {
 
     @Override
     public void load(Pais obj) {
-        if (obj == null || obj.getNombre() == null) return;
-        loadedObjects.put(obj.getNombre(), obj);
+        if (obj == null || obj.getId() == null) return;
         dbManager.save(obj);
+        loadedObjects.put(obj.getId(), obj);
+    }
+
+    public Pais get(String name) {
+        for (Pais pais : loadedObjects.values()) {
+            if (pais.getNombre().equalsIgnoreCase(name)) {
+                return pais;
+            }
+        }
+        return null;
     }
 
     public Pais getArgentina() {
@@ -80,6 +120,18 @@ public class PaisRegistry extends Registry<String, Pais> {
         return loadedObjects.values().stream().map(Pais::getDsIdCountryChat ).toList();
     }
 
+    public List<Division> getDivisions(Pais pais) {
+        return loadedDivisions.get(pais.getId());
+    }
+
+    public List<RegionPais> getRegions(Pais pais) {
+        return loadedRegions.get(pais.getId());
+    }
+
+    public List<RegionDivision> getRegionDivisions(Division division) {
+        return loadedRegionDivisions.get(division.getId());
+    }
+
     public Pais findByDsGuildId(Long dsGuildId) {
         if (dsGuildId == null) return null;
         for (Pais pais : loadedObjects.values()) {
@@ -115,7 +167,7 @@ public class PaisRegistry extends Registry<String, Pais> {
 
     public Pais findByLocation(double x, double z) {
         for (Pais pais : loadedObjects.values()) {
-            List<RegionPais> regiones = pais.getRegiones();
+            List<RegionPais> regiones = getRegions(pais);
             if (regiones == null) continue;
             for (RegionPais region : regiones) {
                 if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
@@ -128,7 +180,7 @@ public class PaisRegistry extends Registry<String, Pais> {
 
     public RegionPais findRegionByLocation(double x, double z) {
         for (Pais pais : loadedObjects.values()) {
-            List<RegionPais> regiones = pais.getRegiones();
+            List<RegionPais> regiones = getRegions(pais);
             if (regiones == null) continue;
             for (RegionPais region : regiones) {
                 if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
@@ -140,8 +192,8 @@ public class PaisRegistry extends Registry<String, Pais> {
     }
 
     public Division findDivisionByLocation(double x, double z, Pais pais) {
-        for (Division division : pais.getDivisiones()) {
-            List<RegionDivision> regiones = division.getRegiones();
+        for (Division division : getDivisions(pais)) {
+            List<RegionDivision> regiones = getRegionDivisions(division);
             if (regiones == null) continue;
             for (RegionDivision region : regiones) {
                 if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
@@ -165,7 +217,7 @@ public class PaisRegistry extends Registry<String, Pais> {
     }
 
     public Division getDefaultDivision(Pais pais) {
-        for (Division division : pais.getDivisiones()) {
+        for (Division division : getDivisions(pais)) {
             if (division.getNombre().equalsIgnoreCase("default")) return division;
         }
         ConsoleLogger.warn("No se encontró la ciudad Default para el país: " + pais.getNombre());
@@ -205,7 +257,7 @@ public class PaisRegistry extends Registry<String, Pais> {
     private void ensureDefaultsDivisions() {
         for (Pais pais : loadedObjects.values()) {
             boolean hasDefault = false;
-            for (Division division : pais.getDivisiones()) {
+            for (Division division : getDivisions(pais)) {
                 if (division.getNombre().equalsIgnoreCase("default")) {
                     hasDefault = true;
                     break;
@@ -213,8 +265,8 @@ public class PaisRegistry extends Registry<String, Pais> {
             }
             if (!hasDefault) {
                 Division defaultDivision = new Division(pais, "default", "Default",  "Division", "Default division", "N/A");
-                pais.addDivision(defaultDivision);
-                merge(pais.getNombre());
+                loadedDivisions.get(pais.getId()).add(defaultDivision);
+                dbManager.save(defaultDivision);
             }
         }
     }
@@ -236,7 +288,6 @@ public class PaisRegistry extends Registry<String, Pais> {
             }
         }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
     }
-
 
     public void shutdown() {
         ConsoleLogger.info(lang.getString("pais-registry-shutting-down"));

@@ -27,8 +27,8 @@ public class TipoProyectoRegistry extends Registry<Long, TipoProyecto>{
     @Override
     public void load(TipoProyecto obj) {
         if (obj == null || obj.getNombre() == null) return;
-        loadedObjects.put(obj.getId(), obj);
         dbManager.save(obj);
+        loadedObjects.put(obj.getId(), obj);
     }
 
     public TipoProyecto get(Double size) {

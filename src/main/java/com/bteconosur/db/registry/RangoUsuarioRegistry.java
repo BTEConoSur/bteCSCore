@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.RangoUsuario;
 
-public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
+public class RangoUsuarioRegistry extends Registry<Long, RangoUsuario> {
 
     private static RangoUsuarioRegistry instance;
 
@@ -17,8 +17,8 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
         List<RangoUsuario> rangos = dbManager.selectAll(RangoUsuario.class);
         if (rangos != null) {
             for (RangoUsuario rango : rangos) {
-                if (rango.getNombre() != null) {
-                    loadedObjects.put(rango.getNombre(), rango);
+                if (rango.getId() != null) {
+                    loadedObjects.put(rango.getId(), rango);
                 }
             }
         }
@@ -27,9 +27,18 @@ public class RangoUsuarioRegistry extends Registry<String, RangoUsuario> {
 
     @Override
     public void load(RangoUsuario obj) {
-        if (obj == null || obj.getNombre() == null) return;
-        loadedObjects.put(obj.getNombre(), obj);
+        if (obj == null || obj.getId() == null) return;
         dbManager.save(obj);
+        loadedObjects.put(obj.getId(), obj);
+    }
+
+    public RangoUsuario get(String name) {
+        for (RangoUsuario rango : loadedObjects.values()) {
+            if (rango.getNombre().equalsIgnoreCase(name)) {
+                return rango;
+            }
+        }
+        return null;
     }
 
     public RangoUsuario getAdmin() {
