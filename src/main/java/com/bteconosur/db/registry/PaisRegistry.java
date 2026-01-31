@@ -72,6 +72,7 @@ public class PaisRegistry extends Registry<String, Pais> {
     public List<Long> getDsCountryChatIds() {
         return loadedObjects.values().stream().map(Pais::getDsIdCountryChat ).toList();
     }
+
     public Pais findByDsGuildId(Long dsGuildId) {
         if (dsGuildId == null) return null;
         for (Pais pais : loadedObjects.values()) {

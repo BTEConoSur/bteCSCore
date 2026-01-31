@@ -10,13 +10,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.locationtech.jts.geom.Polygon;
+import org.mvplugins.multiverse.core.MultiverseCoreApi;
 import org.bukkit.Location;
 import org.bukkit.World;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.RegionUtils;
+import com.bteconosur.db.model.Pais;
+import com.bteconosur.db.registry.PaisRegistry;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -35,6 +39,7 @@ public class BTEWorld {
     private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    private final MultiverseCoreApi multiverseApi = BTEConoSur.getMultiverseCoreApi();
   
     public BTEWorld() {
 
@@ -52,6 +57,13 @@ public class BTEWorld {
             if (lw.getBukkitWorld() == null) {
                 ok = false;
                 break;
+            }
+            if (lw instanceof CapaAlta) {
+                if (capaAlta.getRegions().isEmpty() || capaAlta.getRegions() == null) {
+                    ok = false;
+                    ConsoleLogger.error("La Capa Alta no tiene regiones definidas.");
+                    break;
+                }
             }
         }
         this.isValid = ok;
@@ -76,7 +88,7 @@ public class BTEWorld {
         return bw == loc.getWorld();
     }
 
-    public void checkMove(Location lFrom, Location lTo, Player player) {
+    public void checkLayerMove(Location lFrom, Location lTo, Player player) {
         LabelWorld currentlw = getLabelWorld(lTo.getX(), lTo.getZ());
         UUID pUuid = player.getUniqueId();
         if (isValidLocation(lTo) == false) return;
@@ -128,6 +140,18 @@ public class BTEWorld {
             playerTasks.put(pUuid, task);
             return;
         }
+    }
+
+    public boolean checkPaisMove(Location fromLocation, Location toLocation, Player player) {
+        Pais paisFrom = PaisRegistry.getInstance().findByLocation(fromLocation.getX(), fromLocation.getZ());
+        if (paisFrom == null) {
+            PlayerLogger.warn(com.bteconosur.db.model.Player.getBTECSPlayer(player), lang.getString("not-limbo"), (String) null);
+            player.teleport(multiverseApi.getWorldManager().getLoadedWorld("lobby").get().getSpawnLocation());
+            return true;
+        };
+        Pais paisTo = PaisRegistry.getInstance().findByLocation(toLocation.getX(), toLocation.getZ());
+        if (paisTo == null) return false;
+        return true;
     }
 
     private double convertY(double ySource, LabelWorld sourceLw, LabelWorld destLw) {

@@ -114,10 +114,15 @@ public class WorldManager {
         return false;
     }
 
-    public void checkMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
+    public void checkLayerMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
         if (bteWorld == null || !bteWorld.isValid()) return;
         if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return;
-        bteWorld.checkMove(lFrom, lTo, player);
+        bteWorld.checkLayerMove(lFrom, lTo, player);
+    }
+
+    public boolean checkPaisMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
+        if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return false;
+        return bteWorld.checkPaisMove(lFrom, lTo, player);
     }
 
     public BTEWorld getBTEWorld() {
