@@ -30,6 +30,9 @@ public class Configuration {
     @Column(name = "general_pais_border")
     private Boolean generalPaisBorder;
 
+    @Column(name = "general_label_border")
+    private Boolean generalLabelBorder;
+
     @Column(name = "reviewer_ds_notifications")
     private Boolean reviewerDsNotifications;
 
@@ -52,6 +55,7 @@ public class Configuration {
         this.managerDsNotifications = false;
         this.generalSimultaneousNotifications = false;
         this.generalPaisBorder = false;
+        this.generalLabelBorder = false;
     }
 
     public UUID getUuid() {
@@ -72,6 +76,14 @@ public class Configuration {
 
     public void setGeneralSimultaneousNotifications(Boolean generalSimultaneousNotifications) {
         this.generalSimultaneousNotifications = generalSimultaneousNotifications;
+    }
+
+    public Boolean getGeneralLabelBorder() {
+        return generalLabelBorder;
+    }
+
+    public void setGeneralLabelBorder(Boolean generalLabelBorder) {
+        this.generalLabelBorder = generalLabelBorder;
     }
 
     public Boolean getReviewerDsNotifications() {
@@ -116,6 +128,10 @@ public class Configuration {
 
     public void toggleGeneralPaisBorder() {
         this.generalPaisBorder = !this.generalPaisBorder;
+    }
+
+    public void toggleGeneralLabelBorder() {
+        this.generalLabelBorder = !this.generalLabelBorder;
     }
 
 }

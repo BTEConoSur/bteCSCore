@@ -58,6 +58,13 @@ public class GeneralConfigMenu extends Menu {
             configuration = btecsPlayer.getConfiguration();
             gui.updateItem(2, 6, MenuUtils.getGeneralConfigItem("pais-border", configuration.getGeneralPaisBorder()));
         });
+
+        gui.setItem(2, 8, MenuUtils.getGeneralConfigItem("label-border", configuration.getGeneralLabelBorder()));
+        gui.addSlotAction(2, 8, event -> {
+            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_LABEL_BORDER); 
+            configuration = btecsPlayer.getConfiguration();
+            gui.updateItem(2, 8, MenuUtils.getGeneralConfigItem("label-border", configuration.getGeneralLabelBorder()));
+        });
         
         return gui;
     }

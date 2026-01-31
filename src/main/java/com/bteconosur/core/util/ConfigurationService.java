@@ -35,6 +35,7 @@ public class ConfigurationService {
         configuration.setGeneralGlobalChatOnJoin(config.getBoolean("player-defaults.general.global-chat-on-join"));
         configuration.setGeneralSimultaneousNotifications(config.getBoolean("player-defaults.general.simultaneous-notifications"));
         configuration.setGeneralPaisBorder(config.getBoolean("player-defaults.general.pais-border"));
+        configuration.setGeneralLabelBorder(config.getBoolean("player-defaults.general.label-border"));
 
         return playerRegistry.merge(player.getUuid());
     }
@@ -70,6 +71,9 @@ public class ConfigurationService {
                 break;
             case GENERAL_PAIS_BORDER:
                 configuration.toggleGeneralPaisBorder();
+                break;
+            case GENERAL_LABEL_BORDER:
+                configuration.toggleGeneralLabelBorder();
                 break;
             case REVIEWER_DS_NOTIFICATIONS:
                 configuration.toggleReviewerDsNotifications();

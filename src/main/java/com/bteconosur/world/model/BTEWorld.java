@@ -88,6 +88,11 @@ public class BTEWorld {
         return bw == loc.getWorld();
     }
 
+    public boolean isLobbyLocation(Location loc) {
+        if (loc == null) return false;
+        return loc.getWorld().getName().equals("lobby");
+    }
+
     public void checkLayerMove(Location lFrom, Location lTo, Player player) {
         LabelWorld currentlw = getLabelWorld(lTo.getX(), lTo.getZ());
         UUID pUuid = player.getUniqueId();

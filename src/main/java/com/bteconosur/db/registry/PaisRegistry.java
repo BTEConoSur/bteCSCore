@@ -18,6 +18,7 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.RegionDivision;
 import com.bteconosur.db.model.RegionPais;
+import com.bteconosur.world.WorldManager;
 
 public class PaisRegistry extends Registry<Long, Pais> {
 
@@ -280,10 +281,12 @@ public class PaisRegistry extends Registry<Long, Pais> {
                     if (!player.getConfiguration().getGeneralPaisBorder()) continue;
                     org.bukkit.entity.Player bukkitPlayer = Bukkit.getPlayer(player.getUuid());
                     if (bukkitPlayer == null) continue;
+                    if (WorldManager.getInstance().getBTEWorld().isLobbyLocation(bukkitPlayer.getLocation())) continue;
                     RegionPais region = findRegionByLocation(bukkitPlayer.getLocation().getX(), bukkitPlayer.getLocation().getZ());
                     if (region == null) continue;
                     Polygon polygon = region.getPoligono();
-                    RegionUtils.spawnBorderParticles(bukkitPlayer, polygon);
+                    String particleName = config.getString("border-particles.pais-particle");
+                    RegionUtils.spawnBorderParticles(bukkitPlayer, polygon, particleName);
                 }
             }
         }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);

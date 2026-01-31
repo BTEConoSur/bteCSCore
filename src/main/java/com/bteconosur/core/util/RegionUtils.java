@@ -129,8 +129,7 @@ public class RegionUtils {
         return poly.contains(gf.createPoint(new Coordinate(x, z)));
     }
 
-    public static void spawnBorderParticles(Player player, Polygon poly) {
-        String particleName = config.getString("border-particles.particle", "FLAME");
+    public static void spawnBorderParticles(Player player, Polygon poly, String particleName) {
         Particle particle;
         try {
             particle = Particle.valueOf(particleName);

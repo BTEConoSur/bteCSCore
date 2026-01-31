@@ -277,6 +277,13 @@ items:
           desc:
             - "Habilitar una barrera de partículas"
             - "en los límites de los países."
+        label-border:
+          material-true: "LIGHT_BLUE_GLAZED_TERRACOTTA"
+          material-false: "LIGHT_BLUE_CONCRETE"
+          name: "Barrera de Capas"
+          desc:
+            - "Habilitar una barrera de partículas"
+            - "en los límites de las capas."
       manager:
         ds-notifications:
           material-true: "WHITE_GLAZED_TERRACOTTA"

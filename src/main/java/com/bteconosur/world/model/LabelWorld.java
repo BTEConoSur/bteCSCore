@@ -36,6 +36,12 @@ public abstract class LabelWorld {
         player.teleport(new Location(bukkitWorld, x, y, z, yaw, pitch));
     }
 
+    public boolean isValidLocation(Location location) {
+        if (location == null) return false;
+        if (bukkitWorld == null) return false;
+        return location.getWorld().equals(bukkitWorld);
+    }   
+
 
     public World getBukkitWorld() {
         return this.bukkitWorld;
