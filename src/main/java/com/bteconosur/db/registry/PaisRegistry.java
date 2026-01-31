@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
@@ -15,6 +14,7 @@ import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.RegionDivision;
 import com.bteconosur.db.model.RegionPais;
 
@@ -29,19 +29,8 @@ public class PaisRegistry extends Registry<String, Pais> {
         List<Pais> paises = dbManager.selectAll(Pais.class);
         if (paises != null) for (Pais p : paises) loadedObjects.put(p.getNombre(), p);
 
-        long periodTicks = ConfigHandler.getInstance().getConfig().getLong("border-particles.spawn-period");
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    RegionPais region = findRegionByLocation(player.getLocation().getX(), player.getLocation().getZ());
-                    if (region == null) continue;
-                    Polygon polygon = region.getPoligono();
-                    RegionUtils.spawnBorderParticles(player, polygon);
-                }
-            }
-        }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
         ensureDefaults();
+        enableParticlesSpawning();
     }
 
     @Override
@@ -230,6 +219,23 @@ public class PaisRegistry extends Registry<String, Pais> {
         }
     }
 
+    private void enableParticlesSpawning() {
+        long periodTicks = ConfigHandler.getInstance().getConfig().getLong("border-particles.spawn-period");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+                    if (!player.getConfiguration().getGeneralPaisBorder()) continue;
+                    org.bukkit.entity.Player bukkitPlayer = Bukkit.getPlayer(player.getUuid());
+                    if (bukkitPlayer == null) continue;
+                    RegionPais region = findRegionByLocation(bukkitPlayer.getLocation().getX(), bukkitPlayer.getLocation().getZ());
+                    if (region == null) continue;
+                    Polygon polygon = region.getPoligono();
+                    RegionUtils.spawnBorderParticles(bukkitPlayer, polygon);
+                }
+            }
+        }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
+    }
 
 
     public void shutdown() {

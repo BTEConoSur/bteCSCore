@@ -57,7 +57,7 @@ layers:
     offset: 5500
 
 border-particles:
-  particle: "FLAME" # Tipo de partícula (FLAME, REDSTONE, VILLAGER_HAPPY, etc.)
+  particle: "FLAME" # Tipo de partícula que no requiera datos adicionales (https://jd.papermc.io/paper/1.21.11/org/bukkit/Particle.html)
   max-distance: 50.0 # Distancia máxima desde el jugador para renderizar partículas
   layers: 21 # Número de capas verticales de partículas
   spawn-period: 20 # Cada cuántos ticks se spawnean las partículas (20 ticks = 1 segundo)
@@ -77,6 +77,7 @@ player-defaults:
   general:
     global-chat-on-join: true
     simultaneous-notifications: true
+    pais-border: true
   reviewer:
     ds-notifications: true
   manager:

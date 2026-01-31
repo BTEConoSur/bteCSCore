@@ -33,7 +33,7 @@ public class WhereIAmCommand extends BaseCommand {
 
         Division division = PaisRegistry.getInstance().findDivisionByLocation(x, z, pais);
         if (division == null) {
-            PlayerLogger.info(sender, lang.getString("where-no-division").replace("%pais%", pais.getNombre()), (String) null);
+            PlayerLogger.info(sender, lang.getString("where-no-division").replace("%pais%", pais.getNombrePublico()), (String) null);
             return true;
         }
 

@@ -17,6 +17,8 @@ public class ConfigurationService {
     // 5- Agregar configuración al enum ConfigurationKey.
     // 6- Añadir al menú de configuración correspondiente.
 
+
+    // TODO: cachear config y poner boton para guardar cambios
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     public static Player setDefaults(Player player) {
@@ -32,6 +34,7 @@ public class ConfigurationService {
 
         configuration.setGeneralGlobalChatOnJoin(config.getBoolean("player-defaults.general.global-chat-on-join"));
         configuration.setGeneralSimultaneousNotifications(config.getBoolean("player-defaults.general.simultaneous-notifications"));
+        configuration.setGeneralPaisBorder(config.getBoolean("player-defaults.general.pais-border"));
 
         return playerRegistry.merge(player.getUuid());
     }
@@ -64,6 +67,9 @@ public class ConfigurationService {
                 break;
             case GENERAL_SIMULTANEOUS_NOTIFICATIONS:
                 configuration.toggleGeneralSimultaneousNotifications();
+                break;
+            case GENERAL_PAIS_BORDER:
+                configuration.toggleGeneralPaisBorder();
                 break;
             case REVIEWER_DS_NOTIFICATIONS:
                 configuration.toggleReviewerDsNotifications();

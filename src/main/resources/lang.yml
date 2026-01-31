@@ -270,6 +270,13 @@ items:
             - "El jugador recibirá notificaciones desde"
             - "Discord (DM) y Minecraft simultáneamente."
             - "Si no, las recibirá sólo desde Minecraft si está online."
+        pais-border:
+          material-true: "BLUE_GLAZED_TERRACOTTA"
+          material-false: "BLUE_CONCRETE"
+          name: "Barrera de Países"
+          desc:
+            - "Habilitar una barrera de partículas"
+            - "en los límites de los países."
       manager:
         ds-notifications:
           material-true: "WHITE_GLAZED_TERRACOTTA"
