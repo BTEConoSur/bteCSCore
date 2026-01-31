@@ -251,3 +251,5 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: easter egg en coords
 // TODO: Cuando vinculas mensaje
 // TODO: Configuracion para desactivar bypass
+
+// TODO: Añadir parametros y descripción a las funciones

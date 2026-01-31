@@ -3,9 +3,14 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
+import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.model.Division;
@@ -23,6 +28,19 @@ public class PaisRegistry extends Registry<String, Pais> {
         loadedObjects = new ConcurrentHashMap<>();
         List<Pais> paises = dbManager.selectAll(Pais.class);
         if (paises != null) for (Pais p : paises) loadedObjects.put(p.getNombre(), p);
+
+        long periodTicks = ConfigHandler.getInstance().getConfig().getLong("border-particles.spawn-period");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    RegionPais region = findRegionByLocation(player.getLocation().getX(), player.getLocation().getZ());
+                    if (region == null) continue;
+                    Polygon polygon = region.getPoligono();
+                    RegionUtils.spawnBorderParticles(player, polygon);
+                }
+            }
+        }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
         ensureDefaults();
     }
 
@@ -119,6 +137,19 @@ public class PaisRegistry extends Registry<String, Pais> {
         return null;
     }
 
+    public RegionPais findRegionByLocation(double x, double z) {
+        for (Pais pais : loadedObjects.values()) {
+            List<RegionPais> regiones = pais.getRegiones();
+            if (regiones == null) continue;
+            for (RegionPais region : regiones) {
+                if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
+                    return region;
+                }
+            }
+        }
+        return null;
+    }
+
     public Division findDivisionByLocation(double x, double z, Pais pais) {
         for (Division division : pais.getDivisiones()) {
             List<RegionDivision> regiones = division.getRegiones();
@@ -197,7 +228,9 @@ public class PaisRegistry extends Registry<String, Pais> {
                 merge(pais.getNombre());
             }
         }
-    }   
+    }
+
+
 
     public void shutdown() {
         ConsoleLogger.info(lang.getString("pais-registry-shutting-down"));
