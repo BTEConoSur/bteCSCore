@@ -1,24 +1,28 @@
-package com.bteconosur.core.command.crud.ciudad;
+package com.bteconosur.core.command.crud.division.update;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
-import com.bteconosur.core.command.crud.ciudad.update.UCiudadCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
 
-public class CRUDCiudadCommand extends BaseCommand {
+public class UDivisionCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
 
-    public CRUDCiudadCommand() {
-        super("ciudad", "Realizar operaciones CRUD sobre ciudades.", null, CommandMode.BOTH);
-        this.addSubcommand(new CCiudadCommand());
-        this.addSubcommand(new RCiudadCommand());
-        this.addSubcommand(new UCiudadCommand());
-        this.addSubcommand(new DCiudadCommand());
+    public UDivisionCommand() {
+        super("update", "Actualizar atributos de una Division.", null, CommandMode.BOTH);
+        this.addSubcommand(new UDivisionNombreCommand());
+        this.addSubcommand(new UDivisionNamCommand());
+        this.addSubcommand(new UpdateDivisionPoligonoCommand());
+        this.addSubcommand(new UDivisionGnaCommand());
+        this.addSubcommand(new UDivisionFnaCommand());
+        this.addSubcommand(new UDivisionPaisCommand());
+        this.addSubcommand(new UDivisionFnaCommand());
+        this.addSubcommand(new AddDivisionRegionGeojsonCommand());
+        this.addSubcommand(new RemoveDivisionRegionCommand());
         this.addSubcommand(new GenericHelpCommand(this));
 
         ConfigHandler configHandler = ConfigHandler.getInstance();

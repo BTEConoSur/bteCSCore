@@ -17,7 +17,7 @@ import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.SatMapUtils;
 import com.bteconosur.db.PermissionManager;
-import com.bteconosur.db.model.Ciudad;
+import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
@@ -90,14 +90,22 @@ public class ProjectManager {
         }
 
         PaisRegistry paisr = PaisRegistry.getInstance();
-        Ciudad ciudad = paisr.findCiudadByPolygon(regionPolygon, paisr.findByPolygon(regionPolygon));
-        if (ciudad == null) {
+        Division division = paisr.findDivisionByPolygon(regionPolygon, paisr.findByPolygon(regionPolygon));
+        if (division == null) {
             PlayerLogger.error(player, lang.getString("invalid-project-location"), (String) null);
             return;
         }
 
-        Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, ciudad, Date.from(Instant.now()));
         ProyectoRegistry pr = ProyectoRegistry.getInstance(); 
+        int activeProjects = pr.getCounts(player)[1];
+        int maxActiveProjects = player.getTipoUsuario().getCantProyecSim();
+        if (activeProjects >= maxActiveProjects) {
+            String message = lang.getString("max-active-projects").replace("%maxProjects%", String.valueOf(maxActiveProjects));
+            PlayerLogger.error(player, message, (String) null);
+            return;
+        }
+        
+        Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(Instant.now()));
         pr.load(proyecto);
 
         File contextImage = SatMapUtils.downloadContext(proyecto, pr.getOverlapping(proyecto));
@@ -122,8 +130,8 @@ public class ProjectManager {
             .replace("%proyectoId%", proyecto.getId())
             .replace("%tipoId%", tipoProyecto.getId().toString())
             .replace("%tipoNombre%", tipoProyecto.getNombre())
-            .replace("%ciudadId%", ciudad.getId().toString())
-            .replace("%ciudadNombre%", ciudad.getNombre())
+            .replace("%divisionId%", division.getId().toString())
+            .replace("%divisionNombre%", division.getNombre())
             .replace("%proyectoNombre%", proyecto.getNombre() != null ? proyecto.getNombre() : "Sin Nombre")
             .replace("%proyectoDescripcion%", proyecto.getDescripcion() != null ? proyecto.getDescripcion() : "Sin Descripción");
         DiscordLogger.countryLog(countryLog, pais);

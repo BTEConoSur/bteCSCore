@@ -3,6 +3,7 @@ package com.bteconosur.db.util;
 public enum ConfigurationKey {
     GENERAL_GLOBAL_CHAT_ON_JOIN,
     GENERAL_SIMULTANEOUS_NOTIFICATIONS,
+    GENERAL_PAIS_BORDER,
     REVIEWER_DS_NOTIFICATIONS,
     MANAGER_DS_NOTIFICATIONS
 }

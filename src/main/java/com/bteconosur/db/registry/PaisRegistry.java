@@ -3,13 +3,19 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
+import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
-import com.bteconosur.db.model.Ciudad;
+import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
+import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.RegionDivision;
 import com.bteconosur.db.model.RegionPais;
 
 public class PaisRegistry extends Registry<String, Pais> {
@@ -22,7 +28,9 @@ public class PaisRegistry extends Registry<String, Pais> {
         loadedObjects = new ConcurrentHashMap<>();
         List<Pais> paises = dbManager.selectAll(Pais.class);
         if (paises != null) for (Pais p : paises) loadedObjects.put(p.getNombre(), p);
+
         ensureDefaults();
+        enableParticlesSpawning();
     }
 
     @Override
@@ -71,6 +79,7 @@ public class PaisRegistry extends Registry<String, Pais> {
     public List<Long> getDsCountryChatIds() {
         return loadedObjects.values().stream().map(Pais::getDsIdCountryChat ).toList();
     }
+
     public Pais findByDsGuildId(Long dsGuildId) {
         if (dsGuildId == null) return null;
         for (Pais pais : loadedObjects.values()) {
@@ -107,22 +116,37 @@ public class PaisRegistry extends Registry<String, Pais> {
     public Pais findByLocation(double x, double z) {
         for (Pais pais : loadedObjects.values()) {
             List<RegionPais> regiones = pais.getRegiones();
-            if (regiones != null) {
-                for (RegionPais region : regiones) {
-                    if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
-                        return pais;
-                    }
+            if (regiones == null) continue;
+            for (RegionPais region : regiones) {
+                if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
+                    return pais;
                 }
             }
         }
         return null;
     }
 
-    public Ciudad findCiudadByLocation(double x, double z, Pais pais) {
-        for (Ciudad ciudad : pais.getCiudades()) {
-            Polygon poly = ciudad.getPoligono();
-            if (poly != null && RegionUtils.containsCoordinate(poly, x, z)) {
-                return ciudad;
+    public RegionPais findRegionByLocation(double x, double z) {
+        for (Pais pais : loadedObjects.values()) {
+            List<RegionPais> regiones = pais.getRegiones();
+            if (regiones == null) continue;
+            for (RegionPais region : regiones) {
+                if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
+                    return region;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Division findDivisionByLocation(double x, double z, Pais pais) {
+        for (Division division : pais.getDivisiones()) {
+            List<RegionDivision> regiones = division.getRegiones();
+            if (regiones == null) continue;
+            for (RegionDivision region : regiones) {
+                if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
+                    return division;
+                }
             }
         }
         return null;
@@ -133,60 +157,86 @@ public class PaisRegistry extends Registry<String, Pais> {
         return findByLocation(centroid.getX(), centroid.getY());
     }   
 
-    public Ciudad findCiudadByPolygon(Polygon polygon, Pais pais) {
+    public Division findDivisionByPolygon(Polygon polygon, Pais pais) {
         Point centroid = polygon.getCentroid();
-        Ciudad ciudad = findCiudadByLocation(centroid.getX(), centroid.getY(), pais);
-        if (ciudad == null) return getDefaultCiudad(pais);
-        return null;
+        Division division = findDivisionByLocation(centroid.getX(), centroid.getY(), pais);
+        if (division == null) return getDefaultDivision(pais);
+        return division;
     }
 
-    public Ciudad getDefaultCiudad(Pais pais) {
-        for (Ciudad ciudad : pais.getCiudades()) {
-            if (ciudad.getNombre().equalsIgnoreCase("default")) return ciudad;
+    public Division getDefaultDivision(Pais pais) {
+        for (Division division : pais.getDivisiones()) {
+            if (division.getNombre().equalsIgnoreCase("default")) return division;
         }
         ConsoleLogger.warn("No se encontró la ciudad Default para el país: " + pais.getNombre());
         return null;
     }
-    //TODO: right click mensaje
+    //TODO: right click mensaje can build 
 
     private void ensureDefaults() {
         if (get("argentina") == null) {
             Pais pais = new Pais("argentina", "Argentina", 1425856269029474304L, 1451333771319050320L, 1451333825149014118L, 1451333852046950583L, 1451333884749807616L);
-            Ciudad argDefault = new Ciudad(pais, "default",  "Default", null);
-            pais.addCiudad(argDefault);
             load(pais);
         }
         if (get("chile") == null) {
             Pais pais = new Pais("chile", "Chile", 1425856269029474304L, 1451333916744093768L, 1451334085602447471L, 1451334251026055190L, 1451334378746544218L);
-            Ciudad chiDefault = new Ciudad(pais, "default",  "Default", null);
-            pais.addCiudad(chiDefault);
             load(pais);
         }
         if (get("bolivia") == null) {
             Pais pais = new Pais("bolivia", "Bolivia", 1425856269029474304L, 1451333943352885323L, 1451334123305046239L, 1451334269418082495L, 1451334392105406546L);
-            Ciudad bolDefault = new Ciudad(pais, "default",  "Default", null);
-            pais.addCiudad(bolDefault);
             load(pais);
         }
         if (get("peru") == null) {
             Pais pais = new Pais("peru", "Peru", 1425856269029474304L, 1451333984075255869L, 1451334156889096232L, 1451334297427378176L, 1451334413622448261L);
-            Ciudad perDefault = new Ciudad(pais, "default",  "Default", null);
-            pais.addCiudad(perDefault);
             load(pais);
         }
         if (get("paraguay") == null) {
-            Pais pais = new Pais("paraguay", "Guay", 1425856269029474304L, 1451334011044626433L, 1451334186785968269L, 1451334324732432507L, 1451334430869422210L);
-            Ciudad parDefault = new Ciudad(pais, "default",  "Default", null);
-            pais.addCiudad(parDefault);
+            Pais pais = new Pais("paraguay", "Paraguay", 1425856269029474304L, 1451334011044626433L, 1451334186785968269L, 1451334324732432507L, 1451334430869422210L);
             load(pais);
         }
         if (get("uruguay") == null) {
-            Pais pais = new Pais("uruguay", "Guay", 1425856269029474304L, 1451334055051399288L, 1451334227818713300L, 1451334350661484716L, 1451334465770229882L);
-            Ciudad uruDefault = new Ciudad(pais, "default",  "Default", null);
-            pais.addCiudad(uruDefault);
+            Pais pais = new Pais("uruguay", "Uruguay", 1425856269029474304L, 1451334055051399288L, 1451334227818713300L, 1451334350661484716L, 1451334465770229882L);
             load(pais);
         }
+
+        ensureDefaultsDivisions();
     }
+
+    private void ensureDefaultsDivisions() {
+        for (Pais pais : loadedObjects.values()) {
+            boolean hasDefault = false;
+            for (Division division : pais.getDivisiones()) {
+                if (division.getNombre().equalsIgnoreCase("default")) {
+                    hasDefault = true;
+                    break;
+                }
+            }
+            if (!hasDefault) {
+                Division defaultDivision = new Division(pais, "default", "Default",  "Division", "Default division", "N/A");
+                pais.addDivision(defaultDivision);
+                merge(pais.getNombre());
+            }
+        }
+    }
+
+    private void enableParticlesSpawning() {
+        long periodTicks = ConfigHandler.getInstance().getConfig().getLong("border-particles.spawn-period");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+                    if (!player.getConfiguration().getGeneralPaisBorder()) continue;
+                    org.bukkit.entity.Player bukkitPlayer = Bukkit.getPlayer(player.getUuid());
+                    if (bukkitPlayer == null) continue;
+                    RegionPais region = findRegionByLocation(bukkitPlayer.getLocation().getX(), bukkitPlayer.getLocation().getZ());
+                    if (region == null) continue;
+                    Polygon polygon = region.getPoligono();
+                    RegionUtils.spawnBorderParticles(bukkitPlayer, polygon);
+                }
+            }
+        }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
+    }
+
 
     public void shutdown() {
         ConsoleLogger.info(lang.getString("pais-registry-shutting-down"));

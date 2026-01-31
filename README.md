@@ -58,7 +58,7 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 
 * ✔️ Sistema de mundos por regiones.
 * ✔️ Sistema de Países y Ciudades.
-* 🕙 Cargado de regiones con geo data.
+* ⏳ Cargado de regiones con geo data.
 
 ## Admin
 

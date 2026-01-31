@@ -21,10 +21,9 @@ public class TestDiscordLogger extends BaseCommand {
         DiscordLogger.staffLog("Este es un mensaje de prueba de staff.");
         //DiscordLogger.staffLog("Este es un mensaje de prueba de staff de un pais.", paisRegistry.getChile());
 
-        DiscordLogger.notifyManagers("Este es un mensaje de prueba para managers.", paisRegistry.getArgentina());
-        DiscordLogger.notifyReviewers("Este es un mensaje de prueba para reviewers.", paisRegistry.getArgentina());
+        //DiscordLogger.notifyManagers("Este es un mensaje de prueba para managers.", paisRegistry.getArgentina());
+        //DiscordLogger.notifyReviewers("Este es un mensaje de prueba para reviewers.", paisRegistry.getArgentina());
         return true;
     }  
 
 }
-    

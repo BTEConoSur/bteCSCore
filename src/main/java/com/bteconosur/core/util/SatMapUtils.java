@@ -6,21 +6,16 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Polygon;
-import org.locationtech.jts.io.geojson.GeoJsonWriter;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.model.Proyecto;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sk89q.worldedit.util.net.HttpRequest;
 
 public class SatMapUtils {
@@ -47,7 +42,7 @@ public class SatMapUtils {
     
     private static boolean checkMonthlyRequests() {
         YamlConfiguration data = ConfigHandler.getInstance().getData();
-        int currentRequests = data.getInt("mapbox-requests");
+        int currentRequests = data.getInt("mapbox-requests") + 1;
         if (currentRequests >= config.getInt("mapbox-month-limit")) {
             ConsoleLogger.warn("Límite mensual de requests a MapBox alcanzado. No se podrá descargar la imagen del mapa.");
             return false;
@@ -75,19 +70,22 @@ public class SatMapUtils {
             }
             
             File contextFile = new File(folder, proyecto.getId() + "_context.png");
-            
+            File imageFile = new File(folder, proyecto.getId() + ".png");
+            File defaultFile = new File(plugin.getDataFolder(), "images/projects/default_map.png");
             //URL mapUrl = URI.create(createMapSatLink(proyecto.getPoligono(), otrosProyectos.stream().map(Proyecto::getPoligono).toList())).toURL();
             @SuppressWarnings("deprecation")
             URL mapUrl = new URL(createMapSatLink(proyecto.getPoligono(), otrosProyectos.stream().map(Proyecto::getPoligono).toList()));
-            if (!checkMonthlyRequests()) return null;
+            if (!checkMonthlyRequests()) {
+                Files.copy(defaultFile.toPath(), imageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(defaultFile.toPath(), contextFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                return contextFile;
+            };
 
             try (InputStream is = HttpRequest.get(mapUrl).execute().getInputStream()) {
                 Files.copy(is, contextFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 incrementMonthlyRequests();
             }
 
-            
-            File imageFile = new File(folder, proyecto.getId() + ".png");
             if (otrosProyectos == null || otrosProyectos.isEmpty()) {
                 Files.copy(contextFile.toPath(), imageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } else {
@@ -147,7 +145,7 @@ public class SatMapUtils {
             
             String borderColor = lang.getString("map.project.border-color").replace("#", "%23");
             String fillColor = lang.getString("map.project.fill-color").replace("#", "%23");
-            String proyectoGeoJson = polygonToGeoJson(proyecto, fillColor, borderColor);
+            String proyectoGeoJson = GeoJsonUtils.polygonToGeoJson(proyecto, fillColor, borderColor);
             String fullGeoJsonOverlay = "geojson(" + proyectoGeoJson + ")";
             //String encodedProyecto = encodeForUri(proyectoGeoJson);
             if (otrosProyectos != null && !otrosProyectos.isEmpty()) {
@@ -155,7 +153,7 @@ public class SatMapUtils {
                 for (Polygon p : otrosProyectos) {
                     borderColor = lang.getString("map.others-projects.border-color").replace("#", "%23");
                     fillColor = lang.getString("map.others-projects.fill-color").replace("#", "%23");
-                    String otroGeoJson = polygonToGeoJson(p, fillColor, borderColor);
+                    String otroGeoJson = GeoJsonUtils.polygonToGeoJson(p, fillColor, borderColor);
                     //String encodedOtro = encodeForUri(otroGeoJson);
                     otrosGeoJson.append(",geojson(").append(otroGeoJson).append(")");
                 }
@@ -166,45 +164,6 @@ public class SatMapUtils {
             ConsoleLogger.error("Error al crear enlace del mapa (con otros proyectos): " + e.getMessage());
             e.printStackTrace();
             return "";
-        }
-    }
-
-    private static String polygonToGeoJson(Polygon polygon, String fillColor, String strokeColor) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            GeoJsonWriter writer = new GeoJsonWriter();
-            writer.setEncodeCRS(false);
-            
-            Coordinate[] coords = polygon.getExteriorRing().getCoordinates();
-            List<Coordinate> geoCoords = new ArrayList<>();
-            
-            for (Coordinate coord : coords) {
-                double[] geo = TerraUtils.toGeo(coord.x, coord.y);
-                double lon = Math.round(geo[0] * 1000000.0) / 1000000.0;
-                double lat = Math.round(geo[1] * 1000000.0) / 1000000.0;
-                geoCoords.add(new Coordinate(lon, lat));
-            }
-            
-            Polygon geoPolygon = polygon.getFactory().createPolygon(geoCoords.toArray(new Coordinate[0]));
-            
-            String geometryJson = writer.write(geoPolygon);
-            
-            ObjectNode feature = mapper.createObjectNode();
-            feature.put("type", "Feature");
-            feature.set("geometry", mapper.readTree(geometryJson));
-            
-            ObjectNode properties = mapper.createObjectNode();
-            properties.put("stroke", strokeColor);
-            properties.put("stroke-width", lang.getInt("map.border-width"));
-            properties.put("stroke-opacity", lang.getDouble("map.border-opacity"));
-            properties.put("fill", fillColor);
-            properties.put("fill-opacity", lang.getDouble("map.fill-opacity"));
-            feature.set("properties", properties);
-            
-            return mapper.writeValueAsString(feature);
-        } catch (Exception e) {
-            ConsoleLogger.error("Error al serializar GeoJSON: " + e.getMessage());
-            return "{}";
         }
     }
 

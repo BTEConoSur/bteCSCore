@@ -50,7 +50,14 @@ public class GeneralConfigMenu extends Menu {
             btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_SIMULTANEOUS_NOTIFICATIONS); 
             configuration = btecsPlayer.getConfiguration();
             gui.updateItem(2, 4, MenuUtils.getGeneralConfigItem("simultaneous-notifications", configuration.getGeneralSimultaneousNotifications()));
-        }); 
+        });
+
+        gui.setItem(2, 6, MenuUtils.getGeneralConfigItem("pais-border", configuration.getGeneralPaisBorder()));
+        gui.addSlotAction(2, 6, event -> {
+            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_PAIS_BORDER); 
+            configuration = btecsPlayer.getConfiguration();
+            gui.updateItem(2, 6, MenuUtils.getGeneralConfigItem("pais-border", configuration.getGeneralPaisBorder()));
+        });
         
         return gui;
     }

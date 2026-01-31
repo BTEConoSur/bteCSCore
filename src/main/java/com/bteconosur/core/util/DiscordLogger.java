@@ -16,6 +16,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 public class DiscordLogger {
 
@@ -59,7 +60,7 @@ public class DiscordLogger {
         MessageService.sendEmbed(config.getLong("discord-staff-console-log-id"), embed);
     }
 
-    public static void notifyManagers(String message, Pais pais) {
+    public static void notifyManagers(String mcMessage, String dsMessage, Pais pais, TagResolver... extraResolvers) {
         List<Player> managers = PlayerRegistry.getInstance().getManagers(pais);
         for (Player manager : managers) {
             if (!manager.getConfiguration().getManagerDsNotifications()) continue;
@@ -68,12 +69,12 @@ public class DiscordLogger {
                 ConsoleLogger.warn("El Manager '" + manager.getNombre() + "' no tiene la cuenta de Discord enlazada.");
                 continue;
             };
-            String dsMessage = lang.getString("ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", message);
-            PlayerLogger.info(manager, message, dsMessage);
+            String dsFormat = lang.getString("ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
+            PlayerLogger.info(manager, mcMessage, dsFormat, extraResolvers);
         }
     }
 
-    public static void notifyReviewers(String message, Pais pais) {
+    public static void notifyReviewers(String mcMessage, String dsMessage, Pais pais, TagResolver... extraResolvers) {
         List<Player> reviewers = PlayerRegistry.getInstance().getReviewers(pais);
         for (Player reviewer : reviewers) {
             if (!reviewer.getConfiguration().getReviewerDsNotifications()) continue;
@@ -82,9 +83,10 @@ public class DiscordLogger {
                 ConsoleLogger.warn("El Reviewer '" + reviewer.getNombre() + "' no tiene la cuenta de Discord enlazada.");
                 continue;
             };
-            String dsMessage = lang.getString("ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", message);
-            PlayerLogger.info(reviewer, message, dsMessage);
+            String dsFormat = lang.getString("ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
+            PlayerLogger.info(reviewer, mcMessage, dsFormat, extraResolvers);
         }
+        notifyManagers(mcMessage, dsMessage, pais, extraResolvers);
     }
 
     public static void notifyDevs(String message) {

@@ -84,13 +84,12 @@ world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
 bte-world-loading: "Cargando mundo de BTE..."
 label-world-loading: "Cargando capa: %name% con offset %offset%..." # %name% -> Nombre de la capa. %offset% -> Offset de la capa.
 
-teleport-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
-teleport-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
-
-not-limbo: "No puedes estar en el limbo, te teletransportamos al lobby."
+teleport-layer-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
+teleport-layer-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
 
 no-building-permissions: "No tienes permisos para construir aquí."
-
+not-limbo: "No puedes estar afuera de los paises. Teletransportando al lobby..."
+cant-leave-paises: "No puedes salir de los paises."
 # Commands
 no-permission: "No tienes permisos para ejecutar este comando."
 player-only-command: "Este comando solo puede ser ejecutado por un jugador."
@@ -108,10 +107,10 @@ help-command:
   subcommand-line-2: "   <white>%description%" # %description% -> Descripción del subcomando.
   footer: ""
 
-crud-create: "Entidad '%entity%' creada exitosamente." # %entity% -> Nombre de la entidad.
+crud-create: "Entidad '%entity%' creada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad.
 crud-read: "Entidad '%entity%' con id '%id%':" # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
-crud-update: "Entidad '%entity%' con id '%id%' actualizada exitosamente." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
-crud-delete: "Entidad '%entity%' con id '%id%' eliminada exitosamente." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.  
+crud-update: "Entidad '%entity%' con id '%id%' actualizada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+crud-delete: "Entidad '%entity%' con id '%id%' eliminada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.  
 crud-already-exists: "La entidad '%entity%' con id '%id%' ya existe." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
 crud-read-not-found: "La entidad '%entity%' con id '%id%' no fue encontrada." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
 
@@ -178,7 +177,8 @@ invalid-player-name: "Máximo 16 caracteres permitidos para el nombre del jugado
 invalid-project-name: "Máximo 50 caracteres permitidos para el nombre del proyecto."
 invalid-project-description: "Máximo 100 caracteres permitidos para la descripción del proyecto."
 invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50m²."
-invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una ciudad válida."
+invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una división válida."
+max-active-projects: "Has alcanzado el máximo de proyectos activos permitidos. (Máx. %maxProjects%)" # %maxProjects% -> Máximo de proyectos permitidos.
 nickname-change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 nickname-set: "<green>El nombre público de <yellow>'%player%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 
@@ -189,6 +189,12 @@ project-create-request-comment-accepted: "<green>Comentario: %comentario%" # %co
 project-create-request-rejected: "<red>El Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido rechazado."
 project-create-request-comment-rejected: "<red>Comentario: <gray>\"<white>%comentario%<gray>\"" # %comentario% -> Comentario del staff.
 project-create-request-expired: "<red>La solicitud de proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
+
+where-division: "Pais: <yellow>%pais%</yellow> %divisionGna%: <yellow>%divisionContext%, %divisionNam%</yellow>" # %pais% -> Nombre del país. %divisionGna% -> Tipo de división. %divisionContext% -> Contexto de la división. %divisionNam% -> Nombre oficial de la división. %divisionFna% -> Nombre alternativo de la división.
+where-no-division: "No estás dentro de ninguna división del '%pais%'." # %pais% -> Nombre del país.
+where-no-pais: "No estás dentro de ningún país."
+
+reviewer-notification-new-project: "Nueva solicitud de creación de proyecto de <yellow>'%pais%'</yellow>. <gray><link>" # %pais% -> Nombre del país. <link> -> Enlace a la solicitud de proyecto.
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
@@ -264,6 +270,13 @@ items:
             - "El jugador recibirá notificaciones desde"
             - "Discord (DM) y Minecraft simultáneamente."
             - "Si no, las recibirá sólo desde Minecraft si está online."
+        pais-border:
+          material-true: "BLUE_GLAZED_TERRACOTTA"
+          material-false: "BLUE_CONCRETE"
+          name: "Barrera de Países"
+          desc:
+            - "Habilitar una barrera de partículas"
+            - "en los límites de los países."
       manager:
         ds-notifications:
           material-true: "WHITE_GLAZED_TERRACOTTA"
@@ -516,13 +529,13 @@ rango-promote-log: "🛡️ | **%staff%** ha cambiado el Rango de Usuario de **%
 # %staff% -> Nombre del staff. %player% -> Nombre del jugador. %lider% -> Nombre del líder del proyecto.
 # %proyectoId% -> Id del proyecto.
 # %tipoId% -> Id del tipo de proyecto. %tipoNombre% -> Nombre del tipo de proyecto.
-# %ciudadId% -> Id de la ciudad. %ciudadNombre% -> Ciudad donde se ubica el proyecto.
+# %divisionId% -> Id de la division. %divisionNombre% -> division donde se ubica el proyecto.
 manager-add-log: "👔 | **%staff%** ha agregado a **%player%** como Manager del país."
 manager-remove-log: "❌ | **%staff%** ha removido a **%player%** como Manager del país."
 reviewer-add-log: "🔍 | **%staff%** ha agregado a **%player%** como Reviewer del país."
 reviewer-remove-log: "❌ | **%staff%** ha removido a **%player%** como Reviewer del país."
 
-project-create-log: "📋 | **%player%** ha creado el proyecto `%proyectoId%`. Tipo: `%tipoId%`-`%tipoNombre%`. Ciudad: `%ciudadId%`-`%ciudadNombre%`. Nombre: `%proyectoNombre%`. Descripción: `%proyectoDescripcion%`."
+project-create-log: "📋 | **%player%** ha creado el proyecto `%proyectoId%`. Tipo: `%tipoId%`-`%tipoNombre%`. Division: `%divisionId%`-`%divisionNombre%`. Nombre: `%proyectoNombre%`. Descripción: `%proyectoDescripcion%`."
 project-create-request-accepted-log: "✅ | **%staff%** ha aceptado el proyecto `%proyectoId%` de **%lider%**."
 project-create-request-denied-log: "❌ | **%staff%** ha denegado el proyecto `%proyectoId%` de **%lider%**."
 project-create-request-expired-log: "❌ | La solicitud de creación del proyecto `%proyectoId%` de **%lider%** ha expirado."

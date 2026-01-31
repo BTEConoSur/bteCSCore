@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.NotePadService;
@@ -14,9 +15,12 @@ import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.chat.CountryChatService;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConfigurationService;
+import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.RegionPais;
+import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
@@ -59,6 +63,9 @@ public class PlayerJoinListener implements Listener {
             player = playerRegistry.merge(player.getUuid());
         }
 
+        RegionPais region = PaisRegistry.getInstance().findRegionByLocation(event.getPlayer().getLocation().getX(), event.getPlayer().getLocation().getZ());
+        Polygon polygon = region.getPoligono();
+        RegionUtils.spawnBorderParticles(event.getPlayer(), polygon);
         YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
         MessageEmbed dsMessage = ChatUtil.getDsPlayerJoined(player.getNombrePublico(), player.getUuid());
