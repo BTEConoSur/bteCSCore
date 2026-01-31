@@ -191,7 +191,7 @@ public class PaisRegistry extends Registry<String, Pais> {
                 }
             }
             if (!hasDefault) {
-                Division defaultDivision = new Division(pais, "default", "Default",  "Division", "N/A");
+                Division defaultDivision = new Division(pais, "default", "Default",  "Division", "Default division", "N/A");
                 pais.addDivision(defaultDivision);
                 merge(pais.getNombre());
             }

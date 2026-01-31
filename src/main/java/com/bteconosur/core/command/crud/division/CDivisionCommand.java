@@ -16,7 +16,7 @@ public class CDivisionCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CDivisionCommand() {
-        super("create", "Crear una nueva Division. Se crea sin poligono.", "<nombre> <nombre_publico> <tipo_division> <id_pais> <contexto>", CommandMode.BOTH);
+        super("create", "Crear una nueva Division. Se crea sin poligono.", "<nombre> <nam> <gna> <id_pais> <contexto>", CommandMode.BOTH);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
@@ -82,7 +82,7 @@ public class CDivisionCommand extends BaseCommand {
         }
 
         Pais pais = dbManager.get(Pais.class, paisId);
-        Division division = new Division(pais, nombrePublico, nombre, tipoDivision, contexto); //TODO: poligono desde geojson
+        Division division = new Division(pais, nombrePublico, nombre, tipoDivision, tipoDivision + " " + nombre , contexto); //TODO: poligono desde geojson
         dbManager.save(division);
 
         String message = lang.getString("crud-create").replace("%entity%", "Division");

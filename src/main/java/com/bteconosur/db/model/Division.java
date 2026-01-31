@@ -33,11 +33,14 @@ public class Division {
     @Column(name = "nombre", length = 100, nullable = false)
     private String nombre;
 
-     @Column(name = "nombre_publico", length = 100, nullable = false)
-    private String nombrePublico;
+     @Column(name = "nam", length = 100, nullable = false)
+    private String nam;
 
-    @Column(name = "tipo_division", length = 100)
-    private String tipoDivision;
+    @Column(name = "gna", length = 100)
+    private String gna;
+
+    @Column(name = "fna", length = 100)
+    private String fna;
 
     @Column(name = "contexto", length = 100)
     private String contexto;
@@ -58,10 +61,11 @@ public class Division {
     public Division() {
     }
 
-    public Division(Pais pais, String nombre, String nombrePublico, String tipoDivision, String contexto) {
+    public Division(Pais pais, String nombre, String nam, String gna, String fna, String contexto) {
         this.nombre = nombre;
-        this.nombrePublico = nombrePublico;
-        this.tipoDivision = tipoDivision;
+        this.nam = nam;
+        this.gna = gna;
+        this.fna = fna;
         this.contexto = contexto;
         this.pais = pais;
     }
@@ -82,20 +86,28 @@ public class Division {
         this.nombre = nombre;
     }
 
-    public String getNombrePublico() {
-        return nombrePublico;
+    public String getNam() {
+        return nam;
     }
 
-    public void setNombrePublico(String nombrePublico) {
-        this.nombrePublico = nombrePublico;
+    public void setNam(String nam) {
+        this.nam = nam;
     }
 
-    public String getTipoDivision() {
-        return tipoDivision;
+    public String getGna() {
+        return gna;
     }
 
-    public void setTipoDivision(String tipoDivision) {
-        this.tipoDivision = tipoDivision;
+    public void setGna(String gna) {
+        this.gna = gna;
+    }
+
+    public String getFna() {
+        return fna;
+    }
+    
+    public void setFna(String fna) {
+        this.fna = fna;
     }
 
     public String getContexto() {

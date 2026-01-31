@@ -179,6 +179,7 @@ invalid-project-name: "Máximo 50 caracteres permitidos para el nombre del proye
 invalid-project-description: "Máximo 100 caracteres permitidos para la descripción del proyecto."
 invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50m²."
 invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una división válida."
+max-active-projects: "Has alcanzado el máximo de proyectos activos permitidos. (Máx. %maxProjects%)" # %maxProjects% -> Máximo de proyectos permitidos.
 nickname-change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 nickname-set: "<green>El nombre público de <yellow>'%player%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 
@@ -190,9 +191,11 @@ project-create-request-rejected: "<red>El Proyecto de ID <yellow>'%proyectoId%'<
 project-create-request-comment-rejected: "<red>Comentario: <gray>\"<white>%comentario%<gray>\"" # %comentario% -> Comentario del staff.
 project-create-request-expired: "<red>La solicitud de proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
 
-where-division: "Pais: <yellow>%pais%</yellow> %divisionType%: <yellow>%divisionContext%, %divisionName%</yellow>" # %pais% -> Nombre del país. %divisionType% -> Tipo de división. %divisionContext% -> Contexto de la división. %divisionName% -> Nombre oficial de la división.
+where-division: "Pais: <yellow>%pais%</yellow> %divisionGna%: <yellow>%divisionContext%, %divisionNam%</yellow>" # %pais% -> Nombre del país. %divisionGna% -> Tipo de división. %divisionContext% -> Contexto de la división. %divisionNam% -> Nombre oficial de la división. %divisionFna% -> Nombre alternativo de la división.
 where-no-division: "No estás dentro de ninguna división del '%pais%'." # %pais% -> Nombre del país.
 where-no-pais: "No estás dentro de ningún país."
+
+reviewer-notification-new-project: "Nueva solicitud de creación de proyecto de <yellow>'%pais%'</yellow>. <gray><link>" # %pais% -> Nombre del país. <link> -> Enlace a la solicitud de proyecto.
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
@@ -526,7 +529,7 @@ manager-remove-log: "❌ | **%staff%** ha removido a **%player%** como Manager d
 reviewer-add-log: "🔍 | **%staff%** ha agregado a **%player%** como Reviewer del país."
 reviewer-remove-log: "❌ | **%staff%** ha removido a **%player%** como Reviewer del país."
 
-project-create-log: "📋 | **%player%** ha creado el proyecto `%proyectoId%`. Tipo: `%tipoId%`-`%tipoNombre%`. division: `%divisionId%`-`%divisionNombre%`. Nombre: `%proyectoNombre%`. Descripción: `%proyectoDescripcion%`."
+project-create-log: "📋 | **%player%** ha creado el proyecto `%proyectoId%`. Tipo: `%tipoId%`-`%tipoNombre%`. Division: `%divisionId%`-`%divisionNombre%`. Nombre: `%proyectoNombre%`. Descripción: `%proyectoDescripcion%`."
 project-create-request-accepted-log: "✅ | **%staff%** ha aceptado el proyecto `%proyectoId%` de **%lider%**."
 project-create-request-denied-log: "❌ | **%staff%** ha denegado el proyecto `%proyectoId%` de **%lider%**."
 project-create-request-expired-log: "❌ | La solicitud de creación del proyecto `%proyectoId%` de **%lider%** ha expirado."

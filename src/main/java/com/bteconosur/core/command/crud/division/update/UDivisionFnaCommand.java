@@ -9,13 +9,13 @@ import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Division;
 
-public class UDivisionTipoDivisionCommand extends BaseCommand {
+public class UDivisionFnaCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public UDivisionTipoDivisionCommand() {
-        super("tipo", "Actualizar tipo de una Division.", "<id> <nuevo_tipo>", CommandMode.BOTH);
+    public UDivisionFnaCommand() {
+        super("fna", "Actualizar fna de una Division.", "<id> <nuevo_fna>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
@@ -23,7 +23,7 @@ public class UDivisionTipoDivisionCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        if (args.length != 2) {
+        if (args.length < 2) {
             String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
@@ -44,15 +44,20 @@ public class UDivisionTipoDivisionCommand extends BaseCommand {
             return true;
         }
 
-        String nuevoTipo = args[1];
-        if (nuevoTipo.length() > 100) {
-            String message = lang.getString("crud-not-valid-type").replace("%entity%", "Division").replace("%type%", nuevoTipo).replace("%reason%", "Máximo 100 caracteres.");
-            PlayerLogger.error(sender, message, (String) null);
+        StringBuilder fnaBuilder = new StringBuilder();
+        for (int i = 1; i < args.length; i++) {
+            if (i > 1) fnaBuilder.append(" ");
+            fnaBuilder.append(args[i]);
+        }
+        String nuevoFna = fnaBuilder.toString();
+
+        if (nuevoFna.length() > 100) {
+            PlayerLogger.error(sender, lang.getString("invalid-project-description"), (String) null);
             return true;
         }
 
         Division division = dbManager.get(Division.class, id);
-        division.setTipoDivision(nuevoTipo);
+        division.setFna(nuevoFna);
         dbManager.merge(division);
 
         String message = lang.getString("crud-update").replace("%entity%", "Division").replace("%id%", args[0]);

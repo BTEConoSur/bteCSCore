@@ -96,8 +96,16 @@ public class ProjectManager {
             return;
         }
 
-        Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(Instant.now()));
         ProyectoRegistry pr = ProyectoRegistry.getInstance(); 
+        int activeProjects = pr.getCounts(player)[1];
+        int maxActiveProjects = player.getTipoUsuario().getCantProyecSim();
+        if (activeProjects >= maxActiveProjects) {
+            String message = lang.getString("max-active-projects").replace("%maxProjects%", String.valueOf(maxActiveProjects));
+            PlayerLogger.error(player, message, (String) null);
+            return;
+        }
+        
+        Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(Instant.now()));
         pr.load(proyecto);
 
         File contextImage = SatMapUtils.downloadContext(proyecto, pr.getOverlapping(proyecto));

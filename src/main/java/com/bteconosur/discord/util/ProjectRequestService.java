@@ -9,6 +9,7 @@ import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
+import com.bteconosur.core.util.PlaceholderUtil;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Proyecto;
@@ -20,6 +21,7 @@ import net.dv8tion.jda.api.components.buttons.Button;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.utils.FileUpload;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 public class ProjectRequestService {
 
@@ -50,8 +52,10 @@ public class ProjectRequestService {
                 )
             )
             .queue(message -> {
-                String notification = lang.getString("ds-reviewer-notification-new-project").replace("%link%", message.getJumpUrl()).replace("%pais%", pais.getNombre());
-                DiscordLogger.notifyReviewers(notification, pais);
+                String dsNotification = lang.getString("ds-reviewer-notification-new-project").replace("%link%", message.getJumpUrl()).replace("%pais%", pais.getNombrePublico());
+                TagResolver tagResolver = PlaceholderUtil.getLinkText("link", message.getJumpUrl(), "Ver solicitud");
+                String mcNotification = lang.getString("mc-reviewer-notification-new-project").replace("%pais%", pais.getNombrePublico());
+                DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
                 Interaction ctx = new Interaction(
                     proyecto.getId(),
                     InteractionKey.CREATE_PROJECT,

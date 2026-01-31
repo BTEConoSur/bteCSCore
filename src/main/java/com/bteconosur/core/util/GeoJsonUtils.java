@@ -204,13 +204,14 @@ public class GeoJsonUtils {
                 //ConsoleLogger.debug("Cantidad de features en el GeoJSON: " + features.size());
                 JsonObject feature = features.get(0).getAsJsonObject();
                 JsonObject properties = feature.getAsJsonObject("properties");
-                String type = properties.get("gna").getAsString();
-                String name = properties.get("nam").getAsString();
-                String context = properties.get("contexto").getAsString();                    
+                String gna = properties.get("gna").getAsString();
+                String nam = properties.get("nam").getAsString();
+                String fna = properties.get("fna").getAsString();
+                String contexto = properties.get("contexto").getAsString();                    
 
                 List<Polygon> polygons = geoJsonToPolygons(fullPath, file.getName());
                 Set<RegionDivision> regiones = new HashSet<>();
-                Division division = new Division(pais, file.getName(), name, type, context);
+                Division division = new Division(pais, file.getName(), nam, gna, fna, contexto);
                 for (int g = 0; g < polygons.size(); g++) {
                     String regionName = division.getNombre() + "_" + (g + 1);
                     regiones.add(new RegionDivision(division, regionName, polygons.get(g)));

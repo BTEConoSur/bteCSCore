@@ -39,9 +39,10 @@ public class WhereIAmCommand extends BaseCommand {
 
         String message = lang.getString("where-division")
                 .replace("%pais%", pais.getNombrePublico())
-                .replace("%divisionType%", division.getTipoDivision())
+                .replace("%divisionGna%", division.getGna())
                 .replace("%divisionContext%", division.getContexto())
-                .replace("%divisionName%", division.getNombrePublico());
+                .replace("%divisionNam%", division.getNam())
+                .replace("%divisionFna%", division.getFna());
 
         PlayerLogger.info(sender, message, (String) null);
         return true;

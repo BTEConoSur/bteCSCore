@@ -15,11 +15,12 @@ public class UDivisionCommand extends BaseCommand {
     public UDivisionCommand() {
         super("update", "Actualizar atributos de una Division.", null, CommandMode.BOTH);
         this.addSubcommand(new UDivisionNombreCommand());
-        this.addSubcommand(new UDivisionNombrePublicoCommand());
+        this.addSubcommand(new UDivisionNamCommand());
         this.addSubcommand(new UpdateDivisionPoligonoCommand());
-        this.addSubcommand(new UDivisionTipoDivisionCommand());
-        this.addSubcommand(new UDivisionContextoCommand());
+        this.addSubcommand(new UDivisionGnaCommand());
+        this.addSubcommand(new UDivisionFnaCommand());
         this.addSubcommand(new UDivisionPaisCommand());
+        this.addSubcommand(new UDivisionFnaCommand());
         this.addSubcommand(new AddDivisionRegionGeojsonCommand());
         this.addSubcommand(new RemoveDivisionRegionCommand());
         this.addSubcommand(new GenericHelpCommand(this));

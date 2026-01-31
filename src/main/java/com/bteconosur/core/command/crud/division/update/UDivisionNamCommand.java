@@ -9,13 +9,13 @@ import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Division;
 
-public class UDivisionNombrePublicoCommand extends BaseCommand {
+public class UDivisionNamCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private final DBManager dbManager;
 
-    public UDivisionNombrePublicoCommand() {
-        super("nombrepublico", "Actualizar nombre público de una División.", "<id> <nuevo_nombre>", CommandMode.BOTH);
+    public UDivisionNamCommand() {
+        super("nam", "Actualizar nam de una División.", "<id> <nuevo_nam>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
@@ -52,7 +52,7 @@ public class UDivisionNombrePublicoCommand extends BaseCommand {
         }
 
         Division division = dbManager.get(Division.class, id);
-        division.setNombrePublico(nuevoNombre);
+        division.setNam(nuevoNombre);
         dbManager.merge(division);
 
         String message = lang.getString("crud-update").replace("%entity%", "Division").replace("%id%", args[0]);

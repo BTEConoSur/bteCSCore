@@ -16,4 +16,11 @@ public class PlaceholderUtil {
         return Placeholder.component(key, clickable);
     }
 
+    public static TagResolver getLinkText(String key, String url, String displayText) {
+        Component link = Component.text(displayText)
+            .clickEvent(ClickEvent.openUrl(url))
+            .hoverEvent(HoverEvent.showText(Component.text("Click para abrir enlace").color(NamedTextColor.GRAY)));
+        return Placeholder.component(key, link);
+    }   
+
 }
