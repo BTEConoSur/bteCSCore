@@ -84,12 +84,12 @@ world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
 bte-world-loading: "Cargando mundo de BTE..."
 label-world-loading: "Cargando capa: %name% con offset %offset%..." # %name% -> Nombre de la capa. %offset% -> Offset de la capa.
 
-teleport-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
-teleport-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
+teleport-layer-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
+teleport-layer-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
 
-not-limbo: "No puedes estar en el limbo, te teletransportamos al lobby."
 
 no-building-permissions: "No tienes permisos para construir aquí."
+
 
 # Commands
 no-permission: "No tienes permisos para ejecutar este comando."

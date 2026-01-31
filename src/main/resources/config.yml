@@ -46,9 +46,15 @@ discord-server-start-stop: true # Habilitar mensajes de inicio y stop del servid
 
 # World
 tp-cooldown-seconds: 5
-layer-1-offset: 1700
-layer-2-offset: 5500
-
+layers:
+  capa_baja:
+    name: "capa_1"
+    display-name: "Capa Baja"
+    offset: 1700
+  capa_alta:
+    name: "capa_2"
+    display-name: "Capa Alta"
+    offset: 5500
 # Commands
 # Cooldowns por comando (En segundos). En caso de no especificar, se usa el valor por defecto. 
 # Nota: El cooldown es por cada comando/subcomando. Es decir, si se especifica un cooldown para "btecs" y otro para "btecs test", ambos se aplican independientemente.
