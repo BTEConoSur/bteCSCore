@@ -16,7 +16,6 @@ public class UDivisionCommand extends BaseCommand {
         super("update", "Actualizar atributos de una Division.", null, CommandMode.BOTH);
         this.addSubcommand(new UDivisionNombreCommand());
         this.addSubcommand(new UDivisionNamCommand());
-        this.addSubcommand(new UpdateDivisionPoligonoCommand());
         this.addSubcommand(new UDivisionGnaCommand());
         this.addSubcommand(new UDivisionFnaCommand());
         this.addSubcommand(new UDivisionPaisCommand());
