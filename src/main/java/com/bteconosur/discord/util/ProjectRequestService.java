@@ -54,7 +54,7 @@ public class ProjectRequestService {
             .queue(message -> {
                 String dsNotification = lang.getString("ds-reviewer-notification-new-project").replace("%link%", message.getJumpUrl()).replace("%pais%", pais.getNombrePublico());
                 TagResolver tagResolver = PlaceholderUtil.getLinkText("link", message.getJumpUrl(), "Ver solicitud");
-                String mcNotification = lang.getString("mc-reviewer-notification-new-project").replace("%pais%", pais.getNombrePublico());
+                String mcNotification = lang.getString("reviewer-notification-new-project").replace("%pais%", pais.getNombrePublico());
                 DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
                 Interaction ctx = new Interaction(
                     proyecto.getId(),

@@ -1,4 +1,5 @@
 # User-specific stuff
+bin/
 .idea/
 .vscode/
 docker-compose.yml

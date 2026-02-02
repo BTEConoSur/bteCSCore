@@ -80,6 +80,7 @@ player-defaults:
     global-chat-on-join: true
     simultaneous-notifications: true
     pais-border: true
+    label-border: true
   reviewer:
     ds-notifications: true
   manager:
