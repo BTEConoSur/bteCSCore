@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,6 +15,8 @@ import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
 
+import de.rapha149.signgui.SignGUI;
+import de.rapha149.signgui.SignGUIFinishHandler;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.GuiItem;
 import net.kyori.adventure.text.Component;
@@ -27,7 +30,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.back.material"),
             lang.getString("items.back.name"),
-            lang.getStringList("items.back.lore")
+            lang.getStringList("items.back.lore"), false
         );
     }
 
@@ -35,7 +38,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.close.material"),
             lang.getString("items.close.name"),
-            lang.getStringList("items.close.lore")
+            lang.getStringList("items.close.lore"), false
         );
     }
 
@@ -43,7 +46,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.previous-page.material"),
             lang.getString("items.previous-page.name"),
-            lang.getStringList("items.previous-page.lore")
+            lang.getStringList("items.previous-page.lore"), false
         );
     }
     
@@ -51,7 +54,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.next-page.material"),
             lang.getString("items.next-page.name"),
-            lang.getStringList("items.next-page.lore")
+            lang.getStringList("items.next-page.lore"), false
         );
     }
 
@@ -59,7 +62,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.filler.material"),
             lang.getString("items.filler.name"),
-            lang.getStringList("items.filler.lore")
+            lang.getStringList("items.filler.lore"), false
         );
     }
 
@@ -67,7 +70,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.confirm.material"),
             lang.getString("items.confirm.name"),
-            lang.getStringList("items.confirm.lore")
+            lang.getStringList("items.confirm.lore"), false
         );
     }
 
@@ -75,7 +78,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.cancel.material"),
             lang.getString("items.cancel.name"),
-            lang.getStringList("items.cancel.lore")
+            lang.getStringList("items.cancel.lore"), false
         );
     }
 
@@ -83,7 +86,23 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.promote.material"),
             lang.getString("items.promote.name"),
-            lang.getStringList("items.promote.lore")
+            lang.getStringList("items.promote.lore"), false
+        );
+    }
+
+    public static GuiItem getSearchItem(String searchTerm, String search) {
+        List<String> lore = new ArrayList<String>();
+        if (search != null && !search.isBlank()) {
+            lore.add(lang.getString("items.search.searched").replace("%search%", search));
+            lore.add(lang.getString("items.search.search-again-Line-1"));
+            lore.add(lang.getString("items.search.search-again-Line-2"));
+        } else {
+            lore.add(lang.getString("items.search.search-line"));
+        }
+        return buildGuiItem(
+            lang.getString("items.search.material"),
+            lang.getString("items.search.name").replace("%searchTerm%", searchTerm),
+            lore, (search != null && !search.isBlank())
         );
     }
 
@@ -95,7 +114,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.notepad.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.notepad.name"),
-            lore
+            lore, false
         );
     }   
 
@@ -129,19 +148,21 @@ public class MenuUtils {
 
         String trueMaterial = lang.getString("items.config.configs." + context + "." + name + ".material-true");
         String falseMaterial = lang.getString("items.config.configs." + context + "." + name + ".material-false");
-        return buildGuiItem(value ? trueMaterial : falseMaterial, displayName, processedDesc);
+        return buildGuiItem(value ? trueMaterial : falseMaterial, displayName, processedDesc, false);
     }
 
-    private static GuiItem buildGuiItem(String materialName, String name, List<String> lore) {
+    private static GuiItem buildGuiItem(String materialName, String name, List<String> lore, Boolean isEnchanted) {
         if (materialName != null && materialName.startsWith("hdb:")) {
             String headId = materialName.substring(4);
             ItemStack headItem = HeadDBUtil.get(headId);
-            return buildGuiItem(headItem, name, lore);
+            return buildGuiItem(headItem, name, lore, isEnchanted);
         }
 
         ItemBuilder builder = ItemBuilder.from(getMaterialFromString(materialName))
             .name(MiniMessage.miniMessage().deserialize("<!italic>" + name))
             .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+
+        if (isEnchanted) builder.enchant(Enchantment.CHANNELING);
             
         List<Component> components = new ArrayList<>();
         if (lore != null && !lore.isEmpty()) {
@@ -150,11 +171,10 @@ public class MenuUtils {
             }
             builder.lore(components);
         }
-
         return builder.asGuiItem();
     }
 
-    private static GuiItem buildGuiItem(ItemStack itemStack, String name, List<String> lore) {
+    private static GuiItem buildGuiItem(ItemStack itemStack, String name, List<String> lore, Boolean isEnchanted) {
         ItemBuilder builder = ItemBuilder.from(itemStack)
             .name(MiniMessage.miniMessage().deserialize("<!italic>" + name))
             .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
@@ -166,6 +186,8 @@ public class MenuUtils {
             }
             builder.lore(components);
         }
+
+        if (isEnchanted) builder.enchant(Enchantment.CHANNELING);
         
         return builder.asGuiItem();
     }
@@ -185,7 +207,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.argentina-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.argentina-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -196,7 +218,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.chile-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.chile-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -207,7 +229,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.uruguay-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.uruguay-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -218,7 +240,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.paraguay-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.paraguay-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -229,7 +251,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.bolivia-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.bolivia-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -240,7 +262,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.peru-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.peru-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -251,7 +273,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.global-chat-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.global-chat-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -262,7 +284,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.international-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.international-head.name"),
-            lore
+            lore,false
         );
     }
 
@@ -274,7 +296,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString(path + ".material"),
             (isSelected ? "<b>" : "") + lang.getString(path + ".name").replace("%nombreRango%", rangoUsuario.getNombre()),
-            lore
+            lore, false
         );
     }
 
@@ -287,7 +309,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString(path + ".material"),
             (isSelected ? "<b>" : "") + lang.getString(path + ".name").replace("%nombreTipo%", tipoUsuario.getNombre()),
-            lore
+            lore, false
         );
     }
 
@@ -343,8 +365,25 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.proyecto.default-material"),
             lang.getString("items.proyecto.name").replace("%proyectoId%", proyecto.getId()).replace("%proyectoNombre%", proyectoNombre),
-            processedLore
+            processedLore, false
         );
+    }
+
+    public static boolean createSignGUI(org.bukkit.entity.Player player, SignGUIFinishHandler handler) {
+        SignGUI gui;
+        try {
+            List<String> signLines = lang.getStringList("sign-gui");
+            gui = SignGUI.builder()
+                .setLines(signLines.toArray(new String[0]))
+                .setHandler(handler)
+                .build();
+            gui.open(player);
+            return true;
+        } catch (Exception e) {
+            ConsoleLogger.error("Error al crear el SignGUI: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

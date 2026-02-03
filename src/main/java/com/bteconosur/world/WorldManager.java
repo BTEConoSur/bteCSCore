@@ -45,17 +45,17 @@ public class WorldManager {
     public boolean canBuild(Location loc, Player player) {
         if (loc.getWorld().getName().equalsIgnoreCase("lobby")) return true; // Delego en WorldGuard
         if (bteWorld == null || !bteWorld.isValid()) {
-            ConsoleLogger.debug("[WorldManager] canBuild false: bteWorld null o inválido");
+            //ConsoleLogger.debug("[WorldManager] canBuild false: bteWorld null o inválido");
             return false;
         }
 
         org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
         if (bukkitPlayer == null) {
-            ConsoleLogger.debug("[WorldManager] canBuild false: bukkitPlayer null");
+            //ConsoleLogger.debug("[WorldManager] canBuild false: bukkitPlayer null");
             return false;
         }
         if (bukkitPlayer.hasPermission("btecs.world.bypass")) {
-            ConsoleLogger.debug("[WorldManager] canBuild true: Permiso bypass");
+            //ConsoleLogger.debug("[WorldManager] canBuild true: Permiso bypass");
             return true;
         }
 
@@ -66,24 +66,24 @@ public class WorldManager {
 
         LabelWorld lw = bteWorld.getLabelWorld(loc.getX(), loc.getZ());
         if (lw == null) {
-            ConsoleLogger.debug("[WorldManager] canBuild false: LabelWorld no encontrada para (" + loc.getX() + ", " + loc.getZ() + ")");
+            //ConsoleLogger.debug("[WorldManager] canBuild false: LabelWorld no encontrada para (" + loc.getX() + ", " + loc.getZ() + ")");
             return false;
         }
         if (!bteWorld.isValidLocation(loc, lw)) {
-            ConsoleLogger.debug("[WorldManager] canBuild false: Ubicación inválida para LabelWorld " + lw.getName());
+            //ConsoleLogger.debug("[WorldManager] canBuild false: Ubicación inválida para LabelWorld " + lw.getName());
             return false;
         }
 
         ChunkKey chunkKey = ChunkKey.fromBlock(loc.blockX(), loc.blockZ());
         Pais pais = PaisRegistry.getInstance().findByLocation(loc.getBlockX(), loc.getBlockZ());
         if (pais == null) {
-            ConsoleLogger.debug("[WorldManager] canBuild false: País no encontrado en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
+            //ConsoleLogger.debug("[WorldManager] canBuild false: País no encontrado en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
             return false;
         }
 
         PermissionManager pm = PermissionManager.getInstance();
         if (pm.isManager(player, pais)) {
-            ConsoleLogger.debug("[WorldManager] canBuild true: Es manager del país " + pais.getNombre());
+            //ConsoleLogger.debug("[WorldManager] canBuild true: Es manager del país " + pais.getNombre());
             return true;
         }
 
@@ -91,22 +91,22 @@ public class WorldManager {
         Set<Proyecto> proyectos = pr.getByLocation(loc.getBlockX(), loc.getBlockZ(), pr.getByChunk(chunkKey));
 
         if (proyectos == null || proyectos.isEmpty()) {
-            ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
+            //ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
             return false;
         }
 
         if (!pm.areActiveOrEditing(proyectos)) {
-            ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos activos o en edición en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
+            //ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos activos o en edición en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
             return false;
         }
 
         if (pm.isReviewer(player, pais)) {
-            ConsoleLogger.debug("[WorldManager] canBuild true: Es reviewer del país " + pais.getNombre());
+            //ConsoleLogger.debug("[WorldManager] canBuild true: Es reviewer del país " + pais.getNombre());
             return true;
         }
 
         if (pm.isMiembro(player, proyectos) || pm.isLider(player, proyectos)) {
-            ConsoleLogger.debug("[WorldManager] canBuild true: Tiene permisos en los proyectos de la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
+            //ConsoleLogger.debug("[WorldManager] canBuild true: Tiene permisos en los proyectos de la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
             return true;
         }
 

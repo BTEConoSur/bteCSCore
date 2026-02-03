@@ -70,6 +70,10 @@ public abstract class PaginatedMenu extends Menu {
         getPaginatedGui().addItem(item);
     }
 
+    public void removePaginatedItems() {
+        getPaginatedGui().clearPageItems(true);
+    }
+
     protected PaginatedGui getPaginatedGui() {
         return (PaginatedGui) gui;
     }

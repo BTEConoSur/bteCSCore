@@ -256,3 +256,4 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: Añadir iconos a los proyectos
 
 // TODO: Limpieza de proyectos en crearcion sin interactions
+// TODO: arreglar bores no incluidos

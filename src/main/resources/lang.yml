@@ -240,6 +240,13 @@ gui-titles:
   finish-project-reject: "Rechazar finalización '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-accept: "Aceptar finalización '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   proyectos-activos-list: "Proyectos en esta ubicación"
+  proyectos-search: "Buscar Proyectos"
+
+sign-gui:
+  - ""
+  - ""
+  - "^^^^^^^^^"
+  - "Escribe arriba"
 
 items: 
   back:
@@ -276,6 +283,13 @@ items:
     name: "<red>Cancelar"
     lore:
       - "<gray>Haz clic para cancelar."
+  search:
+    material: "SPYGLASS"
+    name: "<aqua>Buscar por %searchTerm%" # %searchTerm% -> Término de búsqueda.
+    search-line: "<gray>Haz clic para buscar"
+    searched: "<gray>Resultados para: <white>'%search%'" # %search% -> Texto de búsqueda.
+    search-again-Line-1: "<gray>Haz clic para buscar de nuevo."
+    search-again-Line-2: "<gray>Ingresa un texto vacío para resetear."
   promote:
     material: "LIGHT_BLUE_WOOL"
     name: "<green>Confirmar y Promover"
