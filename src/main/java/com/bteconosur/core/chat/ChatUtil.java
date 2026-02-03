@@ -292,10 +292,46 @@ public class ChatUtil {
 
     public static MessageEmbed getDsProjectRequestExpired(String proyectoId, String nombre) {
         String title = lang.getString("ds-embeds.project-expired.title");
-        String description = lang.getString("ds-embeds.project-expired.description").replace("%proyectoId%", proyectoId);
+        String description = lang.getString("ds-embeds.project-expired.id").replace("%proyectoId%", proyectoId);
         if (nombre != null && !nombre.isBlank()) description = description
             + "\n" + lang.getString("ds-embeds.project-expired.nombre").replace("%nombre%", nombre);
         return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-expired.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishAccepted(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-finish-accepted.title");
+        String description = lang.getString("ds-embeds.project-finish-accepted.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-accepted.nombre").replace("%nombre%", nombre);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-accepted.comment").replace("%comentario%", comentario);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-accepted.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishRejected(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-finish-rejected.title");
+        String description = lang.getString("ds-embeds.project-finish-rejected.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-rejected.nombre").replace("%nombre%", nombre);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-rejected.comment").replace("%comentario%", comentario);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-rejected.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishRequestExpired(String proyectoId, String nombre) {
+        String title = lang.getString("ds-embeds.project-finish-expired.title");
+        String description = lang.getString("ds-embeds.project-finish-expired.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-expired.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-expired.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishRequested(String proyectoId, String nombre, String liderName) {
+        String title = lang.getString("ds-embeds.project-finish-requested.title").replace("%player%", liderName);
+        String description = lang.getString("ds-embeds.project-finish-requested.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-requested.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-requested.color")).build();
     }
 
     @SuppressWarnings("null")
@@ -307,7 +343,7 @@ public class ChatUtil {
         Polygon polygon = proyecto.getPoligono();
         Point centroid = polygon.getCentroid();
         double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
-        String coords = geoCoords[0] + ", " + geoCoords[1];
+        String coords = geoCoords[1] + ", " + geoCoords[0];
         EmbedBuilder eb = new EmbedBuilder().setTitle(title);
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
         if (tur.getVisita().equals(player.getTipoUsuario())) eb.appendDescription(lang.getString("ds-embeds.project-created.player-is-visita"));
@@ -331,7 +367,7 @@ public class ChatUtil {
         if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField("Descripción", proyecto.getDescripcion(), false);
         eb.addField("", lang.getString("ds-embeds.project-created.polygons-colors"), false);
         return eb.build();
-    } 
+    } //TODO: añadir vencimiento de request.
 
     public static String formatDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy 'a las' HH:mm", Locale.forLanguageTag("es-ES"));

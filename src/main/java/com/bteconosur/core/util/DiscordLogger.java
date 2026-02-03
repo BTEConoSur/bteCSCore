@@ -63,13 +63,13 @@ public class DiscordLogger {
     public static void notifyManagers(String mcMessage, String dsMessage, Pais pais, TagResolver... extraResolvers) {
         List<Player> managers = PlayerRegistry.getInstance().getManagers(pais);
         for (Player manager : managers) {
-            if (!manager.getConfiguration().getManagerDsNotifications()) continue;
             User user = Player.getDsUser(manager);
             if (user == null) {
                 ConsoleLogger.warn("El Manager '" + manager.getNombre() + "' no tiene la cuenta de Discord enlazada.");
                 continue;
             };
-            String dsFormat = lang.getString("ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
+            String dsFormat = null;
+            if (manager.getConfiguration().getManagerDsNotifications()) dsFormat = lang.getString("ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
             PlayerLogger.info(manager, mcMessage, dsFormat, extraResolvers);
         }
     }
@@ -77,13 +77,14 @@ public class DiscordLogger {
     public static void notifyReviewers(String mcMessage, String dsMessage, Pais pais, TagResolver... extraResolvers) {
         List<Player> reviewers = PlayerRegistry.getInstance().getReviewers(pais);
         for (Player reviewer : reviewers) {
-            if (!reviewer.getConfiguration().getReviewerDsNotifications()) continue;
+            
             User user = Player.getDsUser(reviewer);
             if (user == null) {
                 ConsoleLogger.warn("El Reviewer '" + reviewer.getNombre() + "' no tiene la cuenta de Discord enlazada.");
                 continue;
             };
-            String dsFormat = lang.getString("ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
+            String dsFormat = null;
+            if (reviewer.getConfiguration().getReviewerDsNotifications()) dsFormat = lang.getString("ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
             PlayerLogger.info(reviewer, mcMessage, dsFormat, extraResolvers);
         }
         notifyManagers(mcMessage, dsMessage, pais, extraResolvers);

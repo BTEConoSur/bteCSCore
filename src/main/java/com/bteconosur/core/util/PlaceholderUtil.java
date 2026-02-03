@@ -9,7 +9,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 public class PlaceholderUtil {
 
-    public static TagResolver getClickableText(String key, String textToCopy, String displayText) {
+    public static TagResolver getCopyableText(String key, String textToCopy, String displayText) {
         Component clickable = Component.text(displayText)
             .clickEvent(ClickEvent.copyToClipboard(textToCopy))
             .hoverEvent(HoverEvent.showText(Component.text("Click para copiar").color(NamedTextColor.GRAY)));

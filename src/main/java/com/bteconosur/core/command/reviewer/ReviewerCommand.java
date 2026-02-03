@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
+import com.bteconosur.core.command.reviewer.review.ReviewerReviewCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
@@ -18,6 +19,7 @@ public class ReviewerCommand extends BaseCommand {
     public ReviewerCommand() {
         super("reviewer", "Comando para Reviewer de los proyectos.", null, "btecs.command.reviewer", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new ReviewerConfigCommand());
+        this.addSubcommand(new ReviewerReviewCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         
         ConfigHandler configHandler = ConfigHandler.getInstance();

@@ -6,16 +6,20 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
+import com.bteconosur.core.util.PlaceholderUtil;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.SatMapUtils;
+import com.bteconosur.core.util.TerraUtils;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Interaction;
@@ -33,6 +37,9 @@ import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.db.util.Estado;
 import com.bteconosur.db.util.InteractionKey;
 import com.bteconosur.discord.util.ProjectRequestService;
+
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 public class ProjectManager {
 
@@ -180,7 +187,7 @@ public class ProjectManager {
             PlayerLogger.info(lider, commentMessage, (String) null);
         }
 
-        String countryLog = lang.getString("project-create-request-denied-log").replace("%staff%", staff.getNombre()).replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyectoId);
+        String countryLog = lang.getString("project-create-request-rejected-log").replace("%staff%", staff.getNombre()).replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyectoId);
         DiscordLogger.countryLog(countryLog, pais);
         deleteProject(proyecto);
     }
@@ -243,7 +250,9 @@ public class ProjectManager {
         }
     }
 
-    public void expireJoinRequest(Proyecto proyecto, Player player) {
+    public void expiredJoinRequest(String proyectoId, UUID playerId) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        Player player = PlayerRegistry.getInstance().get(playerId);
         cancelJoinRequest(proyecto, player);
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-join-request-expired-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
@@ -275,52 +284,129 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void createFinishProjectRequest(Proyecto proyecto) {
+    public void createFinishRequest(String proyectoId) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        Player lider = getLider(proyecto);
         proyecto.setEstado(Estado.EN_FINALIZACION);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         Interaction interaction = new Interaction(
-            proyecto.getLider().getUuid(),
+            lider.getUuid(),
             proyecto.getId(),
             InteractionKey.FINISH_PROJECT,
             Instant.now(),
             Instant.now().plusSeconds(config.getLong("interaction-expirations.finish-project") * 60)
         );
         InteractionRegistry.getInstance().load(interaction);
+
+        Point centroid = proyecto.getPoligono().getCentroid();
+        double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
+        String coords = geoCoords[1] + ", " + geoCoords[0];
         Pais pais = proyecto.getPais();
-        String countryLog = lang.getString("project-finish-request-log").replace("%lider%", getLider(proyecto).getNombre()).replace("%proyectoId%", proyecto.getId());
+        
+        String dsNotification = lang.getString("ds-reviewer-notification-finish-project").replace("%pais%", pais.getNombrePublico())
+            .replace("%id%", proyecto.getId()).replace("%coords%", coords);
+        TagResolver tagResolver1 = PlaceholderUtil.getCopyableText("id", proyecto.getId(), proyecto.getId());
+        TagResolver tagResolver2 = PlaceholderUtil.getCopyableText("coords", coords, coords);
+        String mcNotification = lang.getString("reviewer-notification-finish-project").replace("%pais%", pais.getNombrePublico());
+        DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver1, tagResolver2);
+
+        Set<Player> members = getMembers(proyecto);
+        String mcMemberNotification = lang.getString("member-notification-finish-project").replace("%proyectoId%", proyecto.getId());
+        MessageEmbed dsMemberNotification = ChatUtil.getDsProjectFinishRequested(proyecto.getId(), proyecto.getNombre(), lider.getNombre());
+        for (Player member : members) {
+            PlayerLogger.info(member, mcMemberNotification, dsMemberNotification);
+        }   
+
+        String countryLog = lang.getString("project-finish-request-log").replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void cancelFinishProjectRequest(Proyecto proyecto) {
-        proyecto.setEstado(Estado.ACTIVO);
+    public void cancelFinishRequest(Proyecto proyecto, Estado newEstado) {
+        proyecto.setEstado(newEstado);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         InteractionRegistry interactionRegistry = InteractionRegistry.getInstance();
         Interaction interaction = interactionRegistry.findFinishRequest(proyecto);
         interactionRegistry.unload(interaction.getId());
     }
 
-    public void acceptFinishProjectRequest(Proyecto proyecto, Player staff) {
-        cancelFinishProjectRequest(proyecto);
+    public void acceptFinishRequest(String proyectoId, Player staff, String comentario, Boolean promote) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        proyecto.setFechaTerminado(Date.from(Instant.now()));
+        cancelFinishRequest(proyecto, Estado.COMPLETADO);
+        String message = lang.getString("project-finish-accepted").replace("%proyectoId%", proyectoId);
+        String commentMessage = comentario != null ? lang.getString("project-finish-comment-accepted").replace("%comentario%", comentario) : null;
+        MessageEmbed dsMessage = ChatUtil.getDsProjectFinishAccepted(proyecto.getId(), comentario, proyecto.getNombre());
+
+        TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
+        TipoUsuario constructor = tur.getConstructor();
+        TipoUsuario postulante = tur.getPostulante();
         Pais pais = proyecto.getPais();
+        String tipoSwitchedMessage = lang.getString("tipo-switched").replace("%tipo%", constructor.getNombre());
+        MessageEmbed dsTipoSwitchedMessage = ChatUtil.getDsTipoUsuarioSwitched(constructor);
+        String tipoPromoteLog = lang.getString("tipo-promote-log").replace("%tipo%", constructor.getNombre());
+
         String countryLog = lang.getString("project-finish-accepted-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
+
+        Player lider = getLider(proyecto);
+        Set<Player> members = getMembers(proyecto);
+        if (promote && postulante.equals(lider.getTipoUsuario())) {
+            PermissionManager.getInstance().switchTipoUsuario(lider, constructor);
+            PlayerLogger.info(lider, tipoSwitchedMessage, dsTipoSwitchedMessage);
+            DiscordLogger.countryLog(tipoPromoteLog.replace("%player%", lider.getNombre()), pais);
+        }
+        
+        PlayerLogger.info(lider, message, dsMessage);
+        if (comentario != null && !comentario.isBlank()) PlayerLogger.info(lider, commentMessage, (String) null);
+        for (Player member : members) {
+            if (promote && postulante.equals(member.getTipoUsuario())) {
+                PermissionManager.getInstance().switchTipoUsuario(member, constructor);
+                PlayerLogger.info(member, tipoSwitchedMessage, dsTipoSwitchedMessage);
+                DiscordLogger.countryLog(tipoPromoteLog.replace("%player%", member.getNombre()), pais);
+            }
+            
+            PlayerLogger.info(member, message, dsMessage);
+            if (comentario != null && !comentario.isBlank()) PlayerLogger.info(member, commentMessage, (String) null);
+        }
     }
 
-    public void deniedFinishProjectRequest(Proyecto proyecto, Player staff) {
-        cancelFinishProjectRequest(proyecto);
+    public void rejectFinishRequest(String proyectoId, Player staff, String comentario) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        cancelFinishRequest(proyecto, Estado.ACTIVO);
+
+        String message = lang.getString("project-finish-rejected").replace("%proyectoId%", proyectoId);
+        String commentMessage = lang.getString("project-finish-comment-rejected").replace("%comentario%", comentario);
+        MessageEmbed dsMessage = ChatUtil.getDsProjectFinishRejected(proyecto.getId(), comentario, proyecto.getNombre());
+        Player lider = getLider(proyecto);
+        Set<Player> members = getMembers(proyecto);
+        PlayerLogger.info(lider, message, dsMessage);
+        if (comentario != null && !comentario.isBlank()) PlayerLogger.info(lider, commentMessage, (String) null);
+        for (Player member : members) {
+            PlayerLogger.info(member, message, dsMessage);
+            if (comentario != null && !comentario.isBlank()) PlayerLogger.info(member, commentMessage, (String) null);
+        }
+
         Pais pais = proyecto.getPais();
-        String countryLog = lang.getString("project-finish-denied-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
+        String countryLog = lang.getString("project-finish-rejected-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void expireFinishProjectRequest(Proyecto proyecto) {
-        cancelFinishProjectRequest(proyecto);
+    public void expiredFinishRequest(String proyectoId) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        cancelFinishRequest(proyecto, Estado.ACTIVO);
+
+        Player lider = getLider(proyecto);
+        Set<Player> members = getMembers(proyecto);
+        String message = lang.getString("project-finish-request-expired").replace("%proyectoId%", proyectoId);
+        PlayerLogger.info(lider, message, ChatUtil.getDsProjectFinishRequestExpired(proyectoId, proyecto.getNombre()));
+        for (Player member : members) PlayerLogger.info(member, message, ChatUtil.getDsProjectFinishRequestExpired(proyectoId, proyecto.getNombre()));
+        
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-finish-request-expired-log").replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void createRedefineProjectRequest(Proyecto proyecto) {
+    public void createRedefineRequest(Proyecto proyecto) {
         proyecto.setEstado(Estado.REDEFINIENDO);
         Interaction interaction = new Interaction(
             proyecto.getLider().getUuid(),
@@ -335,7 +421,7 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void cancelRedefineProjectRequest(Proyecto proyecto) {
+    public void cancelRedefineRequest(Proyecto proyecto) {
         proyecto.setEstado(Estado.ACTIVO);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         InteractionRegistry interactionRegistry = InteractionRegistry.getInstance();
@@ -343,28 +429,31 @@ public class ProjectManager {
         interactionRegistry.unload(interaction.getId());
     }
 
-    public void expireRedefineProjectRequest(Proyecto proyecto) {
-        cancelRedefineProjectRequest(proyecto);
+    public void expiredRedefineRequest(String proyectoId) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        cancelRedefineRequest(proyecto);
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-redefine-request-expired-log").replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void acceptRedefineProjectRequest(Proyecto proyecto, Player staff) {
-        cancelRedefineProjectRequest(proyecto);
+    public void acceptRedefineRequest(String proyectoId, Player staff) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        cancelRedefineRequest(proyecto);
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-redefine-accepted-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void deniedRedefineProjectRequest(Proyecto proyecto, Player staff) {
-        cancelRedefineProjectRequest(proyecto);
+    public void rejectedRedefineRequest(String proyectoId, Player staff) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId); 
+        cancelRedefineRequest(proyecto);
         Pais pais = proyecto.getPais();
-        String countryLog = lang.getString("project-redefine-denied-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
+        String countryLog = lang.getString("project-redefine-rejected-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void createEditProjectRequest(Proyecto proyecto) {
+    public void createEditRequest(Proyecto proyecto) {
         proyecto.setEstado(Estado.EDITANDO);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         Interaction interaction = new Interaction(
@@ -380,7 +469,7 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void cancelEditProjectRequest(Proyecto proyecto) {
+    public void cancelEditRequest(Proyecto proyecto) {
         proyecto.setEstado(Estado.COMPLETADO);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         InteractionRegistry interactionRegistry = InteractionRegistry.getInstance();
@@ -388,24 +477,27 @@ public class ProjectManager {
         interactionRegistry.unload(interaction.getId());
     }
 
-    public void expireEditProjectRequest(Proyecto proyecto) {
-        cancelEditProjectRequest(proyecto);
+    public void expiredEditRequest(String proyectoId) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        cancelEditRequest(proyecto);
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-edit-request-expired-log").replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void acceptEditProjectRequest(Proyecto proyecto, Player staff) {
-        cancelEditProjectRequest(proyecto);
+    public void acceptEditRequest(String proyectoId, Player staff) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        cancelEditRequest(proyecto);
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-edit-accepted-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void deniedEditProjectRequest(Proyecto proyecto, Player staff) {
-        cancelEditProjectRequest(proyecto);
+    public void rejectedEditRequest(String proyectoId, Player staff) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        cancelEditRequest(proyecto);
         Pais pais = proyecto.getPais();
-        String countryLog = lang.getString("project-edit-denied-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
+        String countryLog = lang.getString("project-edit-rejected-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }   
     

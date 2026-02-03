@@ -77,6 +77,14 @@ public class MenuUtils {
         );
     }
 
+    public static GuiItem getPromoteItem() {
+        return buildGuiItem(
+            lang.getString("items.promote.material"),
+            lang.getString("items.promote.name"),
+            lang.getStringList("items.promote.lore")
+        );
+    }
+
     public static GuiItem getNotePadItem(Boolean isSelected) {
         List<String> lore = lang.getStringList("items.notepad.lore");
         if (lore == null) lore = new ArrayList<>();

@@ -62,7 +62,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
         }
 
         ensureDefaults();
-        enableParticlesSpawning();
+        //enableParticlesSpawning();
     }
 
     @Override

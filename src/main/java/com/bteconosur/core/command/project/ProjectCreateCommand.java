@@ -28,7 +28,7 @@ public class ProjectCreateCommand extends BaseCommand {
         String nombre = null;
         String descripcion = null;
 
-        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         if (!LinkService.isPlayerLinked(commandPlayer)) {
             PlayerLogger.warn(commandPlayer, lang.getString("minecraft-link-needed"), (String) null);
             return true;

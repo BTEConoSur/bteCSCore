@@ -121,7 +121,7 @@ public class WorldManager {
     }
 
     public boolean checkPaisMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
-        if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return false;
+        if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return true;
         return bteWorld.checkPaisMove(lFrom, lTo, player);
     }
 
