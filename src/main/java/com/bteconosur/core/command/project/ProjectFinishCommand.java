@@ -39,31 +39,31 @@ public class ProjectFinishCommand extends BaseCommand {
             String proyectoId = args[0];
             proyectoFinal = ProyectoRegistry.getInstance().get(proyectoId);
             if (proyectoFinal == null) {
-                PlayerLogger.warn(bukkitPlayer, lang.getString("no.project-found-with-id").replace("%proyectoId%", proyectoId), (String) null);   
+                PlayerLogger.warn(commandPlayer, lang.getString("no.project-found-with-id").replace("%proyectoId%", proyectoId), (String) null);   
                 return true;
             }
             if (!permissionManager.isLider(commandPlayer, proyectoFinal)) {
-                PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-leader-project").replace("%proyectoId%", proyectoId), (String) null);   
+                PlayerLogger.warn(commandPlayer, lang.getString("not-a-leader-project").replace("%proyectoId%", proyectoId), (String) null);   
                 return true;
             }
         } else {
             Set<Proyecto> proyectos = ProyectoRegistry.getInstance().getByLocation(bukkitPlayer.getLocation().getBlockX(), bukkitPlayer.getLocation().getBlockZ());
             if (proyectos.isEmpty()) {
-                PlayerLogger.warn(bukkitPlayer, lang.getString("no-project-found-here"), (String) null);
+                PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-here"), (String) null);
                 return true;
             }
             Set<Proyecto> liderProyectos = ProyectoRegistry.getInstance().getByLider(commandPlayer, proyectos);
             if (liderProyectos.isEmpty()) {
-                    PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-leader-here"), (String) null);
+                    PlayerLogger.warn(commandPlayer, lang.getString("not-a-leader-here"), (String) null);
                     return true;
             }
             Set<Proyecto> activeProyectos = ProyectoRegistry.getInstance().getActive(liderProyectos);
+            if (activeProyectos.isEmpty()) {
+                PlayerLogger.warn(commandPlayer, lang.getString("no-project-active-here"), (String) null);
+                return true;
+            }
             if (activeProyectos.size() > 1) {
-                if (activeProyectos.isEmpty()) {
-                    PlayerLogger.warn(bukkitPlayer, lang.getString("no-project-active-here"), (String) null);
-                    return true;
-                }
-                projectListMenu = new ProjectListMenu(bukkitPlayer, lang.getString("gui-titles.proyectos-activos-list"), activeProyectos, (proyecto, event) -> {
+                projectListMenu = new ProjectListMenu(commandPlayer, lang.getString("gui-titles.proyectos-activos-list"), activeProyectos, (proyecto, event) -> {
                     String proyectoIdFinal = proyecto.getId();
                     confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-confirm").replace("%proyectoId%", proyectoIdFinal), bukkitPlayer, projectListMenu, confirmClick -> {
                             ProjectManager.getInstance().createFinishRequest(proyectoIdFinal);
@@ -78,14 +78,14 @@ public class ProjectFinishCommand extends BaseCommand {
             proyectoFinal = activeProyectos.iterator().next();
         }
         if (proyectoFinal.getEstado() != Estado.ACTIVO) {
-            PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-active-project").replace("%proyectoId%", proyectoFinal.getId()), (String) null);   
+            PlayerLogger.warn(commandPlayer, lang.getString("not-a-active-project").replace("%proyectoId%", proyectoFinal.getId()), (String) null);   
             return true;
         }
 
         final String proyectoIdFinal = proyectoFinal.getId();
         confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-confirm").replace("%proyectoId%", proyectoIdFinal), bukkitPlayer, confirmClick -> {
                 ProjectManager.getInstance().createFinishRequest(proyectoIdFinal);
-                PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);
+                PlayerLogger.info(commandPlayer, lang.getString("project-finish-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);
                 confirmationMenu.getGui().close(bukkitPlayer);
             }, (cancelClick -> {    
                 confirmationMenu.getGui().close(bukkitPlayer);

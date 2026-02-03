@@ -58,18 +58,20 @@ public class ReviewAcceptCommand extends BaseCommand {
         Location location = bukkitPlayer.getLocation();
         Pais pais = PaisRegistry.getInstance().findByLocation(location.getBlockX(), location.getBlockZ());  // Capaz que es mejor usar del proyecto;
         if (!permissionManager.isManager(commandPlayer, pais)) {
-                PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-reviewer-country").replace("%pais%", pais.getNombrePublico()), (String) null);
-                return true;
+            PlayerLogger.warn(commandPlayer, lang.getString("not-a-reviewer-country").replace("%pais%", pais.getNombrePublico()), (String) null);
+            return true;
         }
-        Set<Proyecto> proyectos = ProyectoRegistry.getInstance().getByLocation(location.getBlockX(), location.getBlockZ());
+
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        Set<Proyecto> proyectos = pr.getByLocation(location.getBlockX(), location.getBlockZ());
         if (proyectos.isEmpty()) {
-            PlayerLogger.warn(bukkitPlayer, lang.getString("no-project-found-here"), (String) null);
+            PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-here"), (String) null);
             return true;
         }
         
-        Set<Proyecto> finishingProyectos = ProyectoRegistry.getInstance().getFinishing(proyectos);
+        Set<Proyecto> finishingProyectos = pr.getFinishing(proyectos);
         if (finishingProyectos.isEmpty()) {
-            PlayerLogger.warn(bukkitPlayer, lang.getString("no-project-finishing-here"), (String) null);
+            PlayerLogger.warn(commandPlayer, lang.getString("no-project-finishing-here"), (String) null);
             return true;
         }
         TipoUsuario postulante = TipoUsuarioRegistry.getInstance().getPostulante();
@@ -77,7 +79,7 @@ public class ReviewAcceptCommand extends BaseCommand {
         
         final String comentarioFinal = comentario;
         if (finishingProyectos.size() > 1) {
-            projectListMenu = new ProjectListMenu(bukkitPlayer, lang.getString("gui-titles.proyectos-activos-list"), finishingProyectos, (proyecto, event) -> {
+            projectListMenu = new ProjectListMenu(commandPlayer, lang.getString("gui-titles.proyectos-activos-list"), finishingProyectos, (proyecto, event) -> {
                 String proyectoIdFinal = proyecto.getId();
                 Boolean hasPostulantes = false;
                 Player lider = pm.getLider(proyecto);

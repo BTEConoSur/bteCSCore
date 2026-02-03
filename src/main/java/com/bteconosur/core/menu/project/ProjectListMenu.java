@@ -3,13 +3,13 @@ package com.bteconosur.core.menu.project;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.menu.PaginatedMenu;
 import com.bteconosur.core.util.MenuUtils;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 
 import dev.triumphteam.gui.guis.GuiItem;
