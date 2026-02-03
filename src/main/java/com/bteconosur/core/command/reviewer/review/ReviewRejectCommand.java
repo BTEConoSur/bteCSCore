@@ -66,16 +66,16 @@ public class ReviewRejectCommand extends BaseCommand {
             return true;
         }
         
-        Set<Proyecto> reviewerProyectos = pr.getByReviewerAndFinishing(commandPlayer, proyectos);
-        if (reviewerProyectos.isEmpty()) {
-            PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-reviewer-finishing-here"), (String) null);
+        Set<Proyecto> finishingProyectos = pr.getFinishing(proyectos);
+        if (finishingProyectos.isEmpty()) {
+            PlayerLogger.warn(bukkitPlayer, lang.getString("no-project-finishing-here"), (String) null);
             return true;
         }
         ProjectManager pm = ProjectManager.getInstance();
 
         final String finalComentario = comentario;
-        if (reviewerProyectos.size() > 1) {
-            projectListMenu = new ProjectListMenu(bukkitPlayer, lang.getString("gui-titles.proyectos-activos-list"), proyectos, (proyecto, event) -> {
+        if (finishingProyectos.size() > 1) {
+            projectListMenu = new ProjectListMenu(bukkitPlayer, lang.getString("gui-titles.proyectos-activos-list"), finishingProyectos, (proyecto, event) -> {
                 String proyectoIdFinal = proyecto.getId();
                 confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-reject").replace("%proyectoId%", proyectoIdFinal), bukkitPlayer, projectListMenu, confirmClick -> {
                     pm.rejectFinishRequest(proyectoIdFinal, commandPlayer, finalComentario);
@@ -88,7 +88,7 @@ public class ReviewRejectCommand extends BaseCommand {
             PlayerLogger.warn(bukkitPlayer, "Se han encontrado múltiples proyectos aquí. Por favor, especifica el ID del proyecto.", (String) null);
             return true;
         }
-        String proyectoId = proyectos.iterator().next().getId();
+        String proyectoId = finishingProyectos.iterator().next().getId();
         
         confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-reject").replace("%proyectoId%", proyectoId), bukkitPlayer, confirmClick -> {
                 pm.rejectFinishRequest(proyectoId, commandPlayer, finalComentario);

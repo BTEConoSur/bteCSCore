@@ -67,17 +67,17 @@ public class ReviewAcceptCommand extends BaseCommand {
             return true;
         }
         
-        Set<Proyecto> reviewerProyectos = ProyectoRegistry.getInstance().getByReviewerAndFinishing(commandPlayer, proyectos);
-        if (reviewerProyectos.isEmpty()) {
-            PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-reviewer-finishing-here"), (String) null);
+        Set<Proyecto> finishingProyectos = ProyectoRegistry.getInstance().getFinishing(proyectos);
+        if (finishingProyectos.isEmpty()) {
+            PlayerLogger.warn(bukkitPlayer, lang.getString("no-project-finishing-here"), (String) null);
             return true;
         }
         TipoUsuario postulante = TipoUsuarioRegistry.getInstance().getPostulante();
         ProjectManager pm = ProjectManager.getInstance();
         
         final String comentarioFinal = comentario;
-        if (reviewerProyectos.size() > 1) {
-            projectListMenu = new ProjectListMenu(bukkitPlayer, lang.getString("gui-titles.proyectos-activos-list"), proyectos, (proyecto, event) -> {
+        if (finishingProyectos.size() > 1) {
+            projectListMenu = new ProjectListMenu(bukkitPlayer, lang.getString("gui-titles.proyectos-activos-list"), finishingProyectos, (proyecto, event) -> {
                 String proyectoIdFinal = proyecto.getId();
                 Boolean hasPostulantes = false;
                 Player lider = pm.getLider(proyecto);
@@ -98,7 +98,7 @@ public class ReviewAcceptCommand extends BaseCommand {
             projectListMenu.open();
             return true;
         }
-        Proyecto proyecto = reviewerProyectos.iterator().next();
+        Proyecto proyecto = finishingProyectos.iterator().next();
         String proyectoId = proyecto.getId();
         Player lider = pm.getLider(proyecto);
         Set<Player> miembros = pm.getMembers(proyecto);

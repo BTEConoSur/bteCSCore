@@ -85,32 +85,30 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         return proyectos;
     }
 
-    public Set<Proyecto> getByLiderAndActive(Player player, Set<Proyecto> search) {
+    public Set<Proyecto> getByLider(Player player, Set<Proyecto> search) {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
-            if (PermissionManager.getInstance().isLider(player, proyecto) && proyecto.getEstado() == Estado.ACTIVO) {
+            if (PermissionManager.getInstance().isLider(player, proyecto)) {
                 proyectos.add(proyecto);
             }
         }
         return proyectos;
     }
 
-    public Set<Proyecto> getByManagerAndFinishing(Player player, Set<Proyecto> search) {
+    public Set<Proyecto> getActive(Set<Proyecto> search) {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
-            Pais pais = proyecto.getPais();
-            if (PermissionManager.getInstance().isManager(player, pais) && proyecto.getEstado() == Estado.EN_FINALIZACION) {
+            if (proyecto.getEstado() == Estado.ACTIVO) {
                 proyectos.add(proyecto);
             }
         }
         return proyectos;
     }
 
-    public Set<Proyecto> getByReviewerAndFinishing(Player player, Set<Proyecto> search) {
+    public Set<Proyecto> getFinishing(Set<Proyecto> search) {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
-            Pais pais = proyecto.getPais();
-            if (PermissionManager.getInstance().isReviewer(player, pais) && proyecto.getEstado() == Estado.EN_FINALIZACION) {
+            if (proyecto.getEstado() == Estado.EN_FINALIZACION) {
                 proyectos.add(proyecto);
             }
         }

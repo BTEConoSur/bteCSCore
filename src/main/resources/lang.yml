@@ -207,10 +207,11 @@ no-project-found-here: "No se encontró ningún proyecto en esta ubicación."
 
 no-project-found-with-id: "No se encontró ningún proyecto con ID <yellow>'%proyectoId%'</yellow>."
 not-a-leader-project: "No eres Líder del proyecto '%proyectoId%'." # %proyectoId% -> Identificador del proyecto.
-not-a-leader-active-here: "No eres Líder de ningún proyecto activo en esta ubicación."
+not-a-leader-here: "No eres Líder de ningún proyecto en esta ubicación."
 not-a-leader-active-projects: "No eres Líder de ningún proyecto activo en esta ubicación."
 not-a-active-project: "El proyecto '%proyectoId%' no está activo." # %proyectoId% -> Identificador del proyecto.
-not-a-reviewer-finishing-here: "No eres Reviewer de ningún proyecto en finalización en esta ubicación." 
+no-project-finishing-here: "No hay ningún proyecto en finalización en esta ubicación." 
+no-project-active-here: "No hay ningún proyecto activo en esta ubicación."
 
 where-pais: "Pais: <yellow>%pais%</yellow>" # %pais% -> Nombre del país.
 where-division: "Pais: <yellow>%pais%</yellow> %divisionGna%: <yellow>%divisionContext%, %divisionNam%</yellow>" # %pais% -> Nombre del país. %divisionGna% -> Tipo de división. %divisionContext% -> Contexto de la división. %divisionNam% -> Nombre oficial de la división. %divisionFna% -> Nombre alternativo de la división.
