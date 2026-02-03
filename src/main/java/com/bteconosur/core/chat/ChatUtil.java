@@ -1,8 +1,5 @@
 package com.bteconosur.core.chat;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,6 +7,7 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.TerraUtils;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
@@ -352,7 +350,7 @@ public class ChatUtil {
 
         eb.addField("Rango", player.getRangoUsuario().getNombre(), true)   
             .addField("Tipo", player.getTipoUsuario().getNombre(), true)
-            .addField("Fecha de Ingreso", getDsTimestamp(player.getFechaIngreso()), true)
+            .addField("Fecha de Ingreso", DateUtils.getDsTimestamp(player.getFechaIngreso()), true)
             .addField("Proyectos Completados", String.valueOf(counts[0]), true)
             .addField("Proyectos Activos", String.valueOf(counts[1]), true)
             .addField("────────────────────────────────────────", "", false)
@@ -362,21 +360,11 @@ public class ChatUtil {
             .addField("Coordenadas", coords, false)
             .setImage("attachment://map.png")
             .setColor(lang.getInt("ds-embeds.project-created.color"))
-            .setFooter("Creado el " + formatDate(proyecto.getFechaCreado()) + ".");
-        if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField("Nombre del Proyecto", proyecto.getNombre(), false);
+                .setFooter("Creado el " + DateUtils.formatDateHour(proyecto.getFechaCreado()) + ".");
+            if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField("Nombre del Proyecto", proyecto.getNombre(), false);
         if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField("Descripción", proyecto.getDescripcion(), false);
         eb.addField("", lang.getString("ds-embeds.project-created.polygons-colors"), false);
         return eb.build();
     } //TODO: añadir vencimiento de request.
-
-    public static String formatDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy 'a las' HH:mm", Locale.forLanguageTag("es-ES"));
-        return sdf.format(date);
-    }
-
-    private static String getDsTimestamp(Date date) {
-        long unixTimestamp = date.getTime() / 1000;
-        return "<t:" + unixTimestamp + ":F>";
-    }
 
 }

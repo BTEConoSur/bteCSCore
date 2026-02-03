@@ -31,6 +31,14 @@ public class ProjectFinishReviewMenu extends Menu {
         this.comentario = comentario;
     }
 
+    public ProjectFinishReviewMenu(Player player, String proyectoId, String title, String comentario, Boolean hasPostulantes, Menu previousMenu) {
+        super(title, 1, player);
+        this.player = player;
+        this.proyectoId = proyectoId;
+        this.hasPostulantes = hasPostulantes;
+        this.comentario = comentario;
+    }
+
     @Override
     protected BaseGui createGui() {
         ProjectManager pm = ProjectManager.getInstance();

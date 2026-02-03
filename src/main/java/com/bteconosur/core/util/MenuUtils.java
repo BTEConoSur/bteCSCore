@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
 
@@ -286,6 +288,62 @@ public class MenuUtils {
             lang.getString(path + ".material"),
             (isSelected ? "<b>" : "") + lang.getString(path + ".name").replace("%nombreTipo%", tipoUsuario.getNombre()),
             lore
+        );
+    }
+
+    public static GuiItem getProyecto(Proyecto proyecto) {
+        List<String> lore = lang.getStringList("items.proyecto.lore");
+        Player lider = proyecto.getLider();
+        String proyectoNombre = proyecto.getNombre() != null && !proyecto.getNombre().isBlank() ? proyecto.getNombre() : "Sin Nombre";
+        String descripcion = proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank() ? proyecto.getDescripcion() : "Sin Descripción";
+        String estado = null;
+        switch (proyecto.getEstado()) {
+            case ACTIVO:
+                estado = lang.getString("items.proyecto.estado.activo");
+                break;
+            case EN_FINALIZACION:
+                estado = lang.getString("items.proyecto.estado.en-finalizacion");
+                break;
+            case COMPLETADO:
+                estado = lang.getString("items.proyecto.estado.completado");
+                break;
+            case EN_CREACION:
+                estado = lang.getString("items.proyecto.estado.en-creacion");
+                break;
+            case REDEFINIENDO:
+                estado = lang.getString("items.proyecto.estado.redefiniendo");
+                break;
+            case ABANDONADO:
+                estado = lang.getString("items.proyecto.estado.abandonado");
+                break;
+            case EDITANDO:
+                estado = lang.getString("items.proyecto.estado.editando");
+                break;
+            default:
+                estado = "Reportar a administración";
+                break;
+        }
+        
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%descripcion%", descripcion)
+                .replace("%lider%", lider != null ? lider.getNombrePublico() : "Sin Líder")
+                .replace("%pais%", proyecto.getPais().getNombrePublico())
+                .replace("%divisionGna%", proyecto.getDivision().getGna())
+                .replace("%divisionFna%", proyecto.getDivision().getFna())
+                .replace("%divisionNam%", proyecto.getDivision().getNam())
+                .replace("%divisionContexto%", proyecto.getDivision().getContexto())
+                .replace("%proyectoEstado%", estado)
+                .replace("%tamano%", String.valueOf(proyecto.getTamaño()))
+                .replace("%tipoProyecto%", proyecto.getTipoProyecto().getNombre())
+                .replace("%fechaCreacion%", DateUtils.formatDate(proyecto.getFechaCreado()))
+                .replace("%fechaFinalizacion%", DateUtils.formatDate(proyecto.getFechaCreado()));
+            processedLore.add(line);
+        }
+        return buildGuiItem(
+            lang.getString("items.proyecto.default-material"),
+            lang.getString("items.proyecto.name").replace("%proyectoId%", proyecto.getId()).replace("%proyectoNombre%", proyectoNombre),
+            processedLore
         );
     }
 

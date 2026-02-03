@@ -298,10 +298,14 @@ public class ProjectManager {
         );
         InteractionRegistry.getInstance().load(interaction);
 
+    
         Point centroid = proyecto.getPoligono().getCentroid();
         double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
         String coords = geoCoords[1] + ", " + geoCoords[0];
         Pais pais = proyecto.getPais();
+
+        String countryLog = lang.getString("project-finish-request-log").replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyecto.getId());
+        DiscordLogger.countryLog(countryLog, pais);
         
         String dsNotification = lang.getString("ds-reviewer-notification-finish-project").replace("%pais%", pais.getNombrePublico())
             .replace("%id%", proyecto.getId()).replace("%coords%", coords);
@@ -315,10 +319,7 @@ public class ProjectManager {
         MessageEmbed dsMemberNotification = ChatUtil.getDsProjectFinishRequested(proyecto.getId(), proyecto.getNombre(), lider.getNombre());
         for (Player member : members) {
             PlayerLogger.info(member, mcMemberNotification, dsMemberNotification);
-        }   
-
-        String countryLog = lang.getString("project-finish-request-log").replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyecto.getId());
-        DiscordLogger.countryLog(countryLog, pais);
+        }
     }
 
     public void cancelFinishRequest(Proyecto proyecto, Estado newEstado) {
@@ -350,24 +351,25 @@ public class ProjectManager {
 
         Player lider = getLider(proyecto);
         Set<Player> members = getMembers(proyecto);
+        
+        
+        PlayerLogger.info(lider, message, dsMessage);
+        if (comentario != null && !comentario.isBlank()) PlayerLogger.info(lider, commentMessage, (String) null);
         if (promote && postulante.equals(lider.getTipoUsuario())) {
             PermissionManager.getInstance().switchTipoUsuario(lider, constructor);
             PlayerLogger.info(lider, tipoSwitchedMessage, dsTipoSwitchedMessage);
             DiscordLogger.countryLog(tipoPromoteLog.replace("%player%", lider.getNombre()), pais);
         }
-        
-        PlayerLogger.info(lider, message, dsMessage);
-        if (comentario != null && !comentario.isBlank()) PlayerLogger.info(lider, commentMessage, (String) null);
         for (Player member : members) {
+            PlayerLogger.info(member, message, dsMessage);
+            if (comentario != null && !comentario.isBlank()) PlayerLogger.info(member, commentMessage, (String) null);
             if (promote && postulante.equals(member.getTipoUsuario())) {
                 PermissionManager.getInstance().switchTipoUsuario(member, constructor);
                 PlayerLogger.info(member, tipoSwitchedMessage, dsTipoSwitchedMessage);
                 DiscordLogger.countryLog(tipoPromoteLog.replace("%player%", member.getNombre()), pais);
             }
-            
-            PlayerLogger.info(member, message, dsMessage);
-            if (comentario != null && !comentario.isBlank()) PlayerLogger.info(member, commentMessage, (String) null);
         }
+
     }
 
     public void rejectFinishRequest(String proyectoId, Player staff, String comentario) {
@@ -375,7 +377,7 @@ public class ProjectManager {
         cancelFinishRequest(proyecto, Estado.ACTIVO);
 
         String message = lang.getString("project-finish-rejected").replace("%proyectoId%", proyectoId);
-        String commentMessage = lang.getString("project-finish-comment-rejected").replace("%comentario%", comentario);
+        String commentMessage = comentario != null ? lang.getString("project-finish-comment-accepted").replace("%comentario%", comentario) : null;
         MessageEmbed dsMessage = ChatUtil.getDsProjectFinishRejected(proyecto.getId(), comentario, proyecto.getNombre());
         Player lider = getLider(proyecto);
         Set<Player> members = getMembers(proyecto);

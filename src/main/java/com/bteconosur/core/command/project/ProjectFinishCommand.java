@@ -9,6 +9,7 @@ import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
+import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
@@ -21,6 +22,7 @@ public class ProjectFinishCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private ConfirmationMenu confirmationMenu;
+    private ProjectListMenu projectListMenu;
 
     public ProjectFinishCommand() {
         super("finish", "Finalizar un proyecto.", "[id_proyecto]", "btecs.command.project.finish", CommandMode.PLAYER_ONLY);
@@ -32,15 +34,15 @@ public class ProjectFinishCommand extends BaseCommand {
         org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;
         PermissionManager permissionManager = PermissionManager.getInstance();
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
-        Proyecto proyecto = null;
+        Proyecto proyectoFinal = null;
         if (args.length == 1) {
             String proyectoId = args[0];
-            proyecto = ProyectoRegistry.getInstance().get(proyectoId);
-            if (proyecto == null) {
+            proyectoFinal = ProyectoRegistry.getInstance().get(proyectoId);
+            if (proyectoFinal == null) {
                 PlayerLogger.warn(bukkitPlayer, lang.getString("no.project-found-with-id").replace("%proyectoId%", proyectoId), (String) null);   
                 return true;
             }
-            if (!permissionManager.isLider(commandPlayer, proyecto)) {
+            if (!permissionManager.isLider(commandPlayer, proyectoFinal)) {
                 PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-leader-project").replace("%proyectoId%", proyectoId), (String) null);   
                 return true;
             }
@@ -60,17 +62,26 @@ public class ProjectFinishCommand extends BaseCommand {
                     PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-leader-active-here"), (String) null);
                     return true;
                 }
-                PlayerLogger.warn(bukkitPlayer, "Se han encontrado múltiples proyectos aquí. Por favor, especifica el ID del proyecto.", (String) null);
+                projectListMenu = new ProjectListMenu(bukkitPlayer, lang.getString("gui-titles.proyectos-activos-list"), proyectos, (proyecto, event) -> {
+                    String proyectoIdFinal = proyecto.getId();
+                    confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-confirm").replace("%proyectoId%", proyectoIdFinal), bukkitPlayer, projectListMenu, confirmClick -> {
+                            ProjectManager.getInstance().createFinishRequest(proyectoIdFinal);
+                            PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);
+                            confirmationMenu.getGui().close(bukkitPlayer);
+                        });
+                    confirmationMenu.open();
+                });
+                projectListMenu.open();
                 return true;
             }
-            proyecto = proyectos.iterator().next();
+            proyectoFinal = proyectos.iterator().next();
         }
-        if (proyecto.getEstado() != Estado.ACTIVO) {
-            PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-active-project").replace("%proyectoId%", proyecto.getId()), (String) null);   
+        if (proyectoFinal.getEstado() != Estado.ACTIVO) {
+            PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-active-project").replace("%proyectoId%", proyectoFinal.getId()), (String) null);   
             return true;
         }
 
-        final String proyectoIdFinal = proyecto.getId();
+        final String proyectoIdFinal = proyectoFinal.getId();
         confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-confirm").replace("%proyectoId%", proyectoIdFinal), bukkitPlayer, confirmClick -> {
                 ProjectManager.getInstance().createFinishRequest(proyectoIdFinal);
                 PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);

@@ -10,6 +10,7 @@ import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.menu.project.ProjectFinishReviewMenu;
+import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Pais;
@@ -25,6 +26,7 @@ public class ReviewAcceptCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private ProjectFinishReviewMenu confirmationMenu;
+    private ProjectListMenu projectListMenu;
 
     public ReviewAcceptCommand() {
         super("accept", "Aceptar la finalización de un proyecto.", "[comentario]", CommandMode.PLAYER_ONLY);
@@ -70,16 +72,36 @@ public class ReviewAcceptCommand extends BaseCommand {
             PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-reviewer-finishing-here"), (String) null);
             return true;
         }
+        TipoUsuario postulante = TipoUsuarioRegistry.getInstance().getPostulante();
+        ProjectManager pm = ProjectManager.getInstance();
+        
+        final String comentarioFinal = comentario;
         if (reviewerProyectos.size() > 1) {
-            PlayerLogger.warn(bukkitPlayer, "Se han encontrado múltiples proyectos aquí. Por favor, especifica el ID del proyecto.", (String) null);
+            projectListMenu = new ProjectListMenu(bukkitPlayer, lang.getString("gui-titles.proyectos-activos-list"), proyectos, (proyecto, event) -> {
+                String proyectoIdFinal = proyecto.getId();
+                Boolean hasPostulantes = false;
+                Player lider = pm.getLider(proyecto);
+                Set<Player> miembros = pm.getMembers(proyecto);
+                if (postulante.equals(lider.getTipoUsuario())) {
+                    hasPostulantes = true;
+                } else {
+                    for (Player miembro : miembros) {
+                        if (postulante.equals(miembro.getTipoUsuario())) {
+                            hasPostulantes = true;
+                            break;
+                        }
+                    }
+                }
+                confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyectoIdFinal, lang.getString("gui-titles.finish-project-accept").replace("%proyectoId%", proyectoIdFinal), comentarioFinal, hasPostulantes, projectListMenu);
+                confirmationMenu.open();
+            });
+            projectListMenu.open();
             return true;
         }
-        Proyecto proyecto = proyectos.iterator().next();
+        Proyecto proyecto = reviewerProyectos.iterator().next();
         String proyectoId = proyecto.getId();
-        ProjectManager pm = ProjectManager.getInstance();
         Player lider = pm.getLider(proyecto);
         Set<Player> miembros = pm.getMembers(proyecto);
-        TipoUsuario postulante = TipoUsuarioRegistry.getInstance().getPostulante();
         Boolean hasPostulantes = false;
 
         if (postulante.equals(lider.getTipoUsuario())) {
@@ -93,7 +115,7 @@ public class ReviewAcceptCommand extends BaseCommand {
             }
         }
 
-        confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyectoId, lang.getString("gui-titles.finish-project-accept").replace("%proyectoId%", proyectoId), comentario, hasPostulantes);
+        confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyectoId, lang.getString("gui-titles.finish-project-accept").replace("%proyectoId%", proyectoId), comentarioFinal, hasPostulantes);
         confirmationMenu.open();
 
         return true;

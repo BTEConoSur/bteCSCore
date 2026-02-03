@@ -210,7 +210,7 @@ not-a-leader-project: "No eres Líder del proyecto '%proyectoId%'." # %proyectoI
 not-a-leader-active-here: "No eres Líder de ningún proyecto activo en esta ubicación."
 not-a-leader-active-projects: "No eres Líder de ningún proyecto activo en esta ubicación."
 not-a-active-project: "El proyecto '%proyectoId%' no está activo." # %proyectoId% -> Identificador del proyecto.
-not-a-reviewer-finishing-here: "No eres Reviewer de ningún proyecto en finalización en esta ubicación."
+not-a-reviewer-finishing-here: "No eres Reviewer de ningún proyecto en finalización en esta ubicación." 
 
 where-pais: "Pais: <yellow>%pais%</yellow>" # %pais% -> Nombre del país.
 where-division: "Pais: <yellow>%pais%</yellow> %divisionGna%: <yellow>%divisionContext%, %divisionNam%</yellow>" # %pais% -> Nombre del país. %divisionGna% -> Tipo de división. %divisionContext% -> Contexto de la división. %divisionNam% -> Nombre oficial de la división. %divisionFna% -> Nombre alternativo de la división.
@@ -238,6 +238,7 @@ gui-titles:
   finish-project-confirm: "Confirmar finalización '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-reject: "Rechazar finalización '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-accept: "Aceptar finalización '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  proyectos-activos-list: "Proyectos en esta ubicación"
 
 items: 
   back:
@@ -282,7 +283,27 @@ items:
       - "<gray>este proyecto."
       - "<gray>Haz clic para confirmar y promover"
       - "<gray>a <yellow>Constructor</yellow>."
-  reject:
+  proyecto:
+    default-material: "BOOK"
+    name: "<yellow>%proyectoId% - %proyectoNombre%" # %proyectoId% -> Identificador del proyecto. %proyectoNombre% -> Nombre del proyecto.
+    lore:
+      - "<gray>%descripcion%" # %descripcion% -> Descripción del proyecto.
+      - "<gray>Líder: <white>%lider%" # %lider% -> Nombre del líder del proyecto.
+      - "<gray>Ubicación: <white>%pais%" # %pais% -> Nombre del país.
+      - "<white>%divisionContexto%, %divisionFna%" # %location% -> Ubicación del proyecto. %divisionGna% -> Tipo de división. %divisionContexto% -> Contexto de la división. %divisionNam% -> Nombre oficial de la división. %divisionFna% -> Nombre alternativo de la división.
+      - "<gray>Estado: %proyectoEstado%" # %proyectoEstado% -> Estado del proyecto.
+      - "<gray>Tamaño: <white>%tamano%m²" # %tamano% -> Tamaño del proyecto en metros cuadrados.
+      - "<gray>Tipo: <white>%tipoProyecto%" # %tipoProyecto% -> Nombre del Tipo de proyecto.
+      - "<gray>Creación: <white>%fechaCreacion%" # %fechaCreacion% -> Fecha de creación del proyecto.
+      - "<gray>Finalización: <white>%fechaFinalizacion%" # %fechaFinalizacion% -> Fecha de finalización del proyecto.
+    estado:
+      en-finalizacion: "<yellow>En Finalización"
+      completado: "<green>Completado"
+      activo: "<aqua>Activo"
+      en-creacion: "<blue>En Creación"
+      redefiniendo: "<light_purple>Redefiniendo"
+      abandonado: "<red>Abandonado"
+      editando: "<gold>Editando"
   config:
     name: "<red>%name%" # %name% -> Nombre de la configuración.
     value-true: "<green>Activado"

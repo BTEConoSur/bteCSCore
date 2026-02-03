@@ -253,3 +253,6 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: Configuracion para desactivar bypass
 
 // TODO: Añadir parametros y descripción a las funciones
+// TODO: Añadir iconos a los proyectos
+
+// TODO: Limpieza de proyectos en crearcion sin interactions

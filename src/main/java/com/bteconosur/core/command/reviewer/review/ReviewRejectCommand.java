@@ -10,6 +10,7 @@ import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
+import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Pais;
@@ -23,6 +24,7 @@ public class ReviewRejectCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private ConfirmationMenu confirmationMenu;
+    private ProjectListMenu projectListMenu;
 
     public ReviewRejectCommand() {
         super("reject", "Rechazar la finalización de un proyecto.", "[comentario]", CommandMode.PLAYER_ONLY);
@@ -57,25 +59,37 @@ public class ReviewRejectCommand extends BaseCommand {
                 PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-reviewer-country").replace("%pais%", pais.getNombrePublico()), (String) null);
                 return true;
         }
-        Set<Proyecto> proyectos = ProyectoRegistry.getInstance().getByLocation(location.getBlockX(), location.getBlockZ());
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        Set<Proyecto> proyectos = pr.getByLocation(location.getBlockX(), location.getBlockZ());
         if (proyectos.isEmpty()) {
             PlayerLogger.warn(bukkitPlayer, lang.getString("no-project-found-here"), (String) null);
             return true;
         }
         
-        Set<Proyecto> reviewerProyectos = ProyectoRegistry.getInstance().getByReviewerAndFinishing(commandPlayer, proyectos);
+        Set<Proyecto> reviewerProyectos = pr.getByReviewerAndFinishing(commandPlayer, proyectos);
         if (reviewerProyectos.isEmpty()) {
             PlayerLogger.warn(bukkitPlayer, lang.getString("not-a-reviewer-finishing-here"), (String) null);
             return true;
         }
+        ProjectManager pm = ProjectManager.getInstance();
+
+        final String finalComentario = comentario;
         if (reviewerProyectos.size() > 1) {
+            projectListMenu = new ProjectListMenu(bukkitPlayer, lang.getString("gui-titles.proyectos-activos-list"), proyectos, (proyecto, event) -> {
+                String proyectoIdFinal = proyecto.getId();
+                confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-reject").replace("%proyectoId%", proyectoIdFinal), bukkitPlayer, projectListMenu, confirmClick -> {
+                    pm.rejectFinishRequest(proyectoIdFinal, commandPlayer, finalComentario);
+                    PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-staff-rejected").replace("%proyectoId%", proyectoIdFinal), (String) null);
+                    confirmationMenu.getGui().close(bukkitPlayer);
+                });
+                confirmationMenu.open();
+            });
+            projectListMenu.open();
             PlayerLogger.warn(bukkitPlayer, "Se han encontrado múltiples proyectos aquí. Por favor, especifica el ID del proyecto.", (String) null);
             return true;
         }
         String proyectoId = proyectos.iterator().next().getId();
-
-        ProjectManager pm = ProjectManager.getInstance();
-        final String finalComentario = comentario;
+        
         confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-reject").replace("%proyectoId%", proyectoId), bukkitPlayer, confirmClick -> {
                 pm.rejectFinishRequest(proyectoId, commandPlayer, finalComentario);
                 PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-staff-rejected").replace("%proyectoId%", proyectoId), (String) null);
