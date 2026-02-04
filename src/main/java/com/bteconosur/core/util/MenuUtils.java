@@ -10,10 +10,13 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
 
 import de.rapha149.signgui.SignGUI;
 import de.rapha149.signgui.SignGUIFinishHandler;
@@ -367,6 +370,59 @@ public class MenuUtils {
             lang.getString("items.proyecto.name").replace("%proyectoId%", proyecto.getId()).replace("%proyectoNombre%", proyectoNombre),
             processedLore, false
         );
+    }
+
+    public static GuiItem getPlayerItem(Player player, PlayerContext context) {
+        int[] proyectoCounts = ProyectoRegistry.getInstance().getCounts(player);
+        List<String> lore = lang.getStringList("items.player.lore");
+        String status;
+        if (PlayerRegistry.getInstance().isOnline(player.getUuid())) {
+            status = lang.getString("items.player.estado.online");
+        } else {
+            status = lang.getString("items.player.estado.offline");
+        }
+
+        String name = lang.getString("items.player.name").replace("%player%", player.getNombre());
+        if (context != null) {
+            switch (context) {
+                case LIDER:
+                    name = name.replace("%contexto%", lang.getString("items.player.contexto.lider"));
+                    break;
+                case MIEMBRO:
+                    name = name.replace("%contexto%", lang.getString("items.player.contexto.miembro"));
+                default:
+                    break;
+            }
+        }
+
+        String paisPrefix;
+        Pais pais = player.getPaisPrefix();
+        if (pais != null) paisPrefix =  lang.getString("mc-prefixes.pais." + pais.getNombre());
+        else paisPrefix = lang.getString("mc-prefixes.pais.internacional");
+
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%nickname%", player.getNombrePublico())
+                .replace("%rango%", player.getRangoUsuario().getNombre())
+                .replace("%tipo%", player.getTipoUsuario().getNombre())
+                .replace("%paisPrefix%", paisPrefix)
+                .replace("%proyectosActivos%", String.valueOf(proyectoCounts[1]))
+                .replace("%proyectosFinalizados%", String.valueOf(proyectoCounts[0]))
+                .replace("%fechaIngreso%", DateUtils.formatDate(player.getFechaIngreso()))
+                .replace("%ultimaConexion%", DateUtils.formatDate(player.getFechaUltimaConexion()))
+                .replace("%estado%", status);
+            processedLore.add(line);
+        }
+        return buildGuiItem(
+            HeadDBUtil.getPlayerHead(player.getUuid()),
+            lang.getString("items.player.name").replace("%player%", player.getNombre()),
+            processedLore,
+            false
+        );
+    }
+
+    public static enum PlayerContext {
+        LIDER, MIEMBRO
     }
 
     public static boolean createSignGUI(org.bukkit.entity.Player player, SignGUIFinishHandler handler) {

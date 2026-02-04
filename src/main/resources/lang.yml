@@ -319,6 +319,24 @@ items:
       redefiniendo: "<light_purple>Redefiniendo"
       abandonado: "<red>Abandonado"
       editando: "<gold>Editando"
+  player:
+    name: "%contexto% <aqua>%player%" # %player% -> Nombre del jugador. %contexto% -> Contexto del jugador.
+    lore:
+      - "<gray>Nombre público: <white>%nickname%" # %nickname% -> Nombre público del jugador.
+      - "<gray>Rango: <white>%rango%" # %rango% -> Rango del jugador.
+      - "<gray>Tipo: <white>%tipo%" # %tipo% -> Tipo de usuario del jugador.
+      - "<gray>País: %paisPrefix%" # %paisPrefix% -> Prefix de País del jugador.
+      - "<gray>Proyectos activos: <white>%proyectosActivos%" # %proyectosActivos% -> Cantidad de proyectos activos del jugador.
+      - "<gray>Proyectos finalizados: <white>%proyectosFinalizados%" # %proyectosFinalizados% -> Cantidad de proyectos finalizados del jugador.
+      - "<gray>Ingreso: <white>%fechaIngreso%" # %fechaIngreso% -> Fecha de ingreso del jugador al servidor.
+      - "<gray>Último login: <white>%ultimaConexion%" # %ultimaConexion% -> Fecha del último login del jugador.
+      - "%estado%" # %status% -> Estado online/offline del jugador.
+    estado:
+      online: "<b><green>Online"
+      offline: "<b><red>Offline"
+    contexto:
+      lider: "<b><yellow>Líder</b>"
+      miembro: "<b><aqua>Miembro</b>"
   config:
     name: "<red>%name%" # %name% -> Nombre de la configuración.
     value-true: "<green>Activado"
