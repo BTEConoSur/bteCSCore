@@ -43,7 +43,7 @@ public class LinkCommand extends BaseCommand {
             String code;
             if (LinkService.hasMinecraftCode(player)) code = LinkService.getMinecraftCode(player);
             else code = LinkService.generateMinecraftCode(player);
-            TagResolver resolver = PlaceholderUtil.getClickableText("codigo", code, code);
+            TagResolver resolver = PlaceholderUtil.getCopyableText("codigo", code, code);
             PlayerLogger.info(sender, lang.getString("minecraft-code").replace("%codigo%", code), (String) null, resolver);
             return true;
         }

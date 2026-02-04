@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
@@ -70,6 +71,17 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
     }
 
     public void purgeExpired() {
+        ProjectManager pm = ProjectManager.getInstance();
+        for (Interaction interaction : loadedObjects.values()) {
+            if (interaction.isExpired()) {
+                if (interaction.getInteractionKey() == InteractionKey.CREATE_PROJECT) pm.expiredCreateRequest(interaction.getProjectId(), interaction.getId());
+                else if (interaction.getInteractionKey() == InteractionKey.JOIN_PROJECT) pm.expiredJoinRequest(interaction.getProjectId(), interaction.getPlayerId());
+                else if (interaction.getInteractionKey() == InteractionKey.FINISH_PROJECT) pm.expiredFinishRequest(interaction.getProjectId());
+                else if (interaction.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) pm.expiredRedefineRequest(interaction.getProjectId());
+                else if (interaction.getInteractionKey() == InteractionKey.EDIT_PROJECT) pm.expiredEditRequest(interaction.getProjectId());
+                else unload(interaction.getId()); //TODO: testear esto
+            }
+        }
         loadedObjects.entrySet().removeIf(entry -> {
             Interaction interaction = entry.getValue();
             boolean expired = interaction.isExpired();

@@ -5,13 +5,21 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.db.model.Pais;
+import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
 
+import de.rapha149.signgui.SignGUI;
+import de.rapha149.signgui.SignGUIFinishHandler;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.GuiItem;
 import net.kyori.adventure.text.Component;
@@ -25,7 +33,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.back.material"),
             lang.getString("items.back.name"),
-            lang.getStringList("items.back.lore")
+            lang.getStringList("items.back.lore"), false
         );
     }
 
@@ -33,7 +41,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.close.material"),
             lang.getString("items.close.name"),
-            lang.getStringList("items.close.lore")
+            lang.getStringList("items.close.lore"), false
         );
     }
 
@@ -41,7 +49,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.previous-page.material"),
             lang.getString("items.previous-page.name"),
-            lang.getStringList("items.previous-page.lore")
+            lang.getStringList("items.previous-page.lore"), false
         );
     }
     
@@ -49,7 +57,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.next-page.material"),
             lang.getString("items.next-page.name"),
-            lang.getStringList("items.next-page.lore")
+            lang.getStringList("items.next-page.lore"), false
         );
     }
 
@@ -57,7 +65,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.filler.material"),
             lang.getString("items.filler.name"),
-            lang.getStringList("items.filler.lore")
+            lang.getStringList("items.filler.lore"), false
         );
     }
 
@@ -65,7 +73,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.confirm.material"),
             lang.getString("items.confirm.name"),
-            lang.getStringList("items.confirm.lore")
+            lang.getStringList("items.confirm.lore"), false
         );
     }
 
@@ -73,7 +81,31 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.cancel.material"),
             lang.getString("items.cancel.name"),
-            lang.getStringList("items.cancel.lore")
+            lang.getStringList("items.cancel.lore"), false
+        );
+    }
+
+    public static GuiItem getPromoteItem() {
+        return buildGuiItem(
+            lang.getString("items.promote.material"),
+            lang.getString("items.promote.name"),
+            lang.getStringList("items.promote.lore"), false
+        );
+    }
+
+    public static GuiItem getSearchItem(String searchTerm, String search) {
+        List<String> lore = new ArrayList<String>();
+        if (search != null && !search.isBlank()) {
+            lore.add(lang.getString("items.search.searched").replace("%search%", search));
+            lore.add(lang.getString("items.search.search-again-Line-1"));
+            lore.add(lang.getString("items.search.search-again-Line-2"));
+        } else {
+            lore.add(lang.getString("items.search.search-line"));
+        }
+        return buildGuiItem(
+            lang.getString("items.search.material"),
+            lang.getString("items.search.name").replace("%searchTerm%", searchTerm),
+            lore, (search != null && !search.isBlank())
         );
     }
 
@@ -85,7 +117,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.notepad.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.notepad.name"),
-            lore
+            lore, false
         );
     }   
 
@@ -119,19 +151,21 @@ public class MenuUtils {
 
         String trueMaterial = lang.getString("items.config.configs." + context + "." + name + ".material-true");
         String falseMaterial = lang.getString("items.config.configs." + context + "." + name + ".material-false");
-        return buildGuiItem(value ? trueMaterial : falseMaterial, displayName, processedDesc);
+        return buildGuiItem(value ? trueMaterial : falseMaterial, displayName, processedDesc, false);
     }
 
-    private static GuiItem buildGuiItem(String materialName, String name, List<String> lore) {
+    private static GuiItem buildGuiItem(String materialName, String name, List<String> lore, Boolean isEnchanted) {
         if (materialName != null && materialName.startsWith("hdb:")) {
             String headId = materialName.substring(4);
             ItemStack headItem = HeadDBUtil.get(headId);
-            return buildGuiItem(headItem, name, lore);
+            return buildGuiItem(headItem, name, lore, isEnchanted);
         }
 
         ItemBuilder builder = ItemBuilder.from(getMaterialFromString(materialName))
             .name(MiniMessage.miniMessage().deserialize("<!italic>" + name))
             .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+
+        if (isEnchanted) builder.enchant(Enchantment.CHANNELING);
             
         List<Component> components = new ArrayList<>();
         if (lore != null && !lore.isEmpty()) {
@@ -140,11 +174,10 @@ public class MenuUtils {
             }
             builder.lore(components);
         }
-
         return builder.asGuiItem();
     }
 
-    private static GuiItem buildGuiItem(ItemStack itemStack, String name, List<String> lore) {
+    private static GuiItem buildGuiItem(ItemStack itemStack, String name, List<String> lore, Boolean isEnchanted) {
         ItemBuilder builder = ItemBuilder.from(itemStack)
             .name(MiniMessage.miniMessage().deserialize("<!italic>" + name))
             .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
@@ -156,6 +189,8 @@ public class MenuUtils {
             }
             builder.lore(components);
         }
+
+        if (isEnchanted) builder.enchant(Enchantment.CHANNELING);
         
         return builder.asGuiItem();
     }
@@ -175,7 +210,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.argentina-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.argentina-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -186,7 +221,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.chile-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.chile-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -197,7 +232,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.uruguay-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.uruguay-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -208,7 +243,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.paraguay-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.paraguay-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -219,7 +254,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.bolivia-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.bolivia-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -230,7 +265,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.peru-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.peru-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -241,7 +276,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.global-chat-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.global-chat-head.name"),
-            lore
+            lore, false
         );
     }
 
@@ -252,7 +287,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString("items.international-head.material"),
             (isSelected ? "<b>" : "") + lang.getString("items.international-head.name"),
-            lore
+            lore,false
         );
     }
 
@@ -264,7 +299,7 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString(path + ".material"),
             (isSelected ? "<b>" : "") + lang.getString(path + ".name").replace("%nombreRango%", rangoUsuario.getNombre()),
-            lore
+            lore, false
         );
     }
 
@@ -277,8 +312,134 @@ public class MenuUtils {
         return buildGuiItem(
             lang.getString(path + ".material"),
             (isSelected ? "<b>" : "") + lang.getString(path + ".name").replace("%nombreTipo%", tipoUsuario.getNombre()),
-            lore
+            lore, false
         );
+    }
+
+    public static GuiItem getProyecto(Proyecto proyecto) {
+        List<String> lore = lang.getStringList("items.proyecto.lore");
+        Player lider = proyecto.getLider();
+        String proyectoNombre = proyecto.getNombre() != null && !proyecto.getNombre().isBlank() ? proyecto.getNombre() : "Sin Nombre";
+        String descripcion = proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank() ? proyecto.getDescripcion() : "Sin Descripción";
+        String estado = null;
+        switch (proyecto.getEstado()) {
+            case ACTIVO:
+                estado = lang.getString("items.proyecto.estado.activo");
+                break;
+            case EN_FINALIZACION:
+                estado = lang.getString("items.proyecto.estado.en-finalizacion");
+                break;
+            case COMPLETADO:
+                estado = lang.getString("items.proyecto.estado.completado");
+                break;
+            case EN_CREACION:
+                estado = lang.getString("items.proyecto.estado.en-creacion");
+                break;
+            case REDEFINIENDO:
+                estado = lang.getString("items.proyecto.estado.redefiniendo");
+                break;
+            case ABANDONADO:
+                estado = lang.getString("items.proyecto.estado.abandonado");
+                break;
+            case EDITANDO:
+                estado = lang.getString("items.proyecto.estado.editando");
+                break;
+            default:
+                estado = "Reportar a administración";
+                break;
+        }
+        
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%descripcion%", descripcion)
+                .replace("%lider%", lider != null ? lider.getNombrePublico() : "Sin Líder")
+                .replace("%pais%", proyecto.getPais().getNombrePublico())
+                .replace("%divisionGna%", proyecto.getDivision().getGna())
+                .replace("%divisionFna%", proyecto.getDivision().getFna())
+                .replace("%divisionNam%", proyecto.getDivision().getNam())
+                .replace("%divisionContexto%", proyecto.getDivision().getContexto())
+                .replace("%proyectoEstado%", estado)
+                .replace("%tamano%", String.valueOf(proyecto.getTamaño()))
+                .replace("%tipoProyecto%", proyecto.getTipoProyecto().getNombre())
+                .replace("%fechaCreacion%", DateUtils.formatDate(proyecto.getFechaCreado()))
+                .replace("%fechaFinalizacion%", DateUtils.formatDate(proyecto.getFechaCreado()));
+            processedLore.add(line);
+        }
+        return buildGuiItem(
+            lang.getString("items.proyecto.default-material"),
+            lang.getString("items.proyecto.name").replace("%proyectoId%", proyecto.getId()).replace("%proyectoNombre%", proyectoNombre),
+            processedLore, false
+        );
+    }
+
+    public static GuiItem getPlayerItem(Player player, PlayerContext context) {
+        int[] proyectoCounts = ProyectoRegistry.getInstance().getCounts(player);
+        List<String> lore = lang.getStringList("items.player.lore");
+        String status;
+        if (PlayerRegistry.getInstance().isOnline(player.getUuid())) {
+            status = lang.getString("items.player.estado.online");
+        } else {
+            status = lang.getString("items.player.estado.offline");
+        }
+
+        String name = lang.getString("items.player.name").replace("%player%", player.getNombre());
+        if (context != null) {
+            switch (context) {
+                case LIDER:
+                    name = name.replace("%contexto%", lang.getString("items.player.contexto.lider"));
+                    break;
+                case MIEMBRO:
+                    name = name.replace("%contexto%", lang.getString("items.player.contexto.miembro"));
+                default:
+                    break;
+            }
+        }
+
+        String paisPrefix;
+        Pais pais = player.getPaisPrefix();
+        if (pais != null) paisPrefix =  lang.getString("mc-prefixes.pais." + pais.getNombre());
+        else paisPrefix = lang.getString("mc-prefixes.pais.internacional");
+
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%nickname%", player.getNombrePublico())
+                .replace("%rango%", player.getRangoUsuario().getNombre())
+                .replace("%tipo%", player.getTipoUsuario().getNombre())
+                .replace("%paisPrefix%", paisPrefix)
+                .replace("%proyectosActivos%", String.valueOf(proyectoCounts[1]))
+                .replace("%proyectosFinalizados%", String.valueOf(proyectoCounts[0]))
+                .replace("%fechaIngreso%", DateUtils.formatDate(player.getFechaIngreso()))
+                .replace("%ultimaConexion%", DateUtils.formatDate(player.getFechaUltimaConexion()))
+                .replace("%estado%", status);
+            processedLore.add(line);
+        }
+        return buildGuiItem(
+            HeadDBUtil.getPlayerHead(player.getUuid()),
+            lang.getString("items.player.name").replace("%player%", player.getNombre()),
+            processedLore,
+            false
+        );
+    }
+
+    public static enum PlayerContext {
+        LIDER, MIEMBRO
+    }
+
+    public static boolean createSignGUI(org.bukkit.entity.Player player, SignGUIFinishHandler handler) {
+        SignGUI gui;
+        try {
+            List<String> signLines = lang.getStringList("sign-gui");
+            gui = SignGUI.builder()
+                .setLines(signLines.toArray(new String[0]))
+                .setHandler(handler)
+                .build();
+            gui.open(player);
+            return true;
+        } catch (Exception e) {
+            ConsoleLogger.error("Error al crear el SignGUI: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

@@ -18,6 +18,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "interaction")
@@ -29,6 +31,7 @@ public class Interaction {
     private Long id;
 
     @Column(name = "uuid_player", columnDefinition = "CHAR(36)")
+    @JdbcTypeCode(SqlTypes.CHAR)
     private UUID playerId;
 
     @Column(name = "id_proyecto", columnDefinition = "CHAR(6)")

@@ -11,7 +11,7 @@ public class IDUtils {
     private static final DBManager dbManager = DBManager.getInstance();
 
     public static String generarCodigoProyecto() {
-        String caracteres = "abcdefghijklmnopqrstuvwxyz";
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random random = new Random();
         StringBuilder codigo = new StringBuilder(6);
         

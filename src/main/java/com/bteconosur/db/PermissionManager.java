@@ -90,16 +90,14 @@ public class PermissionManager {
     public boolean isLider(Player player, Proyecto proyecto) {
         if (player == null) return false;
         if (proyecto == null) return false;
-        return proyecto.getLider().equals(player);
-    }
+        return player.equals(proyecto.getLider());
+        }
 
     public boolean isLider(Player player, Set<Proyecto> proyectos) {
         if (player == null) return false;
         if (proyectos == null || proyectos.isEmpty()) return false;
         for (Proyecto proyecto : proyectos) {
-            if (proyecto.getLider().equals(player)) {
-                return true;
-            }
+            if (player.equals(proyecto.getLider())) return true;
         }
         return false;
     }

@@ -25,7 +25,7 @@ public class CapaAlta extends LabelWorld {
         super(name, displayName, offset);
 
         this.regions = loadRegions();
-        enableParticlesSpawning();
+        //enableParticlesSpawning();
     }
 
     private List<Polygon> loadRegions() {

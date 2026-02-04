@@ -26,7 +26,7 @@ public class ManagerAddReviewerCommand extends BaseCommand {
     private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
     public ManagerAddReviewerCommand() {
-        super("addreviewer", "Añadir Reviewer a un país.", "<nombre_pais> <uuid/nombre_reviewer>", "btecs.command.manager.addreviewer", CommandMode.PLAYER_ONLY);
+        super("addreviewer", "Añadir Reviewer a un país.", "<nombre_pais> <uuid/nombre_reviewer>", "", CommandMode.PLAYER_ONLY);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

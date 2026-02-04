@@ -27,7 +27,6 @@ public abstract class Registry<K extends Serializable, V> {
         config = configHandler.getConfig(); 
     }
 
-
     public Map<K, V> getMap() {
         return loadedObjects;
     }

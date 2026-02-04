@@ -1,9 +1,15 @@
 package com.bteconosur.core.util;
 
+import java.util.UUID;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+
+import com.destroystokyo.paper.profile.PlayerProfile;
 
 import me.arcaniax.hdb.api.DatabaseLoadEvent;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
@@ -37,6 +43,15 @@ public class HeadDBUtil implements Listener {
         }
 
         return ItemStack.of(Material.PLAYER_HEAD);
+    }
+
+    public static ItemStack getPlayerHead(UUID playerUUID) {
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+        PlayerProfile profile = Bukkit.createProfile(playerUUID);
+        meta.setPlayerProfile(profile);
+        head.setItemMeta(meta);
+        return head;
     }
 
 }

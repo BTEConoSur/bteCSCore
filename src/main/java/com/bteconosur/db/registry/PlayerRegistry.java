@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Pais;
@@ -28,6 +29,12 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         if (obj == null || obj.getUuid() == null) return;
         dbManager.save(obj);
         loadedObjects.put(obj.getUuid(), obj);
+    }
+
+    public Player get(CommandSender sender) {
+        if (sender == null) return null;
+        if (!(sender instanceof org.bukkit.entity.Player)) return null;
+        return get(((org.bukkit.entity.Player) sender).getUniqueId());
     }
 
     public void shutdown() {

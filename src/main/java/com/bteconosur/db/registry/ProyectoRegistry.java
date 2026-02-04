@@ -12,6 +12,7 @@ import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.util.ChunkKey;
@@ -74,8 +75,39 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
 
     public Set<Proyecto> getByPlayer(Player player) {
         Set<Proyecto> proyectos = new HashSet<>();
+        PermissionManager pm = PermissionManager.getInstance();
         for (Proyecto proyecto : loadedObjects.values()) {
-            if (proyecto.getLider().equals(player) || proyecto.getMiembros().contains(player)) {
+            if (pm.isLider(player, proyecto) || pm.isMiembro(player, proyecto)) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getByLider(Player player, Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            if (PermissionManager.getInstance().isLider(player, proyecto)) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getActive(Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            if (proyecto.getEstado() == Estado.ACTIVO) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getFinishing(Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            if (proyecto.getEstado() == Estado.EN_FINALIZACION) {
                 proyectos.add(proyecto);
             }
         }
@@ -84,8 +116,9 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
 
     public int[] getCounts(Player player) { // returns [Finalizados, Activos]
         int[] count = new int[2];
+        PermissionManager pm = PermissionManager.getInstance();
         for (Proyecto proyecto : loadedObjects.values()) {
-            if (proyecto.getLider().equals(player) || proyecto.getMiembros().contains(player)) {
+            if (pm.isLider(player, proyecto) || pm.isMiembro(player, proyecto)) {
                 if(proyecto.getEstado() == Estado.COMPLETADO) count[0]++;
                 if(proyecto.getEstado() == Estado.ACTIVO) count[1]++;
             }
@@ -130,6 +163,17 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     }
 
     public Set<Proyecto> getByLocation(int x, int z, Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            Polygon poly = proyecto.getPoligono();
+            if (poly != null && RegionUtils.containsCoordinate(poly, x, z)) proyectos.add(proyecto);
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getByLocation(int x, int z) {
+        ChunkKey chunkKey = ChunkKey.fromBlock(x, z);
+        Set<Proyecto> search = getByChunk(chunkKey);
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
             Polygon poly = proyecto.getPoligono();

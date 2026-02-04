@@ -8,24 +8,25 @@ import com.bteconosur.db.model.Player;
 
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
+import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public abstract class PaginatedMenu extends Menu {
 
-    PaginatedMenu(@NotNull String title, @NotNull Player player) {
+    public PaginatedMenu(@NotNull String title, @NotNull Player player) {
         super(title, 6, player);
     }
 
-    PaginatedMenu(@NotNull String title, @NotNull Player player, @Nullable Menu previousMenu) {
+    public PaginatedMenu(@NotNull String title, @NotNull Player player, @Nullable Menu previousMenu) {
         super(title, 6, player, previousMenu);
     }
 
-    PaginatedMenu(@NotNull String title, @NotNull org.bukkit.entity.Player bukkitPlayer) {
+    public PaginatedMenu(@NotNull String title, @NotNull org.bukkit.entity.Player bukkitPlayer) {
         super(title, 6, bukkitPlayer);
     }
 
-    PaginatedMenu(@NotNull String title, @NotNull org.bukkit.entity.Player bukkitPlayer, @Nullable Menu previousMenu) {
+    public PaginatedMenu(@NotNull String title, @NotNull org.bukkit.entity.Player bukkitPlayer, @Nullable Menu previousMenu) {
         super(title, 6, bukkitPlayer, previousMenu);
     }
 
@@ -63,6 +64,14 @@ public abstract class PaginatedMenu extends Menu {
         populateItems();
 
         return paginatedGui;
+    }
+
+    protected void addItem(GuiItem item) {
+        getPaginatedGui().addItem(item);
+    }
+
+    public void removePaginatedItems() {
+        getPaginatedGui().clearPageItems(true);
     }
 
     protected PaginatedGui getPaginatedGui() {

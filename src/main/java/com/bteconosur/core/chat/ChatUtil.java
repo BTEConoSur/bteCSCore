@@ -1,8 +1,5 @@
 package com.bteconosur.core.chat;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,6 +7,7 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.TerraUtils;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
@@ -292,10 +290,46 @@ public class ChatUtil {
 
     public static MessageEmbed getDsProjectRequestExpired(String proyectoId, String nombre) {
         String title = lang.getString("ds-embeds.project-expired.title");
-        String description = lang.getString("ds-embeds.project-expired.description").replace("%proyectoId%", proyectoId);
+        String description = lang.getString("ds-embeds.project-expired.id").replace("%proyectoId%", proyectoId);
         if (nombre != null && !nombre.isBlank()) description = description
             + "\n" + lang.getString("ds-embeds.project-expired.nombre").replace("%nombre%", nombre);
         return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-expired.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishAccepted(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-finish-accepted.title");
+        String description = lang.getString("ds-embeds.project-finish-accepted.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-accepted.nombre").replace("%nombre%", nombre);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-accepted.comment").replace("%comentario%", comentario);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-accepted.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishRejected(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-finish-rejected.title");
+        String description = lang.getString("ds-embeds.project-finish-rejected.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-rejected.nombre").replace("%nombre%", nombre);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-rejected.comment").replace("%comentario%", comentario);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-rejected.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishRequestExpired(String proyectoId, String nombre) {
+        String title = lang.getString("ds-embeds.project-finish-expired.title");
+        String description = lang.getString("ds-embeds.project-finish-expired.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-expired.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-expired.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishRequested(String proyectoId, String nombre, String requesterName) {
+        String title = lang.getString("ds-embeds.project-finish-requested.title").replace("%player%", requesterName);
+        String description = lang.getString("ds-embeds.project-finish-requested.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-requested.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-requested.color")).build();
     }
 
     @SuppressWarnings("null")
@@ -307,7 +341,7 @@ public class ChatUtil {
         Polygon polygon = proyecto.getPoligono();
         Point centroid = polygon.getCentroid();
         double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
-        String coords = geoCoords[0] + ", " + geoCoords[1];
+        String coords = geoCoords[1] + ", " + geoCoords[0];
         EmbedBuilder eb = new EmbedBuilder().setTitle(title);
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
         if (tur.getVisita().equals(player.getTipoUsuario())) eb.appendDescription(lang.getString("ds-embeds.project-created.player-is-visita"));
@@ -316,7 +350,7 @@ public class ChatUtil {
 
         eb.addField("Rango", player.getRangoUsuario().getNombre(), true)   
             .addField("Tipo", player.getTipoUsuario().getNombre(), true)
-            .addField("Fecha de Ingreso", getDsTimestamp(player.getFechaIngreso()), true)
+            .addField("Fecha de Ingreso", DateUtils.getDsTimestamp(player.getFechaIngreso()), true)
             .addField("Proyectos Completados", String.valueOf(counts[0]), true)
             .addField("Proyectos Activos", String.valueOf(counts[1]), true)
             .addField("────────────────────────────────────────", "", false)
@@ -326,21 +360,11 @@ public class ChatUtil {
             .addField("Coordenadas", coords, false)
             .setImage("attachment://map.png")
             .setColor(lang.getInt("ds-embeds.project-created.color"))
-            .setFooter("Creado el " + formatDate(proyecto.getFechaCreado()) + ".");
-        if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField("Nombre del Proyecto", proyecto.getNombre(), false);
+                .setFooter("Creado el " + DateUtils.formatDateHour(proyecto.getFechaCreado()) + ".");
+            if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField("Nombre del Proyecto", proyecto.getNombre(), false);
         if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField("Descripción", proyecto.getDescripcion(), false);
         eb.addField("", lang.getString("ds-embeds.project-created.polygons-colors"), false);
         return eb.build();
-    } 
-
-    public static String formatDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy 'a las' HH:mm", Locale.forLanguageTag("es-ES"));
-        return sdf.format(date);
-    }
-
-    private static String getDsTimestamp(Date date) {
-        long unixTimestamp = date.getTime() / 1000;
-        return "<t:" + unixTimestamp + ":F>";
-    }
+    } //TODO: añadir vencimiento de request.
 
 }
