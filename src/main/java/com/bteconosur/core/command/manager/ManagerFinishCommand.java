@@ -1,7 +1,8 @@
-package com.bteconosur.core.command.project;
+package com.bteconosur.core.command.manager;
 
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -12,20 +13,22 @@ import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
+import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.util.Estado;
 
-public class ProjectFinishCommand extends BaseCommand {
+public class ManagerFinishCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private ConfirmationMenu confirmationMenu;
     private ProjectListMenu projectListMenu;
 
-    public ProjectFinishCommand() {
-        super("finish", "Finalizar un proyecto.", "[id_proyecto]", "btecs.command.project.finish", CommandMode.PLAYER_ONLY);
+    public ManagerFinishCommand() {
+        super("finish", "Finalizar cualquier proyecto del país.", "[id_proyecto]", "", CommandMode.PLAYER_ONLY);
         lang = ConfigHandler.getInstance().getLang();
     }
 
@@ -33,31 +36,30 @@ public class ProjectFinishCommand extends BaseCommand {
     protected boolean onCommand(CommandSender sender, String[] args) {
         org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;
         PermissionManager permissionManager = PermissionManager.getInstance();
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        Location location = bukkitPlayer.getLocation();
+        Pais pais = PaisRegistry.getInstance().findByLocation(location.getBlockX(), location.getBlockZ()); 
+        if (!permissionManager.isManager(commandPlayer, pais)) {
+            PlayerLogger.warn(commandPlayer, lang.getString("not-a-manager-country").replace("%pais%", pais.getNombrePublico()), (String) null);   
+            return true;
+        }
+
         Proyecto proyectoFinal = null;
         if (args.length == 1) {
             String proyectoId = args[0];
-            proyectoFinal = ProyectoRegistry.getInstance().get(proyectoId);
+            proyectoFinal = pr.get(proyectoId);
             if (proyectoFinal == null) {
                 PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-with-id").replace("%proyectoId%", proyectoId), (String) null);   
                 return true;
             }
-            if (!permissionManager.isLider(commandPlayer, proyectoFinal)) {
-                PlayerLogger.warn(commandPlayer, lang.getString("not-a-leader-project").replace("%proyectoId%", proyectoId), (String) null);   
-                return true;
-            }
         } else {
-            Set<Proyecto> proyectos = ProyectoRegistry.getInstance().getByLocation(bukkitPlayer.getLocation().getBlockX(), bukkitPlayer.getLocation().getBlockZ());
+            Set<Proyecto> proyectos = pr.getByLocation(location.getBlockX(), location.getBlockZ());
             if (proyectos.isEmpty()) {
                 PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-here"), (String) null);
                 return true;
             }
-            Set<Proyecto> liderProyectos = ProyectoRegistry.getInstance().getByLider(commandPlayer, proyectos);
-            if (liderProyectos.isEmpty()) {
-                    PlayerLogger.warn(commandPlayer, lang.getString("not-a-leader-here"), (String) null);
-                    return true;
-            }
-            Set<Proyecto> activeProyectos = ProyectoRegistry.getInstance().getActive(liderProyectos);
+            Set<Proyecto> activeProyectos = pr.getActive(proyectos);
             if (activeProyectos.isEmpty()) {
                 PlayerLogger.warn(commandPlayer, lang.getString("no-project-active-here"), (String) null);
                 return true;

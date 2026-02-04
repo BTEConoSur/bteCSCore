@@ -26,7 +26,7 @@ public class ManagerRemoveReviewerCommand extends BaseCommand {
     private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
     public ManagerRemoveReviewerCommand() {
-        super("removereviewer", "Remover Reviewer de un país.", "<nombre_pais> <uuid/nombre_reviewer>", "btecs.command.manager.removereviewer", CommandMode.PLAYER_ONLY);
+        super("removereviewer", "Remover Reviewer de un país.", "<nombre_pais> <uuid/nombre_reviewer>", "", CommandMode.PLAYER_ONLY);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();

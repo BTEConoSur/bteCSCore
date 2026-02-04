@@ -220,7 +220,7 @@ where-no-pais: "No estás dentro de ningún país."
 
 reviewer-notification-new-project: "Nueva solicitud de creación de proyecto de <yellow>'%pais%'</yellow>. <gray><link>" # %pais% -> Nombre del país. <link> -> Enlace a la solicitud de proyecto.
 reviewer-notification-finish-project: "Nueva solicitud de finalización de proyecto de <yellow>'%pais%'</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>" # %pais% -> Nombre del país. <id> -> Id copiable del proyecto. <coords> -> Coordenadas copiables del proyecto.
-member-notification-finish-project: "El lider %player% ha solicitado finalizar su proyecto de ID <yellow>%proyectoId%</yellow>." # %player% -> Nombre del lider. %proyectoId% -> Id del proyecto. %pais% -> Nombre del país.
+member-notification-finish-project: "%requester% ha solicitado finalizar el proyecto de ID <yellow>%proyectoId%</yellow> al que pertenecés." # %player% -> Nombre del lider. %proyectoId% -> Id del proyecto. %pais% -> Nombre del país.
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
@@ -578,7 +578,7 @@ ds-embeds:
     polygons-colors: "> 🟦 - Proyecto   🟩 - Otros Proyectos"
     color: 0x00b0f4
   project-finish-requested:
-    title: "El lider %player% ha solicitado finalizar su proyecto." # %player% -> Nombre del lider.
+    title: "%player% ha solicitado finalizar un proyecto al que pertenecés." # %player% -> Nombre del lider.
     id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
     nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
     color: 0x00b0f4
@@ -632,6 +632,7 @@ rango-promote-log: "🛡️ | **%staff%** ha cambiado el Rango de Usuario de **%
 # %proyectoId% -> Id del proyecto.
 # %tipoId% -> Id del tipo de proyecto. %tipoNombre% -> Nombre del tipo de proyecto.
 # %divisionId% -> Id de la division. %divisionNombre% -> division donde se ubica el proyecto.
+# %requester% -> Nombre del jugador que solicita la acción.
 manager-add-log: "👔 | **%staff%** ha agregado a **%player%** como Manager del país."
 manager-remove-log: "❌ | **%staff%** ha removido a **%player%** como Manager del país."
 reviewer-add-log: "🔍 | **%staff%** ha agregado a **%player%** como Reviewer del país."
@@ -656,7 +657,7 @@ project-join-rejected-log: "❌ | **%lider%** ha denegado la solicitud de **%pla
 project-join-log: "➕ | **%player%** se ha unido al proyecto `%proyectoId%`."
 project-leave-log: "➖ | **%player%** ha salido del proyecto `%proyectoId%`."
 
-project-finish-request-log: "⏰ | **%lider%** ha marcado el proyecto `%proyectoId%` como finalizado."
+project-finish-request-log: "⏰ | **%requester%** ha marcado el proyecto `%proyectoId%` como finalizado."
 project-finish-request-expired-log: "❌ | La solicitud de finalización del proyecto `%proyectoId%` ha expirado."
 project-finish-accepted-log: "✅ | **%staff%** ha aceptado la finalización del proyecto `%proyectoId%`."
 project-finish-rejected-log: "❌ | **%staff%** ha denegado la finalización del proyecto `%proyectoId%`."

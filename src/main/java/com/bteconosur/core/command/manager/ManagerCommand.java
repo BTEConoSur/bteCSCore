@@ -21,6 +21,7 @@ public class ManagerCommand extends BaseCommand {
         this.addSubcommand(new ManagerAddReviewerCommand());
         this.addSubcommand(new ManagerRemoveReviewerCommand());
         this.addSubcommand(new ManagerConfigCommand());
+        this.addSubcommand(new ManagerFinishCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         
         ConfigHandler configHandler = ConfigHandler.getInstance();

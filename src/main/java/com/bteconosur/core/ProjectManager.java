@@ -284,27 +284,27 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void createFinishRequest(String proyectoId) {
+    public void createFinishRequest(String proyectoId, UUID requesterId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
-        Player lider = getLider(proyecto);
         proyecto.setEstado(Estado.EN_FINALIZACION);
+        Player requester = PlayerRegistry.getInstance().get(requesterId);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         Interaction interaction = new Interaction(
-            lider.getUuid(),
+            requester.getUuid(),
             proyecto.getId(),
             InteractionKey.FINISH_PROJECT,
             Instant.now(),
             Instant.now().plusSeconds(config.getLong("interaction-expirations.finish-project") * 60)
         );
         InteractionRegistry.getInstance().load(interaction);
-
+        Player lider = getLider(proyecto);
     
         Point centroid = proyecto.getPoligono().getCentroid();
         double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
         String coords = geoCoords[1] + ", " + geoCoords[0];
         Pais pais = proyecto.getPais();
 
-        String countryLog = lang.getString("project-finish-request-log").replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyecto.getId());
+        String countryLog = lang.getString("project-finish-request-log").replace("%requester%", requester.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
         
         String dsNotification = lang.getString("ds-reviewer-notification-finish-project").replace("%pais%", pais.getNombrePublico())
@@ -315,8 +315,9 @@ public class ProjectManager {
         DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver1, tagResolver2);
 
         Set<Player> members = getMembers(proyecto);
-        String mcMemberNotification = lang.getString("member-notification-finish-project").replace("%proyectoId%", proyecto.getId());
-        MessageEmbed dsMemberNotification = ChatUtil.getDsProjectFinishRequested(proyecto.getId(), proyecto.getNombre(), lider.getNombre());
+        String mcMemberNotification = lang.getString("member-notification-finish-project").replace("%requester%", requester.getNombre()).replace("%proyectoId%", proyecto.getId());
+        MessageEmbed dsMemberNotification = ChatUtil.getDsProjectFinishRequested(proyecto.getId(), proyecto.getNombre(), requester.getNombre());
+        if (!requester.equals(lider)) PlayerLogger.info(lider, mcMemberNotification, dsMemberNotification);
         for (Player member : members) {
             PlayerLogger.info(member, mcMemberNotification, dsMemberNotification);
         }
@@ -352,7 +353,6 @@ public class ProjectManager {
         Player lider = getLider(proyecto);
         Set<Player> members = getMembers(proyecto);
         
-        
         PlayerLogger.info(lider, message, dsMessage);
         if (comentario != null && !comentario.isBlank()) PlayerLogger.info(lider, commentMessage, (String) null);
         if (promote && postulante.equals(lider.getTipoUsuario())) {
@@ -369,7 +369,6 @@ public class ProjectManager {
                 DiscordLogger.countryLog(tipoPromoteLog.replace("%player%", member.getNombre()), pais);
             }
         }
-
     }
 
     public void rejectFinishRequest(String proyectoId, Player staff, String comentario) {
@@ -377,7 +376,7 @@ public class ProjectManager {
         cancelFinishRequest(proyecto, Estado.ACTIVO);
 
         String message = lang.getString("project-finish-rejected").replace("%proyectoId%", proyectoId);
-        String commentMessage = comentario != null ? lang.getString("project-finish-comment-accepted").replace("%comentario%", comentario) : null;
+        String commentMessage = comentario != null ? lang.getString("project-finish-comment-rejected").replace("%comentario%", comentario) : null;
         MessageEmbed dsMessage = ChatUtil.getDsProjectFinishRejected(proyecto.getId(), comentario, proyecto.getNombre());
         Player lider = getLider(proyecto);
         Set<Player> members = getMembers(proyecto);

@@ -324,8 +324,8 @@ public class ChatUtil {
         return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-expired.color")).build();
     }
 
-    public static MessageEmbed getDsProjectFinishRequested(String proyectoId, String nombre, String liderName) {
-        String title = lang.getString("ds-embeds.project-finish-requested.title").replace("%player%", liderName);
+    public static MessageEmbed getDsProjectFinishRequested(String proyectoId, String nombre, String requesterName) {
+        String title = lang.getString("ds-embeds.project-finish-requested.title").replace("%player%", requesterName);
         String description = lang.getString("ds-embeds.project-finish-requested.id").replace("%proyectoId%", proyectoId);
         if (nombre != null && !nombre.isBlank()) description = description
             + "\n" + lang.getString("ds-embeds.project-finish-requested.nombre").replace("%nombre%", nombre);
