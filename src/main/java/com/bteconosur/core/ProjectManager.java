@@ -107,7 +107,7 @@ public class ProjectManager {
         int activeProjects = pr.getCounts(player)[1];
         int maxActiveProjects = player.getTipoUsuario().getCantProyecSim();
         if (activeProjects >= maxActiveProjects) {
-            String message = lang.getString("max-active-projects").replace("%maxProjects%", String.valueOf(maxActiveProjects));
+            String message = lang.getString("max-active-projects").replace("%maxProjects%", String.valueOf(maxActiveProjects)).replace("%currentProjects%", String.valueOf(activeProjects));
             PlayerLogger.error(player, message, (String) null);
             return;
         }
@@ -239,11 +239,11 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void cancelJoinRequest(Proyecto proyecto, Player player) {
+    public void cancelJoinRequest(Proyecto proyecto, UUID playerId) {
         InteractionRegistry interactionRegistry = InteractionRegistry.getInstance();
         List<Interaction> interactions = interactionRegistry.findJoinRequest(proyecto);
         for (Interaction interaction : interactions) {
-            if (interaction.getPlayerId() != null && interaction.getPlayerId().equals(player.getUuid())) {
+            if (interaction.getPlayerId() != null && interaction.getPlayerId().equals(playerId)) {
                 interactionRegistry.unload(interaction.getId());
                 break;
             }
@@ -253,33 +253,40 @@ public class ProjectManager {
     public void expiredJoinRequest(String proyectoId, UUID playerId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Player player = PlayerRegistry.getInstance().get(playerId);
-        cancelJoinRequest(proyecto, player);
+        cancelJoinRequest(proyecto, playerId);
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-join-request-expired-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void acceptJoinRequest(Proyecto proyecto, Player player) {
-        joinProject(proyecto, player);
-        cancelJoinRequest(proyecto, player);
+    public void acceptJoinRequest(Proyecto proyecto, UUID playerId) {
+        joinProject(proyecto, playerId);
+        cancelJoinRequest(proyecto, playerId);
         Pais pais = proyecto.getPais();
+        Player player = PlayerRegistry.getInstance().get(playerId);
         String countryLog = lang.getString("project-join-accepted-log").replace("%lider%", getLider(proyecto).getNombre()).replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void joinProject(Proyecto proyecto, Player player) {
-        proyecto.addMiembro(player);
+    public void joinProject(Proyecto proyecto, UUID playerId) {
+        Player playerObj = PlayerRegistry.getInstance().get(playerId);
+        proyecto.addMiembro(playerObj);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         Pais pais = proyecto.getPais();
-        String countryLog = lang.getString("project-join-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+        String memberNotification = lang.getString("project-member-added-notification").replace("%proyectoId%", proyecto.getId());
+        PlayerLogger.info(playerObj, memberNotification, ChatUtil.getDsMemberAdded(proyecto.getId()));
+        String countryLog = lang.getString("project-join-log").replace("%player%", playerObj.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void leaveProject(Proyecto proyecto, Player player) {
+    public void leaveProject(Proyecto proyecto, UUID playerId) {
         // TODO: Casos del lider abandonando el proyecto
+        Player player = PlayerRegistry.getInstance().get(playerId);
         proyecto.removeMiembro(player);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         Pais pais = proyecto.getPais();
+        String memberNotification = lang.getString("project-member-removed-notification").replace("%proyectoId%", proyecto.getId());
+        PlayerLogger.info(player, memberNotification, ChatUtil.getDsMemberRemoved(proyecto.getId()));
         String countryLog = lang.getString("project-leave-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }

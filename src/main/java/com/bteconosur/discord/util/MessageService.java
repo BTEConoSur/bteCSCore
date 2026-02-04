@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
-public class MessageService {
+public class MessageService { //TODO: ver casos cuenta no linkeada
 
     @SuppressWarnings("null")
     public static void sendMessage(Long channelId, String message) {

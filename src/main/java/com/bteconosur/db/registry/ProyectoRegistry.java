@@ -118,7 +118,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         int[] count = new int[2];
         PermissionManager pm = PermissionManager.getInstance();
         for (Proyecto proyecto : loadedObjects.values()) {
-            if (pm.isLider(player, proyecto) || pm.isMiembro(player, proyecto)) {
+            if (pm.isLider(player, proyecto)) {
                 if(proyecto.getEstado() == Estado.COMPLETADO) count[0]++;
                 if(proyecto.getEstado() == Estado.ACTIVO) count[1]++;
             }

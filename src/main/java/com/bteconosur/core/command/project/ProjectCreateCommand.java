@@ -30,8 +30,7 @@ public class ProjectCreateCommand extends BaseCommand {
 
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         if (!LinkService.isPlayerLinked(commandPlayer)) {
-            PlayerLogger.warn(commandPlayer, lang.getString("minecraft-link-needed"), (String) null);
-            return true;
+            PlayerLogger.warn(commandPlayer, lang.getString("minecraft-link-recomendation"), (String) null);
         }
 
         if (args.length >= 1) {

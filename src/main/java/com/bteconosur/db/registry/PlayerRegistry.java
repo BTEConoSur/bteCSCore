@@ -1,5 +1,6 @@
 package com.bteconosur.db.registry;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -89,6 +90,15 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         return Bukkit.getOnlinePlayers()
                 .stream()
                 .map(player -> get(player.getUniqueId()))
+                .sorted(Comparator.comparing(Player::getNombrePublico))
+                .collect(Collectors.toList());
+    }
+
+    public List<Player> getOfflinePlayers() {
+        return loadedObjects.values()
+                .stream()
+                .filter(player -> !isOnline(player.getUuid()))
+                .sorted(Comparator.comparing(Player::getFechaUltimaConexion).reversed())
                 .collect(Collectors.toList());
     }
 

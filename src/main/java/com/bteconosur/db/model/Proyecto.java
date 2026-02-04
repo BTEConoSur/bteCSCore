@@ -21,6 +21,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -68,7 +69,8 @@ public class Proyecto {
     @JoinColumn(name = "id_division")
     private Division division;
 
-    @ManyToMany(mappedBy = "proyectos", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "proyecto_miembro", joinColumns = @JoinColumn(name = "id_proyecto"), inverseJoinColumns = @JoinColumn(name = "uuid_player"))
     @JsonIgnore
     private Set<Player> miembros = new HashSet<>(); // Players detached, usar ProjectManager para obtener miembros.
 

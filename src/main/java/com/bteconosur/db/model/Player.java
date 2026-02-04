@@ -74,8 +74,7 @@ public class Player {
     @JsonIgnore
     private Set<Proyecto> proyectosLiderados = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "proyecto_miembro", joinColumns = @JoinColumn(name = "uuid_player"), inverseJoinColumns = @JoinColumn(name = "id_proyecto"))
+    @ManyToMany(mappedBy = "miembros")
     @JsonIgnore
     private Set<Proyecto> proyectos = new HashSet<>();
 
