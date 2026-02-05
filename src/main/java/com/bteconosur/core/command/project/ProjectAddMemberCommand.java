@@ -21,7 +21,7 @@ public class ProjectAddMemberCommand extends BaseCommand {
     private final YamlConfiguration lang;
 
     public ProjectAddMemberCommand() {
-        super("addmember", "Agregar a un miembro a un proyecto.", "<id_proyecto> [nombre_jugador]", "", CommandMode.PLAYER_ONLY);
+        super("addmember", "Agregar a un miembro a un proyecto.", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
         lang = ConfigHandler.getInstance().getLang();
     }
 
@@ -69,7 +69,7 @@ public class ProjectAddMemberCommand extends BaseCommand {
                     event.getWhoClicked().closeInventory();
                     return;
                 }
-                ProjectManager.getInstance().joinProject(targetProyecto, player.getUuid());
+                ProjectManager.getInstance().joinProject(targetProyecto.getId(), player.getUuid());
                 String successMessage = lang.getString("project-add-member-success").replace("%player%", player.getNombre()).replace("%proyectoId%", proyectoId);   
                 PlayerLogger.info(commandPlayer, successMessage, (String) null);
                 event.getWhoClicked().closeInventory();
@@ -82,7 +82,7 @@ public class ProjectAddMemberCommand extends BaseCommand {
             PlayerLogger.warn(commandPlayer, message, (String) null);
             return true;
         }
-        projectManager.joinProject(targetProyecto, targetPlayer.getUuid());
+        projectManager.joinProject(targetProyecto.getId(), targetPlayer.getUuid());
         String successMessage = lang.getString("project-add-member-success").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", proyectoId);   
         PlayerLogger.info(commandPlayer, successMessage, (String) null);
 

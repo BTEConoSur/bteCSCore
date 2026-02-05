@@ -94,10 +94,31 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         return proyectos;
     }
 
+    public Set<Proyecto> getNotMemberOrLider(Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        PermissionManager pm = PermissionManager.getInstance();
+        for (Proyecto proyecto : search) {
+            if (!pm.isMiembroOrLider(null, proyecto)) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
     public Set<Proyecto> getActive(Set<Proyecto> search) {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
             if (proyecto.getEstado() == Estado.ACTIVO) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getActiveOrEditando(Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            if (proyecto.getEstado() == Estado.ACTIVO || proyecto.getEstado() == Estado.EDITANDO) {
                 proyectos.add(proyecto);
             }
         }

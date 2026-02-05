@@ -332,15 +332,72 @@ public class ChatUtil {
         return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-requested.color")).build();
     }
 
-    public static MessageEmbed getDsMemberAdded(String proyectoId) {
-        String title = lang.getString("ds-embeds.project-member-added.title").replace("%proyectoId%", proyectoId);
-        return new EmbedBuilder().setTitle(title).setColor(lang.getInt("ds-embeds.project-member-added.color")).build();
+    public static MessageEmbed getDsMemberAdded(String proyectoId, String nombre) {
+        String description = lang.getString("ds-embeds.project-member-added.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-member-added.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-member-added.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-added.color")).build();
     }
 
-    public static MessageEmbed getDsMemberRemoved(String proyectoId) {
-        String title = lang.getString("ds-embeds.project-member-removed.title").replace("%proyectoId%", proyectoId);
-        return new EmbedBuilder().setTitle(title).setColor(lang.getInt("ds-embeds.project-member-removed.color")).build();
-    }   
+    public static MessageEmbed getDsMemberRemoved(String proyectoId, String nombre) {
+        String description = lang.getString("ds-embeds.project-member-removed.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-member-removed.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-member-removed.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-removed.color")).build();
+    }
+
+    public static MessageEmbed getDsMemberJoinRequest(String proyectoId, String nombre, String playerName) {
+        String title = lang.getString("ds-embeds.project-member-join-request.title").replace("%player%", playerName);
+        String description = lang.getString("ds-embeds.project-member-join-request.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-member-join-request.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-join-request.color")).build();
+    }
+
+    public static MessageEmbed getDsMemberJoinRequestExpired(String proyectoId, String nombre) {
+        String description = lang.getString("ds-embeds.project-join-request-expired.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-join-request-expired.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-join-request-expired.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-join-request-expired.color")).build();
+    }
+
+    public static MessageEmbed getDsMemberJoinRequestExpiredLider(String proyectoId, String nombre, String playerName) {
+        String title = lang.getString("ds-embeds.project-join-request-expired-lider.title").replace("%player%", playerName);
+        String description = lang.getString("ds-embeds.project-join-request-expired-lider.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-join-request-expired-lider.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-join-request-expired-lider.color")).build();
+    }
+    
+    public static MessageEmbed getDsMemberJoinRequestRejected(String proyectoId, String nombre) {
+        String description = lang.getString("ds-embeds.project-join-request-rejected.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-join-request-rejected.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-join-request-rejected.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-join-request-rejected.color")).build();
+    }
+
+    public static MessageEmbed getDsMemberJoinRequestAccepted(String proyectoId, String nombre) {
+        String description = lang.getString("ds-embeds.project-join-request-accepted.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-join-request-accepted.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-join-request-accepted.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-join-request-accepted.color")).build();
+    }
+
+    public static MessageEmbed getDsMemberAddedMember(String proyectoId, String nombre, String addedMemberName) {
+        String title = lang.getString("ds-embeds.project-member-added-member.title").replace("%player%", addedMemberName);
+        String description = lang.getString("ds-embeds.project-member-added-member.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-member-added-member.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-added-member.color")).build();
+    }
+
+    public static MessageEmbed getDsMemberRemovedMember(String proyectoId, String nombre, String removedMemberName) {
+        String title = lang.getString("ds-embeds.project-member-removed-member.title").replace("%player%", removedMemberName);
+        String description = lang.getString("ds-embeds.project-member-removed-member.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-member-removed-member.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-removed-member.color")).build();
+    }
 
     @SuppressWarnings("null")
     public static MessageEmbed getDsProjectCreated(Proyecto proyecto) {

@@ -22,7 +22,7 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
     private final YamlConfiguration lang;
 
     public ProjectRemoveMemberCommand() {
-        super("removemember", "Remover a un miembro de un proyecto.", "<id_proyecto> [nombre_jugador]", "", CommandMode.PLAYER_ONLY);
+        super("removemember", "Remover a un miembro de un proyecto.", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
         lang = ConfigHandler.getInstance().getLang();
     }
 
@@ -68,7 +68,7 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
                     event.getWhoClicked().closeInventory();
                     return;
                 }
-                ProjectManager.getInstance().leaveProject(targetProyecto, player.getUuid());
+                ProjectManager.getInstance().leaveProject(targetProyecto.getId(), player.getUuid());
                 String successMessage = lang.getString("project-remove-member-success").replace("%player%", player.getNombre()).replace("%proyectoId%", proyectoId);   
                 PlayerLogger.info(commandPlayer, successMessage, (String) null);
                 event.getWhoClicked().closeInventory();
@@ -81,7 +81,7 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
             PlayerLogger.warn(commandPlayer, message, (String) null);
             return true;
         }
-        projectManager.leaveProject(targetProyecto, targetPlayer.getUuid());
+        projectManager.leaveProject(targetProyecto.getId(), targetPlayer.getUuid());
         String successMessage = lang.getString("project-remove-member-success").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", proyectoId);   
         PlayerLogger.info(commandPlayer, successMessage, (String) null);
 

@@ -54,6 +54,7 @@ public class ButtonListener extends ListenerAdapter {
             action.handle(event, ctx);
         } catch (Exception e) {
             ConsoleLogger.error("Error de Discord: Error al manejar la interacción de botón: " + e.getMessage());
+            e.printStackTrace();
             event.reply(lang.getString("discord-internal-error")).setEphemeral(true).queue();
         }
     }

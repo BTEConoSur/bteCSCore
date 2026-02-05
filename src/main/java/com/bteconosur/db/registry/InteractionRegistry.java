@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.core.BTEConoSur;
@@ -11,11 +12,13 @@ import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.util.InteractionKey;
 import com.bteconosur.discord.action.AcceptCreateProjectAction;
 import com.bteconosur.discord.action.ButtonAction;
 import com.bteconosur.discord.action.CreateProjectAction;
+import com.bteconosur.discord.action.JoinProjectAction;
 import com.bteconosur.discord.action.ModalAction;
 import com.bteconosur.discord.action.RejectCreateProjectAction;
 import com.bteconosur.discord.action.SelectAction;
@@ -43,6 +46,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         registerButtonAction(InteractionKey.CREATE_PROJECT, new CreateProjectAction());
         registerModalAction(InteractionKey.ACCEPT_CREATE_PROJECT, new AcceptCreateProjectAction());
         registerModalAction(InteractionKey.REJECT_CREATE_PROJECT, new RejectCreateProjectAction());
+        registerButtonAction(InteractionKey.JOIN_PROJECT, new JoinProjectAction());
 
         try {
             int expirationMinutes = config.getInt("interaction-expiration");
@@ -92,6 +96,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
     
     @Override
     public void unload(Long id) {
+        if (id == null) return;
         Interaction interaction = loadedObjects.get(id);
         if (interaction == null || interaction.getId() == null) return;
         if (interaction.getComponentId() != null) interaction.setComponentId(null);
@@ -99,6 +104,11 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());
             Pais pais = proyecto.getPais();
             MessageService.deleteMessage(pais.getDsIdRequest(), interaction.getMessageId());
+        }
+        if (interaction.getInteractionKey() == InteractionKey.JOIN_PROJECT && interaction.getMessageId() != null) {
+            Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());
+            Player player = ProjectManager.getInstance().getLider(proyecto);
+            MessageService.deleteDMMessage(player.getDsIdUsuario(), interaction.getMessageId());
         }
         loadedObjects.remove(interaction.getId());
         dbManager.remove(interaction);
@@ -122,13 +132,22 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         return results;
     }
 
-    public List<Interaction> findJoinRequest(Proyecto project) {
-        if (project == null) return null;
+    public List<Interaction> findJoinRequest(String proyectoId) {
+        if (proyectoId == null) return null;
         List<Interaction> results = findByInteractionKey(InteractionKey.JOIN_PROJECT)
             .stream()
-            .filter(interaction -> project.getId().equals(interaction.getProjectId()))
+            .filter(interaction -> proyectoId.equals(interaction.getProjectId()))
             .toList();
         return results;
+    }
+
+    public Interaction findJoinRequest(String proyectoId, UUID playerId) {
+        if (proyectoId == null || playerId == null) return null;
+        return findByInteractionKey(InteractionKey.JOIN_PROJECT)
+            .stream()
+            .filter(interaction -> proyectoId.equals(interaction.getProjectId()) && playerId.equals(interaction.getPlayerId()))
+            .findFirst()
+            .orElse(null);
     }
 
     public Interaction findFinishRequest(Proyecto project) {

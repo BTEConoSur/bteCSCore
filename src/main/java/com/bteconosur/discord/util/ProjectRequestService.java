@@ -5,13 +5,17 @@ import java.time.Instant;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlaceholderUtil;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.InteractionRegistry;
 import com.bteconosur.db.util.InteractionKey;
@@ -71,5 +75,37 @@ public class ProjectRequestService {
             });
         
         return true;
+    }
+
+    @SuppressWarnings("null")
+    public static void sendProjectJoinRequest(Proyecto proyecto, Player player) {
+        Player lider = ProjectManager.getInstance().getLider(proyecto);
+        InteractionRegistry ir = InteractionRegistry.getInstance();
+        Interaction ctx = new Interaction(
+            player.getUuid(),
+            proyecto.getId(),
+            InteractionKey.JOIN_PROJECT,
+            Instant.now(),
+            Instant.now().plusSeconds(config.getInt("interaction-expirations.join-project") * 60L)
+        );
+        ir.load(ctx);
+        if (LinkService.isPlayerLinked(lider)) {
+            BTEConoSur.getDiscordManager().getJda().retrieveUserById(lider.getDsIdUsuario()).queue(user -> {
+                user.openPrivateChannel().queue(privateChannel -> {
+                    privateChannel.sendMessageEmbeds(ChatUtil.getDsMemberJoinRequest(proyecto.getId(), proyecto.getNombre(), player.getNombre()))
+                        .addComponents(ActionRow.of(Button.success("accept", "Aceptar"), Button.danger("cancel", "Rechazar")))
+                        .queue(message -> {
+                            Interaction ctx2 = ir.findJoinRequest(proyecto.getId(), player.getUuid());
+                            ctx2.setMessageId(message.getIdLong());
+                            ir.merge(ctx2.getId());
+                        }, error -> {
+                            ConsoleLogger.error("Error al enviar solicitud de unirse al proyecto por DM en Discord: " + error.getMessage());
+                            error.printStackTrace();
+                        });
+                });
+            });
+        }
+        String notification = lang.getString("leader-notificaction-member-join").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+        PlayerLogger.info(lider, notification, (String) null);
     }
 }

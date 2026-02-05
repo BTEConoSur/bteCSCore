@@ -79,6 +79,8 @@ ds-project-rejected: "Proyecto rechazado."
 ds-reviewer-notification-new-project: "Nueva solicitud de creación de proyecto de %pais%. [Ver solicitud](%link%)" # %pais% -> Nombre del país. %link% -> Enlace a la solicitud de proyecto en el Staff Hub.
 ds-reviewer-notification-finish-project: "Nueva solicitud de finalización de proyecto de %pais%. ID: `%id%`. Coordenadas: `%coords%`" # %pais% -> Nombre del país. %id% -> Id del proyecto. %coords% -> Coordenadas del proyecto.
 
+ds-join-accepted: "Solicitud de unión aceptada."
+ds-join-rejected: "Solicitud de unión rechazada."
 # World
 world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
 world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
@@ -208,18 +210,34 @@ project-add-member-success: "<green>El jugador <yellow>'%player%'</yellow> ha si
 project-already-member: "El jugador <yellow>'%player%'</yellow> ya es miembro o lider del proyecto <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 project-remove-member-success: "<green>El jugador <yellow>'%player%'</yellow> ha sido removido del proyecto <yellow>'%proyectoId%'</yellow> correctamente." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 project-not-member: "<red>El jugador <yellow>'%player%'</yellow> no es miembro del proyecto <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
-project-member-added-notification: "Has sido agregado al proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
-project-member-removed-notification: "Has sido removido del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-member-added: "Has sido agregado al proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-member-removed: "Has sido removido del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-member-added-member: "El jugador <yellow>'%player%'</yellow> ha sido agregado al proyecto de ID <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+project-member-removed-member: "El jugador <yellow>'%player%'</yellow> ha sido removido del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+
+project-join-success: "<green>Has solicitado unirte al proyecto de ID <yellow>'%proyectoId%'</yellow> correctamente. Espera a que el Líder la revise." # %proyectoId% -> Identificador del proyecto.
+project-join-already-requested: "Ya has solicitado unirte al proyecto de ID <yellow>'%proyectoId%'</yellow>. Espera a que el Líder la revise." # %proyectoId% -> Identificador del proyecto.
+project-join-request-expired: "<red>La solicitud para unirte al proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
+project-join-request-expired-lider: "La solicitud del jugador <yellow>'%player%'</yellow> para unirse al proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+project-join-already-member: "Ya eres miembro o líder del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-join-already-member-here: "No hay proyectos a los que puedas unirte en esta ubicación."
+project-join-accepted-lider: "<green>Has aceptado la solicitud de <yellow>'%player%'</yellow> para unirse al proyecto de ID <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+project-join-rejected-lider: "<red>Has rechazado la solicitud de <yellow>'%player%'</yellow> para unirse al proyecto de ID <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+leader-notificaction-member-join: "El jugador <yellow>'%player%'</yellow> ha solicitado unirse a tu proyecto de ID <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+project-join-accepted: "<green>Tu solicitud para unirte al proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido aceptada." # %proyectoId% -> Identificador del proyecto.
+project-join-rejected: "<red>Tu solicitud para unirte al proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido rechazada." # %proyectoId% -> Identificador del proyecto.
 
 no-project-found-here: "No se encontró ningún proyecto en esta ubicación."
 
 no-project-found-with-id: "No se encontró ningún proyecto con ID <yellow>'%proyectoId%'</yellow>."
 not-a-leader-project: "No eres Líder del proyecto '%proyectoId%'." # %proyectoId% -> Identificador del proyecto.
+not-a-leader-project-active-editing: "No eres Líder de ningún proyecto activo o en edición en esta ubicación."
 not-a-leader-here: "No eres Líder de ningún proyecto en esta ubicación."
 not-a-leader-active-projects: "No eres Líder de ningún proyecto activo en esta ubicación."
 not-a-active-project: "El proyecto '%proyectoId%' no está activo." # %proyectoId% -> Identificador del proyecto.
 no-project-finishing-here: "No hay ningún proyecto en finalización en esta ubicación." 
 no-project-active-here: "No hay ningún proyecto activo en esta ubicación."
+no-project-active-editing-here: "No hay ningún proyecto activo o en edición en esta ubicación."
 
 where-pais: "Pais: <yellow>%pais%</yellow>" # %pais% -> Nombre del país.
 where-division: "Pais: <yellow>%pais%</yellow> %divisionGna%: <yellow>%divisionContext%, %divisionNam%</yellow>" # %pais% -> Nombre del país. %divisionGna% -> Tipo de división. %divisionContext% -> Contexto de la división. %divisionNam% -> Nombre oficial de la división. %divisionFna% -> Nombre alternativo de la división.
@@ -248,8 +266,11 @@ gui-titles:
   finish-project-reject: "Rechazar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-accept: "Aceptar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   proyectos-activos-list: "Proyectos en esta ubicación"
+  proyectos-here-list: "Proyectos en esta ubicación"
   proyectos-search: "Buscar Proyectos"
   select-member: "Seleccionar Miembro: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  join-request-confirmation: "Confirmar solicitud de unión"
+  join-request-list: "Solicitudes de unión: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
 
 sign-gui:
   - ""
@@ -287,6 +308,16 @@ items:
     name: "<green>Confirmar"
     lore:
       - "<gray>Haz clic para confirmar."
+  accept:
+    material: "GREEN_CONCRETE"
+    name: "<green>Aceptar"
+    lore:
+      - "<gray>Haz clic para acceptar."
+  reject:
+    material: "RED_CONCRETE"
+    name: "<red>Rechazar"
+    lore:
+      - "<gray>Haz clic para rechazar."
   cancel:
     material: "RED_WOOL"
     name: "<red>Cancelar"
@@ -628,11 +659,49 @@ ds-embeds:
     nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
     color: 0xED4245
   project-member-added:
-    title: "Has sido agregado al proyecto '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    title: "Has sido agregado a un proyecto"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0x43B581
+  project-member-added-member: 
+    title: "El jugador '%player%' ha sido agregado a un proyecto al que pertenecés." # %player% -> Nombre del jugador.
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
     color: 0x43B581
   project-member-removed:
-    title: "Has sido removido del proyecto '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    title: "Has sido removido de un proyecto"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
     color: 0xED4245
+  project-member-removed-member:
+    title: "El jugador '%player%' ha sido removido de un proyecto al que pertenecés." # %player% -> Nombre del jugador.
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0xED4245
+  project-member-join-request:
+    title: "%player% ha solicitado unirse a tu proyecto." # %player% -> Nombre del jugador.
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+  project-join-request-expired:
+    title: "La solicitud para unirse al proyecto ha expirado."
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0x00b0f4
+  project-join-request-expired-lider:
+    title: "La solicitud de %player% para unirse al proyecto ha expirado." # %player% -> Nombre del jugador.
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0x00b0f4
+  project-join-request-rejected:
+    title: "Solicitud para unirse al proyecto rechazada"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0xED4245
+  project-join-request-accepted:
+    title: "Solicitud para unirse al proyecto aceptada"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0x43B581
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.

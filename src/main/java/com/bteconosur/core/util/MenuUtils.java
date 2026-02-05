@@ -68,6 +68,22 @@ public class MenuUtils {
         );
     }
 
+    public static GuiItem getRejectItem() {
+        return buildGuiItem(
+            lang.getString("items.reject.material"),
+            lang.getString("items.reject.name"),
+            lang.getStringList("items.reject.lore"), false
+        );
+    }
+
+    public static GuiItem getAcceptItem() {
+        return buildGuiItem(
+            lang.getString("items.accept.material"),
+            lang.getString("items.accept.name"),
+            lang.getStringList("items.accept.lore"), false
+        );
+    }
+
     public static GuiItem getConfirmItem() {
         return buildGuiItem(
             lang.getString("items.confirm.material"),

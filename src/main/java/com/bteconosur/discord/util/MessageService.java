@@ -130,6 +130,18 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         }
     }
 
+    public static void deleteDMMessage(Long userId, Long messageId) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.userId(userId) || !DiscordValidate.messageId(messageId)) return;
+        BTEConoSur.getDiscordManager().getJda().retrieveUserById(userId).queue(user -> {
+            try {
+                user.openPrivateChannel().queue(privateChannel -> privateChannel.deleteMessageById(messageId).queue());
+            } catch (Exception e) {
+                ConsoleLogger.error("Discord: Error al eliminar el mensaje '" + messageId + "' del usuario '" + userId + "': ", e);
+            }
+        });
+    }
+
     public static TextChannel getTextChannelById(Long channelId) {
         if (!DiscordValidate.jda()) return null;
         if (!DiscordValidate.channelId(channelId)) return null;
