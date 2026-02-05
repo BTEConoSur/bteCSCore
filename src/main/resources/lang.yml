@@ -188,6 +188,7 @@ nickname-change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nicknam
 nickname-set: "<green>El nombre público de <yellow>'%player%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 
 project-request-success: "<green>Solicitud de proyecto con ID <yellow>'%proyectoId%'</yellow> enviada correctamente. Espera a que un Reviewer la revise."
+project-request-already: "Ya has enviado una solicitud de proyecto. Espera a que un Reviewer la revise." # %pais% -> Nombre del país.
 project-request-failed: "<red>Error al enviar la solicitud de proyecto. Por favor, contacta a un administrador."
 project-create-request-accepted: "<green>El Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido aceptado." # %proyectoId% -> Identificador del proyecto.
 project-create-request-comment-accepted: "<green>Comentario: %comentario%" # %comentario% -> Comentario del staff.
@@ -196,6 +197,7 @@ project-create-request-comment-rejected: "<red>Comentario: <gray>\"<white>%comen
 project-create-request-expired: "<red>La solicitud de proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
 
 project-finish-request-success: "<green>Solicitud de finalización del proyecto con ID <yellow>'%proyectoId%'</yellow> enviada correctamente. Espera a que un Reviewer la revise." # %proyectoId% -> Identificador del proyecto.
+project-finish-request-already: "Ya has enviado una solicitud de finalización para el proyecto de ID <yellow>'%proyectoId%'</yellow>. Espera a que un Reviewer la revise." # %proyectoId% -> Identificador del proyecto.
 project-finish-request-failed: "<red>Error al enviar la solicitud de finalización del proyecto. Por favor, contacta a un administrador."
 project-finish-accepted: "<green>La finalización del Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido aceptada." # %proyectoId% -> Identificador del proyecto.
 project-finish-comment-accepted: "<green>Comentario: %comentario%" # %comentario% -> Comentario del staff.

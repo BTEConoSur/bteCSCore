@@ -123,6 +123,15 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);
     }
 
+    public Interaction findCreateRequest(Player player) {
+        if (player == null) return null;
+        return findByInteractionKey(InteractionKey.CREATE_PROJECT)
+            .stream()
+            .filter(interaction -> player.getUuid().equals(interaction.getPlayerId()))
+            .findFirst()
+            .orElse(null);
+    }
+
     public List<Interaction> findByInteractionKey(InteractionKey key) {
         if (key == null) return null;
         List<Interaction> results = new ArrayList<>();

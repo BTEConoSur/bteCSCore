@@ -45,7 +45,7 @@ public class JoinRequestConfirmationMenu extends Menu {
         gui.setItem(0, MenuUtils.getCancelItem());
         gui.addSlotAction(0, event -> {
             previousMenu.open();
-        });
+        });     
 
         gui.setItem(3, MenuUtils.getRejectItem());
         gui.addSlotAction(3, event -> {

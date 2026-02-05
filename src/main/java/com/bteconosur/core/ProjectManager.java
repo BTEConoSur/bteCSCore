@@ -89,7 +89,11 @@ public class ProjectManager {
     }
 
     public void createProject(String nombre, String descripcion, Polygon regionPolygon, Player player) {
-        // TODO: Verificar que no tenga otra creación en proceso
+        Interaction previousctx = InteractionRegistry.getInstance().findCreateRequest(player);
+        if (previousctx != null) {
+            PlayerLogger.warn(player, lang.getString("project-request-already"), (String) null);
+            return;
+        }
         Double tamaño = regionPolygon.getArea();
         TipoProyecto tipoProyecto = TipoProyectoRegistry.getInstance().get(tamaño);
         if (tipoProyecto == null) {
@@ -227,11 +231,15 @@ public class ProjectManager {
     }
 
     public void createJoinRequest(String proyectoId, UUID playerId) {
-        //Todo: Verificar que no tenga otra solicitud en proceso
+        Interaction previousctx = InteractionRegistry.getInstance().findJoinRequest(proyectoId, playerId);
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         Proyecto proyecto = pr.get(proyectoId);
         Player player = PlayerRegistry.getInstance().get(playerId);
         Pais pais = proyecto.getPais();
+        if (previousctx != null) {
+            PlayerLogger.warn(player, lang.getString("project-join-already-requested").replace("%proyectoId%", proyecto.getId()), (String) null);
+            return;
+        }
         ProjectRequestService.sendProjectJoinRequest(proyecto, player);
         PlayerLogger.info(player, lang.getString("project-join-success").replace("%proyectoId%", proyecto.getId()), (String) null);
         String countryLog = lang.getString("project-join-request-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
@@ -332,6 +340,12 @@ public class ProjectManager {
 
     public void createFinishRequest(String proyectoId, UUID requesterId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        Interaction previousctx = InteractionRegistry.getInstance().findFinishRequest(proyecto);
+        if (previousctx != null) {
+            Player requester = PlayerRegistry.getInstance().get(requesterId); // Probablemente no se ejecute nunca.
+            PlayerLogger.warn(requester, lang.getString("project-finish-request-already").replace("%proyectoId%", proyecto.getId()), (String) null);
+            return;
+        }
         proyecto.setEstado(Estado.EN_FINALIZACION);
         Player requester = PlayerRegistry.getInstance().get(requesterId);
         ProyectoRegistry.getInstance().merge(proyecto.getId());

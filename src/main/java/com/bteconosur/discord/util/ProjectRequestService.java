@@ -61,6 +61,7 @@ public class ProjectRequestService {
                 String mcNotification = lang.getString("reviewer-notification-new-project").replace("%pais%", pais.getNombrePublico());
                 DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
                 Interaction ctx = new Interaction(
+                    proyecto.getLider().getUuid(),
                     proyecto.getId(),
                     InteractionKey.CREATE_PROJECT,
                     Instant.now(),
