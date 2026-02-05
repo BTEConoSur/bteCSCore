@@ -23,8 +23,8 @@ public class LinkService {
         } catch (Exception ex) {
             return false;
         }
-    }   
-
+    }
+    
     public static boolean isMinecraftCodeValid(String code) {
         return minecraftCodes.containsValue(code);
     }

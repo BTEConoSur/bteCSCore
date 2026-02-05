@@ -50,26 +50,32 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     @Override
     public Proyecto merge(String id) {
         if (id == null) return null;
-        Proyecto obj = loadedObjects.get(id);
+        Proyecto obj = loadedObjects.get(id.toUpperCase());
         if (obj == null) return null;
         removeFromChunkIndex(obj);
         Proyecto mergedObj = (Proyecto) dbManager.merge(obj);
         if (mergedObj != null) {
             Set<ChunkKey> chunkKeys = RegionUtils.chunksFor(mergedObj);
             for (ChunkKey chunkKey : chunkKeys) loadedChunkProyectos.computeIfAbsent(chunkKey, k -> new ArrayList<>()).add(mergedObj.getId());
-            loadedObjects.put(id, mergedObj);
+            loadedObjects.put(id.toUpperCase(), mergedObj);
         }
         return mergedObj;
     }
 
     @Override
+    public Proyecto get(String id) {
+        if (id == null) return null;
+        return loadedObjects.get(id.toUpperCase());
+    }
+
+    @Override
     public void unload(String id) {
         if (id == null) return;
-        Proyecto proyecto = loadedObjects.get(id);
+        Proyecto proyecto = loadedObjects.get(id.toUpperCase());
         if (proyecto != null) {
             removeFromChunkIndex(proyecto);
         }
-        loadedObjects.remove(id);
+        loadedObjects.remove(id.toUpperCase());
         dbManager.remove(proyecto);
     }
 
@@ -94,10 +100,31 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         return proyectos;
     }
 
+    public Set<Proyecto> getNotMemberOrLider(Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        PermissionManager pm = PermissionManager.getInstance();
+        for (Proyecto proyecto : search) {
+            if (!pm.isMiembroOrLider(null, proyecto)) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
     public Set<Proyecto> getActive(Set<Proyecto> search) {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
             if (proyecto.getEstado() == Estado.ACTIVO) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getActiveOrEditando(Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            if (proyecto.getEstado() == Estado.ACTIVO || proyecto.getEstado() == Estado.EDITANDO) {
                 proyectos.add(proyecto);
             }
         }
@@ -118,7 +145,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         int[] count = new int[2];
         PermissionManager pm = PermissionManager.getInstance();
         for (Proyecto proyecto : loadedObjects.values()) {
-            if (pm.isLider(player, proyecto) || pm.isMiembro(player, proyecto)) {
+            if (pm.isLider(player, proyecto)) {
                 if(proyecto.getEstado() == Estado.COMPLETADO) count[0]++;
                 if(proyecto.getEstado() == Estado.ACTIVO) count[1]++;
             }

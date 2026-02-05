@@ -15,7 +15,6 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
-import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 
 import de.rapha149.signgui.SignGUI;
@@ -66,6 +65,22 @@ public class MenuUtils {
             lang.getString("items.filler.material"),
             lang.getString("items.filler.name"),
             lang.getStringList("items.filler.lore"), false
+        );
+    }
+
+    public static GuiItem getRejectItem() {
+        return buildGuiItem(
+            lang.getString("items.reject.material"),
+            lang.getString("items.reject.name"),
+            lang.getStringList("items.reject.lore"), false
+        );
+    }
+
+    public static GuiItem getAcceptItem() {
+        return buildGuiItem(
+            lang.getString("items.accept.material"),
+            lang.getString("items.accept.name"),
+            lang.getStringList("items.accept.lore"), false
         );
     }
 
@@ -372,15 +387,12 @@ public class MenuUtils {
         );
     }
 
-    public static GuiItem getPlayerItem(Player player, PlayerContext context) {
+    public static GuiItem getPlayerItem(Player player, Boolean isOnline, PlayerContext context) {
         int[] proyectoCounts = ProyectoRegistry.getInstance().getCounts(player);
         List<String> lore = lang.getStringList("items.player.lore");
         String status;
-        if (PlayerRegistry.getInstance().isOnline(player.getUuid())) {
-            status = lang.getString("items.player.estado.online");
-        } else {
-            status = lang.getString("items.player.estado.offline");
-        }
+        if (isOnline) status = lang.getString("items.player.estado.online");
+        else status = lang.getString("items.player.estado.offline");
 
         String name = lang.getString("items.player.name").replace("%player%", player.getNombre());
         if (context != null) {
@@ -390,9 +402,13 @@ public class MenuUtils {
                     break;
                 case MIEMBRO:
                     name = name.replace("%contexto%", lang.getString("items.player.contexto.miembro"));
-                default:
+                    break;
+                case DEFAULT:
+                    name = name.replace("%contexto%", lang.getString("items.player.contexto.default"));
                     break;
             }
+        } else {
+            name = name.replace("%contexto% ", "");
         }
 
         String paisPrefix;
@@ -415,14 +431,14 @@ public class MenuUtils {
         }
         return buildGuiItem(
             HeadDBUtil.getPlayerHead(player.getUuid()),
-            lang.getString("items.player.name").replace("%player%", player.getNombre()),
+            name,
             processedLore,
             false
         );
     }
 
     public static enum PlayerContext {
-        LIDER, MIEMBRO
+        LIDER, MIEMBRO, DEFAULT
     }
 
     public static boolean createSignGUI(org.bukkit.entity.Player player, SignGUIFinishHandler handler) {

@@ -26,7 +26,7 @@ public class ProjectPromoteCommand extends BaseCommand {
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         if (args.length != 1) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }

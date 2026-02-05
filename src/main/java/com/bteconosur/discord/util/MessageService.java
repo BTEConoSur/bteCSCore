@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
-public class MessageService {
+public class MessageService { //TODO: ver casos cuenta no linkeada
 
     @SuppressWarnings("null")
     public static void sendMessage(Long channelId, String message) {
@@ -128,6 +128,18 @@ public class MessageService {
         } catch (Exception e) {
             ConsoleLogger.error("Discord: Error al eliminar el mensaje '" + messageId + "' del canal '" + channel.getName() + "': ", e);
         }
+    }
+
+    public static void deleteDMMessage(Long userId, Long messageId) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.userId(userId) || !DiscordValidate.messageId(messageId)) return;
+        BTEConoSur.getDiscordManager().getJda().retrieveUserById(userId).queue(user -> {
+            try {
+                user.openPrivateChannel().queue(privateChannel -> privateChannel.deleteMessageById(messageId).queue());
+            } catch (Exception e) {
+                ConsoleLogger.error("Discord: Error al eliminar el mensaje '" + messageId + "' del usuario '" + userId + "': ", e);
+            }
+        });
     }
 
     public static TextChannel getTextChannelById(Long channelId) {

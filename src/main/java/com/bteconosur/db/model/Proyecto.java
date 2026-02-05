@@ -1,5 +1,6 @@
 package com.bteconosur.db.model;
 
+import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 import java.util.Date;
@@ -21,6 +22,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -68,7 +70,8 @@ public class Proyecto {
     @JoinColumn(name = "id_division")
     private Division division;
 
-    @ManyToMany(mappedBy = "proyectos", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "proyecto_miembro", joinColumns = @JoinColumn(name = "id_proyecto"), inverseJoinColumns = @JoinColumn(name = "uuid_player"))
     @JsonIgnore
     private Set<Player> miembros = new HashSet<>(); // Players detached, usar ProjectManager para obtener miembros.
 
@@ -94,7 +97,7 @@ public class Proyecto {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id != null ? id.toUpperCase() : null;
     }
 
     public String getNombre() {
@@ -198,13 +201,18 @@ public class Proyecto {
         this.fechaTerminado = fechaTerminado;
     }
 
+    public Point getCentroide() {
+        if (poligono == null) return null;
+        return poligono.getCentroid();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proyecto proyecto = (Proyecto) o;
         if (id == null || proyecto.id == null) return false;
-        return Objects.equals(id, proyecto  .id);
+        return Objects.equals(id, proyecto.id);
     }
 
     @Override
