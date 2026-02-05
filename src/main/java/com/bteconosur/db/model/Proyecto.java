@@ -1,5 +1,6 @@
 package com.bteconosur.db.model;
 
+import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 import java.util.Date;
@@ -96,7 +97,7 @@ public class Proyecto {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id != null ? id.toUpperCase() : null;
     }
 
     public String getNombre() {
@@ -200,13 +201,18 @@ public class Proyecto {
         this.fechaTerminado = fechaTerminado;
     }
 
+    public Point getCentroide() {
+        if (poligono == null) return null;
+        return poligono.getCentroid();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proyecto proyecto = (Proyecto) o;
         if (id == null || proyecto.id == null) return false;
-        return Objects.equals(id, proyecto  .id);
+        return Objects.equals(id, proyecto.id);
     }
 
     @Override

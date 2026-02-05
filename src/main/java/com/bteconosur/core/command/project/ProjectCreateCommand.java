@@ -6,6 +6,7 @@ import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.RegionUtils;
@@ -20,6 +21,7 @@ public class ProjectCreateCommand extends BaseCommand {
 
     public ProjectCreateCommand() {
         super("create", "Crear un nuevo proyecto.", "[nombre] [descripción]", "btecs.command.project.create", CommandMode.PLAYER_ONLY);
+        this.addSubcommand(new GenericHelpCommand(this));
         lang = ConfigHandler.getInstance().getLang();
     }
 

@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.project;
+package com.bteconosur.core.command.manager;
 
 import java.util.Set;
 
@@ -13,17 +13,18 @@ import com.bteconosur.core.menu.player.PlayerListMenu;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 
-public class ProjectRemoveMemberCommand extends BaseCommand {
-    
+public class ManagerRemoveMemberCommand extends BaseCommand {
+
     private final YamlConfiguration lang;
 
-    public ProjectRemoveMemberCommand() {
-        super("removemember", "Remover a un miembro de un proyecto.", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
+    public ManagerRemoveMemberCommand() {
+        super("removemember", "Remover a un miembro de un proyecto del país.", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
         lang = ConfigHandler.getInstance().getLang();
     }
@@ -45,8 +46,10 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
             PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-with-id").replace("%proyectoId%", proyectoId), (String) null);   
             return true;
         }
-        if (!permissionManager.isLider(commandPlayer, targetProyecto)) {
-            PlayerLogger.warn(commandPlayer, lang.getString("not-a-leader-project").replace("%proyectoId%", proyectoId), (String) null);   
+        
+        Pais pais = targetProyecto.getPais();
+        if (!permissionManager.isManager(commandPlayer, pais)) {
+            PlayerLogger.warn(commandPlayer, lang.getString("not-a-manager-country").replace("%pais%", pais.getNombrePublico()), (String) null);   
             return true;
         }
 
@@ -58,7 +61,7 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
             targetPlayer = playerRegistry.findByName(args[1]);
             if (targetPlayer == null) {
                 String message = lang.getString("player-not-found").replace("%player%", args[1]);
-                PlayerLogger.error(sender, message, (String) null);
+                PlayerLogger.error(commandPlayer, message, (String) null);
                 return true;
             }
         } else {

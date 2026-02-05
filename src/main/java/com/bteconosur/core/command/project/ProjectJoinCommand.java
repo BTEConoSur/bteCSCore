@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
@@ -23,13 +24,14 @@ public class ProjectJoinCommand extends BaseCommand {
 
     public ProjectJoinCommand() {
         super("join", "Unirse a un proyecto.", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        this.addSubcommand(new GenericHelpCommand(this));
         lang = ConfigHandler.getInstance().getLang();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         if (args.length > 1) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }

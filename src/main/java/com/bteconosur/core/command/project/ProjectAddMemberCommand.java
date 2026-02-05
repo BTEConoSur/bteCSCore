@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.menu.player.PlayerListMenu;
 import com.bteconosur.core.util.PlayerLogger;
@@ -22,6 +23,7 @@ public class ProjectAddMemberCommand extends BaseCommand {
 
     public ProjectAddMemberCommand() {
         super("addmember", "Agregar a un miembro a un proyecto.", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
+        this.addSubcommand(new GenericHelpCommand(this));
         lang = ConfigHandler.getInstance().getLang();
     }
 
@@ -30,7 +32,7 @@ public class ProjectAddMemberCommand extends BaseCommand {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         PermissionManager permissionManager = PermissionManager.getInstance();
         if (args.length > 2 || args.length < 1) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
             PlayerLogger.info(commandPlayer, message, (String) null);
             return true;
         }
@@ -78,7 +80,7 @@ public class ProjectAddMemberCommand extends BaseCommand {
             return true;
         }   
         if (permissionManager.isMiembroOrLider(targetPlayer, targetProyecto)) {
-            String message = lang.getString("project-add-member-already-member").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", proyectoId);   
+            String message = lang.getString("project-already-member").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", proyectoId);   
             PlayerLogger.warn(commandPlayer, message, (String) null);
             return true;
         }

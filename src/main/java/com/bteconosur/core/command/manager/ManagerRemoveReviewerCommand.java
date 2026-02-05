@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
@@ -26,8 +27,8 @@ public class ManagerRemoveReviewerCommand extends BaseCommand {
     private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
     public ManagerRemoveReviewerCommand() {
-        super("removereviewer", "Remover Reviewer de un país.", "<nombre_pais> <uuid/nombre_reviewer>", "", CommandMode.PLAYER_ONLY);
-
+        super("removereviewer", "Remover Reviewer de un país.", "<nombre_pais> <uuid/nombre_reviewer>", CommandMode.PLAYER_ONLY);
+        this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         lang = configHandler.getLang();
     }
@@ -39,7 +40,7 @@ public class ManagerRemoveReviewerCommand extends BaseCommand {
         Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
 
         if (args.length != 2) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
