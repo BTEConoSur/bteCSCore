@@ -28,6 +28,11 @@ public class ProjectJoinCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
+        if (args.length > 1) {
+            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            PlayerLogger.info(sender, message, (String) null);
+            return true;
+        }
         org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         PermissionManager permissionManager = PermissionManager.getInstance();
