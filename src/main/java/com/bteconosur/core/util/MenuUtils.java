@@ -364,10 +364,12 @@ public class MenuUtils {
                 break;
         }
         
+        int cantMiembros = proyecto.getCantMiembros();
         List<String> processedLore = new ArrayList<>();
         for (String line : lore) {
             line = line.replace("%descripcion%", descripcion)
                 .replace("%lider%", lider != null ? lider.getNombrePublico() : "Sin Líder")
+                .replace("%miembros%", String.valueOf(cantMiembros != 0 ? cantMiembros : "Sin Miembros")) 
                 .replace("%pais%", proyecto.getPais().getNombrePublico())
                 .replace("%divisionGna%", proyecto.getDivision().getGna())
                 .replace("%divisionFna%", proyecto.getDivision().getFna())

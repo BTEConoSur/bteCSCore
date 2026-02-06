@@ -28,7 +28,6 @@ public class PaisRegistry extends Registry<Long, Pais> {
     private ConcurrentHashMap<Long, List<Division>> loadedDivisions = new ConcurrentHashMap<>();
     private ConcurrentHashMap<Long, List<RegionDivision>> loadedRegionDivisions = new ConcurrentHashMap<>();
 
-
     public PaisRegistry() {
         super();
         ConsoleLogger.info(lang.getString("pais-registry-initializing"));
@@ -218,7 +217,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
     }
 
     public Division getDefaultDivision(Pais pais) {
-        for (Division division : getDivisions(pais)) {
+        for (Division division : getDivisions(pais)) { // Capaz no hace falta mapaear esto.
             if (division.getNombre().equalsIgnoreCase("default")) return division;
         }
         ConsoleLogger.warn("No se encontró la ciudad Default para el país: " + pais.getNombre());

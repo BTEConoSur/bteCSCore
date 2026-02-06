@@ -17,6 +17,7 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.util.Estado;
 
 public class ProjectRemoveMemberCommand extends BaseCommand {
     
@@ -46,7 +47,13 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
             return true;
         }
         if (!permissionManager.isLider(commandPlayer, targetProyecto)) {
-            PlayerLogger.warn(commandPlayer, lang.getString("not-a-leader-project").replace("%proyectoId%", proyectoId), (String) null);   
+            PlayerLogger.error(commandPlayer, lang.getString("not-a-leader-project").replace("%proyectoId%", proyectoId), (String) null);   
+            return true;
+        }
+
+        if (targetProyecto.getEstado() != Estado.ACTIVO && targetProyecto.getEstado() != Estado.EDITANDO) {
+            String message = lang.getString("not-a-active-editing-projec").replace("%proyectoId%", proyectoId);
+            PlayerLogger.error(commandPlayer, message, (String) null);   
             return true;
         }
 
@@ -58,7 +65,7 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
             targetPlayer = playerRegistry.findByName(args[1]);
             if (targetPlayer == null) {
                 String message = lang.getString("player-not-found").replace("%player%", args[1]);
-                PlayerLogger.error(sender, message, (String) null);
+                PlayerLogger.warn(commandPlayer, message, (String) null);
                 return true;
             }
         } else {
@@ -66,11 +73,11 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
             PlayerListMenu playerListMenu = new PlayerListMenu(commandPlayer, lang.getString("gui-titles.select-member").replace("%proyectoId%", proyectoId), miembros, false, MenuUtils.PlayerContext.MIEMBRO, (player, event) -> {
                 if (!permissionManager.isMiembroOrLider(player, targetProyecto)) {
                     String message = lang.getString("project-not-member").replace("%player%", player.getNombre()).replace("%proyectoId%", proyectoId);   
-                    PlayerLogger.warn(commandPlayer, message, (String) null);
+                    PlayerLogger.error(commandPlayer, message, (String) null);
                     event.getWhoClicked().closeInventory();
                     return;
                 }
-                ProjectManager.getInstance().leaveProject(targetProyecto.getId(), player.getUuid());
+                ProjectManager.getInstance().removeFromProject(targetProyecto.getId(), player.getUuid());
                 String successMessage = lang.getString("project-remove-member-success").replace("%player%", player.getNombre()).replace("%proyectoId%", proyectoId);   
                 PlayerLogger.info(commandPlayer, successMessage, (String) null);
                 event.getWhoClicked().closeInventory();
@@ -80,10 +87,10 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
         }   
         if (!permissionManager.isMiembroOrLider(targetPlayer, targetProyecto)) {
             String message = lang.getString("project-not-member").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", proyectoId);   
-            PlayerLogger.warn(commandPlayer, message, (String) null);
+            PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }
-        projectManager.leaveProject(targetProyecto.getId(), targetPlayer.getUuid());
+        projectManager.removeFromProject(targetProyecto.getId(), targetPlayer.getUuid());
         String successMessage = lang.getString("project-remove-member-success").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", proyectoId);   
         PlayerLogger.info(commandPlayer, successMessage, (String) null);
 

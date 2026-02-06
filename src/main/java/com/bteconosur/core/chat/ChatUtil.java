@@ -399,6 +399,14 @@ public class ChatUtil {
         return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-removed-member.color")).build();
     }
 
+    public static MessageEmbed getDsMemberLeftMember(String proyectoId, String nombre, String memberName) {
+        String title = lang.getString("ds-embeds.project-member-left-member.title").replace("%player%", memberName);
+        String description = lang.getString("ds-embeds.project-member-left-member.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-member-left-member.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-left-member.color")).build();
+    }
+
     @SuppressWarnings("null")
     public static MessageEmbed getDsProjectCreated(Proyecto proyecto) {
         Player player = proyecto.getLider();

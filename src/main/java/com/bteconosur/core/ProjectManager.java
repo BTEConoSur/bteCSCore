@@ -86,7 +86,7 @@ public class ProjectManager {
             }
         }
         return requesters;
-    }
+    }   
 
     public void createProject(String nombre, String descripcion, Polygon regionPolygon, Player player) {
         Interaction previousctx = InteractionRegistry.getInstance().findCreateRequest(player);
@@ -315,7 +315,34 @@ public class ProjectManager {
     }
 
     public void leaveProject(String proyectoId, UUID playerId) {
-        // TODO: Casos del lider abandonando el proyecto
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        Proyecto proyecto = pr.get(proyectoId);
+        Player player = PlayerRegistry.getInstance().get(playerId);
+        Player lider = getLider(proyecto);
+        Pais pais = proyecto.getPais();
+        if (player.equals(lider)) {
+            proyecto.setLider(null);
+            proyecto.setEstado(Estado.ABANDONADO);
+            pr.merge(proyecto.getId());
+            String countryLog = lang.getString("project-leader-left-log").replace("%lider%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+            DiscordLogger.countryLog(countryLog, pais);
+        } else { // Queda en el comando verificar si el lider puede abandonar el proyecto.
+            proyecto.removeMiembro(player);
+            pr.merge(proyecto.getId());
+            String memberNotificationPlayer = lang.getString("project-member-left-member").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+            Set<Player> members = getMembers(proyecto);
+            members.add(lider);
+            for (Player member : members) {
+                if (!member.equals(player)) {
+                    PlayerLogger.info(member, memberNotificationPlayer, ChatUtil.getDsMemberLeftMember(proyecto.getId(), proyecto.getNombre(), player.getNombre()));
+                }
+            }
+            String countryLog = lang.getString("project-left-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+            DiscordLogger.countryLog(countryLog, pais);
+        }
+    }
+// TODO: Verificar maximos de proyectos y de postulante.
+    public void removeFromProject(String proyectoId, UUID playerId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Player player = PlayerRegistry.getInstance().get(playerId);
         proyecto.removeMiembro(player);
@@ -334,7 +361,7 @@ public class ProjectManager {
             }
         }
 
-        String countryLog = lang.getString("project-leave-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+        String countryLog = lang.getString("project-remove-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 

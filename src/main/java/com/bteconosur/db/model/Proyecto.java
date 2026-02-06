@@ -206,6 +206,14 @@ public class Proyecto {
         return poligono.getCentroid();
     }
 
+    public boolean checkMaxMiembros() {
+        return miembros.size() <= tipoProyecto.getMaxMiembros();
+    }
+
+    public int getCantMiembros() {
+        return miembros.size();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

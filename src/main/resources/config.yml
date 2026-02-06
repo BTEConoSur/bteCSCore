@@ -85,3 +85,6 @@ player-defaults:
     ds-notifications: true
   manager:
     ds-notifications: true
+
+# Configuración de Proyectos
+max-members-for-postulantes: 1 # Cantidad máxima de miembros que un usuario con rango Postulante puede agregar a sus proyectos.

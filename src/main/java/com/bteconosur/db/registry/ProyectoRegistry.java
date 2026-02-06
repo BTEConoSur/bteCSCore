@@ -100,11 +100,36 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         return proyectos;
     }
 
-    public Set<Proyecto> getNotMemberOrLider(Set<Proyecto> search) {
+    public Set<Proyecto> getNotMemberOrLider(Player player, Set<Proyecto> search) {
         Set<Proyecto> proyectos = new HashSet<>();
         PermissionManager pm = PermissionManager.getInstance();
         for (Proyecto proyecto : search) {
-            if (!pm.isMiembroOrLider(null, proyecto)) {
+            if (!pm.isMiembroOrLider(player, proyecto)) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getMemberOrLider(Player player, Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        PermissionManager pm = PermissionManager.getInstance();
+        for (Proyecto proyecto : search) {
+            if (pm.isMiembroOrLider(player, proyecto)) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getWithRoom(Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            PermissionManager pm = PermissionManager.getInstance();
+            Player lider = proyecto.getLider();
+            if (lider == null) continue;
+            if (pm.isLider(lider, proyecto) && proyecto.getCantMiembros() >= config.getInt("max-members-for-postulantes")) continue;
+            if (proyecto.checkMaxMiembros()) {
                 proyectos.add(proyecto);
             }
         }

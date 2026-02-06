@@ -97,7 +97,17 @@ public class PermissionManager {
         if (player == null) return false;
         if (proyecto == null) return false;
         return player.equals(proyecto.getLider());
-        }
+    }
+
+    public boolean hasMembers(Proyecto proyecto) {
+        if (proyecto == null) return false;
+        return !proyecto.getMiembros().isEmpty();
+    }
+
+    public boolean hasLider(Proyecto proyecto) {
+        if (proyecto == null) return false;
+        return proyecto.getLider() != null;
+    }
 
     public boolean isLider(Player player, Set<Proyecto> proyectos) {
         if (player == null) return false;
@@ -142,6 +152,12 @@ public class PermissionManager {
         if (player == null) return false;
         if (tipo == null) return false;
         return player.getTipoUsuario().equals(tipo);
+    }
+
+    public boolean isPostulante(Player player) {
+        if (player == null) return false;
+        TipoUsuario tipoPostulante = tipoUsuarioRegistry.getPostulante();
+        return isTipoUsuario(player, tipoPostulante);
     }
 
     public boolean isAdmin(Player player) {

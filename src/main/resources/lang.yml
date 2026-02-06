@@ -198,12 +198,11 @@ project-create-request-expired: "<red>La solicitud de proyecto de ID <yellow>'%p
 
 project-finish-request-success: "<green>Solicitud de finalización del proyecto con ID <yellow>'%proyectoId%'</yellow> enviada correctamente. Espera a que un Reviewer la revise." # %proyectoId% -> Identificador del proyecto.
 project-finish-request-already: "Ya has enviado una solicitud de finalización para el proyecto de ID <yellow>'%proyectoId%'</yellow>. Espera a que un Reviewer la revise." # %proyectoId% -> Identificador del proyecto.
-project-finish-request-failed: "<red>Error al enviar la solicitud de finalización del proyecto. Por favor, contacta a un administrador."
 project-finish-accepted: "<green>La finalización del Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido aceptada." # %proyectoId% -> Identificador del proyecto.
 project-finish-comment-accepted: "<green>Comentario: %comentario%" # %comentario% -> Comentario del staff.
-project-finish-rejected: "<red>La finalización del Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido denegada." # %proyectoId% -> Identificador del proyecto.
-project-finish-comment-rejected: "<red>Comentario: <gray>\"<white>%comentario%<gray>\"" # %comentario% -> Comentario del staff.
-project-finish-request-expired: "<red>La solicitud de finalización del proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
+project-finish-rejected: "La finalización del Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido denegada." # %proyectoId% -> Identificador del proyecto.
+project-finish-comment-rejected: "Comentario: <gray>\"<white>%comentario%<gray>\"" # %comentario% -> Comentario del staff.
+project-finish-request-expired: "La solicitud de finalización del proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
 project-finish-staff-accepted: "Has aceptado la finalización del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
 project-finish-staff-accepted-and-promoted: "Has aceptado la finalización del proyecto de ID <yellow>'%proyectoId%'</yellow> y promovido a los miembros con rango Postulante a Constructor." # %proyectoId% -> Identificador del proyecto.
 project-finish-staff-rejected: "Has rechazado la finalización del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
@@ -211,11 +210,15 @@ project-finish-staff-rejected: "Has rechazado la finalización del proyecto de I
 project-add-member-success: "<green>El jugador <yellow>'%player%'</yellow> ha sido agregado al proyecto <yellow>'%proyectoId%'</yellow> correctamente." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 project-already-member: "El jugador <yellow>'%player%'</yellow> ya es miembro o lider del proyecto <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 project-remove-member-success: "<green>El jugador <yellow>'%player%'</yellow> ha sido removido del proyecto <yellow>'%proyectoId%'</yellow> correctamente." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
-project-not-member: "<red>El jugador <yellow>'%player%'</yellow> no es miembro del proyecto <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+project-not-member: "El jugador <yellow>'%player%'</yellow> no es miembro del proyecto <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 project-member-added: "Has sido agregado al proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
 project-member-removed: "Has sido removido del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
-project-member-added-member: "El jugador <yellow>'%player%'</yellow> ha sido agregado al proyecto de ID <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
-project-member-removed-member: "El jugador <yellow>'%player%'</yellow> ha sido removido del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+project-member-left: "Has salido del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-leader-left: "Has salido del proyecto de ID <yellow>'%proyectoId%'</yellow> como Líder. El proyecto ha sido marcado como <yellow>Abandonado</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-member-added-member: "El jugador <yellow>'%player%'</yellow> ha sido agregado al proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+project-member-removed-member: "El jugador <yellow>'%player%'</yellow> ha sido removido del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+project-member-left-member: "El jugador <yellow>'%player%'</yellow> ha salido del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+leader-cant-leave-project: "No puedes salir del proyecto de ID <yellow>'%proyectoId%'</yellow> porque eres Líder y hay otros miembros en el proyecto. Asigna un nuevo Líder." # %proyectoId% -> Identificador del proyecto.
 
 project-join-success: "<green>Has solicitado unirte al proyecto de ID <yellow>'%proyectoId%'</yellow> correctamente. Espera a que el Líder la revise." # %proyectoId% -> Identificador del proyecto.
 project-join-already-requested: "Ya has solicitado unirte al proyecto de ID <yellow>'%proyectoId%'</yellow>. Espera a que el Líder la revise." # %proyectoId% -> Identificador del proyecto.
@@ -235,11 +238,18 @@ no-project-found-with-id: "No se encontró ningún proyecto con ID <yellow>'%pro
 not-a-leader-project: "No eres Líder del proyecto '%proyectoId%'." # %proyectoId% -> Identificador del proyecto.
 not-a-leader-project-active-editing: "No eres Líder de ningún proyecto activo o en edición en esta ubicación."
 not-a-leader-here: "No eres Líder de ningún proyecto en esta ubicación."
+not-a-member: "No eres Miembro o Líder del proyecto '%proyectoId%'." # %proyectoId% -> Identificador del proyecto.
+not-a-member-here: "No eres Miembro o Líder de ningún proyecto en esta ubicación."  
 not-a-leader-active-projects: "No eres Líder de ningún proyecto activo en esta ubicación."
 not-a-active-project: "El proyecto '%proyectoId%' no está activo." # %proyectoId% -> Identificador del proyecto.
+not-a-active-editing-projec: "El proyecto '%proyectoId%' no está activo o en edición." # %proyectoId% -> Identificador del proyecto.
 no-project-finishing-here: "No hay ningún proyecto en finalización en esta ubicación." 
 no-project-active-here: "No hay ningún proyecto activo en esta ubicación."
 no-project-active-editing-here: "No hay ningún proyecto activo o en edición en esta ubicación."
+max-members-reached: "El proyecto de ID <yellow>'%proyectoId%'</yellow> ha alcanzado el máximo de miembros permitidos. (Max. <yellow>%max%</yellow>, Tiene <yellow>%current%</yellow>)" # %proyectoId% -> Identificador del proyecto. %max% -> Máximo de miembros permitidos. %current% -> Cantidad actual de miembros.
+postulante-cant-add-member: "Los usuarios con rango Postulante solo pueden agregar %max% miembro a sus proyectos." # %max% -> Máximo de miembros permitidos.
+cant-add-postulante: "No puedes agregar un usuario con rango Postulante a un proyecto."
+no-projects-with-room-here: "No hay proyectos con espacio para nuevos miembros en esta ubicación."
 
 where-pais: "Pais: <yellow>%pais%</yellow>" # %pais% -> Nombre del país.
 where-division: "Pais: <yellow>%pais%</yellow> %divisionGna%: <yellow>%divisionContext%, %divisionNam%</yellow>" # %pais% -> Nombre del país. %divisionGna% -> Tipo de división. %divisionContext% -> Contexto de la división. %divisionNam% -> Nombre oficial de la división. %divisionFna% -> Nombre alternativo de la división.
@@ -346,6 +356,7 @@ items:
     lore:
       - "<gray>%descripcion%" # %descripcion% -> Descripción del proyecto.
       - "<gray>Líder: <white>%lider%" # %lider% -> Nombre del líder del proyecto.
+      - "<gray>Miembros: <white>%miembros%" # %miembros% -> Cantidad de miembros del proyecto.
       - "<gray>Ubicación: <white>%pais%" # %pais% -> Nombre del país.
       - "<white>%divisionContexto%, %divisionFna%" # %location% -> Ubicación del proyecto. %divisionGna% -> Tipo de división. %divisionContexto% -> Contexto de la división. %divisionNam% -> Nombre oficial de la división. %divisionFna% -> Nombre alternativo de la división.
       - "<gray>Estado: %proyectoEstado%" # %proyectoEstado% -> Estado del proyecto.
@@ -680,6 +691,11 @@ ds-embeds:
     id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
     nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
     color: 0xED4245
+  project-member-left-member:
+    title: "El jugador '%player%' ha salido de un proyecto al que pertenecés." # %player% -> Nombre del jugador.
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0xED4245
   project-member-join-request:
     title: "%player% ha solicitado unirse a tu proyecto." # %player% -> Nombre del jugador.
     id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
@@ -760,7 +776,9 @@ project-join-request-expired-log: "❌ | La solicitud para unirse al proyecto `%
 project-join-accepted-log: "✅ | **%lider%** ha aceptado la solicitud de **%player%** para unirse al proyecto `%proyectoId%`."
 project-join-rejected-log: "❌ | **%lider%** ha denegado la solicitud de **%player%** para unirse al proyecto `%proyectoId%`."
 project-join-log: "➕ | **%player%** ha sido añadido al proyecto `%proyectoId%`."
-project-leave-log: "➖ | **%player%** ha sido removido del proyecto `%proyectoId%`."
+project-remove-log: "➖ | **%player%** ha sido removido del proyecto `%proyectoId%`."
+project-left-log: "🚪 | **%player%** ha salido del proyecto `%proyectoId%`."
+project-leader-left-log: "🚪 | El líder **%lider%** ha salido del proyecto `%proyectoId%`. El proyecto ha sido marcado como **Abandonado**."
 
 project-finish-request-log: "⏰ | **%requester%** ha marcado el proyecto `%proyectoId%` como finalizado."
 project-finish-request-expired-log: "❌ | La solicitud de finalización del proyecto `%proyectoId%` ha expirado."

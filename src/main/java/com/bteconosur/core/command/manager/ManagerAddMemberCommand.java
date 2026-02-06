@@ -49,7 +49,7 @@ public class ManagerAddMemberCommand extends BaseCommand {
 
         Pais pais = targetProyecto.getPais();
         if (!permissionManager.isManager(commandPlayer, pais)) {
-            PlayerLogger.warn(commandPlayer, lang.getString("not-a-manager-country").replace("%pais%", pais.getNombrePublico()), (String) null);   
+            PlayerLogger.error(commandPlayer, lang.getString("not-a-manager-country").replace("%pais%", pais.getNombrePublico()), (String) null);   
             return true;
         }
 
@@ -60,7 +60,7 @@ public class ManagerAddMemberCommand extends BaseCommand {
             targetPlayer = playerRegistry.findByName(args[1]);
             if (targetPlayer == null) {
                 String message = lang.getString("player-not-found").replace("%player%", args[1]);
-                PlayerLogger.error(commandPlayer, message, (String) null);
+                PlayerLogger.warn(commandPlayer, message, (String) null);
                 return true;
             }
         } else {
@@ -70,7 +70,7 @@ public class ManagerAddMemberCommand extends BaseCommand {
             PlayerListMenu playerListMenu = new PlayerListMenu(commandPlayer, lang.getString("gui-titles.select-member").replace("%proyectoId%", proyectoId), miembros, true, (player, event) -> {
                 if (permissionManager.isMiembroOrLider(player, targetProyecto)) {
                     String message = lang.getString("project-already-member").replace("%player%", player.getNombre()).replace("%proyectoId%", proyectoId);   
-                    PlayerLogger.warn(commandPlayer, message, (String) null);
+                    PlayerLogger.error(commandPlayer, message, (String) null);
                     event.getWhoClicked().closeInventory();
                     return;
                 }
@@ -84,7 +84,7 @@ public class ManagerAddMemberCommand extends BaseCommand {
         }   
         if (permissionManager.isMiembroOrLider(targetPlayer, targetProyecto)) {
             String message = lang.getString("project-already-member").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", proyectoId);   
-            PlayerLogger.warn(commandPlayer, message, (String) null);
+            PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }
         projectManager.joinProject(targetProyecto.getId(), targetPlayer.getUuid());

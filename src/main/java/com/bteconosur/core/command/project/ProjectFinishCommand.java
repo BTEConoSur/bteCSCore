@@ -50,7 +50,7 @@ public class ProjectFinishCommand extends BaseCommand {
                 return true;
             }
             if (!permissionManager.isLider(commandPlayer, proyectoFinal)) {
-                PlayerLogger.warn(commandPlayer, lang.getString("not-a-leader-project").replace("%proyectoId%", proyectoId), (String) null);   
+                PlayerLogger.error(commandPlayer, lang.getString("not-a-leader-project").replace("%proyectoId%", proyectoId), (String) null);   
                 return true;
             }
         } else {
@@ -85,7 +85,7 @@ public class ProjectFinishCommand extends BaseCommand {
             proyectoFinal = activeProyectos.iterator().next();
         }
         if (proyectoFinal.getEstado() != Estado.ACTIVO) {
-            PlayerLogger.warn(commandPlayer, lang.getString("not-a-active-project").replace("%proyectoId%", proyectoFinal.getId()), (String) null);   
+            PlayerLogger.error(commandPlayer, lang.getString("not-a-active-project").replace("%proyectoId%", proyectoFinal.getId()), (String) null);   
             return true;
         }
 
