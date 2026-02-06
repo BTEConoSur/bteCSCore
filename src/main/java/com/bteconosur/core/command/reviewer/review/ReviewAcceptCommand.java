@@ -103,21 +103,8 @@ public class ReviewAcceptCommand extends BaseCommand {
         Proyecto proyecto = finishingProyectos.iterator().next();
         String proyectoId = proyecto.getId();
         Player lider = pm.getLider(proyecto);
-        Set<Player> miembros = pm.getMembers(proyecto);
-        Boolean hasPostulantes = false;
 
-        if (postulante.equals(lider.getTipoUsuario())) {
-            hasPostulantes = true;
-        } else {
-            for (Player miembro : miembros) {
-                if (postulante.equals(miembro.getTipoUsuario())) {
-                    hasPostulantes = true;
-                    break;
-                }
-            }
-        }
-
-        confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyectoId, lang.getString("gui-titles.finish-project-accept").replace("%proyectoId%", proyectoId), comentarioFinal, hasPostulantes);
+        confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyectoId, lang.getString("gui-titles.finish-project-accept").replace("%proyectoId%", proyectoId), comentarioFinal, postulante.equals(lider.getTipoUsuario()));
         confirmationMenu.open();
 
         return true;

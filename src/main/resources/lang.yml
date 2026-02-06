@@ -204,7 +204,7 @@ project-finish-rejected: "La finalización del Proyecto de ID <yellow>'%proyecto
 project-finish-comment-rejected: "Comentario: <gray>\"<white>%comentario%<gray>\"" # %comentario% -> Comentario del staff.
 project-finish-request-expired: "La solicitud de finalización del proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
 project-finish-staff-accepted: "Has aceptado la finalización del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
-project-finish-staff-accepted-and-promoted: "Has aceptado la finalización del proyecto de ID <yellow>'%proyectoId%'</yellow> y promovido a los miembros con rango Postulante a Constructor." # %proyectoId% -> Identificador del proyecto.
+project-finish-staff-accepted-and-promoted: "Has aceptado la finalización del proyecto de ID <yellow>'%proyectoId%'</yellow> y promovido al Lider a Constructor." # %proyectoId% -> Identificador del proyecto.
 project-finish-staff-rejected: "Has rechazado la finalización del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
 
 project-add-member-success: "<green>El jugador <yellow>'%player%'</yellow> ha sido agregado al proyecto <yellow>'%proyectoId%'</yellow> correctamente." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
@@ -346,9 +346,8 @@ items:
     material: "LIGHT_BLUE_WOOL"
     name: "<green>Confirmar y Promover"
     lore:
-      - "<gray>Hay miembros con rango postulante en"
-      - "<gray>este proyecto."
-      - "<gray>Haz clic para confirmar y promover"
+      - "<gray>El lider de este proyesto es Postulante."
+      - "<gray>Haz clic para confirmar y promoverlo"
       - "<gray>a <yellow>Constructor</yellow>."
   proyecto:
     default-material: "BOOK"

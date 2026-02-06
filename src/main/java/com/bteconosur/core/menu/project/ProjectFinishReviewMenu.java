@@ -18,24 +18,24 @@ public class ProjectFinishReviewMenu extends Menu {
 
     private final String proyectoId;
     private Player player;
-    private Boolean hasPostulantes;
+    private Boolean liderPostulante;
     private String comentario;
 
     private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
-    public ProjectFinishReviewMenu(Player player, String proyectoId, String title, String comentario, Boolean hasPostulantes) {
+    public ProjectFinishReviewMenu(Player player, String proyectoId, String title, String comentario, Boolean liderPostulante) {
         super(title, 1, player);
         this.player = player;
         this.proyectoId = proyectoId;
-        this.hasPostulantes = hasPostulantes;
+        this.liderPostulante = liderPostulante;
         this.comentario = comentario;
     }
 
-    public ProjectFinishReviewMenu(Player player, String proyectoId, String title, String comentario, Boolean hasPostulantes, Menu previousMenu) {
+    public ProjectFinishReviewMenu(Player player, String proyectoId, String title, String comentario, Boolean liderPostulante, Menu previousMenu) {
         super(title, 1, player);
         this.player = player;
         this.proyectoId = proyectoId;
-        this.hasPostulantes = hasPostulantes;
+        this.liderPostulante = liderPostulante;
         this.comentario = comentario;
     }
 
@@ -55,7 +55,7 @@ public class ProjectFinishReviewMenu extends Menu {
             getGui().close(player.getBukkitPlayer());
         });
 
-        if (hasPostulantes) {
+        if (liderPostulante) {
             gui.setItem(3, MenuUtils.getPromoteItem());
             gui.addSlotAction(3, event -> {
                 pm.acceptFinishRequest(proyectoId, player, comentario, true);

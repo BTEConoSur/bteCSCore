@@ -442,7 +442,7 @@ public class ProjectManager {
         
         PlayerLogger.info(lider, message, dsMessage);
         if (comentario != null && !comentario.isBlank()) PlayerLogger.info(lider, commentMessage, (String) null);
-        if (promote && postulante.equals(lider.getTipoUsuario())) {
+        if (promote) {
             PermissionManager.getInstance().switchTipoUsuario(lider, constructor);
             PlayerLogger.info(lider, tipoSwitchedMessage, dsTipoSwitchedMessage);
             DiscordLogger.countryLog(tipoPromoteLog.replace("%player%", lider.getNombre()), pais);
@@ -450,11 +450,6 @@ public class ProjectManager {
         for (Player member : members) {
             PlayerLogger.info(member, message, dsMessage);
             if (comentario != null && !comentario.isBlank()) PlayerLogger.info(member, commentMessage, (String) null);
-            if (promote && postulante.equals(member.getTipoUsuario())) {
-                PermissionManager.getInstance().switchTipoUsuario(member, constructor);
-                PlayerLogger.info(member, tipoSwitchedMessage, dsTipoSwitchedMessage);
-                DiscordLogger.countryLog(tipoPromoteLog.replace("%player%", member.getNombre()), pais);
-            }
         }
     }
 
