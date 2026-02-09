@@ -74,7 +74,7 @@ public class ManagerAddMemberCommand extends BaseCommand {
                     event.getWhoClicked().closeInventory();
                     return;
                 }
-                ProjectManager.getInstance().joinProject(targetProyecto.getId(), player.getUuid());
+                ProjectManager.getInstance().joinProject(targetProyecto.getId(), player.getUuid(), commandPlayer.getUuid(), true);
                 String successMessage = lang.getString("project-add-member-success").replace("%player%", player.getNombre()).replace("%proyectoId%", proyectoId);   
                 PlayerLogger.info(commandPlayer, successMessage, (String) null);
                 event.getWhoClicked().closeInventory();
@@ -87,7 +87,7 @@ public class ManagerAddMemberCommand extends BaseCommand {
             PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }
-        projectManager.joinProject(targetProyecto.getId(), targetPlayer.getUuid());
+        projectManager.joinProject(targetProyecto.getId(), targetPlayer.getUuid(), commandPlayer.getUuid(), true);
         String successMessage = lang.getString("project-add-member-success").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", proyectoId);   
         PlayerLogger.info(commandPlayer, successMessage, (String) null);
 

@@ -128,7 +128,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
             PermissionManager pm = PermissionManager.getInstance();
             Player lider = proyecto.getLider();
             if (lider == null) continue;
-            if (pm.isLider(lider, proyecto) && proyecto.getCantMiembros() >= config.getInt("max-members-for-postulantes")) continue;
+            if (pm.isPostulante(lider) && proyecto.getCantMiembros() >= config.getInt("max-members-for-postulantes")) continue;
             if (proyecto.checkMaxMiembros()) {
                 proyectos.add(proyecto);
             }

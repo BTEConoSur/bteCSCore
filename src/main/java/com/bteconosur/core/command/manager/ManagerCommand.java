@@ -24,6 +24,7 @@ public class ManagerCommand extends BaseCommand {
         this.addSubcommand(new ManagerFinishCommand());
         this.addSubcommand(new ManagerAddMemberCommand());
         this.addSubcommand(new ManagerRemoveMemberCommand());
+        this.addSubcommand(new ManagerRemoveLeaderCommand());
         this.addSubcommand(new ManagerAcceptCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         // TODO: Comando para eliminar lider,

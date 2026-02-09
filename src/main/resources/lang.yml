@@ -215,10 +215,13 @@ project-member-added: "Has sido agregado al proyecto de ID <yellow>'%proyectoId%
 project-member-removed: "Has sido removido del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
 project-member-left: "Has salido del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
 project-leader-left: "Has salido del proyecto de ID <yellow>'%proyectoId%'</yellow> como Líder. El proyecto ha sido marcado como <yellow>Abandonado</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-leader-removed: "Has sido removido del proyecto de ID <yellow>'%proyectoId%'</yellow> como Líder. El proyecto ha sido marcado como <yellow>Abandonado</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-leader-removed-staff: "El líder del proyecto <yellow>'%player%'</yellow> de ID <yellow>'%proyectoId%'</yellow> ha sido removido. El proyecto ha sido marcado como <yellow>Abandonado</yellow>." # %proyectoId% -> Identificador del proyecto. %player% -> Nombre del líder removido.
 project-member-added-member: "El jugador <yellow>'%player%'</yellow> ha sido agregado al proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 project-member-removed-member: "El jugador <yellow>'%player%'</yellow> ha sido removido del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 project-member-left-member: "El jugador <yellow>'%player%'</yellow> ha salido del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 leader-cant-leave-project: "No puedes salir del proyecto de ID <yellow>'%proyectoId%'</yellow> porque eres Líder y hay otros miembros en el proyecto. Asigna un nuevo Líder." # %proyectoId% -> Identificador del proyecto.
+leader-cant-leave-project-staff: "El lider del proyecto de ID <yellow>'%proyectoId%'</yellow> no puede salir del proyecto porque hay otros miembros en el proyecto. Asigna un nuevo Líder." # %proyectoId% -> Identificador del proyecto.
 
 project-join-success: "<green>Has solicitado unirte al proyecto de ID <yellow>'%proyectoId%'</yellow> correctamente. Espera a que el Líder la revise." # %proyectoId% -> Identificador del proyecto.
 project-join-already-requested: "Ya has solicitado unirte al proyecto de ID <yellow>'%proyectoId%'</yellow>. Espera a que el Líder la revise." # %proyectoId% -> Identificador del proyecto.
@@ -685,6 +688,11 @@ ds-embeds:
     id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
     nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
     color: 0xED4245
+  project-leader-removed:
+    title: "Has sido removido como Líder de un proyecto"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0xED4245
   project-member-removed-member:
     title: "El jugador '%player%' ha sido removido de un proyecto al que pertenecés." # %player% -> Nombre del jugador.
     id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
@@ -767,17 +775,16 @@ project-delete-log: "🗑️ | Se ha eliminado el proyecto `%proyectoId%` de **%
 
 project-delete-player-log: "🗑️ | **%player%** ha eliminado su proyecto `%proyectoId%`."
 
-project-add-member-log: "➕ | **%lider%** ha agregado a **%player%** al proyecto `%proyectoId%`."
-project-remove-member-log: "➖ | **%lider%** ha removido a **%player%** del proyecto `%proyectoId%`."
-
+project-added-member-log: "➕ | **%lider%** ha agregado a **%player%** al proyecto `%proyectoId%`."
 project-join-request-log: "🔔 | **%player%** ha solicitado unirse al proyecto `%proyectoId%`."
 project-join-request-expired-log: "❌ | La solicitud para unirse al proyecto `%proyectoId%` ha expirado."
 project-join-accepted-log: "✅ | **%lider%** ha aceptado la solicitud de **%player%** para unirse al proyecto `%proyectoId%`."
 project-join-rejected-log: "❌ | **%lider%** ha denegado la solicitud de **%player%** para unirse al proyecto `%proyectoId%`."
 project-join-log: "➕ | **%player%** ha sido añadido al proyecto `%proyectoId%`."
-project-remove-log: "➖ | **%player%** ha sido removido del proyecto `%proyectoId%`."
+project-removed-log: "➖ | **%lider%** ha removido a **%player%** del proyecto `%proyectoId%`."
 project-left-log: "🚪 | **%player%** ha salido del proyecto `%proyectoId%`."
 project-leader-left-log: "🚪 | El líder **%lider%** ha salido del proyecto `%proyectoId%`. El proyecto ha sido marcado como **Abandonado**."
+project-leader-removed-log: "🚪 | **%staff%** ha removido al líder **%lider%** del proyecto `%proyectoId%`. El proyecto ha sido marcado como **Abandonado**."
 
 project-finish-request-log: "⏰ | **%requester%** ha marcado el proyecto `%proyectoId%` como finalizado."
 project-finish-request-expired-log: "❌ | La solicitud de finalización del proyecto `%proyectoId%` ha expirado."

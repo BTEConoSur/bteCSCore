@@ -276,7 +276,7 @@ public class ProjectManager {
         PlayerLogger.info(player, message, ChatUtil.getDsMemberJoinRequestAccepted(proyecto.getId(), proyecto.getNombre()));
         String countryLog = lang.getString("project-join-accepted-log").replace("%lider%", commandPlayer.getNombre()).replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
-        joinProject(proyectoId, playerId);
+        joinProject(proyectoId, playerId, commandId, false);
     }
 
     public void rejectJoinRequest(String proyectoId, UUID playerId, Long interactionId, UUID commandId) {
@@ -291,9 +291,11 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void joinProject(String proyectoId, UUID playerId) {
+    public void joinProject(String proyectoId, UUID playerId, UUID commandId, Boolean isAdded) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Player player = PlayerRegistry.getInstance().get(playerId);
+        Player commandPlayer = PlayerRegistry.getInstance().get(commandId);
+        Player lider = getLider(proyecto);
         proyecto.addMiembro(player);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         Pais pais = proyecto.getPais();
@@ -302,22 +304,27 @@ public class ProjectManager {
 
         String memberNotificationPlayer = lang.getString("project-member-added-member").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
         Set<Player> members = getMembers(proyecto);
-        //Player lider = getLider(proyecto);  
-        //members.add(lider);
+        if (!commandPlayer.equals(lider)) members.add(lider);
         for (Player member : members) {
             if (!member.equals(player   )) {
                 PlayerLogger.info(member, memberNotificationPlayer, ChatUtil.getDsMemberAddedMember(proyecto.getId(), proyecto.getNombre(), player.getNombre()));
             }
         }
 
+        if (isAdded) {
+            String countryLog = lang.getString("project-added-member-log").replace("%lider%", commandPlayer.getNombre()).replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+            DiscordLogger.countryLog(countryLog, pais);
+            return;
+        }
         String countryLog = lang.getString("project-join-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
     public void leaveProject(String proyectoId, UUID playerId) {
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Proyecto proyecto = pr.get(proyectoId);
-        Player player = PlayerRegistry.getInstance().get(playerId);
+        Player player = playerRegistry.get(playerId);
         Player lider = getLider(proyecto);
         Pais pais = proyecto.getPais();
         if (player.equals(lider)) {
@@ -326,7 +333,7 @@ public class ProjectManager {
             pr.merge(proyecto.getId());
             String countryLog = lang.getString("project-leader-left-log").replace("%lider%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
             DiscordLogger.countryLog(countryLog, pais);
-        } else { // Queda en el comando verificar si el lider puede abandonar el proyecto.
+        } else {
             proyecto.removeMiembro(player);
             pr.merge(proyecto.getId());
             String memberNotificationPlayer = lang.getString("project-member-left-member").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
@@ -341,10 +348,23 @@ public class ProjectManager {
             DiscordLogger.countryLog(countryLog, pais);
         }
     }
-// TODO: Verificar maximos de proyectos y de postulante.
-    public void removeFromProject(String proyectoId, UUID playerId) {
+
+    public void removeFromProject(String proyectoId, UUID playerId, UUID commanUuid) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
-        Player player = PlayerRegistry.getInstance().get(playerId);
+        PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
+        Player player = playerRegistry.get(playerId);
+        Player lider = getLider(proyecto);
+        Player commandPlayer = playerRegistry.get(commanUuid);
+        if (player.equals(lider)) {
+            proyecto.setLider(null);
+            proyecto.setEstado(Estado.ABANDONADO);
+            ProyectoRegistry.getInstance().merge(proyecto.getId());
+            String leaderNotification = lang.getString("project-leader-removed").replace("%proyectoId%", proyecto.getId());
+            PlayerLogger.info(player, leaderNotification, ChatUtil.getDsLeaderRemoved(proyecto.getId(), proyecto.getNombre()));
+            String countryLog = lang.getString("project-leader-removed-log").replace("%staff%", commandPlayer.getNombre()).replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+            DiscordLogger.countryLog(countryLog, proyecto.getPais());
+            return;
+        }
         proyecto.removeMiembro(player);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         Pais pais = proyecto.getPais();
@@ -353,15 +373,14 @@ public class ProjectManager {
 
         String memberNotificationPlayer = lang.getString("project-member-removed-member").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
         Set<Player> members = getMembers(proyecto);
-        //Player lider = getLider(proyecto);  
-        //members.add(lider);
+        if (!commandPlayer.equals(lider)) members.add(lider);
         for (Player member : members) {
             if (!member.equals(player)) {
                 PlayerLogger.info(member, memberNotificationPlayer, ChatUtil.getDsMemberRemovedMember(proyecto.getId(), proyecto.getNombre(), player.getNombre()));
             }
         }
 
-        String countryLog = lang.getString("project-remove-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+        String countryLog = lang.getString("project-removed-log").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId()).replace("%lider%", commandPlayer.getNombre());
         DiscordLogger.countryLog(countryLog, pais);
     }
 

@@ -77,7 +77,7 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
                     event.getWhoClicked().closeInventory();
                     return;
                 }
-                ProjectManager.getInstance().removeFromProject(targetProyecto.getId(), player.getUuid());
+                ProjectManager.getInstance().removeFromProject(targetProyecto.getId(), player.getUuid(), commandPlayer.getUuid());
                 String successMessage = lang.getString("project-remove-member-success").replace("%player%", player.getNombre()).replace("%proyectoId%", proyectoId);   
                 PlayerLogger.info(commandPlayer, successMessage, (String) null);
                 event.getWhoClicked().closeInventory();
@@ -90,7 +90,7 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
             PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }
-        projectManager.removeFromProject(targetProyecto.getId(), targetPlayer.getUuid());
+        projectManager.removeFromProject(targetProyecto.getId(), targetPlayer.getUuid(), commandPlayer.getUuid());
         String successMessage = lang.getString("project-remove-member-success").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", proyectoId);   
         PlayerLogger.info(commandPlayer, successMessage, (String) null);
 
