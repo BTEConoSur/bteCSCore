@@ -414,6 +414,29 @@ public class ChatUtil {
         return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-left-member.color")).build();
     }
 
+    public static MessageEmbed getDsLeaderSwitched(String proyectoId, String nombre) {
+        String description = lang.getString("ds-embeds.project-leader-switched.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-leader-switched.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-leader-switched.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-switched.color")).build();
+    }
+
+    public static MessageEmbed getDsLeaderSwitchedLeader(String proyectoId, String nombre, String newLeaderName) {
+        String title = lang.getString("ds-embeds.project-leader-switched-leader.title").replace("%player%", newLeaderName);
+        String description = lang.getString("ds-embeds.project-leader-switched-leader.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-leader-switched-leader.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-switched-leader.color")).build();
+    }
+
+    public static MessageEmbed getDsLeaderSwitchedMember(String proyectoId, String nombre, String newLeaderName) {
+        String title = lang.getString("ds-embeds.project-leader-switched-member.title").replace("%player%", newLeaderName);
+        String description = lang.getString("ds-embeds.project-leader-switched-member.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-leader-switched-member.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-switched-member.color")).build();
+    }
+
     @SuppressWarnings("null")
     public static MessageEmbed getDsProjectCreated(Proyecto proyecto) {
         Player player = proyecto.getLider();

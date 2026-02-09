@@ -361,7 +361,7 @@ public class ProjectManager {
             ProyectoRegistry.getInstance().merge(proyecto.getId());
             String leaderNotification = lang.getString("project-leader-removed").replace("%proyectoId%", proyecto.getId());
             PlayerLogger.info(player, leaderNotification, ChatUtil.getDsLeaderRemoved(proyecto.getId(), proyecto.getNombre()));
-            String countryLog = lang.getString("project-leader-removed-log").replace("%staff%", commandPlayer.getNombre()).replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+            String countryLog = lang.getString("project-leader-removed-log").replace("%staff%", commandPlayer.getNombre()).replace("%lider%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
             DiscordLogger.countryLog(countryLog, proyecto.getPais());
             return;
         }
@@ -447,7 +447,6 @@ public class ProjectManager {
 
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
         TipoUsuario constructor = tur.getConstructor();
-        TipoUsuario postulante = tur.getPostulante();
         Pais pais = proyecto.getPais();
         String tipoSwitchedMessage = lang.getString("tipo-switched").replace("%tipo%", constructor.getNombre());
         MessageEmbed dsTipoSwitchedMessage = ChatUtil.getDsTipoUsuarioSwitched(constructor);
@@ -506,6 +505,39 @@ public class ProjectManager {
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-finish-request-expired-log").replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
+    }
+
+    public void switchLeader(String proyectoId, UUID newLiderId, UUID commandId) {
+        PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        Player newLider = playerRegistry.get(newLiderId);
+        Player oldLider = getLider(proyecto);
+        Player commandPlayer = playerRegistry.get(commandId);
+        proyecto.addMiembro(oldLider);
+        proyecto.removeMiembro(newLider);
+        proyecto.setLider(newLider);
+        ProyectoRegistry.getInstance().merge(proyecto.getId());
+        Pais pais = proyecto.getPais();
+        
+        if (!commandPlayer.equals(oldLider)) {
+            String leaderNotification = lang.getString("project-leader-switched-leader").replace("%proyectoId%", proyecto.getId()).replace("%player%", newLider.getNombre());
+            PlayerLogger.info(oldLider, leaderNotification, ChatUtil.getDsLeaderSwitchedLeader(proyecto.getId(), proyecto.getNombre(), newLider.getNombre()));
+            String countryLog = lang.getString("project-leader-switch-staff").replace("%oldLider%", oldLider.getNombre()).replace("%newLider%", newLider.getNombre()).replace("%proyectoId%", proyecto.getId()).replace("%staff%", commandPlayer.getNombre());
+            DiscordLogger.countryLog(countryLog, pais);
+            return;
+        } else {
+            String countryLog = lang.getString("project-leader-switch-log").replace("%oldLider%", oldLider.getNombre()).replace("%newLider%", newLider.getNombre()).replace("%proyectoId%", proyecto.getId());
+            DiscordLogger.countryLog(countryLog, pais);
+        }
+        String memberNotification = lang.getString("project-leader-switched-member").replace("%proyectoId%", proyecto.getId()).replace("%player%", newLider.getNombre());
+        String newLiderNotification = lang.getString("project-leader-switched").replace("%proyectoId%", proyecto.getId());
+        Set<Player> members = getMembers(proyecto);
+        for (Player member : members) {
+            if (!member.equals(oldLider)) {
+                PlayerLogger.info(member, memberNotification, ChatUtil.getDsLeaderSwitchedMember(proyecto.getId(), proyecto.getNombre(), newLider.getNombre()));
+            }
+        }
+        PlayerLogger.info(newLider, newLiderNotification, ChatUtil.getDsLeaderSwitched(proyecto.getId(), proyecto.getNombre()));
     }
 
     public void createRedefineRequest(Proyecto proyecto) {

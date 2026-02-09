@@ -222,6 +222,11 @@ project-member-removed-member: "El jugador <yellow>'%player%'</yellow> ha sido r
 project-member-left-member: "El jugador <yellow>'%player%'</yellow> ha salido del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 leader-cant-leave-project: "No puedes salir del proyecto de ID <yellow>'%proyectoId%'</yellow> porque eres Líder y hay otros miembros en el proyecto. Asigna un nuevo Líder." # %proyectoId% -> Identificador del proyecto.
 leader-cant-leave-project-staff: "El lider del proyecto de ID <yellow>'%proyectoId%'</yellow> no puede salir del proyecto porque hay otros miembros en el proyecto. Asigna un nuevo Líder." # %proyectoId% -> Identificador del proyecto.
+project-already-leader: "El jugador <yellow>'%player%'</yellow> ya es el Líder del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
+project-leader-switched: "Has sido asignado como nuevo Líder del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-leader-switched-leader: "Has sido remplazado como Líder del proyecto de ID <yellow>'%proyectoId%'</yellow> por <yellow>'%player%'</yellow>." # %proyectoId% -> Identificador del proyecto. %player% -> Nombre del nuevo líder.
+project-leader-switched-member: "El Líder del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés, ha sido cambiado a <yellow>'%player%'</yellow>." # %proyectoId% -> Identificador del proyecto. %player% -> Nombre del nuevo líder.
+project-leader-switched-success: "El Líder del proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido transferido a <yellow>'%player%'</yellow> correctamente." # %proyectoId% -> Identificador del proyecto. %player% -> Nombre del nuevo líder.
 
 project-join-success: "<green>Has solicitado unirte al proyecto de ID <yellow>'%proyectoId%'</yellow> correctamente. Espera a que el Líder la revise." # %proyectoId% -> Identificador del proyecto.
 project-join-already-requested: "Ya has solicitado unirte al proyecto de ID <yellow>'%proyectoId%'</yellow>. Espera a que el Líder la revise." # %proyectoId% -> Identificador del proyecto.
@@ -284,6 +289,7 @@ gui-titles:
   proyectos-here-list: "Proyectos en esta ubicación"
   proyectos-search: "Buscar Proyectos"
   select-member: "Seleccionar Miembro: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  select-leader: "Seleccionar nuevo Líder: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   join-request-confirmation: "Confirmar solicitud de unión"
   join-request-list: "Solicitudes de unión: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
 
@@ -673,6 +679,21 @@ ds-embeds:
     id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
     nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
     color: 0xED4245
+  project-leader-switched:
+    title: "Has sido promovido a Líder de un proyecto"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0x45B7F4
+  project-leader-switched-leader:
+    title: "Has sido reemplazado como Líder de un proyecto por '%player%'" # %player% -> Nombre del jugador.
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0xF48245
+  project-leader-switched-member:
+    title: "El jugador '%player%' ha sido promovido a Líder de un proyecto al que pertenecés." # %player% -> Nombre del jugador.
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0x45B7F4
   project-member-added:
     title: "Has sido agregado a un proyecto"
     id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
@@ -801,6 +822,9 @@ project-edit-request-expired-log: "❌ | La solicitud de edición del proyecto `
 project-edit-accepted-log: "✅ | **%staff%** ha aceptado la edición del proyecto `%proyectoId%`."
 project-edit-rejected-log: "❌ | **%staff%** ha denegado la edición del proyecto `%proyectoId%`." 
 
+
+project-leader-switch-log: "🔄 | **%oldLider%** ha sido reemplazado por **%newLider%** como líder del proyecto `%proyectoId%`."
+project-leader-switch-staff: "🔄 | **%staff%** ha reemplazado a **%oldLider%** por **%newLider%** como líder del proyecto `%proyectoId%`."
 # Project
 project-manager-initializing: "Inicializando Gestor de Proyectos..."
 project-manager-shutting-down: "Cerrando Gestor de Proyectos..."

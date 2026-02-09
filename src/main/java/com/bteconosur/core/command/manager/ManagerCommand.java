@@ -23,6 +23,7 @@ public class ManagerCommand extends BaseCommand {
         this.addSubcommand(new ManagerConfigCommand());
         this.addSubcommand(new ManagerFinishCommand());
         this.addSubcommand(new ManagerAddMemberCommand());
+        this.addSubcommand(new ManagerTransferCommand());
         this.addSubcommand(new ManagerRemoveMemberCommand());
         this.addSubcommand(new ManagerRemoveLeaderCommand());
         this.addSubcommand(new ManagerAcceptCommand());
