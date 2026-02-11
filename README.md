@@ -24,7 +24,7 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 
 * ✔️ Vinculación de cuentas Minecraft y Discord.
 * ✔️ Notificaciones con interacciones.
-* ⏳ Revisión y aprobación de proyectos desde Discord.
+* ✔️ Revisión y aprobación de proyectos desde Discord.
 * ✔️ Chat Global.
 * ✔️ Chat de País.
 * 🕙 /player -> Muestra información de un Jugador.
@@ -45,12 +45,12 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 
 ## Proyectos
 
-* ⏳ Creación y gestión de proyectos individuales.
+* ✔️ Creación y gestión de proyectos individuales.
 * ⏳ Redefinir y editar proyectos creados.
 * ⏳ Protección de áreas de construcción.
-* ⏳ Añadir/Eliminar miembros.
-* ⏳ Flujo de revisión y aprobación.
-* ⏳ Comandos de Administración.
+* ✔️ Añadir/Eliminar miembros.
+* ✔️ Flujo de revisión y aprobación.
+* ✔️ Comandos de Administración.
 * ⏳ Comandos de Manager.
 * ⏳ Comandos de Reviewer.
 
