@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://i.imgur.com/T5A2R6w..png" alt="CS_Logo"">
+  <img src="https://i.imgur.com/T5A2R6w.png" alt="CS_Logo"">
 </p>
 
 # BTE Cono Sur
