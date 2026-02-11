@@ -37,6 +37,8 @@ public class ModalListener extends ListenerAdapter {
             InteractionRegistry ir = InteractionRegistry.getInstance();
             if (ctx.getInteractionKey() == InteractionKey.ACCEPT_CREATE_PROJECT) ir.unload(ctx.getId());
             if (ctx.getInteractionKey() == InteractionKey.REJECT_CREATE_PROJECT) ir.unload(ctx.getId());
+            if (ctx.getInteractionKey() == InteractionKey.ACCEPT_REDEFINE_PROJECT) ir.unload(ctx.getId());
+            if (ctx.getInteractionKey() == InteractionKey.REJECT_REDEFINE_PROJECT) ir.unload(ctx.getId());
             event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
             return;
         }

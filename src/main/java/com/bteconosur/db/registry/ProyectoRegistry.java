@@ -46,7 +46,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         Set<ChunkKey> chunkKeys = RegionUtils.chunksFor(obj);
         for (ChunkKey chunkKey : chunkKeys) loadedChunkProyectos.computeIfAbsent(chunkKey, k -> new ArrayList<>()).add(obj.getId());
     }
-
+    
     @Override
     public Proyecto merge(String id) {
         if (id == null) return null;
@@ -178,27 +178,27 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         return count;
     }
 
-    public Set<Proyecto> getOverlapping(Proyecto proyecto) {
+    public Set<Proyecto> getOverlapping(String proyectoId, Polygon poligono) {
         Set<Proyecto> proyectos = new HashSet<>();
         Set<ChunkKey> chunkKeys = loadedChunkProyectos.entrySet().stream()
-            .filter(entry -> entry.getValue().contains(proyecto.getId()))
+            .filter(entry -> entry.getValue().contains(proyectoId))
             .map(Map.Entry::getKey)
             .collect(Collectors.toSet());
 
         for (ChunkKey chunkKey : chunkKeys) {
             List<String> proyectoIds = loadedChunkProyectos.get(chunkKey);
             if (proyectoIds == null) continue;
-            for (String proyectoId : proyectoIds) {
-                if (proyectoId.equals(proyecto.getId())) continue;
-                Proyecto otherProyecto = loadedObjects.get(proyectoId);
-                if (proyecto.getPoligono().intersects(otherProyecto.getPoligono()))  proyectos.add(otherProyecto);
+            for (String otherProyectoId : proyectoIds) {
+                if (otherProyectoId.equals(proyectoId)) continue;
+                Proyecto otherProyecto = loadedObjects.get(otherProyectoId);
+                if (poligono.intersects(otherProyecto.getPoligono()))  proyectos.add(otherProyecto);
             }
         }
         return proyectos;
     }
 
-    public boolean hasCollisions(Proyecto proyecto) {
-        Set<Proyecto> overlapping = getOverlapping(proyecto);
+    public boolean hasCollisions(String proyectoId, Polygon poligono) {
+        Set<Proyecto> overlapping = getOverlapping(proyectoId, poligono);
         return !overlapping.isEmpty();
     }
 

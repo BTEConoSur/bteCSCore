@@ -84,7 +84,7 @@ public class ProjectJoinCommand extends BaseCommand {
                         return;
                     }
                     if (proyecto.getEstado() != Estado.ACTIVO && proyecto.getEstado() != Estado.EDITANDO) {
-                        String message = lang.getString("not-a-active-editing-projec").replace("%proyectoId%", proyecto.getId());
+                        String message = lang.getString("not-a-active-editing-project").replace("%proyectoId%", proyecto.getId());
                         PlayerLogger.error(commandPlayer, message, (String) null);
                         event.getWhoClicked().closeInventory();
                         return;
@@ -122,7 +122,7 @@ public class ProjectJoinCommand extends BaseCommand {
         }
 
         if (proyectoFinal.getEstado() != Estado.ACTIVO && proyectoFinal.getEstado() != Estado.EDITANDO) {
-            String message = lang.getString("not-a-active-editing-projec").replace("%proyectoId%", proyectoFinal.getId());
+            String message = lang.getString("not-a-active-editing-project").replace("%proyectoId%", proyectoFinal.getId());
             PlayerLogger.error(commandPlayer, message, (String) null);   
             return true;
         }

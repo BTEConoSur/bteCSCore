@@ -204,6 +204,15 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    public Division findDivisionById(Long divisionId) {
+        for (List<Division> divisions : loadedDivisions.values()) {
+            for (Division division : divisions) {
+                if (division.getId().equals(divisionId)) return division;
+            }
+        }
+        return null;
+    }
+
     public Pais findByPolygon(Polygon polygon) {
         Point centroid = polygon.getCentroid();
         return findByLocation(centroid.getX(), centroid.getY());

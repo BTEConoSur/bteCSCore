@@ -20,6 +20,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.locationtech.jts.geom.Polygon;
 
 @Entity
 @Table(name = "interaction")
@@ -36,6 +37,10 @@ public class Interaction {
 
     @Column(name = "id_proyecto", columnDefinition = "CHAR(6)")
     private String projectId;
+
+    @Column(name = "poligono")
+    @JdbcTypeCode(SqlTypes.GEOMETRY)
+    private Polygon poligono;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "interaction_key", length = 50, nullable = false)
@@ -116,7 +121,7 @@ public class Interaction {
         this(null, null, messageId, componentId, interactionKey, createdAt, expiresAt, null);
     }
 
-    public Interaction(UUID playerId, String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, String projectId, Long messageId, String componentId,  InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this.playerId = playerId;
         this.projectId = projectId;
         this.interactionKey = interactionKey;
@@ -149,6 +154,14 @@ public class Interaction {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+    public Polygon getPoligono() {
+        return poligono;
+    }
+
+    public void setPoligono(Polygon poligono) {
+        this.poligono = poligono;
     }
 
     public InteractionKey getInteractionKey() {

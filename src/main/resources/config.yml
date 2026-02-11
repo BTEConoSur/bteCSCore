@@ -10,6 +10,7 @@ interaction-expirations:
   edit-project: 1440 # Expiración de solicitudes de edición de proyectos (en minutos). 1440 = 1 día.
   create-project: 10080 # Expiración de solicitudes de creación de proyectos (en minutos). 10080 = 7 días.
   accept-reject-create-project: 60 # Expiración del modal de aceptación/rechazo de creación de proyecto (en minutos). 60 = 1 hora.
+  accept-reject-redefine-project: 60 # Expiración del modal de aceptación/rechazo de redefinición de proyecto (en minutos). 60 = 1 hora.
 
 # Map Sat
 mapbox-access-token: ""

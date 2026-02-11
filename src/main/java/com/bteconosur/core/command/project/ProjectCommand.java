@@ -17,11 +17,13 @@ public class ProjectCommand extends BaseCommand {
         super("project", "Comando principal de los Proyectos.", null, "btecs.command.project", CommandMode.BOTH);
         this.addSubcommand(new ProjectPromoteCommand());
         this.addSubcommand(new ProjectCreateCommand());
+        this.addSubcommand(new ProjectRedefineCommand());
         this.addSubcommand(new ProjectFinishCommand());
         this.addSubcommand(new ProjectJoinCommand());
         this.addSubcommand(new ProjectLeaveCommand());
         this.addSubcommand(new ProjectAcceptCommand());
         this.addSubcommand(new ProjectAddMemberCommand());
+        this.addSubcommand(new ProjectTransferCommand());
         this.addSubcommand(new ProjectRemoveMemberCommand());
         this.addSubcommand(new ProjectAdminCommand());
         this.addSubcommand(new GenericHelpCommand(this));

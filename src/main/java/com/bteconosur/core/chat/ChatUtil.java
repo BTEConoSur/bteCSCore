@@ -1,8 +1,10 @@
 package com.bteconosur.core.chat;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.checkerframework.checker.units.qual.t;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
@@ -414,6 +416,64 @@ public class ChatUtil {
         return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-left-member.color")).build();
     }
 
+    public static MessageEmbed getDsLeaderSwitched(String proyectoId, String nombre) {
+        String description = lang.getString("ds-embeds.project-leader-switched.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-leader-switched.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-leader-switched.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-switched.color")).build();
+    }
+
+    public static MessageEmbed getDsLeaderSwitchedLeader(String proyectoId, String nombre, String newLeaderName) {
+        String title = lang.getString("ds-embeds.project-leader-switched-leader.title").replace("%player%", newLeaderName);
+        String description = lang.getString("ds-embeds.project-leader-switched-leader.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-leader-switched-leader.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-switched-leader.color")).build();
+    }
+
+    public static MessageEmbed getDsLeaderSwitchedMember(String proyectoId, String nombre, String newLeaderName) {
+        String title = lang.getString("ds-embeds.project-leader-switched-member.title").replace("%player%", newLeaderName);
+        String description = lang.getString("ds-embeds.project-leader-switched-member.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-leader-switched-member.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-switched-member.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectRedefineRequestedMember(String proyectoId, String proyectoNombre, String playerNombre) {
+        String title = lang.getString("ds-embeds.project-redefine-request-member.title").replace("%player%", playerNombre);
+        String description = lang.getString("ds-embeds.project-redefine-request-member.id").replace("%proyectoId%", proyectoId);
+        if (proyectoNombre != null && !proyectoNombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-redefine-request-member.nombre").replace("%nombre%", proyectoNombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-redefine-request-member.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectRedefineExpired(String proyectoId, String proyectoNombre) {
+        String description = lang.getString("ds-embeds.project-redefine-expired.id").replace("%proyectoId%", proyectoId);
+        if (proyectoNombre != null && !proyectoNombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-redefine-expired.nombre").replace("%nombre%", proyectoNombre);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-redefine-expired.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-redefine-expired.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectRedefineAccepted(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-redefine-accepted.title");
+        String description = lang.getString("ds-embeds.project-redefine-accepted.id").replace("%proyectoId%", proyectoId);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-redefine-accepted.comment").replace("%comentario%", comentario);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-redefine-accepted.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-redefine-accepted.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectRedefineRejected(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-redefine-rejected.title");
+        String description = lang.getString("ds-embeds.project-redefine-rejected.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-redefine-rejected.nombre").replace("%nombre%", nombre);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-redefine-rejected.comment").replace("%comentario%", comentario);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-redefine-rejected.color")).build();
+    }
+
     @SuppressWarnings("null")
     public static MessageEmbed getDsProjectCreated(Proyecto proyecto) {
         Player player = proyecto.getLider();
@@ -428,7 +488,7 @@ public class ChatUtil {
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
         if (tur.getVisita().equals(player.getTipoUsuario())) eb.appendDescription(lang.getString("ds-embeds.project-created.player-is-visita"));
         if (tur.getPostulante().equals(player.getTipoUsuario())) eb.appendDescription(lang.getString("ds-embeds.project-created.player-is-postulante"));
-        if (pr.hasCollisions(proyecto)) eb.appendDescription("\n" + lang.getString("ds-embeds.project-created.has-collisions"));
+        if (pr.hasCollisions(proyecto.getId(), proyecto.getPoligono())) eb.appendDescription("\n" + lang.getString("ds-embeds.project-created.has-collisions"));
 
         eb.addField("Rango", player.getRangoUsuario().getNombre(), true)   
             .addField("Tipo", player.getTipoUsuario().getNombre(), true)
@@ -442,11 +502,41 @@ public class ChatUtil {
             .addField("Coordenadas", coords, false)
             .setImage("attachment://map.png")
             .setColor(lang.getInt("ds-embeds.project-created.color"))
-                .setFooter("Creado el " + DateUtils.formatDateHour(proyecto.getFechaCreado()) + ".");
+            .setFooter("Creado el " + DateUtils.formatDateHour(proyecto.getFechaCreado()) + ".");
             if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField("Nombre del Proyecto", proyecto.getNombre(), false);
         if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField("Descripción", proyecto.getDescripcion(), false);
-        eb.addField("", lang.getString("ds-embeds.project-created.polygons-colors"), false);
+        List<String> colors = lang.getStringList("ds-embeds.project-created.polygons-colors");
+        for (String color : colors) {
+            eb.addField("", color, true);
+        }
         return eb.build();
     } //TODO: añadir vencimiento de request.
+
+    @SuppressWarnings("null")
+    public static MessageEmbed getDsProjectRedefineRequested(Proyecto proyecto, String commandName, Polygon newPolygon) {
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        String title = lang.getString("ds-embeds.project-redefine-requested.title").replace("%player%", commandName).replace("%proyectoId%", proyecto.getId());
+        Polygon polygon = proyecto.getPoligono();
+        Point centroid = polygon.getCentroid();
+        double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
+        String coords = geoCoords[1] + ", " + geoCoords[0];
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        if (pr.hasCollisions(proyecto.getId(), newPolygon)) eb.appendDescription("\n" + lang.getString("ds-embeds.project-redefine-requested.has-collisions"));
+
+        eb.addField("Tipo Proyecto", proyecto.getTipoProyecto().getNombre(), true)
+            .addField("Max. Miembros", String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
+            .addField("Tamaño", String.valueOf(polygon.getArea()), true)
+            .addField("Coordenadas", coords, false)
+            .setImage("attachment://map.png")
+            .setColor(lang.getInt("ds-embeds.project-redefine-requested.color"))
+            .setFooter("Creado el " + DateUtils.formatDateHour(proyecto.getFechaCreado()) + ".");
+        if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField("Nombre del Proyecto", proyecto.getNombre(), false);
+        if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField("Descripción", proyecto.getDescripcion(), false);
+        List<String> colors = lang.getStringList("ds-embeds.project-redefine-requested.polygons-colors");
+        for (String color : colors) {
+            eb.addField("", color, true);
+        }
+        return eb.build();
+    }
 
 }

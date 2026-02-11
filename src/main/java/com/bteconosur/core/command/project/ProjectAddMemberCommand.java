@@ -54,7 +54,7 @@ public class ProjectAddMemberCommand extends BaseCommand {
         }
 
         if (targetProyecto.getEstado() != Estado.ACTIVO && targetProyecto.getEstado() != Estado.EDITANDO) {
-            String message = lang.getString("not-a-active-editing-projec").replace("%proyectoId%", targetProyecto.getId());
+            String message = lang.getString("not-a-active-editing-project").replace("%proyectoId%", targetProyecto.getId());
             PlayerLogger.warn(commandPlayer, message, (String) null);   
             return true;
         }

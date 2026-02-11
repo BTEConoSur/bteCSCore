@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Point;
@@ -40,6 +41,7 @@ import com.bteconosur.discord.util.ProjectRequestService;
 
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
+
 //TODO: vereficar casos edgde.
 public class ProjectManager {
 
@@ -120,7 +122,7 @@ public class ProjectManager {
         Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(Instant.now()));
         pr.load(proyecto);
 
-        File contextImage = SatMapUtils.downloadContext(proyecto, pr.getOverlapping(proyecto));
+        File contextImage = SatMapUtils.downloadContext(proyecto, pr.getOverlapping(proyecto.getId(), proyecto.getPoligono()));
         if (contextImage == null) {
             PlayerLogger.error(player, lang.getString("internal-error"), (String) null);
             pr.unload(proyecto.getId());
@@ -361,7 +363,7 @@ public class ProjectManager {
             ProyectoRegistry.getInstance().merge(proyecto.getId());
             String leaderNotification = lang.getString("project-leader-removed").replace("%proyectoId%", proyecto.getId());
             PlayerLogger.info(player, leaderNotification, ChatUtil.getDsLeaderRemoved(proyecto.getId(), proyecto.getNombre()));
-            String countryLog = lang.getString("project-leader-removed-log").replace("%staff%", commandPlayer.getNombre()).replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+            String countryLog = lang.getString("project-leader-removed-log").replace("%staff%", commandPlayer.getNombre()).replace("%lider%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
             DiscordLogger.countryLog(countryLog, proyecto.getPais());
             return;
         }
@@ -447,7 +449,6 @@ public class ProjectManager {
 
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
         TipoUsuario constructor = tur.getConstructor();
-        TipoUsuario postulante = tur.getPostulante();
         Pais pais = proyecto.getPais();
         String tipoSwitchedMessage = lang.getString("tipo-switched").replace("%tipo%", constructor.getNombre());
         MessageEmbed dsTipoSwitchedMessage = ChatUtil.getDsTipoUsuarioSwitched(constructor);
@@ -508,51 +509,156 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void createRedefineRequest(Proyecto proyecto) {
-        proyecto.setEstado(Estado.REDEFINIENDO);
-        Interaction interaction = new Interaction(
-            proyecto.getLider().getUuid(),
-            proyecto.getId(),
-            InteractionKey.REDEFINE_PROJECT,
-            Instant.now(),
-            Instant.now().plusSeconds(config.getLong("interaction-expirations.redefine-project") * 60)
-        );
-        InteractionRegistry.getInstance().load(interaction);
+    public void switchLeader(String proyectoId, UUID newLiderId, UUID commandId) {
+        PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        Player newLider = playerRegistry.get(newLiderId);
+        Player oldLider = getLider(proyecto);
+        Player commandPlayer = playerRegistry.get(commandId);
+        proyecto.addMiembro(oldLider);
+        proyecto.removeMiembro(newLider);
+        proyecto.setLider(newLider);
+        ProyectoRegistry.getInstance().merge(proyecto.getId());
         Pais pais = proyecto.getPais();
-        String countryLog = lang.getString("project-redefine-request-log").replace("%lider%", getLider(proyecto).getNombre()).replace("%proyectoId%", proyecto.getId());
-        DiscordLogger.countryLog(countryLog, pais);
+        
+        if (!commandPlayer.equals(oldLider)) {
+            String leaderNotification = lang.getString("project-leader-switched-leader").replace("%proyectoId%", proyecto.getId()).replace("%player%", newLider.getNombre());
+            PlayerLogger.info(oldLider, leaderNotification, ChatUtil.getDsLeaderSwitchedLeader(proyecto.getId(), proyecto.getNombre(), newLider.getNombre()));
+            String countryLog = lang.getString("project-leader-switch-staff").replace("%oldLider%", oldLider.getNombre()).replace("%newLider%", newLider.getNombre()).replace("%proyectoId%", proyecto.getId()).replace("%staff%", commandPlayer.getNombre());
+            DiscordLogger.countryLog(countryLog, pais);
+            return;
+        } else {
+            String countryLog = lang.getString("project-leader-switch-log").replace("%oldLider%", oldLider.getNombre()).replace("%newLider%", newLider.getNombre()).replace("%proyectoId%", proyecto.getId());
+            DiscordLogger.countryLog(countryLog, pais);
+        }
+        String memberNotification = lang.getString("project-leader-switched-member").replace("%proyectoId%", proyecto.getId()).replace("%player%", newLider.getNombre());
+        String newLiderNotification = lang.getString("project-leader-switched").replace("%proyectoId%", proyecto.getId());
+        Set<Player> members = getMembers(proyecto);
+        for (Player member : members) {
+            if (!member.equals(oldLider)) {
+                PlayerLogger.info(member, memberNotification, ChatUtil.getDsLeaderSwitchedMember(proyecto.getId(), proyecto.getNombre(), newLider.getNombre()));
+            }
+        }
+        PlayerLogger.info(newLider, newLiderNotification, ChatUtil.getDsLeaderSwitched(proyecto.getId(), proyecto.getNombre()));
     }
 
-    public void cancelRedefineRequest(Proyecto proyecto) {
-        proyecto.setEstado(Estado.ACTIVO);
+    public boolean createRedefineRequest(String proyectoId, Polygon newPolygon, UUID commandUuid, TipoProyecto tipoProyecto, Division division) {
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        Proyecto proyecto = pr.get(proyectoId);
+        Player commandPlayer = PlayerRegistry.getInstance().get(commandUuid);
+        Player lider = getLider(proyecto);
+        File contextImage = SatMapUtils.downloadRedefineContext(proyecto.getId(), proyecto.getPoligono(), newPolygon,
+            pr.getOverlapping(proyectoId, newPolygon).stream().map(Proyecto::getPoligono).collect(Collectors.toSet())
+        );
+
+        if (contextImage == null) return false;
+        
+        Pais pais = proyecto.getPais();
+        Boolean success = ProjectRequestService.sendProjectRedefineRequest(proyecto, newPolygon, tipoProyecto.getId(), division.getId(), contextImage, commandPlayer.getNombre());
+        if (!success) return false;
+        
+        String countryLog = lang.getString("project-redefine-request-log")
+            .replace("%lider%", commandPlayer.getNombre())
+            .replace("%proyectoId%", proyecto.getId())
+            .replace("%tipoId%", tipoProyecto.getId().toString())
+            .replace("%tipoNombre%", tipoProyecto.getNombre())
+            .replace("%divisionId%", division.getId().toString())
+            .replace("%divisionNombre%", division.getNombre());
+        DiscordLogger.countryLog(countryLog, pais);
+        
+        String memberNotification = lang.getString("project-redefine-request-member").replace("%proyectoId%", proyecto.getId()).replace("%player%", commandPlayer.getNombre());
+        MessageEmbed dsMemberNotification = ChatUtil.getDsProjectRedefineRequestedMember(proyecto.getId(), proyecto.getNombre(), commandPlayer.getNombre());
+        Set<Player> members = getMembers(proyecto);
+        if (!commandPlayer.equals(lider)) members.add(lider);
+        for (Player member : members) {
+            PlayerLogger.info(member, memberNotification, dsMemberNotification);
+        }
+        return true;
+    }
+
+    public void cancelRedefineRequest(Proyecto proyecto, Estado newEstado) {
+        proyecto.setEstado(newEstado);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         InteractionRegistry interactionRegistry = InteractionRegistry.getInstance();
-        Interaction interaction = interactionRegistry.findRedefineRequest(proyecto);
+        Interaction interaction = interactionRegistry.findRedefineRequest(proyecto.getId());
         interactionRegistry.unload(interaction.getId());
+        SatMapUtils.deleteRedefineImage(proyecto);
     }
 
-    public void expiredRedefineRequest(String proyectoId) {
+    public void expiredRedefineRequest(String proyectoId, Long interactionId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
-        cancelRedefineRequest(proyecto);
+        Interaction interaction = InteractionRegistry.getInstance().get(interactionId);
+        Estado previousEstado = Estado.valueOf((String) interaction.getPayloadValue("previousEstado"));
+        cancelRedefineRequest(proyecto, previousEstado);
+        String message = lang.getString("project-redefine-request-expired").replace("%proyectoId%", proyectoId);
+        MessageEmbed dsMessage = ChatUtil.getDsProjectRedefineExpired(proyecto.getId(), proyecto.getNombre());
+        Player lider = getLider(proyecto);
+        Set<Player> members = getMembers(proyecto);
+        members.add(lider);
+        for (Player member : members) PlayerLogger.info(member, message, dsMessage);
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-redefine-request-expired-log").replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
     }
 
-    public void acceptRedefineRequest(String proyectoId, Player staff) {
+    public void acceptRedefineRequest(String proyectoId, Player staff, Long interactionId, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
-        cancelRedefineRequest(proyecto);
+        InteractionRegistry ir = InteractionRegistry.getInstance();
+        Interaction interaction = ir.get(interactionId);
+        Estado previousEstado = Estado.valueOf((String) interaction.getPayloadValue("previousEstado"));
+        Long tipoId = ((Number) interaction.getPayloadValue("tipoId")).longValue();
+        Long divisionId = ((Number) interaction.getPayloadValue("divisionId")).longValue();
+        TipoProyecto tipoProyecto = TipoProyectoRegistry.getInstance().get(tipoId);
+        Division division = PaisRegistry.getInstance().findDivisionById(divisionId);
+        proyecto.setEstado(previousEstado);
+        proyecto.setPoligono(interaction.getPoligono());
+        proyecto.setTipoProyecto(tipoProyecto);
+        proyecto.setDivision(division);
+        ProyectoRegistry.getInstance().merge(proyecto.getId());
+        ir.unload(interactionId);
+        SatMapUtils.switchRedefineImage(proyecto);
+        Player lider = getLider(proyecto);
+        Set<Player> members = getMembers(proyecto);
+        members.add(lider);
         Pais pais = proyecto.getPais();
-        String countryLog = lang.getString("project-redefine-accepted-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
+
+        String countryLog = lang.getString("project-redefine-accepted-log").replace("%staff%", staff.getNombre()).replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
+
+        String message = lang.getString("project-redefine-request-accepted").replace("%proyectoId%", proyecto.getId());
+        String commentMessage = lang.getString("project-redefine-request-comment-accepted").replace("%comentario%", comentario);
+        MessageEmbed dsMessage = ChatUtil.getDsProjectRedefineAccepted(proyecto.getId(), comentario, proyecto.getNombre());
+        for (Player member : members) {
+            PlayerLogger.info(member, message, dsMessage);
+            if (comentario != null && !comentario.isBlank()) {
+                PlayerLogger.info(member, commentMessage, (String) null);
+            }
+        }
     }
 
-    public void rejectedRedefineRequest(String proyectoId, Player staff) {
-        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId); 
-        cancelRedefineRequest(proyecto);
+    public void rejectRedefineRequest(String proyectoId, Player staff, Long interactionId, String comentario) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        InteractionRegistry ir = InteractionRegistry.getInstance();
+        Interaction interaction = ir.get(interactionId);
+        Estado previousEstado = Estado.valueOf((String) interaction.getPayloadValue("previousEstado"));
+        cancelRedefineRequest(proyecto, previousEstado);
+        Player lider = getLider(proyecto);
+        Set<Player> members = getMembers(proyecto);
+        members.add(lider);
         Pais pais = proyecto.getPais();
-        String countryLog = lang.getString("project-redefine-rejected-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
+
+        String countryLog = lang.getString("project-redefine-rejected-log").replace("%staff%", staff.getNombre()).replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
+
+        String message = lang.getString("project-redefine-request-rejected").replace("%proyectoId%", proyecto.getId());
+        String commentMessage = lang.getString("project-redefine-request-comment-rejected").replace("%comentario%", comentario);
+        MessageEmbed dsMessage = ChatUtil.getDsProjectRedefineRejected(proyecto.getId(), comentario, proyecto.getNombre());
+        for (Player member : members) {
+            PlayerLogger.info(member, message, dsMessage);
+            if (comentario != null && !comentario.isBlank()) {
+                PlayerLogger.info(member, commentMessage, (String) null);
+            }
+        }
     }
 
     public void createEditRequest(Proyecto proyecto) {

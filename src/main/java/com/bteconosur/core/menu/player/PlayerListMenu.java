@@ -30,6 +30,7 @@ public class PlayerListMenu extends PaginatedMenu {
     private Map<Player, GuiItem> offlinePlayerItems = new HashMap<>();
     private Set<Player> searchPlayers;
     private Set<Player> excludedPlayers;
+    private final boolean excludePlayers;
     private final BiConsumer<Player, InventoryClickEvent> onClick;
     private final MenuUtils.PlayerContext context;
 
@@ -38,6 +39,7 @@ public class PlayerListMenu extends PaginatedMenu {
         this.onClick = onClick;
         this.excludedPlayers = excludePlayers ? players : Set.of();
         this.searchPlayers = excludePlayers ? Set.of() : players;
+        this.excludePlayers = excludePlayers;
         this.context = context;
     }
 
@@ -46,6 +48,7 @@ public class PlayerListMenu extends PaginatedMenu {
         this.onClick = onClick;
         this.excludedPlayers = excludePlayers ? players : Set.of();
         this.searchPlayers = excludePlayers ? Set.of() : players;
+        this.excludePlayers = excludePlayers;
         this.context = context;
     }
 
@@ -54,6 +57,7 @@ public class PlayerListMenu extends PaginatedMenu {
         this.onClick = onClick;
         this.excludedPlayers = excludePlayers ? players : Set.of();
         this.searchPlayers = excludePlayers ? Set.of() : players;
+        this.excludePlayers = excludePlayers;
         this.context = MenuUtils.PlayerContext.DEFAULT;
     }
 
@@ -62,13 +66,14 @@ public class PlayerListMenu extends PaginatedMenu {
         this.onClick = onClick;
         this.excludedPlayers = excludePlayers ? players : Set.of();
         this.searchPlayers = excludePlayers ? Set.of() : players;
+        this.excludePlayers = excludePlayers;
         this.context = MenuUtils.PlayerContext.DEFAULT;
     }
 //TODO: verificar con muchos jugadores;
     @Override
     protected void populateItems() {
         PlayerRegistry pr = PlayerRegistry.getInstance();
-        if (!searchPlayers.isEmpty()) {
+        if (!excludePlayers) {
             for (Player p : searchPlayers) {
                 GuiItem item = MenuUtils.getPlayerItem(p, pr.isOnline(p.getUuid()), context);
                 item.setAction(event -> onClick.accept(p, event));
