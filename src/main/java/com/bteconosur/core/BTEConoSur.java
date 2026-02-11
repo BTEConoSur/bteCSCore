@@ -259,3 +259,4 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: arreglar bores no incluidos
 // TODO: Revisar warns y errors loggers
 // TODO: Revisar segundero de comando.
+// TODO: borrar imagenes de contexto.

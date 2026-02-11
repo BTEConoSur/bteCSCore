@@ -16,11 +16,14 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.util.InteractionKey;
 import com.bteconosur.discord.action.AcceptCreateProjectAction;
+import com.bteconosur.discord.action.AcceptRedefineProjectAction;
 import com.bteconosur.discord.action.ButtonAction;
 import com.bteconosur.discord.action.CreateProjectAction;
 import com.bteconosur.discord.action.JoinProjectAction;
 import com.bteconosur.discord.action.ModalAction;
+import com.bteconosur.discord.action.RedefineProjectAction;
 import com.bteconosur.discord.action.RejectCreateProjectAction;
+import com.bteconosur.discord.action.RejectRedefineProjectAction;
 import com.bteconosur.discord.action.SelectAction;
 import com.bteconosur.discord.util.MessageService;
 
@@ -47,7 +50,9 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         registerModalAction(InteractionKey.ACCEPT_CREATE_PROJECT, new AcceptCreateProjectAction());
         registerModalAction(InteractionKey.REJECT_CREATE_PROJECT, new RejectCreateProjectAction());
         registerButtonAction(InteractionKey.JOIN_PROJECT, new JoinProjectAction());
-
+        registerButtonAction(InteractionKey.REDEFINE_PROJECT, new RedefineProjectAction());
+        registerModalAction(InteractionKey.ACCEPT_REDEFINE_PROJECT, new AcceptRedefineProjectAction());
+        registerModalAction(InteractionKey.REJECT_REDEFINE_PROJECT, new RejectRedefineProjectAction());
         try {
             int expirationMinutes = config.getInt("interaction-expiration");
             long periodTicks = 20L * 60L * expirationMinutes;
@@ -81,7 +86,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
                 if (interaction.getInteractionKey() == InteractionKey.CREATE_PROJECT) pm.expiredCreateRequest(interaction.getProjectId(), interaction.getId());
                 else if (interaction.getInteractionKey() == InteractionKey.JOIN_PROJECT) pm.expiredJoinRequest(interaction.getProjectId(), interaction.getPlayerId());
                 else if (interaction.getInteractionKey() == InteractionKey.FINISH_PROJECT) pm.expiredFinishRequest(interaction.getProjectId());
-                else if (interaction.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) pm.expiredRedefineRequest(interaction.getProjectId());
+                else if (interaction.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) pm.expiredRedefineRequest(interaction.getProjectId(), interaction.getId());
                 else if (interaction.getInteractionKey() == InteractionKey.EDIT_PROJECT) pm.expiredEditRequest(interaction.getProjectId());
                 else unload(interaction.getId()); //TODO: testear esto
             }
@@ -109,6 +114,11 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());
             Player player = ProjectManager.getInstance().getLider(proyecto);
             MessageService.deleteDMMessage(player.getDsIdUsuario(), interaction.getMessageId());
+        }
+        if (interaction.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) {
+            Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());
+            Pais pais = proyecto.getPais();
+            MessageService.deleteMessage(pais.getDsIdRequest(), interaction.getMessageId());
         }
         loadedObjects.remove(interaction.getId());
         dbManager.remove(interaction);
@@ -168,11 +178,11 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);
     }
 
-    public Interaction findRedefineRequest(Proyecto project) {
-        if (project == null) return null;
+    public Interaction findRedefineRequest(String proyectoId) {
+        if (proyectoId == null) return null;
         return findByInteractionKey(InteractionKey.REDEFINE_PROJECT)
             .stream()
-            .filter(interaction -> project.getId().equals(interaction.getProjectId()))
+            .filter(interaction -> proyectoId.equals(interaction.getProjectId()))
             .findFirst()
             .orElse(null);  
     }

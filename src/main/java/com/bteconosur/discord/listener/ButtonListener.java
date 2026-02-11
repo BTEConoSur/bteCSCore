@@ -39,6 +39,8 @@ public class ButtonListener extends ListenerAdapter {
         if (ctx.isExpired()) {
             ConsoleLogger.debug("Interacción de botón expirada: " + buttonId + ", " + ctx.getInteractionKey());
             if (ctx.getInteractionKey() == InteractionKey.CREATE_PROJECT) ProjectManager.getInstance().expiredCreateRequest(ctx.getProjectId(), ctx.getId());
+            if (ctx.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) ProjectManager.getInstance().expiredRedefineRequest(ctx.getProjectId(), ctx.getId());
+            if (ctx.getInteractionKey() == InteractionKey.JOIN_PROJECT) ProjectManager.getInstance().expiredJoinRequest(messageId, ctx.getPlayerId());
             event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
             return;
         }

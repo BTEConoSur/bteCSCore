@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.Instant;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.ProjectManager;
@@ -18,6 +19,8 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.InteractionRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.util.Estado;
 import com.bteconosur.db.util.InteractionKey;
 
 import net.dv8tion.jda.api.components.actionrow.ActionRow;
@@ -75,6 +78,56 @@ public class ProjectRequestService {
                 error.printStackTrace();
             });
         
+        return true;
+    }
+
+    @SuppressWarnings("null")
+    public static boolean sendProjectRedefineRequest(Proyecto proyecto, Polygon newPolygon, Long tipoProyectoId, Long divisionId, File mapImage, String commandName) {
+        MessageEmbed embed = ChatUtil.getDsProjectRedefineRequested(proyecto, commandName, newPolygon);
+        Pais pais = proyecto.getPais();
+        TextChannel channel = MessageService.getTextChannelById(pais.getDsIdRequest());
+        if (channel == null) {
+            ConsoleLogger.error("Canal de Discord no encontrado para país: " + pais.getNombre());
+            return false;
+        }
+        
+        if (mapImage == null || !mapImage.exists()) {
+            ConsoleLogger.error("Imagen del mapa no disponible, no se puede enviar proyecto a Discord");
+            return false;
+        }
+                
+        channel.sendMessageEmbeds(embed)
+            .addFiles(FileUpload.fromData(mapImage, "map.png"))
+            .addComponents(
+                ActionRow.of(
+                    Button.success("accept", "Aceptar"),
+                    Button.danger("cancel", "Rechazar")
+                )
+            )
+            .queue(message -> {
+                String dsNotification = lang.getString("ds-reviewer-notification-redefine-project").replace("%link%", message.getJumpUrl()).replace("%pais%", pais.getNombrePublico());
+                TagResolver tagResolver = PlaceholderUtil.getLinkText("link", message.getJumpUrl(), "Ver solicitud");
+                String mcNotification = lang.getString("reviewer-notification-redefine-project").replace("%pais%", pais.getNombrePublico());
+                DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
+                
+                Interaction ctx = new Interaction(
+                    proyecto.getId(),
+                    InteractionKey.REDEFINE_PROJECT,
+                    Instant.now(),
+                    Instant.now().plusSeconds(config.getLong("interaction-expirations.redefine-project") * 60)
+                );        
+                ctx.setPoligono(newPolygon);
+                ctx.setMessageId(message.getIdLong());
+                ctx.addPayloadValue("tipoId", tipoProyectoId);
+                ctx.addPayloadValue("divisionId", divisionId);
+                ctx.addPayloadValue("previousEstado", proyecto.getEstado().name());
+                InteractionRegistry.getInstance().load(ctx);
+                proyecto.setEstado(Estado.REDEFINIENDO);
+                ProyectoRegistry.getInstance().merge(proyecto.getId());
+            }, error -> {
+                ConsoleLogger.error("Error al enviar proyecto a Discord: " + error.getMessage());
+                error.printStackTrace();
+            });
         return true;
     }
 

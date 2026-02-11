@@ -110,7 +110,7 @@ public class WorldManager {
             return true;
         }
 
-        ConsoleLogger.debug("[WorldManager] canBuild false: No permitido en " + lw.getName());
+        //ConsoleLogger.debug("[WorldManager] canBuild false: No permitido en " + lw.getName());
         return false;
     }
 

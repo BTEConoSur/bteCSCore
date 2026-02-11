@@ -52,7 +52,7 @@ public class ProjectRemoveMemberCommand extends BaseCommand {
         }
 
         if (targetProyecto.getEstado() != Estado.ACTIVO && targetProyecto.getEstado() != Estado.EDITANDO) {
-            String message = lang.getString("not-a-active-editing-projec").replace("%proyectoId%", proyectoId);
+            String message = lang.getString("not-a-active-editing-project").replace("%proyectoId%", proyectoId);
             PlayerLogger.error(commandPlayer, message, (String) null);   
             return true;
         }
