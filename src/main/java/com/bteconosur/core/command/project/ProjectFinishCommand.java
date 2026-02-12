@@ -64,18 +64,36 @@ public class ProjectFinishCommand extends BaseCommand {
                     PlayerLogger.warn(commandPlayer, lang.getString("not-a-leader-here"), (String) null);
                     return true;
             }
-            Set<Proyecto> activeProyectos = ProyectoRegistry.getInstance().getActive(liderProyectos);
+            Set<Proyecto> activeProyectos = ProyectoRegistry.getInstance().getActiveOrEditando(liderProyectos);
             if (activeProyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, lang.getString("no-project-active-here"), (String) null);
+                PlayerLogger.warn(commandPlayer, lang.getString("no-project-active-editing-here"), (String) null);
                 return true;
             }
             if (activeProyectos.size() > 1) {
                 projectListMenu = new ProjectListMenu(commandPlayer, lang.getString("gui-titles.proyectos-activos-list"), activeProyectos, (proyecto, event) -> {
                     String proyectoIdFinal = proyecto.getId();
                     confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-confirm").replace("%proyectoId%", proyectoIdFinal), bukkitPlayer, projectListMenu, confirmClick -> {
-                            ProjectManager.getInstance().createFinishRequest(proyectoIdFinal, commandPlayer.getUuid());
-                            PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);
-                            confirmationMenu.getGui().close(bukkitPlayer);
+                            confirmClick.getWhoClicked().closeInventory();
+                            if (proyecto.getEstado() == Estado.EN_FINALIZACION) {
+                                PlayerLogger.warn(commandPlayer, lang.getString("project-finish-request-already").replace("%proyectoId%", proyecto.getId()), (String) null);
+                                return;
+                            }
+                            if (proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+                                PlayerLogger.warn(commandPlayer, lang.getString("project-finish-edit-request-already").replace("%proyectoId%", proyecto.getId()), (String) null);
+                                return;
+                            }
+                            
+                            if (proyecto.getEstado() != Estado.ACTIVO && proyecto.getEstado() != Estado.EDITANDO) {
+                                PlayerLogger.error(commandPlayer, lang.getString("no-project-active-editing-here").replace("%proyectoId%", proyecto.getId()), (String) null);   
+                                return;
+                            }
+                            if (proyecto.getEstado() == Estado.EDITANDO) {
+                                ProjectManager.getInstance().createFinishEditRequest(proyectoIdFinal, commandPlayer.getUuid());
+                                PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-edit-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);
+                            } else {
+                                ProjectManager.getInstance().createFinishRequest(proyectoIdFinal, commandPlayer.getUuid());
+                                PlayerLogger.info(commandPlayer, lang.getString("project-finish-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);
+                            }
                         });
                     confirmationMenu.open();
                 });
@@ -84,18 +102,33 @@ public class ProjectFinishCommand extends BaseCommand {
             }
             proyectoFinal = activeProyectos.iterator().next();
         }
-        if (proyectoFinal.getEstado() != Estado.ACTIVO) {
-            PlayerLogger.error(commandPlayer, lang.getString("not-a-active-project").replace("%proyectoId%", proyectoFinal.getId()), (String) null);   
+        if (proyectoFinal.getEstado() == Estado.EN_FINALIZACION) {
+            PlayerLogger.warn(commandPlayer, lang.getString("project-finish-request-already").replace("%proyectoId%", proyectoFinal.getId()), (String) null);
+            return true;
+        }
+        if (proyectoFinal.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+            PlayerLogger.warn(commandPlayer, lang.getString("project-finish-edit-request-already").replace("%proyectoId%", proyectoFinal.getId()), (String) null);
+            return true;
+        }
+
+        if (proyectoFinal.getEstado() != Estado.ACTIVO && proyectoFinal.getEstado() != Estado.EDITANDO) {
+            PlayerLogger.error(commandPlayer, lang.getString("no-project-active-editing-here").replace("%proyectoId%", proyectoFinal.getId()), (String) null);   
             return true;
         }
 
         final String proyectoIdFinal = proyectoFinal.getId();
+        final Estado estadoFinal = proyectoFinal.getEstado();
         confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-confirm").replace("%proyectoId%", proyectoIdFinal), bukkitPlayer, confirmClick -> {
-                ProjectManager.getInstance().createFinishRequest(proyectoIdFinal, commandPlayer.getUuid());
-                PlayerLogger.info(commandPlayer, lang.getString("project-finish-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);
-                confirmationMenu.getGui().close(bukkitPlayer);
+                confirmClick.getWhoClicked().closeInventory();
+                if (estadoFinal == Estado.EDITANDO) {
+                    ProjectManager.getInstance().createFinishEditRequest(proyectoIdFinal, commandPlayer.getUuid());
+                    PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-edit-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);
+                } else {
+                    ProjectManager.getInstance().createFinishRequest(proyectoIdFinal, commandPlayer.getUuid());
+                    PlayerLogger.info(commandPlayer, lang.getString("project-finish-request-success").replace("%proyectoId%", proyectoIdFinal), (String) null);
+                }
             }, (cancelClick -> {    
-                confirmationMenu.getGui().close(bukkitPlayer);
+                cancelClick.getWhoClicked().closeInventory();
         }));
         confirmationMenu.open();
         return true;

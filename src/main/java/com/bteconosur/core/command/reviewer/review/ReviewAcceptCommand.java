@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.project.ProjectFinishReviewMenu;
 import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
@@ -21,11 +22,13 @@ import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
+import com.bteconosur.db.util.Estado;
 
 public class ReviewAcceptCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private ProjectFinishReviewMenu confirmationMenu;
+    private ConfirmationMenu confirmationEditMenu;
     private ProjectListMenu projectListMenu;
 
     public ReviewAcceptCommand() {
@@ -81,6 +84,15 @@ public class ReviewAcceptCommand extends BaseCommand {
         if (finishingProyectos.size() > 1) {
             projectListMenu = new ProjectListMenu(commandPlayer, lang.getString("gui-titles.proyectos-activos-list"), finishingProyectos, (proyecto, event) -> {
                 String proyectoIdFinal = proyecto.getId();
+                if (proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+                    confirmationEditMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-edit-project-accept").replace("%proyectoId%", proyecto.getId()), bukkitPlayer, projectListMenu, confirmClick -> {
+                            confirmClick.getWhoClicked().closeInventory();
+                            ProjectManager.getInstance().acceptEditRequest(proyectoIdFinal, commandPlayer, comentarioFinal);
+                            PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-edit-staff-accepted").replace("%proyectoId%", proyecto.getId()), (String) null);
+                        });
+                    confirmationEditMenu.open();
+                    return;
+                }
                 Boolean hasPostulantes = false;
                 Player lider = pm.getLider(proyecto);
                 Set<Player> miembros = pm.getMembers(proyecto);
@@ -104,6 +116,17 @@ public class ReviewAcceptCommand extends BaseCommand {
         String proyectoId = proyecto.getId();
         Player lider = pm.getLider(proyecto);
 
+        if (proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+            confirmationEditMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-edit-project-accept").replace("%proyectoId%", proyecto.getId()), bukkitPlayer, confirmClick -> {
+                    confirmClick.getWhoClicked().closeInventory();
+                    ProjectManager.getInstance().acceptEditRequest(proyectoId, commandPlayer, comentarioFinal);
+                    PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-edit-staff-accepted").replace("%proyectoId%", proyecto.getId()), (String) null);
+                }, (cancelClick -> {    
+                    cancelClick.getWhoClicked().closeInventory();
+            }));
+            confirmationEditMenu.open();
+            return true;
+        }
         confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyectoId, lang.getString("gui-titles.finish-project-accept").replace("%proyectoId%", proyectoId), comentarioFinal, postulante.equals(lider.getTipoUsuario()));
         confirmationMenu.open();
 

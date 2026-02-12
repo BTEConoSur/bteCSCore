@@ -25,6 +25,7 @@ public class ManagerCommand extends BaseCommand {
         this.addSubcommand(new ManagerRedefineCommand());
         this.addSubcommand(new ManagerAddMemberCommand());
         this.addSubcommand(new ManagerTransferCommand());
+        this.addSubcommand(new ManagerEditCommand());
         this.addSubcommand(new ManagerRemoveMemberCommand());
         this.addSubcommand(new ManagerRemoveLeaderCommand());
         this.addSubcommand(new ManagerAcceptCommand());

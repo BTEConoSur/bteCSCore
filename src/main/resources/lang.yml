@@ -81,6 +81,7 @@ ds-project-redefine-rejected: "Redefinición de proyecto rechazada."
 ds-reviewer-notification-new-project: "Nueva solicitud de creación de proyecto de %pais%. [Ver solicitud](%link%)" # %pais% -> Nombre del país. %link% -> Enlace a la solicitud de proyecto.
 ds-reviewer-notification-redefine-project: "Nueva solicitud de redefinición de proyecto de %pais%. [Ver solicitud](%link%)" # %pais% -> Nombre del país. %link% -> Enlace a la solicitud de redefinición de proyecto.
 ds-reviewer-notification-finish-project: "Nueva solicitud de finalización de proyecto de %pais%. ID: `%id%`. Coordenadas: `%coords%`" # %pais% -> Nombre del país. %id% -> Id del proyecto. %coords% -> Coordenadas del proyecto.
+ds-reviewer-notification-finish-edit-project: "Nueva solicitud de finalización de edición de proyecto de %pais%. ID: `%id%`. Coordenadas: `%coords%`" # %pais% -> Nombre del país. %id% -> Id del proyecto. %coords% -> Coordenadas del proyecto.
 
 ds-join-accepted: "Solicitud de unión aceptada."
 ds-join-rejected: "Solicitud de unión rechazada."
@@ -220,6 +221,19 @@ project-redefine-request-comment-accepted: "<green>Comentario: <gray>\"<white>%c
 project-redefine-request-rejected: "<red>La redefinición del Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido denegada." # %proyectoId% -> Identificador del proyecto.
 project-redefine-request-comment-rejected: "<red>Comentario: <gray>\"<white>%comentario%\"</gray>" # %comentario% -> Comentario del staff.
 
+project-edit-success: "<green>La edición del proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido activada. Ahora podés volver a construir." # %proyectoId% -> Identificador del proyecto.
+project-edit-active-member: "%player% ha activado el proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés. Ahora podés volver a construir." # %proyectoId% -> Identificador del proyecto. %player% -> Nombre del líder.
+project-finish-edit-request-success: "<green>La edición del proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido marcada como finalizada. Felicitaciones por tu gran trabajo!" # %proyectoId% -> Identificador del proyecto.
+project-finish-edit-request-already: "Ya has marcado la edición del proyecto de ID <yellow>'%proyectoId%'</yellow> como finalizada. Espera a que un Reviewer revise tu solicitud." # %proyectoId% -> Identificador del proyecto.
+project-finish-edit-request-member: "%player% ha marcado la edición del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés como finalizada. Felicitaciones por tu gran trabajo!" # %proyectoId% -> Identificador del proyecto. %player% -> Nombre del líder.
+project-finish-edit-request-expired: "La solicitud de finalización de edición del proyecto de ID <yellow>'%proyectoId%'</yellow> ha expirado." # %proyectoId% -> Identificador del proyecto.
+project-finish-edit-accepted: "<green>La finalización de edición del Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido aceptada." # %proyectoId% -> Identificador del proyecto.
+project-finish-edit-comment-accepted: "<green>Comentario: <gray>\"<white>%comentario%\"</gray>" # %comentario% -> Comentario del staff.
+project-finish-edit-rejected: "<red>La finalización de edición del Proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido denegada." # %proyectoId% -> Identificador del proyecto.
+project-finish-edit-comment-rejected: "<red>Comentario: <gray>\"<white>%comentario%\"</gray>" # %comentario% -> Comentario del staff.
+project-finish-edit-staff-accepted: "Has aceptado la finalización de edición del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
+project-finish-edit-staff-rejected: "Has rechazado la finalización de edición del proyecto de ID <yellow>'%proyectoId%'</yellow>." # %proyectoId% -> Identificador del proyecto.
+
 project-add-member-success: "<green>El jugador <yellow>'%player%'</yellow> ha sido agregado al proyecto <yellow>'%proyectoId%'</yellow> correctamente." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 project-already-member: "El jugador <yellow>'%player%'</yellow> ya es miembro o lider del proyecto <yellow>'%proyectoId%'</yellow>." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
 project-remove-member-success: "<green>El jugador <yellow>'%player%'</yellow> ha sido removido del proyecto <yellow>'%proyectoId%'</yellow> correctamente." # %player% -> Nombre del jugador. %proyectoId% -> Identificador del proyecto.
@@ -264,9 +278,11 @@ not-a-member-here: "No eres Miembro o Líder de ningún proyecto en esta ubicaci
 not-a-leader-active-projects: "No eres Líder de ningún proyecto activo en esta ubicación."
 not-a-active-project: "El proyecto '%proyectoId%' no está activo." # %proyectoId% -> Identificador del proyecto.
 not-a-active-editing-project: "El proyecto '%proyectoId%' no está activo o en edición." # %proyectoId% -> Identificador del proyecto.
+not-a-completed-project: "El proyecto '%proyectoId%' no está completado." # %proyectoId% -> Identificador del proyecto.
 no-project-finishing-here: "No hay ningún proyecto en finalización en esta ubicación." 
 no-project-active-here: "No hay ningún proyecto activo en esta ubicación."
 no-project-active-editing-here: "No hay ningún proyecto activo o en edición en esta ubicación."
+no-project-completed-here: "No hay ningún proyecto completado en esta ubicación."
 max-members-reached: "El proyecto de ID <yellow>'%proyectoId%'</yellow> ha alcanzado el máximo de miembros permitidos. (Max. <yellow>%max%</yellow>, Tiene <yellow>%current%</yellow>)" # %proyectoId% -> Identificador del proyecto. %max% -> Máximo de miembros permitidos. %current% -> Cantidad actual de miembros.
 postulante-cant-add-member: "Los usuarios con rango Postulante solo pueden agregar %max% miembro a sus proyectos." # %max% -> Máximo de miembros permitidos.
 cant-add-postulante: "No puedes agregar un usuario con rango Postulante a un proyecto."
@@ -280,7 +296,9 @@ where-no-pais: "No estás dentro de ningún país."
 reviewer-notification-new-project: "Nueva solicitud de creación de proyecto de <yellow>'%pais%'</yellow>. <gray><link>" # %pais% -> Nombre del país. <link> -> Enlace a la solicitud de proyecto.
 reviewer-notification-redefine-project: "Nueva solicitud de redefinición de proyecto de <yellow>'%pais%'</yellow>. <gray><link>" # %pais% -> Nombre del país. <link> -> Enlace a la solicitud de redefinición de proyecto.
 reviewer-notification-finish-project: "Nueva solicitud de finalización de proyecto de <yellow>'%pais%'</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>" # %pais% -> Nombre del país. <id> -> Id copiable del proyecto. <coords> -> Coordenadas copiables del proyecto.
+reviewer-notification-finish-edit-project: "Nueva solicitud de finalización de edición de proyecto de <yellow>'%pais%'</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>" # %pais% -> Nombre del país. <id> -> Id copiable del proyecto. <coords> -> Coordenadas copiables del proyecto.
 member-notification-finish-project: "%requester% ha solicitado finalizar el proyecto de ID <yellow>%proyectoId%</yellow> al que pertenecés." # %player% -> Nombre del lider. %proyectoId% -> Id del proyecto. %pais% -> Nombre del país.
+
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
 # En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
@@ -298,9 +316,13 @@ gui-titles:
   unlink-confirm: "Confirmar desvinculación"
   finish-project-confirm: "Confirmar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   redefine-project-confirm: "Confirmar redefinición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  edit-project-confirm: "Confirmar edición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-reject: "Rechazar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-accept: "Aceptar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  finish-edit-project-reject: "Rechazar edición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  finish-edit-project-accept: "Aceptar edición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   proyectos-activos-list: "Proyectos en esta ubicación"
+  proyectos-completados-list: "Proyectos en esta ubicación"
   proyectos-here-list: "Proyectos en esta ubicación"
   proyectos-search: "Buscar Proyectos"
   select-member: "Seleccionar Miembro: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
@@ -389,6 +411,7 @@ items:
       - "<gray>Finalización: <white>%fechaFinalizacion%" # %fechaFinalizacion% -> Fecha de finalización del proyecto.
     estado:
       en-finalizacion: "<yellow>En Finalización"
+      en-finalizacion-edit: "<light_purple>En Finalización de Edición"
       completado: "<green>Completado"
       activo: "<aqua>Activo"
       en-creacion: "<blue>En Creación"
@@ -795,6 +818,33 @@ ds-embeds:
     nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
     comment: "Comentario: %comentario%" # %comentario% -> Comentario del staff.
     color: 0x43B581
+  project-edit-active-member:
+    title: "%player% ha activado la edición de un proyecto al que pertenecés." # %player% -> Nombre del jugador.
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0x00b0f4
+  project-finish-edit-requested:
+    title: "%player% ha solicitado finalizar la edición de un proyecto al que pertenecés." # %player% -> Nombre del jugador.  
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0x00b0f4
+  project-finish-edit-expired:
+    title: "La solicitud de finalización de edición de proyecto ha expirado."
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0xED4245
+  project-finish-edit-rejected:
+    title: "Finalización de edición de proyecto rechazada"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    comment: "Comentario: %comentario%" # %comentario% -> Comentario del staff.
+    color: 0xED4245
+  project-finish-edit-accepted:
+    title: "Finalización de edición de proyecto aceptada"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    comment: "Comentario: %comentario%" # %comentario% -> Comentario del staff.
+    color: 0x43B581
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
@@ -864,10 +914,11 @@ project-redefine-request-expired-log: "❌ | La solicitud de redefinición del p
 project-redefine-accepted-log: "✅ | **%staff%** ha aceptado la redefinición del proyecto `%proyectoId%` de **%lider%**."
 project-redefine-rejected-log: "❌ | **%staff%** ha denegado la redefinición del proyecto `%proyectoId%` de **%lider%**.."
 
-project-edit-request-log: "✏️ | **%lider%** ha solicitado editar el proyecto `%proyectoId%`."
-project-edit-request-expired-log: "❌ | La solicitud de edición del proyecto `%proyectoId%` ha expirado."  
-project-edit-accepted-log: "✅ | **%staff%** ha aceptado la edición del proyecto `%proyectoId%`."
-project-edit-rejected-log: "❌ | **%staff%** ha denegado la edición del proyecto `%proyectoId%`." 
+project-edit-active-log: "✏️ | %lider% ha activado la edición del proyecto `%proyectoId%`."
+project-finish-edit-request-log: "✏️ | **%lider%** ha solicitado terminar la edición del proyecto `%proyectoId%`."
+project-finish-edit-request-expired-log: "❌ | La solicitud de finalización de la edición del proyecto `%proyectoId%` ha expirado."  
+project-finish-edit-accepted-log: "✅ | **%staff%** ha aceptado la finalización de la edición del proyecto `%proyectoId%`."
+project-finish-edit-rejected-log: "❌ | **%staff%** ha denegado la finalización de la edición del proyecto `%proyectoId%`." 
 
 
 project-leader-switch-log: "🔄 | **%oldLider%** ha sido reemplazado por **%newLider%** como líder del proyecto `%proyectoId%`."

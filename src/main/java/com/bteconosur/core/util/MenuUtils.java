@@ -344,6 +344,9 @@ public class MenuUtils {
             case EN_FINALIZACION:
                 estado = lang.getString("items.proyecto.estado.en-finalizacion");
                 break;
+            case EN_FINALIZACION_EDICION:
+                estado = lang.getString("items.proyecto.estado.en-finalizacion-edit");
+                break;
             case COMPLETADO:
                 estado = lang.getString("items.proyecto.estado.completado");
                 break;

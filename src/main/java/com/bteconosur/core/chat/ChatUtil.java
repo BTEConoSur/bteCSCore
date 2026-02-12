@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.checkerframework.checker.units.qual.t;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
@@ -472,6 +471,50 @@ public class ChatUtil {
         if (comentario != null && !comentario.isBlank()) description = description
             + "\n" + lang.getString("ds-embeds.project-redefine-rejected.comment").replace("%comentario%", comentario);
         return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-redefine-rejected.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectEditActiveMember(String proyectoId, String proyectoNombre, String playerNombre) {
+        String title = lang.getString("ds-embeds.project-edit-active-member.title").replace("%player%", playerNombre);
+        String description = lang.getString("ds-embeds.project-edit-active-member.id").replace("%proyectoId%", proyectoId);
+        if (proyectoNombre != null && !proyectoNombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-edit-active-member.nombre").replace("%nombre%", proyectoNombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-edit-active-member.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishEditRequested(String proyectoId, String proyectoNombre, String playerNombre) {
+        String title = lang.getString("ds-embeds.project-finish-edit-requested.title").replace("%player%", playerNombre);
+        String description = lang.getString("ds-embeds.project-finish-edit-requested.id").replace("%proyectoId%", proyectoId);
+        if (proyectoNombre != null && !proyectoNombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-edit-requested.nombre").replace("%nombre%", proyectoNombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-edit-requested.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishEditRequestExpired(String proyectoId, String nombre) {
+        String title = lang.getString("ds-embeds.project-finish-edit-expired.title");
+        String description = lang.getString("ds-embeds.project-finish-edit-expired.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-edit-expired.nombre").replace("%nombre%", nombre);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-edit-expired.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishEditAccepted(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-finish-edit-accepted.title");
+        String description = lang.getString("ds-embeds.project-finish-edit-accepted.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-edit-accepted.nombre").replace("%nombre%", nombre);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-edit-accepted.comment").replace("%comentario%", comentario);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-edit-accepted.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectFinishEditRejected(String proyectoId, String comentario, String nombre) {
+        String title = lang.getString("ds-embeds.project-finish-edit-rejected.title");
+        String description = lang.getString("ds-embeds.project-finish-edit-rejected.id").replace("%proyectoId%", proyectoId);
+        if (nombre != null && !nombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-edit-rejected.nombre").replace("%nombre%", nombre);
+        if (comentario != null && !comentario.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-finish-edit-rejected.comment").replace("%comentario%", comentario);
+        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-edit-rejected.color")).build();
     }
 
     @SuppressWarnings("null")

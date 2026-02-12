@@ -6,6 +6,7 @@ interaction-expiration: 15 # Cada cuantos minutos se revisa las interacciones ex
 interaction-expirations:
   join-project: 1440 # Expiración de solicitudes de unión a proyectos (en minutos). 1440 = 1 día.
   finish-project: 1440 # Expiración de solicitudes de finalización de proyectos (en minutos). 1440 = 1 día.
+  finish-edit-project: 1440 # Expiración de solicitudes de finalización de edición de proyectos (en minutos). 1440 = 1 día.
   redefine-project: 1440 # Expiración de solicitudes de redefinición de proyectos (en minutos). 1440 = 1 día.
   edit-project: 1440 # Expiración de solicitudes de edición de proyectos (en minutos). 1440 = 1 día.
   create-project: 10080 # Expiración de solicitudes de creación de proyectos (en minutos). 10080 = 7 días.

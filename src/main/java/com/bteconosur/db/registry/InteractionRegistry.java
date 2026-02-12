@@ -87,7 +87,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
                 else if (interaction.getInteractionKey() == InteractionKey.JOIN_PROJECT) pm.expiredJoinRequest(interaction.getProjectId(), interaction.getPlayerId());
                 else if (interaction.getInteractionKey() == InteractionKey.FINISH_PROJECT) pm.expiredFinishRequest(interaction.getProjectId());
                 else if (interaction.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) pm.expiredRedefineRequest(interaction.getProjectId(), interaction.getId());
-                else if (interaction.getInteractionKey() == InteractionKey.EDIT_PROJECT) pm.expiredEditRequest(interaction.getProjectId());
+                else if (interaction.getInteractionKey() == InteractionKey.FINISH_EDIT_PROJECT) pm.expiredFinishEditRequest(interaction.getProjectId());
                 else unload(interaction.getId()); //TODO: testear esto
             }
         }
@@ -169,11 +169,11 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);
     }
 
-    public Interaction findFinishRequest(Proyecto project) {
-        if (project == null) return null;
+    public Interaction findFinishRequest(String proyectoId) {
+        if (proyectoId == null) return null;
         return findByInteractionKey(InteractionKey.FINISH_PROJECT)
             .stream()
-            .filter(interaction -> project.getId().equals(interaction.getProjectId()))
+            .filter(interaction -> proyectoId.equals(interaction.getProjectId()))
             .findFirst()
             .orElse(null);
     }
@@ -187,11 +187,11 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);  
     }
 
-    public Interaction findEditRequest(Proyecto project) {
-        if (project == null) return null;
-        return findByInteractionKey(InteractionKey.EDIT_PROJECT)
+    public Interaction findFinishEditRequest(String proyectoId) {
+        if (proyectoId == null) return null;
+        return findByInteractionKey(InteractionKey.FINISH_EDIT_PROJECT)
             .stream()
-            .filter(interaction -> project.getId().equals(interaction.getProjectId()))
+            .filter(interaction -> proyectoId.equals(interaction.getProjectId()))
             .findFirst()
             .orElse(null);
     }

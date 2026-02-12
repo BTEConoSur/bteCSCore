@@ -19,11 +19,13 @@ import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.util.Estado;
 
 public class ReviewRejectCommand extends BaseCommand {
 
     private final YamlConfiguration lang;
     private ConfirmationMenu confirmationMenu;
+    private ConfirmationMenu confirmationEditMenu;
     private ProjectListMenu projectListMenu;
 
     public ReviewRejectCommand() {
@@ -77,6 +79,17 @@ public class ReviewRejectCommand extends BaseCommand {
         if (finishingProyectos.size() > 1) {
             projectListMenu = new ProjectListMenu(commandPlayer, lang.getString("gui-titles.proyectos-activos-list"), finishingProyectos, (proyecto, event) -> {
                 String proyectoIdFinal = proyecto.getId();
+                if (proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+                    confirmationEditMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-edit-project-reject").replace("%proyectoId%", proyecto.getId()), bukkitPlayer, confirmClick -> {
+                            confirmClick.getWhoClicked().closeInventory();
+                            ProjectManager.getInstance().rejectedEditRequest(proyecto.getId(), commandPlayer, finalComentario);
+                            PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-edit-staff-rejected").replace("%proyectoId%", proyecto.getId()), (String) null);
+                        }, (cancelClick -> {    
+                            cancelClick.getWhoClicked().closeInventory();
+                    }));
+                    confirmationEditMenu.open();
+                    return;
+                }
                 confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-reject").replace("%proyectoId%", proyectoIdFinal), bukkitPlayer, projectListMenu, confirmClick -> {
                     pm.rejectFinishRequest(proyectoIdFinal, commandPlayer, finalComentario);
                     PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-staff-rejected").replace("%proyectoId%", proyectoIdFinal), (String) null);
@@ -88,11 +101,21 @@ public class ReviewRejectCommand extends BaseCommand {
             PlayerLogger.warn(bukkitPlayer, "Se han encontrado múltiples proyectos aquí. Por favor, especifica el ID del proyecto.", (String) null);
             return true;
         }
-        String proyectoId = finishingProyectos.iterator().next().getId();
-        
-        confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-reject").replace("%proyectoId%", proyectoId), bukkitPlayer, confirmClick -> {
-                pm.rejectFinishRequest(proyectoId, commandPlayer, finalComentario);
-                PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-staff-rejected").replace("%proyectoId%", proyectoId), (String) null);
+        Proyecto proyecto = finishingProyectos.iterator().next();
+        if (proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+            confirmationEditMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-edit-project-reject").replace("%proyectoId%", proyecto.getId()), bukkitPlayer, confirmClick -> {
+                    confirmClick.getWhoClicked().closeInventory();
+                    ProjectManager.getInstance().rejectedEditRequest(proyecto.getId(), commandPlayer, finalComentario);
+                    PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-edit-staff-rejected").replace("%proyectoId%", proyecto.getId()), (String) null);
+                }, (cancelClick -> {    
+                    cancelClick.getWhoClicked().closeInventory();
+            }));
+            confirmationEditMenu.open();
+            return true;
+        }
+        confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-project-reject").replace("%proyectoId%", proyecto.getId()), bukkitPlayer, confirmClick -> {
+                pm.rejectFinishRequest(proyecto.getId(), commandPlayer, finalComentario);
+                PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-staff-rejected").replace("%proyectoId%", proyecto.getId()), (String) null);
                 confirmationMenu.getGui().close(bukkitPlayer);
             }, (cancelClick -> {    
                 confirmationMenu.getGui().close(bukkitPlayer);

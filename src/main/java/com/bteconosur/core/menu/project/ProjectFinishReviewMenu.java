@@ -52,7 +52,7 @@ public class ProjectFinishReviewMenu extends Menu {
 
         gui.setItem(0, MenuUtils.getCancelItem());
         gui.addSlotAction(0, event -> {
-            getGui().close(player.getBukkitPlayer());
+            previousMenu.open();
         });
 
         if (liderPostulante) {

@@ -159,7 +159,17 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     public Set<Proyecto> getFinishing(Set<Proyecto> search) {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
-            if (proyecto.getEstado() == Estado.EN_FINALIZACION) {
+            if (proyecto.getEstado() == Estado.EN_FINALIZACION || proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    public Set<Proyecto> getCompleted(Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            if (proyecto.getEstado() == Estado.COMPLETADO) {
                 proyectos.add(proyecto);
             }
         }
