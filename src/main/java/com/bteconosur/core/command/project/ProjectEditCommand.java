@@ -5,7 +5,6 @@ import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
@@ -14,16 +13,11 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
-import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.PermissionManager;
-import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
-import com.bteconosur.db.model.TipoProyecto;
-import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
-import com.bteconosur.db.registry.TipoProyectoRegistry;
 import com.bteconosur.db.util.Estado;
 import com.bteconosur.discord.util.LinkService;
 
@@ -51,23 +45,6 @@ public class ProjectEditCommand extends BaseCommand {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         if (!LinkService.isPlayerLinked(commandPlayer)) {
             PlayerLogger.warn(commandPlayer, lang.getString("minecraft-link-recomendation"), (String) null);
-        }
-
-        Polygon regionPolygon = RegionUtils.getPolygon(sender);
-        if (regionPolygon == null) return true;
-
-        Double tamaño = regionPolygon.getArea();
-        TipoProyecto tipoProyecto = TipoProyectoRegistry.getInstance().get(tamaño);
-        if (tipoProyecto == null) {
-            PlayerLogger.error(bukkitPlayer, lang.getString("invalid-project-size"), (String) null);
-            return true;
-        }
-
-        PaisRegistry paisr = PaisRegistry.getInstance();
-        Division division = paisr.findDivisionByPolygon(regionPolygon, paisr.findByPolygon(regionPolygon));
-        if (division == null) {
-            PlayerLogger.error(bukkitPlayer, lang.getString("invalid-project-location"), (String) null);
-            return true;
         }
 
         ProyectoRegistry pr = ProyectoRegistry.getInstance(); 

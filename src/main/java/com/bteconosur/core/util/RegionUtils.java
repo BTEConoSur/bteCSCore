@@ -126,7 +126,7 @@ public class RegionUtils {
 
     public static boolean containsCoordinate(Polygon poly, double x, double z) {
         if (poly == null || poly.isEmpty()) return false;
-        return poly.contains(gf.createPoint(new Coordinate(x, z)));
+        return poly.covers(gf.createPoint(new Coordinate(x, z)));
     }
 
     public static void spawnBorderParticles(Player player, Polygon poly, String particleName) {
