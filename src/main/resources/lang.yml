@@ -267,6 +267,9 @@ leader-notificaction-member-join: "El jugador <yellow>'%player%'</yellow> ha sol
 project-join-accepted: "<green>Tu solicitud para unirte al proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido aceptada." # %proyectoId% -> Identificador del proyecto.
 project-join-rejected: "<red>Tu solicitud para unirte al proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido rechazada." # %proyectoId% -> Identificador del proyecto.
 
+project-deleted-member: "El proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecías ha sido eliminado." # %proyectoId% -> Identificador del proyecto.
+project-delete-request-success: "<green>Has eliminado el proyecto de ID <yellow>'%proyectoId%'</yellow> correctamente." # %proyectoId% -> Identificador del proyecto.
+
 no-project-found-here: "No se encontró ningún proyecto en esta ubicación."
 
 no-project-found-with-id: "No se encontró ningún proyecto con ID <yellow>'%proyectoId%'</yellow>."
@@ -317,6 +320,7 @@ gui-titles:
   finish-project-confirm: "Confirmar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   redefine-project-confirm: "Confirmar redefinición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   edit-project-confirm: "Confirmar edición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  delete-project-confirm: "Confirmar eliminación: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-reject: "Rechazar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-accept: "Aceptar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-edit-project-reject: "Rechazar edición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
@@ -845,6 +849,11 @@ ds-embeds:
     nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
     comment: "Comentario: %comentario%" # %comentario% -> Comentario del staff.
     color: 0x43B581
+  project-deleted:
+    title: "Proyecto eliminado por un Manager"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
+    color: 0xED4245 
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
@@ -890,6 +899,7 @@ project-create-request-rejected-log: "❌ | **%staff%** ha denegado el proyecto 
 project-create-request-expired-log: "❌ | La solicitud de creación del proyecto `%proyectoId%` de **%lider%** ha expirado."
 
 project-delete-log: "🗑️ | Se ha eliminado el proyecto `%proyectoId%` de **%lider%**."
+project-delete-staff-log: "🗑️ | **%staff%** ha eliminado el proyecto `%proyectoId%` de **%lider%**."
 
 project-delete-player-log: "🗑️ | **%player%** ha eliminado su proyecto `%proyectoId%`."
 

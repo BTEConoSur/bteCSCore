@@ -196,7 +196,7 @@ public class ProjectManager {
 
         String countryLog = lang.getString("project-create-request-rejected-log").replace("%staff%", staff.getNombre()).replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyectoId);
         DiscordLogger.countryLog(countryLog, pais);
-        deleteProject(proyecto);
+        deleteProject(proyecto, null);
     }
 
     public void expiredCreateRequest(String proyectoId, Long interactionId) {
@@ -211,14 +211,15 @@ public class ProjectManager {
 
         String countryLog = lang.getString("project-create-request-expired-log").replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyectoId);
         DiscordLogger.countryLog(countryLog, pais);
-        deleteProject(proyecto);
+        deleteProject(proyecto, null);
     }
 
-    public void deleteProject(Proyecto proyecto) {
+    public void deleteProject(Proyecto proyecto, UUID commandId) {
         Pais pais = proyecto.getPais();
         Player lider = getLider(proyecto);
         String proyectoId = proyecto.getId();
         ProyectoRegistry.getInstance().unload(proyectoId);
+        PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         File folder = new File(BTEConoSur.getInstance().getDataFolder(), "images/projects");
         File contextFile = new File(folder, proyectoId + "_context.png");
         if (contextFile.exists()) {
@@ -227,6 +228,17 @@ public class ProjectManager {
         File imageFile = new File(folder, proyectoId + ".png");
         if (imageFile.exists()) {
             imageFile.delete();
+        }
+        if (commandId != null) {
+            Player commandPlayer = playerRegistry.get(commandId);
+            Set<Player> members = getMembers(proyecto);
+            members.add(lider);
+            String memberNotification = lang.getString("project-deleted-member").replace("%proyectoId%", proyectoId);
+            MessageEmbed dsMemberNotification = ChatUtil.getDsProjectDeleted(proyectoId, proyecto.getNombre());
+            for (Player member : members) PlayerLogger.info(member, memberNotification, dsMemberNotification);
+            String countryLog = lang.getString("project-delete-staff-log").replace("%staff%", commandPlayer.getNombre()).replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyectoId);
+            DiscordLogger.countryLog(countryLog, pais);
+            return;
         }
         String countryLog = lang.getString("project-delete-log").replace("%lider%", lider.getNombre()).replace("%proyectoId%", proyectoId);
         DiscordLogger.countryLog(countryLog, pais);
