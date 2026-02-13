@@ -7,12 +7,17 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.Plugin;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.reflections.Reflections;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
@@ -41,7 +46,14 @@ public class DBManager {
         ConsoleLogger.info(lang.getString("database-initializing"));
 
         List<Class<?>> entityClasses = new ArrayList<>();
-        Reflections reflections = new Reflections("com.bteconosur.db.model");
+        ClassLoader libsClassLoader = getClass().getClassLoader();
+
+        Reflections reflections = new Reflections(
+            new ConfigurationBuilder()
+                .setUrls(ClasspathHelper.forPackage("com.bteconosur.db.model", libsClassLoader))
+                .addClassLoaders(libsClassLoader, getClass().getClassLoader())
+                .filterInputsBy(new FilterBuilder().includePackage("com.bteconosur.db.model"))
+        );
         entityClasses.addAll(reflections.getTypesAnnotatedWith(Entity.class));
 
         hibernateConfig = new HibernateConfig();
