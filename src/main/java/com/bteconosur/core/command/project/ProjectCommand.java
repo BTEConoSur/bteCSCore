@@ -26,6 +26,8 @@ public class ProjectCommand extends BaseCommand {
         this.addSubcommand(new ProjectTransferCommand());
         this.addSubcommand(new ProjectRemoveMemberCommand());
         this.addSubcommand(new ProjectEditCommand());
+        this.addSubcommand(new ProjectNameCommand());
+        this.addSubcommand(new ProjectDescriptionCommand());
         this.addSubcommand(new ProjectAdminCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         

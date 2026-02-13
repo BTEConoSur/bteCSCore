@@ -524,6 +524,20 @@ public class ChatUtil {
         return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-deleted.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-deleted.color")).build();
     }
 
+    public static MessageEmbed getDsProjectNameUpdated(String proyectoId, String newNombre) {
+        String description = lang.getString("ds-embeds.project-name-updated.id").replace("%proyectoId%", proyectoId);
+        if (newNombre != null && !newNombre.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-name-updated.nombreNuevo").replace("%nombreNuevo%%", newNombre);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-name-updated.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-name-updated.color")).build();
+    }
+
+    public static MessageEmbed getDsProjectDescriptionUpdated(String proyectoId, String newDescripcion) {
+        String description = lang.getString("ds-embeds.project-description-updated.id").replace("%proyectoId%", proyectoId);
+        if (newDescripcion != null && !newDescripcion.isBlank()) description = description
+            + "\n" + lang.getString("ds-embeds.project-description-updated.descripcionNueva").replace("%descripcionNueva%", newDescripcion);
+        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-description-updated.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-description-updated.color")).build();
+    }
+
     @SuppressWarnings("null")
     public static MessageEmbed getDsProjectCreated(Proyecto proyecto) {
         Player player = proyecto.getLider();

@@ -150,7 +150,6 @@ public final class BTEConoSur extends JavaPlugin {
 
     @Override
     public void onDisable() {
-    
         
         if (playerRegistry != null) {
             playerRegistry.shutdown();
@@ -260,3 +259,4 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: Revisar warns y errors loggers
 // TODO: Revisar segundero de comando.
 // TODO: borrar imagenes de contexto.
+// TODO: Listado de managers y reviewers en el proyecto.

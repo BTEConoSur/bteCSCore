@@ -270,6 +270,11 @@ project-join-rejected: "<red>Tu solicitud para unirte al proyecto de ID <yellow>
 project-deleted-member: "El proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecías ha sido eliminado." # %proyectoId% -> Identificador del proyecto.
 project-delete-request-success: "<green>Has eliminado el proyecto de ID <yellow>'%proyectoId%'</yellow> correctamente." # %proyectoId% -> Identificador del proyecto.
 
+project-name-updated: "<green>El nombre del proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido actualizado a <yellow>'%nombre%'</yellow>." # %proyectoId% -> Identificador del proyecto. %nombre% -> Nuevo nombre del proyecto.
+project-description-updated: "<green>La descripción del proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido actualizada." # %proyectoId% -> Identificador del proyecto.
+project-name-updated-member: "El nombre del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés ha sido actualizado a <yellow>'%nombre%'</yellow>." # %proyectoId% -> Identificador del proyecto. %nombre% -> Nuevo nombre del proyecto.
+project-description-updated-member: "La descripción del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés ha sido actualizada." # %proyectoId% -> Identificador del proyecto.
+
 no-project-found-here: "No se encontró ningún proyecto en esta ubicación."
 
 no-project-found-with-id: "No se encontró ningún proyecto con ID <yellow>'%proyectoId%'</yellow>."
@@ -853,7 +858,17 @@ ds-embeds:
     title: "Proyecto eliminado por un Manager"
     id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
     nombre: "Nombre del proyecto: '%nombre%'" # %nombre% -> Nombre del proyecto.
-    color: 0xED4245 
+    color: 0xED4245
+  project-name-updated:
+    title: "Nombre del proyecto actualizado por un Manager"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    nombreNuevo: "Nombre nuevo: '%nombreNuevo%'" # %nombreNuevo% -> Nombre nuevo del proyecto.
+    color: 0x00b0f4
+  project-description-updated:
+    title: "Descripción del proyecto actualizada por un Manager"
+    id: "ID del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+    descripcionNueva: "Descripción nueva: '%descripcionNueva%'" # %descripcionNueva% -> Descripción nueva del proyecto.
+    color: 0x00b0f4
 
 player-join: "<green>%player% se ha unido al servidor.</green>" # %player% -> Nombre del jugador.
 player-left: "<red>%player% ha salido del servidor.</red>" # %player% -> Nombre del jugador.
@@ -930,9 +945,11 @@ project-finish-edit-request-expired-log: "❌ | La solicitud de finalización de
 project-finish-edit-accepted-log: "✅ | **%staff%** ha aceptado la finalización de la edición del proyecto `%proyectoId%`."
 project-finish-edit-rejected-log: "❌ | **%staff%** ha denegado la finalización de la edición del proyecto `%proyectoId%`." 
 
-
 project-leader-switch-log: "🔄 | **%oldLider%** ha sido reemplazado por **%newLider%** como líder del proyecto `%proyectoId%`."
 project-leader-switch-staff: "🔄 | **%staff%** ha reemplazado a **%oldLider%** por **%newLider%** como líder del proyecto `%proyectoId%`."
+
+project-name-update-log: "✏️ | **%lider%** ha actualizado el nombre del proyecto `%proyectoId%` a `%proyectoNombre%`."
+project-description-update-log: "✏️ | **%lider%** ha actualizado la descripción del proyecto `%proyectoId%` a `%proyectoDescripcion%`."
 # Project
 project-manager-initializing: "Inicializando Gestor de Proyectos..."
 project-manager-shutting-down: "Cerrando Gestor de Proyectos..."
