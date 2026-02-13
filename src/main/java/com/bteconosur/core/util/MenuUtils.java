@@ -382,13 +382,83 @@ public class MenuUtils {
                 .replace("%tamano%", String.valueOf(proyecto.getTamaño()))
                 .replace("%tipoProyecto%", proyecto.getTipoProyecto().getNombre())
                 .replace("%fechaCreacion%", DateUtils.formatDate(proyecto.getFechaCreado()))
-                .replace("%fechaFinalizacion%", DateUtils.formatDate(proyecto.getFechaCreado()));
+                .replace("%fechaFinalizacion%", DateUtils.formatDate(proyecto.getFechaTerminado()));
             processedLore.add(line);
         }
         return buildGuiItem(
             lang.getString("items.proyecto.default-material"),
             lang.getString("items.proyecto.name").replace("%proyectoId%", proyecto.getId()).replace("%proyectoNombre%", proyectoNombre),
             processedLore, false
+        );
+    }
+
+    public static GuiItem getMembersItem(int memberCount) {
+        List<String> lore = lang.getStringList("items.members.lore");
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%miembros%", String.valueOf(memberCount));
+            processedLore.add(line);
+        }   
+        return buildGuiItem(
+            lang.getString("items.members.material"),
+            lang.getString("items.members.name"),
+            processedLore, false
+        );
+    }
+
+    public static GuiItem getMemberAddItem() {
+        return buildGuiItem(
+            lang.getString("items.add-member.material"),
+            lang.getString("items.add-member.name"),
+            lang.getStringList("items.add-member.lore"), false
+        );
+    }
+
+    public static GuiItem getMemberRemoveItem() {
+        return buildGuiItem(
+            lang.getString("items.remove-member.material"),
+            lang.getString("items.remove-member.name"),
+            lang.getStringList("items.remove-member.lore"), false
+        );
+    }
+
+    public static GuiItem getLiderTransferItem() {
+        return buildGuiItem(
+            lang.getString("items.transfer-leader.material"),
+            lang.getString("items.transfer-leader.name"),
+            lang.getStringList("items.transfer-leader.lore"), false
+        );
+    }
+
+    public static GuiItem getSetNameDescription() {
+        return buildGuiItem(
+            lang.getString("items.set-name-description.material"),
+            lang.getString("items.set-name-description.name"),
+            lang.getStringList("items.set-name-description.lore"), false
+        );
+    }
+
+    public static GuiItem getFinishProjectItem() {
+        return buildGuiItem(
+            lang.getString("items.finish-project.material"),
+            lang.getString("items.finish-project.name"),
+            lang.getStringList("items.finish-project.lore"), false
+        );
+    }
+
+    public static GuiItem getLeaveProjectItem() {
+        return buildGuiItem(
+            lang.getString("items.leave-project.material"),
+            lang.getString("items.leave-project.name"),
+            lang.getStringList("items.leave-project.lore"), false
+        );
+    }
+
+    public static GuiItem getNotificationsItem(boolean notifications) {
+        return buildGuiItem(
+            lang.getString("items.notifications.material"),
+            lang.getString("items.notifications.name"),
+            lang.getStringList("items.notifications.lore"), notifications
         );
     }
 

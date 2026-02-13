@@ -335,9 +335,13 @@ gui-titles:
   proyectos-here-list: "Proyectos en esta ubicación"
   proyectos-search: "Buscar Proyectos"
   select-member: "Seleccionar Miembro: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  select-member-remove: "Seleccionar Miembro a Remover"
+  select-player-add: "Seleccionar Jugador a Añadir"
   select-leader: "Seleccionar nuevo Líder: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   join-request-confirmation: "Confirmar solicitud de unión"
   join-request-list: "Solicitudes de unión: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  project-members: "Miembros del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  project-manage: "Gestionar proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
 
 sign-gui:
   - ""
@@ -404,6 +408,52 @@ items:
       - "<gray>El lider de este proyesto es Postulante."
       - "<gray>Haz clic para confirmar y promoverlo"
       - "<gray>a <yellow>Constructor</yellow>."
+  members:
+    material: "PLAYER_HEAD"
+    name: "<aqua>Miembros"
+    lore:
+      - "<green>Cantidad: <white>%miembros%" # %miembros% -> Cantidad de miembros del proyecto.
+      - "<gray>Haz clic para ver los miembros del proyecto."
+  add-member:
+    material: "hdb:9885"
+    name: "<green>Agregar Miembro"
+    lore:
+      - "<gray>Haz clic para agregar un miembro al proyecto."
+  remove-member:
+    material: "hdb:9351"
+    name: "<red>Remover Miembro"
+    lore:
+      - "<gray>Haz clic para remover un miembro del proyecto."
+  leave-project:
+    material: "hdb:9334"
+    name: "<red>Salir del Proyecto"
+    lore:
+      - "<gray>Haz clic para salir del proyecto."
+      - "<gray>Si eres el líder, el proyecto"
+      - "<gray>será marcado como abandonado."
+  finish-project:
+    material: "hdb:67132"
+    name: "<green>Finalizar Proyecto"
+    lore:
+      - "<gray>Haz clic para solicitar"
+      - "<gray>la finalización del proyecto."
+  set-name-description:
+    material: "NAME_TAG"
+    name: "<aqua>Para cambiar:"
+    lore:
+      - "<gray>Nombre: /project name <nombre>"
+      - "<gray>Descripción: /project description <descripcion>"
+  transfer-leader:
+    material: "hdb:67145"
+    name: "<aqua>Transferir Liderazgo"
+    lore:
+      - "<gray>Haz clic para transferir el liderazgo"
+      - "<gray>a otro miembro del proyecto."
+  notifications:
+    material: "BELL"
+    name: "<aqua>Notificaciones"
+    lore:
+      - "<gray>Haz clic para ver las solicitudes de unión."  
   proyecto:
     default-material: "BOOK"
     name: "<yellow>%proyectoId% - %proyectoNombre%" # %proyectoId% -> Identificador del proyecto. %proyectoNombre% -> Nombre del proyecto.

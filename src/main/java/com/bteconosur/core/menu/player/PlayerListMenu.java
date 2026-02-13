@@ -69,6 +69,7 @@ public class PlayerListMenu extends PaginatedMenu {
         this.excludePlayers = excludePlayers;
         this.context = MenuUtils.PlayerContext.DEFAULT;
     }
+
 //TODO: verificar con muchos jugadores;
     @Override
     protected void populateItems() {

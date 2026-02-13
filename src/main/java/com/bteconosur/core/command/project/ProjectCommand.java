@@ -29,6 +29,7 @@ public class ProjectCommand extends BaseCommand {
         this.addSubcommand(new ProjectNameCommand());
         this.addSubcommand(new ProjectDescriptionCommand());
         this.addSubcommand(new ProjectAdminCommand());
+        this.addSubcommand(new ProjectManageCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         
         ConfigHandler configHandler = ConfigHandler.getInstance();

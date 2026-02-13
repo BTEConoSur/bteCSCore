@@ -16,7 +16,6 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class ProjectPromoteCommand extends BaseCommand {
     private final YamlConfiguration lang;
 
-
     public ProjectPromoteCommand() {
         super("promote", "Cambiar el Tipo de Usuario de un jugador.", "<nombre>|<uuid>", "btecs.command.project.promote", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
