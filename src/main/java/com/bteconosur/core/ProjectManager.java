@@ -524,6 +524,7 @@ public class ProjectManager {
         Player oldLider = getLider(proyecto);
         Player commandPlayer = playerRegistry.get(commandId);
         if (oldLider != null) proyecto.addMiembro(oldLider);
+        if (oldLider == null) proyecto.setEstado(Estado.ACTIVO);
         proyecto.removeMiembro(newLider);
         proyecto.setLider(newLider);
         ProyectoRegistry.getInstance().merge(proyecto.getId());

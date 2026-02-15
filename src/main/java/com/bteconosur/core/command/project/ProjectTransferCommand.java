@@ -59,7 +59,7 @@ public class ProjectTransferCommand extends BaseCommand {
         }
 
         ProjectManager projectManager = ProjectManager.getInstance();
-        
+        ProyectoRegistry pr = ProyectoRegistry.getInstance(); 
         Player targetPlayer = commandPlayer;
         if (args.length == 2) {
             PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
@@ -72,26 +72,32 @@ public class ProjectTransferCommand extends BaseCommand {
         } else {
             Set<Player> miembros = projectManager.getMembers(targetProyecto);
             PlayerListMenu playerListMenu = new PlayerListMenu(commandPlayer, lang.getString("gui-titles.select-leader").replace("%proyectoId%", targetProyecto.getId()), miembros, false, MenuUtils.PlayerContext.MIEMBRO, (player, event) -> {
+                event.getWhoClicked().closeInventory(); 
                 if (permissionManager.isLider(player, targetProyecto)) {
                     String message = lang.getString("project-already-leader").replace("%player%", player.getNombre()).replace("%proyectoId%", targetProyecto.getId());
                     PlayerLogger.error(commandPlayer, message, (String) null);
-                    event.getWhoClicked().closeInventory();
                     return;
                 }
                 if (!permissionManager.isMiembro(player, targetProyecto)) {
                     String message = lang.getString("project-not-member").replace("%player%", player.getNombre()).replace("%proyectoId%", targetProyecto.getId());
                     PlayerLogger.error(commandPlayer, message, (String) null);
-                    event.getWhoClicked().closeInventory(); 
+                    
+                    return;
+                }
+                int activeProjects = pr.getCounts(player)[1];
+                int maxActiveProjects = player.getTipoUsuario().getCantProyecSim();
+                if (activeProjects >= maxActiveProjects) {
+                    String message = lang.getString("max-active-projects-transfer").replace("%maxProjects%", String.valueOf(maxActiveProjects)).replace("%currentProjects%", String.valueOf(activeProjects)).replace("%player%", player.getNombre());
+                    PlayerLogger.error(commandPlayer, message, (String) null);
                     return;
                 }
                 ProjectManager.getInstance().switchLeader(proyectoId, player.getUuid(), commandPlayer.getUuid());
                 String successMessage = lang.getString("project-leader-switched-success").replace("%player%", player.getNombre()).replace("%proyectoId%", targetProyecto.getId());   
                 PlayerLogger.info(commandPlayer, successMessage, (String) null);
-                event.getWhoClicked().closeInventory();
             });
             playerListMenu.open();
             return true;
-        }   
+        }
         if (permissionManager.isLider(targetPlayer, targetProyecto)) {
             String message = lang.getString("project-already-leader").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", targetProyecto.getId());
             PlayerLogger.error(commandPlayer, message, (String) null);
@@ -100,6 +106,15 @@ public class ProjectTransferCommand extends BaseCommand {
         if (!permissionManager.isMiembro(targetPlayer, targetProyecto)) {
             String message = lang.getString("project-not-member").replace("%player%", targetPlayer.getNombre()).replace("%proyectoId%", targetProyecto.getId());
             PlayerLogger.error(commandPlayer, message, (String) null);   
+            return true;
+        }
+
+        
+        int activeProjects = pr.getCounts(targetPlayer)[1];
+        int maxActiveProjects = targetPlayer.getTipoUsuario().getCantProyecSim();
+        if (activeProjects >= maxActiveProjects) {
+            String message = lang.getString("max-active-projects-transfer").replace("%maxProjects%", String.valueOf(maxActiveProjects)).replace("%currentProjects%", String.valueOf(activeProjects)).replace("%player%", targetPlayer.getNombre());
+            PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }
 

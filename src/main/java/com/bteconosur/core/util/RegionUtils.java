@@ -22,15 +22,45 @@ import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Polygonal2DRegion;
 import com.sk89q.worldedit.regions.Region;
+import com.sk89q.worldedit.regions.selector.Polygonal2DRegionSelector;
+
 
 public class RegionUtils {
 
     private static final GeometryFactory gf = new GeometryFactory();
     private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
+
+    public static void selectPolygon(Player player, Polygon poly, int minY, int maxY) {
+        if (poly == null || poly.isEmpty()) {
+            PlayerLogger.error(player, lang.getString("internal-error"), (String) null);
+            return;
+        }
+
+        Coordinate[] coords = poly.getExteriorRing().getCoordinates();
+        if (coords.length < 4) {
+            PlayerLogger.error(player, lang.getString("internal-error"), (String) null);
+            return;
+        }
+
+        List<BlockVector2> points = new ArrayList<>();
+        for (int i = 0; i < coords.length - 1; i++) {
+            int x = (int) Math.floor(coords[i].x);
+            int z = (int) Math.floor(coords[i].y);
+            points.add(BlockVector2.at(x, z));
+        }
+
+        var weWorld = BukkitAdapter.adapt(player.getWorld());
+        LocalSession session = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(player));
+        Polygonal2DRegionSelector selector = new Polygonal2DRegionSelector(weWorld, points, minY, maxY);
+        session.setRegionSelector(weWorld, selector);
+        session.dispatchCUISelection(BukkitAdapter.adapt(player));
+        PlayerLogger.info(player, lang.getString("region-selected"), (String) null);
+    }
 
     public static Polygon toPolygon(CuboidRegion region) {
         return gf.createPolygon(new Coordinate[] {

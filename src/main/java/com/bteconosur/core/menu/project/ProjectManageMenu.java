@@ -18,6 +18,7 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.InteractionRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.util.Estado;
 
 import dev.triumphteam.gui.guis.BaseGui;
@@ -56,6 +57,7 @@ public class ProjectManageMenu extends Menu {
         PermissionManager permissionManager = PermissionManager.getInstance();
         InteractionRegistry ir = InteractionRegistry.getInstance();
         PlayerRegistry pr = PlayerRegistry.getInstance();
+        ProyectoRegistry proyectoRegistry = ProyectoRegistry.getInstance();
         Pais pais = proyecto.getPais();
         gui.getFiller().fill(MenuUtils.getFillerItem());
         gui.setItem(2,2, MenuUtils.getProyecto(proyecto));
@@ -109,6 +111,15 @@ public class ProjectManageMenu extends Menu {
                             PlayerLogger.error(BTECSPlayer, message, (String) null);
                              
                             return;
+                        }
+                        if (!permissionManager.isManager(BTECSPlayer, proyecto.getPais())) {
+                            int activeProjects = proyectoRegistry.getCounts(player)[1];
+                            int maxActiveProjects = player.getTipoUsuario().getCantProyecSim();
+                            if (activeProjects >= maxActiveProjects) {
+                                String message = lang.getString("max-active-projects-transfer").replace("%maxProjects%", String.valueOf(maxActiveProjects)).replace("%currentProjects%", String.valueOf(activeProjects)).replace("%player%", player.getNombre());
+                                PlayerLogger.error(BTECSPlayer, message, (String) null);
+                                return;
+                            }
                         }
                         ProjectManager.getInstance().switchLeader(proyecto.getId(), player.getUuid(), BTECSPlayer.getUuid());
                         String successMessage = lang.getString("project-leader-switched-success").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());   

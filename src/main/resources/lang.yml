@@ -188,6 +188,7 @@ invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50
 invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una división válida."
 invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 max-active-projects: "Has alcanzado el máximo de proyectos activos permitidos. (Máx. %maxProjects%, Tienes %currentProjects%)" # %maxProjects% -> Máximo de proyectos permitidos. %currentProjects% -> Proyectos actuales.
+max-active-projects-transfer: "El jugador '%player%' no puede ser asignado como líder del proyecto porque ha alcanzado el máximo de proyectos activos permitidos. (Máx. %maxProjects%, Tiene %currentProjects%)" # %player% -> Nombre del jugador. %maxProjects% -> Máximo de proyectos permitidos. %currentProjects% -> Proyectos actuales.
 nickname-change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 nickname-set: "<green>El nombre público de <yellow>'%player%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 
@@ -310,6 +311,8 @@ reviewer-notification-redefine-project: "Nueva solicitud de redefinición de pro
 reviewer-notification-finish-project: "Nueva solicitud de finalización de proyecto de <yellow>'%pais%'</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>" # %pais% -> Nombre del país. <id> -> Id copiable del proyecto. <coords> -> Coordenadas copiables del proyecto.
 reviewer-notification-finish-edit-project: "Nueva solicitud de finalización de edición de proyecto de <yellow>'%pais%'</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>" # %pais% -> Nombre del país. <id> -> Id copiable del proyecto. <coords> -> Coordenadas copiables del proyecto.
 member-notification-finish-project: "%requester% ha solicitado finalizar el proyecto de ID <yellow>%proyectoId%</yellow> al que pertenecés." # %player% -> Nombre del lider. %proyectoId% -> Id del proyecto. %pais% -> Nombre del país.
+
+region-selected: "<green>Región seleccionada correctamente."
 
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.

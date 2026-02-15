@@ -42,6 +42,13 @@ public class ProjectClaimCommand extends BaseCommand {
         ProjectManager projectManager = ProjectManager.getInstance();
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         Proyecto proyectoFinal = null;
+        int maxActiveProjects = commandPlayer.getTipoUsuario().getCantProyecSim();
+        int activeProjects = pr.getCounts(commandPlayer)[1];
+        if (activeProjects >= maxActiveProjects) {
+            String message = lang.getString("max-active-projects").replace("%maxProjects%", String.valueOf(maxActiveProjects)).replace("%currentProjects%", String.valueOf(activeProjects));
+            PlayerLogger.error(commandPlayer, message, (String) null);
+            return true;
+        }
 
         if (args.length == 1) {
             String proyectoId = args[0];

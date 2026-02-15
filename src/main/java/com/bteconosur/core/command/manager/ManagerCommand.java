@@ -33,6 +33,7 @@ public class ManagerCommand extends BaseCommand {
         this.addSubcommand(new ManagerNameCommand());
         this.addSubcommand(new ManagerDescriptionCommand());
         this.addSubcommand(new ManagerManageCommand());
+        this.addSubcommand(new ManagerSelectCommand());
         this.addSubcommand(new GenericHelpCommand(this));
         // TODO: Comando para eliminar lider,
         ConfigHandler configHandler = ConfigHandler.getInstance();

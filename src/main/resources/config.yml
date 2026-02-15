@@ -66,7 +66,9 @@ border-particles:
   layers: 21 # Número de capas verticales de partículas
   spawn-period: 20 # Cada cuántos ticks se spawnean las partículas (20 ticks = 1 segundo)
 
-# Commands
+world-edit:
+  region-select-extension: 10 # Cantidad de bloques que se extiende la selección al usar /project select para seleccionar un proyecto.
+
 # Cooldowns por comando (En segundos). En caso de no especificar, se usa el valor por defecto. 
 # Nota: El cooldown es por cada comando/subcomando. Es decir, si se especifica un cooldown para "btecs" y otro para "btecs test", ambos se aplican independientemente.
 # Por lo que el cooldown de btecs no afecta al de btecs test y el resto de subcomandos. 
