@@ -454,11 +454,17 @@ public class MenuUtils {
         );
     }
 
-    public static GuiItem getNotificationsItem(boolean notifications) {
+public static GuiItem getNotificationsItem(int cantNotificaciones) {
+        List<String> lore = lang.getStringList("items.notifications.lore");
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%notificaciones%", String.valueOf(cantNotificaciones));
+            processedLore.add(line);
+        }
         return buildGuiItem(
             lang.getString("items.notifications.material"),
             lang.getString("items.notifications.name"),
-            lang.getStringList("items.notifications.lore"), notifications
+            processedLore, cantNotificaciones > 0
         );
     }
 

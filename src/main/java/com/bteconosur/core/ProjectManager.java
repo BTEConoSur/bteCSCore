@@ -433,6 +433,7 @@ public class ProjectManager {
         MessageEmbed dsMemberNotification = ChatUtil.getDsProjectFinishRequested(proyecto.getId(), proyecto.getNombre(), requester.getNombre());
         if (!requester.equals(lider)) PlayerLogger.info(lider, mcMemberNotification, dsMemberNotification);
         for (Player member : members) {
+            if (member.equals(requester)) continue;
             PlayerLogger.info(member, mcMemberNotification, dsMemberNotification);
         }
     }

@@ -325,6 +325,7 @@ gui-titles:
   finish-project-confirm: "Confirmar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   redefine-project-confirm: "Confirmar redefinición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   edit-project-confirm: "Confirmar edición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  leave-project-confirm: "Confirmar salida: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   delete-project-confirm: "Confirmar eliminación: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-reject: "Rechazar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-accept: "Aceptar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
@@ -453,6 +454,7 @@ items:
     material: "BELL"
     name: "<aqua>Notificaciones"
     lore:
+      - "<green>Cantidad: <white>%notificaciones%" # %notificaciones% -> Cantidad de notificaciones no leídas.
       - "<gray>Haz clic para ver las solicitudes de unión."  
   proyecto:
     default-material: "BOOK"
