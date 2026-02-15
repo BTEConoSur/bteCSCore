@@ -5,13 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 
@@ -160,6 +159,8 @@ public class RegionUtils {
     }
 
     public static void spawnBorderParticles(Player player, Polygon poly, String particleName) {
+        if (poly == null || poly.isEmpty()) return;
+        
         Particle particle;
         try {
             particle = Particle.valueOf(particleName);
@@ -168,76 +169,115 @@ public class RegionUtils {
         }
         
         double maxDistance = config.getDouble("border-particles.max-distance");
+        double maxDistSq = maxDistance * maxDistance;
         int layers = config.getInt("border-particles.layers");
         double playerY = player.getLocation().getY();
         double height = playerY - (layers / 2.0);
         
-        if (poly == null || poly.isEmpty()) return;
+        double playerX = player.getLocation().getX();
+        double playerZ = player.getLocation().getZ();
         
-        World world = player.getWorld();
-        Location playerLoc = player.getLocation();
-        double playerX = playerLoc.getX();
-        double playerZ = playerLoc.getZ();
-        var playerPoint = gf.createPoint(new Coordinate(playerX, playerZ));
+        CoordinateSequence seq = poly.getExteriorRing().getCoordinateSequence();
+        int size = seq.size();
         
-        List<Coordinate> borderPoints = getPolygonBorderPoints(poly, 1.0);
-        
-        for (Coordinate coord : borderPoints) {
-            var coordPoint = gf.createPoint(coord);
-            double distance = playerPoint.distance(coordPoint);
+        for (int i = 0; i < size - 1; i++) {
+            double startX = seq.getX(i);
+            double startZ = seq.getY(i);
+            double endX = seq.getX(i + 1);
+            double endZ = seq.getY(i + 1);
             
-            if (distance <= maxDistance) {
-                for (int layer = 0; layer < layers; layer++) {
-                    Location loc = new Location(world, coord.x, height + layer, coord.y);
-                    //ConsoleLogger.debug("Spawning particle " + particleName + " at (" + coord.x + ", " + (height + layer) + ", " + coord.y + ")");
-                    world.spawnParticle(particle, loc, 1, 0, 0, 0, 0);
+            double minX = Math.min(startX, endX) - maxDistance;
+            double maxX = Math.max(startX, endX) + maxDistance;
+            double minZ = Math.min(startZ, endZ) - maxDistance;
+            double maxZ = Math.max(startZ, endZ) + maxDistance;
+            
+            if (playerX < minX || playerX > maxX || playerZ < minZ || playerZ > maxZ) {
+                continue;
+            }
+            
+            double segDx = endX - startX;
+            double segDz = endZ - startZ;
+            double segmentLength = Math.sqrt(segDx * segDx + segDz * segDz);
+            int numPoints = (int) Math.ceil(segmentLength);
+            if (numPoints < 1) numPoints = 1;
+            
+            for (int j = 0; j < numPoints; j++) {
+                double t = j / (double) numPoints;
+                double x = startX + segDx * t;
+                double z = startZ + segDz * t;
+                
+                double dx = x - playerX;
+                double dz = z - playerZ;
+                double distSq = dx * dx + dz * dz;
+                
+                if (distSq <= maxDistSq) {
+                    for (int layer = 0; layer < layers; layer++) {
+                        player.spawnParticle(particle, x, height + layer, z, 1, 0, 0, 0, 0);
+                    }
                 }
             }
         }
     }
 
-    public static List<Coordinate> getPolygonBorderPoints(Polygon poly, double spacing) {
-        List<Coordinate> borderPoints = new ArrayList<>();
-        if (poly == null || poly.isEmpty()) return borderPoints;
-
-        Coordinate[] coords = poly.getExteriorRing().getCoordinates();
+    public static void spawnBorderParticles(Player player, Polygon poly, String particleName, double offset) {
+        if (poly == null || poly.isEmpty()) return;
         
-        for (int i = 0; i < coords.length - 1; i++) {
-            Coordinate start = coords[i];
-            Coordinate end = coords[i + 1];
-            
-            double distance = start.distance(end);
-            int numPoints = (int) Math.ceil(distance / spacing);
-            
-            for (int j = 0; j < numPoints; j++) {
-                double t = j / (double) numPoints;
-                double x = start.x + (end.x - start.x) * t;
-                double z = start.y + (end.y - start.y) * t;
-                borderPoints.add(new Coordinate(x, z));
-            }
+        Particle particle;
+        try {
+            particle = Particle.valueOf(particleName);
+        } catch (IllegalArgumentException e) {
+            particle = Particle.FLAME;
         }
         
-        return borderPoints;
-    }
-
-    public static List<Coordinate> getNearbyBorderPoints(Player player, Polygon poly) {
         double maxDistance = config.getDouble("border-particles.max-distance");
-        
-        List<Coordinate> nearbyPoints = new ArrayList<>();
-        if (poly == null || poly.isEmpty()) return nearbyPoints;
+        double maxDistSq = maxDistance * maxDistance;
+        int layers = config.getInt("border-particles.layers");
+        double playerY = player.getLocation().getY();
+        double height = playerY - (layers / 2.0);
         
         double playerX = player.getLocation().getX();
         double playerZ = player.getLocation().getZ();
-        var playerPoint = gf.createPoint(new Coordinate(playerX, playerZ));
         
-        List<Coordinate> allPoints = getPolygonBorderPoints(poly, 1.0);
+        CoordinateSequence seq = poly.getExteriorRing().getCoordinateSequence();
+        int size = seq.size();
         
-        for (Coordinate coord : allPoints) {
-            var coordPoint = gf.createPoint(coord);
-            if (playerPoint.distance(coordPoint) <= maxDistance) nearbyPoints.add(coord);
+        for (int i = 0; i < size - 1; i++) {
+            double startX = seq.getX(i);
+            double startZ = seq.getY(i);
+            double endX = seq.getX(i + 1);
+            double endZ = seq.getY(i + 1);
+            
+            double minX = Math.min(startX, endX) - maxDistance;
+            double maxX = Math.max(startX, endX) + maxDistance;
+            double minZ = Math.min(startZ, endZ) - maxDistance;
+            double maxZ = Math.max(startZ, endZ) + maxDistance;
+            
+            if (playerX < minX || playerX > maxX || playerZ < minZ || playerZ > maxZ) {
+                continue;
+            }
+            
+            double segDx = endX - startX;
+            double segDz = endZ - startZ;
+            double segmentLength = Math.sqrt(segDx * segDx + segDz * segDz);
+            int numPoints = (int) Math.ceil(segmentLength);
+            if (numPoints < 1) numPoints = 1;
+            
+            for (int j = 0; j < numPoints; j++) {
+                double t = j / (double) numPoints;
+                double x = startX + segDx * t;
+                double z = startZ + segDz * t;
+                
+                double dx = x - playerX;
+                double dz = z - playerZ;
+                double distSq = dx * dx + dz * dz;
+                
+                if (distSq <= maxDistSq) {
+                    for (int layer = 0; layer < layers; layer++) {
+                        player.spawnParticle(particle, x + offset, height + layer, z + offset, 1, 0, 0, 0, 0);
+                    }
+                }
+            }
         }
-        
-        return nearbyPoints;
     }
 
 }

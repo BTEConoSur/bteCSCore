@@ -313,6 +313,8 @@ reviewer-notification-finish-edit-project: "Nueva solicitud de finalización de 
 member-notification-finish-project: "%requester% ha solicitado finalizar el proyecto de ID <yellow>%proyectoId%</yellow> al que pertenecés." # %player% -> Nombre del lider. %proyectoId% -> Id del proyecto. %pais% -> Nombre del país.
 
 region-selected: "<green>Región seleccionada correctamente."
+project-border-deactivated: "<green>El borde del proyecto de ID <yellow>%proyectoId%</yellow> ha sido desactivado."
+project-border-activated: "<green>El borde del proyecto de ID <yellow>%proyectoId%</yellow> ha sido activado."
 
 # GUI
 # 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.

@@ -46,13 +46,13 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 ## Proyectos
 
 * ✔️ Creación y gestión de proyectos individuales.
-* ⏳ Redefinir y editar proyectos creados.
+* ✔️ Redefinir y editar proyectos creados.
 * ⏳ Protección de áreas de construcción.
 * ✔️ Añadir/Eliminar miembros.
 * ✔️ Flujo de revisión y aprobación.
 * ✔️ Comandos de Administración.
-* ⏳ Comandos de Manager.
-* ⏳ Comandos de Reviewer.
+* ✔️ Comandos de Manager.
+* ✔️ Comandos de Reviewer.
 
 ## Gestor de Mundos
 

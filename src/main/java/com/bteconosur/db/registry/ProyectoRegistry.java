@@ -5,11 +5,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.locationtech.jts.geom.Polygon;
 
+import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.PermissionManager;
@@ -17,12 +22,14 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.util.ChunkKey;
 import com.bteconosur.db.util.Estado;
+import com.bteconosur.world.WorldManager;
 
 public class ProyectoRegistry extends Registry<String, Proyecto> {
 
     private static ProyectoRegistry instance;
 
     private ConcurrentHashMap<ChunkKey, List<String>> loadedChunkProyectos = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<UUID, String> playerBorderParticles = new ConcurrentHashMap<>();
 
     public ProyectoRegistry() {
         super();
@@ -36,6 +43,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
                 for (ChunkKey chunkKey : chunkKeys) loadedChunkProyectos.computeIfAbsent(chunkKey, k -> new ArrayList<>()).add(p.getId());
             }
         }
+        if (config.getBoolean("border-particles.project-enable")) enableParticlesSpawning();
     }
 
     @Override
@@ -263,6 +271,33 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
                 if (ids.isEmpty()) loadedChunkProyectos.remove(chunkKey);
             }
         }
+    }
+
+    public void addPlayerBorderParticle(UUID playerId, String particleName) {
+        playerBorderParticles.put(playerId, particleName);
+    }
+
+    public void removePlayerBorderParticle(UUID playerId) {
+        playerBorderParticles.remove(playerId);
+    }
+
+    public String getPlayerBorderParticle(UUID playerId) {
+        return playerBorderParticles.get(playerId);
+    }   
+
+    private void enableParticlesSpawning() {
+        long periodTicks = ConfigHandler.getInstance().getConfig().getLong("border-particles.spawn-period");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
+                    if (!playerBorderParticles.containsKey(player.getUniqueId())) continue;
+                    if (WorldManager.getInstance().getBTEWorld().isLobbyLocation(player.getLocation())) continue;
+                    Proyecto proyecto = get(playerBorderParticles.get(player.getUniqueId()));
+                    RegionUtils.spawnBorderParticles(player, proyecto.getPoligono(), config.getString("border-particles.project-particle"), 0.5);
+                }
+            }
+        }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
     }
 
     public void shutdown() {

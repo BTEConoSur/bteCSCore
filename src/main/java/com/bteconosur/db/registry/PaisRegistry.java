@@ -61,7 +61,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
         }
 
         ensureDefaults();
-        //enableParticlesSpawning();
+        if (config.getBoolean("border-particles.pais-enable")) enableParticlesSpawning();
     }
 
     @Override
@@ -293,8 +293,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
                     RegionPais region = findRegionByLocation(bukkitPlayer.getLocation().getX(), bukkitPlayer.getLocation().getZ());
                     if (region == null) continue;
                     Polygon polygon = region.getPoligono();
-                    String particleName = config.getString("border-particles.pais-particle");
-                    RegionUtils.spawnBorderParticles(bukkitPlayer, polygon, particleName);
+                    RegionUtils.spawnBorderParticles(bukkitPlayer, polygon, config.getString("border-particles.pais-particle"));
                 }
             }
         }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);

@@ -25,7 +25,7 @@ public class CapaAlta extends LabelWorld {
         super(name, displayName, offset);
 
         this.regions = loadRegions();
-        //enableParticlesSpawning();
+        if (config.getBoolean("border-particles.label-enable")) enableParticlesSpawning();
     }
 
     private List<Polygon> loadRegions() {
@@ -66,8 +66,7 @@ public class CapaAlta extends LabelWorld {
                     Polygon polygon = getPolygonForPlayer(player);
                     if (polygon == null) continue;
 
-                    String particleName = config.getString("border-particles.label-particle");
-                    RegionUtils.spawnBorderParticles(bukkitPlayer, polygon, particleName);
+                    RegionUtils.spawnBorderParticles(bukkitPlayer, polygon, config.getString("border-particles.label-particle"));
                 }
             }
         }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
