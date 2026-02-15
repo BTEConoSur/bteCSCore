@@ -175,7 +175,6 @@ public class MenuUtils {
             ItemStack headItem = HeadDBUtil.get(headId);
             return buildGuiItem(headItem, name, lore, isEnchanted);
         }
-
         ItemBuilder builder = ItemBuilder.from(getMaterialFromString(materialName))
             .name(MiniMessage.miniMessage().deserialize("<!italic>" + name))
             .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
@@ -454,7 +453,7 @@ public class MenuUtils {
         );
     }
 
-public static GuiItem getNotificationsItem(int cantNotificaciones) {
+    public static GuiItem getNotificationsItem(int cantNotificaciones) {
         List<String> lore = lang.getStringList("items.notifications.lore");
         List<String> processedLore = new ArrayList<>();
         for (String line : lore) {
@@ -465,6 +464,14 @@ public static GuiItem getNotificationsItem(int cantNotificaciones) {
             lang.getString("items.notifications.material"),
             lang.getString("items.notifications.name"),
             processedLore, cantNotificaciones > 0
+        );
+    }
+
+    public static GuiItem getClaimProjectItem() {
+        return buildGuiItem(
+            lang.getString("items.claim.material"),
+            lang.getString("items.claim.name"),
+            lang.getStringList("items.claim.lore"), false
         );
     }
 

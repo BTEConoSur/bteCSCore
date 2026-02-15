@@ -36,16 +36,18 @@ public class MemberListMenu extends PaginatedMenu {
     private Map<Player, GuiItem> onlinePlayerItems = new HashMap<>();
     private Map<Player, GuiItem> offlinePlayerItems = new HashMap<>();
     private Set<Player> members;
+    private boolean infoMenu;
 
     private final ConfigHandler configHandler = ConfigHandler.getInstance();
     private final YamlConfiguration lang = configHandler.getLang();
     private final YamlConfiguration config = configHandler.getConfig();
 
-    public MemberListMenu(Player player, Proyecto proyecto, String title, Set<Player> members, Menu previousMenu) {
+    public MemberListMenu(Player player, Proyecto proyecto, String title, Set<Player> members, Menu previousMenu, boolean infoMenu) {
         super(title, player, previousMenu);
         this.proyecto = proyecto;
         this.members = members;
         this.BTECSPlayer = player;
+        this.infoMenu = infoMenu;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class MemberListMenu extends PaginatedMenu {
         PermissionManager permissionManager = PermissionManager.getInstance();
         Pais pais = proyecto.getPais();
         Player lider = pm.getLider(proyecto);
-        if ((lider.equals(BTECSPlayer) && (proyecto.getEstado() == Estado.ACTIVO || proyecto.getEstado() == Estado.EDITANDO)) || permissionManager.isManager(BTECSPlayer, pais)) {
+        if (((lider.equals(BTECSPlayer) && (proyecto.getEstado() == Estado.ACTIVO || proyecto.getEstado() == Estado.EDITANDO)) || permissionManager.isManager(BTECSPlayer, pais)) && !infoMenu) {
             if (proyecto.checkMaxMiembros()) {
                 gui.setItem(rows, 3, MenuUtils.getMemberAddItem());
                 gui.addSlotAction(rows, 3, action -> {

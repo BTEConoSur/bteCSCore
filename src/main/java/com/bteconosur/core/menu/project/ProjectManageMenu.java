@@ -139,7 +139,7 @@ public class ProjectManageMenu extends Menu {
         Set<Player> miembros = pm.getMembers(proyecto);
         gui.setItem(2,4, MenuUtils.getMembersItem(miembros.size()));
         gui.addSlotAction(2,4, event -> {
-            MemberListMenu memberListMenu = new MemberListMenu(BTECSPlayer, proyecto, lang.getString("gui-titles.project-members").replace("%proyectoId%", proyecto.getId()), miembros, this);
+            MemberListMenu memberListMenu = new MemberListMenu(BTECSPlayer, proyecto, lang.getString("gui-titles.project-members").replace("%proyectoId%", proyecto.getId()), miembros, this, false);
             memberListMenu.open();
         });
         return gui;

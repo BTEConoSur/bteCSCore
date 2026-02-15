@@ -343,6 +343,7 @@ gui-titles:
   join-request-list: "Solicitudes de unión: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   project-members: "Miembros del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   project-manage: "Gestionar proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  project-info: "Info del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
 
 sign-gui:
   - ""
@@ -455,7 +456,13 @@ items:
     name: "<aqua>Notificaciones"
     lore:
       - "<green>Cantidad: <white>%notificaciones%" # %notificaciones% -> Cantidad de notificaciones no leídas.
-      - "<gray>Haz clic para ver las solicitudes de unión."  
+      - "<gray>Haz clic para ver las solicitudes de unión."
+  claim:
+    material: "GOAT_HORN"
+    name: "<green>Reclamar Proyecto"
+    lore:
+      - "<gray>Este proyecto no tiene líder."
+      - "<gray>Haz clic para reclamar el proyecto."
   proyecto:
     default-material: "BOOK"
     name: "<yellow>%proyectoId% - %proyectoNombre%" # %proyectoId% -> Identificador del proyecto. %proyectoNombre% -> Nombre del proyecto.
