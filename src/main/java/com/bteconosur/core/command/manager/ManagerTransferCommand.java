@@ -18,6 +18,7 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.util.Estado;
 
 public class ManagerTransferCommand extends BaseCommand {
 
@@ -65,8 +66,18 @@ public class ManagerTransferCommand extends BaseCommand {
                 return true;
             }
         } else {
+            if (targetProyecto.getEstado() == Estado.ABANDONADO) {
+                PlayerListMenu playerListMenu = new PlayerListMenu(commandPlayer, lang.getString("gui-titles.select-leader").replace("%proyectoId%", targetProyecto.getId()), (player, clickEvent) -> {
+                    clickEvent.getWhoClicked().closeInventory();
+                    ProjectManager.getInstance().switchLeader(targetProyecto.getId(), player.getUuid(), commandPlayer.getUuid());
+                    String successMessage = lang.getString("project-leader-switched-success").replace("%player%", player.getNombre()).replace("%proyectoId%", targetProyecto.getId());   
+                    PlayerLogger.info(commandPlayer, successMessage, (String) null);
+                });
+                playerListMenu.open();
+                return true;
+            }
             Set<Player> miembros = projectManager.getMembers(targetProyecto);
-            PlayerListMenu playerListMenu = new PlayerListMenu(commandPlayer, lang.getString("gui-titles.select-member").replace("%proyectoId%", proyectoId), miembros, false, MenuUtils.PlayerContext.MIEMBRO, (player, event) -> {
+            PlayerListMenu playerListMenu = new PlayerListMenu(commandPlayer, lang.getString("gui-titles.select-member").replace("%proyectoId%", targetProyecto.getId()), miembros, false, MenuUtils.PlayerContext.MIEMBRO, (player, event) -> {
                 if (permissionManager.isLider(player, targetProyecto)) {
                     String message = lang.getString("project-already-leader").replace("%player%", player.getNombre()).replace("%proyectoId%", targetProyecto.getId());
                     PlayerLogger.error(commandPlayer, message, (String) null);

@@ -270,6 +270,8 @@ project-join-rejected: "<red>Tu solicitud para unirte al proyecto de ID <yellow>
 project-deleted-member: "El proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecías ha sido eliminado." # %proyectoId% -> Identificador del proyecto.
 project-delete-request-success: "<green>Has eliminado el proyecto de ID <yellow>'%proyectoId%'</yellow> correctamente." # %proyectoId% -> Identificador del proyecto.
 
+project-claimed: "<green>Has reclamado el proyecto de ID <yellow>'%proyectoId%'</yellow> correctamente. Ahora eres el Líder del proyecto." # %proyectoId% -> Identificador del proyecto.
+
 project-name-updated: "<green>El nombre del proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido actualizado a <yellow>'%nombre%'</yellow>." # %proyectoId% -> Identificador del proyecto. %nombre% -> Nuevo nombre del proyecto.
 project-description-updated: "<green>La descripción del proyecto de ID <yellow>'%proyectoId%'</yellow> ha sido actualizada." # %proyectoId% -> Identificador del proyecto.
 project-name-updated-member: "El nombre del proyecto de ID <yellow>'%proyectoId%'</yellow> al que pertenecés ha sido actualizado a <yellow>'%nombre%'</yellow>." # %proyectoId% -> Identificador del proyecto. %nombre% -> Nuevo nombre del proyecto.
@@ -286,10 +288,12 @@ not-a-member-here: "No eres Miembro o Líder de ningún proyecto en esta ubicaci
 not-a-leader-active-projects: "No eres Líder de ningún proyecto activo en esta ubicación."
 not-a-active-project: "El proyecto '%proyectoId%' no está activo." # %proyectoId% -> Identificador del proyecto.
 not-a-active-editing-project: "El proyecto '%proyectoId%' no está activo o en edición." # %proyectoId% -> Identificador del proyecto.
+not-a-abandoned-project: "El proyecto '%proyectoId%' no está abandonado." # %proyectoId% -> Identificador del proyecto.
 not-a-completed-project: "El proyecto '%proyectoId%' no está completado." # %proyectoId% -> Identificador del proyecto.
 no-project-finishing-here: "No hay ningún proyecto en finalización en esta ubicación." 
 no-project-active-here: "No hay ningún proyecto activo en esta ubicación."
 no-project-active-editing-here: "No hay ningún proyecto activo o en edición en esta ubicación."
+no-project-abandoned-here: "No hay ningún proyecto abandonado en esta ubicación."
 no-project-completed-here: "No hay ningún proyecto completado en esta ubicación."
 max-members-reached: "El proyecto de ID <yellow>'%proyectoId%'</yellow> ha alcanzado el máximo de miembros permitidos. (Max. <yellow>%max%</yellow>, Tiene <yellow>%current%</yellow>)" # %proyectoId% -> Identificador del proyecto. %max% -> Máximo de miembros permitidos. %current% -> Cantidad actual de miembros.
 postulante-cant-add-member: "Los usuarios con rango Postulante solo pueden agregar %max% miembro a sus proyectos." # %max% -> Máximo de miembros permitidos.
@@ -326,12 +330,14 @@ gui-titles:
   redefine-project-confirm: "Confirmar redefinición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   edit-project-confirm: "Confirmar edición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   leave-project-confirm: "Confirmar salida: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  claim-project-confirm: "Confirmar reclamo: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   delete-project-confirm: "Confirmar eliminación: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-reject: "Rechazar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-project-accept: "Aceptar finalización: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-edit-project-reject: "Rechazar edición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   finish-edit-project-accept: "Aceptar edición: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   proyectos-activos-list: "Proyectos en esta ubicación"
+  proyectos-abandonados-list: "Proyectos en esta ubicación"
   proyectos-completados-list: "Proyectos en esta ubicación"
   proyectos-here-list: "Proyectos en esta ubicación"
   proyectos-search: "Buscar Proyectos"
@@ -458,7 +464,7 @@ items:
       - "<green>Cantidad: <white>%notificaciones%" # %notificaciones% -> Cantidad de notificaciones no leídas.
       - "<gray>Haz clic para ver las solicitudes de unión."
   claim:
-    material: "GOAT_HORN"
+    material: "BUCKET"
     name: "<green>Reclamar Proyecto"
     lore:
       - "<gray>Este proyecto no tiene líder."
@@ -488,6 +494,9 @@ items:
       editando: "<gold>Editando"
   player:
     name: "%contexto% <aqua>%player%" # %player% -> Nombre del jugador. %contexto% -> Contexto del jugador.
+    no-player-name: "N/A"
+    no-player-lore:
+      -  "<gray>Proyecto sin %contexto%" # %contexto% -> Contexto del jugador.
     lore:
       - "<gray>Nombre público: <white>%nickname%" # %nickname% -> Nombre público del jugador.
       - "<gray>Rango: <white>%rango%" # %rango% -> Rango del jugador.
@@ -977,6 +986,8 @@ project-delete-staff-log: "🗑️ | **%staff%** ha eliminado el proyecto `%proy
 
 project-delete-player-log: "🗑️ | **%player%** ha eliminado su proyecto `%proyectoId%`."
 
+project-claimed-log: "🎉 | **%player%** ha reclamado el proyecto abandonado `%proyectoId%`."
+
 project-added-member-log: "➕ | **%lider%** ha agregado a **%player%** al proyecto `%proyectoId%`."
 project-join-request-log: "🔔 | **%player%** ha solicitado unirse al proyecto `%proyectoId%`."
 project-join-request-expired-log: "❌ | La solicitud para unirse al proyecto `%proyectoId%` ha expirado."
@@ -1005,10 +1016,13 @@ project-finish-edit-accepted-log: "✅ | **%staff%** ha aceptado la finalizació
 project-finish-edit-rejected-log: "❌ | **%staff%** ha denegado la finalización de la edición del proyecto `%proyectoId%`." 
 
 project-leader-switch-log: "🔄 | **%oldLider%** ha sido reemplazado por **%newLider%** como líder del proyecto `%proyectoId%`."
-project-leader-switch-staff: "🔄 | **%staff%** ha reemplazado a **%oldLider%** por **%newLider%** como líder del proyecto `%proyectoId%`."
+project-leader-switch-staff-log: "🔄 | **%staff%** ha reemplazado a **%oldLider%** por **%newLider%** como líder del proyecto `%proyectoId%`."
+project-leader-switch-no-old-leader-log: "🔄 | **%staff%** ha promovido a **%newLider%** a líder del proyecto `%proyectoId%`."
 
 project-name-update-log: "✏️ | **%lider%** ha actualizado el nombre del proyecto `%proyectoId%` a `%proyectoNombre%`."
 project-description-update-log: "✏️ | **%lider%** ha actualizado la descripción del proyecto `%proyectoId%` a `%proyectoDescripcion%`."
+
+project-claim-log: "📌 | **%player%** ha reclamado el proyecto `%proyectoId%`."
 # Project
 project-manager-initializing: "Inicializando Gestor de Proyectos..."
 project-manager-shutting-down: "Cerrando Gestor de Proyectos..."

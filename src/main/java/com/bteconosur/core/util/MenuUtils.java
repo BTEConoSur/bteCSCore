@@ -477,27 +477,45 @@ public class MenuUtils {
 
     public static GuiItem getPlayerItem(Player player, Boolean isOnline, PlayerContext context) {
         int[] proyectoCounts = ProyectoRegistry.getInstance().getCounts(player);
-        List<String> lore = lang.getStringList("items.player.lore");
-        String status;
-        if (isOnline) status = lang.getString("items.player.estado.online");
-        else status = lang.getString("items.player.estado.offline");
-
-        String name = lang.getString("items.player.name").replace("%player%", player.getNombre());
+        String playerName;
+        if (player == null) playerName = lang.getString("items.player.no-player-name");
+        else playerName = player.getNombre();
+        String name = lang.getString("items.player.name").replace("%player%", playerName);
+        String contexto = "";
         if (context != null) {
             switch (context) {
                 case LIDER:
-                    name = name.replace("%contexto%", lang.getString("items.player.contexto.lider"));
+                    contexto = lang.getString("items.player.contexto.lider");
                     break;
                 case MIEMBRO:
-                    name = name.replace("%contexto%", lang.getString("items.player.contexto.miembro"));
+                    contexto = lang.getString("items.player.contexto.miembro");
                     break;
                 case DEFAULT:
-                    name = name.replace("%contexto%", lang.getString("items.player.contexto.default"));
+                    contexto = lang.getString("items.player.contexto.default");
                     break;
             }
         } else {
             name = name.replace("%contexto% ", "");
         }
+        name = name.replace("%contexto%", contexto);
+        if (player == null) {
+            List<String> lore = new ArrayList<>();
+            for (String line : lang.getStringList("items.player.no-player-lore")) {
+                line = line.replace("%contexto%", contexto);
+                lore.add(line);
+            }
+            return buildGuiItem(
+                "PLAYER_HEAD",
+                name,
+                lore, false
+            );
+        }
+        List<String> lore = lang.getStringList("items.player.lore");
+        String status;
+        if (isOnline) status = lang.getString("items.player.estado.online");
+        else status = lang.getString("items.player.estado.offline");
+
+        
 
         String paisPrefix;
         Pais pais = player.getPaisPrefix();

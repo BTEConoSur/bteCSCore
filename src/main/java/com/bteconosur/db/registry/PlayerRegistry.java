@@ -103,6 +103,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
     }
 
     public boolean isOnline(UUID uuid) {
+        if (uuid == null) return false;
         return Bukkit.getPlayer(uuid) != null;
     }
 

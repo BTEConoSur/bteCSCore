@@ -66,12 +66,12 @@ public class MemberListMenu extends PaginatedMenu {
         PermissionManager permissionManager = PermissionManager.getInstance();
         Pais pais = proyecto.getPais();
         Player lider = pm.getLider(proyecto);
-        if (((lider.equals(BTECSPlayer) && (proyecto.getEstado() == Estado.ACTIVO || proyecto.getEstado() == Estado.EDITANDO)) || permissionManager.isManager(BTECSPlayer, pais)) && !infoMenu) {
+        if (((BTECSPlayer.equals(lider) && (proyecto.getEstado() == Estado.ACTIVO || proyecto.getEstado() == Estado.EDITANDO)) || permissionManager.isManager(BTECSPlayer, pais)) && !infoMenu) {
             if (proyecto.checkMaxMiembros()) {
                 gui.setItem(rows, 3, MenuUtils.getMemberAddItem());
                 gui.addSlotAction(rows, 3, action -> {
                     Set<Player> miembros = pm.getMembers(proyecto);
-                    miembros.add(lider);
+                    if (lider != null) miembros.add(lider); 
                     PlayerListMenu playerListMenu = new PlayerListMenu(BTECSPlayer, lang.getString("gui-titles.select-player-add").replace("%proyectoId%", proyecto.getId()), miembros, true, (player, event) -> {
                         if (permissionManager.isMiembroOrLider(player, proyecto)) {
                             String message = lang.getString("project-already-member").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());   

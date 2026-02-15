@@ -146,6 +146,16 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         return proyectos;
     }
 
+    public Set<Proyecto> getAbandoned(Set<Proyecto> search) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : search) {
+            if (proyecto.getEstado() == Estado.ABANDONADO) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
     public Set<Proyecto> getActiveOrEditando(Set<Proyecto> search) {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {

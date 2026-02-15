@@ -8,6 +8,7 @@ import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
@@ -76,12 +77,15 @@ public class ProjectLeaveCommand extends BaseCommand {
                         event.getWhoClicked().closeInventory();
                         return;
                     }
-                    projectManager.leaveProject(proyecto.getId(), commandPlayer.getUuid());
-                    event.getWhoClicked().closeInventory();
-                    String notification;
-                    if (isLider) notification = lang.getString("project-leader-left").replace("%proyectoId%", proyecto.getId());
-                    else notification = lang.getString("project-member-left").replace("%proyectoId%", proyecto.getId());
-                    PlayerLogger.info(commandPlayer, notification, (String) null);
+                    ConfirmationMenu confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.leave-project-confirm").replace("%proyectoId%", proyecto.getId()), commandPlayer, projectListMenu, confirmClick -> {
+                        confirmClick.getWhoClicked().closeInventory();
+                        projectManager.leaveProject(proyecto.getId(), commandPlayer.getUuid());
+                        String notification;
+                        if (isLider) notification = lang.getString("project-leader-left").replace("%proyectoId%", proyecto.getId());
+                        else notification = lang.getString("project-member-left").replace("%proyectoId%", proyecto.getId());
+                        PlayerLogger.info(commandPlayer, notification, (String) null);
+                    });
+                    confirmationMenu.open();
                 });
                 projectListMenu.open();
                 return true;
@@ -102,11 +106,18 @@ public class ProjectLeaveCommand extends BaseCommand {
             return true;
         }
         
-        projectManager.leaveProject(proyectoFinal.getId(), commandPlayer.getUuid());
-        String notification;
-        if (isLider) notification = lang.getString("project-leader-left").replace("%proyectoId%", proyectoFinal.getId());
-        else notification = lang.getString("project-member-left").replace("%proyectoId%", proyectoFinal.getId());
-        PlayerLogger.info(commandPlayer, notification, (String) null);
+        final String proyectoIdFinal = proyectoFinal.getId();
+        ConfirmationMenu confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.leave-project-confirm").replace("%proyectoId%", proyectoIdFinal), commandPlayer, confirmClick -> {
+            confirmClick.getWhoClicked().closeInventory();
+            projectManager.leaveProject(proyectoIdFinal, commandPlayer.getUuid());
+            String notification;
+            if (isLider) notification = lang.getString("project-leader-left").replace("%proyectoId%", proyectoIdFinal);
+            else notification = lang.getString("project-member-left").replace("%proyectoId%", proyectoIdFinal);
+            PlayerLogger.info(commandPlayer, notification, (String) null);
+        }, cancelClick -> {
+            cancelClick.getWhoClicked().closeInventory();
+        });
+        confirmationMenu.open();
         return true;
     }
 

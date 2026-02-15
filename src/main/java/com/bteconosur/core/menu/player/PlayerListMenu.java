@@ -70,6 +70,24 @@ public class PlayerListMenu extends PaginatedMenu {
         this.context = MenuUtils.PlayerContext.DEFAULT;
     }
 
+    public PlayerListMenu(Player player, String title, @NotNull BiConsumer<Player, InventoryClickEvent> onClick, Menu previousMenu) {
+        super(title, player, previousMenu);
+        this.onClick = onClick;
+        this.excludedPlayers = Set.of();
+        this.searchPlayers = Set.of();
+        this.excludePlayers = true;
+        this.context = MenuUtils.PlayerContext.DEFAULT;
+    }
+
+    public PlayerListMenu(Player player, String title, @NotNull BiConsumer<Player, InventoryClickEvent> onClick) {
+        super(title, player);
+        this.onClick = onClick;
+        this.excludedPlayers = Set.of();
+        this.searchPlayers = Set.of();
+        this.excludePlayers = true;
+        this.context = MenuUtils.PlayerContext.DEFAULT;
+    }
+
 //TODO: verificar con muchos jugadores;
     @Override
     protected void populateItems() {

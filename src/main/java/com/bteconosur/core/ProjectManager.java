@@ -523,24 +523,27 @@ public class ProjectManager {
         Player newLider = playerRegistry.get(newLiderId);
         Player oldLider = getLider(proyecto);
         Player commandPlayer = playerRegistry.get(commandId);
-        proyecto.addMiembro(oldLider);
+        if (oldLider != null) proyecto.addMiembro(oldLider);
         proyecto.removeMiembro(newLider);
         proyecto.setLider(newLider);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         Pais pais = proyecto.getPais();
-        
-        if (!commandPlayer.equals(oldLider)) {
+        String newLiderNotification = lang.getString("project-leader-switched").replace("%proyectoId%", proyecto.getId());
+        if (!commandPlayer.equals(oldLider) ) {
             String leaderNotification = lang.getString("project-leader-switched-leader").replace("%proyectoId%", proyecto.getId()).replace("%player%", newLider.getNombre());
             PlayerLogger.info(oldLider, leaderNotification, ChatUtil.getDsLeaderSwitchedLeader(proyecto.getId(), proyecto.getNombre(), newLider.getNombre()));
-            String countryLog = lang.getString("project-leader-switch-staff").replace("%oldLider%", oldLider.getNombre()).replace("%newLider%", newLider.getNombre()).replace("%proyectoId%", proyecto.getId()).replace("%staff%", commandPlayer.getNombre());
+            String countryLog;
+            if (oldLider == null) countryLog = lang.getString("project-leader-switch-no-old-leader-log").replace("%newLider%", newLider.getNombre()).replace("%proyectoId%", proyecto.getId()).replace("%staff%", commandPlayer.getNombre());
+            else countryLog = lang.getString("project-leader-switch-staff-log").replace("%oldLider%", oldLider.getNombre()).replace("%newLider%", newLider.getNombre()).replace("%proyectoId%", proyecto.getId()).replace("%staff%", commandPlayer.getNombre());
             DiscordLogger.countryLog(countryLog, pais);
+            PlayerLogger.info(newLider, newLiderNotification, ChatUtil.getDsLeaderSwitched(proyecto.getId(), proyecto.getNombre()));
             return;
         } else {
+            if (oldLider == null) return;
             String countryLog = lang.getString("project-leader-switch-log").replace("%oldLider%", oldLider.getNombre()).replace("%newLider%", newLider.getNombre()).replace("%proyectoId%", proyecto.getId());
             DiscordLogger.countryLog(countryLog, pais);
         }
         String memberNotification = lang.getString("project-leader-switched-member").replace("%proyectoId%", proyecto.getId()).replace("%player%", newLider.getNombre());
-        String newLiderNotification = lang.getString("project-leader-switched").replace("%proyectoId%", proyecto.getId());
         Set<Player> members = getMembers(proyecto);
         for (Player member : members) {
             if (!member.equals(oldLider)) {
@@ -794,7 +797,21 @@ public class ProjectManager {
         Pais pais = proyecto.getPais();
         String countryLog = lang.getString("project-finish-edit-rejected-log").replace("%staff%", staff.getNombre()).replace("%proyectoId%", proyecto.getId());
         DiscordLogger.countryLog(countryLog, pais);
-    }   
+    }
+
+    public void claim(String proyectoId, UUID playerId) {
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        Player player = PlayerRegistry.getInstance().get(playerId);
+        proyecto.setLider(player);
+        proyecto.setEstado(Estado.ACTIVO);
+        ProyectoRegistry.getInstance().merge(proyecto.getId());
+        Pais pais = proyecto.getPais();
+        String countryLogTemplate = lang.getString("project-claimed-log");
+        if (countryLogTemplate != null) {
+            String countryLog = countryLogTemplate.replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+            DiscordLogger.countryLog(countryLog, pais);
+        }
+    }
     
     public void shutdown() {
         ConsoleLogger.info(lang.getString("project-manager-shutting-down"));
