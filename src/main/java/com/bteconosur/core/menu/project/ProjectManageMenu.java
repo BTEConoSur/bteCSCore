@@ -64,7 +64,7 @@ public class ProjectManageMenu extends Menu {
         gui.setItem(2,3, MenuUtils.getPlayerItem(lider, pr.isOnline(lider.getUuid()), PlayerContext.LIDER));
 
         if (BTECSPlayer.equals(lider) || permissionManager.isManager(BTECSPlayer, pais)) {
-            gui.setItem(4,8, MenuUtils.getNotificationsItem(ir.hasJoinRequest(proyecto.getId())));
+            gui.setItem(4,8, MenuUtils.getNotificationsItem(ir.countJoinRequests(proyecto.getId())));
             gui.addSlotAction(4,8, event -> {
                 String title = lang.getString("gui-titles.join-request-list").replace("%proyectoId%", proyecto.getId());
                 new JoinRequestListMenu(BTECSPlayer, title, proyecto, this).open();

@@ -169,11 +169,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);
     }
 
-    public boolean hasJoinRequest(String proyectoId) {
-        if (proyectoId == null) return false;
-        return findByInteractionKey(InteractionKey.JOIN_PROJECT)
+    public int countJoinRequests(String proyectoId) {
+        if (proyectoId == null) return 0;
+        return (int) findByInteractionKey(InteractionKey.JOIN_PROJECT)
             .stream()
-            .anyMatch(interaction -> proyectoId.equals(interaction.getProjectId()));
+            .filter(interaction -> proyectoId.equals(interaction.getProjectId()))
+            .count();
     }
 
     public Interaction findFinishRequest(String proyectoId) {
