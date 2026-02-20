@@ -1,20 +1,16 @@
 package com.bteconosur.core.command.manager;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
-
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 
 public class ManagerCommand extends BaseCommand {
-
-    private final YamlConfiguration lang;
 
     public ManagerCommand() {
         super("manager", "Comando para Manager de los proyectos.", null, "btecs.command.manager", CommandMode.PLAYER_ONLY);
@@ -35,14 +31,12 @@ public class ManagerCommand extends BaseCommand {
         this.addSubcommand(new ManagerManageCommand());
         this.addSubcommand(new ManagerSelectCommand());
         this.addSubcommand(new GenericHelpCommand(this));
-        // TODO: Comando para eliminar lider,
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
+        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        String message = LanguageHandler.getText(commandPlayer.getLanguage(), "help-command-usage").replace("%comando%", getFullCommand());
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }

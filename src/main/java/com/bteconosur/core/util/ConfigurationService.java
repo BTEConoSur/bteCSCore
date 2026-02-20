@@ -3,6 +3,8 @@ package com.bteconosur.core.util;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -16,7 +18,6 @@ public class ConfigurationService {
     // 4- Agregar seteos de default según corresponda.
     // 5- Agregar configuración al enum ConfigurationKey.
     // 6- Añadir al menú de configuración correspondiente.
-
 
     // TODO: cachear config y poner boton para guardar cambios
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
@@ -36,6 +37,7 @@ public class ConfigurationService {
         configuration.setGeneralSimultaneousNotifications(config.getBoolean("player-defaults.general.simultaneous-notifications"));
         configuration.setGeneralPaisBorder(config.getBoolean("player-defaults.general.pais-border"));
         configuration.setGeneralLabelBorder(config.getBoolean("player-defaults.general.label-border"));
+        configuration.setLang(Language.SPANISH);
 
         return playerRegistry.merge(player.getUuid());
     }
@@ -55,6 +57,13 @@ public class ConfigurationService {
 
         configuration.setManagerDsNotifications(config.getBoolean("player-defaults.manager.ds-notifications"));
 
+        return playerRegistry.merge(player.getUuid());
+    }
+
+    public static Player setLang(Player player, Language language) {
+        PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
+        Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
+        configuration.setLang(language);
         return playerRegistry.merge(player.getUuid());
     }
 
@@ -82,7 +91,7 @@ public class ConfigurationService {
                 configuration.toggleManagerDsNotifications();
                 break;
             default:
-                ConsoleLogger.warn("Key no reconocida: " + key);
+                ConsoleLogger.warn(LanguageHandler.getText("config-key-error").replace("%key%", key.name()));
         }
 
         return playerRegistry.merge(player.getUuid());

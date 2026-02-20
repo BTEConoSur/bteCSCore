@@ -5,49 +5,60 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class ConfigHandler {
     private static ConfigHandler instance;
     private final ConfigFile config = new ConfigFile("config.yml");
-    private final ConfigFile lang = new ConfigFile("lang.yml");
     private final ConfigFile data = new ConfigFile("data.yml");
-    private final ConfigFile worlds = new ConfigFile("worlds.yml");
+    private final ConfigFile gui = new ConfigFile("gui.yml");
+    private final ConfigFile embedColors = new ConfigFile("embed-colors.yml");
+    private final ConfigFile secret = new ConfigFile("secret.yml");
 
     public ConfigHandler() {
         registerConfig();
+        LanguageHandler.initialize();
     }
 
     private void registerConfig() {
         config.register();
-        lang.register();
-        worlds.register();
         data.register();
+        gui.register();
+        embedColors.register();
+        secret.register();
     }
 
     public YamlConfiguration getConfig() {
         return config.getFileConfiguration();
     }
 
-    public YamlConfiguration getLang() {
-        return lang.getFileConfiguration();
-    }
-
-    public YamlConfiguration getWorlds() {
-        return worlds.getFileConfiguration();
+    public YamlConfiguration getEmbedColors() {
+        return embedColors.getFileConfiguration();
     }
 
     public YamlConfiguration getData() {
         return data.getFileConfiguration();
     }
 
+    public YamlConfiguration getGui() {
+        return gui.getFileConfiguration();
+    }
+
+    public YamlConfiguration getSecret() {
+        return secret.getFileConfiguration();
+    }
+
     public void save() {
         config.save();
-        lang.save();
-        worlds.save();
         data.save();
+        gui.save();
+        embedColors.save();
+        secret.save();
+        LanguageHandler.save();
     }
 
     public void reload() {
         config.reload();
-        lang.reload();
-        worlds.reload();
         data.reload();
+        gui.reload();
+        embedColors.reload();
+        secret.reload();
+        LanguageHandler.reload();
     }
 
     /**
@@ -60,4 +71,5 @@ public class ConfigHandler {
         }
         return instance;
     }
+
 }

@@ -10,12 +10,13 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import com.bteconosur.core.config.ConfigHandler;
-import com.bteconosur.db.model.Pais;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
-import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.util.PlaceholderUtils;
 
 import de.rapha149.signgui.SignGUI;
 import de.rapha149.signgui.SignGUIFinishHandler;
@@ -26,147 +27,176 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class MenuUtils {
 
-    private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
+    private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
 
-    public static GuiItem getBackItem() {
+    public static GuiItem getBackItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.back.material"),
-            lang.getString("items.back.name"),
-            lang.getStringList("items.back.lore"), false
+            gui.getString("item-materials.back"),
+            LanguageHandler.getText(language, "items.back.name"),
+            LanguageHandler.getTextList(language, "items.back.lore"), false
         );
     }
 
-    public static GuiItem getCloseItem() {
+    public static GuiItem getCloseItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.close.material"),
-            lang.getString("items.close.name"),
-            lang.getStringList("items.close.lore"), false
+            gui.getString("item-materials.close"),
+            LanguageHandler.getText(language, "items.close.name"),
+            LanguageHandler.getTextList(language, "items.close.lore"), false
         );
     }
 
-    public static GuiItem getPreviousPageItem() {
+    public static GuiItem getPreviousPageItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.previous-page.material"),
-            lang.getString("items.previous-page.name"),
-            lang.getStringList("items.previous-page.lore"), false
+            gui.getString("item-materials.previous-page"),
+            LanguageHandler.getText(language, "items.previous-page.name"),
+            LanguageHandler.getTextList(language, "items.previous-page.lore"), false
         );
     }
     
-    public static GuiItem getNextPageItem() {
+    public static GuiItem getNextPageItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.next-page.material"),
-            lang.getString("items.next-page.name"),
-            lang.getStringList("items.next-page.lore"), false
+            gui.getString("item-materials.next-page"),
+            LanguageHandler.getText(language, "items.next-page.name"),
+            LanguageHandler.getTextList(language, "items.next-page.lore"), false
         );
     }
 
     public static GuiItem getFillerItem() {
         return buildGuiItem(
-            lang.getString("items.filler.material"),
-            lang.getString("items.filler.name"),
-            lang.getStringList("items.filler.lore"), false
+            gui.getString("item-materials.filler"),
+            " ",
+            List.of(), false
         );
     }
 
-    public static GuiItem getRejectItem() {
+    public static GuiItem getRejectItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.reject.material"),
-            lang.getString("items.reject.name"),
-            lang.getStringList("items.reject.lore"), false
+            gui.getString("item-materials.reject"),
+            LanguageHandler.getText(language, "items.reject.name"),
+            LanguageHandler.getTextList(language, "items.reject.lore"), false
         );
     }
 
-    public static GuiItem getAcceptItem() {
+    public static GuiItem getAcceptItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.accept.material"),
-            lang.getString("items.accept.name"),
-            lang.getStringList("items.accept.lore"), false
+            gui.getString("item-materials.accept"),
+            LanguageHandler.getText(language, "items.accept.name"),
+            LanguageHandler.getTextList(language,   "items.accept.lore"), false
         );
     }
 
-    public static GuiItem getConfirmItem() {
+    public static GuiItem getConfirmItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.confirm.material"),
-            lang.getString("items.confirm.name"),
-            lang.getStringList("items.confirm.lore"), false
+            gui.getString("item-materials.confirm"),
+            LanguageHandler.getText(language, "items.confirm.name"),
+            LanguageHandler.getTextList(language, "items.confirm.lore"), false
         );
     }
 
-    public static GuiItem getCancelItem() {
+    public static GuiItem getCancelItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.cancel.material"),
-            lang.getString("items.cancel.name"),
-            lang.getStringList("items.cancel.lore"), false
+            gui.getString("item-materials.cancel"),
+            LanguageHandler.getText(language, "items.cancel.name"),
+            LanguageHandler.getTextList(language, "items.cancel.lore"), false
         );
     }
 
-    public static GuiItem getPromoteItem() {
+    public static GuiItem getPromoteItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.promote.material"),
-            lang.getString("items.promote.name"),
-            lang.getStringList("items.promote.lore"), false
+            gui.getString("item-materials.promote"),
+            LanguageHandler.getText(language, "items.promote.name"),
+            LanguageHandler.getTextList(language, "items.promote.lore"), false
         );
     }
 
-    public static GuiItem getSearchItem(String searchTerm, String search) {
+    public static GuiItem getSearchItem(String searchTerm, String search, Language language) {
         List<String> lore = new ArrayList<String>();
         if (search != null && !search.isBlank()) {
-            lore.add(lang.getString("items.search.searched").replace("%search%", search));
-            lore.add(lang.getString("items.search.search-again-Line-1"));
-            lore.add(lang.getString("items.search.search-again-Line-2"));
+            lore.add(LanguageHandler.getText(language, "items.search.searched").replace("%search%", search));
+            lore.add(LanguageHandler.getText(language, "items.search.search-again-Line-1"));
+            lore.add(LanguageHandler.getText(language, "items.search.search-again-Line-2"));
         } else {
-            lore.add(lang.getString("items.search.search-line"));
+            lore.add(LanguageHandler.getText(language, "items.search.search-line"));
         }
         return buildGuiItem(
-            lang.getString("items.search.material"),
-            lang.getString("items.search.name").replace("%searchTerm%", searchTerm),
+            gui.getString("item-materials.search"),
+            LanguageHandler.getText(language,"items.search.name").replace("%searchTerm%", searchTerm),
             lore, (search != null && !search.isBlank())
         );
     }
 
-    public static GuiItem getNotePadItem(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.notepad.lore");
+    public static GuiItem getNotePadItem(Boolean isSelected, Language language  ) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.notepad.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.addFirst(lang.getString("selected"));
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.selected"));
         
         return buildGuiItem(
-            lang.getString("items.notepad.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.notepad.name"),
-            lore, false
+            gui.getString("item-materials.notepad"),
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.notepad.name"),
+            lore, isSelected
         );
-    }   
-
-    public static GuiItem getGeneralConfigItem(String name, Boolean value) { // name -> Nombre de la sección de la config en lang.yml. Ej: "global-chat-on-join"
-        return getConfigItem("general", name, value);
     }
 
-    public static GuiItem getManagerConfigItem(String name, Boolean value) { // name -> Nombre de la sección de la config en lang.yml. Ej: "notifications"
-        return getConfigItem("manager", name, value);
+    public static GuiItem getGeneralConfigItem(Language language, String name, Boolean value) { // name -> Nombre de la sección de la config en gui.yml. Ej: "global-chat-on-join"
+        return getConfigItem(language, "general", name, value);
     }
 
-    public static GuiItem getReviewerConfigItem(String name, Boolean value) { // name -> Nombre de la sección de la config en lang.yml. Ej: "notifications"
-        return getConfigItem("reviewer", name, value);
+    public static GuiItem getManagerConfigItem(Language language, String name, Boolean value) { // name -> Nombre de la sección de la config en gui.yml. Ej: "notifications"
+        return getConfigItem(language, "manager", name, value);
     }
 
-    private static GuiItem getConfigItem(String context, String name, Boolean value) {
-        String displayName = lang.getString("items.config.name");
-        displayName = displayName.replace("%name%", lang.getString("items.config.configs." + context + "." + name + ".name"));
+    public static GuiItem getReviewerConfigItem(Language language, String name, Boolean value) { // name -> Nombre de la sección de la config en gui.yml. Ej: "notifications"
+        return getConfigItem(language, "reviewer", name, value);
+    }
 
-        List<String> displayDesc = lang.getStringList("items.config.configs." + context + "." + name + ".desc");
+    public static GuiItem getLanguageSelectionItem(Language language, Boolean isSelected) {
+        String langCode = language.getCode();
+        String path = "item-materials.configs.general.lang.langs." + langCode;
+        String headId = gui.getString(path);
+        
+        List<String> lore = new ArrayList<>();
+        if (isSelected) lore.add(LanguageHandler.getText(language, "placeholder.selected"));
+        
+        return buildGuiItem(
+            headId,
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "placeholder.lang-mc." + langCode),
+            lore,
+            false
+        );
+    }
+
+    public static GuiItem getLangConfigItem(Language language) {
+        String displayName = LanguageHandler.getText(language, "items.config.name");
+        displayName = displayName.replace("%name%", LanguageHandler.getText(language, "items.config.configs.general.lang.name"));
+        
+        List<String> lore = LanguageHandler.getTextList(language, "items.config.configs.general.lang.desc");
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%current%", LanguageHandler.getText(language, "placeholder.lang-mc." + language.getCode()));
+            processedLore.add(line);
+        }
+        return buildGuiItem(gui.getString("item-materials.configs.general.lang.item"), displayName, processedLore, false);
+    }
+
+    private static GuiItem getConfigItem(Language language, String context, String name, Boolean value) {
+        String displayName = LanguageHandler.getText(language, "items.config.name");
+        displayName = displayName.replace("%name%", LanguageHandler.getText(language, "items.config.configs." + context + "." + name + ".name"));
+
+        List<String> displayDesc = LanguageHandler.getTextList(language, "items.config.configs." + context + "." + name + ".desc");
         List<String> processedDesc = new ArrayList<>();
         for (String line : displayDesc) {
-            String descLine = lang.getString("items.config.desc-line");
+            String descLine = LanguageHandler.getText(language, "items.config.desc-line");
             descLine = descLine.replace("%desc%", line);
             processedDesc.add(descLine);
         }
 
-        String valueLine = lang.getString("items.config.value-line");
-        valueLine = valueLine.replace("%value%", value ? lang.getString("items.config.value-true") : lang.getString("items.config.value-false"));
+        String valueLine = LanguageHandler.getText(language, "items.config.value-line");
+        valueLine = valueLine.replace("%value%", value ? LanguageHandler.getText(language, "items.config.value-true") : LanguageHandler.getText(language, "items.config.value-false"));
         processedDesc.add(valueLine);
 
-        String trueMaterial = lang.getString("items.config.configs." + context + "." + name + ".material-true");
-        String falseMaterial = lang.getString("items.config.configs." + context + "." + name + ".material-false");
-        return buildGuiItem(value ? trueMaterial : falseMaterial, displayName, processedDesc, false);
+        String trueMaterial = gui.getString("item-materials.configs." + context + "." + name + ".true");
+        String falseMaterial = gui.getString("item-materials.configs." + context + "." + name + ".false");
+        return buildGuiItem(value ? trueMaterial : falseMaterial, displayName, processedDesc, value);
     }
 
     private static GuiItem buildGuiItem(String materialName, String name, List<String> lore, Boolean isEnchanted) {
@@ -210,288 +240,248 @@ public class MenuUtils {
     }
 
     private static Material getMaterialFromString(String materialName) {
+        if (materialName == null || materialName.isBlank()) {
+            ConsoleLogger.warn("El material no puede ser nulo o vacío, usando STONE como predeterminado.");
+            return Material.STONE;
+        }
         try {
-            return Material.valueOf(materialName);
+            return Material.valueOf(materialName.toUpperCase());
         } catch (IllegalArgumentException e) {
+            ConsoleLogger.warn("Material no encontrado: " + materialName + ", usando STONE como predeterminado.");
             return Material.STONE;
         }
     }
 
-    public static GuiItem getArgentinaHeadItem(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.argentina-head.lore");
+    public static GuiItem getArgentinaHeadItem(Boolean isSelected, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.argentina-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.addFirst(lang.getString("selected"));
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
-            lang.getString("items.argentina-head.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.argentina-head.name"),
+            gui.getString("item-materials.argentina-head"),
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.argentina-head.name"),
             lore, false
         );
     }
 
-    public static GuiItem getChileHeadItem(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.chile-head.lore");
+    public static GuiItem getChileHeadItem(Boolean isSelected, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.chile-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.addFirst(lang.getString("selected"));
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
-            lang.getString("items.chile-head.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.chile-head.name"),
+            gui.getString("item-materials.chile-head"),
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.chile-head.name"),
             lore, false
         );
     }
 
-    public static GuiItem getUruguayHeadItem(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.uruguay-head.lore");
+    public static GuiItem getUruguayHeadItem(Boolean isSelected, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.uruguay-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.addFirst(lang.getString("selected"));
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
-            lang.getString("items.uruguay-head.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.uruguay-head.name"),
+            gui.getString("item-materials.uruguay-head"),
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.uruguay-head.name"),
             lore, false
         );
     }
 
-    public static GuiItem getParaguayHeadItem(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.paraguay-head.lore");
+    public static GuiItem getParaguayHeadItem(Boolean isSelected, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.paraguay-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.addFirst(lang.getString("selected"));
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
-            lang.getString("items.paraguay-head.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.paraguay-head.name"),
+            gui.getString("item-materials.paraguay-head"),
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.paraguay-head.name"),
             lore, false
         );
     }
 
-    public static GuiItem getBoliviaHeadItem(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.bolivia-head.lore");
+    public static GuiItem getBoliviaHeadItem(Boolean isSelected, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.bolivia-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.addFirst(lang.getString("selected"));
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
-            lang.getString("items.bolivia-head.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.bolivia-head.name"),
+            gui.getString("item-materials.bolivia-head"),
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.bolivia-head.name"),
             lore, false
         );
     }
 
-    public static GuiItem getPeruHeadItem(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.peru-head.lore");
+    public static GuiItem getPeruHeadItem(Boolean isSelected, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language,   "items.peru-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.addFirst(lang.getString("selected"));  
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));  
         return buildGuiItem(
-            lang.getString("items.peru-head.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.peru-head.name"),
+            gui.getString("item-materials.peru-head"),
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.peru-head.name"),
             lore, false
         );
     }
 
-    public static GuiItem getGlobalChatHeadItem(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.global-chat-head.lore");
+    public static GuiItem getGlobalChatHeadItem(Boolean isSelected, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.global-chat-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.addFirst(lang.getString("selected"));
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
-            lang.getString("items.global-chat-head.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.global-chat-head.name"),
+            gui.getString("item-materials.global-chat-head"),
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.global-chat-head.name"),
             lore, false
         );
     }
 
-    public static GuiItem getInternationalHead(Boolean isSelected) {
-        List<String> lore = lang.getStringList("items.international-head.lore");
+    public static GuiItem getInternationalHead(Boolean isSelected, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.international-head.lore");
         if (lore == null) lore = new ArrayList<>();
-        if (isSelected) lore.add(0, lang.getString("selected"));
+        if (isSelected) lore.add(0, LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
-            lang.getString("items.international-head.material"),
-            (isSelected ? "<b>" : "") + lang.getString("items.international-head.name"),
+            gui.getString("item-materials.international-head"),
+            (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.international-head.name"),
             lore,false
         );
     }
 
-    public static GuiItem getRangoUsuario(RangoUsuario rangoUsuario, Boolean isSelected) {
+    public static GuiItem getRangoUsuario(RangoUsuario rangoUsuario, Boolean isSelected, Language language) {
         List<String> lore = new ArrayList<>();
         String path = "items.rango-usuario." + rangoUsuario.getNombre().toLowerCase();
-        lore.add(lang.getString("items.rango-usuario.description"). replace("%descripcionRango%", rangoUsuario.getDescripcion()));
-        if (isSelected) lore.addFirst(lang.getString("selected"));
+        String materialPath = "item-materials.rango-usuario." + rangoUsuario.getNombre().toLowerCase();
+        lore.add(LanguageHandler.replaceMC("items.rango-usuario.description", language, rangoUsuario));
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
-            lang.getString(path + ".material"),
-            (isSelected ? "<b>" : "") + lang.getString(path + ".name").replace("%nombreRango%", rangoUsuario.getNombre()),
+            gui.getString(materialPath),
+            (isSelected ? "<b>" : "") + LanguageHandler.replaceMC(path + ".name", language, rangoUsuario),
             lore, false
         );
     }
 
-    public static GuiItem getTipoUsuario(TipoUsuario tipoUsuario, Boolean isSelected) {
+    public static GuiItem getTipoUsuario(TipoUsuario tipoUsuario, Boolean isSelected, Language language) {
         List<String> lore = new ArrayList<>();
         String path = "items.tipo-usuario." + tipoUsuario.getNombre().toLowerCase();
-        lore.add(lang.getString("items.tipo-usuario.description"). replace("%descripcionTipo%", tipoUsuario.getDescripcion()));
-        lore.add(lang.getString("items.tipo-usuario.max-projects"). replace("%maxProyectos%", String.valueOf(tipoUsuario.getCantProyecSim())));
-        if (isSelected) lore.addFirst(lang.getString("selected"));
+        String materialPath = "item-materials.tipo-usuario." + tipoUsuario.getNombre().toLowerCase();
+        lore.add(LanguageHandler.replaceMC("items.tipo-usuario.description", language, tipoUsuario));
+        lore.add(LanguageHandler.replaceMC("items.tipo-usuario.max-projects", language, tipoUsuario));
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
-            lang.getString(path + ".material"),
-            (isSelected ? "<b>" : "") + lang.getString(path + ".name").replace("%nombreTipo%", tipoUsuario.getNombre()),
+            gui.getString(materialPath),
+            (isSelected ? "<b>" : "") + LanguageHandler.replaceMC(path + ".name", language, tipoUsuario),
             lore, false
         );
     }
 
-    public static GuiItem getProyecto(Proyecto proyecto) {
-        List<String> lore = lang.getStringList("items.proyecto.lore");
-        Player lider = proyecto.getLider();
-        String proyectoNombre = proyecto.getNombre() != null && !proyecto.getNombre().isBlank() ? proyecto.getNombre() : "Sin Nombre";
-        String descripcion = proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank() ? proyecto.getDescripcion() : "Sin Descripción";
-        String estado = null;
-        switch (proyecto.getEstado()) {
-            case ACTIVO:
-                estado = lang.getString("items.proyecto.estado.activo");
-                break;
-            case EN_FINALIZACION:
-                estado = lang.getString("items.proyecto.estado.en-finalizacion");
-                break;
-            case EN_FINALIZACION_EDICION:
-                estado = lang.getString("items.proyecto.estado.en-finalizacion-edit");
-                break;
-            case COMPLETADO:
-                estado = lang.getString("items.proyecto.estado.completado");
-                break;
-            case EN_CREACION:
-                estado = lang.getString("items.proyecto.estado.en-creacion");
-                break;
-            case REDEFINIENDO:
-                estado = lang.getString("items.proyecto.estado.redefiniendo");
-                break;
-            case ABANDONADO:
-                estado = lang.getString("items.proyecto.estado.abandonado");
-                break;
-            case EDITANDO:
-                estado = lang.getString("items.proyecto.estado.editando");
-                break;
-            default:
-                estado = "Reportar a administración";
-                break;
-        }
+    public static GuiItem getProyecto(Proyecto proyecto, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.proyecto.lore");
         
-        int cantMiembros = proyecto.getCantMiembros();
         List<String> processedLore = new ArrayList<>();
         for (String line : lore) {
-            line = line.replace("%descripcion%", descripcion)
-                .replace("%lider%", lider != null ? lider.getNombrePublico() : "Sin Líder")
-                .replace("%miembros%", String.valueOf(cantMiembros != 0 ? cantMiembros : "Sin Miembros")) 
-                .replace("%pais%", proyecto.getPais().getNombrePublico())
-                .replace("%divisionGna%", proyecto.getDivision().getGna())
-                .replace("%divisionFna%", proyecto.getDivision().getFna())
-                .replace("%divisionNam%", proyecto.getDivision().getNam())
-                .replace("%divisionContexto%", proyecto.getDivision().getContexto())
-                .replace("%proyectoEstado%", estado)
-                .replace("%tamano%", String.valueOf(proyecto.getTamaño()))
-                .replace("%tipoProyecto%", proyecto.getTipoProyecto().getNombre())
-                .replace("%fechaCreacion%", DateUtils.formatDate(proyecto.getFechaCreado()))
-                .replace("%fechaFinalizacion%", DateUtils.formatDate(proyecto.getFechaTerminado()));
+            line = PlaceholderUtils.replaceMC(line, language, proyecto);
             processedLore.add(line);
         }
+                
         return buildGuiItem(
-            lang.getString("items.proyecto.default-material"),
-            lang.getString("items.proyecto.name").replace("%proyectoId%", proyecto.getId()).replace("%proyectoNombre%", proyectoNombre),
+            gui.getString("item-materials.proyecto-default"),
+            LanguageHandler.replaceMC("items.proyecto.name", language, proyecto),
             processedLore, false
         );
     }
 
-    public static GuiItem getMembersItem(int memberCount) {
-        List<String> lore = lang.getStringList("items.members.lore");
+    public static GuiItem getMembersItem(Proyecto proyecto, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.members.lore");
         List<String> processedLore = new ArrayList<>();
         for (String line : lore) {
-            line = line.replace("%miembros%", String.valueOf(memberCount));
+            line = PlaceholderUtils.replaceMC(line, language, proyecto);
             processedLore.add(line);
         }   
         return buildGuiItem(
-            lang.getString("items.members.material"),
-            lang.getString("items.members.name"),
+            gui.getString("item-materials.members"),
+            LanguageHandler.replaceMC("items.members.name", language, proyecto),
             processedLore, false
         );
     }
 
-    public static GuiItem getMemberAddItem() {
+    public static GuiItem getMemberAddItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.add-member.material"),
-            lang.getString("items.add-member.name"),
-            lang.getStringList("items.add-member.lore"), false
+            gui.getString("item-materials.add-member"),
+            LanguageHandler.getText(language, "items.add-member.name"),
+            LanguageHandler.getTextList(language, "items.add-member.lore"), false
         );
     }
 
-    public static GuiItem getMemberRemoveItem() {
+    public static GuiItem getMemberRemoveItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.remove-member.material"),
-            lang.getString("items.remove-member.name"),
-            lang.getStringList("items.remove-member.lore"), false
+            gui.getString("item-materials.remove-member"),
+            LanguageHandler.getText(language, "items.remove-member.name"),
+            LanguageHandler.getTextList(language, "items.remove-member.lore"), false
         );
     }
 
-    public static GuiItem getLiderTransferItem() {
+    public static GuiItem getLiderTransferItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.transfer-leader.material"),
-            lang.getString("items.transfer-leader.name"),
-            lang.getStringList("items.transfer-leader.lore"), false
+            gui.getString("item-materials.transfer-leader"),
+            LanguageHandler.getText(language, "items.transfer-leader.name"),
+            LanguageHandler.getTextList(language, "items.transfer-leader.lore"), false
         );
     }
 
-    public static GuiItem getSetNameDescription() {
+    public static GuiItem getSetNameDescription(Language language) {
         return buildGuiItem(
-            lang.getString("items.set-name-description.material"),
-            lang.getString("items.set-name-description.name"),
-            lang.getStringList("items.set-name-description.lore"), false
+            gui.getString("item-materials.set-name-description"),
+            LanguageHandler.getText(language, "items.set-name-description.name"),
+            LanguageHandler.getTextList(language, "items.set-name-description.lore"), false
         );
     }
 
-    public static GuiItem getFinishProjectItem() {
+    public static GuiItem getFinishProjectItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.finish-project.material"),
-            lang.getString("items.finish-project.name"),
-            lang.getStringList("items.finish-project.lore"), false
+            gui.getString("item-materials.finish-project"),
+            LanguageHandler.getText(language, "items.finish-project.name"),
+            LanguageHandler.getTextList(language, "items.finish-project.lore"), false
         );
     }
 
-    public static GuiItem getLeaveProjectItem() {
+    public static GuiItem getLeaveProjectItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.leave-project.material"),
-            lang.getString("items.leave-project.name"),
-            lang.getStringList("items.leave-project.lore"), false
+            gui.getString("item-materials.leave-project"),
+            LanguageHandler.getText(language, "items.leave-project.name"),
+            LanguageHandler.getTextList(language, "items.leave-project.lore"), false
         );
     }
 
-    public static GuiItem getNotificationsItem(int cantNotificaciones) {
-        List<String> lore = lang.getStringList("items.notifications.lore");
+    public static GuiItem getNotificationsItem(int cantNotificaciones, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.notifications.lore");
         List<String> processedLore = new ArrayList<>();
         for (String line : lore) {
             line = line.replace("%notificaciones%", String.valueOf(cantNotificaciones));
             processedLore.add(line);
         }
         return buildGuiItem(
-            lang.getString("items.notifications.material"),
-            lang.getString("items.notifications.name"),
+            gui.getString("item-materials.notifications"),
+            LanguageHandler.getText(language, "items.notifications.name"),
             processedLore, cantNotificaciones > 0
         );
     }
 
-    public static GuiItem getClaimProjectItem() {
+    public static GuiItem getClaimProjectItem(Language language) {
         return buildGuiItem(
-            lang.getString("items.claim.material"),
-            lang.getString("items.claim.name"),
-            lang.getStringList("items.claim.lore"), false
+            gui.getString("item-materials.claim"),
+            LanguageHandler.getText(language, "items.claim.name"),
+            LanguageHandler.getTextList(language, "items.claim.lore"), false
         );
     }
 
-    public static GuiItem getPlayerItem(Player player, Boolean isOnline, PlayerContext context) {
-        int[] proyectoCounts = ProyectoRegistry.getInstance().getCounts(player);
-        String playerName;
-        if (player == null) playerName = lang.getString("items.player.no-player-name");
-        else playerName = player.getNombre();
-        String name = lang.getString("items.player.name").replace("%player%", playerName);
+public static GuiItem getPlayerItem(Player player, Boolean isOnline, PlayerContext context, Language language) {
+        String name = LanguageHandler.getText(language, "items.player.name");
+        if (player == null) name = name.replace("%player.nombre%", LanguageHandler.getText(language, "items.player.no-player-name"));
+        else name = PlaceholderUtils.replaceMC(name, language, player);
         String contexto = "";
         if (context != null) {
             switch (context) {
                 case LIDER:
-                    contexto = lang.getString("items.player.contexto.lider");
+                    contexto = LanguageHandler.getText(language, "items.player.contexto.lider");
                     break;
                 case MIEMBRO:
-                    contexto = lang.getString("items.player.contexto.miembro");
+                    contexto = LanguageHandler.getText(language, "items.player.contexto.miembro");
                     break;
                 case DEFAULT:
-                    contexto = lang.getString("items.player.contexto.default");
+                    contexto = LanguageHandler.getText(language, "items.player.contexto.default");
                     break;
             }
         } else {
@@ -500,39 +490,21 @@ public class MenuUtils {
         name = name.replace("%contexto%", contexto);
         if (player == null) {
             List<String> lore = new ArrayList<>();
-            for (String line : lang.getStringList("items.player.no-player-lore")) {
+            for (String line : LanguageHandler.getTextList(language, "items.player.no-player-lore")) {
                 line = line.replace("%contexto%", contexto);
                 lore.add(line);
             }
             return buildGuiItem(
-                "PLAYER_HEAD",
+                gui.getString("item-materials.player-head"),
                 name,
                 lore, false
             );
         }
-        List<String> lore = lang.getStringList("items.player.lore");
-        String status;
-        if (isOnline) status = lang.getString("items.player.estado.online");
-        else status = lang.getString("items.player.estado.offline");
-
+        List<String> lore = LanguageHandler.getTextList(language, "items.player.lore");
         
-
-        String paisPrefix;
-        Pais pais = player.getPaisPrefix();
-        if (pais != null) paisPrefix =  lang.getString("mc-prefixes.pais." + pais.getNombre());
-        else paisPrefix = lang.getString("mc-prefixes.pais.internacional");
-
         List<String> processedLore = new ArrayList<>();
         for (String line : lore) {
-            line = line.replace("%nickname%", player.getNombrePublico())
-                .replace("%rango%", player.getRangoUsuario().getNombre())
-                .replace("%tipo%", player.getTipoUsuario().getNombre())
-                .replace("%paisPrefix%", paisPrefix)
-                .replace("%proyectosActivos%", String.valueOf(proyectoCounts[1]))
-                .replace("%proyectosFinalizados%", String.valueOf(proyectoCounts[0]))
-                .replace("%fechaIngreso%", DateUtils.formatDate(player.getFechaIngreso()))
-                .replace("%ultimaConexion%", DateUtils.formatDate(player.getFechaUltimaConexion()))
-                .replace("%estado%", status);
+            line = PlaceholderUtils.replaceMC(line, language, player);
             processedLore.add(line);
         }
         return buildGuiItem(
@@ -547,10 +519,10 @@ public class MenuUtils {
         LIDER, MIEMBRO, DEFAULT
     }
 
-    public static boolean createSignGUI(org.bukkit.entity.Player player, SignGUIFinishHandler handler) {
+    public static boolean createSignGUI(org.bukkit.entity.Player player, SignGUIFinishHandler handler, Language language) {
         SignGUI gui;
         try {
-            List<String> signLines = lang.getStringList("sign-gui");
+            List<String> signLines = LanguageHandler.getTextList(language, "sign-gui");
             gui = SignGUI.builder()
                 .setLines(signLines.toArray(new String[0]))
                 .setHandler(handler)
@@ -558,7 +530,7 @@ public class MenuUtils {
             gui.open(player);
             return true;
         } catch (Exception e) {
-            ConsoleLogger.error("Error al crear el SignGUI: " + e.getMessage());
+            ConsoleLogger.error(LanguageHandler.getText("sign-gui-create-error").replace("%reason%", e.getMessage()));
             e.printStackTrace();
         }
         return false;

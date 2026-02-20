@@ -16,6 +16,7 @@ import com.bteconosur.core.command.pais.WhereIAmCommand;
 import com.bteconosur.core.command.project.ProjectCommand;
 import com.bteconosur.core.command.reviewer.ReviewerCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.listener.ChatListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
 import com.bteconosur.core.listener.PlayerLeaveListener;
@@ -68,7 +69,6 @@ public final class BTEConoSur extends JavaPlugin {
     private static LuckPerms luckPermsApi;
 
     private static YamlConfiguration config;
-    private static YamlConfiguration lang;
 
     @Override
     public void onEnable() {
@@ -95,15 +95,14 @@ public final class BTEConoSur extends JavaPlugin {
             PluginRegistry.disablePlugin("Luckperms API no cargada. Asegurar de que LuckPerms esté instalado y habilitado.");
             return;
         }
-
+        
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
-        lang = configHandler.getLang();
 
 
         discordManager = DiscordManager.getInstance();
         if (discordManager.getJda() != null) DiscordLogger.toggleStaffConsoleLog();
-        ConsoleLogger.debug(lang.getString("debug-mode-enabled"));
+        ConsoleLogger.debug(LanguageHandler.getText("debug-mode-enabled"));
 
         dbManager = DBManager.getInstance();
         dsCommandManager = DsCommandManager.getInstance();
@@ -240,7 +239,6 @@ public final class BTEConoSur extends JavaPlugin {
 
 }
 
-// TODO: Revisar llamadas a config en constructores.
 // TODO: Alias de comandos.
 // TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab
@@ -260,3 +258,5 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: Revisar segundero de comando.
 // TODO: borrar imagenes de contexto.
 // TODO: Listado de managers y reviewers en el proyecto.
+// TODO: Dynamic en las cabezas
+// TODO: DEBUg en envio de mensajes discord

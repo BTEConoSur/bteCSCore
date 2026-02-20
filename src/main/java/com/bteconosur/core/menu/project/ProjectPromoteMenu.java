@@ -1,9 +1,8 @@
 package com.bteconosur.core.menu.project;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.bteconosur.core.chat.ChatUtil;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.DiscordLogger;
@@ -13,6 +12,7 @@ import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
+import com.bteconosur.db.util.PlaceholderUtils;
 
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
@@ -22,15 +22,18 @@ public class ProjectPromoteMenu extends Menu {
     
     private Player BTECSPlayer;
     private ConfirmationMenu confirmationMenu;
+    private Language language;
 
     public ProjectPromoteMenu(Player player, String title) {
         super(title, 4, player);
         this.BTECSPlayer = player;
+        this.language = player.getLanguage();
     }
 
     public ProjectPromoteMenu(Player player, Menu previousMenu, String title) {
         super(title, 4, player, previousMenu);
         this.BTECSPlayer = player;
+        this.language = player.getLanguage();
     }
 
     @Override
@@ -41,10 +44,7 @@ public class ProjectPromoteMenu extends Menu {
             .disableAllInteractions()
             .create();
 
-        YamlConfiguration lang = ConfigHandler.getInstance().getLang();
-        String messageSwitch = lang.getString("tipo-switched");
-        String messageSet = lang.getString("tipo-set");
-        String promoteLog = lang.getString("tipo-promote-staff-log");
+        String messageSet = LanguageHandler.getText(language, "tipo.set");
         Player playerMenu = Player.getBTECSPlayer(player);
 
         gui.getFiller().fill(MenuUtils.getFillerItem());
@@ -52,14 +52,20 @@ public class ProjectPromoteMenu extends Menu {
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance(); 
         PermissionManager pm = PermissionManager.getInstance();
         TipoUsuario visita = tur.getVisita();
-        gui.setItem(2,3, MenuUtils.getTipoUsuario(visita, pm.isTipoUsuario(BTECSPlayer, visita)));
+        gui.setItem(2,3, MenuUtils.getTipoUsuario(visita, pm.isTipoUsuario(BTECSPlayer, visita), language));
         gui.addSlotAction(2,3, event -> {
             if (pm.isTipoUsuario(BTECSPlayer, visita)) return;
-            confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.tipo-confirm"), player, this, confirmClick -> {
+            String title = LanguageHandler.getText(language, "gui-titles.tipo-confirm");
+            confirmationMenu = new ConfirmationMenu(title, player, this, confirmClick -> {
                 pm.switchTipoUsuario(BTECSPlayer, visita);
-                PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%tipo%", visita.getNombre()), ChatUtil.getDsTipoUsuarioSwitched(visita));
-                if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%tipo%", visita.getNombre()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
-                DiscordLogger.staffLog(promoteLog.replace("%staff%", playerMenu.getNombre()).replace("%player%", BTECSPlayer.getNombre()).replace("%tipo%", visita.getNombre()));
+                PlayerLogger.info(BTECSPlayer, LanguageHandler.replaceMC("tipo.switch", BTECSPlayer.getLanguage(), visita), ChatUtil.getDsTipoUsuarioSwitched(visita, BTECSPlayer.getLanguage()));
+                if (!BTECSPlayer.equals(playerMenu)) {
+                    String message = PlaceholderUtils.replaceMC(messageSet, language, visita);
+                    PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, language, BTECSPlayer), (String) null);
+                }
+                String countryLog = LanguageHandler.replaceDS("tipo.promote.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), visita);
+                DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(player);
@@ -68,14 +74,20 @@ public class ProjectPromoteMenu extends Menu {
         });
 
         TipoUsuario postulante = tur.getPostulante();
-        gui.setItem(2,5, MenuUtils.getTipoUsuario(postulante, pm.isTipoUsuario(BTECSPlayer, postulante)));
+        gui.setItem(2,5, MenuUtils.getTipoUsuario(postulante, pm.isTipoUsuario(BTECSPlayer, postulante), language));
         gui.addSlotAction(2,5, event -> {
             if (pm.isTipoUsuario(BTECSPlayer, postulante)) return;
-            confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.tipo-confirm"), player, this, confirmClick -> {
+            String title = LanguageHandler.getText(language, "gui-titles.tipo-confirm");
+            confirmationMenu = new ConfirmationMenu(title, player, this, confirmClick -> {
                 pm.switchTipoUsuario(BTECSPlayer, postulante);
-                PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%tipo%", postulante.getNombre()), ChatUtil.getDsTipoUsuarioSwitched(postulante));
-                if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%tipo%", postulante.getNombre()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
-                DiscordLogger.staffLog(promoteLog.replace("%staff%", playerMenu.getNombre()).replace("%player%", BTECSPlayer.getNombre()).replace("%tipo%", postulante.getNombre()));
+                PlayerLogger.info(BTECSPlayer, LanguageHandler.replaceMC("tipo.switch", BTECSPlayer.getLanguage(), postulante), ChatUtil.getDsTipoUsuarioSwitched(postulante, BTECSPlayer.getLanguage()));
+                if (!BTECSPlayer.equals(playerMenu)) {
+                    String message = PlaceholderUtils.replaceMC(messageSet, language, postulante);
+                    PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, language, BTECSPlayer), (String) null);
+                }
+                String countryLog = LanguageHandler.replaceDS("tipo.promote.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), postulante);
+                DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(player);
@@ -84,14 +96,20 @@ public class ProjectPromoteMenu extends Menu {
         });
 
         TipoUsuario constructor = tur.getConstructor();
-        gui.setItem(2,7, MenuUtils.getTipoUsuario(constructor, pm.isTipoUsuario(BTECSPlayer, constructor)));
+        gui.setItem(2,7, MenuUtils.getTipoUsuario(constructor, pm.isTipoUsuario(BTECSPlayer, constructor), language));
         gui.addSlotAction(2,7, event -> {
             if (pm.isTipoUsuario(BTECSPlayer, constructor)) return;
-            confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.tipo-confirm"), player, this, confirmClick -> {
+            String title = LanguageHandler.getText(language, "gui-titles.tipo-confirm");
+            confirmationMenu = new ConfirmationMenu(title, player, this, confirmClick -> {
                 pm.switchTipoUsuario(BTECSPlayer, constructor);
-                PlayerLogger.info(BTECSPlayer, messageSwitch.replace("%tipo%", constructor.getNombre()), ChatUtil.getDsTipoUsuarioSwitched(constructor));
-                if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, messageSet.replace("%tipo%", constructor.getNombre()).replace("%player%", BTECSPlayer.getNombre()), (String) null);
-                DiscordLogger.staffLog(promoteLog.replace("%staff%", playerMenu.getNombre()).replace("%player%", BTECSPlayer.getNombre()).replace("%tipo%", constructor.getNombre()));
+                PlayerLogger.info(BTECSPlayer, LanguageHandler.replaceMC("tipo.switch", BTECSPlayer.getLanguage(), constructor), ChatUtil.getDsTipoUsuarioSwitched(constructor, BTECSPlayer.getLanguage()));
+                if (!BTECSPlayer.equals(playerMenu)) {
+                    String message = PlaceholderUtils.replaceMC(messageSet, language, constructor);
+                    PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, language, BTECSPlayer), (String) null);
+                }
+                String countryLog = LanguageHandler.replaceDS("tipo.promote.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), constructor);
+                DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(player);

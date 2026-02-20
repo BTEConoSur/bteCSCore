@@ -15,6 +15,7 @@ import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.PermissionManager;
@@ -33,7 +34,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
 
     public ProyectoRegistry() {
         super();
-        ConsoleLogger.info(lang.getString("proyecto-registry-initializing"));  
+        ConsoleLogger.info(LanguageHandler.getText("proyecto-registry-initializing"));  
         loadedObjects = new ConcurrentHashMap<>();
         List<Proyecto> proyectos = dbManager.selectAll(Proyecto.class);
         if (proyectos != null) {
@@ -206,6 +207,28 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         return count;
     }
 
+    public int getCompletadosCount(Player player) {
+        int count = 0;
+        PermissionManager pm = PermissionManager.getInstance();
+        for (Proyecto proyecto : loadedObjects.values()) {
+            if (pm.isLider(player, proyecto)) {
+                if(proyecto.getEstado() == Estado.COMPLETADO) count++;
+            }
+        }
+        return count;
+    }
+
+    public int getActivosCount(Player player) {
+        int count = 0;
+        PermissionManager pm = PermissionManager.getInstance();
+        for (Proyecto proyecto : loadedObjects.values()) {
+            if (pm.isLider(player, proyecto)) {
+                if(proyecto.getEstado() == Estado.ACTIVO) count++;
+            }
+        }
+        return count;
+    }
+
     public Set<Proyecto> getOverlapping(String proyectoId, Polygon poligono) {
         Set<Proyecto> proyectos = new HashSet<>();
         Set<ChunkKey> chunkKeys = loadedChunkProyectos.entrySet().stream()
@@ -301,7 +324,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     }
 
     public void shutdown() {
-        ConsoleLogger.info(lang.getString("proyecto-registry-shutting-down"));
+        ConsoleLogger.info(LanguageHandler.getText( "proyecto-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
         loadedChunkProyectos.clear();

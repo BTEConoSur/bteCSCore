@@ -2,17 +2,12 @@ package com.bteconosur.core.listener;
 
 import java.util.Date;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.bteconosur.core.chat.GlobalChatService;
-import com.bteconosur.core.chat.NotePadService;
 import com.bteconosur.core.chat.ChatService;
-import com.bteconosur.core.chat.ChatUtil;
-import com.bteconosur.core.chat.CountryChatService;
-import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Configuration;
@@ -20,8 +15,6 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
-
-import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class PlayerJoinListener implements Listener {
 
@@ -59,15 +52,7 @@ public class PlayerJoinListener implements Listener {
             player = playerRegistry.merge(player.getUuid());
         }
 
-        YamlConfiguration config = ConfigHandler.getInstance().getConfig();
-
-        MessageEmbed dsMessage = ChatUtil.getDsPlayerJoined(player.getNombrePublico(), player.getUuid());
-        String mcMessage = ChatUtil.getMcPlayerJoined(player.getNombrePublico());
-
-        if (config.getBoolean("discord-player-join-leave")) GlobalChatService.broadcastEmbed(dsMessage, mcMessage);
-        else GlobalChatService.broadcastMc(mcMessage);
-        CountryChatService.broadcastMc(mcMessage);
-        NotePadService.broadcastMc(mcMessage);
+        GlobalChatService.broadcastPlayerJoinedServer(player);
         
         if (player.getConfiguration().getGeneralGlobalChatOnJoin()) ChatService.setChatToGlobal(player);
         else if (ChatService.wasInCountryChat(player)) ChatService.setChatToCountry(player);

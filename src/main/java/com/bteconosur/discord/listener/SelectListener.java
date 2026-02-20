@@ -2,11 +2,13 @@ package com.bteconosur.discord.listener;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Interaction;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.InteractionRegistry;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.action.SelectAction;
 
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
@@ -14,7 +16,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class SelectListener extends ListenerAdapter {
 
-    private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private static final InteractionRegistry registry = InteractionRegistry.getInstance();
 
     @SuppressWarnings("null")
@@ -25,31 +26,35 @@ public class SelectListener extends ListenerAdapter {
 
         Interaction ctx = registry.findByComponentId(selectId);
         if (ctx == null) ctx = registry.findByMessageId(event.getMessage().getIdLong());
-        
+        Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
+        Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (ctx == null) {
-            ConsoleLogger.warn("Error de Discord: Interacción de selector con ID '" + selectId + "' / mensaje con ID '" + event.getMessage().getId() + "' no encontrada en el registro.");
-            event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.selector-interaction")
+                .replace("%selectId%", selectId)
+                .replace("%messageId%", event.getMessage().getId())
+            );
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
             return;
         }
 
         if (ctx.isExpired()) {
             ConsoleLogger.debug("Interacción de selector expirada: " + selectId + ", " + ctx.getInteractionKey());
-            event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
             return;
         }
 
         SelectAction action = registry.getSelectAction(ctx.getInteractionKey());
         if (action == null) {
-            ConsoleLogger.warn("Error de Discord: No hay una acción de selector registrada para la clave: " + ctx.getInteractionKey());
-            event.reply(lang.getString("discord-internal-error")).setEphemeral(true).queue();
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.select-action-not-found").replace("%interactionKey%", ctx.getInteractionKey().name()));
+            event.reply(LanguageHandler.getText(language, "discord-internal-error")).setEphemeral(true).queue();
             return;
         }
 
         try {
             action.handle(event, ctx);
         } catch (Exception e) {
-            ConsoleLogger.error("Error de Discord: Error al manejar la interacción de selector: " + e.getMessage());
-            event.reply(lang.getString("discord-internal-error")).setEphemeral(true).queue();
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.select-internal-error") + e.getMessage());
+            event.reply(LanguageHandler.getText(language, "discord-internal-error")).setEphemeral(true).queue();
         }
     }
 

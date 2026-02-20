@@ -21,7 +21,7 @@ import com.sk89q.worldedit.util.net.HttpRequest;
 public class SatMapUtils {
 
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
-    private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
+    private static final YamlConfiguration secret = ConfigHandler.getInstance().getSecret();
     private static final BTEConoSur plugin = BTEConoSur.getInstance();
     private static final Object requestsLock = new Object();
 
@@ -59,7 +59,6 @@ public class SatMapUtils {
         }
     }
 
-    //TODO: que pasa si no se puede descargar la imagen (limite alcanzado, error de red, etc)
     public static File downloadContext(Proyecto proyecto, Set<Proyecto> otrosProyectos) {
         try {
             checkReset();
@@ -190,9 +189,9 @@ public class SatMapUtils {
     private static String createMapSatLink(Polygon proyecto, Set<Polygon> otrosProyectos) {
         try {
             String link = config.getString("map-link");
-            link = link.replace("%token%", config.getString("mapbox-access-token"));
+            link = link.replace("%token%", secret.getString("mapbox-access-token"));
 
-            double padding = lang.getDouble("map.padding");
+            double padding = config.getDouble("map.padding");
             
             Envelope env = proyecto.getEnvelopeInternal();
             double[] minLatLon = TerraUtils.toGeo(env.getMinX(), env.getMinY());
@@ -221,12 +220,12 @@ public class SatMapUtils {
             link = link.replace("%maxLon%", String.valueOf(lonMax + lonPadding));
             link = link.replace("%maxLat%", String.valueOf(latMax + latPadding));
             
-            String borderColor = lang.getString("map.project.border-color").replace("#", "%23");
-            String fillColor = lang.getString("map.project.fill-color").replace("#", "%23");
+            String borderColor = config.getString("map.project.border-color").replace("#", "%23");
+            String fillColor = config.getString("map.project.fill-color").replace("#", "%23");
             String proyectoGeoJson = GeoJsonUtils.polygonToGeoJson(proyecto, fillColor, borderColor);
             String fullGeoJsonOverlay = "geojson(" + proyectoGeoJson + ")";
-            borderColor = lang.getString("map.others-projects.border-color").replace("#", "%23");
-            fillColor = lang.getString("map.others-projects.fill-color").replace("#", "%23");
+            borderColor = config.getString("map.others-projects.border-color").replace("#", "%23");
+            fillColor = config.getString("map.others-projects.fill-color").replace("#", "%23");
             if (otrosProyectos != null && !otrosProyectos.isEmpty()) {
                 StringBuilder otrosGeoJson = new StringBuilder();
                 for (Polygon p : otrosProyectos) {
@@ -247,9 +246,9 @@ public class SatMapUtils {
     private static String createMapSatLink(Polygon proyecto, Polygon newPolygon, Set<Polygon> otrosProyectos) {
         try {
             String link = config.getString("map-link");
-            link = link.replace("%token%", config.getString("mapbox-access-token"));
+            link = link.replace("%token%", secret.getString("mapbox-access-token"));
 
-            double padding = lang.getDouble("map.padding");
+            double padding = config.getDouble("map.padding");
             
             Envelope env = newPolygon.getEnvelopeInternal();
             double[] minLatLon = TerraUtils.toGeo(env.getMinX(), env.getMinY());
@@ -279,14 +278,14 @@ public class SatMapUtils {
             link = link.replace("%maxLat%", String.valueOf(latMax + latPadding));
             
             String fullGeoJsonOverlay = "geojson(" + GeoJsonUtils.polygonToGeoJson(proyecto, 
-                lang.getString("map.project.border-color").replace("#", "%23"), 
-                lang.getString("map.project.fill-color").replace("#", "%23")) + ")"; 
+                config.getString("map.project.border-color").replace("#", "%23"), 
+                config.getString("map.project.fill-color").replace("#", "%23")) + ")"; 
             fullGeoJsonOverlay += ",geojson(" + GeoJsonUtils.polygonToGeoJson(newPolygon, 
-                lang.getString("map.redefine.border-color").replace("#", "%23"), 
-                lang.getString("map.redefine.fill-color").replace("#", "%23")) + ")"; 
+                config.getString("map.redefine.border-color").replace("#", "%23"), 
+                config.getString("map.redefine.fill-color").replace("#", "%23")) + ")"; 
             //String encodedProyecto = encodeForUri(proyectoGeoJson);
-            String borderColor = lang.getString("map.others-projects.border-color").replace("#", "%23");
-            String fillColor = lang.getString("map.others-projects.fill-color").replace("#", "%23");
+            String borderColor = config.getString("map.others-projects.border-color").replace("#", "%23");
+            String fillColor = config.getString("map.others-projects.fill-color").replace("#", "%23");
             if (otrosProyectos != null && !otrosProyectos.isEmpty()) {
                 StringBuilder otrosGeoJson = new StringBuilder();
                 for (Polygon p : otrosProyectos) {

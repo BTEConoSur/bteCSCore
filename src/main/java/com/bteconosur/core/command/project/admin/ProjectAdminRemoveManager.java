@@ -6,12 +6,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
@@ -19,23 +19,22 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.util.PlaceholderUtils;
 
 public class ProjectAdminRemoveManager extends BaseCommand {
 
-    private final YamlConfiguration lang;
     private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
     public ProjectAdminRemoveManager() {
         super("removemanager", "Remover Manager de un país.", "<nombre_pais> <uuid/nombre_manager>", "btecs.command.project.admin.removemanager", CommandMode.PLAYER_ONLY);
-
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        Language language = commandPlayer.getLanguage();
         if (args.length != 2) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
@@ -47,7 +46,7 @@ public class ProjectAdminRemoveManager extends BaseCommand {
         Pais pais = PaisRegistry.getInstance().get(args[0].toLowerCase());
 
         if (pais == null) {
-            String message = lang.getString("pais-not-found").replace("%pais%", args[0]);
+            String message = LanguageHandler.getText(language, "pais-not-found").replace("%search%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -60,7 +59,7 @@ public class ProjectAdminRemoveManager extends BaseCommand {
         }
 
         if (targetPlayer == null) {
-            String message = lang.getString("player-not-registered").replace("%player%", args[1]);
+            String message = LanguageHandler.getText(language, "player-not-registered").replace("%player%", args[1]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -68,19 +67,18 @@ public class ProjectAdminRemoveManager extends BaseCommand {
         PermissionManager permissionManager = PermissionManager.getInstance();  
 
         if (!permissionManager.isManager(targetPlayer, pais)) {
-            String message = lang.getString("manager-not-added").replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico());
+            String message = LanguageHandler.replaceMC("manager.not-manager", language, targetPlayer, pais);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         targetPlayer = permissionManager.removeManager(targetPlayer, pais);
-        Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
-        PlayerLogger.info(targetPlayer, lang.getString("manager-target-removed").replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico()),
-            ChatUtil.getDsManagerRemoved(pais.getNombrePublico()));
-        if (commandPlayer != targetPlayer) PlayerLogger.info(sender, lang.getString("manager-removed").replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico()), (String) null);
-        String countryLogMessage = lang.getString("manager-remove-log").replace("%staff%", commandPlayer.getNombre()).replace("%player%", targetPlayer.getNombre()).replace("%pais%", pais.getNombrePublico());
-        DiscordLogger.countryLog(countryLogMessage, pais);
-
+        PlayerLogger.info(targetPlayer, LanguageHandler.replaceMC("manager.remove.for-target", targetPlayer.getLanguage(), pais),
+            ChatUtil.getDsManagerRemoved(pais, targetPlayer.getLanguage()));
+        if (commandPlayer != targetPlayer) PlayerLogger.info(sender, LanguageHandler.replaceMC("manager.remove.success", language, targetPlayer, pais), (String) null);
+        String countryLog = LanguageHandler.replaceDS("manager.remove.log", Language.getDefault(), commandPlayer, targetPlayer);
+        countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), pais);
+        DiscordLogger.countryLog(countryLog, pais);
         return true;
     }
 

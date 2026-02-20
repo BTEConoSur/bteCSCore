@@ -3,30 +3,30 @@ package com.bteconosur.core.command.crud.tipousuario;
 import java.util.stream.Collectors;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.TipoUsuario;
 
 public class GetTipoUsuarioListPermisosCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
     private final DBManager dbManager;
 
     public GetTipoUsuarioListPermisosCommand() {
-        super("listpermisos", "Listar permisos de un TipoUsuario.", "<id_tipo>", CommandMode.BOTH);
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
+        super("listpermisos", "Listar permisos de un Tipo de Usuario.", "<id_tipo>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
+        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer.getLanguage();
         if (args.length != 1) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
@@ -35,29 +35,30 @@ public class GetTipoUsuarioListPermisosCommand extends BaseCommand {
         try {
             id = Long.parseLong(args[0]);
         } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-id").replace("%entity%", "TipoUsuario").replace("%id%", args[0]);
+            String message = LanguageHandler.getText(language, "crud.not-valid-id").replace("%entity%", "Tipo de Usuario").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         TipoUsuario tipo = dbManager.get(TipoUsuario.class, id);
         if (tipo == null) {
-            String message = lang.getString("crud-read-not-found").replace("%entity%", "TipoUsuario").replace("%id%", args[0]);
+            String message = LanguageHandler.getText(language, "crud.read-not-found").replace("%entity%", "Tipo de Usuario").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if (tipo.getPermisos().isEmpty()) {
-            String emptyMsg = lang.getString("get-list-empty").replace("%entity%", "permisos");
+            String emptyMsg = LanguageHandler.getText(language, "get-list.empty").replace("%entity%", "permisos");
             PlayerLogger.warn(sender, emptyMsg, (String) null);
             return true;
         }
 
         String lista = tipo.getPermisos().stream()
-                .map(p -> p.getNombre())
-                .sorted()
-                .collect(Collectors.joining(", "));
-        PlayerLogger.info(sender, "Permisos: " + lista, (String) null);
+            .map(p -> p.getNombre())
+            .sorted()
+            .collect(Collectors.joining(", "));
+        String message = LanguageHandler.getText(language, "permisos-list").replace("%permisos%", lista);
+        PlayerLogger.info(sender, message, (String) null);
         return true;
     }
 }

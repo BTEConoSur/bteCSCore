@@ -4,11 +4,11 @@ import java.util.Set;
 
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.project.ProjectFinishReviewMenu;
 import com.bteconosur.core.menu.project.ProjectListMenu;
@@ -26,20 +26,18 @@ import com.bteconosur.db.util.Estado;
 
 public class ReviewAcceptCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
     private ProjectFinishReviewMenu confirmationMenu;
     private ConfirmationMenu confirmationEditMenu;
     private ProjectListMenu projectListMenu;
 
     public ReviewAcceptCommand() {
         super("accept", "Aceptar la finalización de un proyecto.", "[comentario]", CommandMode.PLAYER_ONLY);
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        Language language = commandPlayer.getLanguage();
         org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;
         PermissionManager permissionManager = PermissionManager.getInstance();
         String comentario = null;
@@ -53,28 +51,28 @@ public class ReviewAcceptCommand extends BaseCommand {
             comentario = comentarioBuilder.toString();
 
             if (comentario.length() > 300) {
-                PlayerLogger.error(commandPlayer, lang.getString("invalid-project-comment"), (String) null);
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-comment"), (String) null);
                 return true;
             }
         }
 
         Location location = bukkitPlayer.getLocation();
-        Pais pais = PaisRegistry.getInstance().findByLocation(location.getBlockX(), location.getBlockZ());  // Capaz que es mejor usar del proyecto;
+        Pais pais = PaisRegistry.getInstance().findByLocation(location.getBlockX(), location.getBlockZ());
         if (!permissionManager.isManager(commandPlayer, pais)) {
-            PlayerLogger.warn(commandPlayer, lang.getString("not-a-reviewer-country").replace("%pais%", pais.getNombrePublico()), (String) null);
+            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("reviewer.not-reviewer-country", language, pais), (String) null);
             return true;
         }
 
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         Set<Proyecto> proyectos = pr.getByLocation(location.getBlockX(), location.getBlockZ());
         if (proyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-here"), (String) null);
+            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
             return true;
         }
         
         Set<Proyecto> finishingProyectos = pr.getFinishing(proyectos);
         if (finishingProyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer, lang.getString("no-project-finishing-here"), (String) null);
+            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-finishing-here"), (String) null);
             return true;
         }
         TipoUsuario postulante = TipoUsuarioRegistry.getInstance().getPostulante();
@@ -82,13 +80,14 @@ public class ReviewAcceptCommand extends BaseCommand {
         
         final String comentarioFinal = comentario;
         if (finishingProyectos.size() > 1) {
-            projectListMenu = new ProjectListMenu(commandPlayer, lang.getString("gui-titles.proyectos-activos-list"), finishingProyectos, (proyecto, event) -> {
+            projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.getText(language, "gui-titles.proyectos-activos-list"), finishingProyectos, (proyecto, event) -> {
                 String proyectoIdFinal = proyecto.getId();
                 if (proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
-                    confirmationEditMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-edit-project-accept").replace("%proyectoId%", proyecto.getId()), bukkitPlayer, projectListMenu, confirmClick -> {
+                    String title = LanguageHandler.replaceMC("gui-titles.finish-edit-project-accept", language, proyecto);
+                    confirmationEditMenu = new ConfirmationMenu(title, bukkitPlayer, projectListMenu, confirmClick -> {
                             confirmClick.getWhoClicked().closeInventory();
                             ProjectManager.getInstance().acceptEditRequest(proyectoIdFinal, commandPlayer, comentarioFinal);
-                            PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-edit-staff-accepted").replace("%proyectoId%", proyecto.getId()), (String) null);
+                            PlayerLogger.info(bukkitPlayer, LanguageHandler.replaceMC("project.edit.finish.accept.success", language, proyecto), (String) null);
                         });
                     confirmationEditMenu.open();
                     return;
@@ -106,7 +105,7 @@ public class ReviewAcceptCommand extends BaseCommand {
                         }
                     }
                 }
-                confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyectoIdFinal, lang.getString("gui-titles.finish-project-accept").replace("%proyectoId%", proyectoIdFinal), comentarioFinal, hasPostulantes, projectListMenu);
+                confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyecto, LanguageHandler.replaceMC("gui-titles.finish-project-accept", language, proyecto), comentarioFinal, hasPostulantes, projectListMenu);
                 confirmationMenu.open();
             });
             projectListMenu.open();
@@ -117,17 +116,18 @@ public class ReviewAcceptCommand extends BaseCommand {
         Player lider = pm.getLider(proyecto);
 
         if (proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
-            confirmationEditMenu = new ConfirmationMenu(lang.getString("gui-titles.finish-edit-project-accept").replace("%proyectoId%", proyecto.getId()), bukkitPlayer, confirmClick -> {
+            String title = LanguageHandler.replaceMC("gui-titles.finish-edit-project-accept", language, proyecto);
+            confirmationEditMenu = new ConfirmationMenu(title, bukkitPlayer, confirmClick -> {
                     confirmClick.getWhoClicked().closeInventory();
                     ProjectManager.getInstance().acceptEditRequest(proyectoId, commandPlayer, comentarioFinal);
-                    PlayerLogger.info(bukkitPlayer, lang.getString("project-finish-edit-staff-accepted").replace("%proyectoId%", proyecto.getId()), (String) null);
+                    PlayerLogger.info(bukkitPlayer, LanguageHandler.replaceMC("project.edit.finish.accept.success", language, proyecto), (String) null);
                 }, (cancelClick -> {    
                     cancelClick.getWhoClicked().closeInventory();
             }));
             confirmationEditMenu.open();
             return true;
         }
-        confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyectoId, lang.getString("gui-titles.finish-project-accept").replace("%proyectoId%", proyectoId), comentarioFinal, postulante.equals(lider.getTipoUsuario()));
+        confirmationMenu = new ProjectFinishReviewMenu(commandPlayer, proyecto, LanguageHandler.replaceMC("gui-titles.finish-project-accept", language, proyecto), comentarioFinal, postulante.equals(lider.getTipoUsuario()));
         confirmationMenu.open();
 
         return true;

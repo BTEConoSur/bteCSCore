@@ -1,5 +1,7 @@
 package com.bteconosur.core.menu.config;
 
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.core.util.MenuUtils;
@@ -38,32 +40,38 @@ public class GeneralConfigMenu extends Menu {
 
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
-        gui.setItem(2, 2, MenuUtils.getGeneralConfigItem("global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
+        Language language = btecsPlayer.getConfiguration().getLang();
+        gui.setItem(2, 2, MenuUtils.getGeneralConfigItem(language, "global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
         gui.addSlotAction(2, 2, event -> {
             btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_GLOBAL_CHAT_ON_JOIN); // TODO: Capaz es mejor obtener la configuracion con configurationService 
             configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 2, MenuUtils.getGeneralConfigItem("global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
+            gui.updateItem(2, 2, MenuUtils.getGeneralConfigItem(language, "global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
         });
 
-        gui.setItem(2, 4, MenuUtils.getGeneralConfigItem("simultaneous-notifications", configuration.getGeneralSimultaneousNotifications()));
+        gui.setItem(2, 4, MenuUtils.getGeneralConfigItem(language, "simultaneous-notifications", configuration.getGeneralSimultaneousNotifications()));
         gui.addSlotAction(2, 4, event -> {
             btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_SIMULTANEOUS_NOTIFICATIONS); 
             configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 4, MenuUtils.getGeneralConfigItem("simultaneous-notifications", configuration.getGeneralSimultaneousNotifications()));
+            gui.updateItem(2, 4, MenuUtils.getGeneralConfigItem(language, "simultaneous-notifications", configuration.getGeneralSimultaneousNotifications()));
         });
 
-        gui.setItem(2, 6, MenuUtils.getGeneralConfigItem("pais-border", configuration.getGeneralPaisBorder()));
+        gui.setItem(2, 6, MenuUtils.getGeneralConfigItem(language, "pais-border", configuration.getGeneralPaisBorder()));
         gui.addSlotAction(2, 6, event -> {
             btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_PAIS_BORDER); 
             configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 6, MenuUtils.getGeneralConfigItem("pais-border", configuration.getGeneralPaisBorder()));
+            gui.updateItem(2, 6, MenuUtils.getGeneralConfigItem(language,   "pais-border", configuration.getGeneralPaisBorder()));
         });
 
-        gui.setItem(2, 8, MenuUtils.getGeneralConfigItem("label-border", configuration.getGeneralLabelBorder()));
+        gui.setItem(2, 8, MenuUtils.getGeneralConfigItem(language, "label-border", configuration.getGeneralLabelBorder()));
         gui.addSlotAction(2, 8, event -> {
             btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_LABEL_BORDER); 
             configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 8, MenuUtils.getGeneralConfigItem("label-border", configuration.getGeneralLabelBorder()));
+            gui.updateItem(2, 8, MenuUtils.getGeneralConfigItem(language, "label-border", configuration.getGeneralLabelBorder()));
+        });
+
+        gui.setItem(4, 2, MenuUtils.getLangConfigItem(language));
+        gui.addSlotAction(4, 2, event -> {
+            new LanguageSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.language-select")).open();
         });
         
         return gui;

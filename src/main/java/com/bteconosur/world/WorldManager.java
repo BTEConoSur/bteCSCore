@@ -1,9 +1,7 @@
 package com.bteconosur.world;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.bteconosur.core.BTEConoSur;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Pais;
@@ -25,15 +23,11 @@ public class WorldManager {
 
     private static WorldManager instance;
 
-    private final YamlConfiguration lang;
-
     private BTEWorld bteWorld;
 
     public WorldManager() {
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
 
-        ConsoleLogger.info(lang.getString("world-module-initializing"));
+        ConsoleLogger.info(LanguageHandler.getText("world-module-initializing"));
 
         bteWorld = new BTEWorld();
         WorldEdit worldEdit = BTEConoSur.getWorldEditPlugin().getWorldEdit();
@@ -131,7 +125,7 @@ public class WorldManager {
 
 
     public void shutdown() {
-        ConsoleLogger.info(lang.getString("world-module-shutting-down"));
+        ConsoleLogger.info(LanguageHandler.getText("world-module-shutting-down"));
         bteWorld.shutdown();
     }
 

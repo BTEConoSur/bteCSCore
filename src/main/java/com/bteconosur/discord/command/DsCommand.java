@@ -12,6 +12,7 @@ import com.bteconosur.discord.util.CommandMode;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.discord.DiscordManager;
 
@@ -33,12 +34,10 @@ public abstract class DsCommand {
     protected Collection<OptionData> options = new ArrayList<>();
     private Collection<Permission> permissions = new ArrayList<>();
 
-    protected final YamlConfiguration lang;
     protected final YamlConfiguration config;
 
     public DsCommand(String command, String description, Collection<OptionData> options, Collection<Permission> permissions, CommandMode mode) {
         ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
         config = configHandler.getConfig();
 
         this.command = command;
@@ -85,7 +84,7 @@ public abstract class DsCommand {
                 commandData = staffHubGuild.upsertCommand(command, description);
                 registerCommandData(commandData);
             } else {
-                ConsoleLogger.warn("Error de Discord: No se pudo encontrar el StaffHub.");
+                ConsoleLogger.warn(LanguageHandler.getText("ds-error.staffhub-not-found"));
             }
         }
     }

@@ -3,8 +3,12 @@ package com.bteconosur.discord.command;
 import java.util.Arrays;
 import java.util.List;
 
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.model.Pais;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.discord.util.CommandMode;
 
@@ -29,11 +33,14 @@ public class DeleteDsCommand extends DsCommand {
         );
     }
 
+    @SuppressWarnings("null")
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         OptionMapping comando = event.getOption("comando");
+        Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
+        Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (comando == null || comando.getAsString().isEmpty()) {
-            event.reply("Por favor, proporciona un nombre de comando válido.").setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-comando-empty")).setEphemeral(true).queue();
             return;
         }
         String commandName = comando.getAsString();
@@ -72,6 +79,6 @@ public class DeleteDsCommand extends DsCommand {
                     }
                 }
         });
-        event.reply("Se ha intentado borrar el comando '/" + commandName + "'.").setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText(language, "ds-comando-removed").replace("%comando%", commandName)).setEphemeral(true).queue();
     }
 }

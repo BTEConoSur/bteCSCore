@@ -1,13 +1,12 @@
 package com.bteconosur.world.listener;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.world.WorldManager;
@@ -15,7 +14,6 @@ import com.bteconosur.world.WorldManager;
 public class MovingListeners implements Listener {
 
     private final WorldManager worldManager;
-    private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     public MovingListeners() {
         this.worldManager = WorldManager.getInstance();
@@ -27,7 +25,7 @@ public class MovingListeners implements Listener {
         if (!worldManager.checkPaisMove(event.getFrom(), event.getTo(), event.getPlayer())) {
             event.setCancelled(true);
             Player player = Player.getBTECSPlayer(event.getPlayer());
-            PlayerLogger.warn(player, lang.getString("cant-leave-paises"), (String) null);
+            PlayerLogger.warn(player, LanguageHandler.getText(player.getLanguage(), "cant-leave-paises"), (String) null);
         }
     }
 
@@ -38,7 +36,7 @@ public class MovingListeners implements Listener {
         if (!worldManager.checkPaisMove(event.getFrom(), event.getTo(), event.getPlayer())) {
             event.setCancelled(true);
             Player player = Player.getBTECSPlayer(event.getPlayer());
-            PlayerLogger.warn(player, lang.getString("cant-leave-paises"), (String) null);
+            PlayerLogger.warn(player, LanguageHandler.getText(player.getLanguage(), "cant-leave-paises"), (String) null);
         }
     }
 

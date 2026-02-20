@@ -23,15 +23,15 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class TestAllRegionDivisionGeojsonCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
     private final DBManager dbManager;
     private final BTEConoSur plugin;
+    private final YamlConfiguration config;
 
     public TestAllRegionDivisionGeojsonCommand() {
         super("allregiondivisiongeojson", "Crear GeoJSON con todas las regiones de divisiones. Se guarda en geojson/output", null, CommandMode.CONSOLE_ONLY);
         ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
+        config = configHandler.getConfig();
         plugin = BTEConoSur.getInstance();
     }
 
@@ -48,8 +48,8 @@ public class TestAllRegionDivisionGeojsonCommand extends BaseCommand {
                     return;
                 }
 
-                String borderColor = lang.getString("map.project.border-color");
-                String fillColor = lang.getString("map.project.fill-color");
+                String borderColor = config.getString("map.project.border-color");
+                String fillColor = config.getString("map.project.fill-color");
                 
                 ObjectMapper mapper = new ObjectMapper();
                 ObjectNode featureCollection = mapper.createObjectNode();

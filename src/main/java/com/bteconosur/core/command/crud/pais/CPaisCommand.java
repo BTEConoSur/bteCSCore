@@ -1,31 +1,30 @@
 package com.bteconosur.core.command.crud.pais;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Pais;
+import com.bteconosur.db.model.Player;
 
 public class CPaisCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
     private final DBManager dbManager;
 
     public CPaisCommand() {
         super("create", "Crear un nuevo País.", "<nombre> <nombre_publico> <ds_id_guild> <ds_id_global_chat> <ds_id_country_chat> <ds_id_log> <ds_id_request>", CommandMode.BOTH);
-
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
         dbManager = DBManager.getInstance();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
+        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer.getLanguage();
         if (args.length != 6) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
@@ -35,13 +34,13 @@ public class CPaisCommand extends BaseCommand {
         Long dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest;
 
         if (nombre.length() > 50) {
-            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Pais").replace("%name%", nombre).replace("%reason%", "Máximo 50 caracteres.");
+            String message = LanguageHandler.getText(language, "crud.not-valid-name").replace("%entity%", "Pais").replace("%name%", nombre).replace("%reason%", "Máximo 50 caracteres.");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if (nombrePublico.length() > 50) {
-            String message = lang.getString("crud-not-valid-name").replace("%entity%", "Pais").replace("%name%", nombrePublico).replace("%reason%", "Máximo 50 caracteres.");
+            String message = LanguageHandler.getText(language, "crud.not-valid-name").replace("%entity%", "Pais").replace("%name%", nombrePublico).replace("%reason%", "Máximo 50 caracteres.");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -53,7 +52,7 @@ public class CPaisCommand extends BaseCommand {
             dsIdLog = Long.parseLong(args[5]);
             dsIdRequest = Long.parseLong(args[6]);
         } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-parse").replace("%entity%", "Pais").replace("%value%", "uno de los argumentos").replace("%type%", "Long");
+            String message = LanguageHandler.getText(language, "crud.not-valid-parse").replace("%entity%", "Pais").replace("%value%", "uno de los argumentos").replace("%type%", "Long");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -61,7 +60,7 @@ public class CPaisCommand extends BaseCommand {
         Pais pais = new Pais(nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest);
         dbManager.save(pais);
 
-        String message = lang.getString("crud-create").replace("%entity%", "Pais");
+        String message = LanguageHandler.getText(language, "crud.create").replace("%entity%", "Pais");
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }

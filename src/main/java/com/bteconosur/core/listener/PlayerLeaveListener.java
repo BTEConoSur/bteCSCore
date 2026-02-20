@@ -2,21 +2,14 @@ package com.bteconosur.core.listener;
 
 import java.util.Date;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.bteconosur.core.chat.GlobalChatService;
-import com.bteconosur.core.chat.NotePadService;
 import com.bteconosur.core.chat.ChatService;
-import com.bteconosur.core.chat.ChatUtil;
-import com.bteconosur.core.chat.CountryChatService;
-import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
-
-import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class PlayerLeaveListener implements Listener {
 
@@ -34,15 +27,7 @@ public class PlayerLeaveListener implements Listener {
             player.setFechaUltimaConexion(new Date());
             player = playerRegistry.merge(player.getUuid());
             
-            YamlConfiguration config = ConfigHandler.getInstance().getConfig();
-
-            MessageEmbed dsMessage = ChatUtil.getDsPlayerLeft(player.getNombrePublico(), player.getUuid());
-            String mcMessage = ChatUtil.getMcPlayerLeft(player.getNombrePublico());
-
-            if (config.getBoolean("discord-player-join-leave")) GlobalChatService.broadcastEmbed(dsMessage, mcMessage);
-            else GlobalChatService.broadcastMc(mcMessage);
-            CountryChatService.broadcastMc(mcMessage);
-            NotePadService.broadcastMc(mcMessage);
+            GlobalChatService.broadcastPlayerLeftServer(player);
             
             ChatService.leaveChat(player);
         }

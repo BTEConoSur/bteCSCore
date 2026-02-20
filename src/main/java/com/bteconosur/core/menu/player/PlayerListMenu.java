@@ -7,12 +7,12 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.BTEConoSur;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.menu.PaginatedMenu;
 import com.bteconosur.core.util.MenuUtils;
@@ -33,6 +33,7 @@ public class PlayerListMenu extends PaginatedMenu {
     private final boolean excludePlayers;
     private final BiConsumer<Player, InventoryClickEvent> onClick;
     private final MenuUtils.PlayerContext context;
+    private Language language;
 
     public PlayerListMenu(Player player, String title, Set<Player> players, boolean excludePlayers, MenuUtils.PlayerContext context, @NotNull BiConsumer<Player, InventoryClickEvent> onClick, Menu previousMenu) {
         super(title, player, previousMenu);
@@ -92,9 +93,10 @@ public class PlayerListMenu extends PaginatedMenu {
     @Override
     protected void populateItems() {
         PlayerRegistry pr = PlayerRegistry.getInstance();
+        language = Player.getBTECSPlayer(player).getLanguage();
         if (!excludePlayers) {
             for (Player p : searchPlayers) {
-                GuiItem item = MenuUtils.getPlayerItem(p, pr.isOnline(p.getUuid()), context);
+                GuiItem item = MenuUtils.getPlayerItem(p, pr.isOnline(p.getUuid()), context, language);
                 item.setAction(event -> onClick.accept(p, event));
                 if (pr.isOnline(p.getUuid())) onlinePlayerItems.put(p, item);
                 else offlinePlayerItems.put(p, item);
@@ -106,7 +108,7 @@ public class PlayerListMenu extends PaginatedMenu {
 
             for (Player p : onlinePlayers) {
                 if (excludedPlayers.contains(p)) continue;
-                GuiItem item = MenuUtils.getPlayerItem(p, true, context);
+                GuiItem item = MenuUtils.getPlayerItem(p, true, context, language);
                 item.setAction(event -> onClick.accept(p, event));
                 onlinePlayerItems.put(p, item);
                 addItem(item);
@@ -114,7 +116,7 @@ public class PlayerListMenu extends PaginatedMenu {
 
             for (Player p : offlinePlayers) {
                 if (excludedPlayers.contains(p)) continue;
-                GuiItem item = MenuUtils.getPlayerItem(p, false, context);
+                GuiItem item = MenuUtils.getPlayerItem(p, false, context, language);
                 item.setAction(event -> onClick.accept(p, event));
                 offlinePlayerItems.put(p, item);
                 addItem(item);
@@ -122,7 +124,7 @@ public class PlayerListMenu extends PaginatedMenu {
         }
         PaginatedGui gui = getPaginatedGui();
 
-        gui.setItem(rows, 8, MenuUtils.getSearchItem("Nombre", null));
+        gui.setItem(rows, 8, MenuUtils.getSearchItem(LanguageHandler.getText(language, "placeholder.item-mc.search-term.nombre"), null, language));
         gui.addSlotAction(rows, 8, event -> {
             searchByName();
         });
@@ -160,16 +162,15 @@ public class PlayerListMenu extends PaginatedMenu {
                     setSearchItemsAndOpen(search);
                 });
             }));
-        });
+        }, language);
         
-        YamlConfiguration lang = ConfigHandler.getInstance().getLang();
-        if (!opened) PlayerLogger.error(Player.getBTECSPlayer(player), lang.getString("internal-error"), (String) null);
+        if (!opened) PlayerLogger.error(Player.getBTECSPlayer(player), LanguageHandler.getText(language, "internal-error"), (String) null);
     }
 
 
     private void setSearchItemsAndOpen(String nombreSearch) {
         PaginatedGui gui = getPaginatedGui();
-        gui.updateItem(rows, 8, MenuUtils.getSearchItem("Nombre", nombreSearch));
+        gui.updateItem(rows, 8, MenuUtils.getSearchItem(LanguageHandler.getText(language, "placeholder.item-mc.search-term.nombre"), nombreSearch, language));
         gui.update();
         gui.open(player);
     }

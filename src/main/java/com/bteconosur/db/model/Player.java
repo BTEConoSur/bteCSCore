@@ -29,6 +29,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.Language;
 import com.bteconosur.db.registry.PlayerRegistry;
 
 @Entity
@@ -239,6 +240,11 @@ public class Player {
 
     public void removePaisReviewer(Pais pais) {
         this.paisesReviewer.remove(pais);
+    }
+
+    public Language getLanguage() {
+        if (configuration == null || configuration.getLang() == null) return Language.SPANISH;
+        return configuration.getLang();
     }
 
     @JsonIgnore

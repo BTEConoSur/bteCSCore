@@ -1,0 +1,1014 @@
+# Usar MiniMessage para formateo de texto - https://webui.advntr.dev/
+# Placeholders situacionales: %contexto% %dsPrefix% %mensaje% %username% %mcPrefix% %comentario%
+
+# Mensajes de Consola
+config-reloaded: "Configuración recargada correctamente."
+
+# General
+plugin-prefix: "<gray>[</gray><blue>Cono</blue><red>Sur</red><gray>]</gray>"
+
+# Consola
+debug-mode-enabled: "Modo debug activado."
+
+prefix: "<gray>[</gray><dark_gray>Core</dark_gray><gray>]</gray>" 
+info-prefix: "<dark_aqua>[INFO]</dark_aqua> <white>"
+debug-prefix: "<dark_purple>[DEBUG]</dark_purple> <light_purple>"
+warn-prefix: "<gold>[WARN]</gold> <yellow>"
+error-prefix: "<dark_red>[ERROR]</dark_red> <red>"
+
+config-key-error: "Key no reconocida en la configuración: <yellow>%key%</yellow>."
+language-key-error: "Key no reconocida en el archivo de idioma %language%: <yellow>%key%</yellow>."
+database-transaction-error: "Error durante la transacción de base de datos: "
+database-query-error: "Error durante la consulta de base de datos: "
+database-connection-error: "Error de conexión a la base de datos: "
+
+database-not-connected: "La base de datos no está conectada."
+
+ds-purge-scheduled: "Tarea de purga de interacciones programada cada %minutes% minutos." # %minutes% -> Intervalo en minutos.
+ds-purge-failed: "No se pudo programar la purga periódica de interacciones: "
+
+checking-tipos-usuario: "Verificando Tipos de Usuario..."
+tipos-usuarios-not-found: "No se encontraron Tipos de Usuario en la base de datos."
+lp-group-tipo-usuario-missing: "El grupo de LuckPerms para el Tipo de Usuario <yellow>'%tipoUsuario.nombre%'</yellow> no existe. Creandolo..."
+
+checking-rangos-usuario: "Verificando Rangos de Usuario..."
+rangos-usuarios-not-found: "No se encontraron Rangos de Usuario en la base de datos."
+lp-group-rango-usuario-missing: "El grupo de LuckPerms para el Rango de Usuario <yellow>'%rangoUsuario.nombre%'</yellow> no existe. Creandolo..."
+
+lp-permission-desync: "Desincronización detectada: Se removió el permiso '%permiso%' del grupo '%grupo%'."
+lp-group-removed: "Desincronización detectada: Se removió el grupo '%grupo%' del jugador %player%."
+lp-group-added: "Desincronización detectada: Se añadió el grupo '%grupo%' al jugador %player%."
+lp-permission-added: "Permiso '%permiso%' agregado al grupo '%grupo%'."
+lp-user-not-found: "No se pudo obtener el usuario de LuckPerms para el jugador '%player%'."
+
+console-player-not-registered: "El jugador '%player%' no está registrado en la base de datos."
+
+ds-error:
+  staffhub-not-found: "Error de Discord: No se pudo encontrar el StaffHub."  
+  subcommand-cant-register: "Error de Discord: Los subcomandos no se registran individualmente: %subcommand%."
+  button-interaction: "Error de Discord: Interacción de botón con ID '%buttonId%' / mensaje con ID '%messageId%' no encontrada en el registro."
+  button-action-not-found: "Error de Discord: No hay una acción de botón registrada para la clave: %interactionKey%."
+  button-internal-error: "Error de Discord: Error al manejar la interacción de botón: "
+  modal-interaction: "Error de Discord: Interacción de modal con ID '%modalId%' / mensaje con ID '%messageId%' no encontrada en el registro."
+  modal-action-not-found: "Error de Discord: No hay una acción de modal registrada para la clave: %interactionKey%."
+  modal-internal-error: "Error de Discord: Error al manejar la interacción de modal: "
+  select-interaction: "Error de Discord: Interacción de menú select con ID '%selectId%' / mensaje con ID '%messageId%' no encontrada en el registro."
+  select-action-not-found: "Error de Discord: No hay una acción de menú select registrada para la clave: %interactionKey%."
+  select-internal-error: "Error de Discord: Error al manejar la interacción de menú select: "
+  subcommand-not-found: "Error de Discord: No se encontró el subcomando '%subcommand%' para el comando '/%command%'."
+  command-not-found: "Error de Discord: No se encontró el comando '/%command%'."
+  not-jda: "Error de Discord: Acción salteada. El bot de Discord no está inicializado."
+  invalid-channel-id: "Error de Discord: ID de canal inválido."
+  invalid-user-id: "Error de Discord: ID de usuario inválido."
+  invalid-user: "Error de Discord: Usuario inválido."
+  invalid-message: "Error de Discord: Mensaje inválido."
+  invalid-channel: "Error de Discord: Canal inválido."
+  invalid-message-id: "Error de Discord: ID de mensaje inválido."
+  invalid-embed: "Error de Discord: Embed inválido."
+  send-channel: "Error de Discord: No se pudo enviar el mensaje al canal '%channelId%'."
+  send-user: "Error de Discord: No se pudo enviar el mensaje al usuario '%userId%'."
+  send-embed-channel: "Error de Discord: No se pudo enviar el embed al canal '%channelId%'."
+  send-embed-user: "Error de Discord: No se pudo enviar el embed al usuario '%userId%'."
+  delete-channel-message: "Error de Discord: No se pudo eliminar el mensaje con ID '%messageId%' en el canal '%channelId%'."  
+  delete-user-message: "Error de Discord: No se pudo eliminar el mensaje con ID '%messageId%' para el usuario '%userId%'."
+  channel-pais-not-found: "Error de Discord: No se pudo encontrar el canal de Discord para el país '%pais.nombrePublico%'."
+  request-channel-pais-not-found: "Error de Discord: No se pudo encontrar el canal de solicitudes de Discord para el país '%pais.nombrePublico%'."
+  sat-map-not-found: "Imagen del mapa no disponible, no se puede enviar proyecto a Discord."
+  send-project: "Error de Discord: No se pudo enviar la solicitud de proyecto a Discord."
+  send-join-request: "Error de Discord: No se pudo enviar la solicitud de unión a Discord."
+  bot-initializing: "Error de Discord: No se pudo iniciar el bot de Discord."
+  bot-not-initialized: "Error de Discord: El bot de Discord no está inicializado."
+  bot-shutting-down: "Error de Discord: No se pudo apagar el bot de Discord."
+  bot-already-started: "Error de Discord: El bot de Discord ya está iniciado. Usar restartBot() para reiniciarlo."
+
+pais-division-default-not-found: "No se encontró la división por defecto para el país <yellow>%pais.nombrePublico%</yellow>."
+
+database-initializing: "Inicializando Módulo: Base de Datos..."
+database-shutting-down: "Cerrando Módulo: Base de Datos..."
+
+hibernate-initializing: "Prendiendo Hibernate..."
+hibernate-shutting-down: "Apagando Hibernate..."
+
+permission-manager-initializing: "Inicializando Gestor de Permisos..."
+permission-manager-shutting-down: "Apagando Gestor de Permisos..."  
+
+player-registry-initializing: "Inicializando Registro de Jugadores..."
+player-registry-shutting-down: "Apagando Registro de Jugadores..."  
+
+proyecto-registry-initializing: "Inicializando Registro de Proyectos..."
+proyecto-registry-shutting-down: "Apagando Registro de Proyectos..."
+
+pais-registry-initializing: "Inicializando Registro de Países..."
+pais-registry-shutting-down: "Apagando Registro de Países..."
+
+tipo-usuario-registry-initializing: "Inicializando Registro de Tipos de Usuario..."
+tipo-usuario-registry-shutting-down: "Apagando Registro de Tipos de Usuario..."
+
+rango-usuario-registry-initializing: "Inicializando Registro de Rangos de Usuario..."
+rango-usuario-registry-shutting-down: "Apagando Registro de Rangos de Usuario..."
+
+interaction-registry-initializing: "Inicializando Registro de Interacciones de Discord..."
+interaction-registry-shutting-down: "Apagando Registro de Interacciones de Discord..."
+
+tipo-proyecto-registry-initializing: "Inicializando Registro de Tipos de Proyecto..."
+tipo-proyecto-registry-shutting-down: "Apagando Registro de Tipos de Proyecto..."
+
+project-manager-initializing: "Inicializando Gestor de Proyectos..."
+project-manager-shutting-down: "Cerrando Gestor de Proyectos..."
+
+discord-initializing: "Inicializando Módulo: Discord..."
+discord-shutting-down: "Cerrando Módulo: Discord..."
+
+discord-bot-initializing: "Prendiendo Bot de Discord..."
+discord-bot-shutting-down: "Apagando Bot de Discord..."
+discord-bot-restarting: "Reiniciando Bot de Discord..."
+
+discord-command-manager-initializing: "Inicializando Gestor de Comandos de Discord..."
+discord-command-manager-shutting-down: "Apagando Gestor de Comandos de Discord..."
+
+# Command
+no-permission: "No tienes permisos para ejecutar este comando."
+player-only-command: "Este comando solo puede ser ejecutado por un jugador."
+console-only-command: "Este comando solo puede ser ejecutado desde la consola."
+unknown-command: "Comando desconocido." 
+help-command-usage: "Usa '/%comando% help' para ver la ayuda del comando."
+command-on-cooldown: "Debes esperar %time% antes de usar este comando de nuevo."
+command-cooldown-second-format: "%.2f segundo(s)"
+command-cooldown-minute-format: "%d minuto(s) %.2f segundo(s)"
+
+player-not-found: "El jugador '%player%' no fue encontrado o no está online." # %player% -> Nombre del jugador.
+player-not-registered: "El jugador '%player%' no está registrado en la base de datos." # %player% -> Nombre del jugador.
+pais-not-found: "El país '%search%' no fue encontrado." # %pais% -> Nombre del país.
+
+internal-error: "Ha ocurrido un error interno. Por favor, contacta a un administrador."
+invalid-discord-id: "El ID de Discord proporcionado no es válido."
+invalid-player-name: "Máximo 16 caracteres permitidos para el nombre del jugador."
+invalid-project-name: "Máximo 50 caracteres permitidos para el nombre del proyecto."
+invalid-project-description: "Máximo 100 caracteres permitidos para la descripción del proyecto."
+invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50m²."
+invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una división válida."
+invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
+
+region:
+  selected: "<green>Región seleccionada correctamente."
+  not-selected: "No tienes una región seleccionada."
+  not-complete: "La selección de la región está incompleta."
+  not-supported: "Tipo de selección de WorldEdit no soportado. Usa cuboid o poly."
+  we-error: "Error de WorldEdit."
+language-set: "<green>Idioma establecido a <yellow>%language%</yellow>."
+
+help-command:
+  header: " ===== <gold>Ayuda de /%comando%</gold>" # %command% -> Comando completo. %plugin-prefix% -> Prefijo del plugin.
+  usage: "<yellow>Uso:</yellow> /%comando% %args%" # %command% -> Comando completo. %args% -> Argumentos del comando. 
+  description: "<yellow>Descripción:</yellow> %description%" # %description% -> Descripción del comando.
+  subcommands-title: "<yellow>Opciones:</yellow>"
+  subcommand-line-1: " - <gold>/%comando% %subcomando%%args%</gold>:" # %command% -> Comando raíz. %subcommands% -> Subcomandos. %args% -> Argumentos del subcomando. (No preguntés porqué pero subcomand y args van pegados)
+  subcommand-line-2: "   <white>%description%" # %description% -> Descripción del subcomando.
+  footer: ""
+
+project:
+  not-found-id: "No se encontró ningún proyecto con ID <yellow>'%proyecto.id%'</yellow>."
+  not-found-here: "No se encontró ningún proyecto en esta ubicación."
+  not-finishing-here: "No se encontró ningún proyecto en finalización en esta ubicación."
+  not-active-here: "No se encontró ningún proyecto activo en esta ubicación."
+  not-active-editing-here: "No se encontró ningún proyecto activo o en edición en esta ubicación."
+  not-abandoned-here: "No se encontró ningún proyecto abandonado en esta ubicación."
+  not-completed-here: "No se encontró ningún proyecto completado en esta ubicación."
+  not-with-room-here: "No se encontró ningún proyecto con espacio para nuevos miembros en esta ubicación."
+  not-active: "El proyecto '%proyecto.id%' no está activo."
+  not-active-editing: "El proyecto '%proyecto.id%' no está activo o en edición."
+  not-abandoned: "El proyecto '%proyecto.id%' no está abandonado."
+  not-completed: "El proyecto '%proyecto.id%' no está completado."
+  member:
+    already: "El jugador <yellow>'%player.nombre%'</yellow> ya es miembro o líder del proyecto <yellow>'%proyecto.id%'</yellow>."
+    not-member: "El jugador <yellow>'%player.nombre%'</yellow> no es miembro del proyecto <yellow>'%proyecto.id%'</yellow>."
+    not-a-member: "No eres Miembro o Líder del proyecto <yellow>'%proyecto.id%'</yellow>."
+    not-member-here: "No eres Miembro o Líder de ningún proyecto en esta ubicación."
+    already-here: "No hay proyectos a los que puedas unirte en esta ubicación."
+    add:
+      success: "El jugador <yellow>'%player.nombre%'</yellow> ha sido agregado al proyecto <yellow>'%proyecto.id%'</yellow> correctamente."
+      added: "Has sido agregado al proyecto <yellow>'%proyecto.id%'</yellow>."
+      for-member: "El jugador <yellow>'%player.nombre%'</yellow> ha sido agregado al proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés."
+      max-reached: "El proyecto de ID <yellow>'%proyecto.id%'</yellow> ha alcanzado el máximo de miembros permitidos. (Max. <yellow>%proyecto.maxMiembros%</yellow>, Tiene <yellow>%current%</yellow>)" # %current% -> Cantidad actual de miembros.
+      cant-add-postulante: "No puedes agregar un usuario con rango Postulante a un proyecto."
+      postulante-max-reached: "Los usuarios con rango Postulante solo pueden agregar %max% miembro a sus proyectos." # %max% -> Máximo de miembros permitidos.
+      log: "➕ | **%player.nombre%** ha agregado a **%player.nombre.1%** al proyecto `%proyecto.id%`."
+    remove:
+      success: "El jugador <yellow>'%player.nombre%'</yellow> ha sido removido del proyecto <yellow>'%proyecto.id%'</yellow> correctamente."
+      removed: "Has sido removido del proyecto <yellow>'%proyecto.id%'</yellow>."
+      for-member: "El jugador <yellow>'%player.nombre%'</yellow> ha sido removido del proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés."
+      log: "➖ | **%player.nombre%** ha removido a **%player.nombre.1%** del proyecto `%proyecto.id%`."
+    leave:
+      success: "Has salido del proyecto <yellow>'%proyecto.id%'</yellow> correctamente."
+      for-member: "El jugador <yellow>'%player.nombre%'</yellow> ha salido del proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés."
+      log: "🚪 | **%player.nombre%** ha salido del proyecto `%proyecto.id%`."
+  leader:
+    not-leader: "No eres el Líder del proyecto <yellow>'%proyecto.id%'</yellow>."
+    ds-not-leader: "No eres el Líder del proyecto **%proyecto.id%**."
+    not-leader-active-editing-here: "No eres el Líder de ningún proyecto activo o en edición en esta ubicación."
+    not-leader-active-here: "No eres el Líder de ningún proyecto activo en esta ubicación."
+    not-leader-here: "No eres el Líder de ningún proyecto en esta ubicación."
+    max-active-projects: "Has alcanzado el máximo de proyectos activos permitidos. (Máx. %maxProyectos%, Tienes %currentProyectos%)"
+    max-active-projects-transfer: "El jugador '%player.nombre%' no puede ser asignado como líder del proyecto porque ha alcanzado el máximo de proyectos activos permitidos. (Máx. %maxProyectos%, Tiene %currentProyectos%)" #  %maxProyectos% -> Máximo de proyectos permitidos. %currentProyectos% -> Proyectos actuales.
+    other-not-leader: "El jugador <yellow>'%player.nombre%'</yellow> no es el Líder del proyecto <yellow>'%proyecto.id%'</yellow>."
+    other-already: "El jugador <yellow>'%player.nombre%'</yellow> ya es el Líder del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+    leave:
+      cant-leave: "No puedes salir del proyecto de ID <yellow>'%proyecto.id%'</yellow> porque eres Líder y hay otros miembros en el proyecto. Asigna un nuevo Líder."
+      cant-leave-staff: "El lider del proyecto de ID <yellow>'%proyecto.id%'</yellow> no puede salir del proyecto porque hay otros miembros en el proyecto. Asigna un nuevo Líder."
+      success: "Has salido del proyecto <yellow>'%proyecto.id%'</yellow> como Líder correctamente. El proyecto ha sido marcado como <yellow>Abandonado</yellow>."
+      log: "🚪 | El líder **%player.nombre%** ha salido del proyecto `%proyecto.id%`. El proyecto ha sido marcado como **Abandonado**."
+    remove:
+      staff: "Has removido al líder del proyecto <yellow>'%player.nombre%'</yellow> de ID <yellow>'%proyecto.id%'</yellow>. El proyecto ha sido marcado como <yellow>Abandonado</yellow>."
+      for-leader: "Has sido removido del proyecto <yellow>'%proyecto.id%'</yellow> como Líder. El proyecto ha sido marcado como <yellow>Abandonado</yellow>."
+      log: "❌ | **%player.nombre%** ha removido a **%player.nombre.1%** como líder del proyecto `%proyecto.id%`. El proyecto ha sido marcado como **Abandonado**."
+    switch:
+      success: "Has transferido el liderazgo del proyecto de ID <yellow>'%proyecto.id%'</yellow> a <yellow>'%player.nombre%'</yellow> correctamente."
+      for-new-leader: "Has sido asignado como nuevo Líder del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+      for-old-leader: "Has sido remplazado como Líder del proyecto de ID <yellow>'%proyecto.id%'</yellow> por <yellow>'%player.nombre%'</yellow>."
+      for-member: "El Líder del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido cambiado a <yellow>'%player.nombre%'</yellow>."
+      log:  "🔄 | **%player.nombre%** ha sido reemplazado por **%player.nombre.1%** como líder del proyecto `%proyecto.id%`."
+      staff-log: "🔄 | **%player.nombre%** ha reemplazado a **%player.nombre.1%** por **%player.nombre.2%** como líder del proyecto `%proyecto.id%`."
+      staff-no-old-leader-log: "🔄 | **%player.nombre%** ha promovido a **%player.nombre.1%** a líder del proyecto `%proyecto.id%`. El proyecto ha sido marcado como **Activo**"
+  create:
+    request:
+      success: "<green>Solicitud de proyecto con ID <yellow>'%proyecto.id%'</yellow> enviada correctamente. Espera a que un Reviewer la revise."
+      already: "Ya has enviado una solicitud de proyecto. Espera a que un Reviewer la revise."
+      for-reviewer: "Nueva solicitud de creación de proyecto de <yellow>'%pais.nombrePublico%'</yellow>. <gray><link>"
+      ds-for-reviewer: "Nueva solicitud de creación de proyecto de %pais.nombrePublico%. [Ver solicitud](%link%)"
+      expired: "La solicitud de proyecto de ID <yellow>'%proyecto.id%'</yellow> ha expirado."
+      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%`. Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. Division: `%proyecto.divisionId%`-`%proyecto.divisionNombre%`. Nombre: `%proyecto.nombre%`. Descripción: `%proyecto.descripcion%`."
+      expired-log: "❌ | La solicitud de creación del proyecto `%proyecto.id%` de **%player.nombre%** ha expirado."
+    accept:
+      success: "Has aceptado la solicitud del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+      ds-success: "Proyecto aceptado."
+      for-leader: "<green>El proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido aceptado. Ahora puedes construir."
+      comment: "<green>Comentario: <gray>\"<white>%comentario%\"</gray>"
+      log: "✅ | **%player.nombre%** ha aceptado el proyecto `%proyecto.id%` de **%player.nombre.1%**."
+    reject:
+      success: "Has rechazado la solicitud del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+      ds-success: "Proyecto rechazado."
+      for-leader: "<red>El proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido rechazado."
+      comment: "<red>Comentario: <gray>\"<white>%comentario%\"</gray>"
+      log: "❌ | **%player.nombre%** ha denegado el proyecto `%proyecto.id%` de **%player.nombre.1%**."
+  delete:
+    success: "El proyecto <yellow>'%proyecto.id%'</yellow> ha sido eliminado correctamente."
+    for-member: "El proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés ha sido eliminado."
+    staff-log: "🗑️ | **%player.nombre%** ha eliminado el proyecto `%proyecto.id%`."
+    log: "🗑️ | Se ha eliminado el proyecto `%proyecto.id%` de **%player.nombre%**."
+  edit:
+    activate:
+      success: "<green>La edición del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido activada. Ahora podés volver a construir."
+      for-member: "%player.nombre% ha activado el proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés. Ahora podés volver a construir."
+      log: "✏️ | **%player.nombre%** ha activado la edición del proyecto `%proyecto.id%`."
+    finish:
+      request:
+        success: "Solicitud de finalización del proyecto de ID <yellow>'%proyecto.id%'</yellow> enviada correctamente. Espera a que un Reviewer la revise."
+        already: "Ya has enviado una solicitud de finalización para el proyecto de ID <yellow>'%proyecto.id%'</yellow>. Espera a que un Reviewer la revise."
+        expired: "La solicitud de finalización del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha expirado."
+        for-member: "%player.nombre% ha solicitado finalizar el proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés."
+        for-reviewer: "Nueva solicitud de finalización de edición de proyecto de <yellow>'%pais.nombrePublico%'</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>"
+        ds-for-reviewer: "Nueva solicitud de finalización de edición de proyecto de %pais.nombrePublico%. ID: `%proyecto.id%`. Coordenadas: `%proyecto.geoCoords%`"
+        log: "✏️ | **%player.nombre%** ha solicitado terminar la edición del proyecto `%proyecto.id%`."
+        expired-log: "❌ | La solicitud de finalización de la edición del proyecto `%proyecto.id%` ha expirado."
+      accept:
+        success: "Has aceptado la finalización de edición del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+        for-member: "<green>La finalización de edición del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido aceptada."
+        comment: "<green>Comentario: <gray>\"<white>%comentario%\"</gray>"
+        log: "✅ | **%player.nombre%** ha aceptado la finalización de edición del proyecto `%proyecto.id%`."
+      reject:
+        success: "Has rechazado la finalización de edición del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+        for-member: "<red>La finalización de edición del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido denegada."
+        comment: "<red>Comentario: <gray>\"<white>%comentario%\"</gray>"
+        log: "❌ | **%player.nombre%** ha denegado la finalización de edición del proyecto `%proyecto.id%`."
+  finish:
+    request:
+      success: "Solicitud de finalización del proyecto de ID <yellow>'%proyecto.id%'</yellow> enviada correctamente. Espera a que un Reviewer la revise."
+      already: "Ya has enviado una solicitud de finalización para el proyecto de ID <yellow>'%proyecto.id%'</yellow>. Espera a que un Reviewer la revise."
+      expired: "La solicitud de finalización del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha expirado."
+      for-member: "%player.nombre% ha solicitado finalizar el proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés."
+      for-reviewer: "Nueva solicitud de finalización de proyecto de <yellow>'%pais.nombrePublico%'</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>"
+      ds-for-reviewer: "Nueva solicitud de finalización de proyecto de %pais.nombrePublico%. ID: `%proyecto.id%`. Coordenadas: `%proyecto.geoCoords%`"
+      log: "⏰ | **%player.nombre%** ha solicitado finalizar el proyecto `%proyecto.id%`."
+      expired-log: "❌ | La solicitud de finalización del proyecto `%proyecto.id%` ha expirado."
+    accept:
+      success: "Has aceptado la finalización del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+      success-promote: "Has aceptado la finalización del proyecto de ID <yellow>'%proyecto.id%'</yellow> y promovido al Líder a Constructor."
+      for-member: "<green>La finalización del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido aceptada."
+      comment: "<green>Comentario: <gray>\"<white>%comentario%\"</gray>"
+      log: "✅ | **%player.nombre%** ha aceptado la finalización del proyecto `%proyecto.id%` de **%player.nombre.1%**."
+    reject:
+      success: "Has rechazado la finalización del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+      for-member: "<red>La finalización del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido denegada."
+      comment: "<red>Comentario: <gray>\"<white>%comentario%\"</gray>"
+      log: "❌ | **%player.nombre%** ha denegado la finalización del proyecto `%proyecto.id%` de **%player.nombre.1%**."
+  redefine:
+    request:
+      success: "Solicitud de redefinición del proyecto de ID <yellow>'%proyecto.id%'</yellow> enviada correctamente. Espera a que un Reviewer la revise."
+      already: "Ya has enviado una solicitud de redefinición para el proyecto de ID <yellow>'%proyecto.id%'</yellow>. Espera a que un Reviewer la revise."
+      expired: "La solicitud de redefinición del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha expirado."
+      for-reviewer: "Nueva solicitud de redefinición de proyecto de <yellow>'%pais.nombrePublico%'</yellow>. <gray><link>"
+      ds-for-reviewer: "Nueva solicitud de redefinición de proyecto de %pais.nombrePublico%. [Ver solicitud](%link%)"
+      for-member: "%player.nombre% ha solicitado redefinir el proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés."
+      log: "♻️ | **%player.nombre%** ha solicitado redefinir el proyecto `%proyecto.id%`. Nuevo Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. Nueva División: `%proyecto.divisionId%`-`%proyecto.divisionNombre%`."
+      expired-log: "❌ | La solicitud de redefinición del proyecto `%proyecto.id%` ha expirado."
+    accept:
+      success: "Has aceptado la redefinición del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+      ds-success: "Redefinición aceptada."
+      for-member: "La redefinición del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido aceptada."
+      comment: "Comentario: <gray>\"<white>%comentario%\"</gray>"
+      log: "✅ | **%player.nombre%** ha aceptado la redefinición del proyecto `%proyecto.id%` de **%player.nombre.1%**."
+    reject:
+      success: "Has rechazado la redefinición del proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+      ds-success: "Redefinición rechazada."
+      for-member: "La redefinición del proyecto de ID <yellow>'%proyecto.id%'</yellow> ha sido denegada."
+      comment: "Comentario: <gray>\"<white>%comentario%\"</gray>"
+      log: "❌ | **%player.nombre%** ha denegado la redefinición del proyecto `%proyecto.id%` de **%player.nombre.1%**."
+  claim:
+    success: "<green>Has reclamado el proyecto de ID <yellow>'%proyecto.id%'</yellow> correctamente. Ahora eres el Líder del proyecto."
+    log: "📌 | **%player.nombre%** ha reclamado el proyecto `%proyecto.id%`. El proyecto ha sido marcado como **Activo**"
+  join:
+    log: "➕ | **%player.nombre%** ha sido añadido al proyecto `%proyecto.id%`."
+    request:
+      success: "Has solicitado unirte al proyecto de ID <yellow>'%proyecto.id%'</yellow> correctamente. Espera a que el Líder la revise."
+      already: "Ya has solicitado unirte al proyecto de ID <yellow>'%proyecto.id%'</yellow>. Espera a que el Líder la revise."
+      expired: "La solicitud para unirte al proyecto de ID <yellow>'%proyecto.id%'</yellow> ha expirado."
+      expired-lider: "La solicitud del jugador <yellow>'%player.nombre%'</yellow> para unirse al proyecto de ID <yellow>'%proyecto.id%'</yellow> ha expirado."
+      for-lider: "%player.nombre% ha solicitado unirse al proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés."
+      log: "🔔 | **%player.nombre%** ha solicitado unirse al proyecto `%proyecto.id%`."
+      expired-log: "❌ | La solicitud de **%player.nombre%** para unirse al proyecto `%proyecto.id%` ha expirado."
+    accept:
+      success: "Has aceptado la solicitud para unirte al proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+      ds-success: "Solicitud aceptada."
+      for-member: "<green>Has sido aceptado para unirte al proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés."
+      log: "✅ | **%player.nombre%** ha aceptado la solicitud de **%player.nombre.1%** para unirse al proyecto `%proyecto.id%`."
+    reject:
+      success: "Has rechazado la solicitud para unirte al proyecto de ID <yellow>'%proyecto.id%'</yellow>."
+      ds-success: "Solicitud rechazada."
+      for-member: "<red>Has sido rechazado para unirte al proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés."
+      log: "❌ | **%player.nombre%** ha denegado la solicitud de **%player.nombre.1%** para unirse al proyecto `%proyecto.id%`."
+  update:
+    description:
+      success: "La descripción del proyecto <yellow>'%proyecto.id%'</yellow> ha sido actualizada correctamente."
+      for-member: "La descripción del proyecto de ID <yellow>'%proyecto.id%'</yellow>al que pertenecés ha sido actualizada."
+      log: "✏️ | **%player.nombre%** ha actualizado la descripción del proyecto `%proyecto.id%` a `%proyecto.descripcion%`."
+    name:
+      success: "El nombre del proyecto <yellow>'%proyecto.id%'</yellow> ha sido actualizado correctamente."
+      for-member: "El nombre del proyecto de ID <yellow>'%proyecto.id%'</yellow> al que pertenecés ha sido actualizado."
+      log: "✏️ | **%player.nombre%** ha actualizado el nombre del proyecto `%proyecto.id%` a `%proyecto.nombre%`."
+  border:
+    deactivated: "<green>El borde del proyecto de ID <yellow>%proyecto.id%</yellow> ha sido desactivado."
+    activated: "<green>El borde del proyecto de ID <yellow>%proyecto.id%</yellow> ha sido activado."
+manager:
+  not-manager-country: "No eres Manager del país '%pais.nombrePublico%'."
+  already: "El jugador '%player.nombre%' ya es Manager del país '%pais.nombrePublico%'."
+  not-manager: "El jugador '%player.nombre%' no es Manager del país '%pais.nombrePublico%'."
+  add:
+    success: "El jugador '%player.nombre%' ha sido agregado como Manager del país '%pais.nombrePublico%' correctamente."
+    for-target: "Has sido agregado como Manager del país '%pais.nombrePublico%' correctamente."
+    log: "🔍 | **%player.nombre%** ha agregado a **%player.nombre.1%** como Manager del país '%pais.nombrePublico%'."
+  remove:
+    success: "El jugador '%player.nombre%' ha sido removido como Manager del país '%pais.nombrePublico%' correctamente."
+    for-target: "Has sido removido como Manager del país '%pais.nombrePublico%' correctamente."
+    log: "❌ | **%player.nombre%** ha removido a **%player.nombre.1%** como Manager del país '%pais.nombrePublico%'."
+reviewer:
+  not-reviewer-country: "No eres Reviewer del país '%pais.nombrePublico%'."
+  already: "El jugador '%player.nombre%' ya es Reviewer del país '%pais.nombrePublico%'."
+  not-reviewer: "El jugador '%player.nombre%' no es Reviewer del país '%pais.nombrePublico%'."
+  ds-not-reviewer-country: "No sos Reviewer del país **'%pais%'**."
+  add:
+    success: "El jugador '%player.nombre%' ha sido agregado como Reviewer del país '%pais.nombrePublico%' correctamente."
+    for-target: "Has sido agregado como Reviewer del país '%pais.nombrePublico%' correctamente."
+    log: "🔍 | **%player.nombre%** ha agregado a **%player.nombre.1%** como Reviewer del país '%pais.nombrePublico%'."
+  remove:
+    success: "El jugador '%player.nombre%' ha sido removido como Reviewer del país '%pais.nombrePublico%' correctamente."
+    for-target: "Has sido removido como Reviewer del país '%pais.nombrePublico%' correctamente."  
+    log: "❌ | **%player.nombre%** ha removido a **%player.nombre.1%** como Reviewer del país '%pais.nombrePublico%'."
+where:
+  division: "Pais: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>"
+  no-division: "No estás dentro de ninguna división del '%pais.nombrePublico%'."
+  no-pais: "No estás dentro de ningún país."
+get-list:
+  header: " ===== <gold>Lista de %entity%s</gold>" # %entity% -> Nombre de la entidad en plural.
+  line: " - <gold>%id%:</gold> %details%" # %id% -> Identificador de la entidad. %details% -> Detalles de la entidad.
+  footer: ""
+  empty: "No se encontraron '%entity%'." # %entity% -> Nombre de la entidad en plural.
+link:
+  ds-already-linked: "Tu cuenta de Discord ya está vinculada a una cuenta de Minecraft."
+  mc-already-linked: "Tu cuenta de Minecraft ya está vinculada a una cuenta de Discord."
+  ds-not-linked: "Tu cuenta de Discord no está vinculada a ninguna cuenta de Minecraft."
+  mc-not-linked: "Tu cuenta de Minecraft no está vinculada a ninguna cuenta de Discord."
+  invalid-code: "El código proporcionado no es válido o ha expirado."
+  mc-success: "Cuenta vinculada exitosamente."
+  ds-success: "Cuenta vinculada exitosamente a **%player.nombre%**."
+  unlink-success: "Cuenta desvinculada exitosamente."
+  set-success: "La cuenta de Discord ha sido vinculada a <yellow>'%player.nombre%'</yellow> correctamente."
+  unlink-set-success: "La cuenta de Discord ha sido desvinculada de <yellow>'%player.nombre%'</yellow> correctamente."
+  mc-code: "Tu código es: <yellow><codigo></yellow>. Usa <gray>/link %codigo%</gray> en Discord."
+  ds-code: "Tu código es: `%code%`. Usa **/link %code%** en Minecraft."
+  mc-link-needed: "Debes vincular tu cuenta de Discord para usar este comando. Usa '/link'."
+  mc-link-recomendation: "Te recomendamos vincular tu cuenta de Discord. Usa '/link'."
+  ds-link-needed: "Debes vincular tu cuenta de Minecraft para realizar esta acción. Usa '/link'."
+crud:
+  create: "Entidad '%entity%' creada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad.
+  read: "Entidad '%entity%' con id '%id%':" # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+  update: "Entidad '%entity%' con id '%id%' actualizada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+  delete: "Entidad '%entity%' con id '%id%' eliminada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.  
+  already-exists: "La entidad '%entity%' con id '%id%' ya existe." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+  read-not-found: "La entidad '%entity%' con id '%id%' no fue encontrada." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+  not-valid-parse: "No se pudo convertir el valor '%value%' al tipo '%type%' para la entidad '%entity%'." # %entity% -> Nombre de la entidad. %value% -> Valor inválido. %type% -> Tipo esperado.  
+  not-valid-id: "El id '%id%' proporcionado no es válido para la entidad '%entity%'." # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.
+  not-valid-name: "El nombre '%name%' proporcionado no es válido para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %name% -> Nombre inválido. %reason% -> Razón de la invalidez.
+  not-valid-description: "La descripción proporcionada no es válida para la entidad '%entity%'. Razón: %reason%" # %entity% -> Nombre de la entidad. %reason% -> Razón de la invalidez.
+  not-valid-region: "La región no tiene polígono asociado."
+  not-valid-geojson: "No se pudo cargar el GeoJSON o no contiene polígonos."
+  division-region-not-found: "La región con id '%regionId%' no fue encontrada para la división con id '%divisionId%'." # %regionId% -> Identificador de la región. %divisionId% -> Identificador de la división.
+  loading-division: "Cargando divisiones del país '%pais.nombrePublico%' desde el archivo GeoJSON..."
+  no-divisions: "No se pudo cargar los GeoJSON o \"%path%\" no contiene divisiones válidas." # %path% -> Ruta del archivo GeoJSON.
+  division-exception: "Ocurrió un error al cargar las divisiones desde el GeoJSON: %error%" # %error% -> Detalles del error ocurrido.
+  loaded-division: " (%count% divisiones cargadas)" # %count% -> Cantidad de divisiones cargadas.
+  rango-already-permiso: "El Rango de Usuario ya posee ese permiso."
+  rango-not-have-permiso: "El Rango de Usuario no posee ese permiso."
+  permiso-not-found: "El permiso no fue encontrado."
+  tipo-already-permiso: "El Tipo de Usuario ya posee ese permiso."
+  tipo-not-have-permiso: "El Tipo de Usuario no posee ese permiso."
+  permisos-list: "Permisos: %permisos%" # %permisos% -> Lista de permisos del Rango de Usuario.
+global-chat:
+  set: "<green>El chat <yellow>%player.nombre% <green>ha sido cambiado al chat global."
+  switched: "<aqua>Has cambiado al chat global."
+country-chat:
+  set: "<green>El chat de <yellow>%player.nombre% <green>ha sido cambiado al chat de <yellow>%pais.nombrePublico%<green>."
+  switched: "<aqua>Has cambiado al chat de <yellow>%pais.nombrePublico%<aqua>."
+notepad-chat:
+  set: "<green>El bloc de notas de <yellow>%player.nombre% <green>ha sido abierto."
+  switched: "<aqua>Has abierto el bloc de notas."
+nickname:
+  change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
+  set: "<green>El nombre público de <yellow>'%player.nombre%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
+country-prefix:
+  set: "<green>El prefijo de país de %player.nombre% ha sido establecido a <yellow>%player.paisPrefix%<green>." #  %paisPrefix% -> Prefijo del país.
+  switched: "<aqua>Tu prefijo de país ha sido cambiado a <yellow>%player.paisPrefix%<aqua>." # %paisPrefix% -> Prefijo del país.
+rango:
+  set: "<green>El rango de <yellow>%player.nombre% <green>ha sido cambiado a <yellow>%rango.nombre%<green>."
+  switch: "<aqua>Tu rango ha sido cambiado a <yellow>%rango.nombre%<aqua>."
+  promote-staff-log: "💪 | **%player.nombre%** ha promovido a **%player.nombre.1%** al Tipo de Usuario **%tipo.nombre%**."
+tipo:
+  set: "<green>El tipo de usuario de <yellow>%player.nombre% <green>ha sido cambiado a <yellow>%tipo.nombre%<green>."
+  switch: "<aqua>Tu tipo de usuario ha sido cambiado a <yellow>%tipo.nombre%<aqua>."
+  promote-log: "💪 | **%player.nombre%** ha sido promovido al Tipo de Usuario **%tipo.nombre%**."
+  promote-staff-log: "💪 | **%player.nombre%** ha promovido a **%player.nombre.1%** al Tipo de Usuario **%tipo.nombre%**."
+
+# Chat
+# En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
+mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold>%player.nombrePublico%</gold><gray>: </gray>%mensaje%"
+from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>%mensaje%" # De jugador no registrado en la base de datos.
+from-ds-message: "%dsPrefix% <gold>%player.nombrePublico%</gold><gray>: </gray>%mensaje%"
+
+# %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
+# %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
+ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
+ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # De jugador no registrado en la base de datos. %username% -> Nombre del usuario que envía el mensaje.
+from-mc-message: "**%mcPrefix% %player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% %player.nombrePublico%**: %mensaje%"
+
+player-join-message: "<green>El jugador <yellow>%player.nombrePublico%<green> se ha unido al servidor."
+player-leave-message: "<red>El jugador <yellow>%player.nombrePublico%<red> ha salido del servidor."
+player-join-chat-message: "<yellow>%player.nombrePublico% se ha unido al chat.</yellow>"
+player-leave-chat-message: "<blue>%player.nombrePublico% ha salido del chat.</blue>"
+
+ds-chat-notifications:
+  start:
+    title: "El servidor se ha iniciado."
+  stop:
+    title: "**El servidor se ha detenido.**"
+    description: "Nos vemos!"
+  player-join:
+    author: "%player.nombrePublico% se ha unido al servidor."
+  player-left:
+    author: "%player.nombrePublico% ha salido del servidor."
+  player-chat-join:
+    author: "%player.nombrePublico% se ha unido al chat."
+  player-chat-left:
+    author: "%player.nombrePublico% ha salido del chat."
+
+# Discord
+ds-notifications:
+  rango-switched:
+    title: "Tu rango ha sido cambiado a '%rango.nombre%'"
+    description: "%rango.descripcion%"
+  tipo-switched:
+    title: "Has sido promovido a '%tipo.nombre%'"
+    description: "%tipo.descripcion%"
+    max-projects: "Máx. de proyectos simultáneos: %tipo.cantProyecSim%"
+  manager-target-added: "Has sido agregado como Manager del país '%pais.nombrePublico%'"
+  manager-target-removed: "Has sido removido como Manager del país '%pais.nombrePublico%'"
+  reviewer-target-added: "Has sido agregado como Reviewer del país '%pais.nombrePublico%'"
+  reviewer-target-removed: "Has sido removido como Reviewer del país '%pais.nombrePublico%'"
+  link-success: "Tu cuenta ha sido vinculada a '%player.nombre%'"
+  project:
+    id: "ID del proyecto: '%proyecto.id%'" # En todos.
+    nombre: "Nombre del proyecto: '%proyecto.nombre%'" # En todos.
+    nombre-nuevo: "Nombre nuevo del proyecto: '%nombreNuevo%'" # Solo en project-name-updated.
+    descripcion-nueva: "Descripción nueva del proyecto: '%descripcionNueva%'" # Solo en project-description-updated.
+    comment: "Comentario: %comentario%" # Solo en: project-rejected, project-redefine-rejected, project-finish-rejected, project-finish-edit-rejected, project-accepted, project-redefine-accepted, project-finish-accepted, proproject-finish-edit-accepted. %comentario% -> Comentario del staff.
+    project-accepted: "Proyecto aceptado"
+    project-expired: "La solicitud de proyecto ha expirado"
+    project-rejected: "Proyecto rechazado"
+    project-finish-requested: "%player.nombre% ha solicitado finalizar un proyecto al que pertenecés" 
+    project-finish-accepted: "Finalización de proyecto aceptada"
+    project-finish-rejected: "Finalización de proyecto rechazada"
+    project-finish-expired: "La solicitud de finalización de proyecto ha expirado"
+    project-leader-switched: "Has sido promovido a Líder de un proyecto"
+    project-leader-switched-leader: "Has sido reemplazado como Líder de un proyecto por %player.nombre%"
+    project-leader-switched-member: "El jugador %player.nombre% ha sido promovido a Líder de un proyecto al que pertenecés"
+    project-member-added: "Has sido agregado a un proyecto"
+    project-member-added-member: "El jugador %player.nombre% ha sido agregado a un proyecto al que pertenecés"
+    project-member-removed: "Has sido removido de un proyecto"
+    project-leader-removed: "Has sido removido como Líder de un proyecto"
+    project-member-removed-member: "El jugador %player.nombre% ha sido removido de un proyecto al que pertenecés"
+    project-member-left-member: "El jugador %player.nombre% ha salido de un proyecto al que pertenecés"
+    project-member-join-request: "%player.nombre% ha solicitado unirse a tu proyecto"
+    project-join-request-expired: "La solicitud para unirse al proyecto ha expirado"
+    project-join-request-expired-lider: "La solicitud de %player.nombre% para unirse al proyecto ha expirado"
+    project-join-request-rejected: "Solicitud para unirse al proyecto rechazada"
+    project-join-request-accepted: "Solicitud para unirse al proyecto aceptada"
+    project-redefine-request-member: "%player.nombre% ha solicitado redefinir un proyecto al que pertenecés"
+    project-redefine-expired: "La solicitud de redefinición de proyecto ha expirado"
+    project-redefine-rejected: "Redefinición de proyecto rechazada"
+    project-redefine-accepted: "Redefinición de proyecto aceptada"
+    project-edit-active-member: "%player.nombre% ha activado la edición de un proyecto al que pertenecés."
+    project-finish-edit-requested: "%player.nombre% ha solicitado finalizar la edición de un proyecto al que pertenecés"
+    project-finish-edit-expired: "La solicitud de finalización de edición de proyecto ha expirado"
+    project-finish-edit-rejected: "Finalización de edición de proyecto rechazada"
+    project-finish-edit-accepted: "Finalización de edición de proyecto aceptada"
+    project-deleted: "Proyecto eliminado por un Manager"
+    project-name-updated: "Nombre del proyecto actualizado por un Manager"
+    project-description-updated: "Descripción del proyecto actualizada por un Manager"
+ds-embeds:
+  project-created:
+    title: "%player.nombre% quiere crear un nuevo proyecto."
+    player-is-visita: "> **[!]** El jugador es de tipo 'Visita'."
+    player-is-postulante: "> **[!]** El jugador es de tipo 'Postulante'." 
+    has-collisions: "> **[!]** El proyecto tiene colisiones con otros proyectos."
+    separator: "────────────────────────────────────────"
+    polygons-colors:
+      - "🟦 - Proyecto"
+      - "🟩 - Otros Proyectos"
+    fields:
+      rango: "Rango"
+      tipo: "Tipo"
+      fechaIngreso: "Fecha de ingreso"
+      proyectosCompletados: "Proyectos completados"
+      proyectosActivos: "Proyectos activos"
+      tipoProyecto: "Tipo de proyecto"
+      maxMiembros: "Máx. de miembros"
+      tamaño: "Tamaño del proyecto"
+      geoCoords: "Coordenadas geográficas"
+      nombreProyecto: "Nombre del proyecto"
+      descripcion: "Descripción"
+    footer: "Vence el %fechaHoraVencimiento"
+  project-redefine-requested:
+    title: "%player.nombre% quiere redefinir un proyecto: %proyecto.id%"
+    has-collisions: "> **[!]** El proyecto tiene colisiones con otros proyectos."
+    polygons-colors:
+      - "🟦 - Proyecto"
+      - "🟥 - Redefinición"
+      - "🟩 - Otros Proyectos"
+    fields:
+      tipoProyecto: "Tipo de proyecto"
+      maxMiembros: "Máx. de miembros"
+      tamaño: "Tamaño del proyecto"
+      geoCoords: "Coordenadas geográficas"
+      nombreProyecto: "Nombre del proyecto"
+      descripcion: "Descripción"
+    footer: "Vence el %fechaHoraVencimiento"
+  error: "Error"
+  warn: "Warn"
+
+# GUI
+# 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
+# En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
+# La 'head-id' es la que se obtiene desde Head Database - https://minecraft-heads.com/.
+# En caso de un material inválido, se usará STONE por defecto.
+gui-titles:
+  chat-select: "Selección de Chat"
+  chat-set: "Selección de Chat: %player.nombre%"
+  pais-prefix-select: "Selección de País"
+  pais-prefix-set: "Selección de País: %player.nombre%"
+  promote: "Cambiar Rol Usuario: %player.nombre%"
+  rango-confirm: "Confirmar cambio de Rango"
+  project-promote: "Promover Jugador: %player.nombre%"
+  tipo-confirm: "Confirmar cambio de Tipo"
+  unlink-confirm: "Confirmar desvinculación"
+  finish-project-confirm: "Confirmar finalización: '%proyecto.id%'"
+  redefine-project-confirm: "Confirmar redefinición: '%proyecto.id%'"
+  edit-project-confirm: "Confirmar edición: '%proyecto.id%'"
+  leave-project-confirm: "Confirmar salida: '%proyecto.id%'"
+  claim-project-confirm: "Confirmar reclamo: '%proyecto.id%'"
+  delete-project-confirm: "Confirmar eliminación: '%proyecto.id%'"
+  finish-project-reject: "Rechazar finalización: '%proyecto.id%'"
+  finish-project-accept: "Aceptar finalización: '%proyecto.id%'"
+  finish-edit-project-reject: "Rechazar edición: '%proyecto.id%'"
+  finish-edit-project-accept: "Aceptar edición: '%proyecto.id%'"
+  proyectos-activos-list: "Proyectos en esta ubicación"
+  proyectos-abandonados-list: "Proyectos en esta ubicación"
+  proyectos-completados-list: "Proyectos en esta ubicación"
+  proyectos-here-list: "Proyectos en esta ubicación"
+  proyectos-search: "Buscar Proyectos"
+  select-member: "Seleccionar Miembro: '%proyecto.id%'"
+  select-member-remove: "Seleccionar Miembro a Remover"
+  select-player-add: "Seleccionar Jugador a Añadir"
+  select-leader: "Seleccionar nuevo Líder: '%proyecto.id%'"
+  join-request-confirmation: "Confirmar solicitud de unión"
+  join-request-list: "Solicitudes de unión: '%proyecto.id%'"
+  project-members: "Miembros del proyecto: '%proyecto.id%'"
+  project-manage: "Gestionar proyecto: '%proyecto.id%'"
+  project-info: "Info del proyecto: '%proyecto.id%'"
+  language-select: "Seleccionar idioma"
+
+items: 
+  back:
+    name: "Volver"
+    lore:
+      - "<gray>Haz clic para volver al menú anterior."
+  close:
+    name: "Cerrar"
+    lore:
+      - "<gray>Haz clic para cerrar el menú."
+  previous-page:
+    name: "Página Anterior"
+    lore:
+      - "<gray>Haz clic para ir a la página anterior."
+  next-page:
+    name: "Página Siguiente"
+    lore: 
+      - "<gray>Haz clic para ir a la página siguiente."
+  confirm:
+    name: "<green>Confirmar"
+    lore:
+      - "<gray>Haz clic para confirmar."
+  accept:
+    name: "<green>Aceptar"
+    lore:
+      - "<gray>Haz clic para acceptar."
+  reject:
+    material: "RED_CONCRETE"
+    name: "<red>Rechazar"
+    lore:
+      - "<gray>Haz clic para rechazar."
+  cancel:
+    name: "<red>Cancelar"
+    lore:
+      - "<gray>Haz clic para cancelar."
+  search:
+    name: "<aqua>Buscar por %searchTerm%" # %searchTerm% -> Término de búsqueda.
+    search-line: "<gray>Haz clic para buscar"
+    searched: "<gray>Resultados para: <white>'%search%'" # %search% -> Texto de búsqueda.
+    search-again-Line-1: "<gray>Haz clic para buscar de nuevo."
+    search-again-Line-2: "<gray>Ingresa un texto vacío para resetear."
+  promote:
+    name: "<green>Confirmar y Promover"
+    lore:
+      - "<gray>El lider de este proyesto es Postulante."
+      - "<gray>Haz clic para confirmar y promoverlo"
+      - "<gray>a <yellow>Constructor</yellow>."
+  members:
+    name: "<aqua>Miembros"
+    lore:
+      - "<green>Cantidad: <white>%proyecto.miembrosCantidad%"
+      - "<gray>Haz clic para ver los miembros del proyecto."
+  add-member:
+    name: "<green>Agregar Miembro"
+    lore:
+      - "<gray>Haz clic para agregar un miembro al proyecto."
+  remove-member:
+    name: "<red>Remover Miembro"
+    lore:
+      - "<gray>Haz clic para remover un miembro del proyecto."
+  leave-project:
+    name: "<red>Salir del Proyecto"
+    lore:
+      - "<gray>Haz clic para salir del proyecto."
+      - "<gray>Si eres el líder, el proyecto"
+      - "<gray>será marcado como abandonado."
+  finish-project:
+    name: "<green>Finalizar Proyecto"
+    lore:
+      - "<gray>Haz clic para solicitar"
+      - "<gray>la finalización del proyecto."
+  set-name-description:
+    name: "<aqua>Para cambiar:"
+    lore:
+      - "<gray>Nombre: /project name <nombre>"
+      - "<gray>Descripción: /project description <descripcion>"
+  transfer-leader:
+    name: "<aqua>Transferir Liderazgo"
+    lore:
+      - "<gray>Haz clic para transferir el liderazgo"
+      - "<gray>a otro miembro del proyecto."
+  notifications:
+    name: "<aqua>Notificaciones"
+    lore:
+      - "<green>Cantidad: <white>%notificaciones%" # %notificaciones% -> Cantidad de notificaciones no leídas.
+      - "<gray>Haz clic para ver las solicitudes de unión."
+  claim:
+    name: "<green>Reclamar Proyecto"
+    lore:
+      - "<gray>Este proyecto no tiene líder."
+      - "<gray>Haz clic para reclamar el proyecto."
+  proyecto:
+    name: "<yellow>%proyecto.id% - %proyecto.nombre%" # %proyecto.id% -> Identificador del proyecto. %proyecto.nombre% -> Nombre del proyecto.
+    lore:
+      - "<gray>%proyecto.descripcion%" # %proyecto.descripcion% -> Descripción del proyecto.
+      - "<gray>Líder: <white>%proyecto.lider%" # %proyecto.lider% -> Nombre del líder del proyecto.
+      - "<gray>Miembros: <white>%proyecto.miembrosCantidad%" # %proyecto.miembrosCantidad% -> Cantidad de miembros del proyecto.
+      - "<gray>Ubicación: <white>%proyecto.paisNombre%" # %proyecto.paisNombre% -> Nombre del país.
+      - "<white>%proyecto.divisionContexto%, %proyecto.divisionFna%" # %proyecto.divisionGna% -> Tipo de división. %proyecto.divisionContexto% -> Contexto de la división. %proyecto.divisionNam% -> Nombre oficial de la división. %proyecto.divisionFna% -> Nombre alternativo de la división.
+      - "<gray>Estado: %proyecto.estado%" # %proyecto.estado% -> Estado del proyecto.
+      - "<gray>Tamaño: <white>%proyecto.tamano%m²" # %proyecto.tamano% -> Tamaño del proyecto en metros cuadrados.
+      - "<gray>Tipo: <white>%proyecto.tipoProyecto%" # %proyecto.tipoProyecto% -> Nombre del Tipo de proyecto.
+      - "<gray>Creación: <white>%proyecto.fechaCreacion%" # %proyecto.fechaCreacion% -> Fecha de creación del proyecto.
+      - "<gray>Finalización: <white>%proyecto.fechaFinalizacion%" # %proyecto.fechaFinalizacion% -> Fecha de finalización del proyecto.
+    estado:
+      en-finalizacion: "<yellow>En Finalización"
+      en-finalizacion-edit: "<light_purple>En Finalización de Edición"
+      completado: "<green>Completado"
+      activo: "<aqua>Activo"
+      en-creacion: "<blue>En Creación"
+      redefiniendo: "<light_purple>Redefiniendo"
+      abandonado: "<red>Abandonado"
+      editando: "<gold>Editando"
+  player:
+    name: "%contexto% <aqua>%player.nombre%" # %player% -> Nombre del jugador. %contexto% -> Contexto del jugador.
+    no-player-name: "N/A"
+    no-player-lore:
+      -  "<gray>Proyecto sin %contexto%" # %contexto% -> Contexto del jugador.
+    lore:
+      - "<gray>Nombre público: <white>%player.nombrePublico%" # %player.nombrePublico% -> Nombre público del jugador.
+      - "<gray>Rango: <white>%player.rangoUsuario%" # %player.rangoUsuario% -> Rango del jugador.
+      - "<gray>Tipo: <white>%player.tipoUsuario%" # %player.tipoUsuario% -> Tipo de usuario del jugador.
+      - "<gray>País: %player.paisPrefix%" # %player.paisPrefix% -> Prefix de País del jugador.
+      - "<gray>Proyectos activos: <white>%player.proyectosActivos%" # %player.proyectosActivos% -> Cantidad de proyectos activos del jugador.
+      - "<gray>Proyectos completados: <white>%player.proyectosCompletados%" # %player.proyectosCompletados% -> Cantidad de proyectos completados del jugador.
+      - "<gray>Ingreso: <white>%player.fechaIngreso%" # %player.fechaIngreso% -> Fecha de ingreso del jugador al servidor.
+      - "<gray>Último login: <white>%player.fechaUltimaConexion%" # %player.fechaUltimaConexion% -> Fecha del último login del jugador.
+      - "%player.estado%" # %player.estado% -> Estado online/offline del jugador.
+    contexto:
+      lider: "<b><yellow>Líder</b>"
+      miembro: "<b><aqua>Miembro</b>"
+      default: "<b><white>Jugador</b>"
+  config:
+    name: "<yellow>%name%" # %name% -> Nombre de la configuración.
+    value-true: "<green>Activado"
+    value-false: "<red>Desactivado"
+    desc-line: "<gray>%desc%" # %desc% -> Línea de la descripción de la configuración.
+    value-line: "<gold>Estado: %value%" # %value% -> Estado actual de la configuración.
+    configs:
+      general:
+        global-chat-on-join:
+          name: "Chat Global al Unirse"
+          desc: 
+            - "El jugador se unirá al chat global al entrar al servidor."
+            - "Si no, se unirá al chat seleccionado previamente."
+            - "Al reiniciar el servidor, todos los jugadores se unirán al chat global."
+        simultaneous-notifications:
+          name: "Notificaciones Simultáneas"
+          desc:
+            - "El jugador recibirá notificaciones desde"
+            - "Discord (DM) y Minecraft simultáneamente."
+            - "Si no, las recibirá sólo desde Minecraft si está online."
+        pais-border:
+          name: "Barrera de Países"
+          desc:
+            - "Habilitar una barrera de partículas"
+            - "en los límites de los países."
+        label-border:
+          name: "Barrera de Capas"
+          desc:
+            - "Habilitar una barrera de partículas"
+            - "en los límites de las capas."
+        lang:
+          name: "Seleccionar Idioma"
+          desc:
+            - "<gray>Seleccionado: %current%" # %current% -> Idioma actual del plugin.
+            - "<gray>Haz click para seleccionar el idioma del plugin."
+      manager:
+        ds-notifications:
+          name: "Notificaciones de Manager"
+          desc: 
+            - "Habilitar las notificaciones para Managers de Discord."
+      reviewer:
+        ds-notifications:
+          name: "Notificaciones de Reviewer"
+          desc:
+            - "Habilitar las notificaciones para Reviewers de Discord."
+  notepad:
+    name: "<yellow>Bloc de Notas"
+    lore:
+      - "<gray>No se reciben ni envían mensajes."
+      - "<gray>Sólo se ven los propios."
+  argentina-head:
+    name: "<aqua>Argentina"
+  chile-head:
+    name: "<red>Chile"
+  uruguay-head:
+    name: "<white>Uruguay"
+  paraguay-head:
+    name: "<yellow>Paraguay"
+  bolivia-head:
+    name: "<green>Bolivia"
+  peru-head:
+    name: "<red>Perú"
+  global-chat-head:
+    name: "<aqua>Chat Global"
+    international-name: "<gray>Internacional"
+  international-head:
+    name: "<gray>Internacional"
+  rango-usuario:
+    description: "<gray>%rango.descripcion%"
+    normal:
+      name: "<green>%rango.nombre%"
+    admin:
+      name: "<dark_red>%rango.nombre%"
+    mod:
+      name: "<red>%rango.nombre%"
+    influencer:
+      name: "<blue>%rango.nombre%"
+    donador:
+      name: "<gold>%rango.nombre%"
+  tipo-usuario:
+    description: "<gray>%tipo.descripcion%"
+    max-projects: "<gray>Máx. de proyectos: <white>%tipo.cantProyecSim%"
+    visita:
+      name: "<white>%tipo.nombre%"
+    postulante:
+      name: "<yellow>%tipo.nombre%"
+    constructor:
+      name: "<green>%tipo.nombre%"
+
+sign-gui:
+  - ""
+  - ""
+  - "^^^^^^^^^"
+  - "Escribe arriba"
+sign-gui-create-error: "Error al crear el proyecto. Razón: %reason%" # %reason% -> Razón del error.
+
+# Player Logger
+player-info: "%pluginPrefix% <white>%message%" # %pluginPrefix% -> Prefijo del plugin. %message% -> Mensaje a enviar.
+player-debug: "<dark_purple>[DEBUG]</dark_purple> <light_purple>%message%" # %message% -> Mensaje a enviar.
+player-warn: "<gold>[!]</gold> <yellow>%message%" # %message% -> Mensaje a enviar.
+player-error: "<dark_red>[!]</dark_red> <red>%message%" # %message% -> Mensaje a enviar.
+
+
+# Discord
+ds-internal-error: "Un error interno ha ocurrido."
+ds-interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
+interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
+
+ds-manager-notification: "%mention%: %message%" # %mention% -> Mención al usuario. %message% -> Mensaje a enviar.
+ds-reviewer-notification: "%mention%: %message%" # %mention% -> Mención al reviewer. %message% -> Mensaje a enviar.
+ds-dev-notification: "%mention%: %message%" # %mention% -> Mención al rol de developer. %message% -> Mensaje a enviar. 
+ds-staff-country-log: "%pais.logo% >> %message%" # %dsPais% -> Logo del país. %message% -> Mensaje enviado.
+
+ds-invalid-action: "Acción desconocida."
+
+ds-field-comment-placeholder: "(Opcional) Agrega un comentario sobre el proyecto..."
+ds-field-comment-name: "Comentario"
+ds-button-accept: "Aceptar"
+ds-button-reject: "Rechazar"
+ds-modals:
+  accept-project-creation: "Confirmar creación de proyecto"
+  reject-project-creation: "Confirmar rechazo de proyecto"
+  accept-project-redefinition: "Confirmar redefinición de proyecto"
+  reject-project-redefinition: "Confirmar rechazo de redefinición de proyecto"
+
+ds-comando-empty: "Por favor, proporciona un nombre de comando válido."
+ds-comando-removed: "Se ha intentado borrar el comando '/%comando%'."
+
+ds-exec-empty: "Por favor, proporciona un comando."
+ds-exec: "Comando ejecutado: '%comando%'."
+
+# World
+world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
+world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
+bte-world-loading: "Cargando mundo de BTE..."
+label-world-loading: "Cargando capa: %name% con offset %offset%..." # %name% -> Nombre de la capa. %offset% -> Offset de la capa.
+invalid-bte-world: "El mundo de BTE no es válido."
+capa-alta-no-region: "La capa alta no tiene una región asociada."
+invalid-label-world: "La capa '%name%' no está creada en el servidor." 
+
+teleport-layer-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
+teleport-layer-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
+
+no-building-permissions: "No tienes permisos para construir aquí."
+not-limbo: "No puedes estar afuera de los paises. Teletransportando al lobby..."
+cant-leave-paises: "No puedes salir de los paises."
+
+# Placeholder
+placeholder:
+  item-mc:
+    selected: "<green><b>Seleccionado</b></green>"
+    search-term:
+      nombre: "Nombre"
+      id: "ID"
+  player-mc:
+    online: "<green><b>En línea</b></green>"
+    offline: "<red><b>Desconectado</b></red>"
+  player-ds:
+    online: "En línea"
+    offline: "Desconectado"
+  proyecto-mc:
+    sin-lider: "<yellow><i>Sin Líder</i></yellow>"
+    sin-miembros: "<yellow><i>Sin Miembros</i></yellow>"
+    sin-nombre: "<yellow><i>Sin Nombre</i></yellow>"
+    sin-descripcion: "<yellow><i>Sin Descripción</i></yellow>"
+    estado:
+      en-finalizacion: "<yellow>En Finalización</yellow>"
+      en-finalizacion-edit: "<light_purple>En Finalización de Edición</light_purple>"
+      completado: "<green>Completado</green>"
+      activo: "<aqua>Activo</aqua>"
+      en-creacion: "<blue>En Creación</blue>"
+      redefiniendo: "<light_purple>Redefiniendo</light_purple>"
+      abandonado: "<red>Abandonado</red>"
+      editando: "<gold>Editando</gold>"
+  proyecto-ds:
+    sin-nombre: "Sin Nombre"
+    sin-descripcion: "Sin Descripción"
+    sin-lider: "Sin Líder"
+    sin-miembros: "Sin Miembros"
+    estado:
+      en-finalizacion: "En Finalización"
+      en-finalizacion-edit: "En Finalización de Edición"
+      completado: "Completado"
+      activo: "Activo"
+      en-creacion: "En Creación"
+      redefiniendo: "Redefiniendo"
+      abandonado: "Abandonado"
+      editando: "Editando"
+  tag-resolver:
+    click-to-copy: "Click para copiar"
+    click-to-open: "Click para abrir enlace"
+  selected: "<green><b>Seleccionado</b></green>"
+  lang-mc:
+    es_ES: "<yellow>Español</yellow>"
+    en_US: "<yellow>Inglés (Estados Unidos)</yellow>"
+  lang-ds:
+    es_ES: "Español"
+    en_US: "Inglés (Estados Unidos)"
+  pais-mc:
+    prefix:
+      internacional: "<gray>[</gray><white>INT</white><gray>]</gray>"
+      argentina: "<gray>[</gray><aqua>AR</aqua><gray>]</gray>"
+      chile: "<gray>[</gray><red>CL</red><gray>]</gray>"
+      uruguay: "<gray>[</gray><white>UY</white><gray>]</gray>"
+      paraguay: "<gray>[</gray><yellow>PY</yellow><gray>]</gray>"
+      bolivia: "<gray>[</gray><green>BO</green><gray>]</gray>"
+      peru: "<gray>[</gray><red>PE</red><gray>]</gray>"
+  rango-mc:
+    normal: ""
+    admin: "<gray>[</gray><dark_red>ADMIN</dark_red><gray>]</gray>"
+    mod: "<gray>[</gray><red>MOD</red><gray>]</gray>"
+    reviewer: "<gray>[</gray><blue>REVIEWER</blue><gray>]</gray>"
+    influencer: "<gray>[</gray><dark_purple>INFLUENCER</dark_purple><gray>]</gray>"
+    donador: "<gray>[</gray><gold>DONADOR</gold><gray>]</gray>"
+  tipo-mc:
+    visita: "<gray>[</gray><white>VISITA</white><gray>]</gray>"
+    postulante: "<gray>[</gray><yellow>POSTULANTE</yellow><gray>]</gray>"
+    constructor: "<gray>[</gray><green>CONSTRUCTOR</green><gray>]</gray>"
+  pais-ds:
+    prefix:
+      internacional: "[INT]"
+      argentina: "[🇦🇷]"
+      chile: "[🇨🇱]"
+      uruguay: "[🇺🇾]"
+      paraguay: "[🇵🇾]"
+      bolivia: "[🇧🇴]"
+      peru: "[🇵🇪]"
+    logo:
+      argentina: "<:BTEArgentina:1455209909665661184>"
+      chile: "<:BTEChile:1455209939378372749>"
+      uruguay: "<:BTEGuay:1455248093791649826>"
+      paraguay: "<:BTEGuay:1455248093791649826>"
+      bolivia: "<:BTEBolivia:1455209926640140413>"
+      peru: "<:BTEPeru:1455209955706540135>"
+  rango-ds:
+    normal: ""
+    admin: "[<:Test:1455195552802148586>]"
+    mod: "[🛡️]"
+    reviewer: "[🔍]"
+    influencer: "[📸]"
+    donador: "[💸]"
+  tipo-ds:
+    visita: "[👀]"
+    postulante: "[📚]"
+    constructor: "[⚒️]"
+  chat-mc:
+    image: "<gray>[</gray><white>IMAGEN</white><gray>]</gray>"
+    video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
+    spoiler: "<gray>[</gray><white>SPOILER</white><gray>]</gray>"
+    file: "<gray>[</gray><white>ARCHIVO</white><gray>]</gray>"
+    ds: "<gray>[</gray><blue>DS-%pais.nombrePublico%</blue><gray>]</gray>" # %pais% -> Pais de donde viene el mensaje.
+  chat-ds:
+    mc: "<:Minecraft:1457374388575014923>"
+    ds: "%pais.logo%" # %paisLogo% -> Logo del país de donde viene el mensaje.
+  without-fecha: Sin fecha"
+  link-display:
+    see-request: "Ver solicitud"

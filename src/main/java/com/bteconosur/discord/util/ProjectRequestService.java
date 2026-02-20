@@ -2,6 +2,7 @@ package com.bteconosur.discord.util;
 
 import java.io.File;
 import java.time.Instant;
+import java.util.Date;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Polygon;
@@ -10,10 +11,12 @@ import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
-import com.bteconosur.core.util.PlaceholderUtil;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.core.util.TagResolverUtils;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
@@ -33,20 +36,21 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 public class ProjectRequestService {
 
     public static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
-    public static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     @SuppressWarnings("null")
     public static boolean sendProjectRequest(Proyecto proyecto, File mapImage) {
-        MessageEmbed embed = ChatUtil.getDsProjectCreated(proyecto);
+        Instant now = Instant.now();
+        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.create-project") * 60L);
+        MessageEmbed embed = ChatUtil.getDsProjectCreated(proyecto, Date.from(expiration) );
         Pais pais = proyecto.getPais();
         TextChannel channel = MessageService.getTextChannelById(pais.getDsIdRequest());
         if (channel == null) {
-            ConsoleLogger.error("Canal de Discord no encontrado para país: " + pais.getNombre());
+            ConsoleLogger.error(LanguageHandler.replaceDS("ds-error.channel-pais-not-found", Language.getDefault(), pais));
             return false;
         }
         
         if (mapImage == null || !mapImage.exists()) {
-            ConsoleLogger.error("Imagen del mapa no disponible, no se puede enviar proyecto a Discord");
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found"));
             return false;
         }
                 
@@ -54,27 +58,27 @@ public class ProjectRequestService {
             .addFiles(FileUpload.fromData(mapImage, "map.png"))
             .addComponents(
                 ActionRow.of(
-                    Button.success("accept", "Aceptar"),
-                    Button.danger("cancel", "Rechazar")
+                    Button.success("accept", LanguageHandler.getText("ds-button-accept")),
+                    Button.danger("cancel", LanguageHandler.getText("ds-button-reject"))
                 )
             )
             .queue(message -> {
-                String dsNotification = lang.getString("ds-reviewer-notification-new-project").replace("%link%", message.getJumpUrl()).replace("%pais%", pais.getNombrePublico());
-                TagResolver tagResolver = PlaceholderUtil.getLinkText("link", message.getJumpUrl(), "Ver solicitud");
-                String mcNotification = lang.getString("reviewer-notification-new-project").replace("%pais%", pais.getNombrePublico());
+                String dsNotification = LanguageHandler.replaceDS("project.create.request.ds-for-reviewer", Language.getDefault(), pais).replace("%link%", message.getJumpUrl());
+                TagResolver tagResolver = TagResolverUtils.getLinkText("link", message.getJumpUrl(), LanguageHandler.getText("placeholder.link-display.see-request"), Language.getDefault());
+                String mcNotification = LanguageHandler.replaceDS("project.create.request.for-reviewer", Language.getDefault(), pais);
                 DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
                 Interaction ctx = new Interaction(
                     proyecto.getLider().getUuid(),
                     proyecto.getId(),
                     InteractionKey.CREATE_PROJECT,
-                    Instant.now(),
-                    Instant.now().plusSeconds(config.getInt("interaction-expirations.create-project") * 60L)
+                    now,
+                    expiration
                 );
                 ctx.setMessageId(message.getIdLong());
                 InteractionRegistry.getInstance().load(ctx);
 
             }, error -> {
-                ConsoleLogger.error("Error al enviar proyecto a Discord: " + error.getMessage());
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + error.getMessage());
                 error.printStackTrace();
             });
         
@@ -82,17 +86,19 @@ public class ProjectRequestService {
     }
 
     @SuppressWarnings("null")
-    public static boolean sendProjectRedefineRequest(Proyecto proyecto, Polygon newPolygon, Long tipoProyectoId, Long divisionId, File mapImage, String commandName) {
-        MessageEmbed embed = ChatUtil.getDsProjectRedefineRequested(proyecto, commandName, newPolygon);
+    public static boolean sendProjectRedefineRequest(Proyecto proyecto, Polygon newPolygon, Long tipoProyectoId, Long divisionId, File mapImage, Player requester) {
+        Instant now = Instant.now();
+        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.redefine-project") * 60L);
+        MessageEmbed embed = ChatUtil.getDsProjectRedefineRequested(proyecto, requester, newPolygon, Date.from(expiration));
         Pais pais = proyecto.getPais();
         TextChannel channel = MessageService.getTextChannelById(pais.getDsIdRequest());
         if (channel == null) {
-            ConsoleLogger.error("Canal de Discord no encontrado para país: " + pais.getNombre());
+            ConsoleLogger.error(LanguageHandler.replaceDS("ds-error.request-channel-pais-not-found", Language.getDefault(), pais));
             return false;
         }
         
         if (mapImage == null || !mapImage.exists()) {
-            ConsoleLogger.error("Imagen del mapa no disponible, no se puede enviar proyecto a Discord");
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found"));
             return false;
         }
                 
@@ -100,21 +106,21 @@ public class ProjectRequestService {
             .addFiles(FileUpload.fromData(mapImage, "map.png"))
             .addComponents(
                 ActionRow.of(
-                    Button.success("accept", "Aceptar"),
-                    Button.danger("cancel", "Rechazar")
+                    Button.success("accept", LanguageHandler.getText("ds-button-accept")),
+                    Button.danger("cancel", LanguageHandler.getText("ds-button-reject"))
                 )
             )
             .queue(message -> {
-                String dsNotification = lang.getString("ds-reviewer-notification-redefine-project").replace("%link%", message.getJumpUrl()).replace("%pais%", pais.getNombrePublico());
-                TagResolver tagResolver = PlaceholderUtil.getLinkText("link", message.getJumpUrl(), "Ver solicitud");
-                String mcNotification = lang.getString("reviewer-notification-redefine-project").replace("%pais%", pais.getNombrePublico());
+                String dsNotification = LanguageHandler.replaceDS("project.redefine.request.ds-for-reviewer", Language.getDefault(), pais).replace("%link%", message.getJumpUrl());
+                TagResolver tagResolver = TagResolverUtils.getLinkText("link", message.getJumpUrl(), LanguageHandler.getText("placeholder.link-display.see-request"), Language.getDefault());
+                String mcNotification = LanguageHandler.replaceDS("project.redefine.request.for-reviewer", Language.getDefault(), pais);
                 DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
                 
                 Interaction ctx = new Interaction(
                     proyecto.getId(),
                     InteractionKey.REDEFINE_PROJECT,
-                    Instant.now(),
-                    Instant.now().plusSeconds(config.getLong("interaction-expirations.redefine-project") * 60)
+                    now,
+                    expiration
                 );        
                 ctx.setPoligono(newPolygon);
                 ctx.setMessageId(message.getIdLong());
@@ -125,7 +131,7 @@ public class ProjectRequestService {
                 proyecto.setEstado(Estado.REDEFINIENDO);
                 ProyectoRegistry.getInstance().merge(proyecto.getId());
             }, error -> {
-                ConsoleLogger.error("Error al enviar proyecto a Discord: " + error.getMessage());
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + error.getMessage());
                 error.printStackTrace();
             });
         return true;
@@ -146,20 +152,20 @@ public class ProjectRequestService {
         if (LinkService.isPlayerLinked(lider)) {
             BTEConoSur.getDiscordManager().getJda().retrieveUserById(lider.getDsIdUsuario()).queue(user -> {
                 user.openPrivateChannel().queue(privateChannel -> {
-                    privateChannel.sendMessageEmbeds(ChatUtil.getDsMemberJoinRequest(proyecto.getId(), proyecto.getNombre(), player.getNombre()))
-                        .addComponents(ActionRow.of(Button.success("accept", "Aceptar"), Button.danger("cancel", "Rechazar")))
+                    privateChannel.sendMessageEmbeds(ChatUtil.getDsMemberJoinRequest(proyecto, player, player.getLanguage()))
+                        .addComponents(ActionRow.of(Button.success("accept", LanguageHandler.getText("ds-button-accept")), Button.danger("cancel", LanguageHandler.getText("ds-button-reject"))))
                         .queue(message -> {
                             Interaction ctx2 = ir.findJoinRequest(proyecto.getId(), player.getUuid());
                             ctx2.setMessageId(message.getIdLong());
                             ir.merge(ctx2.getId());
                         }, error -> {
-                            ConsoleLogger.error("Error al enviar solicitud de unirse al proyecto por DM en Discord: " + error.getMessage());
+                            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-join-request") + error.getMessage());
                             error.printStackTrace();
                         });
                 });
             });
         }
-        String notification = lang.getString("leader-notificaction-member-join").replace("%player%", player.getNombre()).replace("%proyectoId%", proyecto.getId());
+        String notification = LanguageHandler.replaceMC("project.join.request.for-lider", lider.getLanguage(), player, proyecto);
         PlayerLogger.info(lider, notification, (String) null);
     }
 }

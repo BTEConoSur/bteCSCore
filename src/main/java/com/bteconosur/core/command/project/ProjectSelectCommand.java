@@ -7,6 +7,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.RegionUtils;
@@ -18,26 +20,25 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 
 public class ProjectSelectCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
     private final YamlConfiguration config;
     private ProjectListMenu projectListMenu;
 
     public ProjectSelectCommand() {
         super("select", "Seleccionar un proyecto con World Edit.", "", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
-        lang = ConfigHandler.getInstance().getLang();
         config = ConfigHandler.getInstance().getConfig();
     }
 
     @Override
     protected boolean onCommand(org.bukkit.command.CommandSender sender, String[] args) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        Language language = commandPlayer.getLanguage();
         if (args.length > 0) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
         org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;
-        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         PermissionManager permissionManager = PermissionManager.getInstance();
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         Proyecto proyectoFinal = null;
@@ -45,24 +46,24 @@ public class ProjectSelectCommand extends BaseCommand {
 
         Set<Proyecto> proyectos = pr.getByLocation(bukkitPlayer.getLocation().getBlockX(), bukkitPlayer.getLocation().getBlockZ());
         if (proyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-here"), (String) null);
+            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
             return true;
         }
         Set<Proyecto> memberProyectos = pr.getMemberOrLider(commandPlayer, proyectos);
         if (memberProyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer, lang.getString("not-a-member-here"), (String) null);
+            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.member.not-member-here"), (String) null);
             return true;
         }
 
         if (memberProyectos.size() > 1) {
-            projectListMenu = new ProjectListMenu(commandPlayer, lang.getString("gui-titles.proyectos-here-list"), memberProyectos, (proyecto, event) -> {
+            projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.getText(language, "gui-titles.proyectos-here-list"), memberProyectos, (proyecto, event) -> {
                 event.getWhoClicked().closeInventory();
                 if (!permissionManager.isMiembroOrLider(commandPlayer, proyecto)) {
-                    String message = lang.getString("not-a-member").replace("%proyectoId%", proyecto.getId());   
+                    String message = LanguageHandler.replaceMC("project.member.not-a-member", language, proyecto);   
                     PlayerLogger.error(commandPlayer, message, (String) null);
                     return;
                 }
-                RegionUtils.selectPolygon(bukkitPlayer, proyecto.getPoligono(), playerY - config.getInt("world-edit.region-select-extension"), playerY + config.getInt("world-edit.region-select-extension"));
+                RegionUtils.selectPolygon(bukkitPlayer, proyecto.getPoligono(), playerY - config.getInt("world-edit.region-select-extension"), playerY + config.getInt("world-edit.region-select-extension"), commandPlayer.getLanguage());
             });
             projectListMenu.open();
             return true;
@@ -70,12 +71,12 @@ public class ProjectSelectCommand extends BaseCommand {
         proyectoFinal = memberProyectos.iterator().next();
         
         if (!permissionManager.isMiembroOrLider(commandPlayer, proyectoFinal)) {
-            String message = lang.getString("not-a-member").replace("%proyectoId%", proyectoFinal.getId());   
+            String message = LanguageHandler.replaceMC("project.member.not-a-member", language, proyectoFinal);   
             PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }
         
-        RegionUtils.selectPolygon(bukkitPlayer, proyectoFinal.getPoligono(), playerY - config.getInt("world-edit.region-select-extension"), playerY + config.getInt("world-edit.region-select-extension"));
+        RegionUtils.selectPolygon(bukkitPlayer, proyectoFinal.getPoligono(), playerY - config.getInt("world-edit.region-select-extension"), playerY + config.getInt("world-edit.region-select-extension"), commandPlayer.getLanguage());
         return true;
     }
 }

@@ -12,30 +12,33 @@ interaction-expirations:
   create-project: 10080 # Expiración de solicitudes de creación de proyectos (en minutos). 10080 = 7 días.
   accept-reject-create-project: 60 # Expiración del modal de aceptación/rechazo de creación de proyecto (en minutos). 60 = 1 hora.
   accept-reject-redefine-project: 60 # Expiración del modal de aceptación/rechazo de redefinición de proyecto (en minutos). 60 = 1 hora.
+default-language: "SPANISH" # Lenguaje por defecto para los jugadores que no tengan uno configurado o cuyo lenguaje configurado no esté soportado.
+avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png"
 
 # Map Sat
-mapbox-access-token: ""
 map-padding: 0.005
 map-link: "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/%geojson%/[%minLon%,%minLat%,%maxLon%,%maxLat%]/800x600?attribution=false&logo=false&access_token=%token%"
 mapbox-month-limit: 45000 # Límite mensual de requests a MapBox.
-
+map:
+  border-width: 2 # Ancho del borde de los proyectos en el mapa.
+  border-opacity: 0.8 # Opacidad del borde de los proyectos en el mapa. (0.0 - 1.0)
+  fill-opacity: 0.3 # Opacidad del relleno de los proyectos en el mapa. (0.0 - 1.0)
+  padding: 0.005
+  project:
+    fill-color: "#5742DE" # Color del proyecto en el mapa.
+    border-color: "#5742DE" # Color del borde del proyecto en el mapa.
+  others-projects:
+    fill-color: "#42DE57" # Color de los otros proyectos en el mapa.
+    border-color: "#42DE57" # Color del borde de los otros proyectos en el mapa.
+  redefine:
+    fill-color: "#DE5742" # Color de la redefinición en el mapa.
+    border-color: "#DE5742" # Color del borde de la redefinición en el mapa.
 # Base de Datos
-database-url: ""
-database-username: ""
-database-password: ""
-
 database-driver: "org.mariadb.jdbc.Driver"
 database-show-sql: "false"
 database-current-session-context-class: "thread"
 
 # Discord
-discord-bot-token: ""
-
-discord-staff-guild-id:  # ID del servidor del Staff Hub.
-discord-staff-log-id:  # ID del canal de Discord donde se enviarán los logs del staff.
-discord-staff-console-log-id:  # ID del canal de Discord donde se enviarán los logs de la consola del servidor.
-discord-dev-role-id:  # ID del rol de Discord que identifica a los desarrolladores.
-
 discord-global-chat: true # Habilitar chat global entre servidor y Discord.
 discord-country-chat: true # Habilitar chat por país entre servidor y Discord.
 discord-country-log: true # Habilitar logs de acciones de proyectos por país. 

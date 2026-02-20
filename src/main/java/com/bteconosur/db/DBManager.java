@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -17,7 +16,7 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PluginRegistry;
 
@@ -31,17 +30,12 @@ public class DBManager {
     
     private static DBManager instance;
 
-    private final YamlConfiguration lang;
-
     private HibernateConfig hibernateConfig;
 
     private SessionFactory sessionFactory;
 
     public DBManager() {
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
-
-        ConsoleLogger.info(lang.getString("database-initializing"));
+        ConsoleLogger.info(LanguageHandler.getText("database-initializing"));
 
         List<Class<?>> entityClasses = new ArrayList<>();
         ClassLoader libsClassLoader = getClass().getClassLoader();
@@ -57,7 +51,7 @@ public class DBManager {
         hibernateConfig = new HibernateConfig();
         sessionFactory = hibernateConfig.buildSessionFactory(entityClasses);
         if (sessionFactory == null)
-            PluginRegistry.disablePlugin("La inicialización de la Base de Datos falló."); // TODO: Posiblemente cambiar cuando se implemente la protección de mundos.
+            PluginRegistry.disablePlugin("DATABASE_LOAD_ERROR."); // TODO: Posiblemente cambiar cuando se implemente la protección de mundos.
     }
 
     public void executeTransaction(Consumer<Session> action) {
@@ -73,7 +67,7 @@ public class DBManager {
                 throw e;
             }
         } catch (Exception e) {
-            ConsoleLogger.error("Excepción en transacción de Hibernate: " + e);// TODO: Mejorar muestreo de excepciones
+            ConsoleLogger.error(LanguageHandler.getText("database-transaction-error") + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -82,7 +76,7 @@ public class DBManager {
         try (Session session = sessionFactory.openSession()) {
             return action.apply(session);
         } catch (Exception e) {
-            ConsoleLogger.error("Excepción en consulta de Hibernate: " + e);
+            ConsoleLogger.error(LanguageHandler.getText("database-query-error") + e.getMessage());
             e.printStackTrace();
             return null; 
         }
@@ -177,7 +171,7 @@ public class DBManager {
     }
 
     public void shutdown() {
-        ConsoleLogger.info(lang.getString("database-shutting-down"));
+        ConsoleLogger.info(LanguageHandler.getText("database-shutting-down"));
         hibernateConfig.shutdown();
         if (sessionFactory != null) {
             sessionFactory = null;

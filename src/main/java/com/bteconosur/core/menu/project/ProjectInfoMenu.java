@@ -2,10 +2,9 @@ package com.bteconosur.core.menu.project;
 
 import java.util.Set;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.bteconosur.core.ProjectManager;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.MenuUtils;
@@ -24,12 +23,11 @@ public class ProjectInfoMenu extends Menu {
 
     private Player BTECSPlayer;
     private Proyecto proyecto;
-
-    private final ConfigHandler config = ConfigHandler.getInstance();
-    private final YamlConfiguration lang = config.getLang();
+    private Language language;
 
     public ProjectInfoMenu(Player player, Proyecto proyecto, String title) {
         super(title, 3, player);
+        this.language = player.getLanguage();
         this.BTECSPlayer = player;
         this.proyecto = proyecto;
     }
@@ -38,6 +36,7 @@ public class ProjectInfoMenu extends Menu {
         super(title, 3, player, previousMenu);
         this.BTECSPlayer = player;
         this.proyecto = proyecto;
+        this.language = player.getLanguage();   
     }
 
     @Override
@@ -51,29 +50,30 @@ public class ProjectInfoMenu extends Menu {
         ProjectManager pm = ProjectManager.getInstance();
         PlayerRegistry pr = PlayerRegistry.getInstance();
         gui.getFiller().fill(MenuUtils.getFillerItem());
-        gui.setItem(2,2, MenuUtils.getProyecto(proyecto));
+        gui.setItem(2,2, MenuUtils.getProyecto(proyecto, language));
 
         Player lider = pm.getLider(proyecto);
         
-        gui.setItem(2,3, MenuUtils.getPlayerItem(lider, pr.isOnline(lider == null ? null : lider.getUuid()), PlayerContext.LIDER));
-
+        gui.setItem(2,3, MenuUtils.getPlayerItem(lider, pr.isOnline(lider == null ? null : lider.getUuid()), PlayerContext.LIDER, language));
 
         Set<Player> miembros = pm.getMembers(proyecto);
-        gui.setItem(2,4, MenuUtils.getMembersItem(miembros.size()));
+        gui.setItem(2,4, MenuUtils.getMembersItem(proyecto, language));
         gui.addSlotAction(2,4, event -> {
             if (miembros.size() == 0) return;
-            MemberListMenu memberListMenu = new MemberListMenu(BTECSPlayer, proyecto, lang.getString("gui-titles.project-members").replace("%proyectoId%", proyecto.getId()), miembros, this, true);
+            String title = LanguageHandler.replaceMC("gui-titles.project-members", language, proyecto);
+            MemberListMenu memberListMenu = new MemberListMenu(BTECSPlayer, proyecto, title, miembros, this, true);
             memberListMenu.open();
         });
 
         if (proyecto.getEstado() == Estado.ABANDONADO) {
-            gui.setItem(2,8, MenuUtils.getClaimProjectItem());
+            gui.setItem(2,8, MenuUtils.getClaimProjectItem(language));
             gui.addSlotAction(2,8, event -> {
-                ConfirmationMenu confirmationMenu = new ConfirmationMenu(lang.getString("gui-titles.claim-project-confirm").replace("%proyectoId%", proyecto.getId()), BTECSPlayer, this, confirmClick -> {
+                String title = LanguageHandler.replaceMC("gui-titles.claim-project-confirm", language, proyecto);
+                ConfirmationMenu confirmationMenu = new ConfirmationMenu(title, BTECSPlayer, this, confirmClick -> {
                     event.getWhoClicked().closeInventory();
                     ProjectManager projectManager = ProjectManager.getInstance();
                     projectManager.claim(proyecto.getId(), BTECSPlayer.getUuid());
-                    PlayerLogger.info(BTECSPlayer, lang.getString("project-claimed").replace("%proyectoId%", proyecto.getId()), (String) null);
+                    PlayerLogger.info(BTECSPlayer, LanguageHandler.replaceMC("project.claim.success", language, proyecto), (String) null);
                 });
                 confirmationMenu.open();
             });

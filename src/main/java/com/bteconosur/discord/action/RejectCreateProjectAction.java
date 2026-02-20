@@ -1,9 +1,8 @@
 package com.bteconosur.discord.action;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.bteconosur.core.ProjectManager;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.InteractionRegistry;
@@ -13,16 +12,15 @@ import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 
 public class RejectCreateProjectAction implements ModalAction {
 
-    private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
-
     @SuppressWarnings("null")
     @Override
     public void handle(ModalInteractionEvent event, Interaction ctx) {
         String comentario = event.getValue("comentario").getAsString();
         ProjectManager pm = ProjectManager.getInstance();
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
+        Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(lang.getString("discord-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
             return;
         }
 
@@ -30,12 +28,12 @@ public class RejectCreateProjectAction implements ModalAction {
         InteractionRegistry ir = InteractionRegistry.getInstance();
         Interaction parentCtx = ir.get(parentCtxId);
         if (parentCtx == null) {
-            event.reply(lang.getString("discord-interaction-expired")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
             return;
         }
         ir.unload(ctx.getId());
         pm.cancelCreateRequest(parentCtx.getProjectId(), player, parentCtxId, comentario); 
-        event.reply(lang.getString("ds-project-rejected")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText(language, "project.create.reject.ds-success")).setEphemeral(true).queue();
     }
 
 }

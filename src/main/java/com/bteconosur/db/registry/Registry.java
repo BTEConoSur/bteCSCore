@@ -17,13 +17,11 @@ public abstract class Registry<K extends Serializable, V> {
     protected ConcurrentHashMap<K, V> loadedObjects = new ConcurrentHashMap<>();
 
     protected final DBManager dbManager;
-    protected final YamlConfiguration lang;
     protected final YamlConfiguration config;
     
     public Registry() {
         dbManager = DBManager.getInstance();
         ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
         config = configHandler.getConfig(); 
     }
 

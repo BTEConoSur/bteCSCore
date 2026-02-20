@@ -3,6 +3,7 @@ package com.bteconosur.discord.util;
 import java.util.List;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -25,7 +26,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         try {
             channel.sendMessage(message).queue();
         } catch (Exception e) {
-            ConsoleLogger.error("Discord: Error al enviar el mensaje al canal '" + channel.getName() + "': ", e);
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
         }
     }
 
@@ -44,7 +45,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         try {
             user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(message).queue());
         } catch (Exception e) {
-            ConsoleLogger.error("Discord: Error al enviar el mensaje al usuario '" + user.getIdLong() + "': ", e);
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(user.getIdLong())), e);
         }
     }
 
@@ -62,7 +63,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         try {
             channel.sendMessageEmbeds(embed).queue();
         } catch (Exception e) {
-            ConsoleLogger.error("Discord: Error al enviar el embed al canal '" + channel.getName() + "': ", e);
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()), e);
         }
     }
 
@@ -80,7 +81,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         try {
             user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessageEmbeds(embed).queue());
         } catch (Exception e) {
-            ConsoleLogger.error("Discord: Error al enviar el mensaje al usuario '" + user.getIdLong() + "': ", e);
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-user").replace("%userId%", String.valueOf(user.getIdLong())), e);
         }
     }
 
@@ -126,7 +127,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         try {
             channel.deleteMessageById(messageId).queue();
         } catch (Exception e) {
-            ConsoleLogger.error("Discord: Error al eliminar el mensaje '" + messageId + "' del canal '" + channel.getName() + "': ", e);
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), e);
         }
     }
 
@@ -137,7 +138,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
             try {
                 user.openPrivateChannel().queue(privateChannel -> privateChannel.deleteMessageById(messageId).queue());
             } catch (Exception e) {
-                ConsoleLogger.error("Discord: Error al eliminar el mensaje '" + messageId + "' del usuario '" + userId + "': ", e);
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-user-message").replace("%userId%", userId.toString()).replace("%messageId%", messageId.toString()), e);
             }
         });
     }

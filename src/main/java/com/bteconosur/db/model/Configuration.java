@@ -5,8 +5,12 @@ import java.util.UUID;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.bteconosur.core.config.Language;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
@@ -39,6 +43,10 @@ public class Configuration {
     @Column(name = "manager_ds_notifications")
     private Boolean managerDsNotifications;
 
+    @Enumerated(EnumType.STRING) 
+    @Column(name = "lang", nullable = false)
+    private Language lang;
+
     @OneToOne
     @MapsId
     @JoinColumn(name = "uuid")
@@ -56,6 +64,7 @@ public class Configuration {
         this.generalSimultaneousNotifications = false;
         this.generalPaisBorder = false;
         this.generalLabelBorder = false;
+        this.lang = Language.SPANISH;
     }
 
     public UUID getUuid() {
@@ -108,6 +117,14 @@ public class Configuration {
 
     public void setGeneralPaisBorder(Boolean generalPaisBorder) {
         this.generalPaisBorder = generalPaisBorder;
+    }
+
+    public Language getLang() {
+        return lang;
+    }
+
+    public void setLang(Language lang) {
+        this.lang = lang;
     }
 
     public void toggleGeneralGlobalChatOnJoin() {

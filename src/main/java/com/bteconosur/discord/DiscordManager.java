@@ -1,8 +1,6 @@
 package com.bteconosur.discord;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 
 import net.dv8tion.jda.api.JDA;
@@ -11,15 +9,10 @@ public class DiscordManager {
 
     public static DiscordManager instance;
 
-    private final YamlConfiguration lang;
-
     private BotConfig botConfig;
 
     public DiscordManager() {
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
-      
-        ConsoleLogger.info(lang.getString("discord-initializing"));
+        ConsoleLogger.info(LanguageHandler.getText("discord-initializing"));
 
         botConfig = new BotConfig();
         botConfig.startBot();
@@ -41,7 +34,7 @@ public class DiscordManager {
     }
 
     public void shutdown() {
-        ConsoleLogger.info(lang.getString("discord-shutting-down"));
+        ConsoleLogger.info(LanguageHandler.getText("discord-shutting-down"));
 
         botConfig.stopBot();
     }

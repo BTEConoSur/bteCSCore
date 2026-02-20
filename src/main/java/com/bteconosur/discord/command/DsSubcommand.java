@@ -2,6 +2,7 @@ package com.bteconosur.discord.command;
 
 import java.util.Collection;
 
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -22,7 +23,7 @@ public abstract class DsSubcommand extends DsCommand {
 
     @Override
     public void registerCommand() {
-        ConsoleLogger.warn("Los subcomandos no se registran individualmente.");
+        ConsoleLogger.warn(LanguageHandler.getText("ds-error.subcommand-cant-register").replace("%subcommand%", command)    );
     }
 
 }

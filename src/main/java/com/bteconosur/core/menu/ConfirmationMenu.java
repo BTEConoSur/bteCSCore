@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.jetbrains.annotations.NotNull;
 
+import com.bteconosur.core.config.Language;
 import com.bteconosur.core.util.MenuUtils;
 
 import dev.triumphteam.gui.components.GuiAction;
@@ -60,13 +61,13 @@ public class ConfirmationMenu extends Menu {
             .type(GuiType.HOPPER)
             .disableAllInteractions()
             .create();
-
+        Language language = com.bteconosur.db.model.Player.getBTECSPlayer(player).getLanguage();
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
-        gui.setItem(4, MenuUtils.getConfirmItem());
+        gui.setItem(4, MenuUtils.getConfirmItem(language));
         gui.addSlotAction(4, onConfirm);
 
-        gui.setItem(0, MenuUtils.getCancelItem());
+        gui.setItem(0, MenuUtils.getCancelItem(language));
         gui.addSlotAction(0, onCancel);
         
         return gui;

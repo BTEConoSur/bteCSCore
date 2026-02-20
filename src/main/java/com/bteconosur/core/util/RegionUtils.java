@@ -15,7 +15,10 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.model.Proyecto;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.util.ChunkKey;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
@@ -31,18 +34,18 @@ import com.sk89q.worldedit.regions.selector.Polygonal2DRegionSelector;
 public class RegionUtils {
 
     private static final GeometryFactory gf = new GeometryFactory();
-    private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
-    public static void selectPolygon(Player player, Polygon poly, int minY, int maxY) {
+    public static void selectPolygon(Player player, Polygon poly, int minY, int maxY, Language language) {
+        
         if (poly == null || poly.isEmpty()) {
-            PlayerLogger.error(player, lang.getString("internal-error"), (String) null);
+            PlayerLogger.error(player, LanguageHandler.getText(language, "internal-error"), (String) null);
             return;
         }
 
         Coordinate[] coords = poly.getExteriorRing().getCoordinates();
         if (coords.length < 4) {
-            PlayerLogger.error(player, lang.getString("internal-error"), (String) null);
+            PlayerLogger.error(player, LanguageHandler.getText(language, "internal-error"), (String) null);
             return;
         }
 
@@ -58,7 +61,7 @@ public class RegionUtils {
         Polygonal2DRegionSelector selector = new Polygonal2DRegionSelector(weWorld, points, minY, maxY);
         session.setRegionSelector(weWorld, selector);
         session.dispatchCUISelection(BukkitAdapter.adapt(player));
-        PlayerLogger.info(player, lang.getString("region-selected"), (String) null);
+        PlayerLogger.info(player, LanguageHandler.getText(language, "region.selected"), (String) null);
     }
 
     public static Polygon toPolygon(CuboidRegion region) {
@@ -83,6 +86,7 @@ public class RegionUtils {
 
     public static Polygon getPolygon(CommandSender sender) {
         Player player = (Player) sender;
+        Language language = PlayerRegistry.getInstance().get(sender).getLanguage();
         LocalSession session = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(player));
         Polygon regionPolygon = null;
         try {
@@ -95,19 +99,19 @@ public class RegionUtils {
             } else if (region instanceof Polygonal2DRegion) {
                 Polygonal2DRegion poly = (Polygonal2DRegion) region;
                 if (poly.getPoints().size() < 3) {
-                    PlayerLogger.error(player, lang.getString("region-not-complete"), (String) null);
+                    PlayerLogger.error(player, LanguageHandler.getText(language, "region.not-complete"), (String) null);
                     return null;
                 }
                 regionPolygon = toPolygon(poly);
             } else {
-                PlayerLogger.error(player, lang.getString("region-not-supported"), (String) null);
+                PlayerLogger.error(player, LanguageHandler.getText(language, "region.not-supported"), (String) null);
                 return null;
             }
         } catch (IncompleteRegionException e) {
-            PlayerLogger.error(player, lang.getString("region-not-selected"), (String) null);
+            PlayerLogger.error(player, LanguageHandler.getText(language, "region.not-selected"), (String) null);
             return null;
         } catch (Exception e) {
-            PlayerLogger.error(player, lang.getString("we-error"), (String) null);
+            PlayerLogger.error(player, LanguageHandler.getText(language, "region.we-error"), (String) null);
             ConsoleLogger.error("Error al obtener la región seleccionada: " + e.getMessage());
             return null;
         }

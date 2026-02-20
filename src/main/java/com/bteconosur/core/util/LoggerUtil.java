@@ -3,27 +3,28 @@ package com.bteconosur.core.util;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class LoggerUtil {
 
-    public static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
+    public static final YamlConfiguration embedColors = ConfigHandler.getInstance().getEmbedColors();
 
     public static MessageEmbed getErrorEmbed(String description) {
         return new EmbedBuilder()
-            .setTitle(lang.getString("ds-embeds.error.title"))
+            .setTitle(LanguageHandler.getText("ds-embeds.error"))
             .setDescription(description)
-            .setColor(lang.getInt("ds-embeds.error.color"))
+            .setColor(embedColors.getInt("ds-embeds.error"))
             .build();
     }
 
     public static MessageEmbed getWarnEmbed(String description) {
         return new EmbedBuilder()
-            .setTitle(lang.getString("ds-embeds.warn.title"))
+            .setTitle(LanguageHandler.getText("ds-embeds.warn"))
             .setDescription(description)
-            .setColor(lang.getInt("ds-embeds.warn.color"))
+            .setColor(embedColors.getInt("ds-embeds.warn"))
             .build();
     }
 

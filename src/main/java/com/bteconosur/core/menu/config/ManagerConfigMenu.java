@@ -1,5 +1,6 @@
 package com.bteconosur.core.menu.config;
 
+import com.bteconosur.core.config.Language;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.core.util.MenuUtils;
@@ -38,11 +39,12 @@ public class ManagerConfigMenu extends Menu {
 
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
-        gui.setItem(2, 2, MenuUtils.getManagerConfigItem("ds-notifications", configuration.getManagerDsNotifications()));
+        Language language = btecsPlayer.getConfiguration().getLang();
+        gui.setItem(2, 2, MenuUtils.getManagerConfigItem(language, "ds-notifications", configuration.getManagerDsNotifications()));
         gui.addSlotAction(2, 2, event -> {
             btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.MANAGER_DS_NOTIFICATIONS); // TODO: Capaz es mejor obtener la configuracion con configurationService 
             configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 2, MenuUtils.getManagerConfigItem("ds-notifications", configuration.getManagerDsNotifications()));
+            gui.updateItem(2, 2, MenuUtils.getManagerConfigItem(language, "ds-notifications", configuration.getManagerDsNotifications()));
         });
         
         return gui;

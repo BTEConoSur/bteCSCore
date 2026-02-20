@@ -1,0 +1,69 @@
+item-materials:
+  back: "STRUCTURE_VOID"
+  close: "BARRIER"
+  previous-page: "STONE_BUTTON"
+  next-page: "STONE_BUTTON"
+  filler: "GRAY_STAINED_GLASS_PANE"
+  confirm: "GREEN_WOOL"
+  accept: "GREEN_CONCRETE"
+  reject: "RED_CONCRETE"
+  cancel: "RED_WOOL"
+  search: "SPYGLASS"
+  promote: "LIGHT_BLUE_WOOL"
+  members: "PLAYER_HEAD"
+  add-member: "hdb:9885"
+  remove-member: "hdb:9351"
+  leave-project: "hdb:9334"
+  finish-project: "hdb:67132"
+  set-name-description: "NAME_TAG"
+  transfer-leader: "hdb:67145"
+  notifications: "BELL"
+  claim: "BUCKET"
+  proyecto-default: "BOOK"
+  configs:
+    general:
+      global-chat-on-join:
+        true: "RED_GLAZED_TERRACOTTA"
+        false: "RED_CONCRETE"
+      simultaneous-notifications:
+        true: "YELLOW_GLAZED_TERRACOTTA"
+        false: "YELLOW_CONCRETE"
+      pais-border:
+        true: "BLUE_GLAZED_TERRACOTTA"
+        false: "BLUE_CONCRETE"
+      label-border:
+        true: "LIGHT_BLUE_GLAZED_TERRACOTTA"
+        false: "LIGHT_BLUE_CONCRETE"
+      lang:
+        item: "hdb:31691"
+        langs:
+          es_ES: "hdb:23236"
+          en_US: "hdb:27546"
+    manager:
+      ds-notifications:
+        true: "WHITE_GLAZED_TERRACOTTA"
+        false: "WHITE_CONCRETE"
+    reviewer:
+      ds-notifications:
+        true: "WHITE_GLAZED_TERRACOTTA"
+        false: "WHITE_CONCRETE"
+  notepad:
+    material: "WRITABLE_BOOK"
+  argentina-head: "hdb:4408"
+  chile-head: "hdb:24746"
+  uruguay-head: "hdb:27575"
+  paraguay-head: "hdb:26394"
+  bolivia-head: "hdb:4409"
+  peru-head: "hdb:4413"
+  global-chat-head: "hdb:104673"
+  international-head: "hdb:104673"
+  rango-usuario:
+    normal: "PLAYER_HEAD"
+    admin: "NETHERITE_HELMET"
+    mod: "IRON_SWORD"
+    influencer: "hdb:120246"
+    donador: "EMERALD"
+  tipo-usuario:
+    visita: "SPYGLASS"
+    postulante: "WRITABLE_BOOK"
+    constructor: "BRICKS"

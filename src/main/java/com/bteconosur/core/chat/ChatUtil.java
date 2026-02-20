@@ -1,13 +1,17 @@
 package com.bteconosur.core.chat;
 
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
+import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.TerraUtils;
 import com.bteconosur.db.model.Pais;
@@ -23,580 +27,410 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 
 public class ChatUtil {
 
-    private static YamlConfiguration lang = ConfigHandler.getInstance().getLang();
+    private final static YamlConfiguration embedColors = ConfigHandler.getInstance().getEmbedColors();
+    private final static YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
-    public static String getMcFormatedMessage(Player player, String message) {
-        String formatedMessage = lang.getString("mc-message");
-
-        Pais pais = player.getPaisPrefix();
-        if (pais != null) formatedMessage = formatedMessage.replace("%paisPrefix%", lang.getString("mc-prefixes.pais." + pais.getNombre().toLowerCase()));
-        else formatedMessage = formatedMessage.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.internacional"));
-
-        RangoUsuario rango = player.getRangoUsuario();
-        if (rango != null) formatedMessage = formatedMessage.replace("%rangoPrefix%", lang.getString("mc-prefixes.rango." + rango.getNombre().toLowerCase()));
-        else formatedMessage = formatedMessage.replace("%rangoPrefix%", "");
-
-        TipoUsuario tipo = player.getTipoUsuario();
-        if (tipo != null) formatedMessage = formatedMessage.replace("%tipoPrefix%", lang.getString("mc-prefixes.tipo." + tipo.getNombre().toLowerCase()));
-        else formatedMessage = formatedMessage.replace("%tipoPrefix%", "");
-
-        formatedMessage = formatedMessage.replace("%player%", player.getNombrePublico());
-        formatedMessage = formatedMessage.replace("%message%", message);
-
-        return formatedMessage;
+    public static String getMcFormatedMessage(Player player, String message, Language language) {
+        String formatedMessage = LanguageHandler.replaceMC("mc-message", language, player);
+        return formatedMessage.replace("%mensaje%", message);
     }
 
-    public static String getMcFormatedMessage(String username, String message, Pais dsPais) {
-        String formatedMessage = lang.getString("from-ds-message");
-
-        String dsPrefix = lang.getString("mc-prefixes.ds");
-        dsPrefix = dsPrefix.replace("%pais%", dsPais.getNombrePublico());
-
+    public static String getMcFormatedMessage(String username, String message, Language language, Pais dsPais) {
+        String formatedMessage = LanguageHandler.getText(language, "from-ds-message-not-player");
+        String dsPrefix = LanguageHandler.replaceMC("placeholder.chat-mc.ds", language, dsPais);
         formatedMessage = formatedMessage.replace("%dsPrefix%", dsPrefix);
-        formatedMessage = formatedMessage.replace("%player%", username);
-        formatedMessage = formatedMessage.replace("%message%", message);
-
-        formatedMessage = formatedMessage.replace("%paisPrefix%", "");
-        formatedMessage = formatedMessage.replace("%rangoPrefix%", "");
-        formatedMessage = formatedMessage.replace("%tipoPrefix%", "");
-
-        return formatedMessage;
+        return formatedMessage.replace("%mensaje%", message).replace("%username%", username);
     }
 
-    public static String getMcFormatedMessage(Player player, String message, Pais dsPais) {
-        String formatedMessage = lang.getString("from-ds-message");
-
-        String dsPrefix = lang.getString("mc-prefixes.ds");
-        dsPrefix = dsPrefix.replace("%pais%", dsPais.getNombrePublico());
-
-        formatedMessage = formatedMessage.replace("%dsPrefix%", dsPrefix);
-
-        Pais pais = player.getPaisPrefix();
-        if (pais != null) formatedMessage = formatedMessage.replace("%paisPrefix%", lang.getString("mc-prefixes.pais." + pais.getNombre()));
-        else formatedMessage = formatedMessage.replace("%paisPrefix%", lang.getString("mc-prefixes.pais.internacional"));
-
-        RangoUsuario rango = player.getRangoUsuario();
-        if (rango != null) formatedMessage = formatedMessage.replace("%rangoPrefix%", lang.getString("mc-prefixes.rango." + rango.getNombre().toLowerCase()));
-        else formatedMessage = formatedMessage.replace("%rangoPrefix%", "");
-
-        TipoUsuario tipo = player.getTipoUsuario();
-        if (tipo != null) formatedMessage = formatedMessage.replace("%tipoPrefix%", lang.getString("mc-prefixes.tipo." + tipo.getNombre().toLowerCase()));
-        else formatedMessage = formatedMessage.replace("%tipoPrefix%", "");
-
-        formatedMessage = formatedMessage.replace("%player%", player.getNombrePublico());
-        formatedMessage = formatedMessage.replace("%message%", message);
-
-        return formatedMessage;
+    public static String getMcFormatedMessage(Player player, String message, Language language, Pais dsPais) {
+        String formatedMessage = LanguageHandler.replaceMC("from-ds-message",language, player);
+        String dsPrefix = LanguageHandler.replaceMC("placeholder.chat-mc.ds", language, dsPais);
+        return formatedMessage.replace("%mensaje%", message).replace("%dsPrefix%", dsPrefix);
     }
 
-    public static String getDsFormatedMessage(Player player, String message) {
-        String formatedMessage = lang.getString("from-mc-message");
-
-        formatedMessage = formatedMessage.replace("%mcPrefix%", lang.getString("ds-prefixes.mc"));
-
-        Pais pais = player.getPaisPrefix();
-        if (pais != null) formatedMessage = formatedMessage.replace("%paisPrefix%", lang.getString("ds-prefixes.pais." + pais.getNombre()));
-        else formatedMessage = formatedMessage.replace("%paisPrefix%", lang.getString("ds-prefixes.pais.internacional"));
-
-        RangoUsuario rango = player.getRangoUsuario();
-        if (rango != null) formatedMessage = formatedMessage.replace("%rangoPrefix%", lang.getString("ds-prefixes.rango." + rango.getNombre().toLowerCase()));
-        else formatedMessage = formatedMessage.replace("%rangoPrefix%", "");
-
-        TipoUsuario tipo = player.getTipoUsuario();
-        if (tipo != null) formatedMessage = formatedMessage.replace("%tipoPrefix%", lang.getString("ds-prefixes.tipo." + tipo.getNombre().toLowerCase()));
-        else formatedMessage = formatedMessage.replace("%tipoPrefix%", "");
-
-        formatedMessage = formatedMessage.replace("%player%", player.getNombrePublico());
-        formatedMessage = formatedMessage.replace("%message%", message);
-
-        return formatedMessage;
+    public static String getDsFormatedMessage(Player player, String message, Language language) {
+        String formatedMessage = LanguageHandler.replaceDS("from-mc-message", language, player);
+        String mcPrefix = LanguageHandler.getText(language, "placeholder.chat-ds.mc");
+        return formatedMessage.replace("%mcPrefix%", mcPrefix).replace("%mensaje%", message);
     }
 
-    public static String getDsFormatedMessage(Player player, String message, Pais dsPais) {
-        String formatedMessage = lang.getString("ds-message");
-
-        String dsPrefix = lang.getString("ds-prefixes.ds");
-        dsPrefix = dsPrefix.replace("%paisLogo%", lang.getString("ds-prefixes.pais-logo." + dsPais.getNombre()));
-
-        formatedMessage = formatedMessage.replace("%dsPais%", dsPrefix);
-
-        Pais pais = player.getPaisPrefix();
-        if (pais != null) formatedMessage = formatedMessage.replace("%paisPrefix%", lang.getString("ds-prefixes.pais." + pais.getNombre()));
-        else formatedMessage = formatedMessage.replace("%paisPrefix%", lang.getString("ds-prefixes.pais.internacional"));
-
-        RangoUsuario rango = player.getRangoUsuario();
-        if (rango != null) formatedMessage = formatedMessage.replace("%rangoPrefix%", lang.getString("ds-prefixes.rango." + rango.getNombre().toLowerCase()));
-        else formatedMessage = formatedMessage.replace("%rangoPrefix%", "");
-
-        TipoUsuario tipo = player.getTipoUsuario();
-        if (tipo != null) formatedMessage = formatedMessage.replace("%tipoPrefix%", lang.getString("ds-prefixes.tipo." + tipo.getNombre().toLowerCase()));
-        else formatedMessage = formatedMessage.replace("%tipoPrefix%", "");
-
-        formatedMessage = formatedMessage.replace("%player%", player.getNombrePublico());
-        formatedMessage = formatedMessage.replace("%message%", message);
-
-        return formatedMessage;
+    public static String getDsFormatedMessage(Player player, String message, Language language, Pais dsPais) {
+        String formatedMessage = LanguageHandler.replaceDS("ds-message", language, player);
+        String dsPrefix = LanguageHandler.replaceDS("placeholder.chat-ds.ds", language, dsPais);
+        return formatedMessage.replace("%dsPais%", dsPrefix).replace("%mensaje%", message);
     }
 
-    public static String getDsFormatedMessage(String username, String message, Pais dsPais) {
-        String formatedMessage = lang.getString("ds-message");
+    public static String getDsFormatedMessage(String username, String message, Language language, Pais dsPais) {
+        String formatedMessage = LanguageHandler.getText(language, "ds-message-not-player");
+        String dsPrefix = LanguageHandler.replaceDS("placeholder.chat-ds.ds", language, dsPais);
+        formatedMessage = formatedMessage.replace("%mensaje%", message);
+        return formatedMessage.replace("%dsPais%", dsPrefix).replace("%username%", username);
+    }
 
-        String dsPrefix = lang.getString("ds-prefixes.ds");
-        dsPrefix = dsPrefix.replace("%paisLogo%", lang.getString("ds-prefixes.pais-logo." + dsPais.getNombre()));
+    private static MessageEmbed builEmbed(String key, Language language, String title, String description, String author, String iconUrl) {
+        EmbedBuilder eb = new EmbedBuilder();
+        if (title == null)  title = LanguageHandler.getTextWithouthWarn(language, key + ".title");
+        if (description == null) description = LanguageHandler.getTextWithouthWarn(language, key + ".description");
+        if (author == null) author = LanguageHandler.getTextWithouthWarn(language, key + ".author");
+        if (!title.equals("ERROR_KEY_NF")) eb.setTitle(title);
+        if (!description.equals("ERROR_KEY_NF")) eb.setDescription(description);
+        if (!author.equals("ERROR_KEY_NF")) eb.setAuthor(author, null, iconUrl);
+        
+        int color = embedColors.getInt(key);
+        if (color == 0) {
+            ConsoleLogger.warn("Color no encontrado para la clave " + key + ", usando color por defecto.");
+            color = embedColors.getInt("default");
+        }
+        return eb.setColor(color).build();
+    }
 
-        formatedMessage = formatedMessage.replace("%dsPais%", dsPrefix);
+    private static MessageEmbed buildChatNotification(String key) {
+        Language language = Language.getDefault();
+        return builEmbed("ds-chat-notifications." + key, language, LanguageHandler.getText(language, "ds-chat-notifications." + key + ".title"), LanguageHandler.getTextWithouthWarn(language, "ds-chat-notifications." + key + ".description"), null, null);
+    }
 
-        formatedMessage = formatedMessage.replace("%player%", username);
-        formatedMessage = formatedMessage.replace("%message%", message);
-
-        formatedMessage = formatedMessage.replace("%mcPrefix%", "");
-        formatedMessage = formatedMessage.replace("%paisPrefix%", "");
-        formatedMessage = formatedMessage.replace("%rangoPrefix%", "");
-        formatedMessage = formatedMessage.replace("%tipoPrefix%", "");
-
-        return formatedMessage;
+    private static MessageEmbed buildChatNotification(String key, Player player) {
+        Language language = Language.getDefault();
+        return builEmbed("ds-chat-notifications." + key, language, null, null, LanguageHandler.replaceDS("ds-chat-notifications." + key + ".author", language, player),
+            config.getString("avatar-url").replace("%uuid%", player.getUuid().toString()));
     }
 
     public static MessageEmbed getServerStarted() {
-        return new EmbedBuilder()
-            .setTitle(lang.getString("ds-embeds.start.title"))
-            .setDescription(lang.getString("ds-embeds.start.description"))
-            .setColor(lang.getInt("ds-embeds.start.color"))
-            .build();
+        return buildChatNotification("start");
     }
 
     public static MessageEmbed getServerStopped() {
-        return new EmbedBuilder()
-            .setTitle(lang.getString("ds-embeds.stop.title"))
-            .setDescription(lang.getString("ds-embeds.stop.description"))
-            .setColor(lang.getInt("ds-embeds.stop.color"))
-            .build();
+        return buildChatNotification("stop");
     }
 
-    public static MessageEmbed getDsPlayerJoined(String playerName, UUID playerUUID) {
-        String message = lang.getString("ds-embeds.player-join.message").replace("%player%", playerName);
-        String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
-        return new EmbedBuilder()
-            .setAuthor(message, null, avatarUrl)
-            .setColor(lang.getInt("ds-embeds.player-join.color"))
-            .build();
+    public static MessageEmbed getDsPlayerJoined(Player player) {
+        return buildChatNotification("player-join", player);
     }
 
-    public static MessageEmbed getDsPlayerLeft(String playerName, UUID playerUUID) {
-        String message = lang.getString("ds-embeds.player-left.message").replace("%player%", playerName);
-        String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
-        return new EmbedBuilder()
-            .setAuthor(message, null, avatarUrl)
-            .setColor(lang.getInt("ds-embeds.player-left.color"))
-            .build();
+    public static MessageEmbed getDsPlayerLeft(Player player) {
+        return buildChatNotification("player-left", player);
     }
 
-    public static String getMcPlayerJoined(String playerName) {
-        return lang.getString("player-join").replace("%player%", playerName);
+    public static MessageEmbed getDsChatJoined(Player player) {
+        return buildChatNotification("player-chat-join", player);
     }
 
-    public static String getMcPlayerLeft(String playerName) {
-        return lang.getString("player-left").replace("%player%", playerName);
+    public static MessageEmbed getDsChatLeft(Player player) {
+        return buildChatNotification("player-chat-left", player);
     }
 
-    public static MessageEmbed getDsChatJoined(String playerName, UUID playerUUID) {
-        String message = lang.getString("ds-embeds.chat-join.message").replace("%player%", playerName);
-        String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
-        return new EmbedBuilder()
-            .setAuthor(message, null, avatarUrl)
-            .setColor(lang.getInt("ds-embeds.chat-join.color"))
-            .build();
+    public static String getMcPlayerJoined(Player player, Language language) {
+        return LanguageHandler.replaceMC("player-join-message", language, player);
     }
 
-    public static MessageEmbed getDsChatLeft(String playerName, UUID playerUUID) {
-        String message = lang.getString("ds-embeds.chat-left.message").replace("%player%", playerName);
-        String avatarUrl = lang.getString("avatar-url").replace("%uuid%", playerUUID.toString());
-        return new EmbedBuilder()
-            .setAuthor(message, null, avatarUrl)
-            .setColor(lang.getInt("ds-embeds.chat-left.color"))
-            .build();
+    public static String getMcPlayerLeft(Player player, Language language) {
+        return LanguageHandler.replaceMC("player-leave-message", language, player);
     }
 
-    public static String getMcChatJoined(String playerName) {
-        return lang.getString("chat-join").replace("%player%", playerName);
+    public static String getMcChatJoined(Player player, Language language) {
+        return LanguageHandler.replaceMC("player-join-chat-message", language, player);
     }
 
-    public static String getMcChatLeft(String playerName) {
-        return lang.getString("chat-left").replace("%player%", playerName);
+    public static String getMcChatLeft(Player player, Language language) {
+        return LanguageHandler.replaceMC("player-leave-chat-message", language, player);
     }
 
-    public static MessageEmbed getDsRangoUsuarioSwitched(RangoUsuario rangoUsuario) {
-        return new EmbedBuilder()
-            .setTitle(lang.getString("ds-embeds.rango-switched.title").replace("%rango%", rangoUsuario.getNombre()))
-            .setDescription(lang.getString("ds-embeds.rango-switched.description").replace("%descripcion%", rangoUsuario.getDescripcion()))
-            .setColor(lang.getInt("ds-embeds.rango-switched.color"))
-            .build();
+    public static MessageEmbed buildDMNotification(String key, Player player, String description) {
+        Language language = player.getLanguage();
+        key = "ds-notifications." + key;
+        return builEmbed(key, language, LanguageHandler.replaceDS(key, language, player), description, null, null);
     }
 
-    public static MessageEmbed getDsTipoUsuarioSwitched(TipoUsuario tipoUsuario) {
-        return new EmbedBuilder()
-            .setTitle(lang.getString("ds-embeds.tipo-switched.title").replace("%tipo%", tipoUsuario.getNombre()))
-            .setDescription(
-                lang.getString("ds-embeds.tipo-switched.description").replace("%descripcion%", tipoUsuario.getDescripcion()
-                + "\n" + lang.getString("ds-embeds.tipo-switched.max-projects").replace("%maxProyectos%", String.valueOf(tipoUsuario.getCantProyecSim()))
-            ))
-            .setColor(lang.getInt("ds-embeds.tipo-switched.color"))
-            .build();
+    public static MessageEmbed buildDMNotification(String key, Player player, Language language, String description) {
+        key = "ds-notifications." + key;
+        return builEmbed(key, language, LanguageHandler.replaceDS(key + ".title", language, player), description, null, null);
     }
 
-    public static MessageEmbed getDsManagerAdded(String paisName) {
-        String message = lang.getString("ds-embeds.manager-target-added.title").replace("%pais%", paisName);
-        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.manager-target-added.color")).build();
+    public static MessageEmbed buildDMNotification(String key, TipoUsuario tipoUsuario, Language language, String description) {
+        key = "ds-notifications." + key;
+        return builEmbed(key, language, LanguageHandler.replaceDS(key + ".title", language, tipoUsuario), description, null, null);
     }
 
-    public static MessageEmbed getDsManagerRemoved(String paisName) {
-        String message = lang.getString("ds-embeds.manager-target-removed.title").replace("%pais%", paisName);
-        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.manager-target-removed.color")).build();
+    public static MessageEmbed buildDMNotification(String key, RangoUsuario rangoUsuario, Language language, String description) {
+        key = "ds-notifications." + key;
+        return builEmbed(key, language, LanguageHandler.replaceDS(key + ".title", language, rangoUsuario), description, null, null);
     }
 
-    public static MessageEmbed getDsReviewerAdded(String paisName) {
-        String message = lang.getString("ds-embeds.reviewer-target-added.title").replace("%pais%", paisName);
-        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.reviewer-target-added.color")).build();
+    public static MessageEmbed buildDMNotification(String key, Pais pais, Language language, String description) {
+        key = "ds-notifications." + key;
+        return builEmbed(key, language, LanguageHandler.replaceDS(key, language, pais), description, null, null);
     }
 
-    public static MessageEmbed getDsReviewerRemoved(String paisName) {
-        String message = lang.getString("ds-embeds.reviewer-target-removed.title").replace("%pais%", paisName);
-        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.reviewer-target-removed.color")).build();
-    }
-
-    public static MessageEmbed getDsLinkSuccess(String playerName) {
-        String message = lang.getString("ds-embeds.link-success.title").replace("%player%", playerName);
-        return new EmbedBuilder().setTitle(message).setColor(lang.getInt("ds-embeds.link-success.color")).build();
-    }
-
-    public static MessageEmbed getDsProjectAccepted(String proyectoId, String comentario, String nombre) {
-        String title = lang.getString("ds-embeds.project-accepted.title");
-        String description = lang.getString("ds-embeds.project-accepted.id").replace("%proyectoId%", proyectoId);
-        if (comentario != null && !comentario.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-accepted.comment").replace("%comentario%", comentario);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-accepted.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-accepted.color")).build();
-    }
-
-    public static MessageEmbed getDsProjectRejected(String proyectoId, String comentario, String nombre) {
-        String title = lang.getString("ds-embeds.project-rejected.title");
-        String description = lang.getString("ds-embeds.project-rejected.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-rejected.nombre").replace("%nombre%", nombre);
-        if (comentario != null && !comentario.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-rejected.comment").replace("%comentario%", comentario);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-rejected.color")).build();
-    }
-
-    public static MessageEmbed getDsProjectRequestExpired(String proyectoId, String nombre) {
-        String title = lang.getString("ds-embeds.project-expired.title");
-        String description = lang.getString("ds-embeds.project-expired.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-expired.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-expired.color")).build();
-    }
-
-    public static MessageEmbed getDsProjectFinishAccepted(String proyectoId, String comentario, String nombre) {
-        String title = lang.getString("ds-embeds.project-finish-accepted.title");
-        String description = lang.getString("ds-embeds.project-finish-accepted.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-accepted.nombre").replace("%nombre%", nombre);
-        if (comentario != null && !comentario.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-accepted.comment").replace("%comentario%", comentario);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-accepted.color")).build();
-    }
-
-    public static MessageEmbed getDsProjectFinishRejected(String proyectoId, String comentario, String nombre) {
-        String title = lang.getString("ds-embeds.project-finish-rejected.title");
-        String description = lang.getString("ds-embeds.project-finish-rejected.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-rejected.nombre").replace("%nombre%", nombre);
-        if (comentario != null && !comentario.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-rejected.comment").replace("%comentario%", comentario);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-rejected.color")).build();
-    }
-
-    public static MessageEmbed getDsProjectFinishRequestExpired(String proyectoId, String nombre) {
-        String title = lang.getString("ds-embeds.project-finish-expired.title");
-        String description = lang.getString("ds-embeds.project-finish-expired.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-expired.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-expired.color")).build();
-    }
-
-    public static MessageEmbed getDsProjectFinishRequested(String proyectoId, String nombre, String requesterName) {
-        String title = lang.getString("ds-embeds.project-finish-requested.title").replace("%player%", requesterName);
-        String description = lang.getString("ds-embeds.project-finish-requested.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-requested.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-requested.color")).build();
-    }
-
-    public static MessageEmbed getDsMemberAdded(String proyectoId, String nombre) {
-        String description = lang.getString("ds-embeds.project-member-added.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-member-added.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-member-added.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-added.color")).build();
-    }
-
-    public static MessageEmbed getDsMemberRemoved(String proyectoId, String nombre) {
-        String description = lang.getString("ds-embeds.project-member-removed.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-member-removed.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-member-removed.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-removed.color")).build();
-    }
-
-    public static MessageEmbed getDsLeaderRemoved(String proyectoId, String nombre) {
-        String description = lang.getString("ds-embeds.project-leader-removed.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-leader-removed.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-leader-removed.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-removed.color")).build();
-    }
-
-    public static MessageEmbed getDsMemberJoinRequest(String proyectoId, String nombre, String playerName) {
-        String title = lang.getString("ds-embeds.project-member-join-request.title").replace("%player%", playerName);
-        String description = lang.getString("ds-embeds.project-member-join-request.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-member-join-request.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-join-request.color")).build();
-    }
-
-    public static MessageEmbed getDsMemberJoinRequestExpired(String proyectoId, String nombre) {
-        String description = lang.getString("ds-embeds.project-join-request-expired.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-join-request-expired.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-join-request-expired.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-join-request-expired.color")).build();
-    }
-
-    public static MessageEmbed getDsMemberJoinRequestExpiredLider(String proyectoId, String nombre, String playerName) {
-        String title = lang.getString("ds-embeds.project-join-request-expired-lider.title").replace("%player%", playerName);
-        String description = lang.getString("ds-embeds.project-join-request-expired-lider.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-join-request-expired-lider.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-join-request-expired-lider.color")).build();
+    public static MessageEmbed buildDMNotification(String key, Language language, String description) {
+        key = "ds-notifications." + key;
+        return builEmbed(key, language, LanguageHandler.getText(language, key), description, null, null);
     }
     
-    public static MessageEmbed getDsMemberJoinRequestRejected(String proyectoId, String nombre) {
-        String description = lang.getString("ds-embeds.project-join-request-rejected.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-join-request-rejected.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-join-request-rejected.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-join-request-rejected.color")).build();
+
+    public static MessageEmbed getDsRangoUsuarioSwitched(RangoUsuario rangoUsuario, Language language) {
+        return buildDMNotification("rango-switched", rangoUsuario, language, LanguageHandler.replaceDS("ds-notifications.rango-switched.description", language, rangoUsuario));
     }
 
-    public static MessageEmbed getDsMemberJoinRequestAccepted(String proyectoId, String nombre) {
-        String description = lang.getString("ds-embeds.project-join-request-accepted.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-join-request-accepted.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-join-request-accepted.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-join-request-accepted.color")).build();
+    public static MessageEmbed getDsTipoUsuarioSwitched(TipoUsuario tipoUsuario, Language language) {
+        String description = LanguageHandler.replaceDS("ds-notifications.tipo-switched.description", language, tipoUsuario)
+            + "\n" + LanguageHandler.replaceDS("ds-notifications.tipo-switched.max-projects", language, tipoUsuario);
+        return buildDMNotification("tipo-switched", tipoUsuario, language, description);
     }
 
-    public static MessageEmbed getDsMemberAddedMember(String proyectoId, String nombre, String addedMemberName) {
-        String title = lang.getString("ds-embeds.project-member-added-member.title").replace("%player%", addedMemberName);
-        String description = lang.getString("ds-embeds.project-member-added-member.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-member-added-member.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-added-member.color")).build();
+    public static MessageEmbed getDsManagerAdded(Pais pais, Language language) {
+        return buildDMNotification("manager-target-added", pais, language, null);
     }
 
-    public static MessageEmbed getDsMemberRemovedMember(String proyectoId, String nombre, String removedMemberName) {
-        String title = lang.getString("ds-embeds.project-member-removed-member.title").replace("%player%", removedMemberName);
-        String description = lang.getString("ds-embeds.project-member-removed-member.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-member-removed-member.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-removed-member.color")).build();
+    public static MessageEmbed getDsManagerRemoved(Pais pais, Language language) {
+        return buildDMNotification("manager-target-removed", pais, language, null);
     }
 
-    public static MessageEmbed getDsMemberLeftMember(String proyectoId, String nombre, String memberName) {
-        String title = lang.getString("ds-embeds.project-member-left-member.title").replace("%player%", memberName);
-        String description = lang.getString("ds-embeds.project-member-left-member.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-member-left-member.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-member-left-member.color")).build();
+    public static MessageEmbed getDsReviewerAdded(Pais pais, Language language) {
+        return buildDMNotification("reviewer-target-added", pais, language, null);
     }
 
-    public static MessageEmbed getDsLeaderSwitched(String proyectoId, String nombre) {
-        String description = lang.getString("ds-embeds.project-leader-switched.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-leader-switched.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-leader-switched.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-switched.color")).build();
+    public static MessageEmbed getDsReviewerRemoved(Pais pais, Language language) {
+        return buildDMNotification("reviewer-target-removed", pais, language, null);
     }
 
-    public static MessageEmbed getDsLeaderSwitchedLeader(String proyectoId, String nombre, String newLeaderName) {
-        String title = lang.getString("ds-embeds.project-leader-switched-leader.title").replace("%player%", newLeaderName);
-        String description = lang.getString("ds-embeds.project-leader-switched-leader.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-leader-switched-leader.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-switched-leader.color")).build();
+    public static MessageEmbed getDsLinkSuccess(Player player) {
+        return buildDMNotification("link-success", player, null);
     }
 
-    public static MessageEmbed getDsLeaderSwitchedMember(String proyectoId, String nombre, String newLeaderName) {
-        String title = lang.getString("ds-embeds.project-leader-switched-member.title").replace("%player%", newLeaderName);
-        String description = lang.getString("ds-embeds.project-leader-switched-member.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-leader-switched-member.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-leader-switched-member.color")).build();
+    private static MessageEmbed buildDMNotification(String key, Proyecto proyecto, Language language, String extraDescription) {
+        key = "ds-notifications.project." + key;
+        String description = LanguageHandler.replaceDS("ds-notifications.project.id", language, proyecto);
+        if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) description = description 
+            + "\n" + LanguageHandler.replaceDS("ds-notifications.project.nombre", language, proyecto);
+        if (extraDescription != null && !extraDescription.isBlank()) description = description + "\n" + extraDescription;
+        return builEmbed(key, language, LanguageHandler.getText(language, key), description, null, null);
     }
 
-    public static MessageEmbed getDsProjectRedefineRequestedMember(String proyectoId, String proyectoNombre, String playerNombre) {
-        String title = lang.getString("ds-embeds.project-redefine-request-member.title").replace("%player%", playerNombre);
-        String description = lang.getString("ds-embeds.project-redefine-request-member.id").replace("%proyectoId%", proyectoId);
-        if (proyectoNombre != null && !proyectoNombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-redefine-request-member.nombre").replace("%nombre%", proyectoNombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-redefine-request-member.color")).build();
+    private static MessageEmbed buildDMNotification(String key, Proyecto proyecto, Player player, Language language, String extraDescription) {
+        key = "ds-notifications.project." + key;
+        String description = LanguageHandler.replaceDS("ds-notifications.project.id", language, proyecto);
+        if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) description = description 
+            + "\n" + LanguageHandler.replaceDS("ds-notifications.project.nombre", language, proyecto);
+        if (extraDescription != null && !extraDescription.isBlank()) description = description + "\n" + extraDescription;
+        return builEmbed(key, language, LanguageHandler.replaceDS(key, language, player), description, null, null);
     }
 
-    public static MessageEmbed getDsProjectRedefineExpired(String proyectoId, String proyectoNombre) {
-        String description = lang.getString("ds-embeds.project-redefine-expired.id").replace("%proyectoId%", proyectoId);
-        if (proyectoNombre != null && !proyectoNombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-redefine-expired.nombre").replace("%nombre%", proyectoNombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-redefine-expired.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-redefine-expired.color")).build();
+    public static MessageEmbed getDsProjectAccepted(Proyecto proyecto, String comentario, Language language) {
+        String description = null;
+        if (comentario != null && !comentario.isBlank()) description = LanguageHandler.getText(language, "ds-notifications.project.comment").replace("%comentario%", comentario);
+        return buildDMNotification("project-accepted", proyecto, language, description);
     }
 
-    public static MessageEmbed getDsProjectRedefineAccepted(String proyectoId, String comentario, String nombre) {
-        String title = lang.getString("ds-embeds.project-redefine-accepted.title");
-        String description = lang.getString("ds-embeds.project-redefine-accepted.id").replace("%proyectoId%", proyectoId);
-        if (comentario != null && !comentario.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-redefine-accepted.comment").replace("%comentario%", comentario);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-redefine-accepted.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-redefine-accepted.color")).build();
+    public static MessageEmbed getDsProjectRejected(Proyecto proyecto, String comentario, Language language) {
+        String description = null;
+        if (comentario != null && !comentario.isBlank()) description = LanguageHandler.getText(language, "ds-notifications.project.comment").replace("%comentario%", comentario);
+        return buildDMNotification("project-rejected", proyecto, language, description);
     }
 
-    public static MessageEmbed getDsProjectRedefineRejected(String proyectoId, String comentario, String nombre) {
-        String title = lang.getString("ds-embeds.project-redefine-rejected.title");
-        String description = lang.getString("ds-embeds.project-redefine-rejected.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-redefine-rejected.nombre").replace("%nombre%", nombre);
-        if (comentario != null && !comentario.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-redefine-rejected.comment").replace("%comentario%", comentario);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-redefine-rejected.color")).build();
+    public static MessageEmbed getDsProjectRequestExpired(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-request-expired", proyecto, language, null);
     }
 
-    public static MessageEmbed getDsProjectEditActiveMember(String proyectoId, String proyectoNombre, String playerNombre) {
-        String title = lang.getString("ds-embeds.project-edit-active-member.title").replace("%player%", playerNombre);
-        String description = lang.getString("ds-embeds.project-edit-active-member.id").replace("%proyectoId%", proyectoId);
-        if (proyectoNombre != null && !proyectoNombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-edit-active-member.nombre").replace("%nombre%", proyectoNombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-edit-active-member.color")).build();
+    public static MessageEmbed getDsProjectFinishAccepted(Proyecto proyecto, String comentario, Language language) {
+        String description = null;
+        if (comentario != null && !comentario.isBlank()) description = LanguageHandler.getText(language, "ds-notifications.project.comment").replace("%comentario%", comentario);
+        return buildDMNotification("project-finish-accepted", proyecto, language, description);
     }
 
-    public static MessageEmbed getDsProjectFinishEditRequested(String proyectoId, String proyectoNombre, String playerNombre) {
-        String title = lang.getString("ds-embeds.project-finish-edit-requested.title").replace("%player%", playerNombre);
-        String description = lang.getString("ds-embeds.project-finish-edit-requested.id").replace("%proyectoId%", proyectoId);
-        if (proyectoNombre != null && !proyectoNombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-edit-requested.nombre").replace("%nombre%", proyectoNombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-edit-requested.color")).build();
+    public static MessageEmbed getDsProjectFinishRejected(Proyecto proyecto, String comentario, Language language) {
+        String description = null;
+        if (comentario != null && !comentario.isBlank()) description = LanguageHandler.getText(language, "ds-notifications.project.comment").replace("%comentario%", comentario);
+        return buildDMNotification("project-finish-rejected", proyecto, language, description);
     }
 
-    public static MessageEmbed getDsProjectFinishEditRequestExpired(String proyectoId, String nombre) {
-        String title = lang.getString("ds-embeds.project-finish-edit-expired.title");
-        String description = lang.getString("ds-embeds.project-finish-edit-expired.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-edit-expired.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-edit-expired.color")).build();
+    public static MessageEmbed getDsProjectFinishRequestExpired(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-finish-request-expired", proyecto, language, null);
     }
 
-    public static MessageEmbed getDsProjectFinishEditAccepted(String proyectoId, String comentario, String nombre) {
-        String title = lang.getString("ds-embeds.project-finish-edit-accepted.title");
-        String description = lang.getString("ds-embeds.project-finish-edit-accepted.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-edit-accepted.nombre").replace("%nombre%", nombre);
-        if (comentario != null && !comentario.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-edit-accepted.comment").replace("%comentario%", comentario);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-edit-accepted.color")).build();
+    public static MessageEmbed getDsProjectFinishRequested(Proyecto proyecto, Player requester, Language language) {
+        return buildDMNotification("project-finish-requested", proyecto, requester, language, null);
     }
 
-    public static MessageEmbed getDsProjectFinishEditRejected(String proyectoId, String comentario, String nombre) {
-        String title = lang.getString("ds-embeds.project-finish-edit-rejected.title");
-        String description = lang.getString("ds-embeds.project-finish-edit-rejected.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-edit-rejected.nombre").replace("%nombre%", nombre);
-        if (comentario != null && !comentario.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-finish-edit-rejected.comment").replace("%comentario%", comentario);
-        return new EmbedBuilder().setTitle(title).setDescription(description).setColor(lang.getInt("ds-embeds.project-finish-edit-rejected.color")).build();
+    public static MessageEmbed getDsMemberAdded(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-member-added", proyecto, language, null);
     }
 
-    public static MessageEmbed getDsProjectDeleted(String proyectoId, String nombre) {
-        String description = lang.getString("ds-embeds.project-deleted.id").replace("%proyectoId%", proyectoId);
-        if (nombre != null && !nombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-deleted.nombre").replace("%nombre%", nombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-deleted.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-deleted.color")).build();
+    public static MessageEmbed getDsMemberRemoved(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-member-removed", proyecto, language, null);
     }
 
-    public static MessageEmbed getDsProjectNameUpdated(String proyectoId, String newNombre) {
-        String description = lang.getString("ds-embeds.project-name-updated.id").replace("%proyectoId%", proyectoId);
-        if (newNombre != null && !newNombre.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-name-updated.nombreNuevo").replace("%nombreNuevo%%", newNombre);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-name-updated.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-name-updated.color")).build();
+    public static MessageEmbed getDsLeaderRemoved(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-leader-removed", proyecto, language, null);
     }
 
-    public static MessageEmbed getDsProjectDescriptionUpdated(String proyectoId, String newDescripcion) {
-        String description = lang.getString("ds-embeds.project-description-updated.id").replace("%proyectoId%", proyectoId);
-        if (newDescripcion != null && !newDescripcion.isBlank()) description = description
-            + "\n" + lang.getString("ds-embeds.project-description-updated.descripcionNueva").replace("%descripcionNueva%", newDescripcion);
-        return new EmbedBuilder().setTitle(lang.getString("ds-embeds.project-description-updated.title")).setDescription(description).setColor(lang.getInt("ds-embeds.project-description-updated.color")).build();
+    public static MessageEmbed getDsMemberJoinRequest(Proyecto proyecto, Player requester, Language language) {
+        return buildDMNotification("project-member-join-request", proyecto, requester, language, null);
+    }
+
+    public static MessageEmbed getDsMemberJoinRequestExpired(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-member-join-request-expired", proyecto, language, null);
+    }
+
+    public static MessageEmbed getDsMemberJoinRequestExpiredLider(Proyecto proyecto, Player requester, Language language) {
+        return buildDMNotification("project-member-join-request-expired-lider", proyecto, requester, language, null);
+    }
+    
+    public static MessageEmbed getDsMemberJoinRequestRejected(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-join-request-rejected", proyecto, language, null);
+    }
+
+    public static MessageEmbed getDsMemberJoinRequestAccepted(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-join-request-accepted", proyecto, language, null);
+    }
+
+    public static MessageEmbed getDsMemberAddedMember(Proyecto proyecto, Player added, Language language) {
+        return buildDMNotification("project-member-added-member", proyecto, added, language, null);
+    }
+
+    public static MessageEmbed getDsMemberRemovedMember(Proyecto proyecto, Player removed, Language language) {
+        return buildDMNotification("project-member-removed-member", proyecto, removed, language, null);
+    }
+
+    public static MessageEmbed getDsMemberLeftMember(Proyecto proyecto, Player removed, Language language) {
+        return buildDMNotification("project-member-left-member", proyecto, removed, language, null);
+    }
+
+    public static MessageEmbed getDsLeaderSwitched(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-leader-switched", proyecto, language, null);
+    }
+
+    public static MessageEmbed getDsLeaderSwitchedLeader(Proyecto proyecto, Player newLeader, Language language) {
+        return buildDMNotification("project-leader-switched-leader", proyecto, newLeader, language, null);
+    }
+
+    public static MessageEmbed getDsLeaderSwitchedMember(Proyecto proyecto, Player newLeader, Language language) {
+        return buildDMNotification("project-leader-switched-member", proyecto, newLeader, language, null);
+    }
+
+    public static MessageEmbed getDsProjectRedefineRequestedMember(Proyecto proyecto, Player requester, Language language) {
+        return buildDMNotification("project-redefine-request-member", proyecto, requester, language, null);
+    }
+
+    public static MessageEmbed getDsProjectRedefineExpired(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-redefine-expired", proyecto, language, null);
+    }
+
+    public static MessageEmbed getDsProjectRedefineAccepted(Proyecto proyecto, String comentario, Language language) {
+        String description = null;
+        if (comentario != null && !comentario.isBlank()) description = LanguageHandler.getText(language, "ds-notifications.project.comment").replace("%comentario%", comentario);
+        return buildDMNotification("project-redefine-accepted", proyecto, language, description);
+    }
+
+    public static MessageEmbed getDsProjectRedefineRejected(Proyecto proyecto, String comentario, Language language) {
+        String description = null;
+        if (comentario != null && !comentario.isBlank()) description = LanguageHandler.getText(language, "ds-notifications.project.comment").replace("%comentario%", comentario);
+        return buildDMNotification("project-redefine-rejected", proyecto, language, description);
+    }
+
+    public static MessageEmbed getDsProjectEditActiveMember(Proyecto proyecto, Player requester, Language language) {
+        return buildDMNotification("project-edit-active-member", proyecto, requester, language, null);
+    }
+
+    public static MessageEmbed getDsProjectFinishEditRequested(Proyecto proyecto, Player requester, Language language) {
+        return buildDMNotification("project-finish-edit-requested", proyecto, requester, language, null);
+    }
+
+    public static MessageEmbed getDsProjectFinishEditRequestExpired(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-finish-edit-expired", proyecto, language, null);
+    }
+
+    public static MessageEmbed getDsProjectFinishEditAccepted(Proyecto proyecto, String comentario, Language language) {
+        String description = null;
+        if (comentario != null && !comentario.isBlank()) description = LanguageHandler.getText(language, "ds-notifications.project.comment").replace("%comentario%", comentario);
+        return buildDMNotification("project-finish-edit-accepted", proyecto, language, description);
+    }
+
+    public static MessageEmbed getDsProjectFinishEditRejected(Proyecto proyecto, String comentario, Language language) {
+        String description = null;
+        if (comentario != null && !comentario.isBlank()) description = LanguageHandler.getText(language, "ds-notifications.project.comment").replace("%comentario%", comentario);
+        return buildDMNotification("project-finish-edit-rejected", proyecto, language, description);
+    }
+
+    public static MessageEmbed getDsProjectDeleted(Proyecto proyecto, Language language) {
+        return buildDMNotification("project-deleted", proyecto, language, null);
+    }
+
+    public static MessageEmbed getDsProjectNameUpdated(Proyecto proyecto, String newNombre, Language language) {
+        String key = "ds-notifications.project.project-name-updated";
+        String description = LanguageHandler.replaceDS("ds-notifications.project.id", language, proyecto);
+        description = description + "\n" + LanguageHandler.getText(language, "ds-notifications.project.nombre-nuevo").replace("%nombreNuevo%", newNombre);
+        return builEmbed(key, language, LanguageHandler.getText(language, key), description, null, null);
+    }
+
+    public static MessageEmbed getDsProjectDescriptionUpdated(Proyecto proyecto, String newDescripcion, Language language) {
+        String key = "ds-notifications.project.project-description-updated";
+        String description = LanguageHandler.replaceDS("ds-notifications.project.id", language, proyecto);
+        description = description + "\n" + LanguageHandler.getText(language, "ds-notifications.project.descripcion-nueva").replace("%descripcionNueva%", newDescripcion);
+        return builEmbed(key, language, LanguageHandler.getText(language, key), description, null, null);
     }
 
     @SuppressWarnings("null")
-    public static MessageEmbed getDsProjectCreated(Proyecto proyecto) {
-        Player player = proyecto.getLider();
+    public static MessageEmbed getDsProjectCreated(Proyecto proyecto, Date expiredDate) {
+        ProjectManager pm = ProjectManager.getInstance();
+        Player player = pm.getLider(proyecto);
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
-        int[] counts = ProyectoRegistry.getInstance().getCounts(player);    
-        String title = lang.getString("ds-embeds.project-created.title").replace("%player%",player.getNombre());
+        int[] counts = ProyectoRegistry.getInstance().getCounts(player);   
+        String title = LanguageHandler.replaceDS("ds-embeds.project-created.title", Language.getDefault(), player);
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
         Polygon polygon = proyecto.getPoligono();
         Point centroid = polygon.getCentroid();
         double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
         String coords = geoCoords[1] + ", " + geoCoords[0];
-        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
-        if (tur.getVisita().equals(player.getTipoUsuario())) eb.appendDescription(lang.getString("ds-embeds.project-created.player-is-visita"));
-        if (tur.getPostulante().equals(player.getTipoUsuario())) eb.appendDescription(lang.getString("ds-embeds.project-created.player-is-postulante"));
-        if (pr.hasCollisions(proyecto.getId(), proyecto.getPoligono())) eb.appendDescription("\n" + lang.getString("ds-embeds.project-created.has-collisions"));
+        if (tur.getVisita().equals(player.getTipoUsuario())) eb.appendDescription("\n" + LanguageHandler.getText("ds-embeds.project-created.player-is-visita"));
+        if (tur.getPostulante().equals(player.getTipoUsuario())) eb.appendDescription("\n" + LanguageHandler.getText("ds-embeds.project-created.player-is-postulante"));
+        if (pr.hasCollisions(proyecto.getId(), proyecto.getPoligono())) eb.appendDescription("\n" + LanguageHandler.getText("ds-embeds.project-created.has-collisions"));
 
-        eb.addField("Rango", player.getRangoUsuario().getNombre(), true)   
-            .addField("Tipo", player.getTipoUsuario().getNombre(), true)
-            .addField("Fecha de Ingreso", DateUtils.getDsTimestamp(player.getFechaIngreso()), true)
-            .addField("Proyectos Completados", String.valueOf(counts[0]), true)
-            .addField("Proyectos Activos", String.valueOf(counts[1]), true)
-            .addField("────────────────────────────────────────", "", false)
-            .addField("Tipo Proyecto", proyecto.getTipoProyecto().getNombre(), true)
-            .addField("Max. Miembros", String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
-            .addField("Tamaño", String.valueOf(polygon.getArea()), true)
-            .addField("Coordenadas", coords, false)
+        String footer = LanguageHandler.getText("ds-embeds.project-created.footer").replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expiredDate, Language.getDefault()));
+        eb.addField(LanguageHandler.getText("ds-embeds.project-created.fields.rango"), player.getRangoUsuario().getNombre(), true)   
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.tipo"), player.getTipoUsuario().getNombre(), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.fecha-ingreso"), DateUtils.getDsTimestamp(player.getFechaIngreso(), Language.getDefault()), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.proyectos-completados"), String.valueOf(counts[0]), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.proyectos-activos"), String.valueOf(counts[1]), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.separator"), "", false)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.tipo-proyecto"), proyecto.getTipoProyecto().getNombre(), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.max-miembros"), String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.tamaño"), String.valueOf(polygon.getArea()), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.coordenadas"), coords, false)
             .setImage("attachment://map.png")
-            .setColor(lang.getInt("ds-embeds.project-created.color"))
-            .setFooter("Creado el " + DateUtils.formatDateHour(proyecto.getFechaCreado()) + ".");
-            if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField("Nombre del Proyecto", proyecto.getNombre(), false);
-        if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField("Descripción", proyecto.getDescripcion(), false);
-        List<String> colors = lang.getStringList("ds-embeds.project-created.polygons-colors");
+            .setColor(embedColors.getInt("ds-embeds.project-created"))
+            .setFooter(footer);
+        if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField(LanguageHandler.getText("ds-embeds.project-created.fields.nombre-proyecto"), proyecto.getNombre(), false);
+        if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField(LanguageHandler.getText("ds-embeds.project-created.fields.descripcion"), proyecto.getDescripcion(), false);
+        List<String> colors = LanguageHandler.getTextList(Language.getDefault(), "ds-embeds.project-created.polygons-colors");
         for (String color : colors) {
             eb.addField("", color, true);
         }
         return eb.build();
-    } //TODO: añadir vencimiento de request.
+    }
 
     @SuppressWarnings("null")
-    public static MessageEmbed getDsProjectRedefineRequested(Proyecto proyecto, String commandName, Polygon newPolygon) {
+    public static MessageEmbed getDsProjectRedefineRequested(Proyecto proyecto, Player commandPlayer, Polygon newPolygon, Date expiredDate) {
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
-        String title = lang.getString("ds-embeds.project-redefine-requested.title").replace("%player%", commandName).replace("%proyectoId%", proyecto.getId());
+        String title = LanguageHandler.replaceDS("ds-embeds.project-redefine-requested.title", Language.getDefault(), List.of(commandPlayer), List.of(proyecto));
         Polygon polygon = proyecto.getPoligono();
         Point centroid = polygon.getCentroid();
         double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
         String coords = geoCoords[1] + ", " + geoCoords[0];
         EmbedBuilder eb = new EmbedBuilder().setTitle(title);
-        if (pr.hasCollisions(proyecto.getId(), newPolygon)) eb.appendDescription("\n" + lang.getString("ds-embeds.project-redefine-requested.has-collisions"));
+        if (pr.hasCollisions(proyecto.getId(), newPolygon)) eb.appendDescription("\n" + LanguageHandler.getText("ds-embeds.project-redefine-requested.has-collisions"));
 
-        eb.addField("Tipo Proyecto", proyecto.getTipoProyecto().getNombre(), true)
-            .addField("Max. Miembros", String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
-            .addField("Tamaño", String.valueOf(polygon.getArea()), true)
-            .addField("Coordenadas", coords, false)
+        String footer = LanguageHandler.getText("ds-embeds.project-redefine-requested.footer") + " " + DateUtils.formatDateHour(expiredDate, Language.getDefault());
+        eb.addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.tipo-proyecto"), proyecto.getTipoProyecto().getNombre(), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.max-miembros"), String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.tamaño"), String.valueOf(polygon.getArea()), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.coordenadas"), coords, false)
             .setImage("attachment://map.png")
-            .setColor(lang.getInt("ds-embeds.project-redefine-requested.color"))
-            .setFooter("Creado el " + DateUtils.formatDateHour(proyecto.getFechaCreado()) + ".");
-        if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField("Nombre del Proyecto", proyecto.getNombre(), false);
-        if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField("Descripción", proyecto.getDescripcion(), false);
-        List<String> colors = lang.getStringList("ds-embeds.project-redefine-requested.polygons-colors");
+            .setColor(embedColors.getInt("ds-embeds.project-redefine-requested"))
+            .setFooter(footer);
+        if (proyecto.getNombre() != null && !proyecto.getNombre().isBlank()) eb.addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.nombre-proyecto"), proyecto.getNombre(), false);
+        if (proyecto.getDescripcion() != null && !proyecto.getDescripcion().isBlank()) eb.addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.descripcion"), proyecto.getDescripcion(), false);
+        List<String> colors = LanguageHandler.getTextList(Language.getDefault(), "ds-embeds.project-redefine-requested.polygons-colors");
         for (String color : colors) {
             eb.addField("", color, true);
         }

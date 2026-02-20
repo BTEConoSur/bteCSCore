@@ -3,11 +3,11 @@ package com.bteconosur.core.command.project;
 import java.util.Set;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.project.ProjectInfoMenu;
 import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
@@ -18,43 +18,41 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 
 public class ProjectInfoCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
     private ProjectListMenu projectListMenu;
     private ProjectInfoMenu projectInfoMenu;
 
     public ProjectInfoCommand() {
         super("info", "Ver información de un proyecto.", "[id_proyecto]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
-        lang = ConfigHandler.getInstance().getLang();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        Language language = commandPlayer.getLanguage();
         if (args.length > 1) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
         org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;
-        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         Proyecto proyectoFinal = null;
         if (args.length == 1) {
             String proyectoId = args[0];
             proyectoFinal = ProyectoRegistry.getInstance().get(proyectoId);
             if (proyectoFinal == null) {
-                PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-with-id").replace("%proyectoId%", proyectoId), (String) null);   
+                PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.not-found-id", language, proyectoFinal), (String) null);   
                 return true;
             }
         } else {
             Set<Proyecto> proyectos = ProyectoRegistry.getInstance().getByLocation(bukkitPlayer.getLocation().getBlockX(), bukkitPlayer.getLocation().getBlockZ());
             if (proyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-here"), (String) null);
+                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
                 return true;
             }
             if (proyectos.size() > 1) {
-                projectListMenu = new ProjectListMenu(commandPlayer, lang.getString("gui-titles.proyectos-here-list"), proyectos, (proyecto, event) -> {
-                    String proyectoIdFinal = proyecto.getId();
-                    projectInfoMenu = new ProjectInfoMenu(commandPlayer, proyecto, lang.getString("gui-titles.project-info").replace("%proyectoId%", proyectoIdFinal));
+                projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.replaceMC("gui-titles.proyectos-here-list", language, proyectoFinal), proyectos, (proyecto, event) -> {
+                    projectInfoMenu = new ProjectInfoMenu(commandPlayer, proyecto, LanguageHandler.replaceMC("gui-titles.project-info", language, proyecto));
                 });
                 projectListMenu.open();
                 return true;
@@ -62,9 +60,7 @@ public class ProjectInfoCommand extends BaseCommand {
             proyectoFinal = proyectos.iterator().next();
         }
 
-
-        final String proyectoIdFinal = proyectoFinal.getId();
-        projectInfoMenu = new ProjectInfoMenu(commandPlayer, proyectoFinal, lang.getString("gui-titles.project-info").replace("%proyectoId%", proyectoIdFinal));
+        projectInfoMenu = new ProjectInfoMenu(commandPlayer, proyectoFinal, LanguageHandler.replaceMC("gui-titles.project-info", language, proyectoFinal));
         projectInfoMenu.open();
         return true;
     }

@@ -3,6 +3,7 @@ package com.bteconosur.db.registry;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.TipoUsuario;
 
@@ -12,7 +13,7 @@ public class TipoUsuarioRegistry extends Registry<Long, TipoUsuario> {
 
     public TipoUsuarioRegistry() {
         super();
-        ConsoleLogger.info(lang.getString("tipo-usuario-registry-initializing"));
+        ConsoleLogger.info(LanguageHandler.getText("tipo-usuario-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<TipoUsuario> tipos = dbManager.selectAll(TipoUsuario.class);
         if (tipos != null) {
@@ -69,7 +70,7 @@ public class TipoUsuarioRegistry extends Registry<Long, TipoUsuario> {
     }
 
     public void shutdown() {
-        ConsoleLogger.info(lang.getString("tipo-usuario-registry-shutting-down"));
+        ConsoleLogger.info(LanguageHandler.getText("tipo-usuario-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }

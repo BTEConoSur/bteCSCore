@@ -1,0 +1,58 @@
+default: 0xFFFFFF
+ds-chat-notifications:
+  start: 0x43B581
+  stop: 0xED4245
+  player-join: 0x43B581
+  player-left: 0xED4245
+  chat-join: 0xf2cc0d
+  chat-left: 0x0D33F2
+ds-console-notifications:
+  error: 0xED4245
+  warn: 0xf2cc0d
+ds-notifications:
+  rango-switched: 0xF48245
+  tipo-switched: 0x45B7F4
+  manager-target-added: 0x45B7F4
+  manager-target-removed: 0xF48245
+  reviewer-target-added: 0x45B7F4
+  reviewer-target-removed: 0xF48245
+  link-success: 0x43B581
+  project:
+    project-accepted: 0x43B581
+    project-request-expired: 0xED4245
+    project-rejected: 0xED4245
+    project-finish-requested: 0x00b0f4
+    project-finish-accepted: 0x43B581
+    project-finish-rejected: 0xED4245
+    project-finish-expired: 0xED4245
+    project-leader-switched: 0x45B7F4
+    project-leader-switched-leader: 0xF48245
+    project-leader-switched-member: 0x45B7F4
+    project-member-added: 0x43B581
+    project-member-added-member: 0x43B581
+    project-member-removed: 0xED4245
+    project-leader-removed: 0xED4245
+    project-member-removed-member: 0xED4245
+    project-member-left-member: 0xED4245
+    project-member-join-request: 0x00b0f4
+    project-join-request-expired: 0x00b0f4
+    project-join-request-expired-lider: 0x00b0f4
+    project-join-request-rejected: 0xED4245
+    project-join-request-accepted: 0x43B581
+    project-redefine-request-member: 0x00b0f4
+    project-redefine-expired: 0xED4245
+    project-redefine-rejected: 0xED4245
+    project-redefine-accepted: 0x43B581
+    project-edit-active-member: 0x00b0f4
+    project-finish-edit-requested: 0x00b0f4
+    project-finish-edit-expired: 0xED4245
+    project-finish-edit-rejected: 0xED4245
+    project-finish-edit-accepted: 0x43B581
+    project-deleted: 0xED4245
+    project-name-updated: 0x00b0f4
+    project-description-updated: 0x00b0f4
+ds-embeds:
+  project-created: 0x00b0f4
+  project-redefine-requested: 0xfe9a37
+  warn: 0xf2cc0d
+  error: 0xed4245

@@ -9,6 +9,8 @@ import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.project.ProjectListMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
@@ -20,7 +22,6 @@ import com.bteconosur.db.util.Estado;
 
 public class ProjectJoinCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
     private final YamlConfiguration config;
     private ProjectListMenu projectListMenu;
 
@@ -29,18 +30,18 @@ public class ProjectJoinCommand extends BaseCommand {
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
-        lang = configHandler.getLang();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        Language language = commandPlayer.getLanguage();
         if (args.length > 1) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
         org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;
-        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         PermissionManager permissionManager = PermissionManager.getInstance();
         ProjectManager projectManager = ProjectManager.getInstance();
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
@@ -50,48 +51,47 @@ public class ProjectJoinCommand extends BaseCommand {
             String proyectoId = args[0];
             proyectoFinal = ProyectoRegistry.getInstance().get(proyectoId);
             if (proyectoFinal == null) {
-                PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-with-id").replace("%proyectoId%", proyectoId), (String) null);   
+                PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.not-found-id", language, proyectoFinal), (String) null);   
                 return true;
             }
         } else {
             Set<Proyecto> proyectos = pr.getByLocation(bukkitPlayer.getLocation().getBlockX(), bukkitPlayer.getLocation().getBlockZ());
             if (proyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-here"), (String) null);
+                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
                 return true;
             }
             Set<Proyecto> roomProyectos = pr.getWithRoom(proyectos);
             if (roomProyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, lang.getString("no-projects-with-room-here"), (String) null);
+                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-with-room-here"), (String) null);
                 return true;
             }
             Set<Proyecto> activeProyectos = pr.getActiveOrEditando(roomProyectos);
             if (activeProyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, lang.getString("no-project-active-editing-here"), (String) null); //TODO: verificar casos en editando
+                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-active-editing-here"), (String) null); //TODO: verificar casos en editando
                 return true;
             }
             Set<Proyecto> notMemberProyectos = pr.getNotMemberOrLider(commandPlayer, activeProyectos);
             if (notMemberProyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, lang.getString("project-join-already-member-here"), (String) null);
+                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.member.already-here"), (String) null);
                 return true;
             }
 
             if (notMemberProyectos.size() > 1) {
-                projectListMenu = new ProjectListMenu(commandPlayer, lang.getString("gui-titles.proyectos-activos-list"), notMemberProyectos, (proyecto, event) -> {
+                projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.getText(language, "gui-titles.proyectos-activos-list"), notMemberProyectos, (proyecto, event) -> {
                     if (permissionManager.isMiembroOrLider(commandPlayer, proyecto)) {
-                        String message = lang.getString("project-join-already-member").replace("%proyectoId%", proyecto.getId());   
+                        String message = LanguageHandler.replaceMC("project.member.already", language, proyecto);   
                         PlayerLogger.error(commandPlayer, message, (String) null);
                         event.getWhoClicked().closeInventory();
                         return;
                     }
                     if (proyecto.getEstado() != Estado.ACTIVO && proyecto.getEstado() != Estado.EDITANDO) {
-                        String message = lang.getString("not-a-active-editing-project").replace("%proyectoId%", proyecto.getId());
+                        String message = LanguageHandler.replaceMC("project.not-active-editing", language, proyecto);
                         PlayerLogger.error(commandPlayer, message, (String) null);
                         event.getWhoClicked().closeInventory();
                         return;
                     }
                     if (!proyecto.checkMaxMiembros()) {
-                        String message = lang.getString("max-members-reached").replace("%proyectoId%", proyecto.getId())
-                            .replace("%max%", String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()))
+                        String message = LanguageHandler.replaceMC("project.member.add.max-reached", language, proyecto)
                             .replace("%current%", String.valueOf(proyecto.getCantMiembros()));
                         PlayerLogger.error(commandPlayer, message, (String) null);
                         event.getWhoClicked().closeInventory();
@@ -101,7 +101,7 @@ public class ProjectJoinCommand extends BaseCommand {
                     Player lider = projectManager.getLider(proyecto);
                     int maxMembers = config.getInt("max-members-for-postulantes");
                     if (permissionManager.isPostulante(lider) && proyecto.getCantMiembros() >= maxMembers) {
-                        String message = lang.getString("postulante-cant-add-member").replace("%max%", String.valueOf(maxMembers));
+                        String message = LanguageHandler.getText(language, "project.member.add.postulante-max-reached").replace("%max%", String.valueOf(maxMembers));
                         PlayerLogger.error(commandPlayer, message, (String) null);
                         event.getWhoClicked().closeInventory();  
                         return;
@@ -116,20 +116,19 @@ public class ProjectJoinCommand extends BaseCommand {
         }
 
         if (permissionManager.isMiembroOrLider(commandPlayer, proyectoFinal)) {
-            String message = lang.getString("project-join-already-member").replace("%proyectoId%", proyectoFinal.getId());   
+            String message = LanguageHandler.replaceMC("project.member.already", language, proyectoFinal);   
             PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }
 
         if (proyectoFinal.getEstado() != Estado.ACTIVO && proyectoFinal.getEstado() != Estado.EDITANDO) {
-            String message = lang.getString("not-a-active-editing-project").replace("%proyectoId%", proyectoFinal.getId());
+            String message = LanguageHandler.replaceMC("project.not-active-editing", language, proyectoFinal);
             PlayerLogger.error(commandPlayer, message, (String) null);   
             return true;
         }
 
         if (!proyectoFinal.checkMaxMiembros()) {
-            String message = lang.getString("max-members-reached").replace("%proyectoId%", proyectoFinal.getId())
-                .replace("%max%", String.valueOf(proyectoFinal.getTipoProyecto().getMaxMiembros()))
+            String message = LanguageHandler.replaceMC("project.member.add.max-reached", language, proyectoFinal)
                 .replace("%current%", String.valueOf(proyectoFinal.getCantMiembros()));
             PlayerLogger.error(commandPlayer, message, (String) null);   
             return true;
@@ -138,7 +137,7 @@ public class ProjectJoinCommand extends BaseCommand {
         Player lider = projectManager.getLider(proyectoFinal);
         int maxMembers = config.getInt("max-members-for-postulantes");
         if (permissionManager.isPostulante(lider) && proyectoFinal.getCantMiembros() >= maxMembers) {
-            String message = lang.getString("postulante-cant-add-member").replace("%max%", String.valueOf(maxMembers));
+            String message = LanguageHandler.getText(language, "project.member.add.postulante-max-reached").replace("%max%", String.valueOf(maxMembers));
             PlayerLogger.error(commandPlayer, message, (String) null);   
             return true;
         }

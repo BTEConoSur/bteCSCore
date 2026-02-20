@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
@@ -20,8 +18,6 @@ public class ChatService {
     private static Map<Player, Pais> playersLastCountryChat = new HashMap<>();
 
     private static List<Player> playersInNotePad = new ArrayList<>();
-
-    private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     public static void switchChatToGlobal(Player player) {
         if (playersInGlobalChat.contains(player)) return;
@@ -37,7 +33,7 @@ public class ChatService {
             playersInNotePad.remove(player);
         }
 
-        PlayerLogger.info(player, lang.getString("global-chat-switched"), (String) null);
+        PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "global-chat.switched"), (String) null);
         GlobalChatService.joinChat(player);
         playersInGlobalChat.add(player);
     }
@@ -70,7 +66,7 @@ public class ChatService {
 
     public static void setChatToNotePad(Player player) {
         GlobalChatService.leaveChat(player);
-        PlayerLogger.info(player, lang.getString("note-pad-chat-switched"), (String) null);
+        PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "note-pad-chat.switched"), (String) null);
     }
 
     public static void switchChatToCountry(Player player, Pais pais) {
@@ -91,7 +87,8 @@ public class ChatService {
             playersInNotePad.remove(player);
         }
 
-        PlayerLogger.info(player, lang.getString("country-chat-switched").replace("%pais%", pais.getNombrePublico()), (String) null);
+        String message = LanguageHandler.replaceMC("country-chat.switched", player.getLanguage(), pais);
+        PlayerLogger.info(player, message, (String) null);
         CountryChatService.joinChat(player, pais);
         playersInCountryChat.put(player, pais);
         playersLastCountryChat.put(player, pais);
@@ -111,7 +108,7 @@ public class ChatService {
             CountryChatService.leaveChat(player, pais);
         }
 
-        PlayerLogger.info(player, lang.getString("notepad-switched"), (String) null);
+        PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "note-pad-chat.switched"), (String) null);
         playersInNotePad.add(player);
     }
 

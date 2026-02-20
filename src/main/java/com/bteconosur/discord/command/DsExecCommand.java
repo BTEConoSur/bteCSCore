@@ -5,6 +5,10 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.db.model.Player;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.util.CommandMode;
 
 import net.dv8tion.jda.api.Permission;
@@ -25,11 +29,14 @@ public class DsExecCommand extends DsCommand {
         );
     }
 
+    @SuppressWarnings("null")
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         OptionMapping comando = event.getOption("comando");
+        Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
+        Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (comando == null || comando.getAsString().isEmpty()) {
-            event.reply("Por favor, proporciona un comando.").setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-exec-empty")).setEphemeral(true).queue();
             return;
         }
         
@@ -39,6 +46,6 @@ public class DsExecCommand extends DsCommand {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), commandStr);
         });
         
-        event.reply("Comando ejecutado: `" + commandStr + "`").setEphemeral(false).queue();
+        event.reply(LanguageHandler.getText(language, "ds-exec").replace("%comando%", commandStr)).setEphemeral(false).queue();
     }
 }

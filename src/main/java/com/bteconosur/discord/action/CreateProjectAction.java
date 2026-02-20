@@ -5,6 +5,8 @@ import java.time.Instant;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
@@ -22,7 +24,6 @@ import net.dv8tion.jda.api.modals.Modal;
 
 public class CreateProjectAction implements ButtonAction {
 
-    private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     @SuppressWarnings("null")
@@ -30,18 +31,19 @@ public class CreateProjectAction implements ButtonAction {
     public void handle(ButtonInteractionEvent event, Interaction ctx) {
         String buttonId = event.getComponentId();
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
+        Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(lang.getString("discord-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
             return;
         }
         Pais pais = PaisRegistry.getInstance().findByRequestId(event.getChannelIdLong());
         if (!PermissionManager.getInstance().isReviewer(player)) {
-            event.reply(lang.getString("ds-reviewer-needed").replace("%pais%", pais.getNombrePublico())).setEphemeral(true).queue();
+            event.reply(LanguageHandler.replaceDS("reviewer.ds-not-reviewer-country", language, pais)).setEphemeral(true).queue();
             return;
         }
 
         TextInput comentario = TextInput.create("comentario", TextInputStyle.PARAGRAPH)
-            .setPlaceholder("(Opcional) Agrega un comentario sobre el proyecto...")
+            .setPlaceholder(LanguageHandler.getText(language, "ds-field-comment-placeholder"))
             .setRequired(false)
             .setMaxLength(300)
             .build();
@@ -50,8 +52,8 @@ public class CreateProjectAction implements ButtonAction {
 
         if (buttonId.equals("accept")) {
             String modalId = "accept_create_project:" + ctx.getProjectId();
-            Modal modal = Modal.create(modalId, "Confirmar creación de proyecto")
-                .addComponents(Label.of("Comentario", comentario))
+            Modal modal = Modal.create(modalId, LanguageHandler.getText(language, "ds-modals.accept-project-creation"))
+                .addComponents(Label.of(LanguageHandler.getText(language, "ds-field-comment-name"), comentario))
                 .build();
             Interaction ctxAccept = new Interaction(
                 InteractionKey.ACCEPT_CREATE_PROJECT,
@@ -64,8 +66,8 @@ public class CreateProjectAction implements ButtonAction {
             event.replyModal(modal).queue();
         } else if (buttonId.equals("cancel")) {
             String modalId = "reject_create_project:" + ctx.getProjectId();
-            Modal modal = Modal.create(modalId, "Confirmar rechazo de proyecto")
-                .addComponents(Label.of("Comentario", comentario))
+            Modal modal = Modal.create(modalId, LanguageHandler.getText(language, "ds-modals.reject-project-creation"))
+                .addComponents(Label.of(LanguageHandler.getText(language, "ds-field-comment-name"), comentario))
                 .build();
             Interaction ctxAccept = new Interaction(
                 InteractionKey.REJECT_CREATE_PROJECT,
@@ -77,7 +79,7 @@ public class CreateProjectAction implements ButtonAction {
             InteractionRegistry.getInstance().load(ctxAccept);
             event.replyModal(modal).queue();
         } else {
-            event.reply(lang.getString("discord-invalid-action")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue();
         }
     }
 

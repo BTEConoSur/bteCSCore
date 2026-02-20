@@ -4,72 +4,71 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
 public class ConsoleLogger {
 
-    private static final ConfigHandler configHandler = ConfigHandler.getInstance();
-    private static final YamlConfiguration config = configHandler.getConfig();
-    private static final YamlConfiguration lang = configHandler.getLang();
+    private static YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     private static final ComponentLogger logger = BTEConoSur.getInstance().getComponentLogger();
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
 
     public static void info(String message) {
-        logger.info(miniMessage.deserialize(lang.getString("prefix") + " " + lang.getString("info-prefix") + message));
+        logger.info(miniMessage.deserialize((LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("info-prefix") + message)));
     }
 
     public static void info(String message, Object object) {
         String json = JsonUtils.toJson(object);
-        logger.info(miniMessage.deserialize(lang.getString("prefix") + " " + lang.getString("info-prefix") + message + "\n" + json));
+        logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("info-prefix") + message + "\n" + json));
     }
 
     public static void debug(String message) {
         if (config.getBoolean("debug-mode", false)) {
-            logger.info(miniMessage.deserialize(lang.getString("prefix") + " " + lang.getString("debug-prefix") + message));
+            logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("debug-prefix") + message));
         }
     }
 
     public static void debug(String message, Object object) {
         if (config.getBoolean("debug-mode", false)) {
             String json = JsonUtils.toJson(object);
-            logger.info(miniMessage.deserialize(lang.getString("prefix") + " " + lang.getString("debug-prefix") + message + "\n" + json));
+            logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("debug-prefix") + message + "\n" + json));
         }
     }
 
     public static void warn(String message) {
-        logger.warn(miniMessage.deserialize(lang.getString("prefix") + " " + lang.getString("warn-prefix") + message));
+        logger.warn(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("warn-prefix") + message));
         DiscordLogger.staffConsoleLog(LoggerUtil.getWarnEmbed(message));
     }
 
     public static void warn(String message, Object object) {
         String json = JsonUtils.toJson(object);
-        logger.warn(miniMessage.deserialize(lang.getString("prefix") + " " + lang.getString("warn-prefix") + message + "\n" + json));
+        logger.warn(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("warn-prefix") + message + "\n" + json));
         DiscordLogger.staffConsoleLog(LoggerUtil.getWarnEmbed(message + "\n" + json));
     }
 
     public static void error(String message) {
-        logger.error(miniMessage.deserialize(lang.getString("prefix") + " " + lang.getString("error-prefix") + message));
+        logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message));
         DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(message));
         DiscordLogger.notifyDevs(message);
     }
 
     public static void error(String message, Object object) {
         String json = JsonUtils.toJson(object);
-        logger.error(miniMessage.deserialize(lang.getString("prefix") + " " + lang.getString("error-prefix") + message + "\n" + json));
+        logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message + "\n" + json));
         DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(message + "\n" + json));
         DiscordLogger.notifyDevs(message);
     }
 
     public static void send(String message) {
-        logger.info(miniMessage.deserialize(lang.getString("prefix") + " " + message));
+        logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + message));
     }
 
     public static void send(String message, Object object) {
         String json = JsonUtils.toJson(object);
-        logger.info(miniMessage.deserialize(lang.getString("prefix") + " " + message + "\n" + json));
+        logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + message + "\n" + json));
     }
 
 }

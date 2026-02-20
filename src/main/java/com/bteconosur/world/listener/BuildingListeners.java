@@ -9,7 +9,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
@@ -19,7 +19,6 @@ import com.bteconosur.world.WorldManager;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 
 public class BuildingListeners implements Listener {
@@ -27,7 +26,6 @@ public class BuildingListeners implements Listener {
     private final WorldManager worldManager;
     private final DBManager dbManager;
     private final PlayerRegistry playerRegistry;
-    private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     public BuildingListeners() {
         this.worldManager = WorldManager.getInstance();
@@ -41,14 +39,14 @@ public class BuildingListeners implements Listener {
 
         Player player = playerRegistry.get(event.getPlayer().getUniqueId());
         if (player == null) {
-            ConsoleLogger.warn("No se encontró al jugador '" + event.getPlayer().getName() + "' en la base de datos.");
+            ConsoleLogger.warn(LanguageHandler.getText("console-player-not-registered").replace("%player%", event.getPlayer().getName()));
             event.setCancelled(true);
             return;
         }
 
         if (!worldManager.canBuild(block.getLocation(), player)) {
             event.setCancelled(true);
-            PlayerLogger.warn(player, lang.getString("no-building-permissions"), (String) null);
+            PlayerLogger.warn(player, LanguageHandler.getText(player.getLanguage(), "no-building-permissions"), (String) null);
         }
     }
 
@@ -58,14 +56,14 @@ public class BuildingListeners implements Listener {
 
         Player player = playerRegistry.get(event.getPlayer().getUniqueId());
         if (player == null) {
-            ConsoleLogger.warn("No se encontró al jugador '" + event.getPlayer().getName() + "' en la base de datos.");
+            ConsoleLogger.warn(LanguageHandler.getText("console-player-not-registered").replace("%player%", event.getPlayer().getName()));
             event.setCancelled(true);
             return;
         }
 
         if (!worldManager.canBuild(block.getLocation(), player)) {
             event.setCancelled(true);
-            PlayerLogger.warn(player, lang.getString("no-building-permissions"), (String) null);
+            PlayerLogger.warn(player, LanguageHandler.getText(player.getLanguage(), "no-building-permissions"), (String) null);
         }
     }
 
@@ -86,7 +84,7 @@ public class BuildingListeners implements Listener {
 
         Player player = dbManager.get(Player.class, event.getPlayer().getUniqueId()); 
         if (player == null) { 
-            ConsoleLogger.warn("No se encontró al jugador '" + event.getPlayer().getName() + "' en la base de datos.");
+            ConsoleLogger.warn(LanguageHandler.getText("console-player-not-registered").replace("%player%", event.getPlayer().getName()));
             event.setCancelled(true); 
             return; 
         }
@@ -96,7 +94,7 @@ public class BuildingListeners implements Listener {
             event.setCancelled(true);
             event.setUseInteractedBlock(Result.DENY);
             event.setUseItemInHand(Result.DENY);
-            PlayerLogger.warn(player, lang.getString("no-building-permissions"), (String) null);
+            PlayerLogger.warn(player, LanguageHandler.getText(player.getLanguage(), "no-building-permissions"), (String) null);
         }
     }
 }

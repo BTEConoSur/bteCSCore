@@ -41,7 +41,7 @@ public abstract class PaginatedMenu extends Menu {
         
         paginatedGui.getFiller().fillBetweenPoints(rows - 1, 1, rows, 9, MenuUtils.getFillerItem());
 
-        paginatedGui.setItem(rows, 4, MenuUtils.getPreviousPageItem());
+        paginatedGui.setItem(rows, 4, MenuUtils.getPreviousPageItem(language));
         paginatedGui.addSlotAction(rows, 4, event -> {
             if (paginatedGui.getCurrentPageNum() > 1) {
                 paginatedGui.previous();
@@ -49,7 +49,7 @@ public abstract class PaginatedMenu extends Menu {
             }
         });
 
-        paginatedGui.setItem(rows, 6, MenuUtils.getNextPageItem());
+        paginatedGui.setItem(rows, 6, MenuUtils.getNextPageItem(language));
         paginatedGui.addSlotAction(rows, 6, event -> {
             if (paginatedGui.getCurrentPageNum() < paginatedGui.getPagesNum()) {
                 paginatedGui.next();
@@ -86,13 +86,13 @@ public abstract class PaginatedMenu extends Menu {
         PaginatedGui paginatedGui = getPaginatedGui();
         
         if (paginatedGui.getCurrentPageNum() > 1) {
-            paginatedGui.updateItem(rows, 4, MenuUtils.getPreviousPageItem());
+            paginatedGui.updateItem(rows, 4, MenuUtils.getPreviousPageItem(language));
         } else {
             paginatedGui.updateItem(rows, 4, MenuUtils.getFillerItem());
         }
         
         if (paginatedGui.getCurrentPageNum() < paginatedGui.getPagesNum()) {
-            paginatedGui.updateItem(rows, 6, MenuUtils.getNextPageItem());
+            paginatedGui.updateItem(rows, 6, MenuUtils.getNextPageItem(language));
         } else {
             paginatedGui.updateItem(rows, 6, MenuUtils.getFillerItem());
         }

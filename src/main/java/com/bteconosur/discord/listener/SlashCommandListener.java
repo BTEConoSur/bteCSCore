@@ -2,9 +2,7 @@ package com.bteconosur.discord.listener;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.discord.command.DsCommand;
 import com.bteconosur.discord.command.DsCommandManager;
@@ -14,8 +12,6 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class SlashCommandListener extends ListenerAdapter {
-
-    private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     @SuppressWarnings("null")
     @Override
@@ -32,15 +28,18 @@ public class SlashCommandListener extends ListenerAdapter {
                 subcommand.execute(event);
                 return;
             }
-            ConsoleLogger.warn("Error de Discord: Subcomando no encontrado: /" + commandName + " " + subCommandName);
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.subcommand-not-found")
+                .replace("%command%", commandName)
+                .replace("%subcommand%", subCommandName)
+            );
         }
 
         if (command != null) {
             command.execute(event);
             return;
-        } else ConsoleLogger.warn("Error de Discord: Comando no encontrado: /" + commandName);
+        } else ConsoleLogger.warn(LanguageHandler.getText("ds-error.command-not-found").replace("%command%", commandName));
         
-        event.reply(lang.getString("discord-internal-error")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText("ds-internal-error")).setEphemeral(true).queue();
     }
 
 }

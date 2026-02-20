@@ -355,6 +355,7 @@ gui-titles:
   project-members: "Miembros del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   project-manage: "Gestionar proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
   project-info: "Info del proyecto: '%proyectoId%'" # %proyectoId% -> Identificador del proyecto.
+  language-select: "Seleccionar idioma"
 
 sign-gui:
   - ""
@@ -557,6 +558,15 @@ items:
           desc:
             - "Habilitar una barrera de partículas"
             - "en los límites de las capas."
+        lang:
+          material: "hdb:31691"
+          materials:
+            es_ES: "hdb:23236"
+            en_US: "hdb:27546"
+          name: "Idioma"
+          desc: 
+            - "Selecciona el idioma que se usará"
+            - "en los mensajes e interfaz."
       manager:
         ds-notifications:
           material-true: "WHITE_GLAZED_TERRACOTTA"

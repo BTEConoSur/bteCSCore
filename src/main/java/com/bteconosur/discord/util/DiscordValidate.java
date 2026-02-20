@@ -1,9 +1,9 @@
 package com.bteconosur.discord.util;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
@@ -12,7 +12,7 @@ public final class DiscordValidate {
 
     public static boolean jda() {
         if (BTEConoSur.getDiscordManager() == null || BTEConoSur.getDiscordManager().getJda() == null) {
-            ConsoleLogger.warn("Discord: Acción salteada. El bot de Discord no está inicializado.");
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.not-jda"));
             return false;
         }
         return true;
@@ -20,7 +20,7 @@ public final class DiscordValidate {
 
     public static boolean channelId(Long channelId) {
         if (channelId == null) {
-            ConsoleLogger.warn("Discord: El ID del canal es nulo o vacío.");
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-channel-id"));
             return false;
         }
         return true;
@@ -28,7 +28,7 @@ public final class DiscordValidate {
 
     public static boolean userId(Long userId) {
         if (userId == null) {
-            ConsoleLogger.warn("Discord: El ID del usuario es nulo o vacío.");
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-user-id"));
             return false;
         }
         return true;
@@ -36,7 +36,7 @@ public final class DiscordValidate {
 
     public static boolean user(User user) {
         if (user == null) {
-            ConsoleLogger.warn("Discord: El usuario es nulo.");
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-user"));
             return false;
         }
         return true;
@@ -44,7 +44,7 @@ public final class DiscordValidate {
 
     public static boolean messageContent(String message) {
         if (message == null || message.isEmpty()) {
-            ConsoleLogger.warn("Discord: El mensaje es nulo o vacío.");
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-message"));
             return false;
         }
         return true;
@@ -52,7 +52,7 @@ public final class DiscordValidate {
 
     public static boolean channel(TextChannel channel) {
         if (channel == null) {
-            ConsoleLogger.warn("Discord: El canal es nulo.");
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-channel"));
             return false;
         }
         return true;
@@ -60,23 +60,7 @@ public final class DiscordValidate {
 
     public static boolean messageId(Long messageId) {
         if (messageId == null) {
-            ConsoleLogger.warn("Discord: El ID del mensaje es nulo o vacío.");
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean replyMessage(Message replyMessage) {
-        if (replyMessage == null) {
-            ConsoleLogger.warn("Discord: El mensaje de respuesta es nulo.");
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean replyMessageId(Long replyMessageId) {
-        if (replyMessageId == null) {
-            ConsoleLogger.warn("Discord: El ID del mensaje de respuesta es nulo o vacío.");
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-message-id"));
             return false;
         }
         return true;
@@ -84,7 +68,7 @@ public final class DiscordValidate {
 
     public static boolean embed(MessageEmbed embed) {
         if (embed == null) {
-            ConsoleLogger.warn("Discord: El embed es nulo.");
+            ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-embed"));
             return false;
         }
         return true;

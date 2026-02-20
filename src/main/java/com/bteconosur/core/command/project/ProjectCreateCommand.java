@@ -1,13 +1,13 @@
 package com.bteconosur.core.command.project;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.model.Player;
@@ -17,12 +17,9 @@ import com.bteconosur.discord.util.LinkService;
 
 public class ProjectCreateCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
-
     public ProjectCreateCommand() {
         super("create", "Crear un nuevo proyecto.", "[nombre] [descripción]", "btecs.command.project.create", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
-        lang = ConfigHandler.getInstance().getLang();
     }
 
     @Override
@@ -31,14 +28,15 @@ public class ProjectCreateCommand extends BaseCommand {
         String descripcion = null;
 
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        Language language = commandPlayer.getLanguage();
         if (!LinkService.isPlayerLinked(commandPlayer)) {
-            PlayerLogger.warn(commandPlayer, lang.getString("minecraft-link-recomendation"), (String) null);
+            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "link.mc-link-recomendation"), (String) null);
         }
 
         if (args.length >= 1) {
             nombre = args[0];
             if (nombre.length() > 50) {
-                PlayerLogger.error(commandPlayer, lang.getString("invalid-project-name"), (String) null);
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-name"), (String) null);
                 return true;
             }
         }
@@ -52,14 +50,14 @@ public class ProjectCreateCommand extends BaseCommand {
             descripcion = descripcionBuilder.toString();
 
             if (descripcion.length() > 100) {
-                PlayerLogger.error(commandPlayer, lang.getString("invalid-project-description"), (String) null);
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-description"), (String) null);
                 return true;
             }
         }
 
         Polygon regionPolygon = RegionUtils.getPolygon(sender);
         if (regionPolygon == null) return true;
-        ProjectManager.getInstance().createProject(nombre, descripcion, regionPolygon, commandPlayer);
+        ProjectManager.getInstance().createProject(nombre, descripcion, regionPolygon, commandPlayer, language);
         return true;
     }
 

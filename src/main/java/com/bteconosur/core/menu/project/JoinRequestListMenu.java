@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.BTEConoSur;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.menu.PaginatedMenu;
 import com.bteconosur.core.util.MenuUtils;
@@ -28,11 +28,13 @@ public class JoinRequestListMenu extends PaginatedMenu {
     private final Proyecto proyecto;
     private Player commandPlayer;
     private Map<Player, GuiItem> requestPlayerItems = new HashMap<>(); // Capaz mapearlo por id
+    private Language language;
 
     public JoinRequestListMenu(Player player, String title, Proyecto proyecto, Menu previousMenu) {
         super(title, player, previousMenu);
         commandPlayer = player;
         this.proyecto = proyecto;
+        this.language = player.getLanguage();
     }
 
     public JoinRequestListMenu(Player player, String title, Proyecto proyecto) {
@@ -51,9 +53,9 @@ public class JoinRequestListMenu extends PaginatedMenu {
                 Player requestPlayer = playerRegistry.get(interaction.getPlayerId());
                 if (requestPlayer == null) continue;
 
-                GuiItem item = MenuUtils.getPlayerItem(requestPlayer, playerRegistry.isOnline(requestPlayer.getUuid()), MenuUtils.PlayerContext.DEFAULT);
+                GuiItem item = MenuUtils.getPlayerItem(requestPlayer, playerRegistry.isOnline(requestPlayer.getUuid()), MenuUtils.PlayerContext.DEFAULT, language);
                 item.setAction(event -> {
-                    String title = ConfigHandler.getInstance().getLang().getString("gui-titles.join-request-confirmation");
+                    String title = LanguageHandler.getText(language, "gui-titles.join-request-confirmation");
                     JoinRequestConfirmationMenu confirmationMenu = new JoinRequestConfirmationMenu(commandPlayer, title, proyecto, requestPlayer, interaction.getId(), this);
                     confirmationMenu.open();
                 });
@@ -64,7 +66,7 @@ public class JoinRequestListMenu extends PaginatedMenu {
 
         PaginatedGui gui = getPaginatedGui();
 
-        gui.setItem(rows, 8, MenuUtils.getSearchItem("Nombre", null));
+        gui.setItem(rows, 8, MenuUtils.getSearchItem(LanguageHandler.getText(language, "placeholder.item-mc.search-term.nombre"), null, language));
         gui.addSlotAction(rows, 8, event -> {
             searchByName();
         });
@@ -97,15 +99,14 @@ public class JoinRequestListMenu extends PaginatedMenu {
                     setSearchItemsAndOpen(search);
                 });
             }));
-        });
+        }, language);
         
-        YamlConfiguration lang = ConfigHandler.getInstance().getLang();
-        if (!opened) PlayerLogger.error(Player.getBTECSPlayer(player), lang.getString("internal-error"), (String) null);
+        if (!opened) PlayerLogger.error(Player.getBTECSPlayer(player), LanguageHandler.getText(language, "internal-error"), (String) null);
     }
 
     private void setSearchItemsAndOpen(String nombreSearch) {
         PaginatedGui gui = getPaginatedGui();
-        gui.updateItem(rows, 8, MenuUtils.getSearchItem("Nombre", nombreSearch));
+        gui.updateItem(rows, 8, MenuUtils.getSearchItem(LanguageHandler.getText(language, "placeholder.item-mc.search-term.nombre"), nombreSearch, language));
         gui.update();
         gui.open(player);
     }

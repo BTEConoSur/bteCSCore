@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.util.MessageService;
@@ -14,7 +15,6 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 public class PlayerLogger {
 
-    private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     public static void info(CommandSender sender, String mcMessage, String dsMessage, TagResolver... resolvers) {
@@ -31,13 +31,13 @@ public class PlayerLogger {
 
     public static void info(Player player, String mcMessage, String dsMessage, TagResolver... resolvers) {
         if (player == null) return;
-        if (mcMessage != null) sendMc(lang.getString("player-info").replace("%pluginPrefix%", lang.getString("plugin-prefix")).replace("%message%", mcMessage), player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-info").replace("%pluginPrefix%", LanguageHandler.getText(player.getLanguage(), "plugin-prefix")).replace("%message%", mcMessage), player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void info(Player player, String mcMessage, MessageEmbed dsMessage, TagResolver... resolvers) {
         if (player == null) return;
-        if (mcMessage != null) sendMc(lang.getString("player-info").replace("%pluginPrefix%", lang.getString("plugin-prefix")).replace("%message%", mcMessage), player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-info").replace("%pluginPrefix%", LanguageHandler.getText(player.getLanguage(), "plugin-prefix")).replace("%message%", mcMessage), player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
@@ -50,7 +50,7 @@ public class PlayerLogger {
     public static void info(Player player, String mcMessage, String dsMessage, Object object, TagResolver... resolvers) {
         if (player == null) return;
         String json = JsonUtils.toJson(object);
-        if (mcMessage != null) sendMc(lang.getString("player-info").replace("%pluginPrefix%", lang.getString("plugin-prefix")).replace("%message%", mcMessage) + "\n" + json, player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-info").replace("%pluginPrefix%", LanguageHandler.getText(player.getLanguage(), "plugin-prefix")).replace("%message%", mcMessage) + "\n" + json, player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
     }
 
@@ -71,14 +71,14 @@ public class PlayerLogger {
     public static void debug(Player player, String mcMessage, String dsMessage, TagResolver... resolvers) {
         if (player == null) return;
         if (!config.getBoolean("debug-mode", false)) return;
-        if (mcMessage != null) sendMc(lang.getString("player-debug").replace("%message%", mcMessage), player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-debug").replace("%message%", mcMessage), player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void debug(Player player, String mcMessage, MessageEmbed dsMessage, TagResolver... resolvers) {
         if (player == null) return;
         if (!config.getBoolean("debug-mode", false)) return;
-        if (mcMessage != null) sendMc(lang.getString("player-debug").replace("%message%", mcMessage), player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-debug").replace("%message%", mcMessage), player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
@@ -93,7 +93,7 @@ public class PlayerLogger {
         if (player == null) return;
         if (!config.getBoolean("debug-mode", false)) return;
         String json = JsonUtils.toJson(object);
-        if (mcMessage != null) sendMc(lang.getString("player-debug").replace("%message%", mcMessage) + "\n" + json, player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-debug").replace("%message%", mcMessage) + "\n" + json, player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
     }
 
@@ -111,13 +111,13 @@ public class PlayerLogger {
 
     public static void warn(Player player, String mcMessage, String dsMessage, TagResolver... resolvers ) {
         if (player == null) return;
-        if (mcMessage != null) sendMc(lang.getString("player-warn").replace("%message%", mcMessage), player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-warn").replace("%message%", mcMessage), player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void warn(Player player, String mcMessage, MessageEmbed dsMessage, TagResolver... resolvers) {
         if (player == null) return;
-        if (mcMessage != null) sendMc(lang.getString("player-warn").replace("%message%", mcMessage), player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-warn").replace("%message%", mcMessage), player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
@@ -130,7 +130,7 @@ public class PlayerLogger {
     public static void warn(Player player, String mcMessage, String dsMessage, Object object, TagResolver... resolvers) {
         if (player == null) return;
         String json = JsonUtils.toJson(object);
-        if (mcMessage != null) sendMc(lang.getString("player-warn").replace("%message%", mcMessage) + "\n" + json, player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-warn").replace("%message%", mcMessage) + "\n" + json, player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
     }
 
@@ -148,13 +148,13 @@ public class PlayerLogger {
 
     public static void error(Player player, String mcMessage, String dsMessage, TagResolver... resolvers) {
         if (player == null) return;
-        if (mcMessage != null) sendMc(lang.getString("player-error").replace("%message%", mcMessage), player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-error").replace("%message%", mcMessage), player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage);
     }
 
     public static void error(Player player, String mcMessage, MessageEmbed dsMessage, TagResolver... resolvers) {
         if (player == null) return;
-        if (mcMessage != null) sendMc(lang.getString("player-error").replace("%message%", mcMessage), player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-error").replace("%message%", mcMessage), player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendEmbedDM(player.getDsIdUsuario(), dsMessage);
     }
 
@@ -167,7 +167,7 @@ public class PlayerLogger {
     public static void error(Player player, String mcMessage, String dsMessage, Object object, TagResolver... resolvers) {
         if (player == null) return;
         String json = JsonUtils.toJson(object);
-        if (mcMessage != null) sendMc(lang.getString("player-error").replace("%message%", mcMessage) + "\n" + json, player, resolvers);
+        if (mcMessage != null) sendMc(LanguageHandler.getText(player.getLanguage(), "player-error").replace("%message%", mcMessage) + "\n" + json, player, resolvers);
         if (dsMessage != null && checkSimultaneousNotifications(player)) MessageService.sendDM(player.getDsIdUsuario(), dsMessage + "\n" + json);
     }
 

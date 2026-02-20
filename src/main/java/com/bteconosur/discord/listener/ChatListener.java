@@ -4,12 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.configuration.file.YamlConfiguration;
-
 import com.bteconosur.core.chat.GlobalChatService;
-import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.chat.CountryChatService;
-import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
@@ -20,8 +16,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class ChatListener extends ListenerAdapter {
-
-    public static YamlConfiguration lang = ConfigHandler.getInstance().getLang();
 
     @Override 
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
@@ -38,31 +32,16 @@ public class ChatListener extends ListenerAdapter {
         String message = event.getMessage().getContentDisplay();
         Long channelId = event.getChannel().getIdLong();
 
-        String dsMessage, mcMessage;
-        if (player != null) {
-            dsMessage = ChatUtil.getDsFormatedMessage(player, message, pais);
-            mcMessage = ChatUtil.getMcFormatedMessage(player, message, pais);
-        } else {
-            String authorName = event.getAuthor().getName();
-            dsMessage = ChatUtil.getDsFormatedMessage(authorName, message, pais);
-            mcMessage = ChatUtil.getMcFormatedMessage(authorName, message, pais);
-        }
-        
+        String authorName = event.getAuthor().getName();     
         List<Attachment> attachments = event.getMessage().getAttachments();
 
-        for (Attachment attachment : attachments) {
-            if (attachment.isImage()) mcMessage += " " + lang.getString("mc-image");
-            else if (attachment.isVideo()) mcMessage += " " + lang.getString("mc-video");
-            else if (attachment.isSpoiler()) mcMessage += " " + lang.getString("mc-spoiler");
-            else mcMessage += " " + lang.getString("mc-file");
-            dsMessage += " " + attachment.getUrl();
-        }
-
         if (isGlobalChat) {
-            GlobalChatService.broadcastChat(dsMessage, mcMessage, channelId);
+            if (player != null) GlobalChatService.broadcastDsChat(player, message, pais, channelId, attachments);
+            else GlobalChatService.broadcastDsChat(authorName, message, pais, channelId, attachments);
             return;
         }
 
-        CountryChatService.sendChat(mcMessage, pais);
+        if (player != null) CountryChatService.sendMcChat(player, message, pais, attachments);
+        else CountryChatService.sendMcChat(authorName, message, pais, attachments);
     }
 }

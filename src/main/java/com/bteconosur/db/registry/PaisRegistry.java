@@ -11,6 +11,8 @@ import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.model.Division;
@@ -30,7 +32,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
 
     public PaisRegistry() {
         super();
-        ConsoleLogger.info(lang.getString("pais-registry-initializing"));
+        ConsoleLogger.info(LanguageHandler.getText("pais-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<Pais> paises = dbManager.selectAll(Pais.class);
         if (paises != null) for (Pais p : paises) loadedObjects.put(p.getId(), p);
@@ -229,7 +231,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
         for (Division division : getDivisions(pais)) { // Capaz no hace falta mapaear esto.
             if (division.getNombre().equalsIgnoreCase("default")) return division;
         }
-        ConsoleLogger.warn("No se encontró la ciudad Default para el país: " + pais.getNombre());
+        ConsoleLogger.warn(LanguageHandler.replaceMC("pais-division-default-not-found", Language.getDefault(), pais));
         return null;
     }
     //TODO: right click mensaje can build 
@@ -300,7 +302,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
     }
 
     public void shutdown() {
-        ConsoleLogger.info(lang.getString("pais-registry-shutting-down"));
+        ConsoleLogger.info(LanguageHandler.getText("pais-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }

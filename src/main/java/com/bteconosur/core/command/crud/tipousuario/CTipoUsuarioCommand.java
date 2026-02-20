@@ -1,31 +1,30 @@
 package com.bteconosur.core.command.crud.tipousuario;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.TipoUsuario;
 
 public class CTipoUsuarioCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
     private final DBManager dbManager;
 
     public CTipoUsuarioCommand() {
-        super("create", "Crear un nuevo TipoUsuario.", "<nombre> <cant_proyec_sim> <descripcion>", CommandMode.BOTH);
-
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
+        super("create", "Crear un nuevo Tipo de Usuario.", "<nombre> <cant_proyec_sim> <descripcion>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
+        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer.getLanguage();
         if (args.length < 3) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
@@ -34,7 +33,7 @@ public class CTipoUsuarioCommand extends BaseCommand {
         Integer cantProyecSim;
         
         if (nombre.length() > 20) {
-            String message = lang.getString("crud-not-valid-name").replace("%entity%", "TipoUsuario").replace("%name%", nombre).replace("%reason%", "Máximo 20 caracteres.");
+            String message = LanguageHandler.getText(language, "crud.not-valid-name").replace("%entity%", "Tipo de Usuario").replace("%name%", nombre).replace("%reason%", "Máximo 20 caracteres.");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -42,7 +41,7 @@ public class CTipoUsuarioCommand extends BaseCommand {
         try {
             cantProyecSim = Integer.parseInt(args[1]);
         } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-parse").replace("%entity%", "cant_proyec_sim").replace("%value%", args[1]).replace("%type%", "Integer");
+            String message = LanguageHandler.getText(language, "crud.not-valid-parse").replace("%entity%", "cant_proyec_sim").replace("%value%", args[1]).replace("%type%", "Integer");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -55,7 +54,7 @@ public class CTipoUsuarioCommand extends BaseCommand {
         String descripcion = descripcionBuilder.toString();
 
         if (descripcion.length() > 500) {
-            String message = lang.getString("crud-not-valid-name").replace("%entity%", "TipoUsuario").replace("%name%", descripcion).replace("%reason%", "Máximo 500 caracteres.");
+            String message = LanguageHandler.getText(language, "crud.not-valid-description").replace("%entity%", "Tipo de Usuario").replace("%name%", descripcion).replace("%reason%", "Máximo 500 caracteres.");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -63,7 +62,7 @@ public class CTipoUsuarioCommand extends BaseCommand {
         TipoUsuario tipoUsuario = new TipoUsuario(nombre, descripcion, cantProyecSim);
         dbManager.save(tipoUsuario);
 
-        String message = lang.getString("crud-create").replace("%entity%", "TipoUsuario");
+        String message = LanguageHandler.getText(language, "crud.create").replace("%entity%", "Tipo de Usuario");
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }

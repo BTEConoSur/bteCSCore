@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
@@ -37,7 +38,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
 
     public InteractionRegistry() {
         super();
-        ConsoleLogger.info(lang.getString("interaction-registry-initializing"));
+        ConsoleLogger.info(LanguageHandler.getText("interaction-registry-initializing"));
         loadedObjects = new ConcurrentHashMap<>();
         List<Interaction> interactions = dbManager.selectAll(Interaction.class);
         if (interactions != null) {
@@ -59,9 +60,9 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             BTEConoSur.getInstance().getServer().getScheduler().runTaskTimer(BTEConoSur.getInstance(), () -> {
                 purgeExpired();
             }, periodTicks, periodTicks);
-            ConsoleLogger.info("Tarea de purga de interacciones programada cada " + expirationMinutes + " minutos.");
+            ConsoleLogger.info(LanguageHandler.getText("ds-purge-scheduled").replace("%minutes%", String.valueOf(expirationMinutes)));
         } catch (Exception e) {
-            ConsoleLogger.warn("No se pudo programar la purga periódica de interacciones: " + e.getMessage());
+            ConsoleLogger.warn(LanguageHandler.getText("ds-purge-failed") + e.getMessage());
         }
     }
 
@@ -74,7 +75,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
 
     @Override
     public void shutdown() {
-        ConsoleLogger.info(lang.getString("interaction-registry-shutting-down"));
+        ConsoleLogger.info(LanguageHandler.getText("interaction-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }

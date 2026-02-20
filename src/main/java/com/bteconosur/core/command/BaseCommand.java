@@ -2,7 +2,10 @@ package com.bteconosur.core.command;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.db.registry.PlayerRegistry;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -37,7 +40,6 @@ public abstract class BaseCommand extends Command {
 
     private HashMap<UUID, Long> timeCooldowns = new HashMap<>();
 
-    private final YamlConfiguration lang;
     private final YamlConfiguration config;
 
     public BaseCommand(String command, String description, String args) {
@@ -56,7 +58,6 @@ public abstract class BaseCommand extends Command {
         super(command);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
         config = configHandler.getConfig();
 
         this.command = command;
@@ -70,19 +71,23 @@ public abstract class BaseCommand extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
+        Language language = Language.getDefault();
         if (!isAllowedSender(sender)) {
-            if (commandMode == CommandMode.PLAYER_ONLY && !(sender instanceof Player)) PlayerLogger.error(sender, lang.getString("player-only-command"), (String) null);
-            else if (commandMode == CommandMode.CONSOLE_ONLY && sender instanceof Player) PlayerLogger.error(sender, lang.getString("console-only-command"), (String) null);
+            if (commandMode == CommandMode.PLAYER_ONLY && !(sender instanceof Player)) PlayerLogger.error(sender, LanguageHandler.getText("player-only-command"), (String) null);
+            else if (commandMode == CommandMode.CONSOLE_ONLY && sender instanceof Player) {
+                language = PlayerRegistry.getInstance().get(sender).getLanguage();
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "console-only-command"), (String) null);
+            }
             return false;
         };
-
+        
         if (permission != null && !sender.hasPermission(permission)) {
-            PlayerLogger.error(sender, lang.getString("no-permission"), (String) null);
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "no-permission"), (String) null);
             return false;
         }
 
         if (!customPermissionCheck(sender)) {
-            PlayerLogger.error(sender, lang.getString("no-permission"), (String) null);
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "no-permission"), (String) null);
             return false;
         }
 
@@ -156,6 +161,7 @@ public abstract class BaseCommand extends Command {
 
     private boolean checkCooldown(CommandSender sender) {
         if (sender instanceof Player player) {
+            Language language = PlayerRegistry.getInstance().get(sender).getLanguage();
             UUID playerUUID = player.getUniqueId();
             if (timeCooldowns.containsKey(playerUUID)) {
                 String configPath = fullCommand.replace(" ", ".");
@@ -165,8 +171,8 @@ public abstract class BaseCommand extends Command {
                 Long actualCooldown = System.currentTimeMillis() - playerCooldown;
                 if (actualCooldown < (cooldown * 1000)) {
                     long remainingMillis = cooldown * 1000 - actualCooldown;
-                    String formattedTime = formatTime(remainingMillis);
-                    String message = lang.getString("command-on-cooldown")
+                    String formattedTime = formatTime(remainingMillis, language);
+                    String message = LanguageHandler.getText(language, "command-on-cooldown")
                             .replace("%time%", formattedTime);
                     PlayerLogger.warn(sender, message, (String) null);
                     return false; 
@@ -180,15 +186,15 @@ public abstract class BaseCommand extends Command {
         return true;
     }
 
-    private String formatTime(long millis) {
-        long seconds = millis / 1000;
+    private String formatTime(long millis, Language language) {
+        double seconds = millis / 1000.0;
         
         if (seconds < 60) {
-            return seconds + " segundo(s)";
+            return String.format(LanguageHandler.getText(language, "command-cooldown-second-format"), seconds);
         } else {
-            long minutes = seconds / 60;
-            long remainingSeconds = seconds % 60;
-            return minutes + " minuto(s) " + remainingSeconds + " segundo(s)";
+            long minutes = (long) (seconds / 60);
+            double remainingSeconds = seconds % 60;
+            return String.format(LanguageHandler.getText(language, "command-cooldown-minute-format"), minutes, remainingSeconds);
         }
     }
 

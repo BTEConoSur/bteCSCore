@@ -3,13 +3,13 @@ package com.bteconosur.core.command.manager;
 import java.util.Set;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
@@ -19,25 +19,20 @@ import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 
-import net.dv8tion.jda.api.entities.MessageEmbed;
-
 public class ManagerNameCommand extends BaseCommand {
-
-    private final YamlConfiguration lang;
 
     public ManagerNameCommand() {
         super("name", "Cambiar el nombre de un proyecto del país.", "<id_proyecto> <nuevo_nombre>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
-        ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        Language language = commandPlayer.getLanguage();
         PermissionManager permissionManager = PermissionManager.getInstance();
         if (args.length != 2) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(commandPlayer, message, (String) null);
             return true;
         }
@@ -46,31 +41,31 @@ public class ManagerNameCommand extends BaseCommand {
         String proyectoId = args[0];
         Proyecto targetProyecto = proyectoRegistry.get(proyectoId);
         if (targetProyecto == null) {
-            PlayerLogger.warn(commandPlayer, lang.getString("no-project-found-with-id").replace("%proyectoId%", proyectoId), (String) null);   
+            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.not-found-id", language, targetProyecto), (String) null);   
             return true;
         }
         Pais pais = targetProyecto.getPais();
         if (!permissionManager.isManager(commandPlayer, pais)) {
-            PlayerLogger.warn(commandPlayer, lang.getString("not-a-manager-country").replace("%pais%", pais.getNombrePublico()), (String) null);   
+            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
             return true;
         }
 
         String nombre = args[1];
         if (nombre.length() > 50) {
-            PlayerLogger.error(commandPlayer, lang.getString("invalid-project-name"), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-name"), (String) null);
             return true;
         }
 
         ProjectManager projectManager = ProjectManager.getInstance();
         targetProyecto.setNombre(nombre);
-        proyectoRegistry.merge(targetProyecto.getId());
-        PlayerLogger.info(commandPlayer, lang.getString("project-name-updated").replace("%proyectoId%", targetProyecto.getId()).replace("%nombre%", nombre), (String) null);
+        targetProyecto = proyectoRegistry.merge(targetProyecto.getId());
+        PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.update.name.success", language, commandPlayer, targetProyecto), (String) null);
         Set<Player> miembros = projectManager.getMembers(targetProyecto);
         miembros.add(projectManager.getLider(targetProyecto));
-        String notification = lang.getString("project-name-updated-member").replace("%proyectoId%", targetProyecto.getId()).replace("%nombre%", nombre);
-        MessageEmbed embed = ChatUtil.getDsProjectNameUpdated(targetProyecto.getId(), nombre);
-        for (Player miembro : miembros) PlayerLogger.info(miembro, notification, embed);
-        String countryLog = lang.getString("project-name-update-log").replace("%proyectoId%", targetProyecto.getId()).replace("%proyectoNombre%", nombre).replace("%lider%", commandPlayer.getNombre());
+        for (Player miembro : miembros) 
+            PlayerLogger.info(miembro, LanguageHandler.replaceMC("project.update.name.for-member", miembro.getLanguage(), targetProyecto), 
+                ChatUtil.getDsProjectNameUpdated(targetProyecto, nombre, miembro.getLanguage()));
+        String countryLog = LanguageHandler.replaceDS("project.update.name.log", language, commandPlayer, targetProyecto);   
         DiscordLogger.countryLog(countryLog, pais);
         return true;
     }

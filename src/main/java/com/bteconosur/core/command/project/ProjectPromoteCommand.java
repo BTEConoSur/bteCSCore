@@ -3,29 +3,29 @@ package com.bteconosur.core.command.project;
 import java.util.UUID;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
-import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.project.ProjectPromoteMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 
 public class ProjectPromoteCommand extends BaseCommand {
-    private final YamlConfiguration lang;
 
-    public ProjectPromoteCommand() {
+    public ProjectPromoteCommand() { // TODO: Ponerlo en comando reviewer.
         super("promote", "Cambiar el Tipo de Usuario de un jugador.", "<nombre>|<uuid>", "btecs.command.project.promote", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
-        lang = ConfigHandler.getInstance().getLang();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(sender);
+        Language language = commandPlayer.getLanguage();
         if (args.length != 1) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand());
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
@@ -42,13 +42,12 @@ public class ProjectPromoteCommand extends BaseCommand {
         }
 
         if (targetPlayer == null) {
-            String message = lang.getString("player-not-registered").replace("%player%", args[0]);
+            String message = LanguageHandler.getText(language, "player-not-registered").replace("%player%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
-        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
-        String title = lang.getString("gui-titles.project-promote").replace("%player%", targetPlayer.getNombre());
+        String title = LanguageHandler.replaceMC("gui-titles.project-promote", language, targetPlayer);
         ProjectPromoteMenu menu = new ProjectPromoteMenu(commandPlayer, title);
         menu.setBTECSPlayer(targetPlayer);
         menu.open();

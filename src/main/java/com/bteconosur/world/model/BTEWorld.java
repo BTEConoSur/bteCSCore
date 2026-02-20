@@ -16,6 +16,8 @@ import org.bukkit.World;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.RegionUtils;
@@ -36,19 +38,18 @@ public class BTEWorld {
     private HashMap<UUID, LabelWorld> lastLabelWorld = new HashMap<>();
     private boolean isValid = false;
 
-    private final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     private final MultiverseCoreApi multiverseApi = BTEConoSur.getMultiverseCoreApi();
   
     public BTEWorld() {
 
-        ConsoleLogger.info(lang.getString("bte-world-loading"));
+        ConsoleLogger.info(LanguageHandler.getText("bte-world-loading"));
         capaBaja = new CapaBaja(config.getString("layers.capa_baja.name"), config.getString("layers.capa_baja.display-name"), config.getInt("layers.capa_baja.offset"));
         capaAlta = new CapaAlta(config.getString("layers.capa_alta.name"), config.getString("layers.capa_alta.display-name"), config.getInt("layers.capa_alta.offset"));
 
         loadWorld();
-        if (!isValid) ConsoleLogger.error("El mundo de BTE es inválido.");
+        if (!isValid) ConsoleLogger.error(LanguageHandler.getText("invalid-bte-world"));
     }
 
     private void loadWorld() {
@@ -61,7 +62,7 @@ public class BTEWorld {
             if (lw instanceof CapaAlta) {
                 if (capaAlta.getRegions().isEmpty() || capaAlta.getRegions() == null) {
                     ok = false;
-                    ConsoleLogger.error("La Capa Alta no tiene regiones definidas.");
+                    ConsoleLogger.error(LanguageHandler.getText("capa-alta-no-regions"));
                     break;
                 }
             }
@@ -96,6 +97,7 @@ public class BTEWorld {
     public void checkLayerMove(Location lFrom, Location lTo, Player player) {
         LabelWorld currentlw = getLabelWorld(lTo.getX(), lTo.getZ());
         UUID pUuid = player.getUniqueId();
+        Language language = com.bteconosur.db.model.Player.getBTECSPlayer(player).getLanguage();
         if (isValidLocation(lTo) == false) return;
         LabelWorld lastlw = lastLabelWorld.get(pUuid);
 
@@ -131,8 +133,8 @@ public class BTEWorld {
                         playerTasks.remove(pUuid);
                         return;
                     }
-                    String titleText = lang.getString("teleport-layer-title").replace("%destination%", destination.getDisplayName());
-                    String subtitleText = lang.getString("teleport-layer-subtitle").replace("%seconds%", String.valueOf(tpCooldownSeconds - elapsedSeconds));
+                    String titleText = LanguageHandler.getText(language, "teleport-layer-title").replace("%destination%", destination.getDisplayName());
+                    String subtitleText = LanguageHandler.getText(language, "teleport-layer-subtitle").replace("%seconds%", String.valueOf(tpCooldownSeconds - elapsedSeconds));
                     Audience audience = player;
                     audience.showTitle(
                         Title.title(MiniMessage.miniMessage().deserialize(titleText), 
@@ -150,7 +152,7 @@ public class BTEWorld {
     public boolean checkPaisMove(Location fromLocation, Location toLocation, Player player) {
         Pais paisFrom = PaisRegistry.getInstance().findByLocation(fromLocation.getX(), fromLocation.getZ());
         if (paisFrom == null) {
-            PlayerLogger.warn(com.bteconosur.db.model.Player.getBTECSPlayer(player), lang.getString("not-limbo"), (String) null);
+            PlayerLogger.warn(com.bteconosur.db.model.Player.getBTECSPlayer(player), LanguageHandler.getText(com.bteconosur.db.model.Player.getBTECSPlayer(player).getLanguage(), "not-limbo"), (String) null);
             player.teleport(multiverseApi.getWorldManager().getLoadedWorld("lobby").get().getSpawnLocation());
             return true;
         };

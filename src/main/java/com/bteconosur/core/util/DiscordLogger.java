@@ -6,6 +6,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
@@ -21,7 +23,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 public class DiscordLogger {
 
     public static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
-    public static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
+    public static final YamlConfiguration secret = ConfigHandler.getInstance().getSecret();
 
     private static boolean enableStaffConsoleLog = false;
 
@@ -44,20 +46,19 @@ public class DiscordLogger {
 
     public static void staffLog(String message) {
         if (!config.getBoolean("discord-staff-log")) return;
-        MessageService.sendMessage(config.getLong("discord-staff-log-id"), message);
+        MessageService.sendMessage(secret.getLong("discord-staff-log-id"), message);
     }
 
     private static void staffLog(String message, Pais pais) {
         if (!config.getBoolean("discord-staff-log")) return;
-        String prefix = lang.getString("ds-prefixes.pais-logo." + pais.getNombre());
-        String formattedMessage = lang.getString("ds-staff-country-log").replace("%dsPais%", prefix).replace("%message%", message);
-        MessageService.sendMessage(config.getLong("discord-staff-log-id"), formattedMessage);
+        String formattedMessage = LanguageHandler.replaceMC("ds-staff-country-log", Language.getDefault(), pais).replace("%message%", message);
+        MessageService.sendMessage(secret.getLong("discord-staff-log-id"), formattedMessage);
     }
 
     public static void staffConsoleLog(MessageEmbed embed) {
         if (!enableStaffConsoleLog) return;
         if (!config.getBoolean("discord-staff-console-log")) return;
-        MessageService.sendEmbed(config.getLong("discord-staff-console-log-id"), embed);
+        MessageService.sendEmbed(secret.getLong("discord-staff-console-log-id"), embed);
     }
 
     public static void notifyManagers(String mcMessage, String dsMessage, Pais pais, TagResolver... extraResolvers) {
@@ -67,9 +68,9 @@ public class DiscordLogger {
             if (user == null) {
                 ConsoleLogger.warn("El Manager '" + manager.getNombre() + "' no tiene la cuenta de Discord enlazada.");
                 continue;
-            };
+            }
             String dsFormat = null;
-            if (manager.getConfiguration().getManagerDsNotifications()) dsFormat = lang.getString("ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
+            if (manager.getConfiguration().getManagerDsNotifications()) dsFormat = LanguageHandler.getText(manager.getLanguage(), "ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
             PlayerLogger.info(manager, mcMessage, dsFormat, extraResolvers);
         }
     }
@@ -84,7 +85,7 @@ public class DiscordLogger {
                 continue;
             };
             String dsFormat = null;
-            if (reviewer.getConfiguration().getReviewerDsNotifications()) dsFormat = lang.getString("ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
+            if (reviewer.getConfiguration().getReviewerDsNotifications()) dsFormat = LanguageHandler.getText(reviewer.getLanguage(), "ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
             PlayerLogger.info(reviewer, mcMessage, dsFormat, extraResolvers);
         }
         notifyManagers(mcMessage, dsMessage, pais, extraResolvers);
@@ -93,18 +94,18 @@ public class DiscordLogger {
     public static void notifyDevs(String message) {
         if (!enableStaffConsoleLog) return;
         if (!config.getBoolean("discord-staff-console-log")) return;
-        Guild guild = BTEConoSur.getDiscordManager().getJda().getGuildById(config.getLong("discord-staff-guild-id")); 
+        Guild guild = BTEConoSur.getDiscordManager().getJda().getGuildById(secret.getLong("discord-staff-guild-id")); 
         if (guild == null) {
             ConsoleLogger.warn("No se ha podido encontrar el Staff Hub en Discord.");
             return;
         }
-        Role devRole = guild.getRoleById(config.getLong("discord-dev-role-id"));
+        Role devRole = guild.getRoleById(secret.getLong("discord-dev-role-id"));
         if (devRole == null) {
             ConsoleLogger.warn("No se ha podido encontrar el rol de developers en el Staff Hub.");
             return;
         }
-        String dsMessage = lang.getString("ds-dev-notification").replace("%mention%", devRole.getAsMention()).replace("%message%", message);
-        MessageService.sendMessage(config.getLong("discord-staff-console-log-id"), dsMessage);
+        String dsMessage = LanguageHandler.getText("ds-dev-notification").replace("%mention%", devRole.getAsMention()).replace("%message%", message);
+        MessageService.sendMessage(secret.getLong("discord-staff-console-log-id"), dsMessage);
     }
 
     public static void toggleStaffConsoleLog() {

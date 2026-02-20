@@ -32,7 +32,7 @@ import com.google.gson.JsonObject;
 
 public class GeoJsonUtils {
 
-    private static final YamlConfiguration lang = ConfigHandler.getInstance().getLang();
+    private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
     private static final BTEConoSur plugin = BTEConoSur.getInstance();
 
     public static String polygonToGeoJson(Polygon polygon, String fillColor, String strokeColor) {
@@ -80,10 +80,10 @@ public class GeoJsonUtils {
             
             ObjectNode properties = mapper.createObjectNode();
             properties.put("stroke", strokeColor);
-            properties.put("stroke-width", lang.getInt("map.border-width"));
-            properties.put("stroke-opacity", lang.getDouble("map.border-opacity"));
+            properties.put("stroke-width", config.getInt("map.border-width"));
+            properties.put("stroke-opacity", config.getDouble("map.border-opacity"));
             properties.put("fill", fillColor);
-            properties.put("fill-opacity", lang.getDouble("map.fill-opacity"));
+            properties.put("fill-opacity", config.getDouble("map.fill-opacity"));
             feature.set("properties", properties);
             
             return mapper.writeValueAsString(feature);

@@ -11,29 +11,34 @@ import java.nio.file.Path;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.GeoJsonUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.RegionPais;
 
 public class TestRegionPaisGeojsonCommand extends BaseCommand {
 
-    private final YamlConfiguration lang;
+    private final YamlConfiguration config;
     private final DBManager dbManager;
     private final BTEConoSur plugin;
 
     public TestRegionPaisGeojsonCommand() {
         super("regionpaisgeojson", "Imprimir GeoJSON de una región por ID.", "<id_region>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
-        lang = configHandler.getLang();
+        config = configHandler.getConfig();
         dbManager = DBManager.getInstance();
         plugin = BTEConoSur.getInstance();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
+        Player player = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = player.getLanguage();
         if (args.length != 1) {
-            String message = lang.getString("help-command-usage").replace("%command%", getFullCommand().replace(" " + command, ""));
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
@@ -42,13 +47,13 @@ public class TestRegionPaisGeojsonCommand extends BaseCommand {
         try {
             regionId = Long.parseLong(args[0]);
         } catch (NumberFormatException ex) {
-            String message = lang.getString("crud-not-valid-id").replace("%entity%", "RegionPais").replace("%id%", args[0]);
+            String message = LanguageHandler.getText(language, "crud.not-valid-id").replace("%entity%", "RegionPais").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
 
         if (!dbManager.exists(RegionPais.class, regionId)) {
-            String message = lang.getString("crud-read-not-found").replace("%entity%", "RegionPais").replace("%id%", args[0]);
+            String message = LanguageHandler.getText(language, "crud.read-not-found").replace("%entity%", "RegionPais").replace("%id%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -56,12 +61,12 @@ public class TestRegionPaisGeojsonCommand extends BaseCommand {
         RegionPais region = dbManager.get(RegionPais.class, regionId);
         Polygon polygon = region.getPoligono();
         if (polygon == null) {
-            PlayerLogger.error(sender, "La región no tiene polígono asociado.", (String) null);
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "crud.not-valid-region"), (String) null);
             return true;
         }
 
-        String borderColor = lang.getString("map.project.border-color");
-        String fillColor = lang.getString("map.project.fill-color");
+        String borderColor = config.getString("map.project.border-color");
+        String fillColor = config.getString("map.project.fill-color");
         String geoJson = GeoJsonUtils.polygonToGeoJson(polygon, fillColor, borderColor);
 
         try {
