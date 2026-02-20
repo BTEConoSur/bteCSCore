@@ -62,7 +62,7 @@ public class ProjectJoinCommand extends BaseCommand {
             }
             Set<Proyecto> roomProyectos = pr.getWithRoom(proyectos);
             if (roomProyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-with-room-here"), (String) null);
+                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-with-room-here"), (String) null);
                 return true;
             }
             Set<Proyecto> activeProyectos = pr.getActiveOrEditando(roomProyectos);

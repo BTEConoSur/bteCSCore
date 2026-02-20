@@ -82,6 +82,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
 
     public void purgeExpired() {
         ProjectManager pm = ProjectManager.getInstance();
+        ConsoleLogger.debug("Purgando interacciones.");
         for (Interaction interaction : loadedObjects.values()) {
             if (interaction.isExpired()) {
                 if (interaction.getInteractionKey() == InteractionKey.CREATE_PROJECT) pm.expiredCreateRequest(interaction.getProjectId(), interaction.getId());
@@ -114,7 +115,14 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         if (interaction.getInteractionKey() == InteractionKey.JOIN_PROJECT && interaction.getMessageId() != null) {
             Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());
             Player player = ProjectManager.getInstance().getLider(proyecto);
-            MessageService.deleteDMMessage(player.getDsIdUsuario(), interaction.getMessageId());
+            if (player != null) MessageService.deleteDMMessage(player.getDsIdUsuario(), interaction.getMessageId());
+            else {
+                Long liderDsId = (Long) interaction.getPayloadValue("liderDsId");
+                if (liderDsId != null) {
+                    MessageService.deleteDMMessage(liderDsId, interaction.getMessageId());
+                }
+            }
+            
         }
         if (interaction.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) {
             Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());

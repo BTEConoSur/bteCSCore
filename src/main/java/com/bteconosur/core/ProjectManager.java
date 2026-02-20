@@ -244,7 +244,7 @@ public class ProjectManager {
             return;
         }
         ProjectRequestService.sendProjectJoinRequest(proyecto, player);
-        PlayerLogger.info(player, LanguageHandler.replaceMC("project.join.success", player.getLanguage(), proyecto), (String) null);
+        PlayerLogger.info(player, LanguageHandler.replaceMC("project.join.request.success", player.getLanguage(), proyecto), (String) null);
         String countryLog = LanguageHandler.replaceDS("project.join.request.log", Language.getDefault(), player, proyecto);
         DiscordLogger.countryLog(countryLog, pais);
     }
@@ -262,9 +262,12 @@ public class ProjectManager {
         cancelJoinRequest(proyectoId, playerId);
         Pais pais = proyecto.getPais();
         String message = LanguageHandler.replaceMC("project.join.request.expired", player.getLanguage(), proyecto);
-        String messageLider = LanguageHandler.replaceMC("project.join.request.expired-lider", getLider(proyecto).getLanguage(), player, proyecto);
         PlayerLogger.info(player, message, ChatUtil.getDsMemberJoinRequestExpired(proyecto, player.getLanguage()));
-        PlayerLogger.info(getLider(proyecto), messageLider, ChatUtil.getDsMemberJoinRequestExpiredLider(proyecto, player, player.getLanguage()));
+        Player lider = getLider(proyecto);
+        if (lider != null) {
+            String messageLider = LanguageHandler.replaceMC("project.join.request.expired-lider", lider.getLanguage(), player, proyecto);
+            PlayerLogger.info(lider, messageLider, ChatUtil.getDsMemberJoinRequestExpiredLider(proyecto, player, player.getLanguage()));
+        }
         String countryLog = LanguageHandler.replaceDS("project.join.request.expired-log", Language.getDefault(), player, proyecto);
         DiscordLogger.countryLog(countryLog, pais);
     }
@@ -276,7 +279,9 @@ public class ProjectManager {
         Player player = PlayerRegistry.getInstance().get(playerId);
         Player commandPlayer = PlayerRegistry.getInstance().get(commandId);
         String message = LanguageHandler.replaceMC("project.join.accept.for-member", player.getLanguage(), proyecto);
-        PlayerLogger.info(player, message, ChatUtil.getDsMemberJoinRequestAccepted(proyecto, player.getLanguage()));
+        if (!commandPlayer.equals(player)) {
+            PlayerLogger.info(player, message, ChatUtil.getDsMemberJoinRequestAccepted(proyecto, player.getLanguage()));
+        }
         String countryLog = LanguageHandler.replaceDS("project.join.accept.log", Language.getDefault(), commandPlayer, player);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), proyecto);
         DiscordLogger.countryLog(countryLog, pais);
@@ -290,7 +295,9 @@ public class ProjectManager {
         Player player = PlayerRegistry.getInstance().get(playerId);
         Player commandPlayer = PlayerRegistry.getInstance().get(commandId);
         String message = LanguageHandler.replaceMC("project.join.reject.for-member", player.getLanguage(), proyecto);
-        PlayerLogger.info(player, message, ChatUtil.getDsMemberJoinRequestRejected(proyecto, player.getLanguage()));
+        if (!commandPlayer.equals(player)) {
+            PlayerLogger.info(player, message, ChatUtil.getDsMemberJoinRequestRejected(proyecto, player.getLanguage()));
+        }
         String countryLog = LanguageHandler.replaceDS("project.join.reject.log", Language.getDefault(), commandPlayer, player);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), proyecto);
         DiscordLogger.countryLog(countryLog, pais);
@@ -614,9 +621,9 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
 
         for (Player member : members) {
-            PlayerLogger.info(member, LanguageHandler.replaceMC("project.redefine.request.accept.for-member", member.getLanguage(), proyecto), ChatUtil.getDsProjectRedefineAccepted(proyecto, comentario, member.getLanguage()));
+            PlayerLogger.info(member, LanguageHandler.replaceMC("project.redefine.accept.for-member", member.getLanguage(), proyecto), ChatUtil.getDsProjectRedefineAccepted(proyecto, comentario, member.getLanguage()));
             if (comentario != null && !comentario.isBlank()) {
-                PlayerLogger.info(member, LanguageHandler.getText(member.getLanguage(), "project.redefine.request.accept.comment").replace("%comentario%", comentario), (String) null);
+                PlayerLogger.info(member, LanguageHandler.getText(member.getLanguage(), "project.redefine.accept.comment").replace("%comentario%", comentario), (String) null);
             }
         }
     }
@@ -637,9 +644,9 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
 
         for (Player member : members) {
-            PlayerLogger.info(member, LanguageHandler.replaceMC("project.redefine.request.reject.for-member", member.getLanguage(), proyecto), ChatUtil.getDsProjectRedefineRejected(proyecto, comentario, member.getLanguage()));
+            PlayerLogger.info(member, LanguageHandler.replaceMC("project.redefine.reject.for-member", member.getLanguage(), proyecto), ChatUtil.getDsProjectRedefineRejected(proyecto, comentario, member.getLanguage()));
             if (comentario != null && !comentario.isBlank()) {
-                PlayerLogger.info(member, LanguageHandler.getText(member.getLanguage(), "project.redefine.request.reject.comment").replace("%comentario%", comentario), (String) null);
+                PlayerLogger.info(member, LanguageHandler.getText(member.getLanguage(), "project.redefine.reject.comment").replace("%comentario%", comentario), (String) null);
             }
         }
     }
@@ -711,7 +718,7 @@ public class ProjectManager {
 
     public void expiredFinishEditRequest(String proyectoId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
-        cancelFinishEditRequest(proyecto, Estado.COMPLETADO);
+        cancelFinishEditRequest(proyecto, Estado.EDITANDO);
 
         Player lider = getLider(proyecto);
         Set<Player> members = getMembers(proyecto);

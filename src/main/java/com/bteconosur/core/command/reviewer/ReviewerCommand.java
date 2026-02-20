@@ -17,6 +17,7 @@ public class ReviewerCommand extends BaseCommand {
         super("reviewer", "Comando para Reviewer de los proyectos.", null, "btecs.command.reviewer", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new ReviewerConfigCommand());
         this.addSubcommand(new ReviewerReviewCommand());
+        this.addSubcommand(new ProjectPromoteCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

@@ -244,7 +244,7 @@ public class ChatUtil {
     }
 
     public static MessageEmbed getDsProjectFinishRequestExpired(Proyecto proyecto, Language language) {
-        return buildDMNotification("project-finish-request-expired", proyecto, language, null);
+        return buildDMNotification("project-finish-expired", proyecto, language, null);
     }
 
     public static MessageEmbed getDsProjectFinishRequested(Proyecto proyecto, Player requester, Language language) {
@@ -268,11 +268,11 @@ public class ChatUtil {
     }
 
     public static MessageEmbed getDsMemberJoinRequestExpired(Proyecto proyecto, Language language) {
-        return buildDMNotification("project-member-join-request-expired", proyecto, language, null);
+        return buildDMNotification("project-join-request-expired", proyecto, language, null);
     }
 
     public static MessageEmbed getDsMemberJoinRequestExpiredLider(Proyecto proyecto, Player requester, Language language) {
-        return buildDMNotification("project-member-join-request-expired-lider", proyecto, requester, language, null);
+        return buildDMNotification("project-join-request-expired-lider", proyecto, requester, language, null);
     }
     
     public static MessageEmbed getDsMemberJoinRequestRejected(Proyecto proyecto, Language language) {
@@ -420,7 +420,7 @@ public class ChatUtil {
         EmbedBuilder eb = new EmbedBuilder().setTitle(title);
         if (pr.hasCollisions(proyecto.getId(), newPolygon)) eb.appendDescription("\n" + LanguageHandler.getText("ds-embeds.project-redefine-requested.has-collisions"));
 
-        String footer = LanguageHandler.getText("ds-embeds.project-redefine-requested.footer") + " " + DateUtils.formatDateHour(expiredDate, Language.getDefault());
+        String footer = LanguageHandler.getText("ds-embeds.project-redefine-requested.footer").replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expiredDate, Language.getDefault()));
         eb.addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.tipo-proyecto"), proyecto.getTipoProyecto().getNombre(), true)
             .addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.max-miembros"), String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
             .addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.tamaño"), String.valueOf(polygon.getArea()), true)

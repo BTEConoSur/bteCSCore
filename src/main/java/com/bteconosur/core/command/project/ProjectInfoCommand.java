@@ -53,6 +53,7 @@ public class ProjectInfoCommand extends BaseCommand {
             if (proyectos.size() > 1) {
                 projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.replaceMC("gui-titles.proyectos-here-list", language, proyectoFinal), proyectos, (proyecto, event) -> {
                     projectInfoMenu = new ProjectInfoMenu(commandPlayer, proyecto, LanguageHandler.replaceMC("gui-titles.project-info", language, proyecto));
+                    projectInfoMenu.open();
                 });
                 projectListMenu.open();
                 return true;

@@ -25,13 +25,13 @@ public class ProjectPromoteMenu extends Menu {
     private Language language;
 
     public ProjectPromoteMenu(Player player, String title) {
-        super(title, 4, player);
+        super(title, 3, player);
         this.BTECSPlayer = player;
         this.language = player.getLanguage();
     }
 
     public ProjectPromoteMenu(Player player, Menu previousMenu, String title) {
-        super(title, 4, player, previousMenu);
+        super(title, 3, player, previousMenu);
         this.BTECSPlayer = player;
         this.language = player.getLanguage();
     }
@@ -63,7 +63,7 @@ public class ProjectPromoteMenu extends Menu {
                     String message = PlaceholderUtils.replaceMC(messageSet, language, visita);
                     PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, language, BTECSPlayer), (String) null);
                 }
-                String countryLog = LanguageHandler.replaceDS("tipo.promote.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                String countryLog = LanguageHandler.replaceDS("tipo.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), visita);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
@@ -85,7 +85,7 @@ public class ProjectPromoteMenu extends Menu {
                     String message = PlaceholderUtils.replaceMC(messageSet, language, postulante);
                     PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, language, BTECSPlayer), (String) null);
                 }
-                String countryLog = LanguageHandler.replaceDS("tipo.promote.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                String countryLog = LanguageHandler.replaceDS("tipo.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), postulante);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);

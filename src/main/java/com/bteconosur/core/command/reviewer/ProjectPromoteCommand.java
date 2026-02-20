@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.project;
+package com.bteconosur.core.command.reviewer;
 
 import java.util.UUID;
 
@@ -10,6 +10,7 @@ import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.project.ProjectPromoteMenu;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 
@@ -33,6 +34,11 @@ public class ProjectPromoteCommand extends BaseCommand {
         UUID uuid;
         Player targetPlayer;
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
+
+        if (!PermissionManager.getInstance().isReviewer(commandPlayer)) {
+            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "reviewer.not-a-reviewer-country"), (String) null);
+            return true;
+        }
 
         try{
             uuid = UUID.fromString(args[0]);

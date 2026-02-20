@@ -85,7 +85,7 @@ public class MemberListMenu extends PaginatedMenu {
                         }
 
                         if (permissionManager.isPostulante(player)) {
-                            String message = LanguageHandler.getText(language, "cant-add-postulante");
+                            String message = LanguageHandler.getText(language, "project.member.add.cant-add-postulante");
                             PlayerLogger.error(BTECSPlayer, message, (String) null);
                             event.getWhoClicked().closeInventory();
                             return;

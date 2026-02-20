@@ -20,6 +20,7 @@ item-materials:
   notifications: "BELL"
   claim: "BUCKET"
   proyecto-default: "BOOK"
+  player-head: "PLAYER_HEAD"
   configs:
     general:
       global-chat-on-join:

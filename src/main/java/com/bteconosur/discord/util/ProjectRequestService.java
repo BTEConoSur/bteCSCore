@@ -152,10 +152,11 @@ public class ProjectRequestService {
         if (LinkService.isPlayerLinked(lider)) {
             BTEConoSur.getDiscordManager().getJda().retrieveUserById(lider.getDsIdUsuario()).queue(user -> {
                 user.openPrivateChannel().queue(privateChannel -> {
-                    privateChannel.sendMessageEmbeds(ChatUtil.getDsMemberJoinRequest(proyecto, player, player.getLanguage()))
-                        .addComponents(ActionRow.of(Button.success("accept", LanguageHandler.getText("ds-button-accept")), Button.danger("cancel", LanguageHandler.getText("ds-button-reject"))))
+                    privateChannel.sendMessageEmbeds(ChatUtil.getDsMemberJoinRequest(proyecto, player, lider.getLanguage()))
+                        .addComponents(ActionRow.of(Button.success("accept", LanguageHandler.getText(lider.getLanguage(), "ds-button-accept")), Button.danger("cancel", LanguageHandler.getText(lider.getLanguage(), "ds-button-reject"))))
                         .queue(message -> {
                             Interaction ctx2 = ir.findJoinRequest(proyecto.getId(), player.getUuid());
+                            ctx2.addPayloadValue("liderDsId", lider.getDsIdUsuario());
                             ctx2.setMessageId(message.getIdLong());
                             ir.merge(ctx2.getId());
                         }, error -> {

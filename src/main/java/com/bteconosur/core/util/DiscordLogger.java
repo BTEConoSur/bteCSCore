@@ -51,7 +51,7 @@ public class DiscordLogger {
 
     private static void staffLog(String message, Pais pais) {
         if (!config.getBoolean("discord-staff-log")) return;
-        String formattedMessage = LanguageHandler.replaceMC("ds-staff-country-log", Language.getDefault(), pais).replace("%message%", message);
+        String formattedMessage = LanguageHandler.replaceDS("ds-staff-country-log", Language.getDefault(), pais).replace("%message%", message);
         MessageService.sendMessage(secret.getLong("discord-staff-log-id"), formattedMessage);
     }
 

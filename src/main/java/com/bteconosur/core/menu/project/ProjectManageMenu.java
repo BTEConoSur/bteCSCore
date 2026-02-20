@@ -95,6 +95,7 @@ public class ProjectManageMenu extends Menu {
                 gui.addSlotAction(4,6, event -> {
                     if (proyecto.getEstado() == Estado.ABANDONADO) {
                         PlayerListMenu playerListMenu = new PlayerListMenu(BTECSPlayer, LanguageHandler.replaceMC("gui-titles.select-leader", language, proyecto), (player, clickEvent) -> {
+                            clickEvent.getWhoClicked().closeInventory();
                             ProjectManager.getInstance().switchLeader(proyecto.getId(), player.getUuid(), BTECSPlayer.getUuid());
                             String successMessage = LanguageHandler.replaceMC("project.leader.switch.success", language, player, proyecto);   
                             PlayerLogger.info(BTECSPlayer, successMessage, (String) null);

@@ -14,7 +14,6 @@ public class ProjectCommand extends BaseCommand {
     
     public ProjectCommand() {
         super("project", "Comando principal de los Proyectos.", null, "btecs.command.project", CommandMode.BOTH);
-        this.addSubcommand(new ProjectPromoteCommand());
         this.addSubcommand(new ProjectCreateCommand());
         this.addSubcommand(new ProjectRedefineCommand());
         this.addSubcommand(new ProjectFinishCommand());
