@@ -60,6 +60,12 @@ layers:
     display-name: "Capa Alta"
     offset: 5500
 
+min-height: -2032
+max-height: 2032
+
+wg-proyecto-prefix: "proyecto_" # Prefijo para las regiones de los proyectos en WorldGuard.
+wg-parent-proyecto: "proyectos"
+
 border-particles:
   pais-enable: true # Habilitar partículas para los bordes de los países.
   label-enable: true # Habilitar partículas para los bordes de las etiquetas.

@@ -17,6 +17,8 @@ warn-prefix: "<gold>[WARN]</gold> <yellow>"
 error-prefix: "<dark_red>[ERROR]</dark_red> <red>"
 
 btecs-reload-success: "<green>Plugin reloaded successfully.</green>"
+btecs-sync-proyectos-init: "<yellow>Synchronizing projects with WorldGuard...</yellow>"
+btecs-sync-proyectos-success: "<green>Projects synchronized successfully with WorldGuard.</green>"
 
 config-key-error: "Unrecognized key in configuration: <yellow>%key%</yellow>."
 language-key-error: "Unrecognized key in language file %language%: <yellow>%key%</yellow>."

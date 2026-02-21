@@ -1,111 +1,239 @@
 package com.bteconosur.world;
 
-import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
-import com.bteconosur.db.PermissionManager;
-import com.bteconosur.db.model.Pais;
+import com.bteconosur.core.util.PluginRegistry;
+import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
-import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
-import com.bteconosur.db.util.ChunkKey;
-import com.bteconosur.world.listener.WorldEditListener;
+import com.bteconosur.db.util.Estado;
 import com.bteconosur.world.model.BTEWorld;
 import com.bteconosur.world.model.LabelWorld;
-import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.domains.DefaultDomain;
+import com.sk89q.worldguard.protection.flags.Flag;
+import com.sk89q.worldguard.protection.flags.RegionGroup;
+import com.sk89q.worldguard.protection.flags.RegionGroupFlag;
+import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedPolygonalRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion.CircularInheritanceException;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 
+import java.io.Console;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 
 public class WorldManager {
 
     private static WorldManager instance;
 
     private BTEWorld bteWorld;
+    private RegionContainer worldGuardContainer;
+
+    private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     public WorldManager() {
 
         ConsoleLogger.info(LanguageHandler.getText("world-module-initializing"));
 
-        bteWorld = new BTEWorld();
-        WorldEdit worldEdit = BTEConoSur.getWorldEditPlugin().getWorldEdit();
-        if (worldEdit != null) {
-            worldEdit.getEventBus().register(new WorldEditListener(this));
+        try {
+            worldGuardContainer = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        } catch (Exception e) {
+            e.printStackTrace();
+            PluginRegistry.disablePlugin("WORLDGUARD_LOAD_ERROR");
         }
+        if (worldGuardContainer == null)
+            PluginRegistry.disablePlugin("WORLDGUARD_LOAD_ERROR");
+    
+        bteWorld = new BTEWorld();
     }
 
-    public boolean canBuild(Location loc, Player player) {
-        if (loc.getWorld().getName().equalsIgnoreCase("lobby")) return true; // Delego en WorldGuard
-        if (bteWorld == null || !bteWorld.isValid()) {
-            //ConsoleLogger.debug("[WorldManager] canBuild false: bteWorld null o inválido");
-            return false;
+    private RegionManager getRegionManager(Proyecto proyecto) {
+        Polygon polygon = proyecto.getPoligono();
+        Point centroid = polygon.getCentroid();
+        LabelWorld labelWorld = bteWorld.getLabelWorld(centroid.getX(), centroid.getY());
+        if (labelWorld == null) {
+            ConsoleLogger.warn("No se pudo obtener el LabelWorld para el proyecto " + proyecto.getId());
+            return null;
         }
+        return labelWorld.getRegionManager();
+    }
 
-        org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
-        if (bukkitPlayer == null) {
-            //ConsoleLogger.debug("[WorldManager] canBuild false: bukkitPlayer null");
-            return false;
+    private ProtectedRegion getRegion(Proyecto proyecto) {
+        RegionManager regionManager = getRegionManager(proyecto);
+        if (regionManager == null) return null;
+        ProtectedRegion region = regionManager.getRegion(config.getString("wg-proyecto-prefix") + proyecto.getId());
+        if (region == null) {
+            ConsoleLogger.warn("Region no encontrada: " + config.getString("wg-proyecto-prefix") + proyecto.getId());
+            return null;
         }
-        if (bukkitPlayer.hasPermission("btecs.world.bypass")) {
-            //ConsoleLogger.debug("[WorldManager] canBuild true: Permiso bypass");
-            return true;
+        return region;
+    }
+
+    public void createRegion(Proyecto proyecto) {
+        RegionManager regionContainer = getRegionManager(proyecto);
+        ProtectedPolygonalRegion region = RegionUtils.toProtectedRegion(proyecto.getPoligono(), config.getString("wg-proyecto-prefix") + proyecto.getId());
+        DefaultDomain members = region.getMembers();
+        Player lider = ProjectManager.getInstance().getLider(proyecto);
+        if (lider != null) {
+            members.addPlayer(lider.getUuid());
+            region.setMembers(members);
         }
-
-        //if (!bukkitPlayer.hasPermission("btecs.world.build") && !bukkitPlayer.hasPermission("btecs.world.select")) {
-        //   ConsoleLogger.debug("[WorldManager] canBuild false: No permiso build");
-        //    return false;
-        //}
-
-        LabelWorld lw = bteWorld.getLabelWorld(loc.getX(), loc.getZ());
-        if (lw == null) {
-            //ConsoleLogger.debug("[WorldManager] canBuild false: LabelWorld no encontrada para (" + loc.getX() + ", " + loc.getZ() + ")");
-            return false;
+        region.setPriority(1);
+        ProtectedRegion parentProject = regionContainer.getRegion(config.getString("wg-parent-proyecto"));
+        try {
+            region.setParent(parentProject);
+        } catch (CircularInheritanceException e) {
+            ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId());
+            e.printStackTrace();
         }
-        if (!bteWorld.isValidLocation(loc, lw)) {
-            //ConsoleLogger.debug("[WorldManager] canBuild false: Ubicación inválida para LabelWorld " + lw.getName());
-            return false;
+        regionContainer.addRegion(region);
+    }
+
+    public void createRegion(Proyecto proyecto, DefaultDomain members) {
+        RegionManager regionContainer = getRegionManager(proyecto);
+        ProtectedPolygonalRegion region = RegionUtils.toProtectedRegion(proyecto.getPoligono(), config.getString("wg-proyecto-prefix") + proyecto.getId());
+        region.setMembers(members);
+        ProtectedRegion parentProject = regionContainer.getRegion(config.getString("wg-parent-proyecto"));
+        try {
+            region.setParent(parentProject);
+        } catch (CircularInheritanceException e) {
+            ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId());
+            e.printStackTrace();
         }
+        regionContainer.addRegion(region);
+    }
 
-        ChunkKey chunkKey = ChunkKey.fromBlock(loc.blockX(), loc.blockZ());
-        Pais pais = PaisRegistry.getInstance().findByLocation(loc.getBlockX(), loc.getBlockZ());
-        if (pais == null) {
-            //ConsoleLogger.debug("[WorldManager] canBuild false: País no encontrado en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
-            return false;
+    public void removeRegion(Proyecto proyecto) {
+        RegionManager regionContainer = getRegionManager(proyecto);
+        regionContainer.removeRegion(config.getString("wg-proyecto-prefix") + proyecto.getId());
+    }
+
+    public void addPlayer(Proyecto proyecto, UUID playerUuid) {
+        RegionManager regionContainer = getRegionManager(proyecto);
+        ProtectedRegion region = getRegion(proyecto);
+        if (region == null) return;
+        DefaultDomain members = region.getMembers();
+        members.addPlayer(playerUuid);
+        region.setMembers(members);
+        regionContainer.addRegion(region);
+    }
+
+    public void addPlayers(Proyecto proyecto) {
+        RegionManager regionContainer = getRegionManager(proyecto);
+        ProtectedRegion region = getRegion(proyecto);
+        if (region == null) return;
+        DefaultDomain members = region.getMembers();
+        ProjectManager pm = ProjectManager.getInstance();
+        Set<Player> miembros = pm.getMembers(proyecto);
+        Player lider = pm.getLider(proyecto);
+        if (lider != null) members.addPlayer(lider.getUuid());
+        for (Player miembro : miembros) {
+            members.addPlayer(miembro.getUuid());
         }
+        region.setMembers(members);
+        regionContainer.addRegion(region);
+    }
 
-        PermissionManager pm = PermissionManager.getInstance();
-        if (pm.isManager(player, pais)) {
-            //ConsoleLogger.debug("[WorldManager] canBuild true: Es manager del país " + pais.getNombre());
-            return true;
+    public void removePlayers(Proyecto proyecto) {
+        RegionManager regionContainer = getRegionManager(proyecto);
+        ProtectedRegion region = getRegion(proyecto);
+        if (region == null) return;
+        DefaultDomain members = region.getMembers();
+        ProjectManager pm = ProjectManager.getInstance();
+        Set<Player> miembros = pm.getMembers(proyecto);
+        Player lider = pm.getLider(proyecto);
+        if (lider != null) members.removePlayer(lider.getUuid());
+        for (Player miembro : miembros) {
+            members.removePlayer(miembro.getUuid());
         }
+        region.setMembers(members);
+        regionContainer.addRegion(region);
+    }
 
-        ProyectoRegistry pr = ProyectoRegistry.getInstance();
-        Set<Proyecto> proyectos = pr.getByLocation(loc.getBlockX(), loc.getBlockZ(), pr.getByChunk(chunkKey));
+    public void removePlayer(Proyecto proyecto, UUID playerUuid) {
+        RegionManager regionContainer = getRegionManager(proyecto);
+        ProtectedPolygonalRegion region = (ProtectedPolygonalRegion) getRegion(proyecto);
+        if (region == null) return;
+        DefaultDomain members = region.getMembers();
+        members.removePlayer(playerUuid);
+        region.setMembers(members);
+        regionContainer.addRegion(region);
+    }
 
-        if (proyectos == null || proyectos.isEmpty()) {
-            //ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
-            return false;
+    public void updateRegion(Proyecto proyecto) {
+        DefaultDomain members = getRegion(proyecto).getMembers();
+        removeRegion(proyecto);
+        createRegion(proyecto, members);
+    }
+
+    public void syncRegions() {
+        for (Proyecto proyecto : ProyectoRegistry.getInstance().getList()) {
+            ProtectedPolygonalRegion region = (ProtectedPolygonalRegion) getRegion(proyecto);
+            if (region == null) {
+                ConsoleLogger.info("Sincronizando región no creada del proyecto " + proyecto.getId());
+                createRegion(proyecto);
+            }
+            RegionManager regionContainer = getRegionManager(proyecto);
+            region = (ProtectedPolygonalRegion) getRegion(proyecto);
+            ProtectedRegion parentProject = regionContainer.getRegion(config.getString("wg-parent-proyecto"));
+            try {
+                region.setParent(parentProject);
+            } catch (CircularInheritanceException e) {
+                ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId());
+                e.printStackTrace();
+            }
+            region.setPriority(1);
+            DefaultDomain members = region.getMembers();
+            if (!RegionUtils.sameShape(proyecto.getPoligono(), region)) {
+                ConsoleLogger.info("La región del proyecto " + proyecto.getId() + " no tiene la misma forma que el polígono del proyecto");
+                removeRegion(proyecto);
+                createRegion(proyecto, members);
+                region = (ProtectedPolygonalRegion) getRegion(proyecto);
+            }
+            if (proyecto.getEstado() != Estado.ACTIVO && proyecto.getEstado() != Estado.EDITANDO) {
+                if (members.getPlayers().isEmpty()) continue;
+                ConsoleLogger.info("El proyecto " + proyecto.getId() + " no está activo, eliminando jugadores de la región");
+                removePlayers(proyecto);
+                continue;
+            }
+            ProjectManager pm = ProjectManager.getInstance();
+            Set<Player> miembros = pm.getMembers(proyecto);
+            Player lider = pm.getLider(proyecto);
+            if (lider != null) miembros.add(lider);
+            Set<UUID> miembrosUuid = members.getUniqueIds();
+            for (Player miembro : miembros) {
+                if (!miembrosUuid.contains(miembro.getUuid())) {
+                    ConsoleLogger.info("Agregando jugador " + miembro.getNombre() + " a la región del proyecto " + proyecto.getId());
+                    members.addPlayer(miembro.getUuid());
+                }
+            }
+            for (UUID miembroUuid : miembrosUuid) {
+                boolean encontrado = false;
+                for (Player miembro : miembros) {
+                    if (miembro.getUuid().equals(miembroUuid)) {
+                        encontrado = true;
+                        break;
+                    }
+                }
+                if (!encontrado) {
+                    ConsoleLogger.info("Removiendo jugador " + miembroUuid.toString() + " de la región del proyecto " + proyecto.getId());
+                    members.removePlayer(miembroUuid);
+                }
+            }
+            region.setMembers(members);
+            regionContainer.addRegion(region);
         }
-
-        if (!pm.areActiveOrEditing(proyectos)) {
-            //ConsoleLogger.debug("[WorldManager] canBuild false: No hay proyectos activos o en edición en la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
-            return false;
-        }
-
-        if (pm.isReviewer(player, pais)) {
-            //ConsoleLogger.debug("[WorldManager] canBuild true: Es reviewer del país " + pais.getNombre());
-            return true;
-        }
-
-        if (pm.isMiembro(player, proyectos) || pm.isLider(player, proyectos)) {
-            //ConsoleLogger.debug("[WorldManager] canBuild true: Tiene permisos en los proyectos de la ubicación (" + loc.getX() + ", " + loc.getZ() + ")");
-            return true;
-        }
-
-        //ConsoleLogger.debug("[WorldManager] canBuild false: No permitido en " + lw.getName());
-        return false;
     }
 
     public void checkLayerMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
@@ -123,6 +251,9 @@ public class WorldManager {
         return this.bteWorld;
     }
 
+    public RegionContainer getWorldGuardContainer() {
+        return this.worldGuardContainer;
+    }
 
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("world-module-shutting-down"));

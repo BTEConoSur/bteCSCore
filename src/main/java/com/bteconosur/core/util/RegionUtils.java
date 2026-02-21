@@ -29,6 +29,7 @@ import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Polygonal2DRegion;
 import com.sk89q.worldedit.regions.Region;
 import com.sk89q.worldedit.regions.selector.Polygonal2DRegionSelector;
+import com.sk89q.worldguard.protection.regions.ProtectedPolygonalRegion;
 
 
 public class RegionUtils {
@@ -62,6 +63,39 @@ public class RegionUtils {
         session.setRegionSelector(weWorld, selector);
         session.dispatchCUISelection(BukkitAdapter.adapt(player));
         PlayerLogger.info(player, LanguageHandler.getText(language, "region.selected"), (String) null);
+    }
+
+    public static ProtectedPolygonalRegion toProtectedRegion(Polygon polygon, String name) {
+        if (polygon == null || polygon.isEmpty()) return null;
+        Coordinate[] coords = polygon.getExteriorRing().getCoordinates();
+        if (coords.length < 4) return null;
+
+        List<BlockVector2> points = new ArrayList<>();
+        for (int i = 0; i < coords.length - 1; i++) {
+            int x = (int) Math.floor(coords[i].x);
+            int z = (int) Math.floor(coords[i].y);
+            points.add(BlockVector2.at(x, z));
+        }
+        return new ProtectedPolygonalRegion(name, points, config.getInt("min-height"), config.getInt("max-height"));
+    }
+
+    public static boolean sameShape(Polygon dbPoly, ProtectedPolygonalRegion region) {
+        if (dbPoly == null || dbPoly.isEmpty() || region == null) return false;
+        List<BlockVector2> pts = region.getPoints();
+        Coordinate[] coords = new Coordinate[pts.size() + 1];
+        for (int i = 0; i < pts.size(); i++) {
+            coords[i] = new Coordinate(pts.get(i).getX(), pts.get(i).getZ());
+        }
+        coords[pts.size()] = coords[0];
+
+        Polygon regionPoly = gf.createPolygon(coords);
+
+        Polygon a = (Polygon) dbPoly.copy();
+        Polygon b = (Polygon) regionPoly.copy();
+        a.normalize();
+        b.normalize();
+
+        return a.equalsExact(b);
     }
 
     public static Polygon toPolygon(CuboidRegion region) {

@@ -16,6 +16,7 @@ public class BTECSCommand extends BaseCommand {
         super("btecs", "Comando principal de BTE Cono Sur", null);
         this.addSubcommand(new BTECSReloadCommand());
         this.addSubcommand(new BTECSTestCommand());
+        this.addSubcommand(new BTECSCheckSyncProyectos());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 
