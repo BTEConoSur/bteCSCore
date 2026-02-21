@@ -1,6 +1,6 @@
 package com.bteconosur.core.menu.project;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,8 +35,8 @@ public class MemberListMenu extends PaginatedMenu {
     private Proyecto proyecto;
     private Player BTECSPlayer;
 
-    private Map<Player, GuiItem> onlinePlayerItems = new HashMap<>();
-    private Map<Player, GuiItem> offlinePlayerItems = new HashMap<>();
+    private Map<Player, GuiItem> onlinePlayerItems = new LinkedHashMap<>();
+    private Map<Player, GuiItem> offlinePlayerItems = new LinkedHashMap<>();
     private Set<Player> members;
     private boolean infoMenu;
     private Language language;
@@ -77,17 +77,16 @@ public class MemberListMenu extends PaginatedMenu {
                     if (lider != null) miembros.add(lider);
                     String title = LanguageHandler.replaceMC("gui-titles.select-player-add", language, proyecto);
                     PlayerListMenu playerListMenu = new PlayerListMenu(BTECSPlayer, title, miembros, true, (player, event) -> {
+                        event.getWhoClicked().closeInventory();
                         if (permissionManager.isMiembroOrLider(player, proyecto)) {
                             String message = LanguageHandler.replaceMC("project.member.already", language, player, proyecto);   
                             PlayerLogger.error(BTECSPlayer, message, (String) null);
-                            event.getWhoClicked().closeInventory();
                             return;
                         }
 
                         if (permissionManager.isPostulante(player)) {
                             String message = LanguageHandler.getText(language, "project.member.add.cant-add-postulante");
                             PlayerLogger.error(BTECSPlayer, message, (String) null);
-                            event.getWhoClicked().closeInventory();
                             return;
                         }
 
@@ -95,13 +94,11 @@ public class MemberListMenu extends PaginatedMenu {
                         if (permissionManager.isPostulante(BTECSPlayer) && proyecto.getCantMiembros() >= maxMembers) {
                             String message = LanguageHandler.getText(language, "project.member.add.postulante-max-reached").replace("%max%", String.valueOf(maxMembers));
                             PlayerLogger.error(BTECSPlayer, message, (String) null);
-                            event.getWhoClicked().closeInventory();
                             return;
                         }
                         ProjectManager.getInstance().joinProject(proyecto.getId(), player.getUuid(), BTECSPlayer.getUuid(), true);
                         String successMessage = LanguageHandler.replaceMC("project.member.add.success", language, player, proyecto);   
                         PlayerLogger.info(BTECSPlayer, successMessage, (String) null);
-                        event.getWhoClicked().closeInventory();
                     }, this);
                     playerListMenu.open();
                 });
@@ -112,16 +109,15 @@ public class MemberListMenu extends PaginatedMenu {
                 Set<Player> miembros = pm.getMembers(proyecto);
                 String title = LanguageHandler.replaceMC("gui-titles.select-member-remove", language, proyecto);
                 PlayerListMenu playerListMenu = new PlayerListMenu(BTECSPlayer, title, miembros, false, MenuUtils.PlayerContext.MIEMBRO, (player, event) -> {
+                    event.getWhoClicked().closeInventory();
                     if (!permissionManager.isMiembroOrLider(player, proyecto)) {
                         String message = LanguageHandler.replaceMC("project.member.not-member", language, player, proyecto);   
                         PlayerLogger.error(BTECSPlayer, message, (String) null);
-                        event.getWhoClicked().closeInventory();
                         return;
                     }
                     ProjectManager.getInstance().removeFromProject(proyecto.getId(), player.getUuid(), BTECSPlayer.getUuid());
                     String successMessage = LanguageHandler.replaceMC("project.member.remove.success", language, player, proyecto);   
                     PlayerLogger.info(BTECSPlayer, successMessage, (String) null);
-                    event.getWhoClicked().closeInventory();
                 }, this);
                 playerListMenu.open();
             });
@@ -131,6 +127,8 @@ public class MemberListMenu extends PaginatedMenu {
         gui.addSlotAction(rows, 8, action -> {
             searchByName();
         });
+
+        gui.setItem(rows, 5, MenuUtils.getPlayerSearchInfo(language));
     }
 
     private void searchByName() {  
@@ -154,11 +152,11 @@ public class MemberListMenu extends PaginatedMenu {
                     removePaginatedItems();
                     
                     onlinePlayerItems.entrySet().stream()
-                        .filter(entry -> entry.getKey().getNombrePublico().toLowerCase().contains(search.toLowerCase()))
+                        .filter(entry -> entry.getKey().getNombre().toLowerCase().contains(search.toLowerCase()))
                         .forEach(entry -> addItem(entry.getValue()));
                     
                     offlinePlayerItems.entrySet().stream()
-                        .filter(entry -> entry.getKey().getNombrePublico().toLowerCase().contains(search.toLowerCase()))
+                        .filter(entry -> entry.getKey().getNombre().toLowerCase().contains(search.toLowerCase()))
                         .forEach(entry -> addItem(entry.getValue()));
                     
                     setSearchItemsAndOpen(search);

@@ -13,7 +13,7 @@ interaction-expirations:
   accept-reject-redefine-project: 60 # Expiración del modal de aceptación/rechazo de redefinición de proyecto (en minutos). 60 = 1 hora.
 default-language: "SPANISH" # Lenguaje por defecto para los jugadores que no tengan uno configurado o cuyo lenguaje configurado no esté soportado.
 avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png"
-
+max-offline-players-list: 2000 # Cantidad máxima de jugadores offline a mostrar en la lista de jugadores.
 # Map Sat
 map-padding: 0.005
 map-link: "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/%geojson%/[%minLon%,%minLat%,%maxLon%,%maxLat%]/800x600?attribution=false&logo=false&access_token=%token%"

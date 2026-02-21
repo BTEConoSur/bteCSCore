@@ -99,7 +99,9 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         return loadedObjects.values()
                 .stream()
                 .filter(player -> !isOnline(player.getUuid()))
-                .sorted(Comparator.comparing(Player::getFechaUltimaConexion).reversed())
+                .sorted(Comparator.comparing(Player::getFechaUltimaConexion, 
+                        Comparator.nullsFirst(Comparator.naturalOrder())).reversed())
+                .limit(config.getInt("max-offline-players-list", 100))
                 .collect(Collectors.toList());
     }
 

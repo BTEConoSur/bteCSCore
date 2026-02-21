@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import com.destroystokyo.paper.profile.PlayerProfile;
 
 import me.arcaniax.hdb.api.DatabaseLoadEvent;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
@@ -45,11 +44,14 @@ public class HeadDBUtil implements Listener {
         return ItemStack.of(Material.PLAYER_HEAD);
     }
 
-    public static ItemStack getPlayerHead(UUID playerUUID) {
+    public static ItemStack getPlayerHead(UUID playerUUID, boolean isOnline) {
+        if (!isOnline) {
+            return ItemStack.of(Material.PLAYER_HEAD);
+        }
+        
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
-        PlayerProfile profile = Bukkit.createProfile(playerUUID);
-        meta.setPlayerProfile(profile);
+        meta.setOwningPlayer(Bukkit.getOfflinePlayer(playerUUID));
         head.setItemMeta(meta);
         return head;
     }

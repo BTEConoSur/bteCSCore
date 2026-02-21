@@ -29,6 +29,14 @@ public class MenuUtils {
 
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
 
+    public static GuiItem getPlayerSearchInfo(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.player-search-info"),
+            LanguageHandler.getText(language, "items.player-search-info.name"),
+            LanguageHandler.getTextList(language, "items.player-search-info.lore"), false
+        );
+    }
+
     public static GuiItem getBackItem(Language language) {
         return buildGuiItem(
             gui.getString("item-materials.back"),
@@ -467,7 +475,7 @@ public class MenuUtils {
         );
     }
 
-public static GuiItem getPlayerItem(Player player, Boolean isOnline, PlayerContext context, Language language) {
+    public static GuiItem getPlayerItem(Player player, Boolean isOnline, PlayerContext context, Language language) {
         String name = LanguageHandler.getText(language, "items.player.name");
         if (player == null) name = name.replace("%player.nombre%", LanguageHandler.getText(language, "items.player.no-player-name"));
         else name = PlaceholderUtils.replaceMC(name, language, player);
@@ -508,7 +516,7 @@ public static GuiItem getPlayerItem(Player player, Boolean isOnline, PlayerConte
             processedLore.add(line);
         }
         return buildGuiItem(
-            HeadDBUtil.getPlayerHead(player.getUuid()),
+            HeadDBUtil.getPlayerHead(player.getUuid(), context == PlayerContext.LIDER || context == PlayerContext.MIEMBRO || isOnline),
             name,
             processedLore,
             false

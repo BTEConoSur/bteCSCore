@@ -630,7 +630,13 @@ gui-titles:
   project-info: "Project info: '%proyecto.id%'"
   language-select: "Select language"
 
-items: 
+items:
+  player-search-info:
+    name: "<aqua>Search Info"
+    lore:
+      - "<gray>If the player you're looking for doesn't appear"
+      - "<gray>it's because they haven't connected recently."
+      - "<gray>Use the command to perform this action."
   back:
     name: "Back"
     lore:

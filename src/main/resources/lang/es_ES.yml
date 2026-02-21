@@ -630,7 +630,14 @@ gui-titles:
   project-info: "Info del proyecto: '%proyecto.id%'"
   language-select: "Seleccionar idioma"
 
-items: 
+items:
+  player-search-info:
+    name: "<aqua>Info de Búsqueda"
+    lore:
+      - "<gray>Si el jugador que busca no aparece es"
+      - "<gray>porque no se ha conectado hace mucho."
+      - "<gray>Utiliza el comando correspondiente para"
+      - "<gray>realizar esta acción."
   back:
     name: "Volver"
     lore:
@@ -1015,6 +1022,6 @@ placeholder:
   chat-ds:
     mc: "<:Minecraft:1457374388575014923>"
     ds: "%pais.logo%" # %paisLogo% -> Logo del país de donde viene el mensaje.
-  without-fecha: Sin fecha"
+  without-fecha: "Sin fecha"
   link-display:
     see-request: "Ver solicitud"

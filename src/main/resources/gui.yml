@@ -1,4 +1,5 @@
 item-materials:
+  player-search-info: "NAME_TAG"
   back: "STRUCTURE_VOID"
   close: "BARRIER"
   previous-page: "STONE_BUTTON"

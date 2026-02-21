@@ -1,6 +1,6 @@
 package com.bteconosur.core.menu.player;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,8 +26,8 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 
 public class PlayerListMenu extends PaginatedMenu {
 
-    private Map<Player, GuiItem> onlinePlayerItems = new HashMap<>();
-    private Map<Player, GuiItem> offlinePlayerItems = new HashMap<>();
+    private Map<Player, GuiItem> onlinePlayerItems = new LinkedHashMap<>();
+    private Map<Player, GuiItem> offlinePlayerItems = new LinkedHashMap<>();
     private Set<Player> searchPlayers;
     private Set<Player> excludedPlayers;
     private final boolean excludePlayers;
@@ -128,6 +128,8 @@ public class PlayerListMenu extends PaginatedMenu {
         gui.addSlotAction(rows, 8, event -> {
             searchByName();
         });
+
+        gui.setItem(rows, 5, MenuUtils.getPlayerSearchInfo(language));
     }
 
     private void searchByName() {  
@@ -152,11 +154,11 @@ public class PlayerListMenu extends PaginatedMenu {
                     removePaginatedItems();
                     
                     onlinePlayerItems.entrySet().stream()
-                        .filter(entry -> entry.getKey().getNombrePublico().toLowerCase().contains(search.toLowerCase()))
+                        .filter(entry -> entry.getKey().getNombre().toLowerCase().contains(search.toLowerCase()))
                         .forEach(entry -> addItem(entry.getValue()));
                     
                     offlinePlayerItems.entrySet().stream()
-                        .filter(entry -> entry.getKey().getNombrePublico().toLowerCase().contains(search.toLowerCase()))
+                        .filter(entry -> entry.getKey().getNombre().toLowerCase().contains(search.toLowerCase()))
                         .forEach(entry -> addItem(entry.getValue()));
                     
                     setSearchItemsAndOpen(search);
