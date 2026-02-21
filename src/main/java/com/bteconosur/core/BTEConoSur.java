@@ -144,6 +144,8 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new WhereIAmCommand());
         ConsoleLogger.info("El Plugin se ha activado.");
         
+        worldManager.syncRegions();
+
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
     }
 

@@ -53,7 +53,7 @@ public class ManagerRedefineCommand extends BaseCommand {
         String proyectoId = args[0];
         Proyecto proyectoFinal = pr.get(proyectoId);
         if (proyectoFinal == null) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.not-found-id", language, proyectoFinal), (String) null);   
+            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
             return true;
         }
 

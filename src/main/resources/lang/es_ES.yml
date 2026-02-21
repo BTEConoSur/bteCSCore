@@ -132,6 +132,7 @@ discord-command-manager-shutting-down: "Apagando Gestor de Comandos de Discord..
 
 # Command
 no-permission: "No tienes permisos para ejecutar este comando."
+item-prohibited: "No puedes usar %item%."
 player-only-command: "Este comando solo puede ser ejecutado por un jugador."
 console-only-command: "Este comando solo puede ser ejecutado desde la consola."
 unknown-command: "Comando desconocido." 
@@ -171,7 +172,7 @@ help-command:
   footer: ""
 
 project:
-  not-found-id: "No se encontró ningún proyecto con ID <yellow>'%proyecto.id%'</yellow>."
+  not-found-id: "No se encontró ningún proyecto con ID <yellow>'%search%'</yellow>."
   not-found-here: "No se encontró ningún proyecto en esta ubicación."
   not-finishing-here: "No se encontró ningún proyecto en finalización en esta ubicación."
   not-active-here: "No se encontró ningún proyecto activo en esta ubicación."
@@ -388,6 +389,10 @@ reviewer:
     success: "El jugador '%player.nombre%' ha sido removido como Reviewer del país '%pais.nombrePublico%' correctamente."
     for-target: "Has sido removido como Reviewer del país '%pais.nombrePublico%' correctamente."  
     log: "❌ | **%player.nombre%** ha removido a **%player.nombre.1%** como Reviewer del país '%pais.nombrePublico%'."
+  toggle-build:
+    enabled: "<green>Construcción activada para el proyecto <yellow>'%proyecto.id%'</yellow>. Ahora puedes construir aquí."
+    disabled: "<yellow>Construcción desactivada para el proyecto <yellow>'%proyecto.id%'</yellow>. Ya no puedes construir en este proyecto."
+    switched: "<green>Construcción cambiada al proyecto <yellow>'%proyecto.id%'</yellow>. Ahora puedes construir aquí."
 where:
   division: "Pais: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>"
   no-division: "No estás dentro de ninguna división del '%pais.nombrePublico%'."

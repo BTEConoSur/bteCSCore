@@ -18,6 +18,7 @@ public class ReviewerCommand extends BaseCommand {
         this.addSubcommand(new ReviewerConfigCommand());
         this.addSubcommand(new ReviewerReviewCommand());
         this.addSubcommand(new ProjectPromoteCommand());
+        this.addSubcommand(new ReviewerToggleBypassCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

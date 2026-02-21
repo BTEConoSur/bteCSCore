@@ -132,6 +132,7 @@ discord-command-manager-shutting-down: "Stopping Discord Command Manager..."
 
 # Command
 no-permission: "You don't have permission to execute this command."
+item-prohibited: "You cannot use %item%."
 player-only-command: "This command can only be executed by a player."
 console-only-command: "This command can only be executed from console."
 unknown-command: "Unknown command." 
@@ -171,7 +172,7 @@ help-command:
   footer: ""
 
 project:
-  not-found-id: "No project found with ID <yellow>'%proyecto.id%'</yellow>."
+  not-found-id: "No project found with ID <yellow>'%search%'</yellow>."
   not-found-here: "No project found at this location."
   not-finishing-here: "No finishing project found at this location."
   not-active-here: "No active project found at this location."
@@ -388,6 +389,10 @@ reviewer:
     success: "Player '%player.nombre%' has been successfully removed as Reviewer of country '%pais.nombrePublico%'."
     for-target: "You have been successfully removed as Reviewer of country '%pais.nombrePublico%'."  
     log: "❌ | **%player.nombre%** has removed **%player.nombre.1%** as Reviewer of country '%pais.nombrePublico%'."
+  toggle-build:
+    enabled: "<green>Build toggle enabled for project <yellow>'%proyecto.id%'</yellow>. You can now build here."
+    disabled: "<yellow>Build toggle disabled for project <yellow>'%proyecto.id%'</yellow>. You can no longer build in this project."
+    switched: "<green>Build toggle switched to project <yellow>'%proyecto.id%'</yellow>. You can now build here."
 where:
   division: "Country: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>"
   no-division: "You are not within any division of '%pais.nombrePublico%'."

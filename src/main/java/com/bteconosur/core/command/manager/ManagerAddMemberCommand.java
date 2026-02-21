@@ -41,7 +41,7 @@ public class ManagerAddMemberCommand extends BaseCommand {
         String proyectoId = args[0];
         Proyecto targetProyecto = proyectoRegistry.get(proyectoId);
         if (targetProyecto == null) {
-            String message = LanguageHandler.replaceMC("project.not-found-id", language, targetProyecto);
+            String message = LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]);
             PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }

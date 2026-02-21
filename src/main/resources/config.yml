@@ -80,6 +80,26 @@ border-particles:
 world-edit:
   region-select-extension: 10 # Cantidad de bloques que se extiende la selección al usar /project select para seleccionar un proyecto.
 
+banned-items:
+  - "OAK_BOAT"
+  - "SPRUCE_BOAT"
+  - "BIRCH_BOAT"
+  - "JUNGLE_BOAT"
+  - "ACACIA_BOAT"
+  - "DARK_OAK_BOAT"
+  - "MANGROVE_BOAT"
+  - "CHERRY_BOAT"
+  - "BAMBOO_RAFT"
+  - "OAK_CHEST_BOAT"
+  - "SPRUCE_CHEST_BOAT"
+  - "BIRCH_CHEST_BOAT"
+  - "JUNGLE_CHEST_BOAT"
+  - "ACACIA_CHEST_BOAT"
+  - "DARK_OAK_CHEST_BOAT"
+  - "MANGROVE_CHEST_BOAT"
+  - "CHERRY_CHEST_BOAT"
+  - "BAMBOO_CHEST_RAFT"
+
 # Cooldowns por comando (En segundos). En caso de no especificar, se usa el valor por defecto. 
 # Nota: El cooldown es por cada comando/subcomando. Es decir, si se especifica un cooldown para "btecs" y otro para "btecs test", ambos se aplican independientemente.
 # Por lo que el cooldown de btecs no afecta al de btecs test y el resto de subcomandos. 

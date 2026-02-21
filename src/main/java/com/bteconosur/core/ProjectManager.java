@@ -41,6 +41,7 @@ import com.bteconosur.db.util.Estado;
 import com.bteconosur.db.util.InteractionKey;
 import com.bteconosur.db.util.PlaceholderUtils;
 import com.bteconosur.discord.util.ProjectRequestService;
+import com.bteconosur.world.ReviewerToggleBuildService;
 import com.bteconosur.world.WorldManager;
 
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -344,7 +345,11 @@ public class ProjectManager {
         Player player = playerRegistry.get(playerId);
         Player lider = getLider(proyecto);
         Pais pais = proyecto.getPais();
-        WorldManager.getInstance().removePlayer(proyecto, playerId);
+        String bypassProyectID = ReviewerToggleBuildService.getBuildEnabled(playerId);
+        if (bypassProyectID == null || bypassProyectID.equals(proyectoId)) {
+            WorldManager.getInstance().removePlayer(proyecto, playerId);
+        }
+        
         if (player.equals(lider)) {
             proyecto.setLider(null);
             proyecto.setEstado(Estado.ABANDONADO);
@@ -372,7 +377,10 @@ public class ProjectManager {
         Player player = playerRegistry.get(playerId);
         Player lider = getLider(proyecto);
         Player commandPlayer = playerRegistry.get(commanUuid);
-        WorldManager.getInstance().removePlayer(proyecto, playerId);
+        String bypassProyectID = ReviewerToggleBuildService.getBuildEnabled(playerId);
+        if (bypassProyectID == null || bypassProyectID.equals(proyectoId)) {
+            WorldManager.getInstance().removePlayer(proyecto, playerId);
+        }
         if (player.equals(lider)) {
             proyecto.setLider(null);
             proyecto.setEstado(Estado.ABANDONADO);
@@ -471,6 +479,7 @@ public class ProjectManager {
             if (comentario != null && !comentario.isBlank()) PlayerLogger.info(member, LanguageHandler.replaceMC("project.finish.accept.comment", member.getLanguage(), proyecto).replace("%comentario%", comentario), (String) null);
         }
         if (promote) {
+            if (lider == null) return;
             PermissionManager.getInstance().switchTipoUsuario(lider, constructor);
             PlayerLogger.info(lider, LanguageHandler.replaceMC("tipo.switch", lider.getLanguage(), constructor), ChatUtil.getDsTipoUsuarioSwitched(constructor, lider.getLanguage()));
             String promoteLog = LanguageHandler.replaceDS("tipo.promote-log", Language.getDefault(), constructor);

@@ -27,7 +27,7 @@ public abstract class BaseCommand extends Command {
         CONSOLE_ONLY,
         BOTH
     }
-
+ //TODO AUTOCOMPLETADO AL CHEQUEAR PERMISOS
     protected final String command;
     protected String fullCommand;
     protected final String description;

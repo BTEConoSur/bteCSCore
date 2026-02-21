@@ -60,7 +60,7 @@ public class ProjectEditCommand extends BaseCommand {
             String proyectoId = args[0];
             targetProyecto = pr.get(proyectoId);
             if (targetProyecto == null) {
-                PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.not-found-id", language, targetProyecto), (String) null);   
+                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
                 return true;
             }
             if (!permissionManager.isLider(commandPlayer, targetProyecto)) {

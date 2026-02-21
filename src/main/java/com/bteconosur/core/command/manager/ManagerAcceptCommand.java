@@ -26,7 +26,7 @@ public class ManagerAcceptCommand extends BaseCommand {
     protected boolean onCommand(CommandSender sender, String[] args) {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         Language language = commandPlayer.getLanguage();
-        if (args.length > 1) {
+        if (args.length != 1) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;
@@ -37,7 +37,7 @@ public class ManagerAcceptCommand extends BaseCommand {
         String proyectoId = args[0];
         proyectoFinal = ProyectoRegistry.getInstance().get(proyectoId);
         if (proyectoFinal == null) {
-            String message = LanguageHandler.replaceMC("project.not-found-id", language, proyectoFinal);
+            String message = LanguageHandler.replaceMC("project.not-found-id", language, proyectoFinal).replace("%proyecto.id%", proyectoId);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
