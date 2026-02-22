@@ -17,7 +17,7 @@ public class GetListPaisCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public GetListPaisCommand() {
-        super("list", "Obtener lista de todos los países.", "", CommandMode.BOTH);
+        super("list", "", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

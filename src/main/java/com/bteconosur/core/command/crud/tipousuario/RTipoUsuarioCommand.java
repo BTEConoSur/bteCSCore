@@ -15,7 +15,7 @@ public class RTipoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public RTipoUsuarioCommand() {
-        super("read", "Obtener Tipo de Usuario.", "<id>", CommandMode.BOTH);
+        super("read", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

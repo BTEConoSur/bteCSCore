@@ -18,7 +18,7 @@ public class URangoUsuarioAddPermisoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public URangoUsuarioAddPermisoCommand() {
-        super("addpermiso", "Agregar permiso a un RangoUsuario.", "<id_rango> <permiso>", CommandMode.BOTH);
+        super("addpermiso", "<id_rango> <permiso>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

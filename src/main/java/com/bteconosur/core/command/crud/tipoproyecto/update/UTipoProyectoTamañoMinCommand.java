@@ -15,7 +15,7 @@ public class UTipoProyectoTamañoMinCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UTipoProyectoTamañoMinCommand() {
-        super("tamañomin", "Actualizar tamaño mínimo de un Tipo de Proyecto.", "<id> <tamaño>", CommandMode.BOTH);
+        super("tamañomin", "<id> <tamaño>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

@@ -17,7 +17,7 @@ public class GetTipoUsuarioListPermisosCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public GetTipoUsuarioListPermisosCommand() {
-        super("listpermisos", "Listar permisos de un Tipo de Usuario.", "<id_tipo>", CommandMode.BOTH);
+        super("listpermisos", "<id_tipo>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

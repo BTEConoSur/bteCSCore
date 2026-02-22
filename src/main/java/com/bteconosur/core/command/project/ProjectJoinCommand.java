@@ -26,7 +26,7 @@ public class ProjectJoinCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectJoinCommand() { // Postulantes no pueden usar este comando.
-        super("join", "Unirse a un proyecto Activo o en Edición.", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("join", "[id_proyecto]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();

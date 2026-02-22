@@ -13,7 +13,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class ManagerCommand extends BaseCommand {
 
     public ManagerCommand() {
-        super("manager", "Comando para Manager de los proyectos.", null, "btecs.command.manager", CommandMode.PLAYER_ONLY);
+        super("manager", null, "btecs.command.manager", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new ManagerAddReviewerCommand());
         this.addSubcommand(new ManagerRemoveReviewerCommand());
         this.addSubcommand(new ManagerConfigCommand());

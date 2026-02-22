@@ -15,7 +15,7 @@ public class RDivisionCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public RDivisionCommand() {
-        super("read", "Obtener Division.", "<id>", CommandMode.BOTH);
+        super("read", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

@@ -15,7 +15,7 @@ public class DTipoProyectoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public DTipoProyectoCommand() {
-        super("delete", "Eliminar un Tipo de Proyecto.", "<id>", CommandMode.BOTH);
+        super("delete", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

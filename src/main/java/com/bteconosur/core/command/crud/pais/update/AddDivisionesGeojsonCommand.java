@@ -21,7 +21,7 @@ public class AddDivisionesGeojsonCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public AddDivisionesGeojsonCommand() {
-        super("adddivisiones", "Cargar divisiones de un País desde archivos GeoJSON.", "<id_pais> <carpeta_geojson>", CommandMode.CONSOLE_ONLY);
+        super("adddivisiones", "<id_pais> <carpeta_geojson>", CommandMode.CONSOLE_ONLY);
         dbManager = DBManager.getInstance();
     }
 

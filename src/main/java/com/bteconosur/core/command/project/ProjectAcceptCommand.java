@@ -22,7 +22,7 @@ public class ProjectAcceptCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectAcceptCommand() {
-        super("accept", "Aceptar o rechazar solicitudes de unión.", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("accept", "[id_proyecto]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

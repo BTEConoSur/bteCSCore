@@ -16,7 +16,7 @@ public class UDivisionPaisCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UDivisionPaisCommand() {
-        super("pais", "Actualizar País de una División.", "<id_division> <id_pais>", CommandMode.BOTH);
+        super("pais", "<id_division> <id_pais>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

@@ -15,7 +15,7 @@ public class UDivisionGnaCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UDivisionGnaCommand() {
-        super("gna", "Actualizar gna de una Division.", "<id> <nuevo_gna>", CommandMode.BOTH);
+        super("gna", "<id> <nuevo_gna>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

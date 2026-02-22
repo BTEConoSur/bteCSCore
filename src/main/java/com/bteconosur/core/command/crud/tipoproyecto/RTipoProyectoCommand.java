@@ -15,7 +15,7 @@ public class RTipoProyectoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public RTipoProyectoCommand() {
-        super("read", "Obtener Tipo de Proyecto.", "<id>", CommandMode.BOTH);
+        super("read", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

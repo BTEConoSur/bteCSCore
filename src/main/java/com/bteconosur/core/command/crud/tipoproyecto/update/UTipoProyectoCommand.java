@@ -13,7 +13,7 @@ public class UTipoProyectoCommand extends BaseCommand {
 
 
     public UTipoProyectoCommand() {
-        super("update", "Actualizar propiedad de un Tipo de Proyecto.", "<propiedad> <id> <valor>", CommandMode.BOTH);
+        super("update", "<propiedad> <id> <valor>", CommandMode.BOTH);
         this.addSubcommand(new UTipoProyectoNombreCommand());
         this.addSubcommand(new UTipoProyectoMaxMiembrosCommand());
         this.addSubcommand(new UTipoProyectoTamañoMinCommand());

@@ -17,7 +17,7 @@ public class UPlayerFechaUltimaConexionCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UPlayerFechaUltimaConexionCommand() {
-        super("fechaultimaconexion", "Actualizar fecha última conexión (UNIX ms) de un Player.", "<uuid> <valor>", CommandMode.BOTH);
+        super("fechaultimaconexion", "<uuid> <valor>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

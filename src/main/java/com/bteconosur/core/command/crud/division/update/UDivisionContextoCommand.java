@@ -15,7 +15,7 @@ public class UDivisionContextoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UDivisionContextoCommand() {
-        super("contexto", "Actualizar contexto de una Division.", "<id> <nuevo_contexto>", CommandMode.BOTH);
+        super("contexto", "<id> <nuevo_contexto>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

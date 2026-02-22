@@ -17,7 +17,7 @@ public class GetListRangoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public GetListRangoUsuarioCommand() {
-        super("list", "Obtener lista de todos los rangos de usuario.", "", CommandMode.BOTH);
+        super("list", "", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

@@ -17,7 +17,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 public class LinkCommand extends BaseCommand {
 
     public LinkCommand() {
-        super("link", "Linkear la cuenta de Discord.", "<código>|[subcomando]", "btecs.command.link");
+        super("link", "<código>", "btecs.command.link");
         this.addSubcommand(new LinkSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

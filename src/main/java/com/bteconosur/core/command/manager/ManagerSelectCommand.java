@@ -25,7 +25,7 @@ public class ManagerSelectCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ManagerSelectCommand() {
-        super("select", "Seleccionar un proyecto del país con World Edit.", "", CommandMode.PLAYER_ONLY);
+        super("select", "", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
         config = ConfigHandler.getInstance().getConfig();
     }

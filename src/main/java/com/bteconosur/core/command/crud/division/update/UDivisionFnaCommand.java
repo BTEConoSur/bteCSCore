@@ -15,7 +15,7 @@ public class UDivisionFnaCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UDivisionFnaCommand() {
-        super("fna", "Actualizar fna de una Division.", "<id> <nuevo_fna>", CommandMode.BOTH);
+        super("fna", "<id> <nuevo_fna>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

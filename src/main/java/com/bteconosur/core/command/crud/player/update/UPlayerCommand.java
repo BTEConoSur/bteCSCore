@@ -12,8 +12,7 @@ import com.bteconosur.db.model.Player;
 public class UPlayerCommand extends BaseCommand {
 
     public UPlayerCommand() {
-        super("update", "Actualizar propiedad de un Player.", "<propiedad> <uuid> <valor>", CommandMode.BOTH);
-        this.addSubcommand(new UPlayerIdCommand());
+        super("update", "<propiedad> <uuid> <valor>", CommandMode.BOTH);
         this.addSubcommand(new UPlayerNombreCommand());
         this.addSubcommand(new UPlayerNombrePublicoCommand());
         this.addSubcommand(new UPlayerTipoUsuarioCommand());    

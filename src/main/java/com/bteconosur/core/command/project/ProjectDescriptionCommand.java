@@ -21,7 +21,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 public class ProjectDescriptionCommand extends BaseCommand {
 
     public ProjectDescriptionCommand() {
-        super("description", "Cambiar la descripción de un proyecto.", "<id_proyecto> <nueva_descripcion>", CommandMode.PLAYER_ONLY);
+        super("description", "<id_proyecto> <nueva_descripcion>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

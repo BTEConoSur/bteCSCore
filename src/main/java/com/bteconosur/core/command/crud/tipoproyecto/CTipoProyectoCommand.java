@@ -15,7 +15,7 @@ public class CTipoProyectoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CTipoProyectoCommand() {
-        super("create", "Crear un nuevo Tipo de Proyecto.", "<nombre> <max_miembros> <tamaño_min> <tamaño_max>", CommandMode.BOTH);
+        super("create", "<nombre> <max_miembros> <tamaño_min> <tamaño_max>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

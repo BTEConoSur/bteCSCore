@@ -16,7 +16,7 @@ import de.rapha149.signgui.exception.SignGUIVersionException;
 public class TestGenericCommand extends BaseCommand {
 
     public TestGenericCommand() {
-        super("generic", "Comando genérico de prueba", null, CommandMode.PLAYER_ONLY);
+        super("generic", null, CommandMode.PLAYER_ONLY);
     }
 
     @Override

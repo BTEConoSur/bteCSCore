@@ -22,7 +22,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 public class ManagerNameCommand extends BaseCommand {
 
     public ManagerNameCommand() {
-        super("name", "Cambiar el nombre de un proyecto del país.", "<id_proyecto> <nuevo_nombre>", CommandMode.PLAYER_ONLY);
+        super("name", "<id_proyecto> <nuevo_nombre>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

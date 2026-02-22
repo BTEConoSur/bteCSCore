@@ -12,7 +12,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class ProjectAdminCommand extends BaseCommand {
 
     public ProjectAdminCommand() {
-        super("admin", "Comando para Admin de los proyectos.", null, "btecs.command.project.admin", CommandMode.PLAYER_ONLY);
+        super("admin", null, "btecs.command.project.admin", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new ProjectAdminAddManager());
         this.addSubcommand(new ProjectAdminRemoveManager());
         this.addSubcommand(new ProjectAdminAddReviewer());

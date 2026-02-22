@@ -10,7 +10,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class TestPlayerLoggerCommand extends BaseCommand {
 
     public TestPlayerLoggerCommand() {
-        super("playerlogger", "Comando de prueba para el logger de jugadores.", null, CommandMode.PLAYER_ONLY);
+        super("playerlogger", null, CommandMode.PLAYER_ONLY);
     }
 
     @Override

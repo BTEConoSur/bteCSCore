@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class UDivisionCommand extends BaseCommand {
 
     public UDivisionCommand() {
-        super("update", "Actualizar atributos de una Division.", null, CommandMode.BOTH);
+        super("update", null, CommandMode.BOTH);
         this.addSubcommand(new UDivisionNombreCommand());
         this.addSubcommand(new UDivisionNamCommand());
         this.addSubcommand(new UDivisionGnaCommand());

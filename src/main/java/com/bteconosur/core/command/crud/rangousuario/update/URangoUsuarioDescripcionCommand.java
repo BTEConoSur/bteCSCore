@@ -15,7 +15,7 @@ public class URangoUsuarioDescripcionCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public URangoUsuarioDescripcionCommand() {
-        super("descripcion", "Actualizar descripción de un RangoUsuario.", "<id> <descripcion>", CommandMode.BOTH);
+        super("descripcion", "<id> <descripcion>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

@@ -15,7 +15,7 @@ public class UTipoProyectoMaxMiembrosCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UTipoProyectoMaxMiembrosCommand() {
-        super("maxmiembros", "Actualizar máximo de miembros de un Tipo de Proyecto.", "<id> <cantidad>", CommandMode.BOTH);
+        super("maxmiembros", "<id> <cantidad>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

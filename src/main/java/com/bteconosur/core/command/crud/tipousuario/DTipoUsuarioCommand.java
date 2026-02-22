@@ -15,7 +15,7 @@ public class DTipoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public DTipoUsuarioCommand() {
-        super("delete", "Eliminar un Tipo de Usuario.", "<id>", CommandMode.BOTH);
+        super("delete", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

@@ -15,7 +15,7 @@ public class UPaisDsIdGuildCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UPaisDsIdGuildCommand() {
-        super("dsidguild", "Actualizar Discord Guild ID de un País.", "<id> <ds_id_guild>", CommandMode.BOTH);
+        super("dsidguild", "<id> <ds_id_guild>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

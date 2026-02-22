@@ -20,7 +20,7 @@ public class AddDivisionRegionGeojsonCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public AddDivisionRegionGeojsonCommand() {
-        super("addregionesdivision", "Cargar regiones de una División desde un archivo GeoJSON. Colocar en geojson/divisions.", "<id_division> <archivo_geojson>", CommandMode.BOTH);
+        super("addregionesdivision", "<id_division> <archivo_geojson>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

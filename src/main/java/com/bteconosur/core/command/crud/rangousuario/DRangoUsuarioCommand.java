@@ -15,7 +15,7 @@ public class DRangoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public DRangoUsuarioCommand() {
-        super("delete", "Eliminar un Rango de Usuario.", "<id>", CommandMode.BOTH);
+        super("delete", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

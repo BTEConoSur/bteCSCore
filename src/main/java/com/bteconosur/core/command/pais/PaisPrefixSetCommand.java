@@ -14,7 +14,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class PaisPrefixSetCommand extends BaseCommand {
 
     public PaisPrefixSetCommand() {
-        super("set", "Cambia el prefix de un Jugador Online", "<nombre_jugador>", "btecs.command.prefix.set", CommandMode.PLAYER_ONLY);
+        super("set", "<nombre_jugador>", "btecs.command.prefix.set", CommandMode.PLAYER_ONLY);
     }
 
     @Override

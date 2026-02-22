@@ -16,7 +16,7 @@ public class CDivisionCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CDivisionCommand() {
-        super("create", "Crear una nueva Division. Se crea sin poligono.", "<nombre> <nam> <gna> <id_pais> <contexto>", CommandMode.BOTH);
+        super("create", "<nombre> <nam> <gna> <id_pais> <contexto>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

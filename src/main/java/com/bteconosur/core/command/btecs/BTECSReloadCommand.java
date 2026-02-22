@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 
 public class BTECSReloadCommand extends BaseCommand {
     public BTECSReloadCommand() {
-        super("reload", "Recarga la configuración del plugin", null, CommandMode.CONSOLE_ONLY);
+        super("reload", null, CommandMode.CONSOLE_ONLY);
     }
 
     @Override

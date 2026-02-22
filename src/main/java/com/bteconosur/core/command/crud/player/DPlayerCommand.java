@@ -16,7 +16,7 @@ public class DPlayerCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public DPlayerCommand() {
-        super("delete", "Eliminar un Player.", "<uuid>", CommandMode.BOTH);
+        super("delete", "<uuid>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

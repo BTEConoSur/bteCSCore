@@ -15,7 +15,7 @@ public class UPaisDsIdGlobalChatCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UPaisDsIdGlobalChatCommand() {
-        super("dsidglobalchat", "Actualizar Discord Global Chat ID de un País.", "<id> <ds_id_global_chat>", CommandMode.BOTH);
+        super("dsidglobalchat", "<id> <ds_id_global_chat>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

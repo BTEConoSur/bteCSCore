@@ -21,7 +21,7 @@ public class ManagerDeleteCommand extends BaseCommand {
     private ConfirmationMenu confirmationMenu;
 
     public ManagerDeleteCommand() {
-        super("delete", "Eliminar cualquier proyecto del país.", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("delete", "<id_proyecto>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

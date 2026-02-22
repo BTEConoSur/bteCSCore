@@ -22,7 +22,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 public class ManagerRemoveMemberCommand extends BaseCommand {
 
     public ManagerRemoveMemberCommand() {
-        super("removemember", "Remover a un miembro de un proyecto del país.", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
+        super("removemember", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

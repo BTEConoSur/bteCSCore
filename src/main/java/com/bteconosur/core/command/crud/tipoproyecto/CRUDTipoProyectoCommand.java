@@ -13,7 +13,7 @@ import com.bteconosur.db.model.Player;
 public class CRUDTipoProyectoCommand extends BaseCommand {
 
     public CRUDTipoProyectoCommand() {
-        super("tipoproyecto", "Realizar operaciones CRUD sobre tipos de proyecto.", null, CommandMode.BOTH);
+        super("tipoproyecto", null, CommandMode.BOTH);
         this.addSubcommand(new CTipoProyectoCommand());
         this.addSubcommand(new RTipoProyectoCommand());
         this.addSubcommand(new UTipoProyectoCommand());

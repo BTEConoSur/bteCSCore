@@ -18,7 +18,7 @@ public class GenericHelpCommand extends BaseCommand {
     private final BaseCommand parentCommand;
 
     public GenericHelpCommand(BaseCommand parentCommand) {
-        super("help", "Muestra la ayuda del comando.", null);
+        super("help", null);
         this.parentCommand = parentCommand;
     }
 
@@ -49,8 +49,7 @@ public class GenericHelpCommand extends BaseCommand {
         if (args.length > 0) {
             try {
                 page = Integer.parseInt(args[0]);
-                if (page < 1) page = totalPages;
-                if (page > totalPages) page = 1;
+                if (page < 1 || page > totalPages) page = 1;
             } catch (NumberFormatException e) {
             }
         }
@@ -58,6 +57,7 @@ public class GenericHelpCommand extends BaseCommand {
         String header = LanguageHandler.getText(language, "help-command.header")
             .replace("%comando%", parentCommand.getFullCommand())
             .replace("%plugin-prefix%", LanguageHandler.getText(language, "plugin-prefix"));
+        String info = LanguageHandler.getText(language, "help-command.info");
         String usage = LanguageHandler.getText(language, "help-command.usage");
         String aliases = LanguageHandler.getText(language, "help-command.aliases");
         String descriptionLabel = LanguageHandler.getText(language, "help-command.description");
@@ -71,10 +71,10 @@ public class GenericHelpCommand extends BaseCommand {
         TagResolver nextResolver = TagResolverUtils.getCommandText("nexttext", "/" + fullCommand + " " + (page + 1), LanguageHandler.getText(language, "help-command.nexttext"), LanguageHandler.getText(language, "help-command.nexthover"));
         if (page == 1) footer = footer.replace("<backtext>", "");
         if (page == totalPages) footer = footer.replace("<nexttext>", "");
-        String message = header;
+        String message = header + "\n" + info;
 
-        if (parentCommand.description != null && !parentCommand.description.isEmpty()) {
-            descriptionLabel = descriptionLabel.replace("%description%", parentCommand.description);
+        if (parentCommand.getDescription(language) != null && !parentCommand.getDescription(language).isEmpty()) {
+            descriptionLabel = descriptionLabel.replace("%description%", parentCommand.getDescription(language));
             message += "\n" + descriptionLabel;
         }
         
@@ -112,8 +112,9 @@ public class GenericHelpCommand extends BaseCommand {
                     
                     message += "\n" + line1;
 
-                    if (sub.description != null && !sub.description.isEmpty()) {
-                        String line2 = subcommandLine2.replace("%description%", sub.description);
+                    String description = sub.getDescription(language);
+                    if (description != null && !description.isEmpty()) {
+                        String line2 = subcommandLine2.replace("%description%", description);
                         message += "\n" + line2 ;
                     }
 

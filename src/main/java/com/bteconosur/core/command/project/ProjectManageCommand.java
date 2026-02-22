@@ -23,7 +23,7 @@ public class ProjectManageCommand extends BaseCommand {
     private ProjectManageMenu projectManageMenu;
 
     public ProjectManageCommand() {
-        super("manage", "Gestionar un proyecto.", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("manage", "[id_proyecto]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

@@ -18,7 +18,7 @@ import com.bteconosur.discord.util.LinkService;
 public class ProjectCreateCommand extends BaseCommand {
 
     public ProjectCreateCommand() {
-        super("create", "Crear un nuevo proyecto.", "[nombre] [descripción]", "btecs.command.project.create", CommandMode.PLAYER_ONLY);
+        super("create", "[nombre] [descripción]", "btecs.command.project.create", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

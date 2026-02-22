@@ -23,7 +23,7 @@ public class ProjectClaimCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectClaimCommand() {
-        super("claim", "Reclamar un proyecto Abandonado.", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("claim", "[id_proyecto]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

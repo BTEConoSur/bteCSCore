@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class UPaisCommand extends BaseCommand {
 
     public UPaisCommand() {
-        super("update", "Actualizar propiedad de un País.", "<propiedad> <id> <valor>", CommandMode.BOTH);
+        super("update", "<propiedad> <id> <valor>", CommandMode.BOTH);
         this.addSubcommand(new UPaisNombreCommand());
         this.addSubcommand(new UPaisDsIdGuildCommand());
         this.addSubcommand(new UPaisDsIdGlobalChatCommand());

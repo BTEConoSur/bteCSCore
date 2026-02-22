@@ -154,6 +154,156 @@ invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50
 invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una división válida."
 invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 
+commands-descriptions:
+  generic-help.desc: "Muestra la ayuda del comando."
+  btecs:
+    desc: "Comando principal de BTE Cono Sur."
+    test:
+      desc: "Para testear cosas."
+      allregiondivisiongeojson.desc: "Crear GeoJSON con todas las regiones de divisiones. Se guarda en geojson/output."
+      allregionpaisgeojson.desc: "Crear GeoJSON con todas las regiones de países. Se guarda en geojson/output."
+      consolelogger.desc: "Comando de prueba para el logger de consola."
+      discordlogger.desc: "Comando de prueba para el logger de Discord."
+      generic.desc: "Comando de prueba genérico."
+      paginatedmenu.desc: "Comando de prueba para menú paginado."
+      playerLogger.desc: "Comando de prueba para el logger de jugadores."
+      regiondivisiongeojson.desc: "Crear GeoJSON de una región de división por ID. Se guarda en geojson/output."
+      regionpaisgeojson.desc: "Crear GeoJSON de una región de país por ID. Se guarda en geojson/output."
+      simplemenu.desc: "Abre un menú simple de prueba."
+      syncproyectos.desc: "Sincroniza todos los proyectos con las regiones de WorldGuard."
+    reload.desc: "Recarga la configuración del plugin."
+  chat:
+    desc: "Cambiar el chat."
+    set.desc: "Cambiar el chat de un Jugador Online."
+  config.desc: "Abrir menú de configuración general."
+  link:
+    desc: "Linkear la cuenta de Discord."
+    set.desc: "Linkear la cuenta de Discord a un jugador."
+  nickname:
+    desc: "Cambiar el nombre público."
+    set.desc: "Cambiar el nombre público de un jugador."
+  promote.desc: "Cambiar el Rango de Usuario de un jugador."
+  unlink:
+    desc: "Desvincular la cuenta de Discord."
+    set.desc: "Desvincular la cuenta de Discord de un jugador."
+  crud:
+    division:
+      desc: "Realizar operaciones CRUD sobre divisiones. Reiniciar servidor para que se apliquen los cambios"
+      update:
+        desc: "Actualizar atributos de una Division."
+        addregionesdivision.desc: "Cargar regiones de una División desde un archivo GeoJSON. Colocar en geojson/divisions."
+        removeregion.desc: "Eliminar región de una División."
+      create.desc: "Crear una nueva Division. Se crea sin poligono."
+      delete.desc: "Eliminar una Division. Se eliminan también las regiones asociadas a esa División."
+      read.desc: "Leer información de una Division."
+    pais:
+      desc: "Realizar operaciones CRUD sobre países."
+      update:
+        desc: "Actualizar atributos de un País."
+        adddivisiones.desc: "Cargar divisiones de un País desde archivos GeoJSON."
+        addregiones.desc: "Cargar regiones de un País desde un archivo GeoJSON. Colocar en geojson/countries."
+        removeregion.desc: "Eliminar región de un País."
+      create.desc: "Crear un nuevo País. Se crea sin poligono."
+      delete.desc: "Eliminar un País. Se eliminan también las divisiones y regiones asociadas a ese País."
+      read.desc: "Leer información de un País."
+      list.desc: "Obtener lista de todos los países."
+      listregions.desc: "Obtener lista de todas las regiones de un país o división."
+    player:
+      desc: "Realizar operaciones CRUD sobre jugadores. Reiniciar servidor para que se apliquen los cambios."
+      update:
+        desc: "Actualizar atributos de un jugador."
+        fechaingreso.desc: "Actualizar fecha de ingreso (UNIX ms) de un Jugador."
+        fechaultimaconexion.desc: "Actualizar fecha de última conexión (UNIX ms) de un Jugador."
+      create.desc: "Crear un nuevo Jugador. <fecha_ingreso> con formato UNIX ms."
+      delete.desc: "Eliminar un Jugador."
+      read.desc: "Leer información de un Jugador."
+    rangousuario:
+      desc: "Realizar operaciones CRUD sobre Rangos de Usuario. Reiniciar servidor para que se apliquen los cambios."
+      update:
+        desc: "Actualizar atributos de un Rango de Usuario."
+        addpermiso.desc: "Agregar un permiso a un Rango de Usuario."
+        removepermiso.desc: "Remover un permiso de un Rango de Usuario."
+      create.desc: "Crear un nuevo Rango de Usuario."
+      delete.desc: "Eliminar un Rango de Usuario."
+      read.desc: "Leer información de un Rango de Usuario."
+      list.desc: "Obtener lista de todos los Rangos de Usuario."
+      listpermisos.desc: "Obtener lista de permisos de un Rango de Usuario."
+    tipoproyecto:
+      desc: "Realizar operaciones CRUD sobre Tipos de Proyecto. Reiniciar servidor para que se apliquen los cambios."
+      update.desc: "Actualizar atributos de un Tipo de Proyecto."
+      create.desc: "Crear un nuevo Tipo de Proyecto."
+      delete.desc: "Eliminar un Tipo de Proyecto."
+      read.desc: "Leer información de un Tipo de Proyecto."
+      list.desc: "Obtener lista de todos los Tipos de Proyecto."
+    tipousuario:
+      desc: "Realizar operaciones CRUD sobre Tipos de Usuario. Reiniciar servidor para que se apliquen los cambios."
+      update:
+        desc: "Actualizar atributos de un Tipo de Usuario."
+        addpermiso.desc: "Agregar un permiso a un Tipo de Usuario."
+        removepermiso.desc: "Remover un permiso de un Tipo de Usuario."
+        cantproyecsim.desc: "Actualizar cantidad de proyectos simultáneos permitidos para un Tipo de Usuario."
+      create.desc: "Crear un nuevo Tipo de Usuario."
+      delete.desc: "Eliminar un Tipo de Usuario."
+      read.desc: "Leer información de un Tipo de Usuario."
+      list.desc: "Obtener lista de todos los Tipos de Usuario."
+      listpermisos.desc: "Obtener lista de permisos de un Tipo de Usuario."
+  manager:
+    desc: "Comando para Managers de proyectos de países."
+    accept.desc: "Aceptar o rechazar solicitudes de unión de un proyecto del país."
+    addmember.desc: "Agregar un miembro a un proyecto del país."
+    addreviewer.desc: "Añadir Reviewer a un país."
+    config.desc: "Abrir menú de configuración de Manager."
+    delete.desc: "Eliminar un proyecto del país."
+    description.desc: "Cambiar la descripción de un proyecto de un país."
+    edit.desc: "Activar edición de cualquier proyecto del país."
+    finish.desc: "Finalizar cualquier proyecto del país."
+    manage.desc: "Gestionar un proyecto del país."
+    name.desc: "Cambiar el nombre de un proyecto del país."
+    redefine.desc: "Redefinir un proyecto de un país."
+    removeleader.desc: "Quitar a un líder de un proyecto del país."
+    removemember.desc: "Remover a un miembro de un proyecto del país."
+    removereviewer.desc: "Remover Reviewer de un país."
+    select.desc: "Seleccionar un proyecto del país con World Edit."
+    transfer.desc: "Transferir el liderazgo de un proyecto del país."
+  pais: 
+    desc: "Cambiar el prefijo de país."
+    set.desc: "Cambia el prefix de un Jugador Online."
+  whereiam.desc: "Muestra el país y división en la que te encuentras."
+  project:
+    admin:
+      desc: "Comandos de los proyectos para Administradores."
+      addmanager.desc: "Añadir Manager a un país."
+      addreviewer.desc: "Añadir Reviewer a un país."
+      removemanager.desc: "Quitar Manager de un país."
+      removereviewer.desc: "Quitar Reviewer de un país."
+    accept.desc: "Aceptar o rechazar solicitudes de unión."
+    addmember.desc: "Agregar a un miembro a un proyecto."
+    border.desc: "Activar o desactivar el borde de un proyecto."
+    claim.desc: "Reclamar un proyecto Abandonado."
+    create.desc: "Crear un nuevo proyecto."
+    description.desc: "Cambiar la descripción de un proyecto."
+    edit.desc: "Activar edición de un proyecto existente."
+    finish.desc: "Finalizar un proyecto."
+    info.desc: "Ver información de un proyecto."
+    join.desc: "Unirse a un proyecto Activo o en Edición."
+    leave.desc: "Salir del proyecto en el que estás."
+    manage.desc: "Gestionar un proyecto."
+    name.desc: "Cambiar el nombre de un proyecto."
+    redefine.desc: "Redefinir un proyecto existente."
+    removemember.desc: "Remover a un miembro de un proyecto."
+    select.desc: "Seleccionar un proyecto con World Edit."
+    transfer.desc: "Transferir el liderazgo de un proyecto a un Miembro."
+    desc: "Comando principal de los proyectos."
+  reviewer:
+    desc: "Comando principal para Reviewer de los proyectos."
+    review:
+      desc: "Revisar proyectos del país."
+      accept.desc: "Aceptar la finalización de un proyecto."
+      reject.desc: "Rechazar la finalización de un proyecto."
+    promote.desc: "Cambiar el Tipo de Usuario de un jugador."
+    config.desc: "Abrir menú de configuración de Reviewer."
+    togglebypass: "Activar o desactivar el bypass de revisión para un proyecto."
+
 region:
   selected: "<green>Región seleccionada correctamente."
   not-selected: "No tienes una región seleccionada."
@@ -163,12 +313,13 @@ region:
 language-set: "<green>Idioma establecido a <yellow>%language%</yellow>."
 
 help-command:
-  header: "\n <b>=========</b> <gold>Ayuda de /%comando%</gold> <b>=========</b>" # %command% -> Comando completo. %plugin-prefix% -> Prefijo del plugin.
+  header: "\n <b>=========</b> <gold>Ayuda de Comando</gold> <b>=========</b>"
+  info: "<light_purple>Campo: <gray>Obligatorio <></gray> - <gray>Opcional [] </gray> - <gray>Opciones A|B </gray></light_purple>"
   usage: "<yellow>Uso:</yellow> /%comando% %args%" # %command% -> Comando completo. %args% -> Argumentos del comando.
   aliases: "<yellow>Alias:</yellow> %aliases%" # %aliases% -> Lista de alias del comando.
   description: "<yellow>Descripción:</yellow> %description%" # %description% -> Descripción del comando.
   subcommands-title: "<yellow>Opciones:</yellow>"
-  subcommand-line-1: " - <gold>/%comando% %subcomando%%args%</gold>:" # %command% -> Comando raíz. %subcommands% -> Subcomandos. %args% -> Argumentos del subcomando. (No preguntés porqué pero subcomand y args van pegados)
+  subcommand-line-1: " - <gold>/%comando% %subcomando%%args%</gold>" # %command% -> Comando raíz. %subcommands% -> Subcomandos. %args% -> Argumentos del subcomando. (No preguntés porqué pero subcomand y args van pegados)
   subcommand-line-2: "   <yellow>Descripción:</yellow> <white>%description%</white>" # %description% -> Descripción del subcomando.
   subcommand-line-3: "   <yellow>Alias:</yellow> <white>%aliases%</white>" # %aliases% -> Alias del subcomando.
   backtext: "<b><<<</b>"
@@ -179,8 +330,9 @@ help-command:
 
 global-help-command:
   header: "\n <b>=========</b> <gold>Ayuda de %plugin-prefix%</gold> <b>=========</b>" # %plugin-prefix% -> Prefijo del plugin.
+  info: "<light_purple>Campo: <gray>Obligatorio <></gray> - <gray>Opcional [] </gray> - <gray>Opciones A|B </gray></light_purple>"
   commands-title: "<yellow>Comandos disponibles:</yellow>"
-  command-line-1: " - <gold>/%comando%%args%</gold>:" # %comando% -> Comando. %args% -> Argumentos del comando.
+  command-line-1: " - <gold>/%comando%%args%</gold>" # %comando% -> Comando. %args% -> Argumentos del comando.
   command-line-2: "   <yellow>Descripción:</yellow> <white>%description%</white>" # %description% -> Descripción del comando.
   command-line-3: "   <yellow>Alias:</yellow> <white>%aliases%</white>" # %aliases% -> Alias del comando.
   backtext: "<b><<<</b>"

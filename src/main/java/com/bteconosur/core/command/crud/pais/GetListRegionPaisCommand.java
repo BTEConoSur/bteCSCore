@@ -19,7 +19,7 @@ public class GetListRegionPaisCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public GetListRegionPaisCommand() {
-        super("listregions", "Obtener lista de regiones de un país.", "<id_pais>", CommandMode.BOTH);
+        super("listregions", "<id_pais>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

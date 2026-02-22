@@ -25,7 +25,7 @@ public class ProjectFinishCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectFinishCommand() {
-        super("finish", "Finalizar un proyecto.", "[id_proyecto]", "btecs.command.project.finish", CommandMode.PLAYER_ONLY);
+        super("finish", "[id_proyecto]", "btecs.command.project.finish", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

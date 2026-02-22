@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class URangoUsuarioCommand extends BaseCommand {
 
     public URangoUsuarioCommand() {
-        super("update", "Actualizar propiedad de un RangoUsuario.", "<propiedad> <id> <valor>", CommandMode.BOTH);
+        super("update", "<propiedad> <id> <valor>", CommandMode.BOTH);
         this.addSubcommand(new URangoUsuarioNombreCommand());
         this.addSubcommand(new URangoUsuarioDescripcionCommand());
         this.addSubcommand(new URangoUsuarioAddPermisoCommand());

@@ -18,7 +18,7 @@ import com.bteconosur.world.ReviewerToggleBuildService;
 public class ReviewerToggleBypassCommand extends BaseCommand {
 
     public ReviewerToggleBypassCommand() {
-        super("togglebypass", "Activar o desactivar el bypass de construcción de un proyecto.", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("togglebypass", "<id_proyecto>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

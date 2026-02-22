@@ -15,7 +15,7 @@ public class CPaisCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CPaisCommand() {
-        super("create", "Crear un nuevo País.", "<nombre> <nombre_publico> <ds_id_guild> <ds_id_global_chat> <ds_id_country_chat> <ds_id_log> <ds_id_request>", CommandMode.BOTH);
+        super("create", "<nombre> <nombre_publico> <ds_id_guild> <ds_id_global_chat> <ds_id_country_chat> <ds_id_log> <ds_id_request>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

@@ -15,7 +15,7 @@ public class URangoUsuarioNombreCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public URangoUsuarioNombreCommand() {
-        super("nombre", "Actualizar nombre de un RangoUsuario.", "<id> <nombre>", CommandMode.BOTH);
+        super("nombre", "<id> <nombre>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

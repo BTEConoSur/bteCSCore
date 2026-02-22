@@ -10,7 +10,7 @@ import com.bteconosur.db.model.Player;
 public class TestConsoleLoggerCommand extends BaseCommand {
 
     public TestConsoleLoggerCommand() {
-        super("consolelogger", "Comando de prueba para el logger de consola.", null, CommandMode.PLAYER_ONLY);
+        super("consolelogger", null, CommandMode.PLAYER_ONLY);
     }
 
     @Override

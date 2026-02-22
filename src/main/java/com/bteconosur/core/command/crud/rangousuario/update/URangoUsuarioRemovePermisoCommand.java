@@ -18,7 +18,7 @@ public class URangoUsuarioRemovePermisoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public URangoUsuarioRemovePermisoCommand() {
-        super("removepermiso", "Remover permiso de un RangoUsuario.", "<id_rango> <permiso>", CommandMode.BOTH);
+        super("removepermiso", "<id_rango> <permiso>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

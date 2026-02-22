@@ -18,7 +18,7 @@ public class UTipoUsuarioAddPermisoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UTipoUsuarioAddPermisoCommand() {
-        super("addpermiso", "Agregar permiso a un Tipo de Usuario.", "<id_tipo> <permiso>", CommandMode.BOTH);
+        super("addpermiso", "<id_tipo> <permiso>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

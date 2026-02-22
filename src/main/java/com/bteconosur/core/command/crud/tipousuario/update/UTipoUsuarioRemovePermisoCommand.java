@@ -18,7 +18,7 @@ public class UTipoUsuarioRemovePermisoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UTipoUsuarioRemovePermisoCommand() {
-        super("removepermiso", "Remover permiso de un Tipo de Usuario.", "<id_tipo> <permiso>", CommandMode.BOTH);
+        super("removepermiso", "<id_tipo> <permiso>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

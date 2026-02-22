@@ -33,7 +33,6 @@ public abstract class BaseCommand extends Command {
  //TODO AUTOCOMPLETADO AL CHEQUEAR PERMISOS
     protected final String command;
     protected String fullCommand;
-    protected final String description;
     protected final String args;
     private final CommandMode commandMode;
     private final String permission;
@@ -46,19 +45,19 @@ public abstract class BaseCommand extends Command {
 
     protected final YamlConfiguration config;
 
-    public BaseCommand(String command, String description, String args) {
-        this(command, description, args, null, CommandMode.BOTH);
+    public BaseCommand(String command, String args) {
+        this(command, args, null, CommandMode.BOTH);
     }
 
-    public BaseCommand(String command, String description, String args, CommandMode mode) {
-        this(command, description, args, null, mode);
+    public BaseCommand(String command, String args, CommandMode mode) {
+        this(command, args, null, mode);
     }
 
-    public BaseCommand(String command, String description, String args, String permission) {
-        this(command, description, args, permission, CommandMode.BOTH);
+    public BaseCommand(String command, String args, String permission) {
+        this(command, args, permission, CommandMode.BOTH);
     }
 
-    public BaseCommand(String command, String description, String args, String permission, CommandMode mode) {
+    public BaseCommand(String command, String args, String permission, CommandMode mode) {
         super(command);
 
         ConfigHandler configHandler = ConfigHandler.getInstance();
@@ -69,7 +68,6 @@ public abstract class BaseCommand extends Command {
         this.plugin = BTEConoSur.getInstance();
         this.permission = permission;
         this.commandMode = mode;
-        this.description = description;
         this.args = args;
 
         String configPath = fullCommand.replace(" ", ".") + ".aliases";
@@ -289,7 +287,10 @@ public abstract class BaseCommand extends Command {
         return command;
     }
 
-    public String getDescription() {
+    public String getDescription(Language language) {
+        String configPath = "commands-descriptions." + fullCommand.replace(" ", ".") + ".desc";
+        String description = LanguageHandler.getTextWithouthWarn(language, configPath);
+        if (description == "ERROR_KEY_NF") return null; 
         return description;
     }
 

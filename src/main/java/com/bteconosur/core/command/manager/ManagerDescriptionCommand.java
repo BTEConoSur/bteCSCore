@@ -22,7 +22,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 public class ManagerDescriptionCommand extends BaseCommand {
 
     public ManagerDescriptionCommand() {
-        super("description", "Cambiar la descripción de un proyecto de un país.", "<id_proyecto> <nueva_descripcion>", CommandMode.PLAYER_ONLY);
+        super("description", "<id_proyecto> <nueva_descripcion>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

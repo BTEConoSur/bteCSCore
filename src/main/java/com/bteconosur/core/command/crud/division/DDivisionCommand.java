@@ -15,7 +15,7 @@ public class DDivisionCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public DDivisionCommand() {
-        super("delete", "Eliminar Division.", "<id>", CommandMode.BOTH);
+        super("delete", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

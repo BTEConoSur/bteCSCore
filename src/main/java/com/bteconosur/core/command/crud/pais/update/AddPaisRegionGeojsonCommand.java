@@ -20,7 +20,7 @@ public class AddPaisRegionGeojsonCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public AddPaisRegionGeojsonCommand() {
-        super("addregiones", "Cargar regiones de un País desde un archivo GeoJSON. Colocar en geojson/countries.", "<id_pais> <archivo_geojson>", CommandMode.BOTH);
+        super("addregiones", "<id_pais> <archivo_geojson>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

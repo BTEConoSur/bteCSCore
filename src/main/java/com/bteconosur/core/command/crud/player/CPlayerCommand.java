@@ -20,7 +20,7 @@ public class CPlayerCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CPlayerCommand() {
-        super("create", "Crear un nuevo Player. <fecha_ingreso> con formato UNIX ms.", "<uuid> <nombre> <fecha_ingreso> <id_tipo_usuario> <id_rango_usuario>", CommandMode.BOTH);
+        super("create", "<uuid> <nombre> <fecha_ingreso> <id_tipo_usuario> <id_rango_usuario>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

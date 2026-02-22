@@ -13,7 +13,7 @@ import com.bteconosur.db.model.Player;
 public class CRUDRangoUsuarioCommand extends BaseCommand {
 
     public CRUDRangoUsuarioCommand() {
-        super("rangousuario", "Realizar operaciones CRUD sobre rangos de usuario.", null, CommandMode.BOTH);
+        super("rangousuario", null, CommandMode.BOTH);
         this.addSubcommand(new CRangoUsuarioCommand());
         this.addSubcommand(new RRangoUsuarioCommand());
         this.addSubcommand(new URangoUsuarioCommand());

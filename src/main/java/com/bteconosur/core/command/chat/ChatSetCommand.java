@@ -15,7 +15,7 @@ public class ChatSetCommand extends BaseCommand {
 
 
     public ChatSetCommand() {
-        super("set", "Cambia el chat de un Jugador Online", "<nombre_jugador>", "btecs.command.chat.set", CommandMode.PLAYER_ONLY);
+        super("set", "<nombre_jugador>", "btecs.command.chat.set", CommandMode.PLAYER_ONLY);
     }
 
     @Override

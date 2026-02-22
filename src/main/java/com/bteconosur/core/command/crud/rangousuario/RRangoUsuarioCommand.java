@@ -15,7 +15,7 @@ public class RRangoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public RRangoUsuarioCommand() {
-        super("read", "Obtener RangoUsuario.", "<id>", CommandMode.BOTH);
+        super("read", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

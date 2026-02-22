@@ -16,7 +16,7 @@ public class RemoveDivisionRegionCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public RemoveDivisionRegionCommand() {
-        super("removeregion", "Eliminar región de una División.", "<id_division> <id_region>", CommandMode.BOTH);
+        super("removeregion", "<id_division> <id_region>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

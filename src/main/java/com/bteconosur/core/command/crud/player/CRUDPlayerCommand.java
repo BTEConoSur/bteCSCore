@@ -13,7 +13,7 @@ import com.bteconosur.db.model.Player;
 public class CRUDPlayerCommand extends BaseCommand {
 
     public CRUDPlayerCommand() {
-        super("player", "Realizar operaciones CRUD sobre jugadores.", null, CommandMode.BOTH);
+        super("player", null, CommandMode.BOTH);
         this.addSubcommand(new CPlayerCommand());
         this.addSubcommand(new RPlayerCommand());
         this.addSubcommand(new UPlayerCommand());

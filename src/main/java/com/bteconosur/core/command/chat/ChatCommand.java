@@ -11,7 +11,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class ChatCommand extends BaseCommand {
 
     public ChatCommand() {
-        super("chat", "Para cambiar el chat.", "[subcomando]");
+        super("chat", "");
         this.addSubcommand(new ChatSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

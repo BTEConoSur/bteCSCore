@@ -18,7 +18,7 @@ import com.bteconosur.db.model.Player;
 public class CrudCommand extends BaseCommand {
 
     public CrudCommand() {
-        super("crud", "Realizar operaciones CRUD. (Crear, Leer, Actualizar, Eliminar). Reiniciar servidor para que se apliquen los cambios.", null, CommandMode.BOTH);
+        super("crud", null, CommandMode.BOTH);
         this.addSubcommand(new CRUDPlayerCommand());
         this.addSubcommand(new CRUDTipoUsuarioCommand());
         this.addSubcommand(new CRUDRangoUsuarioCommand());

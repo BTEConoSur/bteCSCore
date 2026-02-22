@@ -15,7 +15,7 @@ public class UTipoProyectoTamañoMaxCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UTipoProyectoTamañoMaxCommand() {
-        super("tamañomax", "Actualizar tamaño máximo de un Tipo deProyecto.", "<id> <tamaño>", CommandMode.BOTH);
+        super("tamañomax", "<id> <tamaño>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

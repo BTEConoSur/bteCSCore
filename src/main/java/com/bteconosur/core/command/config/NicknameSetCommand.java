@@ -14,7 +14,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class NicknameSetCommand extends BaseCommand {
 
     public NicknameSetCommand() {
-        super("set", "Cambiar el nombre público de un jugador.", "<uuid/nombre> <nombre_público>", "btecs.command.nickname.set");
+        super("set", "<uuid/nombre> <nombre_público>", "btecs.command.nickname.set");
     }
 
     @Override

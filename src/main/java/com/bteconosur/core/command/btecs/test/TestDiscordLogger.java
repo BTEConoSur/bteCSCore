@@ -9,7 +9,7 @@ import com.bteconosur.db.registry.PaisRegistry;
 public class TestDiscordLogger extends BaseCommand {
 
     public TestDiscordLogger() {
-        super("discordlogger", "Comando de prueba para el logger de discord.", null, CommandMode.BOTH); //TODO: Probar dependencia de permisos
+        super("discordlogger", null, CommandMode.BOTH); //TODO: Probar dependencia de permisos
     }
 
     @Override

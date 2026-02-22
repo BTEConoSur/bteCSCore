@@ -15,7 +15,7 @@ public class RPaisCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public RPaisCommand() {
-        super("read", "Obtener País.", "<id>", CommandMode.BOTH);
+        super("read", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

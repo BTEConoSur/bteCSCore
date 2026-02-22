@@ -16,7 +16,7 @@ public class UPlayerIdCommand extends BaseCommand{
     private final DBManager dbManager;
 
     public UPlayerIdCommand() {
-        super("id", "Actualizar id de un Player.", "<uuid> <valor>", CommandMode.BOTH);
+        super("id", "<uuid> <valor>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

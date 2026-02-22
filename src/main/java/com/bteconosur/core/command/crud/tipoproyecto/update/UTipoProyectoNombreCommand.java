@@ -15,7 +15,7 @@ public class UTipoProyectoNombreCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UTipoProyectoNombreCommand() {
-        super("nombre", "Actualizar nombre de un Tipo de Proyecto.", "<id> <nombre>", CommandMode.BOTH);
+        super("nombre", "<id> <nombre>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

@@ -15,7 +15,7 @@ public class UTipoUsuarioCantProyecSimCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UTipoUsuarioCantProyecSimCommand() {
-        super("cantproyecsim", "Actualizar cantidad de proyectos simultáneos de un Tipo de Usuario.", "<id> <cantidad>", CommandMode.BOTH);
+        super("cantproyecsim", "<id> <cantidad>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

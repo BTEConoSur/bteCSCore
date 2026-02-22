@@ -26,7 +26,7 @@ public class TestRegionPaisGeojsonCommand extends BaseCommand {
     private final BTEConoSur plugin;
 
     public TestRegionPaisGeojsonCommand() {
-        super("regionpaisgeojson", "Imprimir GeoJSON de una región por ID.", "<id_region>", CommandMode.BOTH);
+        super("regionpaisgeojson", "<id_region>", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
         dbManager = DBManager.getInstance();

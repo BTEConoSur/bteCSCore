@@ -28,7 +28,7 @@ public class ReviewRejectCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ReviewRejectCommand() {
-        super("reject", "Rechazar la finalización de un proyecto.", "[comentario]", CommandMode.PLAYER_ONLY);
+        super("reject", "[comentario]", CommandMode.PLAYER_ONLY);
     }
 
     @Override

@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class UTipoUsuarioCommand extends BaseCommand {
 
     public UTipoUsuarioCommand() {
-        super("update", "Actualizar propiedad de un TipoUsuario.", "<propiedad> <id> <valor>", CommandMode.BOTH);
+        super("update", "<propiedad> <id> <valor>", CommandMode.BOTH);
         this.addSubcommand(new UTipoUsuarioNombreCommand());
         this.addSubcommand(new UTipoUsuarioDescripcionCommand());
         this.addSubcommand(new UTipoUsuarioCantProyecSimCommand());

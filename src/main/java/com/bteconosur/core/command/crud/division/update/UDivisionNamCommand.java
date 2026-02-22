@@ -15,7 +15,7 @@ public class UDivisionNamCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UDivisionNamCommand() {
-        super("nam", "Actualizar nam de una División.", "<id> <nuevo_nam>", CommandMode.BOTH);
+        super("nam", "<id> <nuevo_nam>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

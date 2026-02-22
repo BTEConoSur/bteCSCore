@@ -14,7 +14,7 @@ public class NicknameCommand extends BaseCommand {
 
 
     public NicknameCommand() {
-        super("nickname", "Cambiar el nombre público.", "<nombre_público>", "btecs.command.nickname");
+        super("nickname", "<nombre_público>", "btecs.command.nickname");
         this.addSubcommand(new NicknameSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

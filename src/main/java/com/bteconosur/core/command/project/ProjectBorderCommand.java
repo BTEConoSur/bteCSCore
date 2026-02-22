@@ -20,7 +20,7 @@ public class ProjectBorderCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectBorderCommand() {
-        super("border", "Activar o desactivar el borde de un proyecto.", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("border", "[id_proyecto]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

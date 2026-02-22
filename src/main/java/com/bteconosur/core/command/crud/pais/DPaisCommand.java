@@ -15,7 +15,7 @@ public class DPaisCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public DPaisCommand() {
-        super("delete", "Eliminar un País.", "<id>", CommandMode.BOTH);
+        super("delete", "<id>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

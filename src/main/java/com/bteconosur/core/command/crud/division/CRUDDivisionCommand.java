@@ -13,7 +13,7 @@ import com.bteconosur.db.model.Player;
 public class CRUDDivisionCommand extends BaseCommand {
 
     public CRUDDivisionCommand() {
-        super("division", "Realizar operaciones CRUD sobre divisiones.", null, CommandMode.BOTH);
+        super("division", null, CommandMode.BOTH);
         this.addSubcommand(new CDivisionCommand());
         this.addSubcommand(new RDivisionCommand());
         this.addSubcommand(new UDivisionCommand());

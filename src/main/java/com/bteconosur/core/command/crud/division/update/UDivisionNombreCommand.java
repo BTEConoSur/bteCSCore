@@ -15,7 +15,7 @@ public class UDivisionNombreCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UDivisionNombreCommand() {
-        super("nombre", "Actualizar nombre de una Division.", "<id> <nuevo_nombre>", CommandMode.BOTH);
+        super("nombre", "<id> <nuevo_nombre>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

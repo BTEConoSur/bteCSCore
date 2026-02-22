@@ -30,7 +30,7 @@ public class ManagerRedefineCommand extends BaseCommand {
     private ConfirmationMenu confirmationMenu;
 
     public ManagerRedefineCommand() {
-        super("redefine", "Redefinir un proyecto de un país.", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("redefine", "<id_proyecto>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

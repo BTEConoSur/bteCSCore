@@ -15,7 +15,7 @@ public class CRangoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CRangoUsuarioCommand() {
-        super("create", "Crear un nuevo RangoUsuario.", "<nombre> <descripcion>", CommandMode.BOTH);
+        super("create", "<nombre> <descripcion>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

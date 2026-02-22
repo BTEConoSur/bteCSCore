@@ -15,7 +15,7 @@ public class RemovePaisRegionCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public RemovePaisRegionCommand() {
-        super("removeregion", "Eliminar región de un País.", "<id_region>", CommandMode.BOTH);
+        super("removeregion", "<id_region>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

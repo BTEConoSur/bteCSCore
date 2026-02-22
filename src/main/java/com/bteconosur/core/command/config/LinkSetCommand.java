@@ -16,7 +16,7 @@ import com.bteconosur.discord.util.LinkService;
 public class LinkSetCommand extends BaseCommand {
 
     public LinkSetCommand() {
-        super("set", "Linkear la cuenta de Discord a un jugador.", "<uuid/nombre> <discordId>", "btecs.command.link.set");
+        super("set", "<uuid/nombre> <discordId>", "btecs.command.link.set");
     }
 
     @Override

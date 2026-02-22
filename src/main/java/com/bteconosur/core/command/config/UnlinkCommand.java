@@ -16,7 +16,7 @@ public class UnlinkCommand extends BaseCommand {
     private ConfirmationMenu confirmationMenu;
 
     public UnlinkCommand() {
-        super("unlink", "Desvincular la cuenta de Discord.", "[subcomando]", "btecs.command.unlink");
+        super("unlink", "", "btecs.command.unlink");
         this.addSubcommand(new UnlinkSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

@@ -10,7 +10,7 @@ import com.bteconosur.db.model.Player;
 public class GeneralConfigCommand extends BaseCommand {
 
     public GeneralConfigCommand() {
-        super("config", "Abrir menú de configuración general", "[subcomando]");
+        super("config", "");
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

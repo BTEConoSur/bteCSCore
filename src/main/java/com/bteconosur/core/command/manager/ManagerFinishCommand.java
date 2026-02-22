@@ -22,7 +22,7 @@ public class ManagerFinishCommand extends BaseCommand {
     private ConfirmationMenu confirmationMenu;
 
     public ManagerFinishCommand() {
-        super("finish", "Finalizar cualquier proyecto del país.", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("finish", "<id_proyecto>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

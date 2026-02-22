@@ -21,7 +21,7 @@ public class ProjectLeaveCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectLeaveCommand() {
-        super("leave", "Salir del proyecto en el que estás.", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("leave", "[id_proyecto]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

@@ -15,7 +15,7 @@ public class UPaisDsIdRequestCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UPaisDsIdRequestCommand() {
-        super("dsidrequest", "Actualizar Discord Request ID de un País.", "<id> <ds_id_request>", CommandMode.BOTH);
+        super("dsidrequest", "<id> <ds_id_request>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

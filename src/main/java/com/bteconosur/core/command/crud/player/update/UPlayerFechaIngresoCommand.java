@@ -17,7 +17,7 @@ public class UPlayerFechaIngresoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UPlayerFechaIngresoCommand() {
-        super("fechaingreso", "Actualizar fecha de ingreso (UNIX ms) de un Player.", "<uuid> <valor>", CommandMode.BOTH);
+        super("fechaingreso", "<uuid> <valor>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

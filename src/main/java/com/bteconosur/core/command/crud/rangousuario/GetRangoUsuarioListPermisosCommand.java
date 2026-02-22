@@ -17,7 +17,7 @@ public class GetRangoUsuarioListPermisosCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public GetRangoUsuarioListPermisosCommand() {
-        super("listpermisos", "Listar permisos de un Rango de Usuario.", "<id_rango>", CommandMode.BOTH);
+        super("listpermisos", "<id_rango>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

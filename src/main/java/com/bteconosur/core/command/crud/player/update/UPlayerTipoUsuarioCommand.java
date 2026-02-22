@@ -17,7 +17,7 @@ public class UPlayerTipoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UPlayerTipoUsuarioCommand() {
-        super("tipousuario", "Actualizar tipo de usuario de un Player.", "<uuid> <id_tipo_usuario>", CommandMode.BOTH);
+        super("tipousuario", "<uuid> <id_tipo_usuario>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

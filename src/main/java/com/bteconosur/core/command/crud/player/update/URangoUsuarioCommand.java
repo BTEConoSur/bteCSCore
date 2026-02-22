@@ -17,7 +17,7 @@ public class URangoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public URangoUsuarioCommand() {
-        super("rangousuario", "Actualizar rango de usuario de un Player.", "<uuid> <id_rango_usuario>", CommandMode.BOTH);
+        super("rangousuario", "<uuid> <id_rango_usuario>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

@@ -28,7 +28,7 @@ public class TestAllRegionDivisionGeojsonCommand extends BaseCommand {
     private final YamlConfiguration config;
 
     public TestAllRegionDivisionGeojsonCommand() {
-        super("allregiondivisiongeojson", "Crear GeoJSON con todas las regiones de divisiones. Se guarda en geojson/output", null, CommandMode.CONSOLE_ONLY);
+        super("allregiondivisiongeojson", null, CommandMode.CONSOLE_ONLY);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         dbManager = DBManager.getInstance();
         config = configHandler.getConfig();

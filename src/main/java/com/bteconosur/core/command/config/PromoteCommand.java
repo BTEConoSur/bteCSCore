@@ -16,7 +16,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class PromoteCommand extends BaseCommand {
 
     public PromoteCommand() {
-        super("promote", "Cambiar el Rango de Usuario de un jugador.", "<uuid/nombre_jugador>", "btecs.command.promote", CommandMode.PLAYER_ONLY);
+        super("promote", "<uuid/nombre_jugador>", "btecs.command.promote", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

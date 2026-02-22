@@ -23,7 +23,7 @@ import com.bteconosur.db.util.Estado;
 public class ManagerTransferCommand extends BaseCommand {
 
     public ManagerTransferCommand() {
-        super("transfer", "Transferir el liderazgo de un proyecto del país.", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
+        super("transfer", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

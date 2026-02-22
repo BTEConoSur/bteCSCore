@@ -11,7 +11,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class PaisPrefixCommand extends BaseCommand {
 
     public PaisPrefixCommand() {
-        super("pais", "Para cambiar el prefijo del país.", "[subcomando]");
+        super("pais", "[subcomando]");
         this.addSubcommand(new PaisPrefixSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

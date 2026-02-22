@@ -22,7 +22,7 @@ public class ProjectInfoCommand extends BaseCommand {
     private ProjectInfoMenu projectInfoMenu;
 
     public ProjectInfoCommand() {
-        super("info", "Ver información de un proyecto.", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("info", "[id_proyecto]", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

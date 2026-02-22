@@ -14,7 +14,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class ReviewerCommand extends BaseCommand {
 
     public ReviewerCommand() {
-        super("reviewer", "Comando para Reviewer de los proyectos.", null, "btecs.command.reviewer", CommandMode.PLAYER_ONLY);
+        super("reviewer", null, "btecs.command.reviewer", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new ReviewerConfigCommand());
         this.addSubcommand(new ReviewerReviewCommand());
         this.addSubcommand(new ProjectPromoteCommand());

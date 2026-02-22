@@ -13,7 +13,7 @@ import com.bteconosur.db.model.Player;
 public class CRUDTipoUsuarioCommand extends BaseCommand {
 
     public CRUDTipoUsuarioCommand() {
-        super("tipousuario", "Realizar operaciones CRUD sobre tipos de usuario.", null, CommandMode.BOTH);
+        super("tipousuario", null, CommandMode.BOTH);
         this.addSubcommand(new CTipoUsuarioCommand());
         this.addSubcommand(new RTipoUsuarioCommand());
         this.addSubcommand(new UTipoUsuarioCommand());

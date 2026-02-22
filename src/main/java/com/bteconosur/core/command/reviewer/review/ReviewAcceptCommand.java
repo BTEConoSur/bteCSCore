@@ -31,7 +31,7 @@ public class ReviewAcceptCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ReviewAcceptCommand() {
-        super("accept", "Aceptar la finalización de un proyecto.", "[comentario]", CommandMode.PLAYER_ONLY);
+        super("accept", "[comentario]", CommandMode.PLAYER_ONLY);
     }
 
     @Override

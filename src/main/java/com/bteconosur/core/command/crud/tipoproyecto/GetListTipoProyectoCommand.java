@@ -17,7 +17,7 @@ public class GetListTipoProyectoCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public GetListTipoProyectoCommand() {
-        super("list", "Obtener lista de todos los tipos de proyecto.", "", CommandMode.BOTH);
+        super("list", "", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

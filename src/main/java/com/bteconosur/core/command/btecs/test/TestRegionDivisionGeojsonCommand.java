@@ -26,7 +26,7 @@ public class TestRegionDivisionGeojsonCommand extends BaseCommand {
     private final YamlConfiguration config;
 
     public TestRegionDivisionGeojsonCommand() {
-        super("regiondivisiongeojson", "Crear GeoJSON de una región de división por ID. Se guarda en geojson/output", "<id_region>", CommandMode.BOTH);
+        super("regiondivisiongeojson", "<id_region>", CommandMode.BOTH);
         config = ConfigHandler.getInstance().getConfig();
         dbManager = DBManager.getInstance();
         plugin = BTEConoSur.getInstance();

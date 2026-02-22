@@ -29,7 +29,7 @@ public class TestAllRegionPaisGeojsonCommand extends BaseCommand {
     private final BTEConoSur plugin;
 
     public TestAllRegionPaisGeojsonCommand() {
-        super("allregionpaisgeojson", "Crear GeoJSON con todas las regiones de países. Se guarda en geojson/output", null, CommandMode.CONSOLE_ONLY);
+        super("allregionpaisgeojson", null, CommandMode.CONSOLE_ONLY);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
         dbManager = DBManager.getInstance();

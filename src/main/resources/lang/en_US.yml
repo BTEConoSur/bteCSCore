@@ -154,6 +154,156 @@ invalid-project-size: "Project size is invalid. Min. 2m² - Max. 50m²."
 invalid-project-location: "Project location is invalid or not within a valid division."
 invalid-project-comment: "Maximum 300 characters allowed for comment."
 
+commands-descriptions:
+  generic-help.desc: "Shows command help."
+  btecs:
+    desc: "Main BTE Cono Sur command."
+    test:
+      desc: "For testing things."
+      allregiondivisiongeojson.desc: "Create GeoJSON with all division regions. Saved in geojson/output."
+      allregionpaisgeojson.desc: "Create GeoJSON with all country regions. Saved in geojson/output."
+      consolelogger.desc: "Test command for console logger."
+      discordlogger.desc: "Test command for Discord logger."
+      generic.desc: "Generic test command."
+      paginatedmenu.desc: "Test command for paginated menu."
+      playerLogger.desc: "Test command for player logger."
+      regiondivisiongeojson.desc: "Create GeoJSON of a division region by ID. Saved in geojson/output."
+      regionpaisgeojson.desc: "Create GeoJSON of a country region by ID. Saved in geojson/output."
+      simplemenu.desc: "Opens a simple test menu."
+      syncproyectos.desc: "Synchronizes all projects with WorldGuard regions."
+    reload.desc: "Reloads the plugin configuration."
+  chat:
+    desc: "Change chat."
+    set.desc: "Change chat of an Online Player."
+  config.desc: "Open general configuration menu."
+  link:
+    desc: "Link Discord account."
+    set.desc: "Link Discord account to a player."
+  nickname:
+    desc: "Change public name."
+    set.desc: "Change public name of a player."
+  promote.desc: "Change User Rank of a player."
+  unlink:
+    desc: "Unlink Discord account."
+    set.desc: "Unlink Discord account from a player."
+  crud:
+    division:
+      desc: "Perform CRUD operations on divisions. Restart server for changes to apply"
+      update:
+        desc: "Update attributes of a Division."
+        addregionesdivision.desc: "Load regions of a Division from a GeoJSON file. Place in geojson/divisions."
+        removeregion.desc: "Remove region from a Division."
+      create.desc: "Create a new Division. Created without polygon."
+      delete.desc: "Delete a Division. Associated regions are also deleted."
+      read.desc: "Read information of a Division."
+    pais:
+      desc: "Perform CRUD operations on countries."
+      update:
+        desc: "Update attributes of a Country."
+        adddivisiones.desc: "Load divisions of a Country from GeoJSON files."
+        addregiones.desc: "Load regions of a Country from a GeoJSON file. Place in geojson/countries."
+        removeregion.desc: "Remove region from a Country."
+      create.desc: "Create a new Country. Created without polygon."
+      delete.desc: "Delete a Country. Associated divisions and regions are also deleted."
+      read.desc: "Read information of a Country."
+      list.desc: "Get list of all countries."
+      listregions.desc: "Get list of all regions of a country or division."
+    player:
+      desc: "Perform CRUD operations on players. Restart server for changes to apply."
+      update:
+        desc: "Update attributes of a player."
+        fechaingreso.desc: "Update entry date (UNIX ms) of a Player."
+        fechaultimaconexion.desc: "Update last connection date (UNIX ms) of a Player."
+      create.desc: "Create a new Player. <entry_date> in UNIX ms format."
+      delete.desc: "Delete a Player."
+      read.desc: "Read information of a Player."
+    rangousuario:
+      desc: "Perform CRUD operations on User Ranks. Restart server for changes to apply."
+      update:
+        desc: "Update attributes of a User Rank."
+        addpermiso.desc: "Add permission to a User Rank."
+        removepermiso.desc: "Remove permission from a User Rank."
+      create.desc: "Create a new User Rank."
+      delete.desc: "Delete a User Rank."
+      read.desc: "Read information of a User Rank."
+      list.desc: "Get list of all User Ranks."
+      listpermisos.desc: "Get list of permissions of a User Rank."
+    tipoproyecto:
+      desc: "Perform CRUD operations on Project Types. Restart server for changes to apply."
+      update.desc: "Update attributes of a Project Type."
+      create.desc: "Create a new Project Type."
+      delete.desc: "Delete a Project Type."
+      read.desc: "Read information of a Project Type."
+      list.desc: "Get list of all Project Types."
+    tipousuario:
+      desc: "Perform CRUD operations on User Types. Restart server for changes to apply."
+      update:
+        desc: "Update attributes of a User Type."
+        addpermiso.desc: "Add permission to a User Type."
+        removepermiso.desc: "Remove permission from a User Type."
+        cantproyecsim.desc: "Update number of simultaneous projects allowed for a User Type."
+      create.desc: "Create a new User Type."
+      delete.desc: "Delete a User Type."
+      read.desc: "Read information of a User Type."
+      list.desc: "Get list of all User Types."
+      listpermisos.desc: "Get list of permissions of a User Type."
+  manager:
+    desc: "Command for Managers of country projects."
+    accept.desc: "Accept or reject join requests of a country project."
+    addmember.desc: "Add member to a country project."
+    addreviewer.desc: "Add Reviewer to a country."
+    config.desc: "Open Manager configuration menu."
+    delete.desc: "Delete a country project."
+    description.desc: "Change description of a country project."
+    edit.desc: "Activate editing of any country project."
+    finish.desc: "Finalize any country project."
+    manage.desc: "Manage a country project."
+    name.desc: "Change name of a country project."
+    redefine.desc: "Redefine a country project."
+    removeleader.desc: "Remove leader from a country project."
+    removemember.desc: "Remove member from a country project."
+    removereviewer.desc: "Remove Reviewer from a country."
+    select.desc: "Select a country project with World Edit."
+    transfer.desc: "Transfer leadership of a country project."
+  pais: 
+    desc: "Change country prefix."
+    set.desc: "Change prefix of an Online Player."
+  whereiam.desc: "Shows the country and division you are in."
+  project:
+    admin:
+      desc: "Project commands for Administrators."
+      addmanager.desc: "Add Manager to a country."
+      addreviewer.desc: "Add Reviewer to a country."
+      removemanager.desc: "Remove Manager from a country."
+      removereviewer.desc: "Remove Reviewer from a country."
+    accept.desc: "Accept or reject join requests."
+    addmember.desc: "Add member to a project."
+    border.desc: "Activate or deactivate project border."
+    claim.desc: "Claim an Abandoned project."
+    create.desc: "Create a new project."
+    description.desc: "Change description of a project."
+    edit.desc: "Activate editing of an existing project."
+    finish.desc: "Finalize a project."
+    info.desc: "View information of a project."
+    join.desc: "Join an Active or Editing project."
+    leave.desc: "Leave the project you are in."
+    manage.desc: "Manage a project."
+    name.desc: "Change name of a project."
+    redefine.desc: "Redefine an existing project."
+    removemember.desc: "Remove member from a project."
+    select.desc: "Select a project with World Edit."
+    transfer.desc: "Transfer leadership of a project to a Member."
+    desc: "Main project command."
+  reviewer:
+    desc: "Main command for Reviewer of projects."
+    review:
+      desc: "Review country projects."
+      accept.desc: "Accept project finalization."
+      reject.desc: "Reject project finalization."
+    promote.desc: "Change User Type of a player."
+    config.desc: "Open Reviewer configuration menu."
+    togglebypass: "Activate or deactivate review bypass for a project."
+
 region:
   selected: "<green>Region successfully selected."
   not-selected: "You don't have a region selected."
@@ -163,11 +313,12 @@ region:
 language-set: "<green>Language set to <yellow>%language%</yellow>."
 
 help-command:
-  header: "\n <b>=========</b> <gold>Help for /%comando%</gold> <b>=========</b>" # %command% -> Full command. %plugin-prefix% -> Plugin prefix.
+  header: "\n <b>=========</b> <gold>Help for Command</gold> <b>=========</b>"
+  info: "<light_purple>Field: <gray>Required <></gray> - <gray>Optional [] </gray> - <gray>Options A|B </gray></light_purple>"
   usage: "<yellow>Usage:</yellow> /%comando% %args%" # %command% -> Full command. %args% -> Command arguments.
   aliases: "<yellow>Aliases:</yellow> %aliases%" # %aliases% -> List of command aliases.
   description: "<yellow>Description:</yellow> %description%" # %description% -> Command description.
-  subcommands-title: "<yellow>Options:</yellow>"
+  subcommands-title: "<yellow>Options</yellow>"
   subcommand-line-1: " - <gold>/%comando% %subcomando%%args%</gold>:" # %command% -> Root command. %subcommands% -> Subcommands. %args% -> Subcommand arguments. (Ask why but subcommand and args go together)
   subcommand-line-2: "   <yellow>Description:</yellow> <white>%description%</white>" # %description% -> Subcommand description.
   subcommand-line-3: "   <yellow>Aliases:</yellow> <white>%aliases%</white>" # %aliases% -> Subcommand aliases.
@@ -179,8 +330,9 @@ help-command:
 
 global-help-command:
   header: "\n <b>=========</b> <gold>Help for %plugin-prefix%</gold> <b>=========</b>" # %plugin-prefix% -> Plugin prefix.
+  info: "<light_purple>Field: <gray>Required <></gray> - <gray>Optional [] </gray> - <gray>Options A|B </gray></light_purple>"
   commands-title: "<yellow>Available commands:</yellow>"
-  command-line-1: " - <gold>/%comando%%args%</gold>:" # %comando% -> Command. %args% -> Command arguments.
+  command-line-1: " - <gold>/%comando%%args%</gold>" # %comando% -> Command. %args% -> Command arguments.
   command-line-2: "   <yellow>Description:</yellow> <white>%description%</white>" # %description% -> Command description.
   command-line-3: "   <yellow>Aliases:</yellow> <white>%aliases%</white>" # %aliases% -> Command aliases.
   backtext: "<b><<<</b>"

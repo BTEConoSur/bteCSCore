@@ -13,7 +13,7 @@ public class ReviewerReviewCommand extends BaseCommand {
 
 
     public ReviewerReviewCommand() {
-        super("review", "Revisar proyectos.", null, CommandMode.PLAYER_ONLY);
+        super("review", null, CommandMode.PLAYER_ONLY);
         this.addSubcommand(new ReviewAcceptCommand());
         this.addSubcommand(new ReviewRejectCommand());
         this.addSubcommand(new GenericHelpCommand(this));

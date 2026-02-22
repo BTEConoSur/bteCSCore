@@ -22,7 +22,7 @@ public class ManagerEditCommand extends BaseCommand {
     private ConfirmationMenu confirmationMenu;
 
     public ManagerEditCommand() {
-        super("edit", "Activar edición de cualquier proyecto del país.", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("edit", "<id_proyecto>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

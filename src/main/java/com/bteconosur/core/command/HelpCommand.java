@@ -20,7 +20,7 @@ public class HelpCommand extends BaseCommand {
     private static List<BaseCommand> commands = new ArrayList<>();
 
     public HelpCommand() {
-        super("help", "Ver ayuda principal de BTE Cono Sur.", null);
+        super("help", null);
     }
 
     @Override
@@ -49,8 +49,7 @@ public class HelpCommand extends BaseCommand {
         if (args.length > 0) {
             try {
                 page = Integer.parseInt(args[0]);
-                if (page < 1) page = totalPages;
-                if (page > totalPages) page = 1;
+                if (page < 1 || page > totalPages) page = 1;
             } catch (NumberFormatException e) {
             }
         }
@@ -58,6 +57,7 @@ public class HelpCommand extends BaseCommand {
         String pluginPrefix = LanguageHandler.getText(language, "plugin-prefix");
         String header = LanguageHandler.getText(language, "global-help-command.header")
             .replace("%plugin-prefix%", pluginPrefix);
+        String info = LanguageHandler.getText(language, "global-help-command.info");
         String commandsTitle = LanguageHandler.getText(language, "global-help-command.commands-title");
         String commandLine1 = LanguageHandler.getText(language, "global-help-command.command-line-1");
         String commandLine2 = LanguageHandler.getText(language, "global-help-command.command-line-2");
@@ -68,7 +68,7 @@ public class HelpCommand extends BaseCommand {
         TagResolver nextResolver = TagResolverUtils.getCommandText("nexttext", "/" + fullCommand + " " + (page + 1), LanguageHandler.getText(language, "global-help-command.nexttext"), LanguageHandler.getText(language, "global-help-command.nexthover"));
         if (page == 1) footer = footer.replace("<backtext>", "");
         if (page == totalPages) footer = footer.replace("<nexttext>", "");
-        String message = header;
+        String message = header + "\n" + info;
 
         if (visibleCommands > 0) {
             message += "\n" + commandsTitle;
@@ -97,8 +97,9 @@ public class HelpCommand extends BaseCommand {
                     
                     message += "\n" + line1;
 
-                    if (cmd.description != null && !cmd.description.isEmpty()) {
-                        String line2 = commandLine2.replace("%description%", cmd.description);
+                    String description = cmd.getDescription(language);
+                    if (description != null && !description.isEmpty()) {
+                        String line2 = commandLine2.replace("%description%", description);
                         message += "\n" + line2 ;
                     }
 

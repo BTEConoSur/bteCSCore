@@ -13,7 +13,7 @@ import org.bukkit.command.CommandSender;
 public class BTECSCommand extends BaseCommand {
 
     public BTECSCommand() {
-        super("btecs", "Comando principal de BTE Cono Sur", null, "btecs.command.btecs", CommandMode.BOTH);
+        super("btecs", null, "btecs.command.btecs", CommandMode.BOTH);
         this.addSubcommand(new BTECSReloadCommand());
         this.addSubcommand(new BTECSTestCommand());
         this.addSubcommand(new BTECSCheckSyncProyectos());

@@ -13,7 +13,7 @@ import com.bteconosur.db.model.Player;
 public class CRUDPaisCommand extends BaseCommand {
 
     public CRUDPaisCommand() {
-        super("pais", "Realizar operaciones CRUD sobre países.", null, CommandMode.BOTH);
+        super("pais", null, CommandMode.BOTH);
         this.addSubcommand(new CPaisCommand());
         this.addSubcommand(new RPaisCommand());
         this.addSubcommand(new UPaisCommand());

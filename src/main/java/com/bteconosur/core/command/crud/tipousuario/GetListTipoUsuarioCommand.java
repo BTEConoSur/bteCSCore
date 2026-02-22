@@ -17,7 +17,7 @@ public class GetListTipoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public GetListTipoUsuarioCommand() {
-        super("list", "Obtener lista de todos los tipos de usuario.", "", CommandMode.BOTH);
+        super("list", "", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 

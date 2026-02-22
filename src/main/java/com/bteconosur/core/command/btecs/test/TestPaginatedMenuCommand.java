@@ -9,7 +9,7 @@ import com.bteconosur.core.menu.TestPaginatedMenu;
 public class TestPaginatedMenuCommand extends BaseCommand {
 
     public TestPaginatedMenuCommand() {
-        super("paginatedmenu", "Abre un menú paginado de prueba", null, CommandMode.PLAYER_ONLY);
+        super("paginatedmenu", null, CommandMode.PLAYER_ONLY);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class CTipoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CTipoUsuarioCommand() {
-        super("create", "Crear un nuevo Tipo de Usuario.", "<nombre> <cant_proyec_sim> <descripcion>", CommandMode.BOTH);
+        super("create", "<nombre> <cant_proyec_sim> <descripcion>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 
