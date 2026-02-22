@@ -40,14 +40,14 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 * 🕙 /lobby -> Ir hacia el lobby general o de un país.
 * 🕙 /nightvision -> Activa/Desactiva visión nocturna.
 * 🕙 /pwarp -> Comando general para gestionar warps personales.
-* ⏳ /help -> Comando general de ayuda.
+* ✔️ /help -> Comando general de ayuda.
 * 🕙 /get -> Obtener bloques especiales.
 
 ## Proyectos
 
 * ✔️ Creación y gestión de proyectos individuales.
 * ✔️ Redefinir y editar proyectos creados.
-* ⏳ Protección de áreas de construcción.
+* ✔️ Protección de áreas de construcción.
 * ✔️ Añadir/Eliminar miembros.
 * ✔️ Flujo de revisión y aprobación.
 * ✔️ Comandos de Administración.
