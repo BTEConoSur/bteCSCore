@@ -66,7 +66,7 @@ public class ChatService {
 
     public static void setChatToNotePad(Player player) {
         GlobalChatService.leaveChat(player);
-        PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "note-pad-chat.switched"), (String) null);
+        PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "notepad.switched"), (String) null);
     }
 
     public static void switchChatToCountry(Player player, Pais pais) {
@@ -108,7 +108,7 @@ public class ChatService {
             CountryChatService.leaveChat(player, pais);
         }
 
-        PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "note-pad-chat.switched"), (String) null);
+        PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "notepad.switched"), (String) null);
         playersInNotePad.add(player);
     }
 

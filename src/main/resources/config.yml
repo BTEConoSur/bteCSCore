@@ -109,6 +109,9 @@ commands-cooldowns:
   btecs: 10
   btecs.test: 200
 
+help-command-per-page: 5 # Cantidad de comandos a mostrar por página en el comando de ayuda.
+help-command-cooldown: 0 # Cooldown para el comando de ayuda (en segundos).
+
 commands-aliases:
   btecs:
     aliases: ["bteconosur"]

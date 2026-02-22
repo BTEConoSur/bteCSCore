@@ -112,11 +112,11 @@ public class ChatUtil {
     }
 
     public static MessageEmbed getDsChatJoined(Player player) {
-        return buildChatNotification("player-chat-join", player);
+        return buildChatNotification("chat-join", player);
     }
 
     public static MessageEmbed getDsChatLeft(Player player) {
-        return buildChatNotification("player-chat-left", player);
+        return buildChatNotification("chat-left", player);
     }
 
     public static String getMcPlayerJoined(Player player, Language language) {

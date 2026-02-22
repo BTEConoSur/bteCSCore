@@ -37,7 +37,7 @@ public class ProjectAddMemberCommand extends BaseCommand {
         Language language = commandPlayer.getLanguage();
         PermissionManager permissionManager = PermissionManager.getInstance();
         if (args.length > 2 || args.length < 1) {
-            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(commandPlayer, message, (String) null);
             return true;
         }

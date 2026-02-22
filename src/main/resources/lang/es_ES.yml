@@ -138,8 +138,8 @@ console-only-command: "Este comando solo puede ser ejecutado desde la consola."
 unknown-command: "Comando desconocido." 
 help-command-usage: "Usa '/%comando% help' para ver la ayuda del comando."
 command-on-cooldown: "Debes esperar %time% antes de usar este comando de nuevo."
-command-cooldown-second-format: "%.2f segundo(s)"
-command-cooldown-minute-format: "%d minuto(s) %.2f segundo(s)"
+command-cooldown-second-format: "%.1f segundo(s)"
+command-cooldown-minute-format: "%d minuto(s) %.1f segundo(s)"
 
 player-not-found: "El jugador '%player%' no fue encontrado o no está online." # %player% -> Nombre del jugador.
 player-not-registered: "El jugador '%player%' no está registrado en la base de datos." # %player% -> Nombre del jugador.
@@ -163,13 +163,31 @@ region:
 language-set: "<green>Idioma establecido a <yellow>%language%</yellow>."
 
 help-command:
-  header: " ===== <gold>Ayuda de /%comando%</gold>" # %command% -> Comando completo. %plugin-prefix% -> Prefijo del plugin.
-  usage: "<yellow>Uso:</yellow> /%comando% %args%" # %command% -> Comando completo. %args% -> Argumentos del comando. 
+  header: "\n <b>=========</b> <gold>Ayuda de /%comando%</gold> <b>=========</b>" # %command% -> Comando completo. %plugin-prefix% -> Prefijo del plugin.
+  usage: "<yellow>Uso:</yellow> /%comando% %args%" # %command% -> Comando completo. %args% -> Argumentos del comando.
+  aliases: "<yellow>Alias:</yellow> %aliases%" # %aliases% -> Lista de alias del comando.
   description: "<yellow>Descripción:</yellow> %description%" # %description% -> Descripción del comando.
   subcommands-title: "<yellow>Opciones:</yellow>"
   subcommand-line-1: " - <gold>/%comando% %subcomando%%args%</gold>:" # %command% -> Comando raíz. %subcommands% -> Subcomandos. %args% -> Argumentos del subcomando. (No preguntés porqué pero subcomand y args van pegados)
-  subcommand-line-2: "   <white>%description%" # %description% -> Descripción del subcomando.
-  footer: ""
+  subcommand-line-2: "   <yellow>Descripción:</yellow> <white>%description%</white>" # %description% -> Descripción del subcomando.
+  subcommand-line-3: "   <yellow>Alias:</yellow> <white>%aliases%</white>" # %aliases% -> Alias del subcomando.
+  backtext: "<b><<<</b>"
+  backhover: "<gold>Página Anterior</gold>"
+  nexttext: "<b>>>></b>"
+  nexthover: "<gold>Siguiente Página</gold>"
+  footer: " <b>=========</b> <gold><backtext> Página <yellow>%currentPage% de %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
+
+global-help-command:
+  header: "\n <b>=========</b> <gold>Ayuda de %plugin-prefix%</gold> <b>=========</b>" # %plugin-prefix% -> Prefijo del plugin.
+  commands-title: "<yellow>Comandos disponibles:</yellow>"
+  command-line-1: " - <gold>/%comando%%args%</gold>:" # %comando% -> Comando. %args% -> Argumentos del comando.
+  command-line-2: "   <yellow>Descripción:</yellow> <white>%description%</white>" # %description% -> Descripción del comando.
+  command-line-3: "   <yellow>Alias:</yellow> <white>%aliases%</white>" # %aliases% -> Alias del comando.
+  backtext: "<b><<<</b>"
+  backhover: "<gold>Página Anterior</gold>"
+  nexttext: "<b>>>></b>"
+  nexthover: "<gold>Siguiente Página</gold>"
+  footer: " <b>=========</b> <gold><backtext> Página <yellow>%currentPage% de %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
 
 project:
   not-found-id: "No se encontró ningún proyecto con ID <yellow>'%search%'</yellow>."
@@ -448,7 +466,7 @@ global-chat:
 country-chat:
   set: "<green>El chat de <yellow>%player.nombre% <green>ha sido cambiado al chat de <yellow>%pais.nombrePublico%<green>."
   switched: "<aqua>Has cambiado al chat de <yellow>%pais.nombrePublico%<aqua>."
-notepad-chat:
+notepad:
   set: "<green>El bloc de notas de <yellow>%player.nombre% <green>ha sido abierto."
   switched: "<aqua>Has abierto el bloc de notas."
 nickname:
@@ -494,9 +512,9 @@ ds-chat-notifications:
     author: "%player.nombrePublico% se ha unido al servidor."
   player-left:
     author: "%player.nombrePublico% ha salido del servidor."
-  player-chat-join:
+  chat-join:
     author: "%player.nombrePublico% se ha unido al chat."
-  player-chat-left:
+  chat-left:
     author: "%player.nombrePublico% ha salido del chat."
 
 # Discord

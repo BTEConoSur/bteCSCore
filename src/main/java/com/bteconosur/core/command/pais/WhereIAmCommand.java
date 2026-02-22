@@ -1,6 +1,7 @@
 package com.bteconosur.core.command.pais;
 
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
@@ -14,6 +15,7 @@ public class WhereIAmCommand extends BaseCommand {
 
     public WhereIAmCommand() {
         super("whereiam", "Mostrar el país y ciudad en el que estás.", null, CommandMode.PLAYER_ONLY);
+        this.addSubcommand(new GenericHelpCommand(this));
     }
 
     @Override

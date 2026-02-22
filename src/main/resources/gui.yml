@@ -49,8 +49,7 @@ item-materials:
       ds-notifications:
         true: "WHITE_GLAZED_TERRACOTTA"
         false: "WHITE_CONCRETE"
-  notepad:
-    material: "WRITABLE_BOOK"
+  notepad: "WRITABLE_BOOK"
   argentina-head: "hdb:4408"
   chile-head: "hdb:24746"
   uruguay-head: "hdb:27575"

@@ -27,7 +27,7 @@ public class LinkCommand extends BaseCommand {
         Player player = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
         Language language = player.getLanguage();
         if (args.length != 1 && args.length != 0) {
-            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }

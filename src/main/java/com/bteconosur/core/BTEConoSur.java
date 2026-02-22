@@ -2,6 +2,7 @@ package com.bteconosur.core;
 
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
+import com.bteconosur.core.command.HelpCommand;
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.command.chat.ChatCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
@@ -128,7 +129,8 @@ public final class BTEConoSur extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MovingListeners(), this);
         getServer().getPluginManager().registerEvents(new HeadDBUtil(), this);
             
-        ConsoleLogger.info("Registrando comandos de Minecraft...");
+        
+        registerCommands();
         PluginRegistry.registerCommand(new BTECSCommand());
         PluginRegistry.registerCommand(new GeneralConfigCommand());
         PluginRegistry.registerCommand(new ChatCommand());
@@ -147,6 +149,37 @@ public final class BTEConoSur extends JavaPlugin {
         worldManager.syncRegions();
 
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
+    }
+
+    private void registerCommands() {
+        ConsoleLogger.info("Registrando comandos de Minecraft...");
+        PluginRegistry.registerCommand(new BTECSCommand());
+        HelpCommand.addCommand(new BTECSCommand());
+        PluginRegistry.registerCommand(new GeneralConfigCommand());
+        HelpCommand.addCommand(new GeneralConfigCommand());
+        PluginRegistry.registerCommand(new ChatCommand());
+        HelpCommand.addCommand(new ChatCommand());
+        PluginRegistry.registerCommand(new PaisPrefixCommand());
+        HelpCommand.addCommand(new PaisPrefixCommand());
+        PluginRegistry.registerCommand(new PromoteCommand());
+        HelpCommand.addCommand(new PromoteCommand());
+        PluginRegistry.registerCommand(new ProjectCommand());
+        HelpCommand.addCommand(new ProjectCommand());
+        PluginRegistry.registerCommand(new CrudCommand());
+        HelpCommand.addCommand(new CrudCommand());
+        PluginRegistry.registerCommand(new ManagerCommand());
+        HelpCommand.addCommand(new ManagerCommand());
+        PluginRegistry.registerCommand(new ReviewerCommand());
+        HelpCommand.addCommand(new ReviewerCommand());
+        PluginRegistry.registerCommand(new LinkCommand());
+        HelpCommand.addCommand(new LinkCommand());
+        PluginRegistry.registerCommand(new UnlinkCommand());
+        HelpCommand.addCommand(new UnlinkCommand());
+        PluginRegistry.registerCommand(new NicknameCommand());
+        HelpCommand.addCommand(new NicknameCommand());
+        PluginRegistry.registerCommand(new WhereIAmCommand());
+        HelpCommand.addCommand(new WhereIAmCommand());
+        PluginRegistry.registerCommand(new HelpCommand());
     }
 
     @Override

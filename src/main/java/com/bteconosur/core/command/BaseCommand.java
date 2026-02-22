@@ -42,9 +42,9 @@ public abstract class BaseCommand extends Command {
     protected final BTEConoSur plugin;
     private BaseCommand parent;
 
-    private HashMap<UUID, Long> timeCooldowns = new HashMap<>();
+    protected HashMap<UUID, Long> timeCooldowns = new HashMap<>();
 
-    private final YamlConfiguration config;
+    protected final YamlConfiguration config;
 
     public BaseCommand(String command, String description, String args) {
         this(command, description, args, null, CommandMode.BOTH);
@@ -181,7 +181,7 @@ public abstract class BaseCommand extends Command {
         return true;
     }
 
-    private boolean checkCooldown(CommandSender sender) {
+    protected boolean checkCooldown(CommandSender sender) {
         if (sender instanceof Player player) {
             Language language = PlayerRegistry.getInstance().get(sender).getLanguage();
             UUID playerUUID = player.getUniqueId();
@@ -208,7 +208,7 @@ public abstract class BaseCommand extends Command {
         return true;
     }
 
-    private String formatTime(long millis, Language language) {
+    protected String formatTime(long millis, Language language) {
         double seconds = millis / 1000.0;
         
         if (seconds < 60) {
