@@ -6,7 +6,6 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.core.util.RegionUtils;
-import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.ProyectoRegistry;

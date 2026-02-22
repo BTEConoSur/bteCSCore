@@ -128,7 +128,7 @@ public final class BTEConoSur extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MovingListeners(), this);
         getServer().getPluginManager().registerEvents(new HeadDBUtil(), this);
             
-        // Registro de comandos
+        ConsoleLogger.info("Registrando comandos de Minecraft...");
         PluginRegistry.registerCommand(new BTECSCommand());
         PluginRegistry.registerCommand(new GeneralConfigCommand());
         PluginRegistry.registerCommand(new ChatCommand());

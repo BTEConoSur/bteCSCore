@@ -16,8 +16,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public abstract class BaseCommand extends Command {
@@ -27,6 +29,7 @@ public abstract class BaseCommand extends Command {
         CONSOLE_ONLY,
         BOTH
     }
+
  //TODO AUTOCOMPLETADO AL CHEQUEAR PERMISOS
     protected final String command;
     protected String fullCommand;
@@ -35,6 +38,7 @@ public abstract class BaseCommand extends Command {
     private final CommandMode commandMode;
     private final String permission;
     protected final Map<String, BaseCommand> subcommands = new HashMap<>();
+    protected final Set<String> aliases = new HashSet<>();
     protected final BTEConoSur plugin;
     private BaseCommand parent;
 
@@ -67,6 +71,13 @@ public abstract class BaseCommand extends Command {
         this.commandMode = mode;
         this.description = description;
         this.args = args;
+
+        String configPath = fullCommand.replace(" ", ".") + ".aliases";
+        List<String> rawAliases = config.getStringList("commands-aliases." + configPath);
+        if (rawAliases != null && !rawAliases.isEmpty()) {
+            aliases.addAll(rawAliases);
+            setAliases(new ArrayList<>(aliases));
+        }
     }
 
     @Override
@@ -93,10 +104,10 @@ public abstract class BaseCommand extends Command {
 
         if (args.length > 0 && !subcommands.isEmpty()) {
             String subcommandName = args[0].toLowerCase();
-            BaseCommand subcommand = subcommands.get(subcommandName);
+            BaseCommand subcommand = getSubcommand(subcommandName);
 
             if (subcommand != null) {
-                return subcommand.execute(sender, commandLabel + " " + subcommandName, shiftArgs(args));
+                return subcommand.execute(sender, commandLabel + " " + subcommand.getCommand(), shiftArgs(args));
             }
         }
 
@@ -114,7 +125,7 @@ public abstract class BaseCommand extends Command {
         int subcommandDepth = 0;
         
         for (int i = 0; i < args.length - 1; i++) {
-            BaseCommand nextCommand = currentCommand.subcommands.get(args[i].toLowerCase());
+            BaseCommand nextCommand = currentCommand.getSubcommand(args[i].toLowerCase());
             if (nextCommand == null) {
                 return super.tabComplete(sender, alias, args);
             }
@@ -125,21 +136,32 @@ public abstract class BaseCommand extends Command {
         if (!currentCommand.subcommands.isEmpty()) {
             List<String> completions = new ArrayList<>();
             String currentArg = args[args.length - 1].toLowerCase();
-            for (Map.Entry<String, BaseCommand> entry : currentCommand.subcommands.entrySet()) {
-                String subcommandName = entry.getKey();
-                BaseCommand subcommand = entry.getValue();
-                
+            for (BaseCommand subcommand : currentCommand.subcommands.values()) {
                 if (subcommand.permission != null && !sender.hasPermission(subcommand.permission)) {
                     continue;
                 }
-                
+
                 if (!subcommand.isAllowedSender(sender)) {
                     continue;
                 }
-                
-                if (subcommandName.startsWith(currentArg) && subcommand.customPermissionCheck(sender)) {
+
+                if (!subcommand.customPermissionCheck(sender)) {
+                    continue;
+                }
+
+                String subcommandName = subcommand.getCommand();
+                if (subcommandName.startsWith(currentArg)) {
                     completions.add(subcommandName);
                 }
+
+                /* 
+                for (String aliasName : subcommand.aliases) {
+                    if (aliasName.startsWith(currentArg)) {
+                        completions.add(aliasName);
+                    }
+                }
+                */
+
             }
             return completions.isEmpty() ? super.tabComplete(sender, alias, args) : completions;
         }
@@ -212,10 +234,27 @@ public abstract class BaseCommand extends Command {
         subcommands.put(subcommand.getCommand(), subcommand);
     }
 
+    private BaseCommand getSubcommand(String nameOrAlias) {
+        BaseCommand direct = subcommands.get(nameOrAlias);
+        if (direct != null) return direct;
+
+        for (BaseCommand sub : subcommands.values()) {
+            if (sub.aliases.contains(nameOrAlias)) return sub;
+        }
+        return null;
+    }
+
 
     private void updateFullCommand() {
         if (parent != null) {
             this.fullCommand = parent.fullCommand + " " + this.command;
+            String configPath = fullCommand.replace(" ", ".") + ".aliases";
+            List<String> rawAliases = config.getStringList("commands-aliases." + configPath);
+            if (rawAliases != null && !rawAliases.isEmpty()) {
+                aliases.clear();
+                aliases.addAll(rawAliases);
+                setAliases(new ArrayList<>(aliases));
+            }
         }
         for (BaseCommand subcommand : subcommands.values()) {
             subcommand.updateFullCommand();
