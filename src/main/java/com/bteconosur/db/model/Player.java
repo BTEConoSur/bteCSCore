@@ -258,14 +258,6 @@ public class Player {
     }
 
     @JsonIgnore
-    public static User getDsUser(Player player) {
-        if (player.getDsIdUsuario() == null) return null;
-        JDA jda = BTEConoSur.getDiscordManager().getJda();
-        if (jda == null) return null;
-        return jda.getUserById(player.getDsIdUsuario());
-    }
-
-    @JsonIgnore
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

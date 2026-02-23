@@ -67,8 +67,13 @@ public class SatMapUtils {
             if (!folder.exists()) {
                 folder.mkdirs();
             }
+
+            File createFolder = new File(plugin.getDataFolder(), "images/create");
+            if (!createFolder.exists()) {
+                createFolder.mkdirs();
+            }
             
-            File contextFile = new File(folder, proyecto.getId() + "_context.png");
+            File contextFile = new File(createFolder, proyecto.getId() + ".png");
             File imageFile = new File(folder, proyecto.getId() + ".png");
             File defaultFile = new File(plugin.getDataFolder(), "images/projects/default_map.png");
             //URL mapUrl = URI.create(createMapSatLink(proyecto.getPoligono(), otrosProyectos.stream().map(Proyecto::getPoligono).toList())).toURL();

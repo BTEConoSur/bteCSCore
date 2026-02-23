@@ -38,7 +38,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
     }
 
     @SuppressWarnings("null")
-    public static void sendDM(User user, String message) {
+    private static void sendDM(User user, String message) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.user(user) || !DiscordValidate.messageContent(message)) return;
 

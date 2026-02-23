@@ -270,10 +270,7 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: Añadir parametros y descripción a las funciones
 // TODO: Añadir iconos a los proyectos
 
-// TODO: Limpieza de proyectos en crearcion sin interactions
-// TODO: arreglar bores no incluidos
 // TODO: Revisar warns y errors loggers
-// TODO: Revisar segundero de comando.
 // TODO: borrar imagenes de contexto.
 // TODO: Listado de managers y reviewers en el proyecto.
 

@@ -175,6 +175,11 @@ public class ProjectManager {
             String countryLog2 = LanguageHandler.replaceDS("tipo.promote-log", Language.getDefault(), postulante);
             DiscordLogger.countryLog(PlaceholderUtils.replaceDS(countryLog2, Language.getDefault(), lider), pais);
         };
+        File createFolder = new File(BTEConoSur.getInstance().getDataFolder(), "images/create");
+        File contextFile = new File(createFolder, proyectoId + ".png");
+        if (contextFile.exists()) {
+            contextFile.delete();
+        }
     }
 
     public void cancelCreateRequest(String proyectoId, Player staff, Long interactionId , String comentario) {
@@ -193,6 +198,11 @@ public class ProjectManager {
         String countryLog = LanguageHandler.replaceDS("project.create.reject.log", Language.getDefault(), staff, lider);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), proyecto);
         DiscordLogger.countryLog(countryLog, pais);
+        File createFolder = new File(BTEConoSur.getInstance().getDataFolder(), "images/create");
+        File contextFile = new File(createFolder, proyectoId + ".png");
+        if (contextFile.exists()) {
+            contextFile.delete();
+        }
         deleteProject(proyecto, null);
     }
 
@@ -207,6 +217,11 @@ public class ProjectManager {
 
         String countryLog = LanguageHandler.replaceDS("project.create.request.expired-log", Language.getDefault(), lider, proyecto);
         DiscordLogger.countryLog(countryLog, pais);
+        File createFolder = new File(BTEConoSur.getInstance().getDataFolder(), "images/create");
+        File contextFile = new File(createFolder, proyectoId + ".png");
+        if (contextFile.exists()) {
+            contextFile.delete();
+        }
         deleteProject(proyecto, null);
     }
 
@@ -218,10 +233,6 @@ public class ProjectManager {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         WorldManager.getInstance().removeRegion(proyecto);
         File folder = new File(BTEConoSur.getInstance().getDataFolder(), "images/projects");
-        File contextFile = new File(folder, proyectoId + "_context.png");
-        if (contextFile.exists()) {
-            contextFile.delete();
-        }
         File imageFile = new File(folder, proyectoId + ".png");
         if (imageFile.exists()) {
             imageFile.delete();

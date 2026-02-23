@@ -12,12 +12,12 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.discord.util.LinkService;
 import com.bteconosur.discord.util.MessageService;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 public class DiscordLogger {
@@ -61,32 +61,33 @@ public class DiscordLogger {
         MessageService.sendEmbed(secret.getLong("discord-staff-console-log-id"), embed);
     }
 
+    @SuppressWarnings("null")
     public static void notifyManagers(String mcMessage, String dsMessage, Pais pais, TagResolver... extraResolvers) {
         List<Player> managers = PlayerRegistry.getInstance().getManagers(pais);
         for (Player manager : managers) {
-            User user = Player.getDsUser(manager);
-            if (user == null) {
-                ConsoleLogger.warn("El Manager '" + manager.getNombre() + "' no tiene la cuenta de Discord enlazada.");
-                continue;
+            if (LinkService.isPlayerLinked(manager) && manager.getConfiguration().getManagerDsNotifications()) {
+                BTEConoSur.getDiscordManager().getJda().retrieveUserById(manager.getDsIdUsuario()).queue(user -> {
+                    user.openPrivateChannel().queue(privateChannel -> {
+                        privateChannel.sendMessage(LanguageHandler.getText(manager.getLanguage(), "ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage)).queue();
+                    });
+                });
             }
-            String dsFormat = null;
-            if (manager.getConfiguration().getManagerDsNotifications()) dsFormat = LanguageHandler.getText(manager.getLanguage(), "ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
-            PlayerLogger.info(manager, mcMessage, dsFormat, extraResolvers);
+            PlayerLogger.info(manager, mcMessage, (String) null, extraResolvers);
         }
     }
 
+    @SuppressWarnings("null")
     public static void notifyReviewers(String mcMessage, String dsMessage, Pais pais, TagResolver... extraResolvers) {
         List<Player> reviewers = PlayerRegistry.getInstance().getReviewers(pais);
         for (Player reviewer : reviewers) {
-            
-            User user = Player.getDsUser(reviewer);
-            if (user == null) {
-                ConsoleLogger.warn("El Reviewer '" + reviewer.getNombre() + "' no tiene la cuenta de Discord enlazada.");
-                continue;
-            };
-            String dsFormat = null;
-            if (reviewer.getConfiguration().getReviewerDsNotifications()) dsFormat = LanguageHandler.getText(reviewer.getLanguage(), "ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage);
-            PlayerLogger.info(reviewer, mcMessage, dsFormat, extraResolvers);
+            if (LinkService.isPlayerLinked(reviewer) && reviewer.getConfiguration().getReviewerDsNotifications()) {
+                BTEConoSur.getDiscordManager().getJda().retrieveUserById(reviewer.getDsIdUsuario()).queue(user -> {
+                    user.openPrivateChannel().queue(privateChannel -> {
+                        privateChannel.sendMessage(LanguageHandler.getText(reviewer.getLanguage(), "ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage)).queue();
+                    });
+                });
+            }
+            PlayerLogger.info(reviewer, mcMessage, (String) null, extraResolvers);
         }
         notifyManagers(mcMessage, dsMessage, pais, extraResolvers);
     }
