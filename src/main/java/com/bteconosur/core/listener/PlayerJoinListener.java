@@ -1,20 +1,25 @@
 package com.bteconosur.core.listener;
 
 import java.util.Date;
+import java.util.List;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.bteconosur.core.chat.GlobalChatService;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.util.ConfigurationService;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
+import com.bteconosur.db.util.PlaceholderUtils;
 
 public class PlayerJoinListener implements Listener {
 
@@ -46,13 +51,21 @@ public class PlayerJoinListener implements Listener {
             player.setConfiguration(new Configuration(player));
             playerRegistry.load(player);
             player = ConfigurationService.setDefaults(player);
+            GlobalChatService.broadcastNewPlayerJoinedServer(player);
+            List<String> welcomeMessage = LanguageHandler.getTextList(Language.getDefault(), "player-welcome-message");
+            String welcomeMessageStr = "";
+            for (String line : welcomeMessage) {
+                welcomeMessageStr += PlaceholderUtils.replaceMC(line, Language.getDefault(), player) + "\n";
+            }
+            PlayerLogger.send(player, welcomeMessageStr, (String) null);  
         } else {
             player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setNombre(event.getPlayer().getName());
             player = playerRegistry.merge(player.getUuid());
+            GlobalChatService.broadcastPlayerJoinedServer(player);
         }
 
-        GlobalChatService.broadcastPlayerJoinedServer(player);
+       
         
         if (player.getConfiguration().getGeneralGlobalChatOnJoin()) ChatService.setChatToGlobal(player);
         else if (ChatService.wasInCountryChat(player)) ChatService.setChatToCountry(player);

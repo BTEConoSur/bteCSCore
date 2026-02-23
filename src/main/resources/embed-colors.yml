@@ -4,6 +4,7 @@ ds-chat-notifications:
   stop: 0xED4245
   player-join: 0x43B581
   player-left: 0xED4245
+  player-new-join: 0x43B581
   chat-join: 0xf2cc0d
   chat-left: 0x0D33F2
 ds-console-notifications:

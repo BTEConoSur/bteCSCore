@@ -107,6 +107,10 @@ public class ChatUtil {
         return buildChatNotification("player-join", player);
     }
 
+    public static MessageEmbed getDsNewPlayerJoined(Player player) {
+        return buildChatNotification("player-new-join", player);
+    }
+
     public static MessageEmbed getDsPlayerLeft(Player player) {
         return buildChatNotification("player-left", player);
     }
@@ -121,6 +125,10 @@ public class ChatUtil {
 
     public static String getMcPlayerJoined(Player player, Language language) {
         return LanguageHandler.replaceMC("player-join-message", language, player);
+    }
+
+    public static String getMcNewPlayerJoined(Player player, Language language) {
+        return LanguageHandler.replaceMC("player-new-join-message", language, player);
     }
 
     public static String getMcPlayerLeft(Player player, Language language) {

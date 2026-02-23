@@ -658,9 +658,16 @@ ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # De jugador no regi
 from-mc-message: "**%mcPrefix% %player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% %player.nombrePublico%**: %mensaje%"
 
 player-join-message: "<green>El jugador <yellow>%player.nombrePublico%<green> se ha unido al servidor."
+player-new-join-message: "<green>El jugador <yellow>%player.nombrePublico%<green> se ha unido al servidor por primera vez."
 player-leave-message: "<red>El jugador <yellow>%player.nombrePublico%<red> ha salido del servidor."
 player-join-chat-message: "<yellow>%player.nombrePublico% se ha unido al chat.</yellow>"
 player-leave-chat-message: "<blue>%player.nombrePublico% ha salido del chat.</blue>"
+
+player-welcome-message:
+  - ""
+  - "<dark_green>Bienvenido al servidor, <yellow>%player.nombrePublico%</yellow>!</dark_green>"
+  - "<dark_green>Que tengas una gran experiencia en el servidor. Que alguien añada mas cosas</dark_green>"
+  - ""
 
 ds-chat-notifications:
   start:
@@ -670,6 +677,8 @@ ds-chat-notifications:
     description: "Nos vemos!"
   player-join:
     author: "%player.nombrePublico% se ha unido al servidor."
+  player-new-join:
+    author: "%player.nombrePublico% se ha unido al servidor por primera vez."
   player-left:
     author: "%player.nombrePublico% ha salido del servidor."
   chat-join:

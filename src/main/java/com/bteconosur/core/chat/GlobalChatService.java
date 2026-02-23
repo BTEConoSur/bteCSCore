@@ -101,6 +101,15 @@ public class GlobalChatService {
         MessageService.sendBroadcastEmbed(ids, embed);
     }
 
+    public static void broadcastNewPlayerJoinedServer(Player player) {
+        for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
+            onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcNewPlayerJoined(player, onlinePlayer.getLanguage())));
+        }
+        if (!config.getBoolean("discord-player-join-leave")) return;
+        MessageEmbed dsMessage = ChatUtil.getDsNewPlayerJoined(player);
+        broadcastEmbed(dsMessage);
+    }
+
     public static void broadcastPlayerJoinedServer(Player player) {
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcPlayerJoined(player, onlinePlayer.getLanguage())));
