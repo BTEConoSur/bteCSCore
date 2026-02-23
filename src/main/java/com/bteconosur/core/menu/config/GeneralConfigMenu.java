@@ -1,10 +1,14 @@
 package com.bteconosur.core.menu.config;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.core.util.MenuUtils;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.util.ConfigurationKey;
@@ -17,6 +21,7 @@ public class GeneralConfigMenu extends Menu {
 
     private Configuration configuration;
     private Player btecsPlayer;
+    private Set<ConfigurationKey> selectedKeys = new HashSet<>();
     
     public GeneralConfigMenu(Player player) {
         super("Configuración General", 5, player);
@@ -41,46 +46,46 @@ public class GeneralConfigMenu extends Menu {
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
         Language language = btecsPlayer.getConfiguration().getLang();
-        gui.setItem(2, 2, MenuUtils.getGeneralConfigItem(language, "global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
+        Boolean globalChatOnJoin = configuration.getGeneralGlobalChatOnJoin();
+        gui.setItem(2, 2, MenuUtils.getGeneralConfigItem(language, "global-chat-on-join", globalChatOnJoin));
         gui.addSlotAction(2, 2, event -> {
-            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_GLOBAL_CHAT_ON_JOIN);
-            configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 2, MenuUtils.getGeneralConfigItem(language, "global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
+            addSelectedKey(ConfigurationKey.GENERAL_GLOBAL_CHAT_ON_JOIN);
+            gui.updateItem(2, 2, MenuUtils.getGeneralConfigItem(language, "global-chat-on-join", selectedKeys.contains(ConfigurationKey.GENERAL_GLOBAL_CHAT_ON_JOIN) ? !globalChatOnJoin : globalChatOnJoin));
         });
 
-        gui.setItem(2, 4, MenuUtils.getGeneralConfigItem(language, "simultaneous-notifications", configuration.getGeneralSimultaneousNotifications()));
+        Boolean simultaneousNotifications = configuration.getGeneralSimultaneousNotifications();
+        gui.setItem(2, 4, MenuUtils.getGeneralConfigItem(language, "simultaneous-notifications", simultaneousNotifications));
         gui.addSlotAction(2, 4, event -> {
-            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_SIMULTANEOUS_NOTIFICATIONS); 
-            configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 4, MenuUtils.getGeneralConfigItem(language, "simultaneous-notifications", configuration.getGeneralSimultaneousNotifications()));
+            addSelectedKey(ConfigurationKey.GENERAL_SIMULTANEOUS_NOTIFICATIONS);
+            gui.updateItem(2, 4, MenuUtils.getGeneralConfigItem(language, "simultaneous-notifications", selectedKeys.contains(ConfigurationKey.GENERAL_SIMULTANEOUS_NOTIFICATIONS) ? !simultaneousNotifications : simultaneousNotifications));
         });
 
-        gui.setItem(2, 6, MenuUtils.getGeneralConfigItem(language, "pais-border", configuration.getGeneralPaisBorder()));
+        Boolean paisBorder = configuration.getGeneralPaisBorder();
+        gui.setItem(2, 6, MenuUtils.getGeneralConfigItem(language, "pais-border", paisBorder));
         gui.addSlotAction(2, 6, event -> {
-            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_PAIS_BORDER); 
-            configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 6, MenuUtils.getGeneralConfigItem(language,   "pais-border", configuration.getGeneralPaisBorder()));
+            addSelectedKey(ConfigurationKey.GENERAL_PAIS_BORDER);
+            gui.updateItem(2, 6, MenuUtils.getGeneralConfigItem(language, "pais-border", selectedKeys.contains(ConfigurationKey.GENERAL_PAIS_BORDER) ? !paisBorder : paisBorder));
         });
 
-        gui.setItem(2, 8, MenuUtils.getGeneralConfigItem(language, "label-border", configuration.getGeneralLabelBorder()));
+        Boolean labelBorder = configuration.getGeneralLabelBorder();
+        gui.setItem(2, 8, MenuUtils.getGeneralConfigItem(language, "label-border", labelBorder));
         gui.addSlotAction(2, 8, event -> {
-            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_LABEL_BORDER); 
-            configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 8, MenuUtils.getGeneralConfigItem(language, "label-border", configuration.getGeneralLabelBorder()));
+            addSelectedKey(ConfigurationKey.GENERAL_LABEL_BORDER);
+            gui.updateItem(2, 8, MenuUtils.getGeneralConfigItem(language, "label-border", selectedKeys.contains(ConfigurationKey.GENERAL_LABEL_BORDER) ? !labelBorder : labelBorder));
         });
 
-        gui.setItem(4, 2, MenuUtils.getGeneralConfigItem(language, "project-title", configuration.getGeneralProjectTitle()));
+        Boolean projectTitle = configuration.getGeneralProjectTitle();
+        gui.setItem(4, 2, MenuUtils.getGeneralConfigItem(language, "project-title", projectTitle));
         gui.addSlotAction(4, 2, event -> {
-            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_PROJECT_TITLE); 
-            configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(4, 2, MenuUtils.getGeneralConfigItem(language, "project-title", configuration.getGeneralProjectTitle()));
+            addSelectedKey(ConfigurationKey.GENERAL_PROJECT_TITLE);
+            gui.updateItem(4, 2, MenuUtils.getGeneralConfigItem(language, "project-title", selectedKeys.contains(ConfigurationKey.GENERAL_PROJECT_TITLE) ? !projectTitle : projectTitle));
         });
 
-        gui.setItem(4, 4, MenuUtils.getGeneralConfigItem(language, "division-title", configuration.getGeneralDivisionTitle()));
+        Boolean divisionTitle = configuration.getGeneralDivisionTitle();
+        gui.setItem(4, 4, MenuUtils.getGeneralConfigItem(language, "division-title", divisionTitle));
         gui.addSlotAction(4, 4, event -> {
-            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_DIVISION_TITLE); 
-            configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(4, 4, MenuUtils.getGeneralConfigItem(language, "division-title", configuration.getGeneralDivisionTitle()));
+            addSelectedKey(ConfigurationKey.GENERAL_DIVISION_TITLE);
+            gui.updateItem(4, 4, MenuUtils.getGeneralConfigItem(language, "division-title", selectedKeys.contains(ConfigurationKey.GENERAL_DIVISION_TITLE) ? !divisionTitle : divisionTitle));
         });
 
         gui.setItem(4, 8, MenuUtils.getLangConfigItem(language));
@@ -88,7 +93,21 @@ public class GeneralConfigMenu extends Menu {
             new LanguageSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.language-select")).open();
         });
         
+        gui.addSlotAction(rows, 5, event -> {
+            if (selectedKeys.isEmpty()) return;
+            event.getWhoClicked().closeInventory();
+            ConfigurationService.save(btecsPlayer, selectedKeys);
+            PlayerLogger.info(btecsPlayer, LanguageHandler.getText(language, "config-updated"), (String) null);
+        });
+
         return gui;
+    }
+
+    private void addSelectedKey(ConfigurationKey key) {
+        if (selectedKeys.contains(key)) selectedKeys.remove(key);
+        else selectedKeys.add(key);
+        if (selectedKeys.isEmpty()) gui.updateItem(rows, 5, MenuUtils.getFillerItem());
+        else gui.updateItem(rows, 5, MenuUtils.getSaveItem(btecsPlayer.getConfiguration().getLang()));
     }
 
 }

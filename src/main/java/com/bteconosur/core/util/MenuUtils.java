@@ -29,6 +29,14 @@ public class MenuUtils {
 
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
 
+    public static GuiItem getSaveItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.save"),
+            LanguageHandler.getText(language, "items.save.name"),
+            LanguageHandler.getTextList(language, "items.save.lore"), false
+        );
+    }
+
     public static GuiItem getPlayerSearchInfo(Language language) {
         return buildGuiItem(
             gui.getString("item-materials.player-search-info"),

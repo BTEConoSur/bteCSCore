@@ -1,9 +1,14 @@
 package com.bteconosur.core.menu.config;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.core.util.MenuUtils;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.util.ConfigurationKey;
@@ -16,6 +21,7 @@ public class ManagerConfigMenu extends Menu {
 
     private Configuration configuration;
     private Player btecsPlayer;
+    private Set<ConfigurationKey> selectedKeys = new HashSet<>();
     
     public ManagerConfigMenu(Player player) {
         super("Configuración de Manager", 5, player);
@@ -40,14 +46,27 @@ public class ManagerConfigMenu extends Menu {
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
         Language language = btecsPlayer.getConfiguration().getLang();
-        gui.setItem(2, 2, MenuUtils.getManagerConfigItem(language, "ds-notifications", configuration.getManagerDsNotifications()));
+        Boolean dsNotifications = configuration.getManagerDsNotifications();
+        gui.setItem(2, 2, MenuUtils.getManagerConfigItem(language, "ds-notifications", dsNotifications));
         gui.addSlotAction(2, 2, event -> {
-            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.MANAGER_DS_NOTIFICATIONS); // TODO: Capaz es mejor obtener la configuracion con configurationService 
-            configuration = btecsPlayer.getConfiguration();
-            gui.updateItem(2, 2, MenuUtils.getManagerConfigItem(language, "ds-notifications", configuration.getManagerDsNotifications()));
+            addSelectedKey(ConfigurationKey.MANAGER_DS_NOTIFICATIONS);
+            gui.updateItem(2, 2, MenuUtils.getManagerConfigItem(language, "ds-notifications",selectedKeys.contains(ConfigurationKey.MANAGER_DS_NOTIFICATIONS) ? !dsNotifications : dsNotifications));
         });
         
+        gui.addSlotAction(rows, 5, event -> {
+            if (selectedKeys.isEmpty()) return;
+            event.getWhoClicked().closeInventory();
+            ConfigurationService.save(btecsPlayer, selectedKeys);
+            PlayerLogger.info(btecsPlayer, LanguageHandler.getText(language, "config-updated"), (String) null);
+        });
+
         return gui;
     }
-//TODO: Posiblemente hacer cerrables estos menues.
+
+    private void addSelectedKey(ConfigurationKey key) {
+        if (selectedKeys.contains(key)) selectedKeys.remove(key);
+        else selectedKeys.add(key);
+        if (selectedKeys.isEmpty()) gui.updateItem(rows, 5, MenuUtils.getFillerItem());
+        else gui.updateItem(rows, 5, MenuUtils.getSaveItem(btecsPlayer.getConfiguration().getLang()));
+    }
 }

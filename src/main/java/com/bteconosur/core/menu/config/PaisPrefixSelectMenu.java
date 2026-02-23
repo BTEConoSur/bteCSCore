@@ -20,6 +20,7 @@ public class PaisPrefixSelectMenu extends Menu {
     private Player BTECSPlayer;
     private Pais previousPais;
     private Language language;
+    private Pais newPais;
 
     public PaisPrefixSelectMenu(Player player) {
         super(LanguageHandler.getText(player.getLanguage(), "gui-titles.pais-prefix-select"), 3, player);
@@ -50,95 +51,76 @@ public class PaisPrefixSelectMenu extends Menu {
             .create();
 
         language = Player.getBTECSPlayer(player).getLanguage();
-        String messageSwitch = LanguageHandler.getText(language, "country-prefix.switched");
-        String messageSet = LanguageHandler.getText(language, "country-prefix.set");
         Player playerMenu = Player.getBTECSPlayer(player);
         
         gui.getFiller().fill(MenuUtils.getFillerItem());
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Pais arg = PaisRegistry.getInstance().getArgentina();
         previousPais = BTECSPlayer.getPaisPrefix();
+        newPais = previousPais;
 
         gui.setItem(2,2, MenuUtils.getArgentinaHeadItem(arg.equals(previousPais), language));
         gui.addSlotAction(2,2, event -> {
-            if (arg.equals(previousPais)) return;
-            BTECSPlayer.setPaisPrefix(arg);
-            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(messageSwitch, BTECSPlayer.getLanguage(), BTECSPlayer), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(messageSet, language, BTECSPlayer), (String) null);
-            previousPais = arg;
+            if (arg.equals(newPais)) return;
+            newPais = arg;
             updateItems();
         });
 
         Pais chile = PaisRegistry.getInstance().getChile();
         gui.setItem(2,3, MenuUtils.getChileHeadItem(chile.equals(previousPais), language));
         gui.addSlotAction(2,3, event -> {
-            if (chile.equals(previousPais)) return;
-            BTECSPlayer.setPaisPrefix(chile);
-            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(messageSwitch, BTECSPlayer.getLanguage(), BTECSPlayer), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(messageSet, language, BTECSPlayer), (String) null);
-            previousPais = chile;
+            if (chile.equals(newPais)) return;
+            newPais = chile;
             updateItems();
         });
 
         Pais peru = PaisRegistry.getInstance().getPeru();
         gui.setItem(2,4, MenuUtils.getPeruHeadItem(peru.equals(previousPais), language));
         gui.addSlotAction(2,4, event -> {
-            if (peru.equals(previousPais)) return;
-            BTECSPlayer.setPaisPrefix(peru);
-            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(messageSwitch, BTECSPlayer.getLanguage(), BTECSPlayer), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(messageSet, language, BTECSPlayer), (String) null);
-            previousPais = peru;
+            if (peru.equals(newPais)) return;
+            newPais = peru;
             updateItems();
         });
 
         gui.setItem(2,5, MenuUtils.getInternationalHead(previousPais == null, language));
         gui.addSlotAction(2,5, event -> {
-            if (previousPais == null) return;
-            BTECSPlayer.setPaisPrefix(null);
-            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(messageSwitch, BTECSPlayer.getLanguage(), BTECSPlayer), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(messageSet, language, BTECSPlayer), (String) null);
-            previousPais = null;
+            if (previousPais == null && newPais == null) return;
+            newPais = null;
             updateItems();
         });
 
         Pais bolivia = PaisRegistry.getInstance().getBolivia();
         gui.setItem(2,6, MenuUtils.getBoliviaHeadItem(bolivia.equals(previousPais), language));
         gui.addSlotAction(2,6, event -> {
-            if (bolivia.equals(previousPais)) return;
-            BTECSPlayer.setPaisPrefix(bolivia);
-            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(messageSwitch, BTECSPlayer.getLanguage(), BTECSPlayer), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(messageSet, language, BTECSPlayer), (String) null);
-            previousPais = bolivia;
+            if (bolivia.equals(newPais)) return;
+            newPais = bolivia;
             updateItems();
         });
 
         Pais uruguay = PaisRegistry.getInstance().getUruguay();
         gui.setItem(2,7, MenuUtils.getUruguayHeadItem(uruguay.equals(previousPais), language));
         gui.addSlotAction(2,7, event -> {
-            if (uruguay.equals(previousPais)) return;
-            BTECSPlayer.setPaisPrefix(uruguay);
-            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(messageSwitch, BTECSPlayer.getLanguage(), BTECSPlayer), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(messageSet, language, BTECSPlayer), (String) null);
-            previousPais = uruguay;
+            if (uruguay.equals(newPais)) return;
+            newPais = uruguay;
             updateItems();
         });
 
         Pais paraguay = PaisRegistry.getInstance().getParaguay();
         gui.setItem(2,8, MenuUtils.getParaguayHeadItem(paraguay.equals(previousPais), language));
         gui.addSlotAction(2,8, event -> {
-            if (paraguay.equals(previousPais)) return;
-            BTECSPlayer.setPaisPrefix(paraguay);
-            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(messageSwitch, BTECSPlayer.getLanguage(), BTECSPlayer), (String) null);
-            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(messageSet, language, BTECSPlayer), (String) null);
-            previousPais = paraguay;
+            if (paraguay.equals(newPais)) return;
+            newPais = paraguay;
             updateItems();
+        });
+
+        gui.addSlotAction(rows, 5, event -> {
+            if (previousPais == null && newPais == null) return;
+            if (previousPais != null && previousPais.equals(newPais)) return;
+            event.getWhoClicked().closeInventory();
+            BTECSPlayer.setPaisPrefix(newPais);
+            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
+            PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText(language, "country-prefix.switched"), BTECSPlayer.getLanguage(), BTECSPlayer), (String) null);
+            if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(LanguageHandler.getText(language, "country-prefix.set"), language, BTECSPlayer), (String) null);
         });
         
         return gui;
@@ -146,13 +128,16 @@ public class PaisPrefixSelectMenu extends Menu {
 
     private void updateItems() {
         PaisRegistry paisRegistry = PaisRegistry.getInstance();
-        gui.updateItem(2,2, MenuUtils.getArgentinaHeadItem(paisRegistry.getArgentina().equals(previousPais), language));
-        gui.updateItem(2,3, MenuUtils.getChileHeadItem(paisRegistry.getChile().equals(previousPais), language));
-        gui.updateItem(2,4, MenuUtils.getPeruHeadItem(paisRegistry.getPeru().equals(previousPais), language));
-        gui.updateItem(2,5, MenuUtils.getInternationalHead(previousPais == null, language));
-        gui.updateItem(2,6, MenuUtils.getBoliviaHeadItem(paisRegistry.getBolivia().equals(previousPais), language));
-        gui.updateItem(2,7, MenuUtils.getUruguayHeadItem(paisRegistry.getUruguay().equals(previousPais), language));
-        gui.updateItem(2,8, MenuUtils.getParaguayHeadItem(paisRegistry.getParaguay().equals(previousPais), language));
+        gui.updateItem(2,2, MenuUtils.getArgentinaHeadItem(paisRegistry.getArgentina().equals(newPais), language));
+        gui.updateItem(2,3, MenuUtils.getChileHeadItem(paisRegistry.getChile().equals(newPais), language));
+        gui.updateItem(2,4, MenuUtils.getPeruHeadItem(paisRegistry.getPeru().equals(newPais), language));
+        gui.updateItem(2,5, MenuUtils.getInternationalHead(newPais == null, language));
+        gui.updateItem(2,6, MenuUtils.getBoliviaHeadItem(paisRegistry.getBolivia().equals(newPais), language));
+        gui.updateItem(2,7, MenuUtils.getUruguayHeadItem(paisRegistry.getUruguay().equals(newPais), language));
+        gui.updateItem(2,8, MenuUtils.getParaguayHeadItem(paisRegistry.getParaguay().equals(newPais), language));
+        if (previousPais == null && newPais == null) gui.updateItem(rows, 5, MenuUtils.getFillerItem());
+        else if (previousPais != null && previousPais.equals(newPais)) gui.updateItem(rows, 5, MenuUtils.getFillerItem());
+        else gui.updateItem(rows, 5, MenuUtils.getSaveItem(BTECSPlayer.getConfiguration().getLang()));
     }
 
     public void setBTECSPlayer(Player BTECSPlayer) {

@@ -1,5 +1,7 @@
 package com.bteconosur.core.util;
 
+import java.util.Set;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
@@ -69,37 +71,38 @@ public class ConfigurationService {
         return playerRegistry.merge(player.getUuid());
     }
 
-    public static Player toggle(Player player, ConfigurationKey key) {
+    public static Player save(Player player, Set<ConfigurationKey> keys) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
-
-        switch (key) {
-            case GENERAL_GLOBAL_CHAT_ON_JOIN:
-                configuration.toggleGeneralGlobalChatOnJoin();
-                break;
-            case GENERAL_SIMULTANEOUS_NOTIFICATIONS:
-                configuration.toggleGeneralSimultaneousNotifications();
-                break;
-            case GENERAL_PAIS_BORDER:
-                configuration.toggleGeneralPaisBorder();
-                break;
-            case GENERAL_LABEL_BORDER:
-                configuration.toggleGeneralLabelBorder();
-                break;
-            case GENERAL_PROJECT_TITLE:
-                configuration.toggleGeneralProjectTitle();
-                break;
-            case GENERAL_DIVISION_TITLE:
-                configuration.toggleGeneralDivisionTitle();
-                break;
-            case REVIEWER_DS_NOTIFICATIONS:
-                configuration.toggleReviewerDsNotifications();
-                break;
-            case MANAGER_DS_NOTIFICATIONS:
-                configuration.toggleManagerDsNotifications();
-                break;
-            default:
-                ConsoleLogger.warn(LanguageHandler.getText("config-key-error").replace("%key%", key.name()));
+        for (ConfigurationKey key : keys) {
+            switch (key) {
+                case GENERAL_GLOBAL_CHAT_ON_JOIN:
+                    configuration.toggleGeneralGlobalChatOnJoin();
+                    break;
+                case GENERAL_SIMULTANEOUS_NOTIFICATIONS:
+                    configuration.toggleGeneralSimultaneousNotifications();
+                    break;
+                case GENERAL_PAIS_BORDER:
+                    configuration.toggleGeneralPaisBorder();
+                    break;
+                case GENERAL_LABEL_BORDER:
+                    configuration.toggleGeneralLabelBorder();
+                    break;
+                case GENERAL_PROJECT_TITLE:
+                    configuration.toggleGeneralProjectTitle();
+                    break;
+                case GENERAL_DIVISION_TITLE:
+                    configuration.toggleGeneralDivisionTitle();
+                    break;
+                case REVIEWER_DS_NOTIFICATIONS:
+                    configuration.toggleReviewerDsNotifications();
+                    break;
+                case MANAGER_DS_NOTIFICATIONS:
+                    configuration.toggleManagerDsNotifications();
+                    break;
+                default:
+                    ConsoleLogger.warn(LanguageHandler.getText("config-key-error").replace("%key%", key.name()));
+            }
         }
 
         return playerRegistry.merge(player.getUuid());

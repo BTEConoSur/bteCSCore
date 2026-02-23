@@ -310,7 +310,10 @@ region:
   not-complete: "Region selection is incomplete."
   not-supported: "WorldEdit selection type not supported. Use cuboid or poly."
   we-error: "WorldEdit error."
+
 language-set: "<green>Language set to <yellow>%language%</yellow>."
+
+config-updated: "<green>Updated configuration.</green>"
 
 help-command:
   header: "\n <b>=========</b> <gold>Help for Command</gold> <b>=========</b>"
@@ -806,6 +809,11 @@ gui-titles:
   language-select: "Select language"
 
 items:
+  save:
+    name: "<green>Save"
+
+    lore:
+      - "<gray>Click to save changes."
   player-search-info:
     name: "<aqua>Search Info"
     lore:
