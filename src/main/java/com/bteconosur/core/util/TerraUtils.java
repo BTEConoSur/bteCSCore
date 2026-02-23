@@ -12,8 +12,7 @@ public class TerraUtils {
             //ConsoleLogger.debug("Convirtiendo coordenadas geográficas a Minecraft: Lat=" + lat + ", Lon=" + lon);   
             return geographicProjection.fromGeo(lon, lat);
         } catch (Exception e) {
-            ConsoleLogger.error("Error al convertir coordenadas geográficas a Minecraft: " + e.getMessage()); //TODO: mejorar manejo de excepciones
-            e.printStackTrace();
+            ConsoleLogger.error("Error al convertir coordenadas geográficas a Minecraft: ", e);
             return null;
         }
     }
@@ -23,8 +22,7 @@ public class TerraUtils {
             //ConsoleLogger.debug("Convirtiendo coordenadas de Minecraft a geográficas: X=" + x + ", Z=" + z);    
             return geographicProjection.toGeo(x, z);
         } catch (Exception e) {
-            ConsoleLogger.error("Error al convertir coordenadas de Minecraft a geográficas: " + e.getMessage()); //TODO: mejorar manejo de excepciones
-            e.printStackTrace();
+            ConsoleLogger.error("Error al convertir coordenadas de Minecraft a geográficas: ", e);
             return null;
         }
     }

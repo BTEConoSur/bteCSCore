@@ -67,8 +67,7 @@ public class DBManager {
                 throw e;
             }
         } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("database-transaction-error") + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error(LanguageHandler.getText("database-transaction-error"), e);
         }
     }
 
@@ -76,8 +75,7 @@ public class DBManager {
         try (Session session = sessionFactory.openSession()) {
             return action.apply(session);
         } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("database-query-error") + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error(LanguageHandler.getText("database-query-error"), e);
             return null; 
         }
     }

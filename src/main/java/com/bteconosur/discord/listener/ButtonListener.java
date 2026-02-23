@@ -59,8 +59,7 @@ public class ButtonListener extends ListenerAdapter {
         try {
             action.handle(event, ctx);
         } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.button-internal-error") + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.button-internal-error"), e);
             event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
         }
     }

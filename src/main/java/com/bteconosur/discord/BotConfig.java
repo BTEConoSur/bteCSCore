@@ -42,7 +42,7 @@ public class BotConfig {
                     .addEventListeners(new ButtonListener(), new ModalListener(), new SelectListener(), new SlashCommandListener(), new ChatListener())
                     .build().awaitReady();
         } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.bot-initializing") + e);
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.bot-initializing"), e);
         }
     }
 
@@ -58,7 +58,7 @@ public class BotConfig {
             jda.awaitShutdown();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.bot-shutting-down") + e);
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.bot-shutting-down"), e);
         }
         jda = null;
         

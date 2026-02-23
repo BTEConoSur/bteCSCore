@@ -56,9 +56,8 @@ public class ModalListener extends ListenerAdapter {
         try {
             action.handle(event, ctx);
         } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.modal-internal-error") + e.getMessage());
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.modal-internal-error"), e);
             event.reply(LanguageHandler.getText(language, "discord-internal-error")).setEphemeral(true).queue();
-            e.printStackTrace();
         }
     }
 

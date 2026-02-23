@@ -53,7 +53,7 @@ public class SelectListener extends ListenerAdapter {
         try {
             action.handle(event, ctx);
         } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.select-internal-error") + e.getMessage());
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.select-internal-error"), e);
             event.reply(LanguageHandler.getText(language, "discord-internal-error")).setEphemeral(true).queue();
         }
     }

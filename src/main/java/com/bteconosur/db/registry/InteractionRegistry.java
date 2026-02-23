@@ -62,7 +62,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             }, periodTicks, periodTicks);
             ConsoleLogger.info(LanguageHandler.getText("ds-purge-scheduled").replace("%minutes%", String.valueOf(expirationMinutes)));
         } catch (Exception e) {
-            ConsoleLogger.warn(LanguageHandler.getText("ds-purge-failed") + e.getMessage());
+            ConsoleLogger.error(LanguageHandler.getText("ds-purge-failed"), e);
         }
     }
 

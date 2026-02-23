@@ -13,6 +13,7 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.GeoJsonUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
@@ -82,6 +83,7 @@ public class TestRegionPaisGeojsonCommand extends BaseCommand {
             String message = "GeoJSON guardado en: " + filePath.toString();
             PlayerLogger.info(sender, message, (String) null);
         } catch (Exception e) {
+            ConsoleLogger.error("Error al generar GeoJSON de la región de país con ID " + regionId, e);
             PlayerLogger.error(sender, "Error al guardar GeoJSON: " + e.getMessage(), (String) null);
         }
         return true; 

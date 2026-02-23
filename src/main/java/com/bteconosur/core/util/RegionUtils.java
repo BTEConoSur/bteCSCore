@@ -146,7 +146,7 @@ public class RegionUtils {
             return null;
         } catch (Exception e) {
             PlayerLogger.error(player, LanguageHandler.getText(language, "region.we-error"), (String) null);
-            ConsoleLogger.error("Error al obtener la región seleccionada: " + e.getMessage());
+            ConsoleLogger.error("Error al obtener la región seleccionada: ", e);
             return null;
         }
         return regionPolygon;

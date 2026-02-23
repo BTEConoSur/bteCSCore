@@ -10,8 +10,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Table;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -28,7 +26,6 @@ import org.bukkit.Bukkit;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.db.registry.PlayerRegistry;
 

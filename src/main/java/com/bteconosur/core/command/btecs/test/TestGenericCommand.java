@@ -36,8 +36,7 @@ public class TestGenericCommand extends BaseCommand {
                     .build();
                 gui.open(player);
         } catch (SignGUIVersionException e) {
-            ConsoleLogger.error("Error al crear el SignGUI: " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al crear el SignGUI.",  e);
         }
         
         return true;

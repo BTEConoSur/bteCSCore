@@ -50,7 +50,7 @@ public class WorldManager {
         try {
             worldGuardContainer = WorldGuard.getInstance().getPlatform().getRegionContainer();
         } catch (Exception e) {
-            e.printStackTrace();
+            ConsoleLogger.error("Error cargando WorldGuard: ", e);
             PluginRegistry.disablePlugin("WORLDGUARD_LOAD_ERROR");
         }
         if (worldGuardContainer == null)
@@ -108,8 +108,7 @@ public class WorldManager {
         try {
             region.setParent(parentProject);
         } catch (CircularInheritanceException e) {
-            ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId(), e);
         }
         regionContainer.addRegion(region);
     }
@@ -122,8 +121,7 @@ public class WorldManager {
         try {
             region.setParent(parentProject);
         } catch (CircularInheritanceException e) {
-            ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId(), e);
         }
         regionContainer.addRegion(region);
     }
@@ -211,8 +209,7 @@ public class WorldManager {
             try {
                 region.setParent(parentProject);
             } catch (CircularInheritanceException e) {
-                ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId());
-                e.printStackTrace();
+                ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId(), e);
             }
             region.setPriority(1);
             DefaultDomain members = region.getMembers();

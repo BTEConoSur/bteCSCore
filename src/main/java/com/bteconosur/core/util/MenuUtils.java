@@ -546,8 +546,7 @@ public class MenuUtils {
             gui.open(player);
             return true;
         } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("sign-gui-create-error").replace("%reason%", e.getMessage()));
-            e.printStackTrace();
+            ConsoleLogger.error(LanguageHandler.getText("sign-gui-create-error"),  e);
         }
         return false;
     }

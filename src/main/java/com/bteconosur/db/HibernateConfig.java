@@ -58,7 +58,7 @@ public class HibernateConfig {
             return sessionFactory;
         } catch (Exception e) {
             StandardServiceRegistryBuilder.destroy(registry);
-            ConsoleLogger.error(LanguageHandler.getText("database-connection-error") + e);
+            ConsoleLogger.error(LanguageHandler.getText("database-connection-error"), e);
             return null;
         }
     }

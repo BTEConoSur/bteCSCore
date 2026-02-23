@@ -88,8 +88,7 @@ public class GeoJsonUtils {
             
             return mapper.writeValueAsString(feature);
         } catch (Exception e) {
-            ConsoleLogger.error("Error al serializar GeoJSON: " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al serializar GeoJSON: ", e);
             return "{}";
         }
     }
@@ -178,8 +177,7 @@ public class GeoJsonUtils {
             }
             return polygons;
         } catch (Exception e) {
-            ConsoleLogger.error("Error al deserializar GeoJSON: " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al deserializar GeoJSON: ", e);
             return null;
         }
     }
@@ -221,8 +219,7 @@ public class GeoJsonUtils {
             }
             return divisions;
         } catch (Exception e) {
-            ConsoleLogger.error("Error al deserializar GeoJSON: " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al deserializar GeoJSON: ", e);
             return null;
         }
     }

@@ -15,6 +15,7 @@ public class BTECSTestCommand extends BaseCommand {
         super("test", null, CommandMode.BOTH);
         this.addSubcommand(new TestGenericCommand());
         this.addSubcommand(new TestConsoleLoggerCommand());
+        this.addSubcommand(new TestExceptionLoggerCommand());
         this.addSubcommand(new TestSimpleMenuCommand());
         this.addSubcommand(new TestPaginatedMenuCommand());
         this.addSubcommand(new TestDiscordLogger());

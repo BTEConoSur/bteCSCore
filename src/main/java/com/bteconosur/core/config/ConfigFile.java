@@ -1,6 +1,8 @@
 package com.bteconosur.core.config;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.util.ConsoleLogger;
+
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -37,6 +39,7 @@ public class ConfigFile {
         try {
             this.fileConfiguration.save(this.file);
         } catch (IOException e) {
+            ConsoleLogger.error("Error al guardar el archivo de configuración " + fileName, e);
             throw new RuntimeException(e);
         }
     }
@@ -48,6 +51,7 @@ public class ConfigFile {
         try {
             this.fileConfiguration.load(this.file);
         } catch (IOException | InvalidConfigurationException e) {
+            ConsoleLogger.error("Error al recargar el archivo de configuración " + fileName, e);
             throw new RuntimeException(e);
         }
     }

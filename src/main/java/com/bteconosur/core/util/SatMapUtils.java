@@ -106,8 +106,7 @@ public class SatMapUtils {
             ConsoleLogger.debug("Imagen de contexto descargada: " + contextFile.getAbsolutePath());
             return contextFile;
         } catch (Exception e) {
-            ConsoleLogger.error("Error al descargar imagen del mapa: " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al descargar imagen del mapa: ", e);
             return null;
         }
     }
@@ -136,8 +135,7 @@ public class SatMapUtils {
             ConsoleLogger.debug("Imagen de contexto descargada: " + contextFile.getAbsolutePath());
             return contextFile;
         } catch (Exception e) {
-            ConsoleLogger.error("Error al descargar imagen del mapa: " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al descargar imagen del mapa: ", e);
             return null;
         }
     }
@@ -169,8 +167,7 @@ public class SatMapUtils {
             }
             ConsoleLogger.debug("Imagen principal descargada: " + imageFile.getAbsolutePath());  
         } catch (Exception e) {
-            ConsoleLogger.error("Error al copiar imagen del mapa: " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al copiar imagen del mapa: ", e);
         }
     }
 
@@ -186,8 +183,7 @@ public class SatMapUtils {
                 ConsoleLogger.debug("Imagen de contexto de redefinición eliminada: " + redefineContextFile.getAbsolutePath());
             }
         } catch (Exception e) {
-            ConsoleLogger.error("Error al eliminar imagen de redefinición: " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al eliminar imagen de redefinición: ", e);
         }
     }
     
@@ -242,8 +238,7 @@ public class SatMapUtils {
             }
             return link.replace("%geojson%", fullGeoJsonOverlay);
         } catch (Exception e) {
-            ConsoleLogger.error("Error al crear enlace del mapa (con otros proyectos): " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al crear enlace del mapa (con otros proyectos): ", e);
             return "";
         }
     }
@@ -302,8 +297,7 @@ public class SatMapUtils {
             }
             return link.replace("%geojson%", fullGeoJsonOverlay);
         } catch (Exception e) {
-            ConsoleLogger.error("Error al crear enlace del mapa (con otros proyectos): " + e.getMessage());
-            e.printStackTrace();
+            ConsoleLogger.error("Error al crear enlace del mapa (con otros proyectos): ", e );
             return "";
         }
     }

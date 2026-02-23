@@ -220,7 +220,7 @@ public class Interaction {
         try {
             this.payloadJson = new ObjectMapper().writeValueAsString(data);
         } catch (Exception e) {
-            ConsoleLogger.error("Error serializando payload: " + e.getMessage());
+            ConsoleLogger.error("Error serializando payload: ", e);
         }
     }
 
@@ -232,7 +232,7 @@ public class Interaction {
         try {
             return new ObjectMapper().readValue(payloadJson, Map.class);
         } catch (Exception e) {
-            ConsoleLogger.error("Error deserializando payload: " + e.getMessage());
+            ConsoleLogger.error("Error deserializando payload: ", e);
             return new HashMap<>();
         }
     }

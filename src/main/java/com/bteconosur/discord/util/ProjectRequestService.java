@@ -78,8 +78,7 @@ public class ProjectRequestService {
                 InteractionRegistry.getInstance().load(ctx);
 
             }, error -> {
-                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + error.getMessage());
-                error.printStackTrace();
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), error);
             });
         
         return true;
@@ -131,8 +130,7 @@ public class ProjectRequestService {
                 proyecto.setEstado(Estado.REDEFINIENDO);
                 ProyectoRegistry.getInstance().merge(proyecto.getId());
             }, error -> {
-                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + error.getMessage());
-                error.printStackTrace();
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), error);
             });
         return true;
     }
@@ -160,8 +158,7 @@ public class ProjectRequestService {
                             ctx2.setMessageId(message.getIdLong());
                             ir.merge(ctx2.getId());
                         }, error -> {
-                            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-join-request") + error.getMessage());
-                            error.printStackTrace();
+                            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-join-request"), error);
                         });
                 });
             });

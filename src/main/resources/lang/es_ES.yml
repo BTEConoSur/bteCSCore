@@ -1054,7 +1054,7 @@ sign-gui:
   - ""
   - "^^^^^^^^^"
   - "Escribe arriba"
-sign-gui-create-error: "Error al crear el proyecto. Razón: %reason%" # %reason% -> Razón del error.
+sign-gui-create-error: "Error al crear el sign GUI."
 
 # Player Logger
 player-info: "%pluginPrefix% <white>%message%" # %pluginPrefix% -> Prefijo del plugin. %message% -> Mensaje a enviar.
