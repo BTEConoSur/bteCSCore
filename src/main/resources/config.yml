@@ -96,7 +96,7 @@ border-particles:
 world-edit:
   region-select-extension: 10 # Cantidad de bloques que se extiende verticalmente (arriba y abajo) la selección al usar /project select para seleccionar un proyecto.
 
-banned-items:
+banned-items: # No aplica para Admins.
   - "OAK_BOAT"
   - "SPRUCE_BOAT"
   - "BIRCH_BOAT"
@@ -139,7 +139,9 @@ commands-aliases:
     accept.aliases: ["aceptar"]
   pais:
     aliases: ["paisprefix", "prefix"]
-    
+  language:
+     aliases: ["lang", "idioma"]
+
 # Configuración de Players
 player-defaults:
   general:

@@ -33,7 +33,7 @@ public class BuildingListeners implements Listener {
             return; 
         }
         if (PermissionManager.getInstance().isAdmin(player)) return;
-            Set<Material> bannedItems = WorldManager.getInstance().getBannedItems();
+        Set<Material> bannedItems = WorldManager.getInstance().getBannedItems();
         if (bannedItems.contains(item.getType())) {
             event.setCancelled(true);
             PlayerLogger.warn(player, LanguageHandler.getText(player.getLanguage(), "item-prohibited").replace("%item%", item.getType().toString()), (String) null);

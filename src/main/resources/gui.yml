@@ -43,8 +43,9 @@ item-materials:
       division-title:
         true: "PURPLE_GLAZED_TERRACOTTA"
         false: "PURPLE_CONCRETE"
+      pais-prefix: "hdb:32704"
       lang:
-        item: "hdb:31691"
+        item: "hdb:49973"
         langs:
           es_ES: "hdb:23236"
           en_US: "hdb:27546"

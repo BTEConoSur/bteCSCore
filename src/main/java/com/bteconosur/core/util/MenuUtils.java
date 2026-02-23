@@ -181,6 +181,13 @@ public class MenuUtils {
         );
     }
 
+    public static GuiItem getPaisPrefixConfigItem(Language language) {
+        String displayName = LanguageHandler.getText(language, "items.config.name");
+        displayName = displayName.replace("%name%", LanguageHandler.getText(language, "items.config.configs.general.pais-prefix.name"));
+        List<String> lore = LanguageHandler.getTextList(language, "items.config.configs.general.pais-prefix.desc");
+        return buildGuiItem(gui.getString("item-materials.configs.general.pais-prefix"), displayName, lore, false);
+    }
+
     public static GuiItem getLangConfigItem(Language language) {
         String displayName = LanguageHandler.getText(language, "items.config.name");
         displayName = displayName.replace("%name%", LanguageHandler.getText(language, "items.config.configs.general.lang.name"));

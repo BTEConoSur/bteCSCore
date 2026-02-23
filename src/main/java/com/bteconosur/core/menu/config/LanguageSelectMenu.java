@@ -31,16 +31,19 @@ public class LanguageSelectMenu extends Menu {
             .create();
 
         Language language = BTECSPlayer.getConfiguration().getLang();
-        PlayerRegistry playerRegistry = PlayerRegistry.getInstance();   
-
+        PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
+        Player playerMenu = Player.getBTECSPlayer(player);
+        Language playerLanguage = playerMenu.getLanguage();
         gui.getFiller().fill(MenuUtils.getFillerItem());
 
+        
         gui.setItem(2,2, MenuUtils.getLanguageSelectionItem(Language.SPANISH, language.equals(Language.SPANISH)));
         gui.addSlotAction(2,2, event -> {
             event.getWhoClicked().closeInventory();
             ConfigurationService.setLang(BTECSPlayer, Language.SPANISH);
             BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, LanguageHandler.getText(Language.SPANISH, "language-set").replace("%language%", LanguageHandler.getText(Language.SPANISH, "placeholder.lang-mc.es_ES")), (String) null);
+            PlayerLogger.info(BTECSPlayer, LanguageHandler.getText(Language.SPANISH, "language.switch").replace("%language%", LanguageHandler.getText(Language.SPANISH, "placeholder.lang-mc.es_ES")), (String) null);
+            if (!playerMenu.equals(BTECSPlayer)) PlayerLogger.info(playerMenu, LanguageHandler.replaceMC("language.set", playerLanguage, BTECSPlayer).replace("%language%", LanguageHandler.getText(Language.SPANISH, "placeholder.lang-mc.es_ES")), (String) null);
         });
 
         
@@ -49,10 +52,15 @@ public class LanguageSelectMenu extends Menu {
             event.getWhoClicked().closeInventory();
             ConfigurationService.setLang(BTECSPlayer, Language.ENGLISH);
             BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
-            PlayerLogger.info(BTECSPlayer, LanguageHandler.getText(Language.ENGLISH, "language-set").replace("%language%", LanguageHandler.getText(Language.ENGLISH, "placeholder.lang-mc.en_US")), (String) null);
+            PlayerLogger.info(BTECSPlayer, LanguageHandler.getText(Language.ENGLISH, "language.switch").replace("%language%", LanguageHandler.getText(Language.ENGLISH, "placeholder.lang-mc.en_US")), (String) null);
+            if (!playerMenu.equals(BTECSPlayer)) PlayerLogger.info(playerMenu, LanguageHandler.replaceMC("language.set", playerLanguage, BTECSPlayer).replace("%language%", LanguageHandler.getText(Language.ENGLISH, "placeholder.lang-mc.en_US")), (String) null);
         });
         
         return gui;
+    }
+
+    public void setBTECSPlayer(Player BTECSPlayer) {
+        this.BTECSPlayer = BTECSPlayer;
     }
 
 }

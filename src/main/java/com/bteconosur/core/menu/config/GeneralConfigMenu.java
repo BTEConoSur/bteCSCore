@@ -88,6 +88,11 @@ public class GeneralConfigMenu extends Menu {
             gui.updateItem(4, 4, MenuUtils.getGeneralConfigItem(language, "division-title", selectedKeys.contains(ConfigurationKey.GENERAL_DIVISION_TITLE) ? !divisionTitle : divisionTitle));
         });
 
+        gui.setItem(4, 6, MenuUtils.getPaisPrefixConfigItem(language));
+        gui.addSlotAction(4, 6, event -> {
+            new PaisPrefixSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.pais-prefix-select")).open();
+        });
+
         gui.setItem(4, 8, MenuUtils.getLangConfigItem(language));
         gui.addSlotAction(4, 8, event -> {
             new LanguageSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.language-select")).open();

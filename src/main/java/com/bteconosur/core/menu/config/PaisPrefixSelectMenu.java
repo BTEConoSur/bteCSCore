@@ -33,12 +33,12 @@ public class PaisPrefixSelectMenu extends Menu {
     }
 
     public PaisPrefixSelectMenu(Player player, String title) {
-        super(title, 4, player);
+        super(title, 3, player);
         this.BTECSPlayer = player;
     }
 
     public PaisPrefixSelectMenu(Player player, Menu previousMenu, String title) {
-        super(title, 4, player, previousMenu);
+        super(title, 3, player, previousMenu);
         this.BTECSPlayer = player;
     }
 

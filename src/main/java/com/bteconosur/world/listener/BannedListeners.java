@@ -3,6 +3,8 @@ package com.bteconosur.world.listener;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.Painting;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +19,8 @@ public class BannedListeners implements Listener {
         if (event.getEntity() instanceof TextDisplay) return;
         if (event.getEntity() instanceof ItemDisplay) return;
         if (event.getEntity() instanceof BlockDisplay) return;
+        if (event.getEntity() instanceof ItemFrame) return;
+        if (event.getEntity() instanceof Painting) return;
         event.setCancelled(true);
     }
 

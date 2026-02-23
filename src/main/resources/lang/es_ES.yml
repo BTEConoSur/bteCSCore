@@ -172,6 +172,9 @@ commands-descriptions:
       simplemenu.desc: "Abre un menú simple de prueba."
       syncproyectos.desc: "Sincroniza todos los proyectos con las regiones de WorldGuard."
     reload.desc: "Recarga la configuración del plugin."
+  language:
+    desc: "Cambiar el idioma."
+    set.desc: "Cambiar el idioma de un Jugador Online."
   chat:
     desc: "Cambiar el chat."
     set.desc: "Cambiar el chat de un Jugador Online."
@@ -311,7 +314,9 @@ region:
   not-supported: "Tipo de selección de WorldEdit no soportado. Usa cuboid o poly."
   we-error: "Error de WorldEdit."
 
-language-set: "<green>Idioma establecido a <yellow>%language%</yellow>."
+language:
+  set: "<green>El idioma de <yellow>%player.nombre%</yellow> ha sido establecido a <yellow>%language%</yellow>.</green>" # %language% -> Idioma establecido. 
+  switch: "<green>Idioma establecido a <yellow>%language%</yellow>." # %language% -> Idioma establecido. 
 
 config-updated: "<green>Configuración actualizada.</green>"
 
@@ -807,6 +812,7 @@ gui-titles:
   project-manage: "Gestionar proyecto: '%proyecto.id%'"
   project-info: "Info del proyecto: '%proyecto.id%'"
   language-select: "Seleccionar idioma"
+  language-set: "Seleccionar idioma: %player.nombre%"
 
 items:
   save:
@@ -990,6 +996,11 @@ items:
           desc:
             - "Mostrar información en pantalla de"
             - "las divisiónes al entrar en ellas."
+        pais-prefix:
+          name: "Prefijo de País"
+          desc:
+            - "Cambiar el prefijo del país que aparece"
+            - "al escribir en el chat"
         lang:
           name: "Seleccionar Idioma"
           desc:
