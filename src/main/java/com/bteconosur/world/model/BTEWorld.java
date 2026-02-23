@@ -3,6 +3,7 @@ package com.bteconosur.world.model;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,8 +22,11 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.RegionUtils;
+import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
+import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PaisRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -36,6 +40,8 @@ public class BTEWorld {
     private final CapaBaja capaBaja;
     private HashMap<UUID, BukkitTask> playerTasks = new HashMap<>();
     private HashMap<UUID, LabelWorld> lastLabelWorld = new HashMap<>();
+    private HashMap<UUID, Proyecto> lastProject = new HashMap<>();
+    private HashMap<UUID, Division> lastDivision = new HashMap<>();
     private boolean isValid = false;
 
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
@@ -94,6 +100,53 @@ public class BTEWorld {
         return loc.getWorld().getName().equals("lobby");
     }
 
+    public void checkProyectoMove(Location toLocation, Player player) {
+        com.bteconosur.db.model.Player btecsPlayer = com.bteconosur.db.model.Player.getBTECSPlayer(player);
+        if (!btecsPlayer.getConfiguration().getGeneralProjectTitle()) return;
+        Set<Proyecto> proyectoTo = ProyectoRegistry.getInstance().getByLocation(toLocation.getBlockX(), toLocation.getBlockZ());
+        if (proyectoTo.size() > 1) return;
+        Proyecto destination = proyectoTo.stream().findFirst().orElse(null);
+        if (destination == null) {
+            lastProject.remove(player.getUniqueId());
+            return;
+        }
+        Proyecto last = lastProject.get(player.getUniqueId());
+        if (last != null && last == destination) return;
+        lastProject.put(player.getUniqueId(), destination);
+        Language language = btecsPlayer.getLanguage();
+        String titleText = LanguageHandler.replaceMC("project-title", language, destination);
+        String subtitleText = LanguageHandler.replaceMC("project-subtitle", language, destination);
+        Audience audience = player;
+        audience.showTitle(
+            Title.title(MiniMessage.miniMessage().deserialize(titleText), 
+            MiniMessage.miniMessage().deserialize(subtitleText),
+            Times.times(Duration.ofMillis(config.getInt("titles-duration.project.fade-in")), Duration.ofMillis(config.getInt("titles-duration.project.stay")), Duration.ofMillis(config.getInt("titles-duration.project.fade-out"))))
+        ); 
+    }
+
+    public void checkDivisionMove(Location toLocation, Player player) {
+        com.bteconosur.db.model.Player btecsPlayer = com.bteconosur.db.model.Player.getBTECSPlayer(player);
+        if (!btecsPlayer.getConfiguration().getGeneralDivisionTitle()) return;
+        Pais paisTo = PaisRegistry.getInstance().findByLocation(toLocation.getX(), toLocation.getZ());
+        Division divisionTo = PaisRegistry.getInstance().findDivisionByLocation(toLocation.getX(), toLocation.getZ(), paisTo);
+        if (divisionTo == null) { 
+            lastDivision.remove(player.getUniqueId());
+            return;
+        }
+        Division last = lastDivision.get(player.getUniqueId());
+        if (last != null && last == divisionTo) return;
+        lastDivision.put(player.getUniqueId(), divisionTo);
+        Language language = btecsPlayer.getLanguage();
+        String titleText = LanguageHandler.replaceMC("division-title", language, divisionTo);
+        String subtitleText = LanguageHandler.replaceMC("division-subtitle", language, divisionTo);
+        Audience audience = player;
+        audience.showTitle(
+            Title.title(MiniMessage.miniMessage().deserialize(titleText), 
+            MiniMessage.miniMessage().deserialize(subtitleText),
+            Times.times(Duration.ofMillis(config.getInt("titles-duration.division.fade-in")), Duration.ofMillis(config.getInt("titles-duration.division.stay")), Duration.ofMillis(config.getInt("titles-duration.division.fade-out"))))
+        ); 
+    }
+
     public void checkLayerMove(Location lFrom, Location lTo, Player player) {
         LabelWorld currentlw = getLabelWorld(lTo.getX(), lTo.getZ());
         UUID pUuid = player.getUniqueId();
@@ -139,7 +192,7 @@ public class BTEWorld {
                     audience.showTitle(
                         Title.title(MiniMessage.miniMessage().deserialize(titleText), 
                         MiniMessage.miniMessage().deserialize(subtitleText),
-                        Times.times(Duration.ofMillis(200), Duration.ofMillis(1000), Duration.ofMillis(200)))
+                        Times.times(Duration.ofMillis(config.getInt("titles-duration.layer-teleport.fade-in")), Duration.ofMillis(config.getInt("titles-duration.layer-teleport.stay")), Duration.ofMillis(config.getInt("titles-duration.layer-teleport.fade-out"))))
                     );
                     elapsedSeconds += 1;
                 }

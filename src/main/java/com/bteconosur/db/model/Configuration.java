@@ -37,6 +37,12 @@ public class Configuration {
     @Column(name = "general_label_border")
     private Boolean generalLabelBorder;
 
+    @Column(name = "general_project_title")
+    private Boolean generalProjectTitle;
+
+    @Column(name = "general_division_title")
+    private Boolean generalDivisionTitle;
+
     @Column(name = "reviewer_ds_notifications")
     private Boolean reviewerDsNotifications;
 
@@ -64,6 +70,8 @@ public class Configuration {
         this.generalSimultaneousNotifications = false;
         this.generalPaisBorder = false;
         this.generalLabelBorder = false;
+        this.generalProjectTitle = false;
+        this.generalDivisionTitle = false;
         this.lang = Language.SPANISH;
     }
 
@@ -93,6 +101,22 @@ public class Configuration {
 
     public void setGeneralLabelBorder(Boolean generalLabelBorder) {
         this.generalLabelBorder = generalLabelBorder;
+    }
+
+    public Boolean getGeneralProjectTitle() {
+        return generalProjectTitle;
+    }
+
+    public void setGeneralProjectTitle(Boolean generalProjectTitle) {
+        this.generalProjectTitle = generalProjectTitle;
+    }
+
+    public Boolean getGeneralDivisionTitle() {
+        return generalDivisionTitle;
+    }
+
+    public void setGeneralDivisionTitle(Boolean generalDivisionTitle) {
+        this.generalDivisionTitle = generalDivisionTitle;
     }
 
     public Boolean getReviewerDsNotifications() {
@@ -141,6 +165,14 @@ public class Configuration {
 
     public void toggleManagerDsNotifications() {
         this.managerDsNotifications = !this.managerDsNotifications;
+    }
+
+    public void toggleGeneralProjectTitle() {
+        this.generalProjectTitle = !this.generalProjectTitle;
+    }
+
+    public void toggleGeneralDivisionTitle() {
+        this.generalDivisionTitle = !this.generalDivisionTitle;
     }
 
     public void toggleGeneralPaisBorder() {

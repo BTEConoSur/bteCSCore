@@ -973,6 +973,16 @@ items:
           desc:
             - "Habilitar una barrera de partículas"
             - "en los límites de las capas."
+        project-title:
+          name: "Título de Proyectos"
+          desc:
+            - "Mostrar información en pantalla de"
+            - "los proyectos al entrar en ellos."
+        division-title:
+          name: "Título de División"
+          desc:
+            - "Mostrar información en pantalla de"
+            - "las divisiónes al entrar en ellas."
         lang:
           name: "Seleccionar Idioma"
           desc:
@@ -1085,6 +1095,12 @@ invalid-label-world: "La capa '%name%' no está creada en el servidor."
 
 teleport-layer-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.
 teleport-layer-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
+
+project-title: "<dark_purple><white>%proyecto.nombre%</white></dark_purple>"
+project-subtitle: "<dark_gray>ID: <white>%proyecto.id%</white></dark_gray>"
+
+division-title: "<dark_purple>%division.nam%</dark_purple>"
+division-subtitle: "<light_purple>%division.fna%</light_purple>"
 
 no-building-permissions: "No tienes permisos para construir aquí."
 not-limbo: "No puedes estar afuera de los paises. Teletransportando al lobby..."

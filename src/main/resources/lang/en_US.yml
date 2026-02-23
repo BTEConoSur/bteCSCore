@@ -972,6 +972,16 @@ items:
           desc:
             - "Enable a particle barrier"
             - "at layer borders."
+        project-title:
+          name: "Project Title"
+          desc:
+            - "Display project information on"
+            - "screen when entering them."
+        division-title:
+          name: "Division Title"
+          desc:
+            - "Display division information on"
+            - "screen when entering them."
         lang:
           name: "Select Language"
           desc:
@@ -1084,6 +1094,12 @@ invalid-label-world: "Layer '%name%' is not created on the server."
 
 teleport-layer-title: "Teleporting to %destination%" # %destination% -> Destination world or layer name.
 teleport-layer-subtitle: "In %seconds% second(s)..." # %seconds% -> Remaining seconds for teleport.
+
+project-title: "<dark_purple><white>%proyecto.nombre%</white></dark_purple>"
+project-subtitle: "<dark_gray>ID: <white>%proyecto.id%</white></dark_gray>"
+
+division-title: "<dark_purple>%division.nam%</dark_purple>"
+division-subtitle: "<light_purple>%division.fna%</light_purple>"
 
 no-building-permissions: "You don't have permissions to build here."
 not-limbo: "You can't be outside the countries. Teleporting to lobby..."

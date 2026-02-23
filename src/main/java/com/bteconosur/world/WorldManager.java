@@ -296,10 +296,17 @@ public class WorldManager {
         }
     }
 
-    public void checkLayerMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
+    public void checkMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
         if (bteWorld == null || !bteWorld.isValid()) return;
         if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return;
         bteWorld.checkLayerMove(lFrom, lTo, player);
+    }
+
+    public void checkTitles(Location lTo, org.bukkit.entity.Player player) {
+        if (bteWorld == null || !bteWorld.isValid()) return;
+        if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return;
+        bteWorld.checkProyectoMove(lTo, player);
+        bteWorld.checkDivisionMove(lTo, player);
     }
 
     public boolean checkPaisMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {

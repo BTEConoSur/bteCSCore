@@ -36,6 +36,12 @@ item-materials:
       label-border:
         true: "LIGHT_BLUE_GLAZED_TERRACOTTA"
         false: "LIGHT_BLUE_CONCRETE"
+      project-title:
+        true: "GREEN_GLAZED_TERRACOTTA"
+        false: "GREEN_CONCRETE"
+      division-title:
+        true: "PURPLE_GLAZED_TERRACOTTA"
+        false: "PURPLE_CONCRETE"
       lang:
         item: "hdb:31691"
         langs:

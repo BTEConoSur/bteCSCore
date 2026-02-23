@@ -43,7 +43,7 @@ public class GeneralConfigMenu extends Menu {
         Language language = btecsPlayer.getConfiguration().getLang();
         gui.setItem(2, 2, MenuUtils.getGeneralConfigItem(language, "global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
         gui.addSlotAction(2, 2, event -> {
-            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_GLOBAL_CHAT_ON_JOIN); // TODO: Capaz es mejor obtener la configuracion con configurationService 
+            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_GLOBAL_CHAT_ON_JOIN);
             configuration = btecsPlayer.getConfiguration();
             gui.updateItem(2, 2, MenuUtils.getGeneralConfigItem(language, "global-chat-on-join", configuration.getGeneralGlobalChatOnJoin()));
         });
@@ -69,8 +69,22 @@ public class GeneralConfigMenu extends Menu {
             gui.updateItem(2, 8, MenuUtils.getGeneralConfigItem(language, "label-border", configuration.getGeneralLabelBorder()));
         });
 
-        gui.setItem(4, 2, MenuUtils.getLangConfigItem(language));
+        gui.setItem(4, 2, MenuUtils.getGeneralConfigItem(language, "project-title", configuration.getGeneralProjectTitle()));
         gui.addSlotAction(4, 2, event -> {
+            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_PROJECT_TITLE); 
+            configuration = btecsPlayer.getConfiguration();
+            gui.updateItem(4, 2, MenuUtils.getGeneralConfigItem(language, "project-title", configuration.getGeneralProjectTitle()));
+        });
+
+        gui.setItem(4, 4, MenuUtils.getGeneralConfigItem(language, "division-title", configuration.getGeneralDivisionTitle()));
+        gui.addSlotAction(4, 4, event -> {
+            btecsPlayer = ConfigurationService.toggle(btecsPlayer, ConfigurationKey.GENERAL_DIVISION_TITLE); 
+            configuration = btecsPlayer.getConfiguration();
+            gui.updateItem(4, 4, MenuUtils.getGeneralConfigItem(language, "division-title", configuration.getGeneralDivisionTitle()));
+        });
+
+        gui.setItem(4, 8, MenuUtils.getLangConfigItem(language));
+        gui.addSlotAction(4, 8, event -> {
             new LanguageSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.language-select")).open();
         });
         

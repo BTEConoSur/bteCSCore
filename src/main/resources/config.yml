@@ -14,6 +14,7 @@ interaction-expirations:
 default-language: "SPANISH" # Lenguaje por defecto para los jugadores que no tengan uno configurado o cuyo lenguaje configurado no esté soportado.
 avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png"
 max-offline-players-list: 2000 # Cantidad máxima de jugadores offline a mostrar en la lista de jugadores.
+
 # Map Sat
 map-padding: 0.005
 map-link: "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/%geojson%/[%minLon%,%minLat%,%maxLon%,%maxLat%]/800x600?attribution=false&logo=false&access_token=%token%"
@@ -32,6 +33,7 @@ map:
   redefine:
     fill-color: "#DE5742" # Color de la redefinición en el mapa.
     border-color: "#DE5742" # Color del borde de la redefinición en el mapa.
+
 # Base de Datos
 database-driver: "org.mariadb.jdbc.Driver"
 database-show-sql: "false"
@@ -62,6 +64,20 @@ layers:
 
 min-height: -2032
 max-height: 2032
+
+titles-duration: # Duraciones de los títulos (en milisegundos).
+  project:
+    fade-in: 500
+    stay: 1000
+    fade-out: 500
+  division:
+    fade-in: 500
+    stay: 1000
+    fade-out: 500
+  layer-teleport:
+    fade-in: 200
+    stay: 1000
+    fade-out: 200
 
 wg-proyecto-prefix: "proyecto_" # Prefijo para las regiones de los proyectos en WorldGuard.
 wg-parent-proyecto: "proyectos"
@@ -130,6 +146,7 @@ player-defaults:
     simultaneous-notifications: true
     pais-border: true
     label-border: true
+    project-title: true
   reviewer:
     ds-notifications: true
   manager:

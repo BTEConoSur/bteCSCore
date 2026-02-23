@@ -21,7 +21,8 @@ public class MovingListeners implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        worldManager.checkLayerMove(event.getFrom(), event.getTo(), event.getPlayer());
+        worldManager.checkMove(event.getFrom(), event.getTo(), event.getPlayer());
+        worldManager.checkTitles(event.getTo(), event.getPlayer());
         if (!worldManager.checkPaisMove(event.getFrom(), event.getTo(), event.getPlayer())) {
             event.setCancelled(true);
             Player player = Player.getBTECSPlayer(event.getPlayer());
@@ -32,7 +33,7 @@ public class MovingListeners implements Listener {
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         if (event.getFrom().getWorld() != event.getTo().getWorld()) return;
-        worldManager.checkLayerMove(event.getFrom(), event.getTo(), event.getPlayer());
+        worldManager.checkMove(event.getFrom(), event.getTo(), event.getPlayer());
         if (!worldManager.checkPaisMove(event.getFrom(), event.getTo(), event.getPlayer())) {
             event.setCancelled(true);
             Player player = Player.getBTECSPlayer(event.getPlayer());
