@@ -276,5 +276,7 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: Revisar segundero de comando.
 // TODO: borrar imagenes de contexto.
 // TODO: Listado de managers y reviewers en el proyecto.
-// TODO: Dynamic en las cabezas
+
 // TODO: DEBUg en envio de mensajes discord
+
+// TODO: Dynamic en las cabezas - Sin solución

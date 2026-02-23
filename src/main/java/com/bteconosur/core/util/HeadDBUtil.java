@@ -44,8 +44,8 @@ public class HeadDBUtil implements Listener {
         return ItemStack.of(Material.PLAYER_HEAD);
     }
 
-    public static ItemStack getPlayerHead(UUID playerUUID, boolean isOnline) {
-        if (!isOnline) {
+    public static ItemStack getPlayerHead(UUID playerUUID, boolean getOffline) {
+        if (!getOffline) {
             return ItemStack.of(Material.PLAYER_HEAD);
         }
         

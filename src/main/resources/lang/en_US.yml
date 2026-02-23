@@ -937,6 +937,7 @@ items:
     no-player-lore:
       -  "<gray>Project without %contexto%" # %contexto% -> Player context.
     lore:
+    
       - "<gray>Public name: <white>%player.nombrePublico%" # %player.nombrePublico% -> Player public name.
       - "<gray>Rank: <white>%player.rangoUsuario%" # %player.rangoUsuario% -> Player rank.
       - "<gray>Type: <white>%player.tipoUsuario%" # %player.tipoUsuario% -> Player user type.
@@ -945,7 +946,7 @@ items:
       - "<gray>Completed projects: <white>%player.proyectosCompletados%" # %player.proyectosCompletados% -> Player completed projects count.
       - "<gray>Joined: <white>%player.fechaIngreso%" # %player.fechaIngreso% -> Player join date to server.
       - "<gray>Last login: <white>%player.fechaUltimaConexion%" # %player.fechaUltimaConexion% -> Player last login date.
-      - "%player.estado%" # %player.estado% -> Player online/offline status.
+      
     contexto:
       lider: "<b><yellow>Leader</b>"
       miembro: "<b><aqua>Member</b>"
