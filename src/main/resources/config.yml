@@ -139,6 +139,7 @@ commands-aliases:
     accept.aliases: ["aceptar"]
   pais:
     aliases: ["paisprefix", "prefix"]
+    
 # Configuración de Players
 player-defaults:
   general:

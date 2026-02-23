@@ -131,19 +131,6 @@ public final class BTEConoSur extends JavaPlugin {
             
         
         registerCommands();
-        PluginRegistry.registerCommand(new BTECSCommand());
-        PluginRegistry.registerCommand(new GeneralConfigCommand());
-        PluginRegistry.registerCommand(new ChatCommand());
-        PluginRegistry.registerCommand(new PaisPrefixCommand());
-        PluginRegistry.registerCommand(new PromoteCommand());
-        PluginRegistry.registerCommand(new ProjectCommand());
-        PluginRegistry.registerCommand(new CrudCommand());
-        PluginRegistry.registerCommand(new ManagerCommand());
-        PluginRegistry.registerCommand(new ReviewerCommand());
-        PluginRegistry.registerCommand(new LinkCommand());
-        PluginRegistry.registerCommand(new UnlinkCommand());
-        PluginRegistry.registerCommand(new NicknameCommand());
-        PluginRegistry.registerCommand(new WhereIAmCommand());
         ConsoleLogger.info("El Plugin se ha activado.");
         
         worldManager.syncRegions();
@@ -274,15 +261,11 @@ public final class BTEConoSur extends JavaPlugin {
 
 }
 
-// TODO: Alias de comandos.
 // TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab
 // TODO: Get
 
-// TODO: Configuracion para managers / reviewers desactivar bypass
 // TODO: easter egg en coords
-// TODO: Cuando vinculas mensaje
-// TODO: Configuracion para desactivar bypass
 
 // TODO: Añadir parametros y descripción a las funciones
 // TODO: Añadir iconos a los proyectos

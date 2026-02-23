@@ -67,7 +67,7 @@ public class LinkSetCommand extends BaseCommand {
         
         Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
         targetPlayer = LinkService.link(dsId, targetPlayer);
-        PlayerLogger.info(targetPlayer, LanguageHandler.getText(targetPlayer.getLanguage(), "link.mc-success"), ChatUtil.getDsLinkSuccess(targetPlayer));
+        PlayerLogger.info(targetPlayer, LanguageHandler.getText(targetPlayer.getLanguage(), "link.mc-success"), ChatUtil.getDsLinkSuccess(targetPlayer, targetPlayer.getLanguage()));
         if (!targetPlayer.equals(commandPlayer)) {
             String message = LanguageHandler.replaceMC("link.set-success", language, targetPlayer);
             PlayerLogger.info(sender, message, (String) null);

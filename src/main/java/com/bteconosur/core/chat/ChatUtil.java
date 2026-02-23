@@ -193,8 +193,8 @@ public class ChatUtil {
         return buildDMNotification("reviewer-target-removed", pais, language, null);
     }
 
-    public static MessageEmbed getDsLinkSuccess(Player player) {
-        return buildDMNotification("link-success", player, null);
+    public static MessageEmbed getDsLinkSuccess(Player player, Language language) {
+        return buildDMNotification("link-success", player, language, null);
     }
 
     private static MessageEmbed buildDMNotification(String key, Proyecto proyecto, Language language, String extraDescription) {

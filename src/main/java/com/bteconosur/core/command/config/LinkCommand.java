@@ -53,7 +53,7 @@ public class LinkCommand extends BaseCommand {
         }
         
         LinkService.linkMinecraft(code, player);
-        PlayerLogger.info(sender, LanguageHandler.getText(language, "link.mc-success"), ChatUtil.getDsLinkSuccess(player));
+        PlayerLogger.info(sender, LanguageHandler.getText(language, "link.mc-success"), ChatUtil.getDsLinkSuccess(player, language));
         return true;
     }
 
