@@ -164,6 +164,7 @@ invalid-project-location: "Project location is invalid or not within a valid div
 invalid-project-comment: "Maximum 300 characters allowed for comment."
 
 commands-descriptions:
+  player.desc: "Get information about a player."
   back.desc: "Teleport back to your last location."
   pwarp:
     desc: "Teleport to or manage personal warps."
@@ -356,6 +357,20 @@ pwarp:
   invalid-name: "The Pwarp name is not valid."
   invalid-name-length: "The Pwarp name cannot be longer than 50 characters."
   empty: "You don't have any Pwarps yet."
+
+player-info-command:
+  - "\n <b>=========</b> <gold>Player info for %player.nombre%</gold> <b>=========</b>"
+  - " <yellow>Public name:</yellow> <white>%player.nombrePublico%</white>"
+  - " <yellow>UUID:</yellow> <white>%player.uuid%</white>"
+  - " <yellow>Country:</yellow> <white>%player.paisPrefix%</white>"
+  - " <yellow>User type:</yellow> <white>%player.tipoUsuarioPrefijo%</white>"
+  - " <yellow>User rank:</yellow> <white>%player.rangoUsuarioPrefijo%</white>"
+  - " <yellow>Discord:</yellow> <white>%player.discordName%</white>"
+  - " <yellow>Active Projects: <white>%player.proyectosActivos%</white>"
+  - " <yellow>Completed Projects: <white>%player.proyectosCompletados%</white>"
+  - " <yellow>Join date:</yellow> <white>%player.fechaIngreso%</white>"
+  - " <yellow>Last connection:</yellow> <white>%player.fechaUltimaConexion%</white>"
+  - " <b>=========</b> %plugin-prefix% <b>=========</b>\n" # %plugin-prefix% -> Plugin prefix.
 
 pwarp-list:
   header: "\n <b>=========</b> <gold>Pwarp List</gold> <b>=========</b>"
@@ -788,12 +803,28 @@ ds-notifications:
     project-name-updated: "Project name updated by a Manager"
     project-description-updated: "Project description updated by a Manager"
 ds-embeds:
+  player-info:
+    title: "Player Information: %player.nombre%"
+    ds-no-link: "> **[!]** The user does not have a Minecraft account linked."
+    fields:
+      nombre: "Public Name"
+      discord: "Discord"
+      idioma: "Language"
+      pais: "Country"
+      rango: "Rank"
+      tipo: "Type"
+      estado: "Status"
+      proyectos-completados: "Completed Projects"
+      proyectos-activos: "Active Projects"
+      fecha-ingreso: "Join Date"
+      fecha-ultima-conexion: "Last Connection Date"
+    footer: "UUID: %player.uuid% - Discord ID: %player.discordId%"
+    footer-no-link: "Discord ID: %discordId%"
   project-created:
     title: "%player.nombre% wants to create a new project."
     player-is-visita: "> **[!]** Player is of type 'Visita'."
     player-is-postulante: "> **[!]** Player is of type 'Postulante'." 
     has-collisions: "> **[!]** Project has collisions with other projects."
-    separator: "────────────────────────────────────────"
     polygons-colors:
       - "🟦 - Project"
       - "🟩 - Other Projects"
@@ -1006,15 +1037,16 @@ items:
     no-player-lore:
       -  "<gray>Project without %contexto%" # %contexto% -> Player context.
     lore:
-      - "%player.estado%" # %player.estado% -> Estado online/offline del jugador.
-      - "<gray>Public name: <white>%player.nombrePublico%" # %player.nombrePublico% -> Player public name.
-      - "<gray>Rank: <white>%player.rangoUsuario%" # %player.rangoUsuario% -> Player rank.
-      - "<gray>Type: <white>%player.tipoUsuario%" # %player.tipoUsuario% -> Player user type.
-      - "<gray>Country: %player.paisPrefix%" # %player.paisPrefix% -> Player country prefix.
-      - "<gray>Active projects: <white>%player.proyectosActivos%" # %player.proyectosActivos% -> Player active projects count.
-      - "<gray>Completed projects: <white>%player.proyectosCompletados%" # %player.proyectosCompletados% -> Player completed projects count.
-      - "<gray>Joined: <white>%player.fechaIngreso%" # %player.fechaIngreso% -> Player join date to server.
-      - "<gray>Last login: <white>%player.fechaUltimaConexion%" # %player.fechaUltimaConexion% -> Player last login date.
+      - "%player.estado%"
+      - "<gray>Public name: <white>%player.nombrePublico%"
+      - "<gray>Rank: <white>%player.rangoUsuario%"
+      - "<gray>Type: <white>%player.tipoUsuario%"
+      - "<gray>Country: %player.paisPrefix%"
+      - "<gray>Discord: <white>%player.discordName%</white>"
+      - "<gray>Active projects: <white>%player.proyectosActivos%"
+      - "<gray>Completed projects: <white>%player.proyectosCompletados%"
+      - "<gray>Joined: <white>%player.fechaIngreso%"
+      - "<gray>Last login: <white>%player.fechaUltimaConexion%"
       
     contexto:
       lider: "<b><yellow>Leader</b>"
@@ -1199,9 +1231,11 @@ placeholder:
   player-mc:
     online: "<green><b>Online</b></green>"
     offline: "<red><b>Offline</b></red>"
+    no-link: "<yellow><i>No linked account</i></yellow>"
   player-ds:
     online: "Online"
     offline: "Offline"
+    no-link: "No linked account"
   proyecto-mc:
     sin-lider: "<yellow><i>No Leader</i></yellow>"
     sin-miembros: "<yellow><i>No Members</i></yellow>"
@@ -1250,7 +1284,7 @@ placeholder:
       bolivia: "<gray>[</gray><green>BO</green><gray>]</gray>"
       peru: "<gray>[</gray><red>PE</red><gray>]</gray>"
   rango-mc:
-    normal: ""
+    normal: "<gray>[</gray><white>PLAYER</white><gray>]</gray>"
     admin: "<gray>[</gray><dark_red>ADMIN</dark_red><gray>]</gray>"
     mod: "<gray>[</gray><red>MOD</red><gray>]</gray>"
     reviewer: "<gray>[</gray><blue>REVIEWER</blue><gray>]</gray>"
@@ -1277,7 +1311,7 @@ placeholder:
       bolivia: "<:BTEBolivia:1455209926640140413>"
       peru: "<:BTEPeru:1455209955706540135>"
   rango-ds:
-    normal: ""
+    normal: "[🎮]"
     admin: "[<:Test:1455195552802148586>]"
     mod: "[🛡️]"
     reviewer: "[🔍]"

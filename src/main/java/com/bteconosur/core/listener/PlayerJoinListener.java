@@ -61,6 +61,7 @@ public class PlayerJoinListener implements Listener {
         } else {
             player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setNombre(event.getPlayer().getName());
+            player.setFechaUltimaConexion(new Date());
             player = playerRegistry.merge(player.getUuid());
             GlobalChatService.broadcastPlayerJoinedServer(player);
         }

@@ -21,9 +21,11 @@ import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
+import com.bteconosur.db.util.PlaceholderUtils;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.User;
 
 public class ChatUtil {
 
@@ -442,6 +444,39 @@ public class ChatUtil {
         for (String color : colors) {
             eb.addField("", color, true);
         }
+        return eb.build();
+    }
+
+    @SuppressWarnings("null")
+    public static MessageEmbed getDsPlayerInfo(Player player, User discordUser, Language language) {
+        String title = LanguageHandler.replaceDS("ds-embeds.player-info.title", language, player);
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        eb.addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.nombre"), player.getNombrePublico(), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.discord"), discordUser != null ? discordUser.getAsMention() : LanguageHandler.getText(language, "placeholder.player-ds.no-link"), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.idioma"), PlaceholderUtils.replaceDS("%player.lenguaje%", language, player), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.pais"), PlaceholderUtils.replaceDS("%player.paisPrefix%", language, player), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.rango"), PlaceholderUtils.replaceDS("%player.rangoUsuario%", language, player), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.tipo"), PlaceholderUtils.replaceDS("%player.tipoUsuario%", language, player), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.estado"), PlaceholderUtils.replaceDS("%player.estado%", language, player), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.proyectos-completados"), String.valueOf(ProyectoRegistry.getInstance().getCompletadosCount(player)), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.proyectos-activos"), String.valueOf(ProyectoRegistry.getInstance().getActivosCount(player)), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.fecha-ingreso"), DateUtils.getDsTimestamp(player.getFechaIngreso(), language), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.fecha-ultima-conexion"), DateUtils.getDsTimestamp(player.getFechaUltimaConexion(), language), true)
+            .setThumbnail(config.getString("avatar-head-url").replace("%uuid%", player.getUuid().toString()))
+            .setColor(embedColors.getInt("ds-embeds.player-info"));
+        String footer = LanguageHandler.replaceDS("ds-embeds.player-info.footer", language, player);   
+        eb.setFooter(footer);
+        return eb.build();
+    }
+
+    @SuppressWarnings("null")
+    public static MessageEmbed getDsPlayerInfo(User discordUser, Language language) {
+        String title = LanguageHandler.getText(language,"ds-embeds.player-info.title").replace("%player.nombre%", discordUser.getName());
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        eb.setDescription(LanguageHandler.getText(language,"ds-embeds.player-info.ds-no-link"));
+        eb.addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.discord"), discordUser.getAsMention(), true);
+        eb.setColor(embedColors.getInt("ds-embeds.player-info"));
+        eb.setFooter(LanguageHandler.getText(language,"ds-embeds.player-info.footer-no-link").replace("%discordId%", discordUser.getId()));
         return eb.build();
     }
 

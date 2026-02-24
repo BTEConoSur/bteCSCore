@@ -164,6 +164,7 @@ invalid-project-location: "La ubicación del proyecto es inválida o no está de
 invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 
 commands-descriptions:
+  player.desc: "Obtener información de un jugador."
   back.desc: "Teletransportarse a tu última ubicación."
   pwarp:
     desc: "Teletransportarse a Pwarps personales o gestionarlos."
@@ -356,6 +357,23 @@ pwarp:
   invalid-name: "El nombre del Pwarp no está permitido."
   invalid-name-length: "Máximo 50 caracteres permitidos para el nombre del Pwarp."
   empty: "No tienes ningún Pwarp creado."
+
+player-info-command:
+  - "\n <b>=========</b> <gold>Información de %player.nombre%</gold> <b>=========</b>"
+  - " <yellow>Nombre Público:</yellow> <white>%player.nombrePublico%</white>"
+  - " <yellow>UUID:</yellow> <white>%player.uuid%</white>"
+  - " <yellow>País:</yellow> <white>%player.paisPrefix%</white>"
+  - " <yellow>Tipo de Usuario:</yellow> <white>%player.tipoUsuarioPrefijo%</white>"
+  - " <yellow>Rango de Usuario:</yellow> <white>%player.rangoUsuarioPrefijo%</white>"
+  - " <yellow>Discord:</yellow> <white>%player.discordName%</white>"
+  - " <yellow>Proyectos activos: <white>%player.proyectosActivos%</white> "
+  - " <yellow>Proyectos completados: <white>%player.proyectosCompletados%</white>"
+  - " <yellow>Fecha de Ingreso:</yellow> <white>%player.fechaIngreso%</white>"
+  - " <yellow>Última Conexión:</yellow> <white>%player.fechaUltimaConexion%</white>"
+  - " <b>=========</b> %plugin-prefix% <b>=========</b>\n" # %plugin-prefix% -> Prefijo del plugin.
+ds-player-info:
+  invalid-options-size: "Sólo se puede elegir un método de búsqueda a la vez (Nombre, Uuid o Usuario de Discord)."
+  invalid-option: "Completa una opción de búsqueda válida."
 
 pwarp-list:
   header: "\n <b>=========</b> <gold>Lista de Pwarps</gold> <b>=========</b>"
@@ -788,12 +806,28 @@ ds-notifications:
     project-name-updated: "Nombre del proyecto actualizado por un Manager"
     project-description-updated: "Descripción del proyecto actualizada por un Manager"
 ds-embeds:
+  player-info:
+    title: "Información del jugador: %player.nombre%"
+    ds-no-link: "> **[!]** El Usuario no tiene la cuenta de Minecraft enlazada."
+    fields:
+      nombre: "Nombre Público"
+      discord: "Discord"
+      idioma: "Idioma"
+      pais: "País"
+      rango: "Rango"
+      tipo: "Tipo"
+      estado: "Estado"
+      proyectos-completados: "Proyectos completados"
+      proyectos-activos: "Proyectos activos"
+      fecha-ingreso: "Fecha de ingreso"
+      fecha-ultima-conexion: "Fecha de última conexión"
+    footer: "UUID: %player.uuid% - Discord ID: %player.discordId%"
+    footer-no-link: "Discord ID: %discordId%"
   project-created:
     title: "%player.nombre% quiere crear un nuevo proyecto."
     player-is-visita: "> **[!]** El jugador es de tipo 'Visita'."
     player-is-postulante: "> **[!]** El jugador es de tipo 'Postulante'." 
     has-collisions: "> **[!]** El proyecto tiene colisiones con otros proyectos."
-    separator: "────────────────────────────────────────"
     polygons-colors:
       - "🟦 - Proyecto"
       - "🟩 - Otros Proyectos"
@@ -1006,15 +1040,16 @@ items:
     no-player-lore:
       -  "<gray>Proyecto sin %contexto%" # %contexto% -> Contexto del jugador.
     lore:
-      - "%player.estado%" # %player.estado% -> Estado online/offline del jugador.
-      - "<gray>Nombre público: <white>%player.nombrePublico%" # %player.nombrePublico% -> Nombre público del jugador.
-      - "<gray>Rango: <white>%player.rangoUsuario%" # %player.rangoUsuario% -> Rango del jugador.
-      - "<gray>Tipo: <white>%player.tipoUsuario%" # %player.tipoUsuario% -> Tipo de usuario del jugador.
-      - "<gray>País: %player.paisPrefix%" # %player.paisPrefix% -> Prefix de País del jugador.
-      - "<gray>Proyectos activos: <white>%player.proyectosActivos%" # %player.proyectosActivos% -> Cantidad de proyectos activos del jugador.
-      - "<gray>Proyectos completados: <white>%player.proyectosCompletados%" # %player.proyectosCompletados% -> Cantidad de proyectos completados del jugador.
-      - "<gray>Ingreso: <white>%player.fechaIngreso%" # %player.fechaIngreso% -> Fecha de ingreso del jugador al servidor.
-      - "<gray>Último login: <white>%player.fechaUltimaConexion%" # %player.fechaUltimaConexion% -> Fecha del último login del jugador.
+      - "%player.estado%"
+      - "<gray>Nombre público: <white>%player.nombrePublico%"
+      - "<gray>Rango: <white>%player.rangoUsuario%"
+      - "<gray>Tipo: <white>%player.tipoUsuario%"
+      - "<gray>País: %player.paisPrefix%"
+      - "<gray>Discord: <white>%player.discordName%</white>"
+      - "<gray>Proyectos activos: <white>%player.proyectosActivos%"
+      - "<gray>Proyectos completados: <white>%player.proyectosCompletados%"
+      - "<gray>Ingreso: <white>%player.fechaIngreso%"
+      - "<gray>Último login: <white>%player.fechaUltimaConexion%"
     contexto:
       lider: "<b><yellow>Líder</b>"
       miembro: "<b><aqua>Miembro</b>"
@@ -1198,9 +1233,11 @@ placeholder:
   player-mc:
     online: "<green><b>En línea</b></green>"
     offline: "<red><b>Desconectado</b></red>"
+    no-link: "<yellow><i>No Vinculado</i></yellow>"
   player-ds:
     online: "En línea"
     offline: "Desconectado"
+    no-link: "No Vinculado"
   proyecto-mc:
     sin-lider: "<yellow><i>Sin Líder</i></yellow>"
     sin-miembros: "<yellow><i>Sin Miembros</i></yellow>"
@@ -1249,7 +1286,7 @@ placeholder:
       bolivia: "<gray>[</gray><green>BO</green><gray>]</gray>"
       peru: "<gray>[</gray><red>PE</red><gray>]</gray>"
   rango-mc:
-    normal: ""
+    normal: "<gray>[</gray><white>JUGADOR</white><gray>]</gray>"
     admin: "<gray>[</gray><dark_red>ADMIN</dark_red><gray>]</gray>"
     mod: "<gray>[</gray><red>MOD</red><gray>]</gray>"
     reviewer: "<gray>[</gray><blue>REVIEWER</blue><gray>]</gray>"
@@ -1276,7 +1313,7 @@ placeholder:
       bolivia: "<:BTEBolivia:1455209926640140413>"
       peru: "<:BTEPeru:1455209955706540135>"
   rango-ds:
-    normal: ""
+    normal: "[🎮]"
     admin: "[<:Test:1455195552802148586>]"
     mod: "[🛡️]"
     reviewer: "[🔍]"

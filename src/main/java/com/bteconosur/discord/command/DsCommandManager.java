@@ -20,6 +20,7 @@ public class DsCommandManager {
         addCommand(new DeleteDsCommand());
         addCommand(new DsExecCommand());
         addCommand(new DsLinkCommand());
+        addCommand(new DsPlayerCommand());
     }
 
     private void addCommand(DsCommand command) {

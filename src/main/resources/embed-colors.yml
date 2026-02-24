@@ -53,6 +53,7 @@ ds-notifications:
     project-name-updated: 0x00b0f4
     project-description-updated: 0x00b0f4
 ds-embeds:
+  player-info: 0x00b0f4
   project-created: 0x00b0f4
   project-redefine-requested: 0xfe9a37
   warn: 0xf2cc0d

@@ -19,6 +19,9 @@ import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.discord.DiscordManager;
+
+import net.dv8tion.jda.api.entities.User;
 
 public class PlaceholderUtils {
 
@@ -143,7 +146,7 @@ public class PlaceholderUtils {
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipo-mc.";
                         else path = "placeholder.tipo-ds.";
                         value = p.getTipoUsuario() != null ? LanguageHandler.getText(language, path + p.getTipoUsuario().getNombre().toLowerCase()) : "ERROR_TIPO_USUARIO_NULL";
-                        break; 
+                        break;
                     case "paisPrefix":
                         Pais pais = p.getPaisPrefix();
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.pais-mc.prefix.";
@@ -151,7 +154,6 @@ public class PlaceholderUtils {
                         if (pais != null) value = LanguageHandler.getText(language, path + pais.getNombre().toLowerCase());
                         else value = LanguageHandler.getText(language, path + "internacional");
                         break;
-                    
                     case "estado":
                         PlayerRegistry registry = PlayerRegistry.getInstance();
                         boolean isOnline = registry.isOnline(p.getUuid());
@@ -167,7 +169,33 @@ public class PlaceholderUtils {
                         int countFinalizados = ProyectoRegistry.getInstance().getCompletadosCount(p);
                         value = String.valueOf(countFinalizados);
                         break;
+                    case "discordId":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.player-mc.no-link";
+                        else path = "placeholder.player-ds.no-link";
+                        value = p.getDsIdUsuario() != null ? p.getDsIdUsuario().toString() : LanguageHandler.getText(language, path);
+                        break;
+                    case "discordName":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.player-mc.no-link";
+                        else path = "placeholder.player-ds.no-link";
+                        if (p.getDsIdUsuario() != null) {
+                            try {
+                                User user = DiscordManager.getInstance().getJda().retrieveUserById(p.getDsIdUsuario()).complete();
+                                value = user != null ? "@" + user.getName() : LanguageHandler.getText(language, path);
+                            } catch (Exception ex) {
+                                ConsoleLogger.warn("No se pudo obtener el nombre de Discord para el usuario con ID " + p.getDsIdUsuario(), ex);
+                                value = LanguageHandler.getText(language, path);
+                            }
+                        } else {
+                            value = LanguageHandler.getText(language, path);
+                        }
+                        break;
+                    case "lenguaje":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.lang-mc.";
+                        else path = "placeholder.lang-ds.";
+                        value = LanguageHandler.getText(language, path + p.getConfiguration().getLang().getCode());
+                        break;
                     default:
+                        ConsoleLogger.warn("Caso no reconocido en placeholder: " + token);
                         value = "";
                         break;
                 }
