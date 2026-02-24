@@ -25,7 +25,7 @@ public class NightvisionCommand extends BaseCommand {
         } else {
             bukkitPlayer.addPotionEffect(new PotionEffect(
                 PotionEffectType.NIGHT_VISION,
-                Integer.MAX_VALUE,
+                -1,
                 0,
                 true,
                 false

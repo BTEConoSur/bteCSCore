@@ -335,10 +335,23 @@ nightvision:
 pwarp:
   created: "Pwarp <yellow>'%nombre%'</yellow> created successfully."
   already: "You already have a Pwarp with the name <yellow>'%nombre%'</yellow>."
+  removed: "Pwarp <yellow>'%nombre%'</yellow> removed successfully."
   not-found: "No Pwarp found with the name <yellow>'%nombre%'</yellow>."
   teleported: "Teleported to Pwarp <yellow>'%nombre%'</yellow>."
   cant-create: "You cannot create a Pwarp at this location."
   invalid-name: "The Pwarp name is not valid."
+  invalid-name-length: "The Pwarp name cannot be longer than 50 characters."
+  empty: "You don't have any Pwarps yet."
+
+pwarp-list:
+  header: "\n <b>=========</b> <gold>Pwarp List</gold> <b>=========</b>"
+  pwarp: " - <gold><pwarp-%i%></gold>" # <pwarp-%i%> -> Text to teleport to Pwarp at position %i% in the list.
+  pwarp-hover: "<yellow>Click to teleport</yellow>"
+  backtext: "<b><<<</b>"
+  backhover: "<gold>Previous Page</gold>"
+  nexttext: "<b>>>></b>"
+  nexthover: "<gold>Next Page</gold>"
+  footer: " <b>=========</b> <gold><backtext> Page <yellow>%currentPage% of %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Text to go to previous page (if applicable). %currentPage% -> Current page. %totalPages% -> Total pages. <nextText> -> Text to go to next page (if applicable).
 
 help-command:
   header: "\n <b>=========</b> <gold>Help for Command</gold> <b>=========</b>"

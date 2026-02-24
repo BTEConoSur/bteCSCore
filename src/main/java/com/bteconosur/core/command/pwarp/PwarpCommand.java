@@ -20,6 +20,7 @@ public class PwarpCommand extends BaseCommand {
         super("pwarp", "<nombre_warp>|<subcomando>", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new PwarpCreateCommand());
         this.addSubcommand(new PwarpRemoveCommand());
+        this.addSubcommand(new PwarpListCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

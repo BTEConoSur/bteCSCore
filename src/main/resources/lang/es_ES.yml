@@ -335,10 +335,23 @@ nightvision:
 pwarp:
   created: "Pwarp <yellow>'%nombre%'</yellow> creado correctamente."
   already: "Ya tienes un Pwarp con el nombre <yellow>'%nombre%'</yellow>."
+  removed: "Pwarp <yellow>'%nombre%'</yellow> eliminado correctamente."
   not-found: "No se encontró ningún Pwarp con el nombre <yellow>'%nombre%'</yellow>."
   teleported: "Teletransportado al Pwarp <yellow>'%nombre%'</yellow>."
   cant-create: "No puedes crear un Pwarp en esta ubicación."
-  invalid-name: "El nombre del Pwarp no es válido."
+  invalid-name: "El nombre del Pwarp no está permitido."
+  invalid-name-length: "Máximo 50 caracteres permitidos para el nombre del Pwarp."
+  empty: "No tienes ningún Pwarp creado."
+
+pwarp-list:
+  header: "\n <b>=========</b> <gold>Lista de Pwarps</gold> <b>=========</b>"
+  pwarp: " - <gold><pwarp-%i%></gold>" # <pwarp-%i%> -> Texto para teletransportarse al Pwarp en la posición %i% de la lista.
+  pwarp-hover: "<yellow>Click para teletrasportarse.</yellow>"
+  backtext: "<b><<<</b>"
+  backhover: "<gold>Página Anterior</gold>"
+  nexttext: "<b>>>></b>"
+  nexthover: "<gold>Siguiente Página</gold>"
+  footer: " <b>=========</b> <gold><backtext> Página <yellow>%currentPage% de %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
 
 help-command:
   header: "\n <b>=========</b> <gold>Ayuda de Comando</gold> <b>=========</b>"

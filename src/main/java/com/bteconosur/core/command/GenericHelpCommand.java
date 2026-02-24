@@ -18,7 +18,7 @@ public class GenericHelpCommand extends BaseCommand {
     private final BaseCommand parentCommand;
 
     public GenericHelpCommand(BaseCommand parentCommand) {
-        super("help", null);
+        super("help", "[pagina]");
         this.parentCommand = parentCommand;
     }
 

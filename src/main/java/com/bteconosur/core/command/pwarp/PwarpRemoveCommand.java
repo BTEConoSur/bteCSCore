@@ -1,6 +1,9 @@
 package com.bteconosur.core.command.pwarp;
 
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
@@ -21,7 +24,7 @@ public class PwarpRemoveCommand extends BaseCommand {
         Player player = registry.get(sender);
         Language language = player.getLanguage();
         if (args.length != 1) {
-            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
@@ -31,8 +34,15 @@ public class PwarpRemoveCommand extends BaseCommand {
             return true;
         }
         registry.removePwarp(player.getUuid(), nombreWarp);
-        PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "pwarp.deleted").replace("%nombre%", nombreWarp), (String) null);
+        PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "pwarp.removed").replace("%nombre%", nombreWarp), (String) null);
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        Player player = PlayerRegistry.getInstance().get(sender);
+        if (args.length == 1) return player.getPwarpNames().stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
+        return super.tabComplete(sender, alias, args);
     }
 
 }

@@ -24,7 +24,7 @@ public class PwarpCreateCommand extends BaseCommand {
         Player player = registry.get(sender);
         Language language = player.getLanguage();
         if (args.length != 1) {
-            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
+            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
@@ -40,7 +40,13 @@ public class PwarpCreateCommand extends BaseCommand {
             PlayerLogger.error(player, LanguageHandler.getText(language, "pwarp.already").replace("%nombre%", nombreWarp), (String) null);
             return true;
         }
-        if (nombreWarp.equals("add") || nombreWarp.equals("remove") || nombreWarp.equals("help")) {
+
+        if (nombreWarp.length() > 50) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "pwarp.invalid-name-length"), (String) null);
+            return true;
+        }
+
+        if (nombreWarp.toLowerCase().equals("add") || nombreWarp.toLowerCase().equals("remove") || nombreWarp.toLowerCase().equals("help")) {
             PlayerLogger.error(player, LanguageHandler.getText(language, "pwarp.invalid-name"), (String) null);
             return true;
         }

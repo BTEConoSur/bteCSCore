@@ -562,6 +562,10 @@ public class MenuUtils {
     }
 
     public static GuiItem getLightBlockItem(int level) {
+        return ItemBuilder.from(getLightBlockItemStack(level)).asGuiItem();
+    }
+
+    public static ItemStack getLightBlockItemStack(int level) {
         if (level < 0 || level > 15) level = 15;
         ItemStack item = new ItemStack(Material.LIGHT);
         BlockDataMeta meta = (BlockDataMeta) item.getItemMeta();
@@ -569,7 +573,7 @@ public class MenuUtils {
         light.setLevel(level);
         meta.setBlockData(light);
         item.setItemMeta(meta);
-        return ItemBuilder.from(item).asGuiItem();
+        return item;
     }
 
 }

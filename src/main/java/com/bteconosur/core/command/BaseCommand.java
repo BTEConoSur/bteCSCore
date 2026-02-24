@@ -131,8 +131,9 @@ public abstract class BaseCommand extends Command {
             subcommandDepth++;
         }
 
+        List<String> completions = new ArrayList<>();
+        
         if (!currentCommand.subcommands.isEmpty()) {
-            List<String> completions = new ArrayList<>();
             String currentArg = args[args.length - 1].toLowerCase();
             for (BaseCommand subcommand : currentCommand.subcommands.values()) {
                 if (subcommand.permission != null && !sender.hasPermission(subcommand.permission)) {
@@ -159,13 +160,16 @@ public abstract class BaseCommand extends Command {
                     }
                 }
                 */
-
             }
-            return completions.isEmpty() ? super.tabComplete(sender, alias, args) : completions;
         }
 
         String[] remainingArgs = Arrays.copyOfRange(args, subcommandDepth, args.length);
-        return currentCommand.tabCompleteArgs(sender, alias, remainingArgs);
+        List<String> argCompletions = currentCommand.tabCompleteArgs(sender, alias, remainingArgs);
+        if (argCompletions != null && !argCompletions.isEmpty()) {
+            completions.addAll(argCompletions);
+        }
+        
+        return completions.isEmpty() ? super.tabComplete(sender, alias, args) : completions;
     }
 
     /**

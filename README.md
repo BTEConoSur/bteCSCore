@@ -39,7 +39,7 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 * ✔️ /nickname -> Seteo del nombre público.
 * ✔️ /lobby -> Ir hacia el lobby general o de un país.
 * ✔️ /nightvision -> Activa/Desactiva visión nocturna.
-* 🕙 /pwarp -> Comando general para gestionar warps personales.
+* ✔️ /pwarp -> Comando general para gestionar warps personales.
 * ✔️ /help -> Comando general de ayuda.
 * ✔️ /get -> Obtener bloques especiales.
 
