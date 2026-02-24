@@ -21,6 +21,7 @@ public class DsCommandManager {
         addCommand(new DsExecCommand());
         addCommand(new DsLinkCommand());
         addCommand(new DsPlayerCommand());
+        addCommand(new DsProyectoCommand());
     }
 
     private void addCommand(DsCommand command) {

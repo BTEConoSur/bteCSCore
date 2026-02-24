@@ -374,6 +374,9 @@ player-info-command:
 ds-player-info:
   invalid-options-size: "Sólo se puede elegir un método de búsqueda a la vez (Nombre, Uuid o Usuario de Discord)."
   invalid-option: "Completa una opción de búsqueda válida."
+ds-proyecto-info:
+  invalid-id: "Proyecto no encontrado con ID **%id%**"
+  id-needed: "Debes proporcionar el ID del proyecto para ver su información."
 
 pwarp-list:
   header: "\n <b>=========</b> <gold>Lista de Pwarps</gold> <b>=========</b>"
@@ -806,6 +809,21 @@ ds-notifications:
     project-name-updated: "Nombre del proyecto actualizado por un Manager"
     project-description-updated: "Descripción del proyecto actualizada por un Manager"
 ds-embeds:
+  project-info:
+    title: "Información del proyecto: %proyecto.id%"
+    fields:
+      nombre: "Nombre"
+      descripcion: "Descripción"
+      tipo: "Tipo"
+      max-miembros: "Máx. de miembros"
+      lider: "Líder"
+      miembros: "Cantidad de miembros"
+      estado: "Estado"
+      pais: "País"
+      ubicacion: "Ubicación"
+      coordenadas: "Coordenadas geográficas"
+      fecha-creacion: "Fecha de creación"
+      fecha-finalizacion: "Fecha de finalización"
   player-info:
     title: "Información del jugador: %player.nombre%"
     ds-no-link: "> **[!]** El Usuario no tiene la cuenta de Minecraft enlazada."

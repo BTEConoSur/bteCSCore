@@ -371,6 +371,12 @@ player-info-command:
   - " <yellow>Join date:</yellow> <white>%player.fechaIngreso%</white>"
   - " <yellow>Last connection:</yellow> <white>%player.fechaUltimaConexion%</white>"
   - " <b>=========</b> %plugin-prefix% <b>=========</b>\n" # %plugin-prefix% -> Plugin prefix.
+ds-player-info:
+  invalid-options-size: "Only one search method can be chosen at a time (Name, UUID, or Discord User)."
+  invalid-option: "Complete a valid search option."
+ds-proyecto-info:
+  invalid-id: "Project not found with ID **%id%**"
+  id-needed: "You must provide the project ID to view its information."
 
 pwarp-list:
   header: "\n <b>=========</b> <gold>Pwarp List</gold> <b>=========</b>"
@@ -803,6 +809,21 @@ ds-notifications:
     project-name-updated: "Project name updated by a Manager"
     project-description-updated: "Project description updated by a Manager"
 ds-embeds:
+  project-info:
+    title: "Project Information: %proyecto.id%"
+    fields:
+      nombre: "Name"
+      descripcion: "Description"
+      tipo: "Type"
+      max-miembros: "Max. members"
+      lider: "Leader"
+      miembros: "Member Count"
+      estado: "Status"
+      pais: "Country"
+      ubicacion: "Location"
+      coordenadas: "Geographic Coordinates"
+      fecha-creacion: "Creation Date"
+      fecha-finalizacion: "Completion Date"
   player-info:
     title: "Player Information: %player.nombre%"
     ds-no-link: "> **[!]** The user does not have a Minecraft account linked."

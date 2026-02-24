@@ -27,8 +27,8 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 * ✔️ Revisión y aprobación de proyectos desde Discord.
 * ✔️ Chat Global.
 * ✔️ Chat de País.
-* ⏳ /player -> Muestra información de un Jugador.
-* ⏳ /project -> Muestra información de un Proyecto.
+* ✔️ /player -> Muestra información de un Jugador.
+* ✔️ /project -> Muestra información de un Proyecto.
 
 ## Minecraft
 

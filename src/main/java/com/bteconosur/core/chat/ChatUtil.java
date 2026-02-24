@@ -480,4 +480,25 @@ public class ChatUtil {
         return eb.build();
     }
 
+    @SuppressWarnings("null")
+    public static MessageEmbed getDsProyectoInfo(Proyecto proyecto, Language language) {
+        String title = LanguageHandler.replaceDS("ds-embeds.project-info.title", language, proyecto);
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        eb.addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.descripcion"), PlaceholderUtils.replaceDS("%proyecto.descripcion%", language, proyecto), false)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.nombre"), PlaceholderUtils.replaceDS("%proyecto.nombre%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.tipo"), PlaceholderUtils.replaceDS("%proyecto.tipo%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.max-miembros"), PlaceholderUtils.replaceDS("%proyecto.maxMiembros%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.lider"), PlaceholderUtils.replaceDS("%proyecto.lider%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.miembros"), PlaceholderUtils.replaceDS("%proyecto.miembrosCantidad%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.estado"), PlaceholderUtils.replaceDS("%proyecto.estado%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.pais"), PlaceholderUtils.replaceDS("%proyecto.paisNombre%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.ubicacion"), PlaceholderUtils.replaceDS("%proyecto.divisionContexto%, %proyecto.divisionFna%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.coordenadas"), PlaceholderUtils.replaceDS("%proyecto.geoCoords%", language, proyecto), false)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-creacion"), DateUtils.getDsTimestamp(proyecto.getFechaCreado(), language), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-finalizacion"), DateUtils.getDsTimestamp(proyecto.getFechaTerminado(), language), true);
+        Player lider = ProjectManager.getInstance().getLider(proyecto);
+        if (lider != null) eb.setThumbnail(config.getString("avatar-head-url").replace("%uuid%", lider.getUuid().toString()));
+        return eb.setColor(embedColors.getInt("ds-embeds.project-info")).build();
+    }
+
 }
