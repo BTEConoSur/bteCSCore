@@ -66,7 +66,7 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 * ✔️ Log de Consola.
 * ✔️ /exec (DS) -> Ejecutar comando en consola.
 * ✔️ /promote (MC) -> Cambiar el Rango de Usuario de un Jugador.
-* 🕙 /deletePlayerData (Consola) -> Eliminar el archivo de playerdata de un jugador.
+* ✔️ /deletePlayerData (Consola) -> Eliminar el archivo de playerdata de un jugador.
 #
 > Este roadmap representa el estado y los objetivos **generales** de la versión **V3**.
 
