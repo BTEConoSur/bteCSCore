@@ -155,6 +155,7 @@ invalid-project-location: "Project location is invalid or not within a valid div
 invalid-project-comment: "Maximum 300 characters allowed for comment."
 
 commands-descriptions:
+  lobby.desc: "Teleport to the lobby."
   get.desc: "Get special items and blocks."
   generic-help.desc: "Shows command help."
   btecs:
@@ -1135,6 +1136,7 @@ division-subtitle: "<light_purple>%division.fna%</light_purple>"
 no-building-permissions: "You don't have permissions to build here."
 not-limbo: "You can't be outside the countries. Teleporting to lobby..."
 cant-leave-paises: "You can't leave the countries."
+lobby-teleport: "Teleporting to lobby..."
 
 # Placeholder
 placeholder:

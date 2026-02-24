@@ -295,19 +295,19 @@ public class WorldManager {
 
     public void checkMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
         if (bteWorld == null || !bteWorld.isValid()) return;
-        if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return;
+        if (lTo.getWorld().getName().equalsIgnoreCase(config.getString("lobby.world"))) return;
         bteWorld.checkLayerMove(lFrom, lTo, player);
     }
 
     public void checkTitles(Location lTo, org.bukkit.entity.Player player) {
         if (bteWorld == null || !bteWorld.isValid()) return;
-        if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return;
+        if (lTo.getWorld().getName().equalsIgnoreCase(config.getString("lobby.world"))) return;
         bteWorld.checkProyectoMove(lTo, player);
         bteWorld.checkDivisionMove(lTo, player);
     }
 
     public boolean checkPaisMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
-        if (lTo.getWorld().getName().equalsIgnoreCase("lobby")) return true;
+        if (lTo.getWorld().getName().equalsIgnoreCase(config.getString("lobby.world"))) return true;
         return bteWorld.checkPaisMove(lFrom, lTo, player);
     }
 

@@ -79,6 +79,8 @@ titles-duration: # Duraciones de los títulos (en milisegundos).
     stay: 1000
     fade-out: 200
 
+lobby.world: "lobby" # Nombre del mundo del lobby. Se asume que el mundo ya existe y está cargado en el servidor.
+
 wg-proyecto-prefix: "proyecto_" # Prefijo para las regiones de los proyectos en WorldGuard.
 wg-parent-proyecto: "proyectos"
 

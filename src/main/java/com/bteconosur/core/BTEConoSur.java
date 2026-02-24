@@ -4,6 +4,7 @@ import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.GetCommand;
 import com.bteconosur.core.command.HelpCommand;
+import com.bteconosur.core.command.LobbyCommand;
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.command.chat.ChatCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
@@ -152,28 +153,29 @@ public final class BTEConoSur extends JavaPlugin {
         HelpCommand.addCommand(new LanguageCommand());
         PluginRegistry.registerCommand(new PaisPrefixCommand());
         HelpCommand.addCommand(new PaisPrefixCommand());
-        PluginRegistry.registerCommand(new PromoteCommand());
-        HelpCommand.addCommand(new PromoteCommand());
         PluginRegistry.registerCommand(new WhereIAmCommand());
         HelpCommand.addCommand(new WhereIAmCommand());
         PluginRegistry.registerCommand(new GetCommand());
         HelpCommand.addCommand(new GetCommand());
         PluginRegistry.registerCommand(new ProjectCommand());
         HelpCommand.addCommand(new ProjectCommand());
-        PluginRegistry.registerCommand(new CrudCommand());
-        HelpCommand.addCommand(new CrudCommand());
-        PluginRegistry.registerCommand(new ManagerCommand());
-        HelpCommand.addCommand(new ManagerCommand());
-        PluginRegistry.registerCommand(new ReviewerCommand());
-        HelpCommand.addCommand(new ReviewerCommand());
         PluginRegistry.registerCommand(new LinkCommand());
         HelpCommand.addCommand(new LinkCommand());
         PluginRegistry.registerCommand(new UnlinkCommand());
         HelpCommand.addCommand(new UnlinkCommand());
         PluginRegistry.registerCommand(new NicknameCommand());
         HelpCommand.addCommand(new NicknameCommand());
-        
+        PluginRegistry.registerCommand(new LobbyCommand());
+        HelpCommand.addCommand(new LobbyCommand());
         PluginRegistry.registerCommand(new HelpCommand());
+        PluginRegistry.registerCommand(new CrudCommand());
+        HelpCommand.addCommand(new CrudCommand());
+        PluginRegistry.registerCommand(new ManagerCommand());
+        HelpCommand.addCommand(new ManagerCommand());
+        PluginRegistry.registerCommand(new ReviewerCommand());
+        HelpCommand.addCommand(new ReviewerCommand());
+        PluginRegistry.registerCommand(new PromoteCommand());
+        HelpCommand.addCommand(new PromoteCommand());
     }
 
     @Override
@@ -270,7 +272,6 @@ public final class BTEConoSur extends JavaPlugin {
 
 // TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab
-// TODO: Get
 
 // TODO: easter egg en coords
 

@@ -97,7 +97,7 @@ public class BTEWorld {
 
     public boolean isLobbyLocation(Location loc) {
         if (loc == null) return false;
-        return loc.getWorld().getName().equals("lobby");
+        return loc.getWorld().getName().equals(config.getString("lobby.world"));
     }
 
     public void checkProyectoMove(Location toLocation, Player player) {
@@ -206,7 +206,7 @@ public class BTEWorld {
         Pais paisFrom = PaisRegistry.getInstance().findByLocation(fromLocation.getX(), fromLocation.getZ());
         if (paisFrom == null) {
             PlayerLogger.warn(com.bteconosur.db.model.Player.getBTECSPlayer(player), LanguageHandler.getText(com.bteconosur.db.model.Player.getBTECSPlayer(player).getLanguage(), "not-limbo"), (String) null);
-            player.teleport(multiverseApi.getWorldManager().getLoadedWorld("lobby").get().getSpawnLocation());
+            player.teleport(multiverseApi.getWorldManager().getLoadedWorld(config.getString("lobby.world")).get().getSpawnLocation());
             return true;
         };
         Pais paisTo = PaisRegistry.getInstance().findByLocation(toLocation.getX(), toLocation.getZ());
@@ -236,5 +236,9 @@ public class BTEWorld {
             if (!task.isCancelled()) task.cancel();
         });
         playerTasks.clear();
+    }
+
+    public MultiverseCoreApi getMultiverseApi() {
+        return this.multiverseApi;
     }
 }
