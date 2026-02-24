@@ -4,8 +4,12 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
+import com.bteconosur.world.WorldManager;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -32,6 +36,12 @@ public class Pwarp {
     @Column(name = "z", nullable = false)
     private Double z;
 
+    @Column(name = "yaw", nullable = false)
+    private float yaw;
+
+    @Column(name = "pitch", nullable = false)
+    private float pitch;
+
     @ManyToOne
     @MapsId("uuid")
     @JoinColumn(name = "uuid_player")
@@ -40,12 +50,14 @@ public class Pwarp {
     public Pwarp() {
     }
 
-    public Pwarp(UUID uuid, String nombre, Player player, Double x, Double y, Double z) {
+    public Pwarp(UUID uuid, String nombre, Player player, Double x, Double y, Double z, float yaw, float pitch) {
         this.id = new PwarpId(uuid, nombre);
         this.player = player;
         this.x = x;
         this.y = y;
         this.z = z;
+        this.yaw = yaw;
+        this.pitch = pitch;
     }
 
     public PwarpId getId() {
@@ -80,12 +92,33 @@ public class Pwarp {
         this.z = z;
     }
 
+    public void setYaw(float yaw) {
+        this.yaw = yaw;
+    }
+
+    public float getYaw() {
+        return yaw;
+    }   
+
+    public void setPitch(float pitch) {
+        this.pitch = pitch;
+    }
+
+    public float getPitch() {
+        return pitch;
+    }
+
     public Player getPlayer() {
         return player;
     }
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public Location toLocation() {
+        World world =  WorldManager.getInstance().getBTEWorld().getLabelWorld(x, z).getBukkitWorld();
+        return new Location(world, x, y, z, yaw, pitch);
     }
 
     public String getNombre() {

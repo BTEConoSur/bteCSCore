@@ -156,6 +156,10 @@ invalid-project-location: "La ubicación del proyecto es inválida o no está de
 invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 
 commands-descriptions:
+  pwarp:
+    desc: "Teletransportarse a Pwarps personales o gestionarlos."
+    create.desc: "Crear un nuevo Pwarp en tu ubicación actual."
+    remove.desc: "Eliminar un Pwarp por nombre."
   nightvision.desc: "Activar o desactivar la visión nocturna."
   lobby.desc: "Teletransportarse al lobby."
   get.desc: "Obtener items y bloques especiales."
@@ -327,6 +331,14 @@ config-updated: "<green>Configuración actualizada.</green>"
 nightvision:
   enabled: "Visión nocturna activada."
   disabled: "Visión nocturna desactivada."
+
+pwarp:
+  created: "Pwarp <yellow>'%nombre%'</yellow> creado correctamente."
+  already: "Ya tienes un Pwarp con el nombre <yellow>'%nombre%'</yellow>."
+  not-found: "No se encontró ningún Pwarp con el nombre <yellow>'%nombre%'</yellow>."
+  teleported: "Teletransportado al Pwarp <yellow>'%nombre%'</yellow>."
+  cant-create: "No puedes crear un Pwarp en esta ubicación."
+  invalid-name: "El nombre del Pwarp no es válido."
 
 help-command:
   header: "\n <b>=========</b> <gold>Ayuda de Comando</gold> <b>=========</b>"

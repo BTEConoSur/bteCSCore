@@ -7,12 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Pwarp;
 
 public class PlayerRegistry extends Registry<UUID, Player> {
 
@@ -103,6 +105,28 @@ public class PlayerRegistry extends Registry<UUID, Player> {
                         Comparator.nullsFirst(Comparator.naturalOrder())).reversed())
                 .limit(config.getInt("max-offline-players-list", 100))
                 .collect(Collectors.toList());
+    }
+
+    public void createPwarp(UUID uuid, String nombreWarp, Location loc) {
+        Player player = get(uuid);
+        if (player == null) return;
+        Pwarp newPwarp = new Pwarp(
+            player.getUuid(), 
+            nombreWarp,
+            player,
+            loc.getX(), loc.getY(), loc.getZ(),
+            loc.getYaw(), loc.getPitch()
+        );
+        player.addPwarp(newPwarp);
+        PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
+    public void removePwarp(UUID uuid, String nombreWarp) {
+        Player player = get(uuid);
+        if (player == null) return;
+        Pwarp pwarp = player.getPwarp(nombreWarp);
+        player.removePwarp(pwarp);
+        PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
     public boolean isOnline(UUID uuid) {

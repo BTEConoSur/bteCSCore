@@ -19,6 +19,7 @@ import com.bteconosur.core.command.manager.ManagerCommand;
 import com.bteconosur.core.command.pais.PaisPrefixCommand;
 import com.bteconosur.core.command.pais.WhereIAmCommand;
 import com.bteconosur.core.command.project.ProjectCommand;
+import com.bteconosur.core.command.pwarp.PwarpCommand;
 import com.bteconosur.core.command.reviewer.ReviewerCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
@@ -144,8 +145,6 @@ public final class BTEConoSur extends JavaPlugin {
 
     private void registerCommands() {
         ConsoleLogger.info("Registrando comandos de Minecraft...");
-        PluginRegistry.registerCommand(new BTECSCommand());
-        HelpCommand.addCommand(new BTECSCommand());
         PluginRegistry.registerCommand(new GeneralConfigCommand());
         HelpCommand.addCommand(new GeneralConfigCommand());
         PluginRegistry.registerCommand(new ChatCommand());
@@ -158,6 +157,8 @@ public final class BTEConoSur extends JavaPlugin {
         HelpCommand.addCommand(new WhereIAmCommand());
         PluginRegistry.registerCommand(new GetCommand());
         HelpCommand.addCommand(new GetCommand());
+        PluginRegistry.registerCommand(new PwarpCommand());
+        HelpCommand.addCommand(new PwarpCommand()); 
         PluginRegistry.registerCommand(new ProjectCommand());
         HelpCommand.addCommand(new ProjectCommand());
         PluginRegistry.registerCommand(new NightvisionCommand());
@@ -179,6 +180,8 @@ public final class BTEConoSur extends JavaPlugin {
         HelpCommand.addCommand(new ReviewerCommand());
         PluginRegistry.registerCommand(new PromoteCommand());
         HelpCommand.addCommand(new PromoteCommand());
+        PluginRegistry.registerCommand(new BTECSCommand());
+        HelpCommand.addCommand(new BTECSCommand());
     }
 
     @Override

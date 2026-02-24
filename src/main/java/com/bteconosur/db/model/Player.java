@@ -64,7 +64,7 @@ public class Player {
     @OneToOne(mappedBy = "player", cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     private Configuration configuration;
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Pwarp> pwarps = new ArrayList<>();
 
@@ -173,6 +173,38 @@ public class Player {
 
     public void setPwarps(List<Pwarp> pwarps) {
         this.pwarps = pwarps;
+    }
+
+    public void addPwarp(Pwarp pwarp) {
+        if (pwarp == null) return;
+        this.pwarps.add(pwarp);
+    }
+
+    public void removePwarp(Pwarp pwarp) {
+        if (pwarp == null) return;
+        this.pwarps.remove(pwarp);
+    }
+
+    public boolean hasPwarp(String nombre) {
+        for (Pwarp p : pwarps) {
+            if (p.getId().getNombre().equalsIgnoreCase(nombre)) return true;
+        }
+        return false;
+    }
+
+    public Pwarp getPwarp(String nombre) {
+        for (Pwarp p : pwarps) {
+            if (p.getId().getNombre().equalsIgnoreCase(nombre)) return p;
+        }
+        return null;
+    }
+
+    public List<String> getPwarpNames() {
+        List<String> names = new ArrayList<>();
+        for (Pwarp p : pwarps) {
+            names.add(p.getId().getNombre());
+        }
+        return names;
     }
 
     public Set<Proyecto> getProyectosLiderados() {
