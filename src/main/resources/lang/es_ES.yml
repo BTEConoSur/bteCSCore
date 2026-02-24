@@ -155,6 +155,7 @@ invalid-project-location: "La ubicación del proyecto es inválida o no está de
 invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 
 commands-descriptions:
+  get.desc: "Obtener items y bloques especiales."
   generic-help.desc: "Muestra la ayuda del comando."
   btecs:
     desc: "Comando principal de BTE Cono Sur."
@@ -787,6 +788,7 @@ ds-embeds:
 # La 'head-id' es la que se obtiene desde Head Database - https://minecraft-heads.com/.
 # En caso de un material inválido, se usará STONE por defecto.
 gui-titles:
+  get-menu: "Get Menú"
   chat-select: "Selección de Chat"
   chat-set: "Selección de Chat: %player.nombre%"
   pais-prefix-select: "Selección de País"

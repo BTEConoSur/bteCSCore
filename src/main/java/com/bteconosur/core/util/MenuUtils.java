@@ -3,11 +3,14 @@ package com.bteconosur.core.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.data.type.Light;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockDataMeta;
 
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
@@ -556,6 +559,17 @@ public class MenuUtils {
             ConsoleLogger.error(LanguageHandler.getText("sign-gui-create-error"),  e);
         }
         return false;
+    }
+
+    public static GuiItem getLightBlockItem(int level) {
+        if (level < 0 || level > 15) level = 15;
+        ItemStack item = new ItemStack(Material.LIGHT);
+        BlockDataMeta meta = (BlockDataMeta) item.getItemMeta();
+        Light light = (Light) Bukkit.createBlockData(Material.LIGHT);
+        light.setLevel(level);
+        meta.setBlockData(light);
+        item.setItemMeta(meta);
+        return ItemBuilder.from(item).asGuiItem();
     }
 
 }
