@@ -32,6 +32,14 @@ public class MenuUtils {
 
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
 
+    public static GuiItem getTeleportItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.teleport"),
+            LanguageHandler.getText(language, "items.teleport.name"),
+            LanguageHandler.getTextList(language, "items.teleport.lore"), false
+        );
+    }
+
     public static GuiItem getSaveItem(Language language) {
         return buildGuiItem(
             gui.getString("item-materials.save"),

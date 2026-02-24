@@ -395,6 +395,7 @@ project:
   not-active-editing: "Project '%proyecto.id%' is not active or editing."
   not-abandoned: "Project '%proyecto.id%' is not abandoned."
   not-completed: "Project '%proyecto.id%' is not completed."
+  tp-success: "Teleporting to project <yellow>'%proyecto.id%'</yellow>."
   member:
     already: "Player <yellow>'%player.nombre%'</yellow> is already a member or leader of project <yellow>'%proyecto.id%'</yellow>."
     not-member: "Player <yellow>'%player.nombre%'</yellow> is not a member of project <yellow>'%proyecto.id%'</yellow>."
@@ -858,6 +859,10 @@ gui-titles:
   language-set: "Select language: %player.nombre%"
 
 items:
+  teleport:
+    name: "<green>Teleport"
+    lore:
+      - "<gray>Click to teleport to the project location."
   save:
     name: "<green>Save"
 

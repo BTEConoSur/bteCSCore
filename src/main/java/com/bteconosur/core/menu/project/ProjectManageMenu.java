@@ -2,6 +2,10 @@ package com.bteconosur.core.menu.project;
 
 import java.util.Set;
 
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.locationtech.jts.geom.Point;
+
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
@@ -19,6 +23,7 @@ import com.bteconosur.db.registry.InteractionRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.util.Estado;
+import com.bteconosur.world.WorldManager;
 
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
@@ -163,6 +168,24 @@ public class ProjectManageMenu extends Menu {
             MemberListMenu memberListMenu = new MemberListMenu(BTECSPlayer, proyecto, LanguageHandler.replaceMC("gui-titles.project-members", language, proyecto), miembros, this, false);
             memberListMenu.open();
         });
+
+        gui.setItem(2,6, MenuUtils.getTeleportItem(language));
+        gui.addSlotAction(2,6, event -> {
+            event.getWhoClicked().closeInventory();
+            Point centroid = proyecto.getPoligono().getCentroid();
+            double x = Math.floor(centroid.getX());
+            double z = Math.floor(centroid.getY());
+            
+            World world = WorldManager.getInstance().getBTEWorld().getLabelWorld(x, z).getBukkitWorld();
+            int highestY = world.getHighestBlockYAt((int) x, (int) z);
+            
+            org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) event.getWhoClicked();
+            Location tpLocation = new Location(world, x + 0.5, highestY + 1, z + 0.5, bukkitPlayer.getLocation().getYaw(), bukkitPlayer.getLocation().getPitch());
+            bukkitPlayer.teleport(tpLocation);
+            
+            PlayerLogger.info(BTECSPlayer, LanguageHandler.replaceMC("project.tp-success", language, proyecto), (String) null);
+        });
+
         return gui;
     }
 
