@@ -143,6 +143,8 @@ commands-aliases:
     aliases: ["paisprefix", "prefix"]
   language:
      aliases: ["lang", "idioma"]
+  nightvision:
+    aliases: ["nv", "vn"]
 
 # Configuración de Players
 player-defaults:

@@ -155,6 +155,7 @@ invalid-project-location: "Project location is invalid or not within a valid div
 invalid-project-comment: "Maximum 300 characters allowed for comment."
 
 commands-descriptions:
+  nightvision.desc: "Activate or deactivate night vision."
   lobby.desc: "Teleport to the lobby."
   get.desc: "Get special items and blocks."
   generic-help.desc: "Shows command help."
@@ -321,6 +322,10 @@ language:
   switch: "<green>Language set to <yellow>%language%</yellow>." # %language% -> Set language.
 
 config-updated: "<green>Updated configuration.</green>"
+
+nightvision:
+  enabled: "Night vision enabled."
+  disabled: "Night vision disabled."
 
 help-command:
   header: "\n <b>=========</b> <gold>Help for Command</gold> <b>=========</b>"

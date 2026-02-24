@@ -5,6 +5,7 @@ import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.GetCommand;
 import com.bteconosur.core.command.HelpCommand;
 import com.bteconosur.core.command.LobbyCommand;
+import com.bteconosur.core.command.NightvisionCommand;
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.command.chat.ChatCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
@@ -159,6 +160,8 @@ public final class BTEConoSur extends JavaPlugin {
         HelpCommand.addCommand(new GetCommand());
         PluginRegistry.registerCommand(new ProjectCommand());
         HelpCommand.addCommand(new ProjectCommand());
+        PluginRegistry.registerCommand(new NightvisionCommand());
+        HelpCommand.addCommand(new NightvisionCommand());
         PluginRegistry.registerCommand(new LinkCommand());
         HelpCommand.addCommand(new LinkCommand());
         PluginRegistry.registerCommand(new UnlinkCommand());
