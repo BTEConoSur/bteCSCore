@@ -60,7 +60,7 @@ public class ProjectEditCommand extends BaseCommand {
             String proyectoId = args[0];
             targetProyecto = pr.get(proyectoId);
             if (targetProyecto == null) {
-                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
                 return true;
             }
             if (!permissionManager.isLider(commandPlayer, targetProyecto)) {
@@ -71,17 +71,17 @@ public class ProjectEditCommand extends BaseCommand {
             Location location = bukkitPlayer.getLocation();
             Set<Proyecto> proyectos = pr.getByLocation(location.getBlockX(), location.getBlockZ());
             if (proyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
                 return true;
             }
             Set<Proyecto> liderProyectos = pr.getByLider(commandPlayer, proyectos);
             if (liderProyectos.isEmpty()) {
-                    PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-here"), (String) null);
+                    PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-here"), (String) null);
                     return true;
             }
             Set<Proyecto> activeProyectos = pr.getCompleted(liderProyectos);
             if (activeProyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-completed-here"), (String) null);
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-completed-here"), (String) null);
                 return true;
             }
             if (activeProyectos.size() > 1) {

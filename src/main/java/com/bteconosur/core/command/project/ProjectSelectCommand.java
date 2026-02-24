@@ -46,12 +46,12 @@ public class ProjectSelectCommand extends BaseCommand {
 
         Set<Proyecto> proyectos = pr.getByLocation(bukkitPlayer.getLocation().getBlockX(), bukkitPlayer.getLocation().getBlockZ());
         if (proyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
             return true;
         }
         Set<Proyecto> memberProyectos = pr.getMemberOrLider(commandPlayer, proyectos);
         if (memberProyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.member.not-member-here"), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.member.not-member-here"), (String) null);
             return true;
         }
 

@@ -30,7 +30,7 @@ public class PaisPrefixSetCommand extends BaseCommand {
         org.bukkit.entity.Player bukkitPlayer = Bukkit.getPlayer(args[0]);
 
         if(bukkitPlayer == null) {
-            String message = LanguageHandler.getText(language, "player-not-found").replace("%player%", args[0]);
+            String message = LanguageHandler.getText(language, "player-not-online").replace("%player%", args[0]);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }

@@ -59,20 +59,20 @@ public class ReviewAcceptCommand extends BaseCommand {
         Location location = bukkitPlayer.getLocation();
         Pais pais = PaisRegistry.getInstance().findByLocation(location.getBlockX(), location.getBlockZ());
         if (!permissionManager.isManager(commandPlayer, pais)) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("reviewer.not-reviewer-country", language, pais), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("reviewer.not-reviewer-country", language, pais), (String) null);
             return true;
         }
 
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         Set<Proyecto> proyectos = pr.getByLocation(location.getBlockX(), location.getBlockZ());
         if (proyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
             return true;
         }
         
         Set<Proyecto> finishingProyectos = pr.getFinishing(proyectos);
         if (finishingProyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-finishing-here"), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-finishing-here"), (String) null);
             return true;
         }
         TipoUsuario postulante = TipoUsuarioRegistry.getInstance().getPostulante();

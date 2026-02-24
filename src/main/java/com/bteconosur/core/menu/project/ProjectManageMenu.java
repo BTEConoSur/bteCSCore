@@ -109,7 +109,6 @@ public class ProjectManageMenu extends Menu {
                         if (!permissionManager.isMiembro(player, proyecto)) {
                             String message = LanguageHandler.replaceMC("project.member.not-member", language, proyecto);
                             PlayerLogger.error(BTECSPlayer, message, (String) null);
-                             
                             return;
                         }
                         if (!permissionManager.isManager(BTECSPlayer, proyecto.getPais())) {

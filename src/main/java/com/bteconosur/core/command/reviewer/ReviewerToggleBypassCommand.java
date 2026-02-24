@@ -44,7 +44,7 @@ public class ReviewerToggleBypassCommand extends BaseCommand {
 
         Pais pais = proyectoFinal.getPais();
         if (!permissionManager.isReviewer(commandPlayer, pais)) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("reviewer.not-reviewer-country", language, pais), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("reviewer.not-reviewer-country", language, pais), (String) null);   
             return true;
         }
         

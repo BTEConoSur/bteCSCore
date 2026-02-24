@@ -141,7 +141,8 @@ command-on-cooldown: "You must wait %time% before using this command again."
 command-cooldown-second-format: "%.1f second(s)"
 command-cooldown-minute-format: "%d minute(s) %.1f second(s)"
 
-player-not-found: "Player '%player%' was not found or is not online." # %player% -> Player name.
+player-not-found: "Player '%player%' was not found." # %player% -> Player name.
+player-not-online: "Player '%player%' is not online." # %player% -> Player name.
 player-not-registered: "Player '%player%' is not registered in the database." # %player% -> Player name.
 pais-not-found: "Country '%search%' was not found." # %pais% -> Country name.
 

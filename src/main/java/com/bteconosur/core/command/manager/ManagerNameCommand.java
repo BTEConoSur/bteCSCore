@@ -41,12 +41,12 @@ public class ManagerNameCommand extends BaseCommand {
         String proyectoId = args[0];
         Proyecto targetProyecto = proyectoRegistry.get(proyectoId);
         if (targetProyecto == null) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
             return true;
         }
         Pais pais = targetProyecto.getPais();
         if (!permissionManager.isManager(commandPlayer, pais)) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
             return true;
         }
 

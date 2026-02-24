@@ -36,7 +36,7 @@ public class ManagerSelectCommand extends BaseCommand {
         Language language = commandPlayer.getLanguage();
         if (args.length > 0) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
-            PlayerLogger.info(sender, message, (String) null);
+            PlayerLogger.error(sender, message, (String) null);
             return true;
         }
         org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;
@@ -47,12 +47,12 @@ public class ManagerSelectCommand extends BaseCommand {
 
         Set<Proyecto> proyectos = pr.getByLocation(bukkitPlayer.getLocation().getBlockX(), bukkitPlayer.getLocation().getBlockZ());
         if (proyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer,  LanguageHandler.getText(language, "project.not-found-here"), (String) null);
+            PlayerLogger.error(commandPlayer,  LanguageHandler.getText(language, "project.not-found-here"), (String) null);
             return true;
         }
         Set<Proyecto> memberProyectos = pr.getMemberOrLider(commandPlayer, proyectos);
         if (memberProyectos.isEmpty()) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-member-here"), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-member-here"), (String) null);
             return true;
         }
 
@@ -62,7 +62,7 @@ public class ManagerSelectCommand extends BaseCommand {
                 event.getWhoClicked().closeInventory();
                 Pais pais = proyecto.getPais();
                 if (!permissionManager.isManager(commandPlayer, pais)) {
-                    PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
+                    PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
                     return;
                 }
                 RegionUtils.selectPolygon(bukkitPlayer, proyecto.getPoligono(), playerY - config.getInt("world-edit.region-select-extension"), playerY + config.getInt("world-edit.region-select-extension"), commandPlayer.getLanguage());
@@ -74,7 +74,7 @@ public class ManagerSelectCommand extends BaseCommand {
         
         Pais pais = proyectoFinal.getPais();
         if (!permissionManager.isManager(commandPlayer, pais)) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
             return true;
         }
         

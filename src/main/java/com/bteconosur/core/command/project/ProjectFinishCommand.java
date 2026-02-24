@@ -45,7 +45,7 @@ public class ProjectFinishCommand extends BaseCommand {
             String proyectoId = args[0];
             proyectoFinal = ProyectoRegistry.getInstance().get(proyectoId);
             if (proyectoFinal == null) {
-                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
                 return true;
             }
             if (!permissionManager.isLider(commandPlayer, proyectoFinal)) {
@@ -55,17 +55,17 @@ public class ProjectFinishCommand extends BaseCommand {
         } else {
             Set<Proyecto> proyectos = ProyectoRegistry.getInstance().getByLocation(bukkitPlayer.getLocation().getBlockX(), bukkitPlayer.getLocation().getBlockZ());
             if (proyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
                 return true;
             }
             Set<Proyecto> liderProyectos = ProyectoRegistry.getInstance().getByLider(commandPlayer, proyectos);
             if (liderProyectos.isEmpty()) {
-                    PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-here"), (String) null);
+                    PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-here"), (String) null);
                     return true;
             }
             Set<Proyecto> activeProyectos = ProyectoRegistry.getInstance().getActiveOrEditando(liderProyectos);
             if (activeProyectos.isEmpty()) {
-                PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-active-editing-here"), (String) null); //TODO: Revisar similares
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-active-editing-here"), (String) null); //TODO: Revisar similares
                 return true;
             }
             if (activeProyectos.size() > 1) {
@@ -103,11 +103,11 @@ public class ProjectFinishCommand extends BaseCommand {
             proyectoFinal = activeProyectos.iterator().next();
         }
         if (proyectoFinal.getEstado() == Estado.EN_FINALIZACION) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.finish.request.already", language, proyectoFinal), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("project.finish.request.already", language, proyectoFinal), (String) null);
             return true;
         }
         if (proyectoFinal.getEstado() == Estado.EN_FINALIZACION_EDICION) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.edit.finish.request.already", language, proyectoFinal), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("project.edit.finish.request.already", language, proyectoFinal), (String) null);
             return true;
         }
 

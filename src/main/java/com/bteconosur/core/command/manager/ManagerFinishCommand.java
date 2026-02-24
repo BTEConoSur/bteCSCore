@@ -42,18 +42,18 @@ public class ManagerFinishCommand extends BaseCommand {
         String proyectoId = args[0];
         Proyecto proyectoFinal = pr.get(proyectoId);
         if (proyectoFinal == null) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
             return true;
         }
 
         Pais pais = proyectoFinal.getPais();
         if (!permissionManager.isManager(commandPlayer, pais)) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
             return true;
         }
 
         if (proyectoFinal.getEstado() != Estado.ACTIVO) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.not-active", language, proyectoFinal), (String) null); //TODO: Actualizar este
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("project.not-active", language, proyectoFinal), (String) null); //TODO: Actualizar este
             return true;
         }
 

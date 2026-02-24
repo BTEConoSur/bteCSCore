@@ -282,7 +282,6 @@ public final class BTEConoSur extends JavaPlugin {
 // TODO: Añadir iconos a los proyectos
 
 // TODO: Revisar warns y errors loggers
-// TODO: borrar imagenes de contexto.
 // TODO: Listado de managers y reviewers en el proyecto.
 
 // TODO: Dynamic en las cabezas - Sin solución

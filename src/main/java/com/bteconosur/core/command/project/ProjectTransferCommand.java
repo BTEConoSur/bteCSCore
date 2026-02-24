@@ -41,7 +41,7 @@ public class ProjectTransferCommand extends BaseCommand {
         String proyectoId = args[0];
         Proyecto targetProyecto = proyectoRegistry.get(proyectoId);
         if (targetProyecto == null) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
             return true;
         }
         if (!permissionManager.isLider(commandPlayer, targetProyecto)) {
@@ -51,7 +51,7 @@ public class ProjectTransferCommand extends BaseCommand {
 
         if (targetProyecto.getEstado() != Estado.ACTIVO && targetProyecto.getEstado() != Estado.EDITANDO) {
             String message = LanguageHandler.replaceMC("project.not-active-editing", language, targetProyecto);
-            PlayerLogger.warn(commandPlayer, message, (String) null);   
+            PlayerLogger.error(commandPlayer, message, (String) null);   
             return true;
         }
 
@@ -62,8 +62,8 @@ public class ProjectTransferCommand extends BaseCommand {
             PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
             targetPlayer = playerRegistry.findByName(args[1]);
             if (targetPlayer == null) {
-                String message = LanguageHandler.getText(language, "player-not-registered").replace("%player%", args[1]);
-                PlayerLogger.warn(commandPlayer, message, (String) null);
+                String message = LanguageHandler.getText(language, "player-not-found").replace("%player%", args[1]);
+                PlayerLogger.error(commandPlayer, message, (String) null);
                 return true;
             }
         } else {

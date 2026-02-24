@@ -36,7 +36,7 @@ public class ProjectPromoteCommand extends BaseCommand {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
 
         if (!PermissionManager.getInstance().isReviewer(commandPlayer)) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "reviewer.not-a-reviewer-country"), (String) null);
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "reviewer.not-a-reviewer-country"), (String) null);
             return true;
         }
 

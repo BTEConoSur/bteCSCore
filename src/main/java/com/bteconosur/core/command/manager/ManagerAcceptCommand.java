@@ -44,7 +44,7 @@ public class ManagerAcceptCommand extends BaseCommand {
 
         Pais pais = proyectoFinal.getPais();
         if (!permissionManager.isManager(commandPlayer, pais)) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
             return true;
         }
         

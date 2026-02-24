@@ -60,7 +60,7 @@ public class ManagerAddMemberCommand extends BaseCommand {
             targetPlayer = playerRegistry.findByName(args[1]);
             if (targetPlayer == null) {
                 String message = LanguageHandler.getText(language, "player-not-found").replace("%player%", args[1]);
-                PlayerLogger.warn(commandPlayer, message, (String) null);
+                PlayerLogger.error(commandPlayer, message, (String) null);
                 return true;
             }
         } else {

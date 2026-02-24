@@ -40,7 +40,7 @@ public class ProjectNameCommand extends BaseCommand {
         String proyectoId = args[0];
         Proyecto targetProyecto = proyectoRegistry.get(proyectoId);
         if (targetProyecto == null) {
-            PlayerLogger.warn(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-id").replace("%search%", args[0]), (String) null);   
             return true;
         }
         if (!permissionManager.isLider(commandPlayer, targetProyecto)) {
