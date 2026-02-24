@@ -24,6 +24,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
         try {
+            ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
             channel.sendMessage(message).queue();
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
@@ -43,6 +44,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         if (!DiscordValidate.user(user) || !DiscordValidate.messageContent(message)) return;
 
         try {
+            ConsoleLogger.debug("Enviando mensaje a usuario " + user.getName() + " (" + user.getId() + ")");
             user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(message).queue());
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(user.getIdLong())), e);
@@ -61,6 +63,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.embed(embed)) return;
         try {
+            ConsoleLogger.debug("Enviando embed al canal " + channel.getName() + " (" + channel.getId() + ")");
             channel.sendMessageEmbeds(embed).queue();
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()), e);
@@ -75,10 +78,11 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
     }
 
     @SuppressWarnings("null")
-    public static void sendEmbedDM(User user, MessageEmbed embed) {
+    private static void sendEmbedDM(User user, MessageEmbed embed) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.user(user) || !DiscordValidate.embed(embed)) return;
         try {
+            ConsoleLogger.debug("Enviando embed a usuario " + user.getName() + " (" + user.getId() + ")");
             user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessageEmbeds(embed).queue());
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-user").replace("%userId%", String.valueOf(user.getIdLong())), e);
@@ -87,6 +91,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
 
     public static void sendBroadcastMessage(List<Long> channelsIds, String message) {
         if (!DiscordValidate.jda()) return;
+        ConsoleLogger.debug("Enviando mensaje a canales: " + channelsIds.toString());
         for (Long channelId : channelsIds) {
             if (!DiscordValidate.channelId(channelId)) continue;
             TextChannel channel = getTextChannelById(channelId);
@@ -96,6 +101,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
 
     public static void sendBroadcastEmbed(List<Long> channelsIds, MessageEmbed embed) {
         if (!DiscordValidate.jda()) return;
+        ConsoleLogger.debug("Enviando embed a canales: " + channelsIds.toString());
         for (Long channelId : channelsIds) {
             if (!DiscordValidate.channelId(channelId)) continue;
             TextChannel channel = getTextChannelById(channelId);
@@ -105,6 +111,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
 
     public static void sendBroadcastDM(List<Long> usersIds, String message) {
         if (!DiscordValidate.jda()) return;
+        ConsoleLogger.debug("Enviando mensaje directo a usuarios: " + usersIds.toString());
         for (Long userId : usersIds) {
             if (!DiscordValidate.userId(userId)) continue;
             sendDM(userId, message);
@@ -113,6 +120,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
 
     public static void sendBroadcastEmbedDM(List<Long> usersIds, MessageEmbed embed) {
         if (!DiscordValidate.jda()) return;
+        ConsoleLogger.debug("Enviando mensaje directo a usuarios: " + usersIds.toString());
         for (Long userId : usersIds) {
             if (!DiscordValidate.userId(userId)) continue;
             sendEmbedDM(userId, embed);
@@ -125,6 +133,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
         if (channel == null) return;
         try {
+            ConsoleLogger.debug("Eliminando mensaje de ID " + messageId + " del canal " + channel.getName() + " (" + channel.getId() + ")");
             channel.deleteMessageById(messageId).queue();
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), e);
@@ -136,6 +145,7 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         if (!DiscordValidate.userId(userId) || !DiscordValidate.messageId(messageId)) return;
         BTEConoSur.getDiscordManager().getJda().retrieveUserById(userId).queue(user -> {
             try {
+                ConsoleLogger.debug("Eliminando mensaje de ID " + messageId + " del usuario " + user.getName() + " (" + user.getId() + ")");
                 user.openPrivateChannel().queue(privateChannel -> privateChannel.deleteMessageById(messageId).queue());
             } catch (Exception e) {
                 ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-user-message").replace("%userId%", userId.toString()).replace("%messageId%", messageId.toString()), e);
