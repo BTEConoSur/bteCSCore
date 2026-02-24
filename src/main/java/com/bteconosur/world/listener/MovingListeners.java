@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.world.WorldManager;
 
 public class MovingListeners implements Listener {
@@ -32,6 +33,7 @@ public class MovingListeners implements Listener {
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
+        PlayerRegistry.updateLastLocation(event.getPlayer().getUniqueId(), event.getFrom());
         if (event.getFrom().getWorld() != event.getTo().getWorld()) return;
         worldManager.checkMove(event.getFrom(), event.getTo(), event.getPlayer());
         if (!worldManager.checkPaisMove(event.getFrom(), event.getTo(), event.getPlayer())) {
@@ -43,6 +45,7 @@ public class MovingListeners implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        PlayerRegistry.removeLastLocation(event.getPlayer().getUniqueId());
         worldManager.getBTEWorld().clearPlayerTasks(event.getPlayer().getUniqueId()); 
     }
 

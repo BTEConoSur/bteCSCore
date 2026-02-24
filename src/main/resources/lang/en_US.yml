@@ -156,6 +156,7 @@ invalid-project-location: "Project location is invalid or not within a valid div
 invalid-project-comment: "Maximum 300 characters allowed for comment."
 
 commands-descriptions:
+  back.desc: "Teleport back to your last location."
   pwarp:
     desc: "Teleport to or manage personal warps."
     create.desc: "Create a new Pwarp at your current location."
@@ -281,6 +282,7 @@ commands-descriptions:
     set.desc: "Change prefix of an Online Player."
   whereiam.desc: "Shows the country and division you are in."
   project:
+    tp.desc: "Teleport to the center of a project."
     admin:
       desc: "Project commands for Administrators."
       addmanager.desc: "Add Manager to a country."
@@ -331,6 +333,10 @@ config-updated: "<green>Updated configuration.</green>"
 nightvision:
   enabled: "Night vision enabled."
   disabled: "Night vision disabled."
+
+back:
+  teleported: "Teleported to your last location."
+  no-location: "You are already in your last location."
 
 pwarp:
   created: "Pwarp <yellow>'%nombre%'</yellow> created successfully."
@@ -862,7 +868,8 @@ items:
   teleport:
     name: "<green>Teleport"
     lore:
-      - "<gray>Click to teleport to the project location."
+      - "<gray>Click to teleport"
+      - "<gray>to the center of the project."
   save:
     name: "<green>Save"
 
@@ -991,7 +998,7 @@ items:
     no-player-lore:
       -  "<gray>Project without %contexto%" # %contexto% -> Player context.
     lore:
-    
+      - "%player.estado%" # %player.estado% -> Estado online/offline del jugador.
       - "<gray>Public name: <white>%player.nombrePublico%" # %player.nombrePublico% -> Player public name.
       - "<gray>Rank: <white>%player.rangoUsuario%" # %player.rangoUsuario% -> Player rank.
       - "<gray>Type: <white>%player.tipoUsuario%" # %player.tipoUsuario% -> Player user type.

@@ -2,6 +2,7 @@ package com.bteconosur.db.registry;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -19,6 +20,8 @@ import com.bteconosur.db.model.Pwarp;
 public class PlayerRegistry extends Registry<UUID, Player> {
 
     private static PlayerRegistry instance;
+
+    private static Map<UUID, Location> lastPlayerLocations = new ConcurrentHashMap<>(); 
 
     public PlayerRegistry() {
         super();
@@ -45,6 +48,21 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         ConsoleLogger.info(LanguageHandler.getText("player-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
+    }
+
+    public static void removeLastLocation(UUID uuid) {
+        if (uuid == null) return;
+        lastPlayerLocations.remove(uuid);
+    }
+
+    public static void updateLastLocation(UUID uuid, Location location) {
+        if (uuid == null || location == null) return;
+        lastPlayerLocations.put(uuid, location);
+    }
+
+    public static Location getLastLocation(UUID uuid) {
+        if (uuid == null) return null;
+        return lastPlayerLocations.get(uuid);
     }
 
     public Player findByDiscordId(Long discordUserId) {

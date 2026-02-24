@@ -2,6 +2,7 @@ package com.bteconosur.core;
 
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
+import com.bteconosur.core.command.BackCommand;
 import com.bteconosur.core.command.GetCommand;
 import com.bteconosur.core.command.HelpCommand;
 import com.bteconosur.core.command.LobbyCommand;
@@ -171,6 +172,8 @@ public final class BTEConoSur extends JavaPlugin {
         HelpCommand.addCommand(new NicknameCommand());
         PluginRegistry.registerCommand(new LobbyCommand());
         HelpCommand.addCommand(new LobbyCommand());
+        PluginRegistry.registerCommand(new BackCommand());
+        HelpCommand.addCommand(new BackCommand());
         PluginRegistry.registerCommand(new HelpCommand());
         PluginRegistry.registerCommand(new CrudCommand());
         HelpCommand.addCommand(new CrudCommand());

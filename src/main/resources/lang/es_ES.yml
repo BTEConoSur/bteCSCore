@@ -156,6 +156,7 @@ invalid-project-location: "La ubicación del proyecto es inválida o no está de
 invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 
 commands-descriptions:
+  back.desc: "Teletransportarse a tu última ubicación."
   pwarp:
     desc: "Teletransportarse a Pwarps personales o gestionarlos."
     create.desc: "Crear un nuevo Pwarp en tu ubicación actual."
@@ -281,6 +282,7 @@ commands-descriptions:
     set.desc: "Cambia el prefix de un Jugador Online."
   whereiam.desc: "Muestra el país y división en la que te encuentras."
   project:
+    tp.desc: "Teletransportarse al centro de un proyecto."
     admin:
       desc: "Comandos de los proyectos para Administradores."
       addmanager.desc: "Añadir Manager a un país."
@@ -331,6 +333,10 @@ config-updated: "<green>Configuración actualizada.</green>"
 nightvision:
   enabled: "Visión nocturna activada."
   disabled: "Visión nocturna desactivada."
+
+back:
+  teleported: "Teletransportado a tu última ubicación."
+  no-location: "Ya estás en tu última ubicación."
 
 pwarp:
   created: "Pwarp <yellow>'%nombre%'</yellow> creado correctamente."
@@ -862,7 +868,8 @@ items:
   teleport:
     name: "<green>Teletransportarse"
     lore:
-      - "<gray>Haz clic para teletransportarte al proyecto."
+      - "<gray>Haz clic para teletransportarte"
+      - "<gray>al centro del proyecto."
   save:
     name: "<green>Guardar"
     lore:
