@@ -1,5 +1,6 @@
 package com.bteconosur.discord;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
@@ -27,6 +28,7 @@ public class BotConfig {
         secret = configHandler.getSecret();
     }
 
+    @SuppressWarnings("null")
     public void startBot() {
         if (jda != null) {
             ConsoleLogger.warn(LanguageHandler.getText("ds-error.bot-already-started"));
@@ -38,7 +40,7 @@ public class BotConfig {
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                     .enableIntents(GatewayIntent.GUILD_PRESENCES)
                     .enableIntents(GatewayIntent.GUILD_MEMBERS)
-                    .setActivity(Activity.playing("Testando bot para Cono Sur")) //TODO: Cambiar actividad del bot.
+                    .setActivity(Activity.playing(LanguageHandler.getText("ds-activity").replace("%players%", String.valueOf(Bukkit.getOnlinePlayers().size()))))
                     .addEventListeners(new ButtonListener(), new ModalListener(), new SelectListener(), new SlashCommandListener(), new ChatListener())
                     .build().awaitReady();
         } catch (Exception e) {

@@ -10,6 +10,7 @@ import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.discord.DiscordManager;
 
 public class PlayerLeaveListener implements Listener {
 
@@ -22,6 +23,8 @@ public class PlayerLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
         event.quitMessage(null);
+        DiscordManager.getInstance().updateActivity(true);
+
         if (playerRegistry.exists(event.getPlayer().getUniqueId())) {
             Player player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setFechaUltimaConexion(new Date());

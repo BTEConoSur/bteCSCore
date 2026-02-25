@@ -1227,6 +1227,8 @@ player-error: "<dark_red>[!]</dark_red> <red>%message%" # %message% -> Message t
 
 
 # Discord
+ds-activity: "Vigilando a %players% jugador(es)" # %players% -> Cantidad de jugadores online.
+
 ds-internal-error: "An internal error has occurred."
 ds-interaction-expired: "This interaction has expired. Please try again."
 interaction-expired: "This interaction has expired. Please try again."

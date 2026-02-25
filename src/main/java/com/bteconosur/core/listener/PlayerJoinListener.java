@@ -20,6 +20,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.db.util.PlaceholderUtils;
+import com.bteconosur.discord.DiscordManager;
 
 public class PlayerJoinListener implements Listener {
 
@@ -38,7 +39,8 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.joinMessage(null);
-        
+        DiscordManager.getInstance().updateActivity(false);
+
         Player player;
         if (!playerRegistry.exists(event.getPlayer().getUniqueId())) {
             player = new Player(
@@ -65,8 +67,6 @@ public class PlayerJoinListener implements Listener {
             player = playerRegistry.merge(player.getUuid());
             GlobalChatService.broadcastPlayerJoinedServer(player);
         }
-
-       
         
         if (player.getConfiguration().getGeneralGlobalChatOnJoin()) ChatService.setChatToGlobal(player);
         else if (ChatService.wasInCountryChat(player)) ChatService.setChatToCountry(player);
