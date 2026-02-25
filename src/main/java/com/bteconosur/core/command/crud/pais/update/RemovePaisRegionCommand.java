@@ -54,4 +54,3 @@ public class RemovePaisRegionCommand extends BaseCommand {
     }
 
 }
-// TODO: probar esto

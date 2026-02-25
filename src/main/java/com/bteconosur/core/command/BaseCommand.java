@@ -298,6 +298,10 @@ public abstract class BaseCommand extends Command {
         return description;
     }
 
+    public List<BaseCommand> getSubcommands() {
+        return new ArrayList<>(subcommands.values());
+    }
+
     public String getArgs() {
         return args;
     }

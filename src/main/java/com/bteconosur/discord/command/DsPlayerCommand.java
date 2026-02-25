@@ -22,7 +22,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 public class DsPlayerCommand extends DsCommand {
 
     public DsPlayerCommand() {
-        super("player", "Obtener información de un jugador.", 
+        super("player", LanguageHandler.getText("ds-help.discord.commands.player.description"), 
             Arrays.asList(
                 new OptionData(OptionType.USER, "usuario", "Usuario de Discord del jugador.", false),
                 new OptionData(OptionType.STRING, "uuid", "UUID del jugador.", false),

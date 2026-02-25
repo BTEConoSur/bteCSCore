@@ -17,7 +17,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 public class DsLinkCommand extends DsCommand {
 
     public DsLinkCommand() {
-        super("link", "Linkear la cuenta de Discord.", 
+        super("link", LanguageHandler.getText("ds-help.discord.commands.link.description"), 
             Arrays.asList(
                 new OptionData(OptionType.STRING, "código", "Código de vinculación.", false)
             ),

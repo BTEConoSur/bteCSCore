@@ -55,6 +55,7 @@ public abstract class DsCommand {
 
     public void addSubcommand(DsSubcommand subcommand) {
         subcommands.put(subcommand.getCommand(), subcommand);
+        subcommand.setParentCommand(command);
     }
 
     @SuppressWarnings("null")

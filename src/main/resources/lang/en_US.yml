@@ -56,6 +56,7 @@ lp-user-not-found: "Could not get LuckPerms user for player '%player%'."
 console-player-not-registered: "Player '%player%' is not registered in the database."
 
 ds-error:
+  ds-help: "Discord Error: Could not execute help command."
   staffhub-not-found: "Discord Error: Could not find StaffHub."  
   subcommand-cant-register: "Discord Error: Subcommands are not registered individually: %subcommand%."
   button-interaction: "Discord Error: Button interaction with ID '%buttonId%' / message with ID '%messageId%' not found in registry."
@@ -808,7 +809,41 @@ ds-notifications:
     project-deleted: "Project deleted by a Manager"
     project-name-updated: "Project name updated by a Manager"
     project-description-updated: "Project description updated by a Manager"
+ds-help:
+  cancel-message: "Help closed."
+  cancel: "Cancel"
+  next-page: "Next page"
+  previous-page: "Previous page"
+  description: "Shows help information."
+  footer: "Page %currentPage% of %totalPages%"
+  minecraft:
+    title: "List of available commands in Minecraft"
+    description: "For more information about each command, contact a staff member or try them on the server."
+    options: "**Field:** Required **<>** - Optional **[]** - Options **A|B**"
+    alias: "Alias: %alias%"
+  discord:
+    title: "List of available commands in Discord"
+    description: "For more information about each command, contact a staff member."
+    options: "**Field:** Required **<>** - Optional **[]** - Options **A|B**"
+    commands:
+      help:
+        minecraft:
+          usage: "/help minecraft"
+          description: "Shows this list of available commands in Minecraft."
+        discord:
+          usage: "/help discord"
+          description: "Shows the list of available commands in Discord."
+      link:
+        usage: "/link"
+        description: "Starts the process to link your Minecraft account with your Discord account."
+      player:
+        usage: "/player <player_name>|<player_uuid>|<discord_user>"
+        description: "Shows detailed information about a specific player."
+      proyecto:
+        usage: "/project <project_id>"
+        description: "Shows detailed information about a specific project."
 ds-embeds:
+  author: "BTE Cono Sur"
   project-info:
     title: "Project Information: %proyecto.id%"
     fields:

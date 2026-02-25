@@ -149,4 +149,8 @@ public class HelpCommand extends BaseCommand {
         commands.add(command);
     }
 
+    public static List<BaseCommand> getCommands() {
+        return commands;
+    }
+
 }

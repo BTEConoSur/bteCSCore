@@ -20,6 +20,7 @@ import com.bteconosur.discord.action.AcceptCreateProjectAction;
 import com.bteconosur.discord.action.AcceptRedefineProjectAction;
 import com.bteconosur.discord.action.ButtonAction;
 import com.bteconosur.discord.action.CreateProjectAction;
+import com.bteconosur.discord.action.DiscordHelpAction;
 import com.bteconosur.discord.action.JoinProjectAction;
 import com.bteconosur.discord.action.ModalAction;
 import com.bteconosur.discord.action.RedefineProjectAction;
@@ -54,6 +55,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         registerButtonAction(InteractionKey.REDEFINE_PROJECT, new RedefineProjectAction());
         registerModalAction(InteractionKey.ACCEPT_REDEFINE_PROJECT, new AcceptRedefineProjectAction());
         registerModalAction(InteractionKey.REJECT_REDEFINE_PROJECT, new RejectRedefineProjectAction());
+        registerButtonAction(InteractionKey.HELP_COMMAND, new DiscordHelpAction());
         try {
             int expirationMinutes = config.getInt("interaction-expiration");
             long periodTicks = 20L * 60L * expirationMinutes;
@@ -122,7 +124,6 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
                     MessageService.deleteDMMessage(liderDsId, interaction.getMessageId());
                 }
             }
-            
         }
         if (interaction.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) {
             Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());

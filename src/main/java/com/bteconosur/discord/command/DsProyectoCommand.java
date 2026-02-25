@@ -19,7 +19,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 public class DsProyectoCommand extends DsCommand {
 
     public DsProyectoCommand() {
-        super("proyecto", "Obtener información de un proyecto.", 
+        super("proyecto", LanguageHandler.getText("ds-help.discord.commands.proyecto.description"), 
             Arrays.asList(
                 new OptionData(OptionType.STRING, "id", "Id del proyecto.", true)
             ),

@@ -50,15 +50,10 @@ public class ManagerSelectCommand extends BaseCommand {
             PlayerLogger.error(commandPlayer,  LanguageHandler.getText(language, "project.not-found-here"), (String) null);
             return true;
         }
-        Set<Proyecto> memberProyectos = pr.getMemberOrLider(commandPlayer, proyectos);
-        if (memberProyectos.isEmpty()) {
-            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-member-here"), (String) null);
-            return true;
-        }
 
-        if (memberProyectos.size() > 1) {
+        if (proyectos.size() > 1) {
             String title = LanguageHandler.getText(language, "gui-titles.proyectos-here-list");
-            projectListMenu = new ProjectListMenu(commandPlayer, title, memberProyectos, (proyecto, event) -> {
+            projectListMenu = new ProjectListMenu(commandPlayer, title, proyectos, (proyecto, event) -> {
                 event.getWhoClicked().closeInventory();
                 Pais pais = proyecto.getPais();
                 if (!permissionManager.isManager(commandPlayer, pais)) {
@@ -70,7 +65,7 @@ public class ManagerSelectCommand extends BaseCommand {
             projectListMenu.open();
             return true;
         }
-        proyectoFinal = memberProyectos.iterator().next();
+        proyectoFinal = proyectos.iterator().next();
         
         Pais pais = proyectoFinal.getPais();
         if (!permissionManager.isManager(commandPlayer, pais)) {

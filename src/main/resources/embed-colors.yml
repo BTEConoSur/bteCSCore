@@ -52,6 +52,7 @@ ds-notifications:
     project-deleted: 0xED4245
     project-name-updated: 0x00b0f4
     project-description-updated: 0x00b0f4
+ds-help: 0x00b0f4
 ds-embeds:
   project-info: 0x00b0f4
   player-info: 0x00b0f4

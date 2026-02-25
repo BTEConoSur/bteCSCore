@@ -46,6 +46,9 @@ public class Interaction {
     @Column(name = "interaction_key", length = 50, nullable = false)
     private InteractionKey interactionKey;
 
+    @Column(name = "channel_id", length = 32)
+    private Long channelId;
+
     @Column(name = "message_id", length = 32)
     private Long messageId;
 
@@ -121,7 +124,7 @@ public class Interaction {
         this(null, null, messageId, componentId, interactionKey, createdAt, expiresAt, null);
     }
 
-    public Interaction(UUID playerId, String projectId, Long messageId, String componentId,  InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
+    public Interaction(UUID playerId, String projectId, Long messageId, String componentId, InteractionKey interactionKey, Instant createdAt, Instant expiresAt, String payloadJson) {
         this.playerId = playerId;
         this.projectId = projectId;
         this.interactionKey = interactionKey;
@@ -184,6 +187,14 @@ public class Interaction {
         return componentId;
     }
 
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
+    }
+
+    public Long getChannelId() {
+        return channelId;
+    }
+
     public void setComponentId(String componentId) {
         this.componentId = componentId;
     }
@@ -214,6 +225,10 @@ public class Interaction {
 
     public boolean isExpired() {
         return expiresAt != null && expiresAt.isBefore(Instant.now());
+    }
+
+    public void clearPayload() {
+        this.payloadJson = null;
     }
 
     public void setPayloadData(Map<String, Object> data) {

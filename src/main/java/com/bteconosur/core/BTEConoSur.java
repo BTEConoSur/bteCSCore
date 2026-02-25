@@ -43,6 +43,7 @@ import com.bteconosur.db.registry.TipoProyectoRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.discord.command.DsCommandManager;
+import com.bteconosur.discord.command.DsHelpMinecraftCommand;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;
@@ -150,34 +151,49 @@ public final class BTEConoSur extends JavaPlugin {
         ConsoleLogger.info("Registrando comandos de Minecraft...");
         PluginRegistry.registerCommand(new GeneralConfigCommand());
         HelpCommand.addCommand(new GeneralConfigCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new GeneralConfigCommand());
         PluginRegistry.registerCommand(new ChatCommand());
         HelpCommand.addCommand(new ChatCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new ChatCommand());
         PluginRegistry.registerCommand(new LanguageCommand());
         HelpCommand.addCommand(new LanguageCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new LanguageCommand());   
         PluginRegistry.registerCommand(new PaisPrefixCommand());
         HelpCommand.addCommand(new PaisPrefixCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new PaisPrefixCommand());
         PluginRegistry.registerCommand(new WhereIAmCommand());
         HelpCommand.addCommand(new WhereIAmCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new WhereIAmCommand());
         PluginRegistry.registerCommand(new GetCommand());
         HelpCommand.addCommand(new GetCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new GetCommand());
         PluginRegistry.registerCommand(new PwarpCommand());
-        HelpCommand.addCommand(new PwarpCommand()); 
+        HelpCommand.addCommand(new PwarpCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new PwarpCommand());
         PluginRegistry.registerCommand(new ProjectCommand());
         HelpCommand.addCommand(new ProjectCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new ProjectCommand());
         PluginRegistry.registerCommand(new NightvisionCommand());
         HelpCommand.addCommand(new NightvisionCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new NightvisionCommand());
         PluginRegistry.registerCommand(new LinkCommand());
         HelpCommand.addCommand(new LinkCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new LinkCommand());
         PluginRegistry.registerCommand(new UnlinkCommand());
         HelpCommand.addCommand(new UnlinkCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new UnlinkCommand());
         PluginRegistry.registerCommand(new NicknameCommand());
         HelpCommand.addCommand(new NicknameCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new NicknameCommand());
         PluginRegistry.registerCommand(new LobbyCommand());
         HelpCommand.addCommand(new LobbyCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new LobbyCommand());
         PluginRegistry.registerCommand(new BackCommand());
         HelpCommand.addCommand(new BackCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new BackCommand());
         PluginRegistry.registerCommand(new PlayerCommand());
         HelpCommand.addCommand(new PlayerCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new PlayerCommand());
         PluginRegistry.registerCommand(new DeletePlayerDataCommand());
         HelpCommand.addCommand(new DeletePlayerDataCommand());
         PluginRegistry.registerCommand(new HelpCommand());
@@ -285,12 +301,10 @@ public final class BTEConoSur extends JavaPlugin {
 
 }
 
-// TODO: Help de discord.
+// TODO: Help de discord y mensaje del bot
 
 // TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab
-
-// TODO: easter egg en coords
 
 // TODO: Añadir parametros y descripción a las funciones
 // TODO: Añadir iconos a los proyectos

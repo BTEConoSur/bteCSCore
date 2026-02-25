@@ -1,5 +1,6 @@
 package com.bteconosur.core.chat;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
@@ -22,6 +24,10 @@ import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.db.util.PlaceholderUtils;
+import com.bteconosur.discord.command.DsCommand;
+import com.bteconosur.discord.command.DsHelpDiscordCommand;
+import com.bteconosur.discord.command.DsHelpMinecraftCommand;
+import com.bteconosur.discord.command.DsSubcommand;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -381,12 +387,14 @@ public class ChatUtil {
 
     @SuppressWarnings("null")
     public static MessageEmbed getDsProjectCreated(Proyecto proyecto, Date expiredDate) {
+        String author = LanguageHandler.getText(Language.getDefault(), "ds-embeds.author");
+        String iconUrl = config.getString("cono-sur-logo");
         ProjectManager pm = ProjectManager.getInstance();
         Player player = pm.getLider(proyecto);
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         int[] counts = ProyectoRegistry.getInstance().getCounts(player);   
         String title = LanguageHandler.replaceDS("ds-embeds.project-created.title", Language.getDefault(), player);
-        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
         Polygon polygon = proyecto.getPoligono();
         Point centroid = polygon.getCentroid();
         double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
@@ -421,13 +429,15 @@ public class ChatUtil {
 
     @SuppressWarnings("null")
     public static MessageEmbed getDsProjectRedefineRequested(Proyecto proyecto, Player commandPlayer, Polygon newPolygon, Date expiredDate) {
+        String author = LanguageHandler.getText(Language.getDefault(), "ds-embeds.author");
+        String iconUrl = config.getString("cono-sur-logo");
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         String title = LanguageHandler.replaceDS("ds-embeds.project-redefine-requested.title", Language.getDefault(), List.of(commandPlayer), List.of(proyecto));
         Polygon polygon = proyecto.getPoligono();
         Point centroid = polygon.getCentroid();
         double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
         String coords = geoCoords[1] + ", " + geoCoords[0];
-        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
         if (pr.hasCollisions(proyecto.getId(), newPolygon)) eb.appendDescription("\n" + LanguageHandler.getText("ds-embeds.project-redefine-requested.has-collisions"));
 
         String footer = LanguageHandler.getText("ds-embeds.project-redefine-requested.footer").replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expiredDate, Language.getDefault()));
@@ -449,8 +459,10 @@ public class ChatUtil {
 
     @SuppressWarnings("null")
     public static MessageEmbed getDsPlayerInfo(Player player, User discordUser, Language language) {
+        String author = LanguageHandler.getText(language, "ds-embeds.author");
+        String iconUrl = config.getString("cono-sur-logo");
         String title = LanguageHandler.replaceDS("ds-embeds.player-info.title", language, player);
-        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
         eb.addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.nombre"), player.getNombrePublico(), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.discord"), discordUser != null ? discordUser.getAsMention() : LanguageHandler.getText(language, "placeholder.player-ds.no-link"), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.idioma"), PlaceholderUtils.replaceDS("%player.lenguaje%", language, player), true)
@@ -471,8 +483,10 @@ public class ChatUtil {
 
     @SuppressWarnings("null")
     public static MessageEmbed getDsPlayerInfo(User discordUser, Language language) {
+        String author = LanguageHandler.getText(language, "ds-embeds.author");
+        String iconUrl = config.getString("cono-sur-logo");
         String title = LanguageHandler.getText(language,"ds-embeds.player-info.title").replace("%player.nombre%", discordUser.getName());
-        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
         eb.setDescription(LanguageHandler.getText(language,"ds-embeds.player-info.ds-no-link"));
         eb.addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.discord"), discordUser.getAsMention(), true);
         eb.setColor(embedColors.getInt("ds-embeds.player-info"));
@@ -482,8 +496,10 @@ public class ChatUtil {
 
     @SuppressWarnings("null")
     public static MessageEmbed getDsProyectoInfo(Proyecto proyecto, Language language) {
+        String author = LanguageHandler.getText(language, "ds-embeds.author");
+        String iconUrl = config.getString("cono-sur-logo");
         String title = LanguageHandler.replaceDS("ds-embeds.project-info.title", language, proyecto);
-        EmbedBuilder eb = new EmbedBuilder().setTitle(title);
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
         eb.addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.descripcion"), PlaceholderUtils.replaceDS("%proyecto.descripcion%", language, proyecto), false)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.nombre"), PlaceholderUtils.replaceDS("%proyecto.nombre%", language, proyecto), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.tipo"), PlaceholderUtils.replaceDS("%proyecto.tipo%", language, proyecto), true)
@@ -499,6 +515,145 @@ public class ChatUtil {
         Player lider = ProjectManager.getInstance().getLider(proyecto);
         if (lider != null) eb.setThumbnail(config.getString("avatar-head-url").replace("%uuid%", lider.getUuid().toString()));
         return eb.setColor(embedColors.getInt("ds-embeds.project-info")).build();
+    }
+
+    @SuppressWarnings("null")
+    public static MessageEmbed getDsHelpDiscord(Language language, int page) {
+        String author = LanguageHandler.getText(language, "ds-embeds.author");
+        String iconUrl = config.getString("cono-sur-logo");
+        String title = LanguageHandler.getText(language, "ds-help.discord.title");
+        String description = LanguageHandler.getText(language, "ds-help.discord.description");
+        String options = LanguageHandler.getText(language, "ds-help.discord.options");
+        
+        List<DsCommand> allCommands = DsHelpDiscordCommand.getCommands();
+        
+        List<DsCommand> expandedCommands = new ArrayList<>();
+        for (DsCommand command : allCommands) {
+            if (command.getSubcommands().isEmpty()) {
+                expandedCommands.add(command);
+            } else {
+                for (DsCommand subcommand : command.getSubcommands().values()) {
+                    expandedCommands.add(subcommand);
+                }
+            }
+        }
+        
+        int commandsPerPage = config.getInt("ds-help-command-per-page");
+        int totalCommands = expandedCommands.size();
+        int totalPages = (int) Math.ceil(totalCommands / (double) commandsPerPage);
+        
+        if (page < 1 || page > totalPages) page = 1;
+        
+        int startIndex = (page - 1) * commandsPerPage;
+        int endIndex = Math.min(startIndex + commandsPerPage, totalCommands);
+        
+        EmbedBuilder eb = new EmbedBuilder()
+            .setTitle(title)
+            .setAuthor(author, null, iconUrl)
+            .setDescription(description + "\n" + options);
+        
+        for (int i = startIndex; i < endIndex; i++) {
+            DsCommand command = expandedCommands.get(i);
+            
+            String usage = "- ";
+            String commandDescription;
+            if (command instanceof DsSubcommand subcommand) {
+                usage = usage + LanguageHandler.getText(language, "ds-help.discord.commands." + subcommand.getParentCommand() + "." + command.getCommand() + ".usage");
+                commandDescription = LanguageHandler.getText(language, "ds-help.discord.commands." + subcommand.getParentCommand() + "." + command.getCommand() + ".description");
+            } else {
+                usage = usage + LanguageHandler.getText(language, "ds-help.discord.commands." + command.getCommand() + ".usage");
+                commandDescription = LanguageHandler.getText(language, "ds-help.discord.commands." + command.getCommand() + ".description");
+            }
+            eb.addField(usage, commandDescription, false);
+        }
+        
+        String footer = LanguageHandler.getText(language, "ds-help.footer").replace("%currentPage%", String.valueOf(page)).replace("%totalPages%", String.valueOf(totalPages));
+        eb.setFooter(footer);
+        
+        return eb.setColor(embedColors.getInt("ds-help")).build();
+    }
+
+    public static boolean hasDsHelpNextPage(int currentPage) {
+        int commandsPerPage = config.getInt("ds-help-command-per-page");
+        
+        List<DsCommand> allCommands = DsHelpDiscordCommand.getCommands();
+        int totalCommands = 0;
+        for (DsCommand cmd : allCommands) {
+            if (cmd.getSubcommands().isEmpty()) {
+                totalCommands++;
+            } else {
+                totalCommands += cmd.getSubcommands().size();
+            }
+        }
+        
+        int totalPages = (int) Math.ceil(totalCommands / (double) commandsPerPage);
+        return currentPage < totalPages;
+    }
+
+    public static boolean hasDsHelpPreviousPage(int currentPage) {
+        return currentPage > 1;
+    }
+
+    @SuppressWarnings("null")
+    public static MessageEmbed getDsHelpMinecraft(Language language, int page) {
+        String author = LanguageHandler.getText(language, "ds-embeds.author");
+        String iconUrl = config.getString("cono-sur-logo");
+        String title = LanguageHandler.getText(language, "ds-help.minecraft.title");
+        String description = LanguageHandler.getText(language, "ds-help.minecraft.description");
+        String options = LanguageHandler.getText(language, "ds-help.minecraft.options");
+        
+        List<BaseCommand> allCommands = DsHelpMinecraftCommand.getCommands();
+        int commandsPerPage = config.getInt("help-command-per-page");
+        int totalCommands = allCommands.size();
+        int totalPages = (int) Math.ceil(totalCommands / (double) commandsPerPage);
+        
+        if (page < 1 || page > totalPages) page = 1;
+        
+        int startIndex = (page - 1) * commandsPerPage;
+        int endIndex = Math.min(startIndex + commandsPerPage, totalCommands);
+        
+        EmbedBuilder eb = new EmbedBuilder()
+            .setTitle(title)
+            .setAuthor(author, null, iconUrl)
+            .setDescription(description + "\n" + options);
+        
+        for (int i = startIndex; i < endIndex; i++) {
+            BaseCommand cmd = allCommands.get(i);
+            
+            String usage = "- /" + cmd.getCommand();
+            if (cmd.getArgs() != null && !cmd.getArgs().isEmpty()) {
+                usage += " " + cmd.getArgs();
+            } else if (!cmd.getSubcommands().isEmpty()) {
+                usage += " <subcomando>";
+            }
+            
+            String commandDescription = cmd.getDescription(language);
+            if (commandDescription == null || commandDescription.isEmpty()) {
+                commandDescription = "";
+            }
+            
+            if (!cmd.getAliases().isEmpty()) {
+                commandDescription += "\n" + LanguageHandler.getText(language, "ds-help.minecraft.alias").replace("%alias%", String.join(", ", cmd.getAliases()));
+            }
+            
+            eb.addField(usage, commandDescription, false);
+        }
+        
+        String footer = LanguageHandler.getText(language, "ds-help.footer").replace("%currentPage%", String.valueOf(page)).replace("%totalPages%", String.valueOf(totalPages));
+        eb.setFooter(footer);
+        
+        return eb.setColor(embedColors.getInt("ds-help")).build();
+    }
+
+    public static boolean hasMcHelpNextPage(int currentPage) {
+        int commandsPerPage = config.getInt("help-command-per-page");
+        int totalCommands = DsHelpMinecraftCommand.getCommands().size();
+        int totalPages = (int) Math.ceil(totalCommands / (double) commandsPerPage);
+        return currentPage < totalPages;
+    }
+
+    public static boolean hasMcHelpPreviousPage(int currentPage) {
+        return currentPage > 1;
     }
 
 }

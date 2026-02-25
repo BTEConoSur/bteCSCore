@@ -56,6 +56,7 @@ lp-user-not-found: "No se pudo obtener el usuario de LuckPerms para el jugador '
 console-player-not-registered: "El jugador '%player%' no está registrado en la base de datos."
 
 ds-error:
+  ds-help: "Error de Discord: Error al enviar mensaje de ayuda de Discord."
   staffhub-not-found: "Error de Discord: No se pudo encontrar el StaffHub."  
   subcommand-cant-register: "Error de Discord: Los subcomandos no se registran individualmente: %subcommand%."
   button-interaction: "Error de Discord: Interacción de botón con ID '%buttonId%' / mensaje con ID '%messageId%' no encontrada en el registro."
@@ -808,7 +809,41 @@ ds-notifications:
     project-deleted: "Proyecto eliminado por un Manager"
     project-name-updated: "Nombre del proyecto actualizado por un Manager"
     project-description-updated: "Descripción del proyecto actualizada por un Manager"
+ds-help:
+  cancel-message: "Ayuda cerrada."
+  cancel: "Cancelar"
+  next-page: "Página siguiente"
+  previous-page: "Página anterior"
+  description: "Muestra información de ayuda."
+  footer: "Página %currentPage% de %totalPages%"
+  minecraft:
+    title: "Lista de comandos disponibles en Minecraft"
+    description: "Para más información sobre cada comando, contacta a un miembro del staff o pruébalos en el servidor."
+    options: "**Campo:** Obligatorio **<>** - Opcional **[]** - Opciones **A|B**"
+    alias: "Alias: %alias%"
+  discord:
+    title: "Lista de comandos disponibles en Discord"
+    description: "Para más información sobre cada comando, contacta a un miembro del staff."
+    options: "**Campo:** Obligatorio **<>** - Opcional **[]** - Opciones **A|B**"
+    commands:
+      help:
+        minecraft:
+          usage: "/help minecraft"
+          description: "Muestra esta lista de comandos disponibles en Minecraft."
+        discord:
+          usage: "/help discord"
+          description: "Muestra la lista de comandos disponibles en Discord."
+      link:
+        usage: "/link"
+        description: "Inicia el proceso de vinculación de tu cuenta de Minecraft con tu cuenta de Discord."
+      player:
+        usage: "/player <nombre_jugador>|<uuid_jugador>|<usuario_discord>"
+        description: "Muestra información detallada sobre un jugador específico."
+      proyecto:
+        usage: "/project <id_proyecto>"
+        description: "Muestra información detallada sobre un proyecto específico."
 ds-embeds:
+  author: "BTE Cono Sur"
   project-info:
     title: "Información del proyecto: %proyecto.id%"
     fields:

@@ -15,13 +15,16 @@ public class DsCommandManager {
     public DsCommandManager() {
         ConsoleLogger.info(LanguageHandler.getText("discord-command-manager-initializing"));
 
-        addCommand(new TestCommand());
-        addCommand(new Test2Command());
         addCommand(new DeleteDsCommand());
         addCommand(new DsExecCommand());
         addCommand(new DsLinkCommand());
+        DsHelpDiscordCommand.addHelpCommand(new DsLinkCommand());
         addCommand(new DsPlayerCommand());
+        DsHelpDiscordCommand.addHelpCommand(new DsPlayerCommand());
         addCommand(new DsProyectoCommand());
+        DsHelpDiscordCommand.addHelpCommand(new DsProyectoCommand());
+        addCommand(new DsHelpCommand());
+        DsHelpDiscordCommand.addHelpCommand(new DsHelpCommand());
     }
 
     private void addCommand(DsCommand command) {
@@ -31,6 +34,10 @@ public class DsCommandManager {
 
     public DsCommand getCommand(String commandName) {
         return commands.get(commandName);
+    }
+    
+    public Map<String, DsCommand> getCommands() {
+        return commands;
     }
 
     public void shutdown() {

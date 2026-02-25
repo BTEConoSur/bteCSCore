@@ -11,6 +11,7 @@ interaction-expirations:
   create-project: 10080 # Expiración de solicitudes de creación de proyectos (en minutos). 10080 = 7 días.
   accept-reject-create-project: 60 # Expiración del modal de aceptación/rechazo de creación de proyecto (en minutos). 60 = 1 hora.
   accept-reject-redefine-project: 60 # Expiración del modal de aceptación/rechazo de redefinición de proyecto (en minutos). 60 = 1 hora.
+  help-command: 60 # Expiración del mensaje de ayuda de Discord (en minutos). 60 = 1 hora.
 default-language: "SPANISH" # Lenguaje por defecto para los jugadores que no tengan uno configurado o cuyo lenguaje configurado no esté soportado.
 avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png"
 avatar-head-url: "http://cravatar.eu/head/%uuid%/200.png"
@@ -51,6 +52,7 @@ discord-player-join-leave: true # Habilitar mensajes de entrada y salida de juga
 discord-player-join-leave-chat: true # Habilitar mensajes de entrada y salida del chat de jugadores en Discord. Depende de discord-country-chat y/o discord-global-chat para mostrarse en Discord.
 discord-server-start-stop: true # Habilitar mensajes de inicio y stop del servidor en Discord. Depende de discord-country-chat para mostrarse en Discord.
 
+cono-sur-logo: https://i.imgur.com/LtR9vt1.png
 # World
 tp-cooldown-seconds: 5
 layers:
@@ -129,6 +131,7 @@ commands-cooldowns:
   btecs.test: 200
   nightvision: 0
 
+ds-help-command-per-page: 5 # Cantidad de comandos a mostrar por página en el comando de ayuda de Discord.
 help-command-per-page: 5 # Cantidad de comandos a mostrar por página en el comando de ayuda.
 help-command-cooldown: 0 # Cooldown para el comando de ayuda (en segundos).
 pwarp-list-per-page: 10 # Cantidad de pwarps a mostrar por página en el comando de listado.
