@@ -29,7 +29,6 @@ public class GenericHelpCommand extends BaseCommand {
         
         int subcommandsPerPage = parentCommand.config.getInt("help-command-per-page");
         
-        // Count accessible subcommands
         int visibleSubcommands = 0;
         for (BaseCommand sub : parentCommand.subcommands.values()) {
             if (sub.getPermission() != null && !sender.hasPermission(sub.getPermission())) {
@@ -160,5 +159,3 @@ public class GenericHelpCommand extends BaseCommand {
         return true;
     }
 }
-
-// TODO: Capaz es mejor añadir el uso como una opción.

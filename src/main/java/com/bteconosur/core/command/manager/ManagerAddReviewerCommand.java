@@ -93,7 +93,13 @@ public class ManagerAddReviewerCommand extends BaseCommand {
     @Override
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) return paises.stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
-        return super.tabComplete(sender, alias, args); //TODO: no parece funcionar
+        return super.tabComplete(sender, alias, args);
+    }
+
+    @Override
+    protected boolean customPermissionCheck(CommandSender sender) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        return PermissionManager.getInstance().isManager(commandPlayer);
     }
 
 }

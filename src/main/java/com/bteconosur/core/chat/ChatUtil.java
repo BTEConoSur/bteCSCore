@@ -594,7 +594,6 @@ public class ChatUtil {
         return currentPage > 1;
     }
 
-    @SuppressWarnings("null")
     public static MessageEmbed getDsHelpMinecraft(Language language, int page) {
         String author = LanguageHandler.getText(language, "ds-embeds.author");
         String iconUrl = config.getString("cono-sur-logo");

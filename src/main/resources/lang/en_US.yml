@@ -434,6 +434,7 @@ project:
   tp-success: "Teleporting to project <yellow>'%proyecto.id%'</yellow>."
   member:
     already: "Player <yellow>'%player.nombre%'</yellow> is already a member or leader of project <yellow>'%proyecto.id%'</yellow>."
+    already-a-member: "You are already a Member or Leader of project <yellow>'%proyecto.id%'</yellow>."
     not-member: "Player <yellow>'%player.nombre%'</yellow> is not a member of project <yellow>'%proyecto.id%'</yellow>."
     not-a-member: "You are not a Member or Leader of project <yellow>'%proyecto.id%'</yellow>."
     not-member-here: "You are not a Member or Leader of any project at this location."

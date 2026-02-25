@@ -89,7 +89,6 @@ public class PlayerListMenu extends PaginatedMenu {
         this.context = MenuUtils.PlayerContext.DEFAULT;
     }
 
-//TODO: verificar con muchos jugadores;
     @Override
     protected void populateItems() {
         PlayerRegistry pr = PlayerRegistry.getInstance();

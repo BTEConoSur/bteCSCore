@@ -52,21 +52,43 @@ public class ManagerFinishCommand extends BaseCommand {
             return true;
         }
 
-        if (proyectoFinal.getEstado() != Estado.ACTIVO) {
-            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("project.not-active", language, proyectoFinal), (String) null); //TODO: Actualizar este
+        if (proyectoFinal.getEstado() == Estado.EN_FINALIZACION) {
+            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.finish.request.already", language, proyectoFinal), (String) null);
+            return true;
+        }
+        if (proyectoFinal.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+            PlayerLogger.warn(commandPlayer, LanguageHandler.replaceMC("project.edit.finish.request.already", language, proyectoFinal), (String) null);
+            return true;
+        }
+
+        if (proyectoFinal.getEstado() != Estado.ACTIVO && proyectoFinal.getEstado() != Estado.EDITANDO) {
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("project.not-active-editing", language, proyectoFinal), (String) null);
             return true;
         }
 
         final String proyectoIdFinal = proyectoFinal.getId();
+        final Proyecto proyecto = proyectoFinal;
         confirmationMenu = new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.finish-project-confirm", language, proyectoFinal), bukkitPlayer, confirmClick -> {
-                ProjectManager.getInstance().createFinishRequest(proyectoIdFinal, commandPlayer.getUuid());
-                PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.finish.request.success", language, commandPlayer, proyectoFinal), (String) null);
+                confirmClick.getWhoClicked().closeInventory();
+                if (proyecto.getEstado() == Estado.EDITANDO) {
+                    ProjectManager.getInstance().createFinishEditRequest(proyectoIdFinal, commandPlayer.getUuid());
+                    PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.edit.finish.request.success", language, proyecto), (String) null);
+                } else {
+                    ProjectManager.getInstance().createFinishRequest(proyectoIdFinal, commandPlayer.getUuid());
+                    PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.finish.request.success", language, proyecto), (String) null);
+                }
                 confirmationMenu.getGui().close(bukkitPlayer);
             }, (cancelClick -> {    
+                cancelClick.getWhoClicked().closeInventory();
                 confirmationMenu.getGui().close(bukkitPlayer);
         }));
         confirmationMenu.open();
         return true;
     }
 
+    @Override
+    protected boolean customPermissionCheck(CommandSender sender) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        return PermissionManager.getInstance().isManager(commandPlayer);
+    }
 }

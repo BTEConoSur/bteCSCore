@@ -29,5 +29,4 @@ public class ReviewerConfigCommand extends BaseCommand {
         Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
         return PermissionManager.getInstance().isReviewer(commandPlayer);
     }
-
 }

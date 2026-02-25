@@ -51,7 +51,7 @@ public class DBManager {
         hibernateConfig = new HibernateConfig();
         sessionFactory = hibernateConfig.buildSessionFactory(entityClasses);
         if (sessionFactory == null)
-            PluginRegistry.disablePlugin("DATABASE_LOAD_ERROR."); // TODO: Posiblemente cambiar cuando se implemente la protección de mundos.
+            PluginRegistry.disablePlugin("DATABASE_LOAD_ERROR.");
     }
 
     public void executeTransaction(Consumer<Session> action) {

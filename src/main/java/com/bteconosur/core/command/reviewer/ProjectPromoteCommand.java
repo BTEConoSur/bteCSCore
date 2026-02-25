@@ -16,7 +16,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 
 public class ProjectPromoteCommand extends BaseCommand {
 
-    public ProjectPromoteCommand() { // TODO: Ponerlo en comando reviewer.
+    public ProjectPromoteCommand() {
         super("promote", "<nombre>|<uuid>", "btecs.command.project.promote", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
@@ -59,5 +59,11 @@ public class ProjectPromoteCommand extends BaseCommand {
         menu.open();
 
         return true;
+    }
+
+    @Override
+    protected boolean customPermissionCheck(CommandSender sender) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        return PermissionManager.getInstance().isReviewer(commandPlayer);
     }
 }

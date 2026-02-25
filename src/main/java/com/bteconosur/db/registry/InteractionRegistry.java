@@ -92,7 +92,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
                 else if (interaction.getInteractionKey() == InteractionKey.FINISH_PROJECT) pm.expiredFinishRequest(interaction.getProjectId());
                 else if (interaction.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) pm.expiredRedefineRequest(interaction.getProjectId(), interaction.getId());
                 else if (interaction.getInteractionKey() == InteractionKey.FINISH_EDIT_PROJECT) pm.expiredFinishEditRequest(interaction.getProjectId());
-                else unload(interaction.getId()); //TODO: testear esto
+                else unload(interaction.getId());
             }
         }
         loadedObjects.entrySet().removeIf(entry -> {

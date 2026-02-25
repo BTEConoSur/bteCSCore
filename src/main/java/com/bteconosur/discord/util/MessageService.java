@@ -10,9 +10,8 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
-public class MessageService { //TODO: ver casos cuenta no linkeada
+public class MessageService {
 
-    @SuppressWarnings("null")
     public static void sendMessage(Long channelId, String message) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channelId(channelId) || !DiscordValidate.messageContent(message)) return;
@@ -31,7 +30,6 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         }
     }
 
-    @SuppressWarnings("null")
     public static void sendDM(Long dsUserId, String message) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.messageContent(message)) return;
@@ -51,7 +49,6 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         }
     }
 
-    @SuppressWarnings("null")
     public static void sendEmbed(Long channelId, MessageEmbed embed) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channelId(channelId) || !DiscordValidate.embed(embed)) return;
@@ -70,7 +67,6 @@ public class MessageService { //TODO: ver casos cuenta no linkeada
         }
     }
 
-    @SuppressWarnings("null")
     public static void sendEmbedDM(Long dsUserId, MessageEmbed embed) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.embed(embed)) return;

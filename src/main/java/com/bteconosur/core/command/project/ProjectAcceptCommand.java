@@ -58,7 +58,7 @@ public class ProjectAcceptCommand extends BaseCommand {
             }
             Set<Proyecto> activeProyectos = ProyectoRegistry.getInstance().getActiveOrEditando(proyectos);
             if (activeProyectos.isEmpty()) {
-                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-active-editing"), (String) null); //TODO: verificar casos en editando
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-active-editing"), (String) null);
                 return true;
             }
             Set<Proyecto> liderProyectos = ProyectoRegistry.getInstance().getByLider(commandPlayer, activeProyectos);

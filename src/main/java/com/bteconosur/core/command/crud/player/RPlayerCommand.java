@@ -15,7 +15,7 @@ public class RPlayerCommand extends BaseCommand {
 
     private final DBManager dbManager;
 
-    public RPlayerCommand() { //TODO: Agregar rango usuario
+    public RPlayerCommand() {
         super("read", "<uuid>", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }

@@ -234,7 +234,6 @@ public class PaisRegistry extends Registry<Long, Pais> {
         ConsoleLogger.warn(LanguageHandler.replaceMC("pais-division-default-not-found", Language.getDefault(), pais));
         return null;
     }
-    //TODO: right click mensaje can build 
 
     private void ensureDefaults() {
         if (get("argentina") == null) {

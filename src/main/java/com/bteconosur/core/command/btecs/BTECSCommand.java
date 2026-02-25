@@ -28,4 +28,5 @@ public class BTECSCommand extends BaseCommand {
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }
+
 }

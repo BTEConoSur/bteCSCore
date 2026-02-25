@@ -67,7 +67,7 @@ public class ProjectJoinCommand extends BaseCommand {
             }
             Set<Proyecto> activeProyectos = pr.getActiveOrEditando(roomProyectos);
             if (activeProyectos.isEmpty()) {
-                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-active-editing-here"), (String) null); //TODO: verificar casos en editando
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-active-editing-here"), (String) null);
                 return true;
             }
             Set<Proyecto> notMemberProyectos = pr.getNotMemberOrLider(commandPlayer, activeProyectos);
@@ -79,7 +79,7 @@ public class ProjectJoinCommand extends BaseCommand {
             if (notMemberProyectos.size() > 1) {
                 projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.getText(language, "gui-titles.proyectos-activos-list"), notMemberProyectos, (proyecto, event) -> {
                     if (permissionManager.isMiembroOrLider(commandPlayer, proyecto)) {
-                        String message = LanguageHandler.replaceMC("project.member.already", language, proyecto);   
+                        String message = LanguageHandler.replaceMC("project.member.already-a-member", language, proyecto);   
                         PlayerLogger.error(commandPlayer, message, (String) null);
                         event.getWhoClicked().closeInventory();
                         return;
@@ -116,7 +116,7 @@ public class ProjectJoinCommand extends BaseCommand {
         }
 
         if (permissionManager.isMiembroOrLider(commandPlayer, proyectoFinal)) {
-            String message = LanguageHandler.replaceMC("project.member.already", language, proyectoFinal);   
+            String message = LanguageHandler.replaceMC("project.member.already-a-member", language, proyectoFinal);   
             PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }

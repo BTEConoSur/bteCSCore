@@ -36,7 +36,7 @@ public final class DiscordValidate {
 
     public static boolean user(User user) {
         if (user == null) {
-            ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-user"));
+            //ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-user"));
             return false;
         }
         return true;

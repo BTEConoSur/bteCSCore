@@ -30,7 +30,6 @@ public abstract class BaseCommand extends Command {
         BOTH
     }
 
- //TODO AUTOCOMPLETADO AL CHEQUEAR PERMISOS
     protected final String command;
     protected String fullCommand;
     protected final String args;

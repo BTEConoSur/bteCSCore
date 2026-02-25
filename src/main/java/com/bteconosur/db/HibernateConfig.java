@@ -42,7 +42,7 @@ public class HibernateConfig {
         settings.put("hibernate.connection.password", secret.getString("database-password"));
         settings.put("hibernate.show_sql", config.getString("database-show-sql"));
         settings.put("hibernate.current_session_context_class", config.getString("database-current-session-context-class"));
-        settings.put("hibernate.hbm2ddl.auto", "update"); // TODO: Ajustar según entorno (development/production)
+        settings.put("hibernate.hbm2ddl.auto", config.getString("database-hbm2ddl-auto"));
 
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .applySettings(settings)

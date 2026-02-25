@@ -2,6 +2,7 @@ package com.bteconosur.core.command.manager;
 
 import java.util.Set;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.command.BaseCommand;
@@ -77,4 +78,9 @@ public class ManagerSelectCommand extends BaseCommand {
         return true;
     }
 
+    @Override
+    protected boolean customPermissionCheck(CommandSender sender) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        return PermissionManager.getInstance().isManager(commandPlayer);
+    }
 }

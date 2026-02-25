@@ -116,4 +116,9 @@ public class ManagerTransferCommand extends BaseCommand {
         return true;
     }
 
+    @Override
+    protected boolean customPermissionCheck(CommandSender sender) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        return PermissionManager.getInstance().isManager(commandPlayer);
+    }
 }

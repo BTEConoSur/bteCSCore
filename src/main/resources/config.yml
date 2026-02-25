@@ -40,6 +40,7 @@ map:
 database-driver: "org.mariadb.jdbc.Driver"
 database-show-sql: "false"
 database-current-session-context-class: "thread"
+database-hbm2ddl-auto: "update" # Ajustar según entorno (development/production)
 
 # Discord
 discord-global-chat: true # Habilitar chat global entre servidor y Discord.

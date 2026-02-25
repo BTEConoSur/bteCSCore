@@ -46,5 +46,4 @@ public class ManagerCommand extends BaseCommand {
         Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
         return PermissionManager.getInstance().isManager(commandPlayer);
     }
-
 }

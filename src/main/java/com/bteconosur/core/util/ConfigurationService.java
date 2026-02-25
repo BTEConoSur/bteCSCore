@@ -21,7 +21,6 @@ public class ConfigurationService {
     // 5- Agregar configuración al enum ConfigurationKey.
     // 6- Añadir al menú de configuración correspondiente.
 
-    // TODO: cachear config y poner boton para guardar cambios
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     public static Player setDefaults(Player player) {

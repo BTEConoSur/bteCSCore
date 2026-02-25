@@ -434,6 +434,7 @@ project:
   tp-success: "Teletransportado al proyecto <yellow>'%proyecto.id%'</yellow>."
   member:
     already: "El jugador <yellow>'%player.nombre%'</yellow> ya es miembro o líder del proyecto <yellow>'%proyecto.id%'</yellow>."
+    already-a-member: "Ya eres miembro o líder del proyecto <yellow>'%proyecto.id%'</yellow>."
     not-member: "El jugador <yellow>'%player.nombre%'</yellow> no es miembro del proyecto <yellow>'%proyecto.id%'</yellow>."
     not-a-member: "No eres Miembro o Líder del proyecto <yellow>'%proyecto.id%'</yellow>."
     not-member-here: "No eres Miembro o Líder de ningún proyecto en esta ubicación."

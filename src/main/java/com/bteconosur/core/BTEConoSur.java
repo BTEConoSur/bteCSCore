@@ -301,15 +301,12 @@ public final class BTEConoSur extends JavaPlugin {
 
 }
 
-// TODO: Help de discord y mensaje del bot
-
 // TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab
 
 // TODO: Añadir parametros y descripción a las funciones
 // TODO: Añadir iconos a los proyectos
 
-// TODO: Revisar warns y errors loggers
 // TODO: Listado de managers y reviewers en el proyecto.
 
 // TODO: Dynamic en las cabezas - Sin solución

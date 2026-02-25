@@ -46,7 +46,6 @@ import com.bteconosur.world.WorldManager;
 
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
-//TODO: vereficar casos edgde.
 public class ProjectManager {
 
     private static ProjectManager instance;

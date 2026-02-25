@@ -139,7 +139,7 @@ public class ProjectManageMenu extends Menu {
             ConfirmationMenu confirmationMenu = new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.leave-project-confirm", language, proyecto), BTECSPlayer, this, confirmClick -> {
                 event.getWhoClicked().closeInventory();
                 if (!permissionManager.isMiembroOrLider(BTECSPlayer, proyecto)) {
-                    String message = LanguageHandler.replaceMC("project.member.not-a-member", language, proyecto); //TODO: Revisar not-member y not-a-member
+                    String message = LanguageHandler.replaceMC("project.member.not-a-member", language, proyecto);
                     PlayerLogger.error(BTECSPlayer, message, (String) null);
                     event.getWhoClicked().closeInventory();
                     return;
