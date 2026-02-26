@@ -1,8 +1,10 @@
 package com.bteconosur.core.command.project;
 
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.chat.ChatUtil;
@@ -65,6 +67,13 @@ public class ProjectNameCommand extends BaseCommand {
         String countryLog = LanguageHandler.replaceDS("project.update.name.log", language, commandPlayer, targetProyecto);   
         DiscordLogger.countryLog(countryLog, targetProyecto.getPais());
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        Player player = PlayerRegistry.getInstance().get(sender);
+        if (args.length == 1) return ProyectoRegistry.getInstance().getIdsByLider(player).stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
+        return super.tabComplete(sender, alias, args);
     }
     
 }

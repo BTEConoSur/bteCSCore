@@ -99,6 +99,17 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         return proyectos;
     }
 
+    public Set<String> getIdsByLider(Player player) {
+        Set<String> proyectos = new HashSet<>();
+        PermissionManager pm = PermissionManager.getInstance();
+        for (Proyecto proyecto : loadedObjects.values()) {
+            if (pm.isLider(player, proyecto)) {
+                proyectos.add(proyecto.getId());
+            }
+        }
+        return proyectos;
+    }
+
     public Set<Proyecto> getByLider(Player player, Set<Proyecto> search) {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
