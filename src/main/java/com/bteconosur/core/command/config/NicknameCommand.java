@@ -14,7 +14,7 @@ public class NicknameCommand extends BaseCommand {
 
 
     public NicknameCommand() {
-        super("nickname", "<nombre_público>", "btecs.command.nickname");
+        super("nickname", "<nombre_público>", "btecs.command.nickname", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new NicknameSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

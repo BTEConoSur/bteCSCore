@@ -14,13 +14,14 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class NicknameSetCommand extends BaseCommand {
 
     public NicknameSetCommand() {
-        super("set", "<uuid/nombre> <nombre_público>", "btecs.command.nickname.set");
+        super("set", "<uuid/nombre> <nombre_público>", "btecs.command.nickname.set", CommandMode.BOTH);
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
-        Language language = commandPlayer.getLanguage();
+        Player commandPlayer = null;
+        if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
         if (args.length != 2) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
@@ -54,7 +55,7 @@ public class NicknameSetCommand extends BaseCommand {
         playerRegistry.merge(targetPlayer.getUuid());
         PlayerLogger.info(targetPlayer, LanguageHandler.getText(targetPlayer.getLanguage(), "nickname.change").replace("%nickname%", nuevoNombre), (String) null);
         if (!targetPlayer.equals(commandPlayer)) {
-            PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("nickname.set", language, targetPlayer).replace("%nickname%", nuevoNombre), (String) null);
+            PlayerLogger.info(sender, LanguageHandler.replaceMC("nickname.set", language, targetPlayer).replace("%nickname%", nuevoNombre), (String) null);
         }
         return true;
     }

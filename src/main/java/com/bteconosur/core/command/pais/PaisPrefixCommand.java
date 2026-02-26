@@ -11,7 +11,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class PaisPrefixCommand extends BaseCommand {
 
     public PaisPrefixCommand() {
-        super("pais", "");
+        super("pais", "", "btecs.command.pais", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new PaisPrefixSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

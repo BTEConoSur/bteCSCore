@@ -17,7 +17,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class PwarpCommand extends BaseCommand {
 
     public PwarpCommand() {
-        super("pwarp", "<nombre_warp>|<subcomando>", CommandMode.PLAYER_ONLY);
+        super("pwarp", "<nombre_warp>|<subcomando>", "btecs.command.pwarp", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new PwarpCreateCommand());
         this.addSubcommand(new PwarpRemoveCommand());
         this.addSubcommand(new PwarpListCommand());

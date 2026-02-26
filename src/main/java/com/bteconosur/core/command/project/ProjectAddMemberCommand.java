@@ -25,7 +25,7 @@ public class ProjectAddMemberCommand extends BaseCommand {
     private final YamlConfiguration config;
 
     public ProjectAddMemberCommand() {
-        super("addmember", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
+        super("addmember", "<id_proyecto> [nombre_jugador]", "btecs.command.project.addmember", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();

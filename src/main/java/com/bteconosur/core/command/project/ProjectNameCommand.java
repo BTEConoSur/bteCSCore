@@ -21,7 +21,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 public class ProjectNameCommand extends BaseCommand {
 
     public ProjectNameCommand() {
-        super("name", "<id_proyecto> <nuevo_nombre>", CommandMode.PLAYER_ONLY);
+        super("name", "<id_proyecto> <nuevo_nombre>", "btecs.command.project.name", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

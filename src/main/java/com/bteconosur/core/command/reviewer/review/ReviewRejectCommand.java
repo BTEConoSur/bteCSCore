@@ -28,7 +28,7 @@ public class ReviewRejectCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ReviewRejectCommand() {
-        super("reject", "[comentario]", CommandMode.PLAYER_ONLY);
+        super("reject", "[comentario]", "btecs.command.reviewer", CommandMode.PLAYER_ONLY);
     }
 
     @Override

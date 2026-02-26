@@ -21,7 +21,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 public class ManagerAddMemberCommand extends BaseCommand {
 
     public ManagerAddMemberCommand() {
-        super("addmember", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
+        super("addmember", "<id_proyecto> [nombre_jugador]", "btecs.command.manager", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

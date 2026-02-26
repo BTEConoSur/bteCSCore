@@ -34,7 +34,7 @@ public class ProjectRedefineCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectRedefineCommand() {
-        super("redefine", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("redefine", "[id_proyecto]", "btecs.command.project.redefine", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

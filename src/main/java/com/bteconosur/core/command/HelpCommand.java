@@ -20,7 +20,7 @@ public class HelpCommand extends BaseCommand {
     private static List<BaseCommand> commands = new ArrayList<>();
 
     public HelpCommand() {
-        super("help", "[pagina]");
+        super("help", "[pagina]", "btecs.command.help", CommandMode.BOTH);
     }
 
     @Override

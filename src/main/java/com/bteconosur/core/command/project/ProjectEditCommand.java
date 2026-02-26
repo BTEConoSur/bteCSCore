@@ -27,7 +27,7 @@ public class ProjectEditCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectEditCommand() {
-        super("edit", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("edit", "[id_proyecto]", "btecs.command.project.edit", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

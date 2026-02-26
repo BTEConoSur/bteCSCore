@@ -24,7 +24,7 @@ public class ProjectSelectCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectSelectCommand() {
-        super("select", "", CommandMode.PLAYER_ONLY);
+        super("select", "", "btecs.command.project.select", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
         config = ConfigHandler.getInstance().getConfig();
     }

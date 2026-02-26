@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class BTECSTestCommand extends BaseCommand {
 
     public BTECSTestCommand() {
-        super("test", null, CommandMode.BOTH);
+        super("test", null, "btecs.command.test", CommandMode.BOTH);
         this.addSubcommand(new TestGenericCommand());
         this.addSubcommand(new TestConsoleLoggerCommand());
         this.addSubcommand(new TestExceptionLoggerCommand());
@@ -29,8 +29,9 @@ public class BTECSTestCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player player = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
-        Language language = player.getLanguage();
+        Player commandPlayer = null;
+        if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
         String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
         PlayerLogger.info(sender, message, (String) null);
         return true;

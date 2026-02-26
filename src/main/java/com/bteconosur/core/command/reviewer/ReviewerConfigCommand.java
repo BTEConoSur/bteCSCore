@@ -12,7 +12,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class ReviewerConfigCommand extends BaseCommand {
     
     public ReviewerConfigCommand() {
-        super("config", null, "btecs.command.reviewer.config", CommandMode.PLAYER_ONLY);
+        super("config", null, "btecs.command.reviewer", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

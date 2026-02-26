@@ -18,7 +18,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 public class ManagerRemoveLeaderCommand extends BaseCommand {
 
     public ManagerRemoveLeaderCommand() {
-        super("removeleader", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("removeleader", "<id_proyecto>", "btecs.command.manager", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

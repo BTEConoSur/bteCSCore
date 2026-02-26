@@ -20,7 +20,7 @@ public class ManagerManageCommand extends BaseCommand {
     private ProjectManageMenu projectManageMenu;
 
     public ManagerManageCommand() {
-        super("manage", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("manage", "<id_proyecto>", "btecs.command.manager", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 
 public class BTECSReloadCommand extends BaseCommand {
     public BTECSReloadCommand() {
-        super("reload", null, CommandMode.CONSOLE_ONLY);
+        super("reload", null, "btecs.command.btecs.reload", CommandMode.CONSOLE_ONLY);
     }
 
     @Override

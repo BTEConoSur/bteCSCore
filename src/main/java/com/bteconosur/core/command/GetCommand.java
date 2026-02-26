@@ -9,7 +9,7 @@ import com.bteconosur.db.model.Player;
 public class GetCommand extends BaseCommand{
 
     public GetCommand() {
-        super("get", "");
+        super("get", "", "btecs.command.get", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

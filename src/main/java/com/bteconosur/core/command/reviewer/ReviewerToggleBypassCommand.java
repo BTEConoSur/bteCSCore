@@ -18,7 +18,7 @@ import com.bteconosur.world.ReviewerToggleBuildService;
 public class ReviewerToggleBypassCommand extends BaseCommand {
 
     public ReviewerToggleBypassCommand() {
-        super("togglebypass", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("togglebypass", "<id_proyecto>", "btecs.command.reviewer", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

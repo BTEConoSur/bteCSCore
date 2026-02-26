@@ -16,7 +16,7 @@ public class UnlinkCommand extends BaseCommand {
     private ConfirmationMenu confirmationMenu;
 
     public UnlinkCommand() {
-        super("unlink", "", "btecs.command.unlink");
+        super("unlink", "", "btecs.command.unlink", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new UnlinkSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

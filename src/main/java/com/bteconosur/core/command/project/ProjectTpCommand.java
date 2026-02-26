@@ -19,7 +19,7 @@ import com.bteconosur.world.WorldManager;
 public class ProjectTpCommand extends BaseCommand {
 
     public ProjectTpCommand() {
-        super("tp", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("tp", "<id_proyecto>", "btecs.command.project.tp", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

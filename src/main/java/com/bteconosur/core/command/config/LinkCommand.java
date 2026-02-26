@@ -17,7 +17,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 public class LinkCommand extends BaseCommand {
 
     public LinkCommand() {
-        super("link", "<código>", "btecs.command.link");
+        super("link", "<código>", "btecs.command.link", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new LinkSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

@@ -18,7 +18,7 @@ public class GenericHelpCommand extends BaseCommand {
     private final BaseCommand parentCommand;
 
     public GenericHelpCommand(BaseCommand parentCommand) {
-        super("help", "[pagina]");
+        super("help", "[pagina]", "btecs.command.generichelp", CommandMode.BOTH);
         this.parentCommand = parentCommand;
     }
 

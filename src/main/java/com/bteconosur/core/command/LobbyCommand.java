@@ -11,7 +11,7 @@ import com.bteconosur.world.WorldManager;
 public class LobbyCommand extends BaseCommand {
 
     public LobbyCommand() {
-        super("lobby", "");
+        super("lobby", "", "btecs.command.lobby", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

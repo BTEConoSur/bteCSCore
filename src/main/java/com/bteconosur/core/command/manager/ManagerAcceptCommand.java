@@ -18,7 +18,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 public class ManagerAcceptCommand extends BaseCommand {
 
     public ManagerAcceptCommand() {
-        super("accept", "<id_proyecto>", CommandMode.PLAYER_ONLY);
+        super("accept", "<id_proyecto>", "btecs.command.manager", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

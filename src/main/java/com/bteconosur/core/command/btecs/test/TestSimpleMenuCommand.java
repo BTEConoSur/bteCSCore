@@ -9,7 +9,7 @@ import com.bteconosur.core.menu.TestSimpleMenu;
 public class TestSimpleMenuCommand extends BaseCommand {
 
     public TestSimpleMenuCommand() {
-        super("simplemenu", null, CommandMode.PLAYER_ONLY);
+        super("simplemenu", null, "btecs.command.test", CommandMode.PLAYER_ONLY);
     }
 
     @Override

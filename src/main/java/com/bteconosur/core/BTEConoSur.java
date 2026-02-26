@@ -301,6 +301,9 @@ public final class BTEConoSur extends JavaPlugin {
 
 }
 
+// TODO: Detectar locale
+// TODO: Autocompletado de cambios
+
 // TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab
 

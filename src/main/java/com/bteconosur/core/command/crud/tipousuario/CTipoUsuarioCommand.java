@@ -15,14 +15,15 @@ public class CTipoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CTipoUsuarioCommand() {
-        super("create", "<nombre> <cant_proyec_sim> <descripcion>", CommandMode.BOTH);
+        super("create", "<nombre> <cant_proyec_sim> <descripcion>", "btecs.command.crud", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
-        Language language = commandPlayer.getLanguage();
+        Player commandPlayer = null;
+        if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
         if (args.length < 3) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);

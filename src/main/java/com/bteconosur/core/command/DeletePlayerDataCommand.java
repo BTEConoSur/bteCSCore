@@ -17,7 +17,7 @@ import java.util.UUID;
 public class DeletePlayerDataCommand extends BaseCommand {
 
     public DeletePlayerDataCommand() {
-        super("deleteplayerdata", "<uuid>", CommandMode.CONSOLE_ONLY);
+        super("deleteplayerdata", "<uuid>", "btecs.command.deleteplayerdata", CommandMode.CONSOLE_ONLY);
     }
 
     @Override

@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class URangoUsuarioCommand extends BaseCommand {
 
     public URangoUsuarioCommand() {
-        super("update", "<propiedad> <id> <valor>", CommandMode.BOTH);
+        super("update", "<propiedad> <id> <valor>", "btecs.command.crud", CommandMode.BOTH);
         this.addSubcommand(new URangoUsuarioNombreCommand());
         this.addSubcommand(new URangoUsuarioDescripcionCommand());
         this.addSubcommand(new URangoUsuarioAddPermisoCommand());
@@ -22,8 +22,9 @@ public class URangoUsuarioCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
-        Language language = commandPlayer.getLanguage();
+        Player commandPlayer = null;
+        if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
         String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
         PlayerLogger.info(sender, message, (String) null);
         return true;

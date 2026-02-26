@@ -9,7 +9,7 @@ import com.bteconosur.db.registry.PaisRegistry;
 public class TestDiscordLogger extends BaseCommand {
 
     public TestDiscordLogger() {
-        super("discordlogger", null, CommandMode.BOTH);
+        super("discordlogger", null, "btecs.command.test", CommandMode.BOTH);
     }
 
     @Override

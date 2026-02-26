@@ -13,18 +13,19 @@ import com.bteconosur.db.model.Player;
 public class CRUDPlayerCommand extends BaseCommand {
 
     public CRUDPlayerCommand() {
-        super("player", null, CommandMode.BOTH);
+        super("player", null, "btecs.command.crud", CommandMode.BOTH);
         this.addSubcommand(new CPlayerCommand());
         this.addSubcommand(new RPlayerCommand());
         this.addSubcommand(new UPlayerCommand());
         this.addSubcommand(new DPlayerCommand());
-            this.addSubcommand(new GenericHelpCommand(this));
+        this.addSubcommand(new GenericHelpCommand(this));
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
-        Language language = commandPlayer.getLanguage();
+        Player commandPlayer = null;
+        if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
         String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
         PlayerLogger.info(sender, message, (String) null);
         return true;

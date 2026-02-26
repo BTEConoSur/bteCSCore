@@ -26,7 +26,7 @@ public class ProjectAdminAddManager extends BaseCommand {
     private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
     public ProjectAdminAddManager() {
-        super("addmanager", "<nombre_pais> <uuid/nombre_manager>", "btecs.command.project.admin.addmanager", CommandMode.PLAYER_ONLY);
+        super("addmanager", "<nombre_pais> <uuid/nombre_manager>", "btecs.command.project.admin", CommandMode.PLAYER_ONLY);
     }
 
     @Override

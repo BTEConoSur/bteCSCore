@@ -11,7 +11,7 @@ import com.bteconosur.db.model.Player;
 public class NightvisionCommand extends BaseCommand {
 
     public NightvisionCommand() {
-        super("nightvision", "");
+        super("nightvision", "", "btecs.command.nightvision", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

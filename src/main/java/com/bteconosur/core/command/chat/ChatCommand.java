@@ -11,7 +11,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class ChatCommand extends BaseCommand {
 
     public ChatCommand() {
-        super("chat", "");
+        super("chat", "", "btecs.command.chat", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new ChatSetCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

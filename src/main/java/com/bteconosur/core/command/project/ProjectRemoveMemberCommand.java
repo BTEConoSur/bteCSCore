@@ -22,7 +22,7 @@ import com.bteconosur.db.util.Estado;
 public class ProjectRemoveMemberCommand extends BaseCommand {
     
     public ProjectRemoveMemberCommand() {
-        super("removemember", "<id_proyecto> [nombre_jugador]", CommandMode.PLAYER_ONLY);
+        super("removemember", "<id_proyecto> [nombre_jugador]", "btecs.command.project.removemember", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

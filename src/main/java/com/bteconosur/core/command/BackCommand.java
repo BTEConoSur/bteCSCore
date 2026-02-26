@@ -12,7 +12,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class BackCommand extends BaseCommand {
 
     public BackCommand() {
-        super("back", "", CommandMode.PLAYER_ONLY);
+        super("back", "", "btecs.command.back", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

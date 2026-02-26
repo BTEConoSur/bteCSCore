@@ -15,7 +15,7 @@ import com.bteconosur.world.model.BTEWorld;
 public class PwarpCreateCommand extends BaseCommand {
 
     public PwarpCreateCommand() {
-        super("create", "<nombre_warp>", CommandMode.PLAYER_ONLY);
+        super("create", "<nombre_warp>", "btecs.command.pwarp", CommandMode.PLAYER_ONLY);
     }
 
     @Override

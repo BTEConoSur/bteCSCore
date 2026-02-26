@@ -13,7 +13,7 @@ import com.bteconosur.db.model.Player;
 public class CRUDRangoUsuarioCommand extends BaseCommand {
 
     public CRUDRangoUsuarioCommand() {
-        super("rangousuario", null, CommandMode.BOTH);
+        super("rangousuario", null, "btecs.command.crud", CommandMode.BOTH);
         this.addSubcommand(new CRangoUsuarioCommand());
         this.addSubcommand(new RRangoUsuarioCommand());
         this.addSubcommand(new URangoUsuarioCommand());
@@ -25,8 +25,9 @@ public class CRUDRangoUsuarioCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
-        Language language = commandPlayer.getLanguage();
+        Player commandPlayer = null;
+        if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
         String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
         PlayerLogger.info(sender, message, (String) null);
         return true;

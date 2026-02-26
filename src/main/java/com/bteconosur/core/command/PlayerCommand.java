@@ -15,7 +15,7 @@ import com.bteconosur.db.util.PlaceholderUtils;
 public class PlayerCommand extends BaseCommand {
 
     public PlayerCommand() {
-        super("player", "<uuid/nombre_reviewer>");
+        super("player", "<uuid/nombre_reviewer>", "btecs.command.player", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

@@ -25,8 +25,8 @@ public class ProjectJoinCommand extends BaseCommand {
     private final YamlConfiguration config;
     private ProjectListMenu projectListMenu;
 
-    public ProjectJoinCommand() { // Postulantes no pueden usar este comando.
-        super("join", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+    public ProjectJoinCommand() {
+        super("join", "[id_proyecto]", "btecs.command.project.join", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();

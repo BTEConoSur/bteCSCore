@@ -10,7 +10,7 @@ import com.bteconosur.world.WorldManager;
 public class BTECSCheckSyncProyectos extends BaseCommand {
 
     public BTECSCheckSyncProyectos() {
-        super("syncproyectos", null, CommandMode.CONSOLE_ONLY);
+        super("syncproyectos", null, "btecs.command.btecs.syncproyectos", CommandMode.CONSOLE_ONLY);
     }
 
     @Override

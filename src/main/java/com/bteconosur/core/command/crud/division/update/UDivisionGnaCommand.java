@@ -15,14 +15,15 @@ public class UDivisionGnaCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public UDivisionGnaCommand() {
-        super("gna", "<id> <nuevo_gna>", CommandMode.BOTH);
+        super("gna", "<id> <nuevo_gna>", "btecs.command.crud", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
-        Language language = commandPlayer.getLanguage();
+        Player commandPlayer = null;
+        if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
         if (args.length != 2) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);

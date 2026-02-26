@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class UDivisionCommand extends BaseCommand {
 
     public UDivisionCommand() {
-        super("update", null, CommandMode.BOTH);
+        super("update", null, "btecs.command.crud", CommandMode.BOTH);
         this.addSubcommand(new UDivisionNombreCommand());
         this.addSubcommand(new UDivisionNamCommand());
         this.addSubcommand(new UDivisionGnaCommand());
@@ -26,8 +26,9 @@ public class UDivisionCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
-        Language language = commandPlayer.getLanguage();
+        Player commandPlayer = null;
+        if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
         String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
         PlayerLogger.info(sender, message, (String) null);
         return true;

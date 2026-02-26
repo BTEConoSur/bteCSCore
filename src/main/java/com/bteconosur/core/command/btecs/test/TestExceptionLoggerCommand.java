@@ -8,7 +8,7 @@ import com.bteconosur.core.util.ConsoleLogger;
 public class TestExceptionLoggerCommand extends BaseCommand {
 
     public TestExceptionLoggerCommand() {
-        super("exceptionlogger", null, CommandMode.BOTH);
+        super("exceptionlogger", null, "btecs.command.test", CommandMode.BOTH);
     }
 
     @Override

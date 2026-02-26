@@ -15,7 +15,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class PwarpRemoveCommand extends BaseCommand {
 
     public PwarpRemoveCommand() {
-        super("remove", "<nombre_warp>", CommandMode.PLAYER_ONLY);
+        super("remove", "<nombre_warp>", "btecs.command.pwarp", CommandMode.PLAYER_ONLY);
     }
 
     @Override

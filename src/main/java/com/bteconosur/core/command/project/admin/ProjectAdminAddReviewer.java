@@ -26,7 +26,7 @@ public class ProjectAdminAddReviewer extends BaseCommand {
     private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
     public ProjectAdminAddReviewer() {
-        super("addreviewer", "<nombre_pais> <uuid/nombre_reviewer>", "btecs.command.project.admin.addreviewer", CommandMode.PLAYER_ONLY);
+        super("addreviewer", "<nombre_pais> <uuid/nombre_reviewer>", "btecs.command.project.admin", CommandMode.PLAYER_ONLY);
     }
 
     @Override

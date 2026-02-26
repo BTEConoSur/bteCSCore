@@ -17,7 +17,7 @@ public class UnlinkSetCommand extends BaseCommand {
     private ConfirmationMenu confirmationMenu;
 
     public UnlinkSetCommand() {
-        super("set", "<uuid/nombre>", "btecs.command.unlink.set");
+        super("set", "<uuid/nombre>", "btecs.command.unlink.set", CommandMode.PLAYER_ONLY);
     }
 
     @Override

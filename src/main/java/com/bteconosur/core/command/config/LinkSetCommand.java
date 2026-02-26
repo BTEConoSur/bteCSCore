@@ -16,7 +16,7 @@ import com.bteconosur.discord.util.LinkService;
 public class LinkSetCommand extends BaseCommand {
 
     public LinkSetCommand() {
-        super("set", "<uuid/nombre> <discordId>", "btecs.command.link.set");
+        super("set", "<uuid/nombre> <discordId>", "btecs.command.link.set", CommandMode.PLAYER_ONLY);
     }
 
     @Override

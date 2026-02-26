@@ -19,7 +19,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 public class PwarpListCommand extends BaseCommand {
 
     public PwarpListCommand() {
-        super("list", "[página]", CommandMode.PLAYER_ONLY);
+        super("list", "[página]", "btecs.command.pwarp", CommandMode.PLAYER_ONLY);
     }
 
     @Override

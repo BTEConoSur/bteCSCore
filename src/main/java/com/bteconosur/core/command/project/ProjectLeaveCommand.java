@@ -21,7 +21,7 @@ public class ProjectLeaveCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectLeaveCommand() {
-        super("leave", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("leave", "[id_proyecto]", "btecs.command.project.leave", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

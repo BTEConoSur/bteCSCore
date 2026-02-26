@@ -11,7 +11,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class ManagerConfigCommand extends BaseCommand {
 
     public ManagerConfigCommand() {
-        super("config", null, CommandMode.PLAYER_ONLY);
+        super("config", null, "btecs.command.manager", CommandMode.PLAYER_ONLY);
     }
 
     @Override

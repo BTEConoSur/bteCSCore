@@ -10,7 +10,7 @@ import com.bteconosur.db.model.Player;
 public class GeneralConfigCommand extends BaseCommand {
 
     public GeneralConfigCommand() {
-        super("config", "");
+        super("config", "", "btecs.command.config", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

@@ -14,7 +14,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class WhereIAmCommand extends BaseCommand {
 
     public WhereIAmCommand() {
-        super("whereiam", null, CommandMode.PLAYER_ONLY);
+        super("whereiam", null, "btecs.command.whereiam", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

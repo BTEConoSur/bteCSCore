@@ -26,7 +26,7 @@ public class ProjectAdminRemoveManager extends BaseCommand {
     private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
     public ProjectAdminRemoveManager() {
-        super("removemanager", "<nombre_pais> <uuid/nombre_manager>", "btecs.command.project.admin.removemanager", CommandMode.PLAYER_ONLY);
+        super("removemanager", "<nombre_pais> <uuid/nombre_manager>", "btecs.command.project.admin", CommandMode.PLAYER_ONLY);
     }
 
     @Override

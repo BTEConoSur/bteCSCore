@@ -14,7 +14,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class LanguageSetCommand extends BaseCommand {
 
     public LanguageSetCommand() {
-        super("set", "<nombre_jugador>", CommandMode.PLAYER_ONLY);
+        super("set", "<nombre_jugador>", "btecs.command.language.set", CommandMode.PLAYER_ONLY);
     }
 
     @Override

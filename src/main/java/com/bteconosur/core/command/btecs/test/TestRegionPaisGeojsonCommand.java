@@ -27,7 +27,7 @@ public class TestRegionPaisGeojsonCommand extends BaseCommand {
     private final BTEConoSur plugin;
 
     public TestRegionPaisGeojsonCommand() {
-        super("regionpaisgeojson", "<id_region>", CommandMode.BOTH);
+        super("regionpaisgeojson", "<id_region>", "btecs.command.test", CommandMode.BOTH);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
         dbManager = DBManager.getInstance();
@@ -36,8 +36,9 @@ public class TestRegionPaisGeojsonCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        Player player = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
-        Language language = player.getLanguage();
+        Player commandPlayer = null;
+        if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
+        Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
         if (args.length != 1) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);

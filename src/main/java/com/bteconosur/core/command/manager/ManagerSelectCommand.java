@@ -26,7 +26,7 @@ public class ManagerSelectCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ManagerSelectCommand() {
-        super("select", "", CommandMode.PLAYER_ONLY);
+        super("select", "", "btecs.command.manager", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
         config = ConfigHandler.getInstance().getConfig();
     }

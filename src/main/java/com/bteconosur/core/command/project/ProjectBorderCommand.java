@@ -20,10 +20,10 @@ public class ProjectBorderCommand extends BaseCommand {
     private ProjectListMenu projectListMenu;
 
     public ProjectBorderCommand() {
-        super("border", "[id_proyecto]", CommandMode.PLAYER_ONLY);
+        super("border", "[id_proyecto]", "btecs.command.project.border", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
-
+    
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);

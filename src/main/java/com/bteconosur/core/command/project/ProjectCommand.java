@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.command.project.admin.ProjectAdminCommand;
+import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
@@ -39,7 +40,7 @@ public class ProjectCommand extends BaseCommand {
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
-        String message = LanguageHandler.getText(commandPlayer.getLanguage(), "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
+        String message = LanguageHandler.getText(commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault(), "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }

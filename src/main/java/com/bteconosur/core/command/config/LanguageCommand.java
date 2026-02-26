@@ -12,7 +12,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class LanguageCommand extends BaseCommand {
 
      public LanguageCommand() {
-        super("language", "");
+        super("language", "", "btecs.command.language", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
         this.addSubcommand(new LanguageSetCommand());
     }
