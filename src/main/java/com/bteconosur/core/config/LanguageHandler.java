@@ -13,7 +13,10 @@ import com.bteconosur.db.util.PlaceholderUtils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class LanguageHandler {
     private static final Map<Language, ConfigFile> langByCode = new HashMap<>();
@@ -179,6 +182,18 @@ public class LanguageHandler {
     public static String replaceDS(String key, Language language, Division... divisiones) {
         String text = getText(language, key);
         return PlaceholderUtils.replaceDS(text, language, divisiones);
+    }
+
+    public static Language checkDefaultLang(org.bukkit.entity.Player player) {
+        Locale locale = player.locale();
+        String codigo = locale.getLanguage() + "_" + locale.getCountry();
+        Map<Language, Set<String>> relatedCodes = Language.getAllRelatedCodes();
+        for (Entry<Language, Set<String>> entry : relatedCodes.entrySet()) {
+            if (entry.getValue().contains(codigo)) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 
     /**

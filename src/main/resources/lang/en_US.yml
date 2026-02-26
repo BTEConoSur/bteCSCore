@@ -339,7 +339,8 @@ region:
 language:
   set: "<green>The language of <yellow>%player.nombre%</yellow> has been set to <yellow>%language%</yellow>.</green>" # %language% -> Set language.
   switch: "<green>Language set to <yellow>%language%</yellow>." # %language% -> Set language.
-
+  not-supported: "The language <yellow>%language%</yellow> you have in Minecraft is not supported. English has been set as default. If you want your language to be supported, contact the administrators to learn how to contribute." # %language% -> Provided language.
+  default: "<green>Detected language is <yellow>%language%</yellow>. Default language has been set.</green>" # %language% -> Detected language.
 config-updated: "<green>Updated configuration.</green>"
 
 nightvision:
@@ -1337,10 +1338,10 @@ placeholder:
   selected: "<green><b>Selected</b></green>"
   lang-mc:
     es_ES: "<yellow>Spanish</yellow>"
-    en_US: "<yellow>English (United States)</yellow>"
+    en_US: "<yellow>English</yellow>"
   lang-ds:
     es_ES: "Spanish"
-    en_US: "English (United States)"
+    en_US: "English"
   pais-mc:
     prefix:
       internacional: "<gray>[</gray><white>INT</white><gray>]</gray>"

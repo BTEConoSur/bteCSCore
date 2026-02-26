@@ -51,13 +51,21 @@ public class PlayerJoinListener implements Listener {
                 rangoUsuarioRegistry.getNormal()
             );
             player.setConfiguration(new Configuration(player));
+            Language language = LanguageHandler.checkDefaultLang(event.getPlayer());
+            if (language == null) {
+                language = Language.getInternationalDefault();
+                PlayerLogger.warn(player, LanguageHandler.getText(language, "language.not-supported").replace("%language%", event.getPlayer().locale().toLanguageTag()), (String) null);
+            } else {
+                PlayerLogger.info(player, LanguageHandler.getText(language, "language.default").replace("%language%", LanguageHandler.getText(language, "placeholder.lang-mc." + language.getCode())), (String) null);
+            }
+            player.getConfiguration().setLang(language);
             playerRegistry.load(player);
             player = ConfigurationService.setDefaults(player);
             GlobalChatService.broadcastNewPlayerJoinedServer(player);
-            List<String> welcomeMessage = LanguageHandler.getTextList(Language.getDefault(), "player-welcome-message");
+            List<String> welcomeMessage = LanguageHandler.getTextList(language, "player-welcome-message");
             String welcomeMessageStr = "";
             for (String line : welcomeMessage) {
-                welcomeMessageStr += PlaceholderUtils.replaceMC(line, Language.getDefault(), player) + "\n";
+                welcomeMessageStr += PlaceholderUtils.replaceMC(line, language, player) + "\n";
             }
             PlayerLogger.send(player, welcomeMessageStr, (String) null);  
         } else {

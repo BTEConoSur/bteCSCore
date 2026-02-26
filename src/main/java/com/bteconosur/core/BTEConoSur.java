@@ -298,11 +298,10 @@ public final class BTEConoSur extends JavaPlugin {
     public static DiscordManager getDiscordManager() {
         return discordManager;
     }   
-
 }
 
-// TODO: Detectar locale
-// TODO: Autocompletado de cambios
+// TODO: /p list
+// TODO: ¨Postulante al claimear
 
 // TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab

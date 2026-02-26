@@ -338,8 +338,9 @@ region:
 
 language:
   set: "<green>El idioma de <yellow>%player.nombre%</yellow> ha sido establecido a <yellow>%language%</yellow>.</green>" # %language% -> Idioma establecido. 
-  switch: "<green>Idioma establecido a <yellow>%language%</yellow>." # %language% -> Idioma establecido. 
-
+  switch: "<green>Idioma establecido a <yellow>%language%</yellow>." # %language% -> Idioma establecido.
+  not-supported: "El idioma <yellow>%language%</yellow> que tienes en el Minecraft no es soportado. Se ha puesto el Inglés por defecto. Si quieres que tu idioma sea soportado, contacta con los administras para saber cómo aportar." # %language% -> Idioma proporcionado.
+  default: "<green>Detectámos que tu Mincreaft está en %language%, se ha puesto como idioma por defecto. Si quieres cambiarlo, usa /idioma."
 config-updated: "<green>Configuración actualizada.</green>"
 
 nightvision:
@@ -1336,10 +1337,10 @@ placeholder:
   selected: "<green><b>Seleccionado</b></green>"
   lang-mc:
     es_ES: "<yellow>Español</yellow>"
-    en_US: "<yellow>Inglés (Estados Unidos)</yellow>"
+    en_US: "<yellow>Inglés</yellow>"
   lang-ds:
     es_ES: "Español"
-    en_US: "Inglés (Estados Unidos)"
+    en_US: "Inglés"
   pais-mc:
     prefix:
       internacional: "<gray>[</gray><white>INT</white><gray>]</gray>"
