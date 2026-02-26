@@ -59,13 +59,9 @@ public class ProjectFinishCommand extends BaseCommand {
                 return true;
             }
             Set<Proyecto> liderProyectos = ProyectoRegistry.getInstance().getByLider(commandPlayer, proyectos);
-            if (liderProyectos.isEmpty()) {
-                    PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-here"), (String) null);
-                    return true;
-            }
             Set<Proyecto> activeProyectos = ProyectoRegistry.getInstance().getActiveOrEditando(liderProyectos);
             if (activeProyectos.isEmpty()) {
-                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-active-editing-here"), (String) null); //TODO: Revisar similares
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-active-editing-here"), (String) null);
                 return true;
             }
             if (activeProyectos.size() > 1) {
@@ -112,7 +108,7 @@ public class ProjectFinishCommand extends BaseCommand {
         }
 
         if (proyectoFinal.getEstado() != Estado.ACTIVO && proyectoFinal.getEstado() != Estado.EDITANDO) {
-            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("project.not-active-editing-here", language, proyectoFinal), (String) null);   
+            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("project.not-active-editing", language, proyectoFinal), (String) null);   
             return true;
         }
 

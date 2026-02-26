@@ -91,10 +91,6 @@ public class ProjectRedefineCommand extends BaseCommand {
                 return true;
             }
             Set<Proyecto> liderProyectos = pr.getByLider(commandPlayer, proyectos);
-            if (liderProyectos.isEmpty()) {
-                    PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-here"), (String) null);
-                    return true;
-            }
             Set<Proyecto> activeProyectos = pr.getActiveOrEditando(liderProyectos);
             if (activeProyectos.isEmpty()) {
                 PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-active-editing-here"), (String) null);

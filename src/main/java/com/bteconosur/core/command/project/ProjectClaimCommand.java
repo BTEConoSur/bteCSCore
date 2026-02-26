@@ -88,6 +88,12 @@ public class ProjectClaimCommand extends BaseCommand {
             proyectoFinal = abandonedProyectos.iterator().next();
         }
 
+        if (proyectoFinal.getEstado() != Estado.ABANDONADO) {
+            String message =  LanguageHandler.replaceMC("project.not-abandoned", language, proyectoFinal);
+            PlayerLogger.error(commandPlayer, message, (String) null);
+            return true;
+        }
+
         final Proyecto proyecto = proyectoFinal;
         String title = LanguageHandler.replaceMC("gui-titles.claim-project-confirm", language, proyectoFinal);
         ConfirmationMenu confirmationMenu = new ConfirmationMenu(title, commandPlayer, confirmClick -> {
