@@ -517,6 +517,12 @@ public class MenuUtils {
                 case DEFAULT:
                     contexto = LanguageHandler.getText(language, "items.player.contexto.default");
                     break;
+                case REVIEWER:
+                    contexto = LanguageHandler.getText(language, "items.player.contexto.reviewer");
+                    break;
+                case MANAGER:
+                    contexto = LanguageHandler.getText(language, "items.player.contexto.manager");
+                    break;
             }
         } else {
             name = name.replace("%contexto% ", "");
@@ -542,7 +548,7 @@ public class MenuUtils {
             processedLore.add(line);
         }
         return buildGuiItem(
-            HeadDBUtil.getPlayerHead(player.getUuid(), context == PlayerContext.LIDER || context == PlayerContext.MIEMBRO || isOnline),
+            HeadDBUtil.getPlayerHead(player.getUuid(), context == PlayerContext.LIDER || context == PlayerContext.MIEMBRO || context == PlayerContext.REVIEWER || context == PlayerContext.MANAGER || isOnline),
             name,
             processedLore,
             false
@@ -550,7 +556,7 @@ public class MenuUtils {
     }
 
     public static enum PlayerContext {
-        LIDER, MIEMBRO, DEFAULT
+        LIDER, MIEMBRO, DEFAULT, REVIEWER, MANAGER
     }
 
     public static boolean createSignGUI(org.bukkit.entity.Player player, SignGUIFinishHandler handler, Language language) {

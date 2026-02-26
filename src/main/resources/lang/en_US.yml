@@ -271,6 +271,7 @@ commands-descriptions:
       listpermisos.desc: "Get list of permissions of a User Type."
   manager:
     desc: "Command for Managers of country projects."
+    list.desc: "List managers of a country."
     accept.desc: "Accept or reject join requests of a country project."
     addmember.desc: "Add member to a country project."
     addreviewer.desc: "Add Reviewer to a country."
@@ -319,6 +320,7 @@ commands-descriptions:
     desc: "Main project command."
   reviewer:
     desc: "Main command for Reviewer of projects."
+    list.desc: "List reviewers of a country."
     review:
       desc: "Review country projects."
       accept.desc: "Accept project finalization."
@@ -427,6 +429,7 @@ project:
   not-abandoned-here: "No abandoned project found at this location."
   not-completed-here: "No completed project found at this location."
   not-with-room-here: "No project with room for new members found at this location."
+  not-with-room-active-editing-here: "No active or editing project with room for new members found at this location."
   not-active: "Project '%proyecto.id%' is not active."
   not-active-editing: "Project '%proyecto.id%' is not active or editing."
   not-abandoned: "Project '%proyecto.id%' is not abandoned."
@@ -458,6 +461,7 @@ project:
       log: "🚪 | **%player.nombre%** has left project `%proyecto.id%`."
   leader:
     not-leader: "You are not the Leader of project <yellow>'%proyecto.id%'</yellow>."
+    not-lider-completed-here: "You are not the Leader of any completed project at this location."
     ds-not-leader: "You are not the Leader of project **%proyecto.id%**."
     not-leader-active-editing-here: "You are not the Leader of any active or editing project at this location."
     not-leader-active-here: "You are not the Leader of any active project at this location."
@@ -959,6 +963,8 @@ gui-titles:
   project-info: "Project info: '%proyecto.id%'"
   language-select: "Select language"
   language-set: "Select language: %player.nombre%"
+  reviewer-list-country: "Reviewers país '%pais.nombrePublico%'"
+  manager-list-country: "Managers país '%pais.nombrePublico%'"
 
 items:
   teleport:
@@ -1109,6 +1115,8 @@ items:
       lider: "<b><yellow>Leader</b>"
       miembro: "<b><aqua>Member</b>"
       default: "<b><white>Player</b>"
+      reviewer: "<b><light_purple>Reviewer</b>"
+      manager: "<b><gold>Manager</b>"
   config:
     name: "<yellow>%name%" # %name% -> Configuration name.
     value-true: "<green>Enabled"

@@ -271,6 +271,7 @@ commands-descriptions:
       listpermisos.desc: "Obtener lista de permisos de un Tipo de Usuario."
   manager:
     desc: "Comando para Managers de proyectos de países."
+    list.desc: "Listar managers de un país."
     accept.desc: "Aceptar o rechazar solicitudes de unión de un proyecto del país."
     addmember.desc: "Agregar un miembro a un proyecto del país."
     addreviewer.desc: "Añadir Reviewer a un país."
@@ -319,6 +320,7 @@ commands-descriptions:
     desc: "Comando principal de los proyectos."
   reviewer:
     desc: "Comando principal para Reviewer de los proyectos."
+    list.desc: "Listar reviewers de un país."
     review:
       desc: "Revisar proyectos del país."
       accept.desc: "Aceptar la finalización de un proyecto."
@@ -426,6 +428,7 @@ project:
   not-active-editing-here: "No se encontró ningún proyecto activo o en edición en esta ubicación."
   not-abandoned-here: "No se encontró ningún proyecto abandonado en esta ubicación."
   not-completed-here: "No se encontró ningún proyecto completado en esta ubicación."
+  not-with-room-here: "No se encontró ningún proyecto con espacio para nuevos miembros en esta ubicación."
   not-with-room-active-editing-here: "No se encontró ningún proyecto activo o en edición con espacio para nuevos miembros en esta ubicación."
   not-active: "El proyecto '%proyecto.id%' no está activo."
   not-active-editing: "El proyecto '%proyecto.id%' no está activo o en edición."
@@ -960,6 +963,8 @@ gui-titles:
   project-info: "Info del proyecto: '%proyecto.id%'"
   language-select: "Seleccionar idioma"
   language-set: "Seleccionar idioma: %player.nombre%"
+  reviewer-list-country: "Reviewers país '%pais.nombrePublico%'"
+  manager-list-country: "Managers país '%pais.nombrePublico%'"
 
 items:
   teleport:
@@ -1109,6 +1114,8 @@ items:
       lider: "<b><yellow>Líder</b>"
       miembro: "<b><aqua>Miembro</b>"
       default: "<b><white>Jugador</b>"
+      reviewer: "<b><light_purple>Reviewer</b>"
+      manager: "<b><gold>Manager</b>"
   config:
     name: "<yellow>%name%" # %name% -> Nombre de la configuración.
     value-true: "<green>Activado"

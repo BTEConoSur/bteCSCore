@@ -6,7 +6,6 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
-import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 
@@ -30,6 +29,7 @@ public class ManagerCommand extends BaseCommand {
         this.addSubcommand(new ManagerDescriptionCommand());
         this.addSubcommand(new ManagerManageCommand());
         this.addSubcommand(new ManagerSelectCommand());
+        this.addSubcommand(new ManagerListCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 
@@ -41,9 +41,4 @@ public class ManagerCommand extends BaseCommand {
         return true;
     }
 
-    @Override
-    protected boolean customPermissionCheck(CommandSender sender) {
-        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
-        return PermissionManager.getInstance().isManager(commandPlayer);
-    }
 }

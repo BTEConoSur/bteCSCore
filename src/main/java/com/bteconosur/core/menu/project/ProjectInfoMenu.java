@@ -17,6 +17,7 @@ import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.util.Estado;
 import com.bteconosur.world.WorldManager;
 
@@ -70,7 +71,9 @@ public class ProjectInfoMenu extends Menu {
             memberListMenu.open();
         });
 
-        if (proyecto.getEstado() == Estado.ABANDONADO) {
+        int maxActiveProjects = BTECSPlayer.getTipoUsuario().getCantProyecSim();
+        int activeProjects = ProyectoRegistry.getInstance().getCounts(BTECSPlayer)[1];
+        if (proyecto.getEstado() == Estado.ABANDONADO && activeProjects < maxActiveProjects) {
             gui.setItem(2,8, MenuUtils.getClaimProjectItem(language));
             gui.addSlotAction(2,8, event -> {
                 String title = LanguageHandler.replaceMC("gui-titles.claim-project-confirm", language, proyecto);

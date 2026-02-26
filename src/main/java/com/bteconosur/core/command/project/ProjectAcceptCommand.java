@@ -16,7 +16,6 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
-import com.bteconosur.db.util.Estado;
 
 public class ProjectAcceptCommand extends BaseCommand {
 
@@ -57,10 +56,9 @@ public class ProjectAcceptCommand extends BaseCommand {
                 PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-found-here"), (String) null);
                 return true;
             }
-            Set<Proyecto> activeProyectos = ProyectoRegistry.getInstance().getActiveOrEditando(proyectos);
-            Set<Proyecto> liderProyectos = ProyectoRegistry.getInstance().getByLider(commandPlayer, activeProyectos);
+            Set<Proyecto> liderProyectos = ProyectoRegistry.getInstance().getByLider(commandPlayer, proyectos);
             if (liderProyectos.isEmpty()) {
-                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-active-editing-here"), (String) null);
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-leader-here"), (String) null);
                 return true;
             }
 
@@ -73,11 +71,6 @@ public class ProjectAcceptCommand extends BaseCommand {
                 return true;
             }
             proyectoFinal = liderProyectos.iterator().next();
-        }
-
-        if (proyectoFinal.getEstado() != Estado.ACTIVO && proyectoFinal.getEstado() != Estado.EDITANDO) {
-            PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("project.not-active-editing", language, proyectoFinal), (String) null);   
-            return true;
         }
 
         String title = LanguageHandler.replaceMC("gui-titles.join-request-list", language, proyectoFinal);
