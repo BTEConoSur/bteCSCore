@@ -468,9 +468,6 @@ public class PlaceholderUtils {
                     case "nombre":
                         value = rango.getNombre() != null ? rango.getNombre() : "ERROR_NOMBRE_NULL";
                         break;
-                    case "descripcion":
-                        value = rango.getDescripcion() != null ? rango.getDescripcion() : "ERROR_DESCRIPCION_NULL";
-                        break;
                     case "prefijo":
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.rango-mc.";
                         else path = "placeholder.rango-ds.";

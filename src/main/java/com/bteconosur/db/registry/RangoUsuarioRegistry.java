@@ -64,23 +64,23 @@ public class RangoUsuarioRegistry extends Registry<Long, RangoUsuario> {
 
     private void ensureDefaults() {
         if (get("Normal") == null) {
-            RangoUsuario rango = new RangoUsuario("Normal", "Rango de usuario: Normal");
+            RangoUsuario rango = new RangoUsuario("Normal");
             load(rango);
         }
         if (get("Admin") == null) {
-            RangoUsuario rango = new RangoUsuario("Admin", "Rango de usuario: Admin");
+            RangoUsuario rango = new RangoUsuario("Admin");
             load(rango);
         }
         if (get("Mod") == null) {
-            RangoUsuario rango = new RangoUsuario("Mod", "Rango de usuario: Mod");
+            RangoUsuario rango = new RangoUsuario("Mod");
             load(rango);
         }
         if (get("Influencer") == null) {
-            RangoUsuario rango = new RangoUsuario("Influencer", "Rango de usuario: Influencer");
+            RangoUsuario rango = new RangoUsuario("Influencer");
             load(rango);
         }
         if (get("Donador") == null) {
-            RangoUsuario rango = new RangoUsuario("Donador", "Rango de usuario: Donador");
+            RangoUsuario rango = new RangoUsuario("Donador");
             load(rango);
         }
     }

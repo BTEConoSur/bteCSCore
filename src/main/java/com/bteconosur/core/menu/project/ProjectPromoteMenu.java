@@ -107,7 +107,7 @@ public class ProjectPromoteMenu extends Menu {
                     String message = PlaceholderUtils.replaceMC(messageSet, language, constructor);
                     PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, language, BTECSPlayer), (String) null);
                 }
-                String countryLog = LanguageHandler.replaceDS("tipo.promote.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                String countryLog = LanguageHandler.replaceDS("tipo.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), constructor);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);

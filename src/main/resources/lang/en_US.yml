@@ -775,10 +775,8 @@ ds-chat-notifications:
 ds-notifications:
   rango-switched:
     title: "Your rank has been changed to '%rango.nombre%'"
-    description: "%rango.descripcion%"
   tipo-switched:
     title: "You have been promoted to '%tipo.nombre%'"
-    description: "%tipo.descripcion%"
     max-projects: "Max. simultaneous projects: %tipo.cantProyecSim%"
   manager-target-added: "You have been added as Manager of country '%pais.nombrePublico%'"
   manager-target-removed: "You have been removed as Manager of country '%pais.nombrePublico%'"
@@ -1211,7 +1209,6 @@ items:
   international-head:
     name: "<gray>International"
   rango-usuario:
-    description: "<gray>%rango.descripcion%"
     normal:
       name: "<green>%rango.nombre%"
     admin:
@@ -1223,7 +1220,6 @@ items:
     donador:
       name: "<gold>%rango.nombre%"
   tipo-usuario:
-    description: "<gray>%tipo.descripcion%"
     max-projects: "<gray>Max. projects: <white>%tipo.cantProyecSim%"
     visita:
       name: "<white>%tipo.nombre%"

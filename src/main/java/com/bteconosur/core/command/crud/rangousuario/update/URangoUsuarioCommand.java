@@ -14,7 +14,6 @@ public class URangoUsuarioCommand extends BaseCommand {
     public URangoUsuarioCommand() {
         super("update", "<propiedad> <id> <valor>", "btecs.command.crud", CommandMode.BOTH);
         this.addSubcommand(new URangoUsuarioNombreCommand());
-        this.addSubcommand(new URangoUsuarioDescripcionCommand());
         this.addSubcommand(new URangoUsuarioAddPermisoCommand());
         this.addSubcommand(new URangoUsuarioRemovePermisoCommand());
         this.addSubcommand(new GenericHelpCommand(this));

@@ -775,10 +775,8 @@ ds-chat-notifications:
 ds-notifications:
   rango-switched:
     title: "Tu rango ha sido cambiado a '%rango.nombre%'"
-    description: "%rango.descripcion%"
   tipo-switched:
     title: "Has sido promovido a '%tipo.nombre%'"
-    description: "%tipo.descripcion%"
     max-projects: "Máx. de proyectos simultáneos: %tipo.cantProyecSim%"
   manager-target-added: "Has sido agregado como Manager del país '%pais.nombrePublico%'"
   manager-target-removed: "Has sido removido como Manager del país '%pais.nombrePublico%'"
