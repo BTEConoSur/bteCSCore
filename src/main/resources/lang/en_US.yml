@@ -271,6 +271,7 @@ commands-descriptions:
       listpermisos.desc: "Get list of permissions of a User Type."
   manager:
     desc: "Command for Managers of country projects."
+    projectlist.desc: "List projects of a player."
     list.desc: "List managers of a country."
     accept.desc: "Accept or reject join requests of a country project."
     addmember.desc: "Add member to a country project."
@@ -293,6 +294,7 @@ commands-descriptions:
     set.desc: "Change prefix of an Online Player."
   whereiam.desc: "Shows the country and division you are in."
   project:
+    list.desc: "List projects of a player." 
     tp.desc: "Teleport to the center of a project."
     admin:
       desc: "Project commands for Administrators."
@@ -396,7 +398,7 @@ pwarp-list:
 help-command:
   header: "\n <b>=========</b> <gold>Help for Command</gold> <b>=========</b>"
   info: "<light_purple>Field: <gray>Required <></gray> - <gray>Optional [] </gray> - <gray>Options A|B </gray></light_purple>"
-  usage: "<yellow>Usage:</yellow> /%comando% %args%" # %command% -> Full command. %args% -> Command arguments.
+  usage: "<yellow>Usage:</yellow> <blue>/%comando% %args%</blue>" # %command% -> Full command. %args% -> Command arguments.
   aliases: "<yellow>Aliases:</yellow> %aliases%" # %aliases% -> List of command aliases.
   description: "<yellow>Description:</yellow> %description%" # %description% -> Command description.
   subcommands-title: "<yellow>Options</yellow>"
@@ -955,6 +957,7 @@ gui-titles:
   finish-project-accept: "Accept Completion: '%proyecto.id%'"
   finish-edit-project-reject: "Reject Edit: '%proyecto.id%'"
   finish-edit-project-accept: "Accept Edit: '%proyecto.id%'"
+  proyectos-list: "Proyectos: %player.nombre%"
   proyectos-activos-list: "Projects at this location"
   proyectos-abandonados-list: "Projects at this location"
   proyectos-completados-list: "Projects at this location"

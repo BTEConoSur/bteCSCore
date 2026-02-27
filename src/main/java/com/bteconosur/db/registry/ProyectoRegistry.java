@@ -2,6 +2,7 @@ package com.bteconosur.db.registry;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -88,14 +89,20 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         dbManager.remove(proyecto);
     }
 
-    public Set<Proyecto> getByPlayer(Player player) {
-        Set<Proyecto> proyectos = new HashSet<>();
+    public LinkedHashSet<Proyecto> getByPlayer(Player player) {
+        LinkedHashSet<Proyecto> proyectos = new LinkedHashSet<>();
+        Set<Proyecto> proyectosMiembro = new HashSet<>();
+        Set<Proyecto> proyectosLider = new HashSet<>();
         PermissionManager pm = PermissionManager.getInstance();
         for (Proyecto proyecto : loadedObjects.values()) {
-            if (pm.isLider(player, proyecto) || pm.isMiembro(player, proyecto)) {
-                proyectos.add(proyecto);
+            if (pm.isLider(player, proyecto)) {
+                proyectosLider.add(proyecto);
+            } else if (pm.isMiembro(player, proyecto)) {
+                proyectosMiembro.add(proyecto);
             }
         }
+        proyectos.addAll(proyectosLider);
+        proyectos.addAll(proyectosMiembro);
         return proyectos;
     }
 

@@ -34,6 +34,7 @@ public class ProjectCommand extends BaseCommand {
         this.addSubcommand(new ProjectSelectCommand());
         this.addSubcommand(new ProjectBorderCommand());
         this.addSubcommand(new ProjectTpCommand());
+        this.addSubcommand(new ProjectListCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

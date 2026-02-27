@@ -271,6 +271,7 @@ commands-descriptions:
       listpermisos.desc: "Obtener lista de permisos de un Tipo de Usuario."
   manager:
     desc: "Comando para Managers de proyectos de países."
+    projectlist.desc: "Listar proyectos de un jugador."
     list.desc: "Listar managers de un país."
     accept.desc: "Aceptar o rechazar solicitudes de unión de un proyecto del país."
     addmember.desc: "Agregar un miembro a un proyecto del país."
@@ -293,6 +294,7 @@ commands-descriptions:
     set.desc: "Cambia el prefix de un Jugador Online."
   whereiam.desc: "Muestra el país y división en la que te encuentras."
   project:
+    list.desc: "Listar proyectos de un jugador." 
     tp.desc: "Teletransportarse al centro de un proyecto."
     admin:
       desc: "Comandos de los proyectos para Administradores."
@@ -396,7 +398,7 @@ pwarp-list:
 help-command:
   header: "\n <b>=========</b> <gold>Ayuda de Comando</gold> <b>=========</b>"
   info: "<light_purple>Campo: <gray>Obligatorio <></gray> - <gray>Opcional [] </gray> - <gray>Opciones A|B </gray></light_purple>"
-  usage: "<yellow>Uso:</yellow> /%comando% %args%" # %command% -> Comando completo. %args% -> Argumentos del comando.
+  usage: "<yellow>Uso:</yellow> <blue>/%comando% %args%</blue>" # %command% -> Comando completo. %args% -> Argumentos del comando.
   aliases: "<yellow>Alias:</yellow> %aliases%" # %aliases% -> Lista de alias del comando.
   description: "<yellow>Descripción:</yellow> %description%" # %description% -> Descripción del comando.
   subcommands-title: "<yellow>Opciones:</yellow>"
@@ -955,6 +957,7 @@ gui-titles:
   finish-project-accept: "Aceptar finalización: '%proyecto.id%'"
   finish-edit-project-reject: "Rechazar edición: '%proyecto.id%'"
   finish-edit-project-accept: "Aceptar edición: '%proyecto.id%'"
+  proyectos-list: "Proyectos: %player.nombre%"
   proyectos-activos-list: "Proyectos en esta ubicación"
   proyectos-abandonados-list: "Proyectos en esta ubicación"
   proyectos-completados-list: "Proyectos en esta ubicación"

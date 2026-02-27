@@ -30,6 +30,7 @@ public class ManagerCommand extends BaseCommand {
         this.addSubcommand(new ManagerManageCommand());
         this.addSubcommand(new ManagerSelectCommand());
         this.addSubcommand(new ManagerListCommand());
+        this.addSubcommand(new ManagerProjectListCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

@@ -300,9 +300,6 @@ public final class BTEConoSur extends JavaPlugin {
     }   
 }
 
-// TODO: /p list
-// TODO: ¨Postulante al claimear
-
 // TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab
 

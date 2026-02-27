@@ -1,5 +1,6 @@
 package com.bteconosur.core.menu.project;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -25,21 +26,35 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 
 public class ProjectListMenu extends PaginatedMenu {
 
-    private final Set<Proyecto> proyectos;
+    private final LinkedHashSet<Proyecto> proyectos;
     private final BiConsumer<Proyecto, InventoryClickEvent> onClick;
     private Language language;
 
-    public ProjectListMenu(Player player, String title, Set<Proyecto> proyectos, @NotNull BiConsumer<Proyecto, InventoryClickEvent> onClick, Menu previousMenu) {
+    public ProjectListMenu(Player player, String title, LinkedHashSet<Proyecto> proyectos, @NotNull BiConsumer<Proyecto, InventoryClickEvent> onClick, Menu previousMenu) {
         super(title, player, previousMenu);
         this.onClick = onClick;
         this.proyectos = proyectos;
         this.language = player.getLanguage();
     }
 
-    public ProjectListMenu(Player player, String title, Set<Proyecto> proyectos, @NotNull BiConsumer<Proyecto, InventoryClickEvent> onClick) {
+    public ProjectListMenu(Player player, String title, LinkedHashSet<Proyecto> proyectos, @NotNull BiConsumer<Proyecto, InventoryClickEvent> onClick) {
         super(title, player);
         this.onClick = onClick;
         this.proyectos = proyectos;
+        this.language = player.getLanguage();
+    }
+
+    public ProjectListMenu(Player player, String title, Set<Proyecto> proyectos, @NotNull BiConsumer<Proyecto, InventoryClickEvent> onClick, Menu previousMenu) {
+        super(title, player, previousMenu);
+        this.onClick = onClick;
+        this.proyectos = new LinkedHashSet<>(proyectos);
+        this.language = player.getLanguage();
+    }
+
+    public ProjectListMenu(Player player, String title, Set<Proyecto> proyectos, @NotNull BiConsumer<Proyecto, InventoryClickEvent> onClick) {
+        super(title, player);
+        this.onClick = onClick;
+        this.proyectos = new LinkedHashSet<>(proyectos);
         this.language = player.getLanguage();
     }
 
