@@ -27,6 +27,7 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.util.ChunkKey;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -42,6 +43,7 @@ public class BTEWorld {
     private HashMap<UUID, LabelWorld> lastLabelWorld = new HashMap<>();
     private HashMap<UUID, Proyecto> lastProject = new HashMap<>();
     private HashMap<UUID, Division> lastDivision = new HashMap<>();
+    private HashMap<UUID, ChunkKey> playerChunks = new HashMap<>();
     private boolean isValid = false;
 
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
@@ -127,15 +129,24 @@ public class BTEWorld {
     public void checkDivisionMove(Location toLocation, Player player) {
         com.bteconosur.db.model.Player btecsPlayer = com.bteconosur.db.model.Player.getBTECSPlayer(player);
         if (!btecsPlayer.getConfiguration().getGeneralDivisionTitle()) return;
+        
+        UUID pUuid = player.getUniqueId();
+        ChunkKey currentChunk = ChunkKey.fromBlock(toLocation.getBlockX(), toLocation.getBlockZ());
+        ChunkKey lastChunk = playerChunks.get(pUuid);
+        
+        if (lastChunk != null && lastChunk.equals(currentChunk)) return;
+        
         Pais paisTo = PaisRegistry.getInstance().findByLocation(toLocation.getX(), toLocation.getZ());
         Division divisionTo = PaisRegistry.getInstance().findDivisionByLocation(toLocation.getX(), toLocation.getZ(), paisTo);
+        playerChunks.put(pUuid, currentChunk);
+        
         if (divisionTo == null) { 
-            lastDivision.remove(player.getUniqueId());
+            lastDivision.remove(pUuid);
             return;
         }
-        Division last = lastDivision.get(player.getUniqueId());
+        Division last = lastDivision.get(pUuid);
         if (last != null && last == divisionTo) return;
-        lastDivision.put(player.getUniqueId(), divisionTo);
+        lastDivision.put(pUuid, divisionTo);
         Language language = btecsPlayer.getLanguage();
         String titleText = LanguageHandler.replaceMC("division-title", language, divisionTo);
         String subtitleText = LanguageHandler.replaceMC("division-subtitle", language, divisionTo);
@@ -229,6 +240,7 @@ public class BTEWorld {
             playerTasks.remove(pUuid);
             lastLabelWorld.remove(pUuid);
         }
+        playerChunks.remove(pUuid);
     }
 
     public void shutdown() {

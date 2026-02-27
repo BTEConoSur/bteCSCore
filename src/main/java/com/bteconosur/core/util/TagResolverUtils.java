@@ -33,4 +33,10 @@ public class TagResolverUtils {
         return Placeholder.component(key, commandComponent);
     }
 
+    public static TagResolver getHoverText(String key, String displayText, String hoverText) {
+        Component hoverComponent = MiniMessage.miniMessage().deserialize(displayText)
+            .hoverEvent(HoverEvent.showText(MiniMessage.miniMessage().deserialize(hoverText)));
+        return Placeholder.component(key, hoverComponent);
+    }
+
 }

@@ -511,7 +511,8 @@ public class ChatUtil {
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.ubicacion"), PlaceholderUtils.replaceDS("%proyecto.divisionContexto%, %proyecto.divisionFna%", language, proyecto), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.coordenadas"), PlaceholderUtils.replaceDS("%proyecto.geoCoords%", language, proyecto), false)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-creacion"), DateUtils.getDsTimestamp(proyecto.getFechaCreado(), language), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-finalizacion"), DateUtils.getDsTimestamp(proyecto.getFechaTerminado(), language), true);
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-finalizacion"), DateUtils.getDsTimestamp(proyecto.getFechaTerminado(), language), true)
+            .setImage("attachment://map.png");
         Player lider = ProjectManager.getInstance().getLider(proyecto);
         if (lider != null) eb.setThumbnail(config.getString("avatar-head-url").replace("%uuid%", lider.getUuid().toString()));
         return eb.setColor(embedColors.getInt("ds-embeds.project-info")).build();

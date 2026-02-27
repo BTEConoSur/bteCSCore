@@ -1,5 +1,6 @@
 package com.bteconosur.core.chat;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,14 +9,17 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.TagResolverUtils;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.util.PlaceholderUtils;
 import com.bteconosur.discord.util.MessageService;
 
 import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 public class CountryChatService {
 
@@ -49,7 +53,13 @@ public class CountryChatService {
         Map<Player, Pais> playersInChat = ChatService.getPlayersInCountryChat();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (playersInChat.containsKey(onlinePlayer) && playersInChat.get(onlinePlayer).equals(pais)) {
-                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, message, onlinePlayer.getLanguage())));
+                List<String> processedHover = new ArrayList<>();
+                for (String line : LanguageHandler.getTextList(onlinePlayer.getLanguage(), "player-hover-chat")) {
+                    processedHover.add(PlaceholderUtils.replaceMC(line, onlinePlayer.getLanguage(), player));
+                }
+                String hover = String.join("\n", processedHover);
+                TagResolver hoverResolver = TagResolverUtils.getHoverText("player", player.getNombrePublico(), hover);
+                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, message, onlinePlayer.getLanguage()), hoverResolver));
             }
         }
 
@@ -69,7 +79,13 @@ public class CountryChatService {
                     else if (attachment.isSpoiler()) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.spoiler");
                     else mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.file");
                 }
-                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, mcMessage, onlinePlayer.getLanguage())));
+                List<String> processedHover = new ArrayList<>();
+                for (String line : LanguageHandler.getTextList(onlinePlayer.getLanguage(), "player-hover-chat")) {
+                    processedHover.add(PlaceholderUtils.replaceMC(line, onlinePlayer.getLanguage(), player));
+                }
+                String hover = String.join("\n", processedHover);
+                TagResolver hoverResolver = TagResolverUtils.getHoverText("player", player.getNombrePublico(), hover);
+                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, mcMessage, onlinePlayer.getLanguage(), pais), hoverResolver));
             }
         }
     }

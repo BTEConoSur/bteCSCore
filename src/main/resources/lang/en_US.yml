@@ -366,9 +366,10 @@ player-info-command:
   - "\n <b>=========</b> <gold>Player info for %player.nombre%</gold> <b>=========</b>"
   - " <yellow>Public name:</yellow> <white>%player.nombrePublico%</white>"
   - " <yellow>UUID:</yellow> <white>%player.uuid%</white>"
+  - " <yellow>Language:</yellow> <white>%player.lenguaje%</white>"
   - " <yellow>Country:</yellow> <white>%player.paisPrefix%</white>"
-  - " <yellow>User type:</yellow> <white>%player.tipoUsuarioPrefijo%</white>"
-  - " <yellow>User rank:</yellow> <white>%player.rangoUsuarioPrefijo%</white>"
+  - " <yellow>User type:</yellow> <white>%player.tipoUsuario%</white>"
+  - " <yellow>User rank:</yellow> <white>%player.rangoUsuario%</white>"
   - " <yellow>Discord:</yellow> <white>%player.discordName%</white>"
   - " <yellow>Active Projects: <white>%player.proyectosActivos%</white>"
   - " <yellow>Completed Projects: <white>%player.proyectosCompletados%</white>"
@@ -723,9 +724,9 @@ tipo:
 
 # Chat
 # If the player is not registered in the database, the rest of prefixes are not used.
-mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold>%player.nombrePublico%</gold><gray>: </gray>%mensaje%"
+mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold><player></gold><gray>: </gray>%mensaje%"
 from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>%mensaje%" # From player not registered in the database.
-from-ds-message: "%dsPrefix% <gold>%player.nombrePublico%</gold><gray>: </gray>%mensaje%"
+from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
 
 # %paisPrefix% -> Country prefix where message comes from. %rangoPrefix% -> Rank prefix. %tipoPrefix% -> User type prefix. 
 # %mcPrefix% -> Minecraft prefix. %dsPais% -> Country where message comes from. %player% -> Player name. %mensaje% -> Sent message.
@@ -733,17 +734,25 @@ ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
 ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # From player not registered in the database. %username% -> Username sending the message.
 from-mc-message: "**%mcPrefix% %player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% %player.nombrePublico%**: %mensaje%"
 
-player-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow> has joined the server."
-player-new-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow> has joined the server for the first time.</green>"
-player-leave-message: "<red>Player <yellow>%player.nombrePublico%</yellow> has left the server."
-player-join-chat-message: "<yellow>%player.nombrePublico% has joined the chat.</yellow>"
-player-leave-chat-message: "<blue>%player.nombrePublico% has left the chat.</blue>"
+player-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow><reset><green> has joined the server."
+player-new-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow><reset><green> has joined the server for the first time."
+player-leave-message: "<red>Player <yellow>%player.nombrePublico%</yellow><reset><red> has left the server."
+player-join-chat-message: "<yellow>%player.nombrePublico%<reset><gold> has joined the chat."
+player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> has left the chat."
 
 player-welcome-message:
   - ""
   - "<dark_green>Welcome to the server, <yellow>%player.nombrePublico%</yellow>!</dark_green>"
   - "<dark_green>Have a great experience on the server. Que alguien añada mas cosas.</dark_green>"
   - ""
+
+player-hover-chat:
+  - "<gray>Name: <white>%player.nombre%"
+  - "<gray>Language: <white>%player.lenguaje%"
+  - "<gray>Discord: <white>%player.discordName%</white>"
+  - "<gray>Active Projects: <white>%player.proyectosActivos%"
+  - "<gray>Completed Projects: <white>%player.proyectosCompletados%"
+  - "<gray>Joined: <white>%player.fechaIngreso%"
 
 ds-chat-notifications:
   start:
@@ -1103,6 +1112,7 @@ items:
     lore:
       - "%player.estado%"
       - "<gray>Public name: <white>%player.nombrePublico%"
+      - "<gray>Language: <white>%player.lenguaje%"
       - "<gray>Rank: <white>%player.rangoUsuario%"
       - "<gray>Type: <white>%player.tipoUsuario%"
       - "<gray>Country: %player.paisPrefix%"

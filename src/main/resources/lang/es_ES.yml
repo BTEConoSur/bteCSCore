@@ -366,9 +366,10 @@ player-info-command:
   - "\n <b>=========</b> <gold>Información de %player.nombre%</gold> <b>=========</b>"
   - " <yellow>Nombre Público:</yellow> <white>%player.nombrePublico%</white>"
   - " <yellow>UUID:</yellow> <white>%player.uuid%</white>"
+  - " <yellow>Lenguaje:</yellow> <white>%player.lenguaje%</white>"
   - " <yellow>País:</yellow> <white>%player.paisPrefix%</white>"
-  - " <yellow>Tipo de Usuario:</yellow> <white>%player.tipoUsuarioPrefijo%</white>"
-  - " <yellow>Rango de Usuario:</yellow> <white>%player.rangoUsuarioPrefijo%</white>"
+  - " <yellow>Tipo de Usuario:</yellow> <white>%player.tipoUsuario%</white>"
+  - " <yellow>Rango de Usuario:</yellow> <white>%player.rangoUsuario%</white>"
   - " <yellow>Discord:</yellow> <white>%player.discordName%</white>"
   - " <yellow>Proyectos activos: <white>%player.proyectosActivos%</white> "
   - " <yellow>Proyectos completados: <white>%player.proyectosCompletados%</white>"
@@ -723,9 +724,9 @@ tipo:
 
 # Chat
 # En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
-mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold>%player.nombrePublico%</gold><gray>: </gray>%mensaje%"
+mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold><player></gold><gray>: </gray>%mensaje%"
 from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>%mensaje%" # De jugador no registrado en la base de datos.
-from-ds-message: "%dsPrefix% <gold>%player.nombrePublico%</gold><gray>: </gray>%mensaje%"
+from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
 
 # %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
 # %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
@@ -733,17 +734,25 @@ ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
 ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # De jugador no registrado en la base de datos. %username% -> Nombre del usuario que envía el mensaje.
 from-mc-message: "**%mcPrefix% %player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% %player.nombrePublico%**: %mensaje%"
 
-player-join-message: "<green>El jugador <yellow>%player.nombrePublico%<green> se ha unido al servidor."
-player-new-join-message: "<green>El jugador <yellow>%player.nombrePublico%<green> se ha unido al servidor por primera vez."
-player-leave-message: "<red>El jugador <yellow>%player.nombrePublico%<red> ha salido del servidor."
-player-join-chat-message: "<yellow>%player.nombrePublico% se ha unido al chat.</yellow>"
-player-leave-chat-message: "<blue>%player.nombrePublico% ha salido del chat.</blue>"
+player-join-message: "<green>El jugador <yellow>%player.nombrePublico%<reset><green> se ha unido al servidor."
+player-new-join-message: "<green>El jugador <yellow>%player.nombrePublico%<reset><green> se ha unido al servidor por primera vez."
+player-leave-message: "<red>El jugador <yellow>%player.nombrePublico%<reset><red> ha salido del servidor."
+player-join-chat-message: "<yellow>%player.nombrePublico%<reset><gold> se ha unido al chat."
+player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> ha salido del chat."
 
 player-welcome-message:
   - ""
   - "<dark_green>Bienvenido al servidor, <yellow>%player.nombrePublico%</yellow>!</dark_green>"
   - "<dark_green>Que tengas una gran experiencia en el servidor. Que alguien añada mas cosas</dark_green>"
   - ""
+
+player-hover-chat:
+  - "<gray>Nombre: <white>%player.nombre%"
+  - "<gray>Lenguaje: <white>%player.lenguaje%"
+  - "<gray>Discord: <white>%player.discordName%</white>"
+  - "<gray>Proyectos activos: <white>%player.proyectosActivos%"
+  - "<gray>Proyectos completados: <white>%player.proyectosCompletados%"
+  - "<gray>Ingreso: <white>%player.fechaIngreso%"
 
 ds-chat-notifications:
   start:
@@ -1103,6 +1112,7 @@ items:
     lore:
       - "%player.estado%"
       - "<gray>Nombre público: <white>%player.nombrePublico%"
+      - "<gray>Lenguaje: <white>%player.lenguaje%"
       - "<gray>Rango: <white>%player.rangoUsuario%"
       - "<gray>Tipo: <white>%player.tipoUsuario%"
       - "<gray>País: %player.paisPrefix%"
@@ -1233,7 +1243,6 @@ player-info: "%pluginPrefix% <white>%message%" # %pluginPrefix% -> Prefijo del p
 player-debug: "<dark_purple>[DEBUG]</dark_purple> <light_purple>%message%" # %message% -> Mensaje a enviar.
 player-warn: "<gold>[!]</gold> <yellow>%message%" # %message% -> Mensaje a enviar.
 player-error: "<dark_red>[!]</dark_red> <red>%message%" # %message% -> Mensaje a enviar.
-
 
 # Discord
 ds-activity: "Vigilando a %players% jugador(es)" # %players% -> Cantidad de jugadores online.
