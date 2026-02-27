@@ -30,9 +30,6 @@ public class RangoUsuario {
     @Column(name = "nombre", length = 20, nullable = false)
     private String nombre;
 
-    @Column(name = "descripcion", length = 500, nullable = false)
-    private String descripcion;
-
     @OneToMany(mappedBy = "rangoUsuario")
     @JsonIgnore
     private Set<Player> players = new HashSet<>();
@@ -45,9 +42,8 @@ public class RangoUsuario {
     public RangoUsuario() {
     }
 
-    public RangoUsuario(String nombre, String descripcion) {
+    public RangoUsuario(String nombre) {
         this.nombre = nombre;
-        this.descripcion = descripcion;
     }
 
     public Long getId() {
@@ -64,14 +60,6 @@ public class RangoUsuario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
     }
 
     public Set<Player> getPlayers() {

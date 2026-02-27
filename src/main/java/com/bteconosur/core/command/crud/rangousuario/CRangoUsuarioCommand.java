@@ -15,7 +15,7 @@ public class CRangoUsuarioCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CRangoUsuarioCommand() {
-        super("create", "<nombre> <descripcion>", "btecs.command.crud", CommandMode.BOTH);
+        super("create", "<nombre>", "btecs.command.crud", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 
@@ -24,7 +24,7 @@ public class CRangoUsuarioCommand extends BaseCommand {
         Player commandPlayer = null;
         if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
         Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
-        if (args.length < 2) {
+        if (args.length != 1) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
@@ -38,20 +38,7 @@ public class CRangoUsuarioCommand extends BaseCommand {
             return true;
         }
 
-        StringBuilder descripcionBuilder = new StringBuilder();
-        for (int i = 1; i < args.length; i++) {
-            if (i > 1) descripcionBuilder.append(" ");
-            descripcionBuilder.append(args[i]);
-        }
-        String descripcion = descripcionBuilder.toString();
-
-        if (descripcion.length() > 500) {
-            String message = LanguageHandler.getText(language, "crud.not-valid-description").replace("%entity%", "Rango de Usuario").replace("%description%", descripcion).replace("%reason%", "Máximo 500 caracteres.");
-            PlayerLogger.error(sender, message, (String) null);
-            return true;
-        }
-
-        RangoUsuario rangoUsuario = new RangoUsuario(nombre, descripcion);
+        RangoUsuario rangoUsuario = new RangoUsuario(nombre);
         dbManager.save(rangoUsuario);
 
         String message = LanguageHandler.getText(language, "crud.create").replace("%entity%", "Rango de Usuario");

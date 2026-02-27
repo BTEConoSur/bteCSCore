@@ -184,12 +184,11 @@ public class ChatUtil {
     
 
     public static MessageEmbed getDsRangoUsuarioSwitched(RangoUsuario rangoUsuario, Language language) {
-        return buildDMNotification("rango-switched", rangoUsuario, language, LanguageHandler.replaceDS("ds-notifications.rango-switched.description", language, rangoUsuario));
+        return buildDMNotification("rango-switched", rangoUsuario, language, null);
     }
 
     public static MessageEmbed getDsTipoUsuarioSwitched(TipoUsuario tipoUsuario, Language language) {
-        String description = LanguageHandler.replaceDS("ds-notifications.tipo-switched.description", language, tipoUsuario)
-            + "\n" + LanguageHandler.replaceDS("ds-notifications.tipo-switched.max-projects", language, tipoUsuario);
+        String description = LanguageHandler.replaceDS("ds-notifications.tipo-switched.max-projects", language, tipoUsuario);
         return buildDMNotification("tipo-switched", tipoUsuario, language, description);
     }
 

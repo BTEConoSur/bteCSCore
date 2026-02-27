@@ -378,7 +378,6 @@ public class MenuUtils {
         List<String> lore = new ArrayList<>();
         String path = "items.rango-usuario." + rangoUsuario.getNombre().toLowerCase();
         String materialPath = "item-materials.rango-usuario." + rangoUsuario.getNombre().toLowerCase();
-        lore.add(LanguageHandler.replaceMC("items.rango-usuario.description", language, rangoUsuario));
         if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
             gui.getString(materialPath),
@@ -391,7 +390,6 @@ public class MenuUtils {
         List<String> lore = new ArrayList<>();
         String path = "items.tipo-usuario." + tipoUsuario.getNombre().toLowerCase();
         String materialPath = "item-materials.tipo-usuario." + tipoUsuario.getNombre().toLowerCase();
-        lore.add(LanguageHandler.replaceMC("items.tipo-usuario.description", language, tipoUsuario));
         lore.add(LanguageHandler.replaceMC("items.tipo-usuario.max-projects", language, tipoUsuario));
         if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.item-mc.selected"));
         return buildGuiItem(
