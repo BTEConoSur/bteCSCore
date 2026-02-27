@@ -23,7 +23,7 @@ public class MessageService {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
         try {
-            ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
+            //ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
             channel.sendMessage(message).queue();
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
@@ -60,7 +60,7 @@ public class MessageService {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.embed(embed)) return;
         try {
-            ConsoleLogger.debug("Enviando embed al canal " + channel.getName() + " (" + channel.getId() + ")");
+            //ConsoleLogger.debug("Enviando embed al canal " + channel.getName() + " (" + channel.getId() + ")");
             channel.sendMessageEmbeds(embed).queue();
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()), e);

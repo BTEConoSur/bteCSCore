@@ -1076,16 +1076,16 @@ items:
   proyecto:
     name: "<yellow>%proyecto.id% - %proyecto.nombre%" # %proyecto.id% -> Identificador del proyecto. %proyecto.nombre% -> Nombre del proyecto.
     lore:
-      - "<gray>%proyecto.descripcion%" # %proyecto.descripcion% -> Descripción del proyecto.
-      - "<gray>Líder: <white>%proyecto.lider%" # %proyecto.lider% -> Nombre del líder del proyecto.
-      - "<gray>Miembros: <white>%proyecto.miembrosCantidad%" # %proyecto.miembrosCantidad% -> Cantidad de miembros del proyecto.
-      - "<gray>Ubicación: <white>%proyecto.paisNombre%" # %proyecto.paisNombre% -> Nombre del país.
-      - "<white>%proyecto.divisionContexto%, %proyecto.divisionFna%" # %proyecto.divisionGna% -> Tipo de división. %proyecto.divisionContexto% -> Contexto de la división. %proyecto.divisionNam% -> Nombre oficial de la división. %proyecto.divisionFna% -> Nombre alternativo de la división.
-      - "<gray>Estado: %proyecto.estado%" # %proyecto.estado% -> Estado del proyecto.
-      - "<gray>Tamaño: <white>%proyecto.tamano%m²" # %proyecto.tamano% -> Tamaño del proyecto en metros cuadrados.
-      - "<gray>Tipo: <white>%proyecto.tipoProyecto%" # %proyecto.tipoProyecto% -> Nombre del Tipo de proyecto.
-      - "<gray>Creación: <white>%proyecto.fechaCreacion%" # %proyecto.fechaCreacion% -> Fecha de creación del proyecto.
-      - "<gray>Finalización: <white>%proyecto.fechaFinalizacion%" # %proyecto.fechaFinalizacion% -> Fecha de finalización del proyecto.
+      - "<gray>%proyecto.descripcion%"
+      - "<gray>Estado: %proyecto.estado%"
+      - "<gray>Líder: <white>%proyecto.lider%"
+      - "<gray>Miembros: <white>%proyecto.miembrosCantidad%"
+      - "<gray>Ubicación: <white>%proyecto.paisNombre%"
+      - "<white>%proyecto.divisionContexto%, %proyecto.divisionFna%"
+      - "<gray>Tamaño: <white>%proyecto.tamano%m²"
+      - "<gray>Tipo: <white>%proyecto.tipoProyecto%"
+      - "<gray>Creación: <white>%proyecto.fechaCreacion%"
+      - "<gray>Finalización: <white>%proyecto.fechaFinalizacion%"
     estado:
       en-finalizacion: "<yellow>En Finalización"
       en-finalizacion-edit: "<light_purple>En Finalización de Edición"
@@ -1278,7 +1278,7 @@ teleport-layer-title: "Teletransportando a %destination%" # %destination% -> Nom
 teleport-layer-subtitle: "En %seconds% segundo(s)..." # %seconds% -> Segundos restantes para el teletransporte.
 
 project-title: "<dark_purple><white>%proyecto.nombre%</white></dark_purple>"
-project-subtitle: "<dark_gray>ID: <white>%proyecto.id%</white></dark_gray>"
+project-subtitle: "<dark_gray>ID: <white>%proyecto.id%</white> Estado: <white>%proyecto.estado%</white></dark_gray>"
 
 division-title: "<dark_purple>%division.nam%</dark_purple>"
 division-subtitle: "<light_purple>%division.fna%</light_purple>"

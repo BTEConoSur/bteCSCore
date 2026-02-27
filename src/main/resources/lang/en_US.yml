@@ -1074,18 +1074,18 @@ items:
       - "<gray>This project has no leader."
       - "<gray>Click to claim the project."
   proyecto:
-    name: "<yellow>%proyecto.id% - %proyecto.nombre%" # %proyecto.id% -> Project identifier. %proyecto.nombre% -> Project name.
+    name: "<yellow>%proyecto.id% - %proyecto.nombre%"
     lore:
-      - "<gray>%proyecto.descripcion%" # %proyecto.descripcion% -> Project description.
-      - "<gray>Leader: <white>%proyecto.lider%" # %proyecto.lider% -> Project leader name.
-      - "<gray>Members: <white>%proyecto.miembrosCantidad%" # %proyecto.miembrosCantidad% -> Project member count.
-      - "<gray>Location: <white>%proyecto.paisNombre%" # %proyecto.paisNombre% -> Country name.
-      - "<white>%proyecto.divisionContexto%, %proyecto.divisionFna%" # %proyecto.divisionGna% -> Division type. %proyecto.divisionContexto% -> Division context. %proyecto.divisionNam% -> Division official name. %proyecto.divisionFna% -> Division alternative name.
-      - "<gray>Status: %proyecto.estado%" # %proyecto.estado% -> Project status.
-      - "<gray>Size: <white>%proyecto.tamano%m²" # %proyecto.tamano% -> Project size in square meters.
-      - "<gray>Type: <white>%proyecto.tipoProyecto%" # %proyecto.tipoProyecto% -> Project type name.
-      - "<gray>Created: <white>%proyecto.fechaCreacion%" # %proyecto.fechaCreacion% -> Project creation date.
-      - "<gray>Completed: <white>%proyecto.fechaFinalizacion%" # %proyecto.fechaFinalizacion% -> Project completion date.
+      - "<gray>%proyecto.descripcion%"
+      - "<gray>Status: %proyecto.estado%"
+      - "<gray>Leader: <white>%proyecto.lider%"
+      - "<gray>Members: <white>%proyecto.miembrosCantidad%"
+      - "<gray>Location: <white>%proyecto.paisNombre%"
+      - "<white>%proyecto.divisionContexto%, %proyecto.divisionFna%"
+      - "<gray>Size: <white>%proyecto.tamano%m²"
+      - "<gray>Type: <white>%proyecto.tipoProyecto%"
+      - "<gray>Created: <white>%proyecto.fechaCreacion%"
+      - "<gray>Completed: <white>%proyecto.fechaFinalizacion%"
     estado:
       en-finalizacion: "<yellow>Finishing"
       en-finalizacion-edit: "<light_purple>Finishing Edit"
@@ -1279,7 +1279,7 @@ teleport-layer-title: "Teleporting to %destination%" # %destination% -> Destinat
 teleport-layer-subtitle: "In %seconds% second(s)..." # %seconds% -> Remaining seconds for teleport.
 
 project-title: "<dark_purple><white>%proyecto.nombre%</white></dark_purple>"
-project-subtitle: "<dark_gray>ID: <white>%proyecto.id%</white></dark_gray>"
+project-subtitle: "<dark_gray>ID: <white>%proyecto.id% Status: <white>%proyecto.estado%</white></white></dark_gray>"
 
 division-title: "<dark_purple>%division.nam%</dark_purple>"
 division-subtitle: "<light_purple>%division.fna%</light_purple>"

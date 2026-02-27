@@ -10,7 +10,9 @@ import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.project.ProjectInfoMenu;
 import com.bteconosur.core.menu.project.ProjectListMenu;
+import com.bteconosur.core.menu.project.ProjectManageMenu;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -52,6 +54,11 @@ public class ProjectInfoCommand extends BaseCommand {
             }
             if (proyectos.size() > 1) {
                 projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.replaceMC("gui-titles.proyectos-here-list", language, proyectoFinal), proyectos, (proyecto, event) -> {
+                    PermissionManager pm = PermissionManager.getInstance();
+                    if (pm.isMiembroOrLider(commandPlayer, proyecto)) {
+                        new ProjectManageMenu(commandPlayer, proyecto, LanguageHandler.replaceMC("gui-titles.project-manage", language, proyecto)).open();;
+                        return;
+                    }
                     projectInfoMenu = new ProjectInfoMenu(commandPlayer, proyecto, LanguageHandler.replaceMC("gui-titles.project-info", language, proyecto));
                     projectInfoMenu.open();
                 });
@@ -59,6 +66,12 @@ public class ProjectInfoCommand extends BaseCommand {
                 return true;
             }
             proyectoFinal = proyectos.iterator().next();
+        }
+
+        PermissionManager pm = PermissionManager.getInstance();
+        if (pm.isMiembroOrLider(commandPlayer, proyectoFinal)) {
+            new ProjectManageMenu(commandPlayer, proyectoFinal, LanguageHandler.replaceMC("gui-titles.project-manage", language, proyectoFinal)).open();;
+            return true;
         }
 
         projectInfoMenu = new ProjectInfoMenu(commandPlayer, proyectoFinal, LanguageHandler.replaceMC("gui-titles.project-info", language, proyectoFinal));

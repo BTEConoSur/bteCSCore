@@ -111,8 +111,8 @@ public class BTEWorld {
             return;
         }
         Proyecto last = lastProject.get(player.getUniqueId());
-        if (last != null && last == destination) return;
         lastProject.put(player.getUniqueId(), destination);
+        if (last == null || last == destination) return;
         Language language = btecsPlayer.getLanguage();
         String titleText = LanguageHandler.replaceMC("project-title", language, destination);
         String subtitleText = LanguageHandler.replaceMC("project-subtitle", language, destination);

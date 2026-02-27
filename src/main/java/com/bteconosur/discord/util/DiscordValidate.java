@@ -28,7 +28,7 @@ public final class DiscordValidate {
 
     public static boolean userId(Long userId) {
         if (userId == null) {
-            ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-user-id"));
+            //ConsoleLogger.warn(LanguageHandler.getText("ds-error.invalid-user-id"));
             return false;
         }
         return true;

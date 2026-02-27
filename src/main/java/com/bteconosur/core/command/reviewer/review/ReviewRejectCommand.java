@@ -81,7 +81,7 @@ public class ReviewRejectCommand extends BaseCommand {
                     confirmationEditMenu = new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.finish-edit-project-reject", language, proyecto), bukkitPlayer, confirmClick -> {
                             confirmClick.getWhoClicked().closeInventory();
                             ProjectManager.getInstance().rejectedEditRequest(proyecto.getId(), commandPlayer, finalComentario);
-                            PlayerLogger.info(bukkitPlayer, LanguageHandler.replaceMC("project.edit.finish.rejected.success", language, proyecto), (String) null);
+                            PlayerLogger.info(bukkitPlayer, LanguageHandler.replaceMC("project.edit.finish.reject.success", language, proyecto), (String) null);
                         }, (cancelClick -> {    
                             cancelClick.getWhoClicked().closeInventory();
                     }));

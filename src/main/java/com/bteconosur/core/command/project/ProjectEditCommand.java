@@ -77,7 +77,7 @@ public class ProjectEditCommand extends BaseCommand {
             Set<Proyecto> liderProyectos = pr.getByLider(commandPlayer, proyectos);
             Set<Proyecto> activeProyectos = pr.getCompleted(liderProyectos);
             if (activeProyectos.isEmpty()) {
-                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-lider-completed-here"), (String) null);
+                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.leader.not-lider-completed-here"), (String) null);
                 return true;
             }
             if (activeProyectos.size() > 1) {

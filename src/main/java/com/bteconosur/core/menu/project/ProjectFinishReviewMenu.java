@@ -60,7 +60,7 @@ public class ProjectFinishReviewMenu extends Menu {
             gui.setItem(3, MenuUtils.getPromoteItem(language));
             gui.addSlotAction(3, event -> {
                 pm.acceptFinishRequest(proyecto.getId(), player, comentario, true);
-                PlayerLogger.info(player, LanguageHandler.replaceMC("project.finish.accept.succes-promote", language, proyecto), (String) null);
+                PlayerLogger.info(player, LanguageHandler.replaceMC("project.finish.accept.success-promote", language, proyecto), (String) null);
                 getGui().close(player.getBukkitPlayer());
             });
         }

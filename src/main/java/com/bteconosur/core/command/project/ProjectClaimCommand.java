@@ -5,18 +5,24 @@ import java.util.Set;
 import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.project.ProjectListMenu;
+import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
+import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.db.util.Estado;
+import com.bteconosur.db.util.PlaceholderUtils;
 
 public class ProjectClaimCommand extends BaseCommand {
 
@@ -79,6 +85,14 @@ public class ProjectClaimCommand extends BaseCommand {
                         }
                         projectManager.claim(proyecto.getId(), commandPlayer.getUuid());
                         PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.claim.success", language, proyecto), (String) null);
+                        TipoUsuarioRegistry tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
+                        if (tipoUsuarioRegistry.getVisita().equals(commandPlayer.getTipoUsuario())) {
+                            TipoUsuario postulante = tipoUsuarioRegistry.getPostulante();
+                            PermissionManager.getInstance().switchTipoUsuario(commandPlayer, postulante);
+                            PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("tipo.switch", commandPlayer.getLanguage(), postulante), ChatUtil.getDsTipoUsuarioSwitched(postulante, commandPlayer.getLanguage()));
+                            String countryLog2 = LanguageHandler.replaceDS("tipo.promote-log", Language.getDefault(), postulante);
+                            DiscordLogger.countryLog(PlaceholderUtils.replaceDS(countryLog2, Language.getDefault(), commandPlayer), proyecto.getPais());
+                        };
                     });
                     confirmationMenu.open();
                 });
@@ -105,6 +119,14 @@ public class ProjectClaimCommand extends BaseCommand {
             }
             projectManager.claim(proyecto.getId(), commandPlayer.getUuid());
             PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.claim.success", language, proyecto), (String) null);
+            TipoUsuarioRegistry tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
+            if (tipoUsuarioRegistry.getVisita().equals(commandPlayer.getTipoUsuario())) {
+                TipoUsuario postulante = tipoUsuarioRegistry.getPostulante();
+                PermissionManager.getInstance().switchTipoUsuario(commandPlayer, postulante);
+                PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("tipo.switch", commandPlayer.getLanguage(), postulante), ChatUtil.getDsTipoUsuarioSwitched(postulante, commandPlayer.getLanguage()));
+                String countryLog2 = LanguageHandler.replaceDS("tipo.promote-log", Language.getDefault(), postulante);
+                DiscordLogger.countryLog(PlaceholderUtils.replaceDS(countryLog2, Language.getDefault(), commandPlayer), proyecto.getPais());
+            };
         }, cancelClick -> {
             cancelClick.getWhoClicked().closeInventory();
         });
