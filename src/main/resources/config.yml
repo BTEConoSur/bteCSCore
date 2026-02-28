@@ -13,7 +13,8 @@ interaction-expirations:
   accept-reject-redefine-project: 60 # Expiración del modal de aceptación/rechazo de redefinición de proyecto (en minutos). 60 = 1 hora.
   help-command: 60 # Expiración del mensaje de ayuda de Discord (en minutos). 60 = 1 hora.
 avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png"
-avatar-head-url: "http://cravatar.eu/head/%uuid%/200.png"
+avatar-info-url: "https://api.mineatar.io/body/full/%uuid%?scale=8"
+avatar-project-leader-url: "https://api.mineatar.io/head/%uuid%?scale=8"
 max-offline-players-list: 2000 # Cantidad máxima de jugadores offline a mostrar en la lista de jugadores.
 
 related-languages:

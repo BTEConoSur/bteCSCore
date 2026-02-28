@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Pais;
@@ -23,6 +26,8 @@ public abstract class DsContextMessageCommand {
     protected String command;
     private Collection<Permission> permissions = new ArrayList<>();
     private CommandMode mode = CommandMode.GLOBAL;
+
+    private final YamlConfiguration secret = ConfigHandler.getInstance().getSecret();
 
     public DsContextMessageCommand(String command, Collection<Permission> permissions, CommandMode mode) {
         this.command = command;
@@ -52,7 +57,7 @@ public abstract class DsContextMessageCommand {
             jda.upsertCommand(Commands.message(command).setDefaultPermissions(perm)).queue();
         }
         if (mode == CommandMode.STAFFHUB_ONLY || mode == CommandMode.COUNTRY_AND_STAFFHUB) {
-            Guild staffHubGuild = jda.getGuildById(1425856269029474304L);
+            Guild staffHubGuild = jda.getGuildById(secret.getLong("discord-staff-guild-id"));
             if (staffHubGuild != null) {
                 staffHubGuild.upsertCommand(Commands.message(command).setDefaultPermissions(perm)).queue();
             } else {

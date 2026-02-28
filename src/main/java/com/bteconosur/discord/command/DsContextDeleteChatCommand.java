@@ -15,10 +15,7 @@ import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionE
 public class DsContextDeleteChatCommand extends DsContextMessageCommand {
 
     public DsContextDeleteChatCommand() {
-        super("Borrar Global Chat", 
-            Arrays.asList(Permission.ADMINISTRATOR),
-            CommandMode.COUNTRY_ONLY
-        );
+        super("Borrar Global Chat", Arrays.asList(Permission.ADMINISTRATOR), CommandMode.COUNTRY_ONLY);
     }
 
     @SuppressWarnings("null")

@@ -473,7 +473,7 @@ public class ChatUtil {
             .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.proyectos-activos"), String.valueOf(ProyectoRegistry.getInstance().getActivosCount(player)), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.fecha-ingreso"), DateUtils.getDsTimestamp(player.getFechaIngreso(), language), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.fecha-ultima-conexion"), DateUtils.getDsTimestamp(player.getFechaUltimaConexion(), language), true)
-            .setThumbnail(config.getString("avatar-head-url").replace("%uuid%", player.getUuid().toString()))
+            .setThumbnail(config.getString("avatar-info-url").replace("%uuid%", player.getUuid().toString()))
             .setColor(embedColors.getInt("ds-embeds.player-info"));
         String footer = LanguageHandler.replaceDS("ds-embeds.player-info.footer", language, player);   
         eb.setFooter(footer);
@@ -513,7 +513,7 @@ public class ChatUtil {
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-finalizacion"), DateUtils.getDsTimestamp(proyecto.getFechaTerminado(), language), true)
             .setImage("attachment://map.png");
         Player lider = ProjectManager.getInstance().getLider(proyecto);
-        if (lider != null) eb.setThumbnail(config.getString("avatar-head-url").replace("%uuid%", lider.getUuid().toString()));
+        if (lider != null) eb.setThumbnail(config.getString("avatar-project-leader-url").replace("%uuid%", lider.getUuid().toString()));
         return eb.setColor(embedColors.getInt("ds-embeds.project-info")).build();
     }
 

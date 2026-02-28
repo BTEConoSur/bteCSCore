@@ -35,6 +35,7 @@ public abstract class DsCommand {
     private Collection<Permission> permissions = new ArrayList<>();
 
     protected final YamlConfiguration config;
+    private final YamlConfiguration secret = ConfigHandler.getInstance().getSecret();
 
     public DsCommand(String command, String description, Collection<OptionData> options, Collection<Permission> permissions, CommandMode mode) {
         ConfigHandler configHandler = ConfigHandler.getInstance();
@@ -80,7 +81,7 @@ public abstract class DsCommand {
             registerCommandData(commandData);
         }
         if (mode == CommandMode.STAFFHUB_ONLY || mode == CommandMode.COUNTRY_AND_STAFFHUB) {
-            Guild staffHubGuild = jda.getGuildById(1425856269029474304L);
+            Guild staffHubGuild = jda.getGuildById(secret.getLong("discord-staff-guild-id"));
             if (staffHubGuild != null) {
                 commandData = staffHubGuild.upsertCommand(command, description);
                 registerCommandData(commandData);

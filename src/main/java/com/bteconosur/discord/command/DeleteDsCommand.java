@@ -3,8 +3,10 @@ package com.bteconosur.discord.command;
 import java.util.Arrays;
 import java.util.List;
 
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
@@ -62,22 +64,43 @@ public class DeleteDsCommand extends DsCommand {
             if (guild == null) continue;
 
             guild.retrieveCommands().queue(commands -> {
-                for (Command command : commands) {
-                    if (command.getName().equalsIgnoreCase(commandName)) {
-                        command.delete().queue();
+                try {
+                    for (Command command : commands) {
+                        if (command.getName().equalsIgnoreCase(commandName)) {
+                            command.delete().queue();
+                        }
                     }
+                } catch (Exception e) {
+                    ConsoleLogger.error("Error al eliminar el comando '"+ commandName + "' en el país '" + pais.getNombre() + "'", e);
                 }
             });
         }
 
-        Guild guild = jda.getGuildById(1425856269029474304L);
+        Guild guild = jda.getGuildById(ConfigHandler.getInstance().getSecret().getLong("discord-staff-guild-id"));
         if (guild == null) return;
         guild.retrieveCommands().queue(commands -> {
+            try {
                 for (Command command : commands) {
                     if (command.getName().equalsIgnoreCase(commandName)) {
                         command.delete().queue();
                     }
                 }
+            } catch (Exception e) {
+                ConsoleLogger.error("Error al eliminar el comando '"+ commandName + "'", e);
+            }
+        });
+
+        jda.retrieveCommands().queue(commands -> {
+            try {
+                for (Command command : commands) {
+                    if (command.getName().equalsIgnoreCase(commandName)) {
+                        command.delete().queue();
+                    }
+                }
+            } catch (Exception e) {
+                ConsoleLogger.error("Error al eliminar el comando '"+ commandName + "'", e);
+            }
+            
         });
         event.reply(LanguageHandler.getText(language, "ds-comando-removed").replace("%comando%", commandName)).setEphemeral(true).queue();
     }

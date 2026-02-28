@@ -29,7 +29,7 @@ public class DsCommandManager {
         DsHelpDiscordCommand.addHelpCommand(new DsHelpCommand());
 
         addCommand(new DsContextDeleteChatCommand());
-
+        addCommand(new DsContextPlayerCommand());
     }
 
     private void addCommand(DsCommand command) {
@@ -42,7 +42,6 @@ public class DsCommandManager {
         command.registerCommand();
     }
 
-    @SuppressWarnings("unused")
     private void addCommand(DsContextUserCommand command) {
         contextUserCommands.put(command.command, command);
         command.registerCommand();
