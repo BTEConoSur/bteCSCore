@@ -68,7 +68,6 @@ public class CountryChatService {
     }
 
     public static void sendMcChat(Player player, String message, Pais pais, List<Attachment> attachments) {
-        if (!config.getBoolean("discord-country-chat")) return;
         Map<Player, Pais> playersInChat = ChatService.getPlayersInCountryChat();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (playersInChat.containsKey(onlinePlayer) && playersInChat.get(onlinePlayer).equals(pais)) {
@@ -91,7 +90,6 @@ public class CountryChatService {
     }
 
     public static void sendMcChat(String username, String message, Pais pais, List<Attachment> attachments) {
-        if (!config.getBoolean("discord-country-chat")) return;
         Map<Player, Pais> playersInChat = ChatService.getPlayersInCountryChat();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (playersInChat.containsKey(onlinePlayer) && playersInChat.get(onlinePlayer).equals(pais)) {

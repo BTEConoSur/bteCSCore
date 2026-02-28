@@ -70,6 +70,8 @@ ds-error:
   select-internal-error: "Error de Discord: Error al manejar la interacción de menú select: "
   subcommand-not-found: "Error de Discord: No se encontró el subcomando '%subcommand%' para el comando '/%command%'."
   command-not-found: "Error de Discord: No se encontró el comando '/%command%'."
+  context-message-command-not-found: "Error de Discord: No se encontró el comando de contexto de mensaje '%command%'."
+  context-user-command-not-found: "Error de Discord: No se encontró el comando de contexto de usuario '%command%'."
   not-jda: "Error de Discord: Acción salteada. El bot de Discord no está inicializado."
   invalid-channel-id: "Error de Discord: ID de canal inválido."
   invalid-user-id: "Error de Discord: ID de usuario inválido."
@@ -1274,6 +1276,10 @@ ds-comando-removed: "Se ha intentado borrar el comando '/%comando%'."
 
 ds-exec-empty: "Por favor, proporciona un comando."
 ds-exec: "Comando ejecutado: '%comando%'."
+
+ds-delete-global-chat:
+  success: "Chat global eliminado exitosamente."
+  not-found: "No se encontró el chat global."
 
 # World
 world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."

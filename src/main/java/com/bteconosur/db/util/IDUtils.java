@@ -5,6 +5,7 @@ import java.util.Random;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.discord.util.LinkService;
+import com.bteconosur.discord.util.MessageService;
 
 public class IDUtils {
 
@@ -31,7 +32,20 @@ public class IDUtils {
         do {
             codigo = new StringBuilder(6);
             for (int i = 0; i < 6; i++) codigo.append(caracteres.charAt(random.nextInt(caracteres.length())));
-        } while (LinkService.isMinecraftCodeValid(caracteres) || LinkService.isDiscordCodeValid(caracteres));
+        } while (LinkService.isMinecraftCodeValid(codigo.toString()) || LinkService.isDiscordCodeValid(codigo.toString()));
+
+        return codigo.toString();
+    }
+
+    public static String generarCodigoMessage() {
+        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder codigo = new StringBuilder(6);
+        
+        do {
+            codigo = new StringBuilder(6);
+            for (int i = 0; i < 6; i++) codigo.append(caracteres.charAt(random.nextInt(caracteres.length())));
+        } while (MessageService.hasMessageRefs(codigo.toString()));
 
         return codigo.toString();
     }

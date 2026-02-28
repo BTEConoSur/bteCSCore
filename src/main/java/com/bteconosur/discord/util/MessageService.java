@@ -1,8 +1,16 @@
 package com.bteconosur.discord.util;
 
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 
@@ -11,6 +19,50 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 public class MessageService {
+
+    private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
+
+    private static Map<String, Set<MessageRef>> messageRefs = new LinkedHashMap<>();
+
+    public static boolean hasMessageRefs(String key) {
+        return messageRefs.containsKey(key);
+    }
+
+    public static void addMessageKey(String key) {
+        if (messageRefs.size() >= config.getInt("discord-message-track")) {
+            String oldestKey = messageRefs.keySet().iterator().next();
+            messageRefs.remove(oldestKey);
+        }
+        messageRefs.put(key, new HashSet<>());
+    }
+
+    public static void addMessageRef(String key, MessageRef ref) {
+        messageRefs.get(key).add(ref);
+    }
+
+    public static boolean deleteByMessageId(Long messageId) {
+        String keyEncontrada = null;
+
+        for (Entry<String, Set<MessageRef>> entry : messageRefs.entrySet()) {
+            for (MessageRef ref : entry.getValue()) {
+                if (ref.getMessageId().equals(messageId)) {
+                    keyEncontrada = entry.getKey();
+                    break;
+                }
+            }
+            if (keyEncontrada != null) break;
+        }
+        if (keyEncontrada == null) return false;
+
+        Set<MessageRef> refs = messageRefs.get(keyEncontrada);
+        for (MessageRef ref : refs) {
+            deleteMessage(ref.getChannelId(), ref.getMessageId());
+        }
+
+        messageRefs.remove(keyEncontrada);
+        return true;
+    }
+
 
     public static void sendMessage(Long channelId, String message) {
         if (!DiscordValidate.jda()) return;
@@ -25,6 +77,20 @@ public class MessageService {
         try {
             //ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
             channel.sendMessage(message).queue();
+        } catch (Exception e) {
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
+        }
+    }
+
+    @SuppressWarnings("null")
+    public static void sendMessage(TextChannel channel, String message, String messageId) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
+        try {
+            //ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
+            channel.sendMessage(message).queue(messageSent -> {
+                if (messageId != null) addMessageRef(messageId, new MessageRef(channel.getIdLong(), messageSent.getIdLong()));
+            });
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
         }
@@ -82,6 +148,16 @@ public class MessageService {
             user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessageEmbeds(embed).queue());
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-user").replace("%userId%", String.valueOf(user.getIdLong())), e);
+        }
+    }
+
+    public static void sendBroadcastMessage(List<Long> channelsIds, String message, String messageId) {
+        if (!DiscordValidate.jda()) return;
+        ConsoleLogger.debug("Enviando mensaje a canales: " + channelsIds.toString());
+        for (Long channelId : channelsIds) {
+            if (!DiscordValidate.channelId(channelId)) continue;
+            TextChannel channel = getTextChannelById(channelId);
+            sendMessage(channel, message, messageId);
         }
     }
 

@@ -487,5 +487,4 @@ public class PermissionManager {
         }
         return instance;
     }
-//TODO: Display de managers y reviewers.
 }

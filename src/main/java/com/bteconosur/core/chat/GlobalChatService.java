@@ -45,7 +45,7 @@ public class GlobalChatService {
         if (config.getBoolean("discord-player-join-leave-chat")) broadcastEmbed(ChatUtil.getDsChatLeft(player));
     }
 
-    public static void broadcastDsChat(Player player, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments) {
+    public static void broadcastDsChat(Player player, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments, String messageId) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (!globalChatPlayers.contains(onlinePlayer)) continue;
@@ -64,15 +64,14 @@ public class GlobalChatService {
             TagResolver hoverResolver = TagResolverUtils.getHoverText("player", player.getNombrePublico(), hover);
             onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, mcMessage, onlinePlayer.getLanguage(), dsFrom), hoverResolver));
         }
-        if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = new ArrayList<>(PaisRegistry.getInstance().getDsGlobalChatIds());
         ids.remove(dsFromId);
         String dsMessage = message;
         for (Attachment attachment : attachments) dsMessage += " " + attachment.getUrl();
-        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, dsMessage, Language.getDefault(), dsFrom));
+        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, dsMessage, Language.getDefault(), dsFrom), messageId);
     }
 
-    public static void broadcastDsChat(String username, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments) {
+    public static void broadcastDsChat(String username, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments, String messageId) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (!globalChatPlayers.contains(onlinePlayer)) continue;
@@ -85,12 +84,11 @@ public class GlobalChatService {
             }
             onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(username, mcMessage, onlinePlayer.getLanguage(), dsFrom)));
         }
-        if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = new ArrayList<>(PaisRegistry.getInstance().getDsGlobalChatIds());
         ids.remove(dsFromId);
         String dsMessage = message;
         for (Attachment attachment : attachments) dsMessage += " " + attachment.getUrl();
-        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(username, dsMessage, Language.getDefault(), dsFrom));
+        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(username, dsMessage, Language.getDefault(), dsFrom), messageId);
     }
 
     public static void broadcastMcChat(Player player, String message) {

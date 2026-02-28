@@ -300,7 +300,6 @@ public final class BTEConoSur extends JavaPlugin {
     }   
 }
 
-// TODO: Comando de borrar mensajes en chat global de discord.
 // TODO: Tab
 
 // TODO: Añadir parametros y descripción a las funciones

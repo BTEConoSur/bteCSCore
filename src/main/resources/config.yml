@@ -60,6 +60,8 @@ discord-player-join-leave-chat: true # Habilitar mensajes de entrada y salida de
 discord-server-start-stop: true # Habilitar mensajes de inicio y stop del servidor en Discord. Depende de discord-country-chat para mostrarse en Discord.
 
 cono-sur-logo: https://i.imgur.com/LtR9vt1.png
+
+discord-message-track: 1000 # Cantidad máxima de mensajes a trackear para eliminación en los canales de Discord.
 # World
 tp-cooldown-seconds: 5
 layers:

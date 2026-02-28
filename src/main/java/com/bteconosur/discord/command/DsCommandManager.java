@@ -11,6 +11,8 @@ public class DsCommandManager {
     private static DsCommandManager instance;
 
     private Map<String, DsCommand> commands = new HashMap<>();
+    private Map<String, DsContextMessageCommand> contextMessageCommands = new HashMap<>();
+    private Map<String, DsContextUserCommand> contextUserCommands = new HashMap<>();
 
     public DsCommandManager() {
         ConsoleLogger.info(LanguageHandler.getText("discord-command-manager-initializing"));
@@ -25,6 +27,9 @@ public class DsCommandManager {
         DsHelpDiscordCommand.addHelpCommand(new DsProyectoCommand());
         addCommand(new DsHelpCommand());
         DsHelpDiscordCommand.addHelpCommand(new DsHelpCommand());
+
+        addCommand(new DsContextDeleteChatCommand());
+
     }
 
     private void addCommand(DsCommand command) {
@@ -32,8 +37,31 @@ public class DsCommandManager {
         command.registerCommand();
     }
 
+    private void addCommand(DsContextMessageCommand command) {
+        contextMessageCommands.put(command.command, command);
+        command.registerCommand();
+    }
+
+    @SuppressWarnings("unused")
+    private void addCommand(DsContextUserCommand command) {
+        contextUserCommands.put(command.command, command);
+        command.registerCommand();
+    }
+
     public DsCommand getCommand(String commandName) {
         return commands.get(commandName);
+    }
+
+    public DsContextMessageCommand getContextMessageCommand(String commandName) {
+        return contextMessageCommands.get(commandName);
+    }
+    
+    public DsContextUserCommand getContextUserCommand(String commandName) {
+        return contextUserCommands.get(commandName);
+    }
+
+    public Map<String, DsContextMessageCommand> getContextMessageCommands() {
+        return contextMessageCommands;
     }
     
     public Map<String, DsCommand> getCommands() {

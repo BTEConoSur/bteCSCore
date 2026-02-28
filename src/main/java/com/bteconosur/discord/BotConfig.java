@@ -8,6 +8,7 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.discord.listener.ButtonListener;
 import com.bteconosur.discord.listener.ChatListener;
+import com.bteconosur.discord.listener.ContextCommandListener;
 import com.bteconosur.discord.listener.ModalListener;
 import com.bteconosur.discord.listener.SelectListener;
 import com.bteconosur.discord.listener.SlashCommandListener;
@@ -41,7 +42,7 @@ public class BotConfig {
                     .enableIntents(GatewayIntent.GUILD_PRESENCES)
                     .enableIntents(GatewayIntent.GUILD_MEMBERS)
                     .setActivity(Activity.playing(LanguageHandler.getText("ds-activity").replace("%players%", String.valueOf(Bukkit.getOnlinePlayers().size()))))
-                    .addEventListeners(new ButtonListener(), new ModalListener(), new SelectListener(), new SlashCommandListener(), new ChatListener())
+                    .addEventListeners(new ButtonListener(), new ModalListener(), new SelectListener(), new SlashCommandListener(), new ChatListener(), new ContextCommandListener())
                     .build().awaitReady();
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.bot-initializing"), e);
