@@ -300,6 +300,8 @@ public final class BTEConoSur extends JavaPlugin {
     }   
 }
 
+// TODO: /online
+
 // TODO: Tab
 
 // TODO: Añadir parametros y descripción a las funciones

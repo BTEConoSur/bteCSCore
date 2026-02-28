@@ -1,7 +1,10 @@
 package com.bteconosur.db.model;
 
+import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.prep.PreparedGeometry;
+import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -25,7 +28,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "proyecto")
@@ -48,6 +53,11 @@ public class Proyecto {
     @Column(name = "poligono")
     @JdbcTypeCode(SqlTypes.GEOMETRY)
     private Polygon poligono;
+    
+    @Transient
+    private PreparedGeometry preparedGeometry;
+    @Transient
+    private Envelope boundingBox;
 
     @Column(name = "tamaño")
     private double tamaño;
@@ -85,6 +95,8 @@ public class Proyecto {
         this.descripcion = descripcion;
         this.estado = estado;
         this.poligono = poligono;
+        this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);
+        this.boundingBox = poligono.getEnvelopeInternal();
         this.tamaño = tamaño;
         this.tipoProyecto = tipoProyecto;
         this.lider = lider;
@@ -130,6 +142,16 @@ public class Proyecto {
 
     public void setPoligono(Polygon poligono) {
         this.poligono = poligono;
+        this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);
+        this.boundingBox = poligono.getEnvelopeInternal();
+    }
+
+    public PreparedGeometry getPreparedGeometry() {
+        return preparedGeometry;
+    }
+
+    public Envelope getBoundingBox() {
+        return boundingBox;
     }
 
     public TipoProyecto getTipoProyecto() {
@@ -227,6 +249,14 @@ public class Proyecto {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @PostLoad
+    private void initTransientFields() {
+        if (poligono != null) {
+            this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);
+            this.boundingBox = poligono.getEnvelopeInternal();
+        }
     }
 
 }

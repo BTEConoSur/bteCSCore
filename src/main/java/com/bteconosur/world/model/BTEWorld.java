@@ -10,7 +10,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.locationtech.jts.geom.Polygon;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -79,9 +78,9 @@ public class BTEWorld {
     }
 
     public LabelWorld getLabelWorld(double x, double z) {
-        List<Polygon> regions = capaAlta.getRegions();
-        for (Polygon p : regions) {
-            if (RegionUtils.containsCoordinate(p, x, z)) return capaAlta;
+        List<RegionData> regions = capaAlta.getRegions();
+        for (RegionData regionData : regions) {
+            if (RegionUtils.containsCoordinate(regionData.getPrepared(), regionData.getEnvelope(), x, z)) return capaAlta;
         }
         
         return capaBaja;
@@ -109,12 +108,14 @@ public class BTEWorld {
         if (proyectoTo.size() > 1) return;
         Proyecto destination = proyectoTo.stream().findFirst().orElse(null);
         if (destination == null) {
-            lastProject.remove(player.getUniqueId());
+            lastProject.put(player.getUniqueId(), null);
             return;
         }
+        Boolean hasPlayer = lastProject.containsKey(player.getUniqueId()); 
         Proyecto last = lastProject.get(player.getUniqueId());
         lastProject.put(player.getUniqueId(), destination);
-        if (last == null || last == destination) return;
+        if (!hasPlayer) return;
+        if (last != null && last == destination) return;
         Language language = btecsPlayer.getLanguage();
         String titleText = LanguageHandler.replaceMC("project-title", language, destination);
         String subtitleText = LanguageHandler.replaceMC("project-subtitle", language, destination);

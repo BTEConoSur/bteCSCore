@@ -2,7 +2,10 @@ package com.bteconosur.db.model;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.prep.PreparedGeometry;
+import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +14,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "region_pais")
@@ -29,6 +34,11 @@ public class RegionPais {
     @JdbcTypeCode(SqlTypes.GEOMETRY)
     private Polygon poligono;
 
+    @Transient
+    private PreparedGeometry preparedGeometry;
+    @Transient
+    private Envelope boundingBox;
+
     @ManyToOne
     @JoinColumn(name = "id_pais")
     private Pais pais;
@@ -40,6 +50,8 @@ public class RegionPais {
         this.nombre = nombre;
         this.poligono = poligono;
         this.pais = pais;
+        this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);
+        this.boundingBox = poligono.getEnvelopeInternal();
     }
 
     public Long getId() {
@@ -64,6 +76,16 @@ public class RegionPais {
 
     public void setPoligono(Polygon poligono) {
         this.poligono = poligono;
+        this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);
+        this.boundingBox = poligono.getEnvelopeInternal();
+    }
+
+    public PreparedGeometry getPreparedGeometry() {
+        return preparedGeometry;
+    }
+
+    public Envelope getBoundingBox() {
+        return boundingBox;
     }
 
     public Pais getPais() {
@@ -72,6 +94,14 @@ public class RegionPais {
 
     public void setPais(Pais pais) {
         this.pais = pais;
+    }
+
+    @PostLoad
+    private void initTransientFields() {
+        if (poligono != null) {
+            this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);
+            this.boundingBox = poligono.getEnvelopeInternal();
+        }
     }
 
 }

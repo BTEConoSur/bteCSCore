@@ -1,5 +1,6 @@
 package com.bteconosur.world.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -17,22 +18,26 @@ import com.bteconosur.world.WorldManager;
 
 public class CapaAlta extends LabelWorld {
 
-    private final List<Polygon> regions;
+    private final List<RegionData> regions = new ArrayList<>();
 
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     public CapaAlta(String name, String displayName, int offset) {
         super(name, displayName, offset);
 
-        this.regions = loadRegions();
+        loadRegions();
         if (config.getBoolean("border-particles.label-enable")) enableParticlesSpawning();
     }
 
-    private List<Polygon> loadRegions() {
-        return GeoJsonUtils.geoJsonToPolygons("world", getName() + ".geojson");
+    private void loadRegions() {
+        List<Polygon> polygons = GeoJsonUtils.geoJsonToPolygons("world", getName() + ".geojson");
+        for (Polygon polygon : polygons) {
+            regions.add(new RegionData(polygon));
+        }
+        return;
     }
 
-    public List<Polygon> getRegions() {
+    public List<RegionData> getRegions() {
         return this.regions;
     }
 
@@ -43,9 +48,9 @@ public class CapaAlta extends LabelWorld {
         double x = bukkitPlayer.getLocation().getX();
         double z = bukkitPlayer.getLocation().getZ();
 
-        for (Polygon polygon : regions) {
-            if (RegionUtils.containsCoordinate(polygon, x, z)) {
-                return polygon;
+        for (RegionData regionData : regions) {
+            if (RegionUtils.containsCoordinate(regionData.getPrepared(), regionData.getEnvelope(), x, z)) {
+                return regionData.getPolygon();
             }
         }
         return null;

@@ -172,7 +172,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
             List<RegionPais> regiones = getRegions(pais);
             if (regiones == null) continue;
             for (RegionPais region : regiones) {
-                if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
+                if (RegionUtils.containsCoordinate(region.getPreparedGeometry(), region.getBoundingBox(), x, z)) {
                     return pais;
                 }
             }
@@ -185,7 +185,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
             List<RegionPais> regiones = getRegions(pais);
             if (regiones == null) continue;
             for (RegionPais region : regiones) {
-                if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
+                if (RegionUtils.containsCoordinate(region.getPreparedGeometry(), region.getBoundingBox(), x, z)) {
                     return region;
                 }
             }
@@ -198,7 +198,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
             List<RegionDivision> regiones = getRegionDivisions(division);
             if (regiones == null) continue;
             for (RegionDivision region : regiones) {
-                if (RegionUtils.containsCoordinate(region.getPoligono(), x, z)) {
+                if (RegionUtils.containsCoordinate(region.getPreparedGeometry(), region.getBoundingBox(), x, z)) {
                     return division;
                 }
             }

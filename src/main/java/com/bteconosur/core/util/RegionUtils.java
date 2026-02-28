@@ -11,8 +11,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
+import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.prep.PreparedGeometry;
 
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
@@ -36,6 +38,7 @@ public class RegionUtils {
 
     private static final GeometryFactory gf = new GeometryFactory();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
+    private static final Coordinate TMP_COORD = new Coordinate();
 
     public static void selectPolygon(Player player, Polygon poly, int minY, int maxY, Language language) {
         
@@ -191,9 +194,12 @@ public class RegionUtils {
         return poly.intersects(chunkPoly);
     }
 
-    public static boolean containsCoordinate(Polygon poly, double x, double z) {
-        if (poly == null || poly.isEmpty()) return false;
-        return poly.covers(gf.createPoint(new Coordinate(x, z)));
+    public static boolean containsCoordinate(PreparedGeometry poly, Envelope envelope, double x, double z) {
+        if (poly == null) return false;
+        if (!envelope.contains(x, z)) return false;
+        TMP_COORD.setX(x);
+        TMP_COORD.setY(z);
+        return poly.covers(gf.createPoint(TMP_COORD));
     }
 
     public static void spawnBorderParticles(Player player, Polygon poly, String particleName) {

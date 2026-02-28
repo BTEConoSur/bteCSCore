@@ -287,7 +287,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
             Polygon poly = proyecto.getPoligono();
-            if (poly != null && RegionUtils.containsCoordinate(poly, x, z)) proyectos.add(proyecto);
+            if (poly != null && RegionUtils.containsCoordinate(proyecto.getPreparedGeometry(), proyecto.getBoundingBox(), x, z)) proyectos.add(proyecto);
         }
         return proyectos;
     }
@@ -298,7 +298,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
             Polygon poly = proyecto.getPoligono();
-            if (poly != null && RegionUtils.containsCoordinate(poly, x, z)) proyectos.add(proyecto);
+            if (poly != null && RegionUtils.containsCoordinate(proyecto.getPreparedGeometry(), proyecto.getBoundingBox(), x, z)) proyectos.add(proyecto);
         }
         return proyectos;
     }
