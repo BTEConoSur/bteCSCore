@@ -1095,7 +1095,7 @@ items:
       - "<gray>Location: <white>%proyecto.paisNombre%"
       - "<white>%proyecto.divisionContexto%, %proyecto.divisionFna%"
       - "<gray>Size: <white>%proyecto.tamano%m²"
-      - "<gray>Type: <white>%proyecto.tipoProyecto%"
+      - "<gray>Type: <white>%proyecto.tipo%"
       - "<gray>Created: <white>%proyecto.fechaCreacion%"
       - "<gray>Completed: <white>%proyecto.fechaFinalizacion%"
     estado:

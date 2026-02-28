@@ -1,5 +1,34 @@
-# Usar MiniMessage para formateo de texto - https://webui.advntr.dev/
-# Placeholders situacionales: %contexto% %dsPrefix% %mensaje% %username% %mcPrefix% %comentario%
+# Usar MiniMessage para el formateo de textos de MC - https://webui.advntr.dev/
+# Funcionamiento de los Placeholders:
+# - En cada texto pueden aparecer %player.<atributo>%, %proyecto.<atributo>%, %pais.<atributo>%, %tipo.<atributo>%, %rango.<atributo>%, %division.<atributo>%.
+#   Siempre cuando aparezca alguno de los anteriores, se puede acceder a cualquier atributo (Más detalle después) del objeto correspondiente en ese texto.
+#   Si un texto no tiene al menos un Placeholder de un tipo en particular, entonces ese texto no admite ese tipo de objeto.
+#   En caso de borrar manualmente todos los Placeholders de un texto, marcar qué tipo de objeto admite ese texto para poder recordarlo.
+
+# - Tambíén en un mismo texto puede aparecer %player.<atributo>.1%, %player.<atributo>.2%, ... .
+#   En este caso, es un texto que admite varios objetos de un mismo tipo. El orden es el cuál se ingresa por código (No cambiable) y no dentro del texto.
+#   Por lo que %player.<atributo>.1% se puede referir al Lider de un proyecto y %player.<atributo>.2% a un Staff en particular, pudiendose mover estos Placeholders libremente en el mismo texto.
+
+# - Por último, hay algunos Placeholders que son contextuales, es decir, no pertenecen a un objeto en particular, sino que se refieren a un valor específico dependiendo del contexto.
+#   Por ejemplo, %plugin-prefix% se refiere al prefijo del plugin y sólo se puede usar (o quitar) en los textos que se usa.
+
+# - Los atributos son aprueba de errores, en caso de encontrar algún error reportarlo.
+
+# Los <atributos> disponibles para cada tipo de objeto son los siguientes:
+# Player: (%player.<atributo>%)
+#     nombre, nombrePublico, uuid, lenguaje, paisPrefix, tipoUsuario, rangoUsuario, tipoUsuarioPrefijo, rangoUsuarioPrefijo, discordName, proyectosActivos, proyectosCompletados, 
+#     fechaIngreso, fechaUltimaConexion, estado (Online/Offline), discordId, discordName.
+# Proyecto: %proyecto.<atributo>%
+#     id, nombre, descripcion, tamano (Tamaño), paisId, paisNombre, tipoId, tipo, lider (Nombre Público), miembrosCantidad, fechaCreacion, fechaFinalizacion, maxMiembros, divisionId
+#     divisionNombre, divisionGna, divisionFna, divisionNam, divisionContexto, geoCoords.
+# País: %pais.<atributo>%
+#     id, nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest, logo (No aplicable en textos de MC).
+# Rango de Usuario: %rango.<atributo>%
+#     id, nombre, prefijo.
+# Tipo de Usuario: %tipo.<atributo>%
+#     id, nombre, prefijo, cantProyecSim.
+# División: %division.<atributo>%
+#     id, nombre, gna, fna, nam, contexto, paisId, paisNombre.
 
 # Mensajes de Consola
 config-reloaded: "Configuración recargada correctamente."
@@ -714,8 +743,8 @@ nickname:
   change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
   set: "<green>El nombre público de <yellow>'%player.nombre%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 country-prefix:
-  set: "<green>El prefijo de país de %player.nombre% ha sido establecido a <yellow>%player.paisPrefix%<green>." #  %paisPrefix% -> Prefijo del país.
-  switched: "<aqua>Tu prefijo de país ha sido cambiado a <yellow>%player.paisPrefix%<aqua>." # %paisPrefix% -> Prefijo del país.
+  set: "<green>El prefijo de país de %player.nombre% ha sido establecido a <yellow>%player.paisPrefix%<green>."
+  switched: "<aqua>Tu prefijo de país ha sido cambiado a <yellow>%player.paisPrefix%<aqua>."
 rango:
   set: "<green>El rango de <yellow>%player.nombre% <green>ha sido cambiado a <yellow>%rango.nombre%<green>."
   switch: "<aqua>Tu rango ha sido cambiado a <yellow>%rango.nombre%<aqua>."
@@ -733,7 +762,7 @@ from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>%m
 from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
 
 # %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
-# %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %player% -> Nombre del jugador. %message% -> Mensaje enviado.
+# %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %message% -> Mensaje enviado.
 ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
 ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # De jugador no registrado en la base de datos. %username% -> Nombre del usuario que envía el mensaje.
 from-mc-message: "**%mcPrefix% %player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% %player.nombrePublico%**: %mensaje%"
@@ -934,10 +963,6 @@ ds-embeds:
   warn: "Warn"
 
 # GUI
-# 'material' debe ser proveniente de https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
-# En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
-# La 'head-id' es la que se obtiene desde Head Database - https://minecraft-heads.com/.
-# En caso de un material inválido, se usará STONE por defecto.
 gui-titles:
   get-menu: "Get Menú"
   chat-select: "Selección de Chat"
@@ -1086,7 +1111,7 @@ items:
       - "<gray>Este proyecto no tiene líder."
       - "<gray>Haz clic para reclamar el proyecto."
   proyecto:
-    name: "<yellow>%proyecto.id% - %proyecto.nombre%" # %proyecto.id% -> Identificador del proyecto. %proyecto.nombre% -> Nombre del proyecto.
+    name: "<yellow>%proyecto.id% - %proyecto.nombre%"
     lore:
       - "<gray>%proyecto.descripcion%"
       - "<gray>Estado: %proyecto.estado%"
@@ -1095,7 +1120,7 @@ items:
       - "<gray>Ubicación: <white>%proyecto.paisNombre%"
       - "<white>%proyecto.divisionContexto%, %proyecto.divisionFna%"
       - "<gray>Tamaño: <white>%proyecto.tamano%m²"
-      - "<gray>Tipo: <white>%proyecto.tipoProyecto%"
+      - "<gray>Tipo: <white>%proyecto.tipo%"
       - "<gray>Creación: <white>%proyecto.fechaCreacion%"
       - "<gray>Finalización: <white>%proyecto.fechaFinalizacion%"
     estado:
@@ -1108,7 +1133,7 @@ items:
       abandonado: "<red>Abandonado"
       editando: "<gold>Editando"
   player:
-    name: "%contexto% <aqua>%player.nombre%" # %player% -> Nombre del jugador. %contexto% -> Contexto del jugador.
+    name: "%contexto% <aqua>%player.nombre%" # %contexto% -> Contexto del jugador.
     no-player-name: "N/A"
     no-player-lore:
       -  "<gray>Proyecto sin %contexto%" # %contexto% -> Contexto del jugador.
@@ -1409,10 +1434,10 @@ placeholder:
     video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
     spoiler: "<gray>[</gray><white>SPOILER</white><gray>]</gray>"
     file: "<gray>[</gray><white>ARCHIVO</white><gray>]</gray>"
-    ds: "<gray>[</gray><blue>DS-%pais.nombrePublico%</blue><gray>]</gray>" # %pais% -> Pais de donde viene el mensaje.
+    ds: "<gray>[</gray><blue>DS-%pais.nombrePublico%</blue><gray>]</gray>"
   chat-ds:
     mc: "<:Minecraft:1457374388575014923>"
-    ds: "%pais.logo%" # %paisLogo% -> Logo del país de donde viene el mensaje.
+    ds: "%pais.logo%"
   without-fecha: "Sin fecha"
   link-display:
     see-request: "Ver solicitud"

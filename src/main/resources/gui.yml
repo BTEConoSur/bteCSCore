@@ -1,3 +1,7 @@
+# Los materiales debe ser proveniente de https://jd.papermc.io/paper/1.21.10/org/bukkit/Material.html.
+# En caso de querer usar una cabeza de la base de datos, se debe usar 'hdb:<head-id>'.
+# La 'head-id' es la que se obtiene desde Head Database - https://minecraft-heads.com/.
+# En caso de un material inválido, se usará STONE por defecto.
 item-materials:
   teleport: "ENDER_PEARL"
   save: "hdb:21771"

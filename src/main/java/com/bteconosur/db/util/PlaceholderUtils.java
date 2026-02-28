@@ -318,9 +318,6 @@ public class PlaceholderUtils {
                     case "fechaFinalizacion":
                         value = DateUtils.formatDate(proyecto.getFechaTerminado(), language);
                         break;
-                    case "tipoProyecto":
-                        value = proyecto.getTipoProyecto() != null ? proyecto.getTipoProyecto().getNombre() : "ERROR_TIPO_PROYECTO_NULL";
-                        break;
                     case "maxMiembros":
                         value = proyecto.getTipoProyecto() != null ? String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()) : "ERROR_TIPO_PROYECTO_NULL";
                         break;
@@ -473,14 +470,6 @@ public class PlaceholderUtils {
                         else path = "placeholder.rango-ds.";
                         value = rango.getNombre() != null ? LanguageHandler.getText(language, path + rango.getNombre().toLowerCase()) : "ERROR_NOMBRE_NULL";
                         break;
-                    case "playersCantidad":
-                        int playersCount = rango.getPlayers() != null ? rango.getPlayers().size() : 0;
-                        value = String.valueOf(playersCount);
-                        break;
-                    case "permisosCantidad":
-                        int permisosCount = rango.getPermisos() != null ? rango.getPermisos().size() : 0;
-                        value = String.valueOf(permisosCount);
-                        break;
                     default:
                         value = "";
                         break;
@@ -531,9 +520,6 @@ public class PlaceholderUtils {
                     case "nombre":
                         value = tipo.getNombre() != null ? tipo.getNombre() : "ERROR_NOMBRE_NULL";
                         break;
-                    case "descripcion":
-                        value = tipo.getDescripcion() != null ? tipo.getDescripcion() : "ERROR_DESCRIPCION_NULL";
-                        break;
                     case "prefijo":
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipo-mc.";
                         else path = "placeholder.tipo-ds.";
@@ -541,10 +527,6 @@ public class PlaceholderUtils {
                         break;
                     case "cantProyecSim":
                         value = tipo.getCantProyecSim() != null ? tipo.getCantProyecSim().toString() : "ERROR_CANT_PROYEC_SIM_NULL";
-                        break;
-                    case "permisosCantidad":
-                        int permisosCount = tipo.getPermisos() != null ? tipo.getPermisos().size() : 0;
-                        value = String.valueOf(permisosCount);
                         break;
                     default:
                         value = "";
