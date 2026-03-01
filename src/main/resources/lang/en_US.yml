@@ -861,6 +861,11 @@ ds-help:
         description: "Shows detailed information about a specific project."
 ds-embeds:
   author: "BTE Cono Sur"
+  online: 
+    title: "Jugadores en línea: %online%" # %online% -> Cantidad de jugadores en línea.
+    no-online: "N/A"
+    fields: "%pais.logo% %pais.nombrePublico%: %cantidad%" # %cantidad% -> Cantidad de jugadores en línea de ese país.
+    international: "%logo% Internacional: %cantidad%" # %cantidad% -> Cantidad de jugadores en línea sin país registrado. %logo% -> Logo internacional.
   project-info:
     title: "Project Information: %proyecto.id%"
     fields:
@@ -1387,6 +1392,7 @@ placeholder:
       bolivia: "[🇧🇴]"
       peru: "[🇵🇪]"
     logo:
+      internacional: "<:BTEInternacional:1477680858633863323>"
       argentina: "<:BTEArgentina:1455209909665661184>"
       chile: "<:BTEChile:1455209939378372749>"
       uruguay: "<:BTEGuay:1455248093791649826>"

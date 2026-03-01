@@ -20,21 +20,7 @@ public class DsHelpCommand extends DsCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        String subcommandName = event.getSubcommandName();
-        
-        if (subcommandName == null) {
-            mostrarAyudaGeneral(event);
-            return;
-        }
-        
-        DsSubcommand subcommand = subcommands.get(subcommandName);
-        if (subcommand != null) {
-            subcommand.execute(event);
-        }
-    }
-    
-    private void mostrarAyudaGeneral(SlashCommandInteractionEvent event) {
         event.reply("No deberías ver esto :)").setEphemeral(true).queue();
     }
-
+    
 }

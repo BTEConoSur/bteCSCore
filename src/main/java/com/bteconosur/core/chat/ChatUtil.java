@@ -16,11 +16,14 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.TerraUtils;
+import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.registry.PaisRegistry;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.db.util.PlaceholderUtils;
@@ -490,6 +493,51 @@ public class ChatUtil {
         eb.addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.discord"), discordUser.getAsMention(), true);
         eb.setColor(embedColors.getInt("ds-embeds.player-info"));
         eb.setFooter(LanguageHandler.getText(language,"ds-embeds.player-info.footer-no-link").replace("%discordId%", discordUser.getId()));
+        return eb.build();
+    }
+
+    @SuppressWarnings("null")
+    public static MessageEmbed getDsOnline(Language language) {
+        String author = LanguageHandler.getText(language, "ds-embeds.author");
+        String iconUrl = config.getString("cono-sur-logo");
+        List<Player> onlinePlayers = PlayerRegistry.getInstance().getOnlinePlayers();
+        String title = LanguageHandler.getText(language, "ds-embeds.online.title").replace("%online%", String.valueOf(onlinePlayers.size()));
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl).setColor(embedColors.getInt("ds-embeds.online"));
+        List<String> argentina = new ArrayList<>();
+        List<String> bolivia = new ArrayList<>();
+        List<String> chile = new ArrayList<>();
+        List<String> paraguay = new ArrayList<>();
+        List<String> peru = new ArrayList<>();
+        List<String> uruguay = new ArrayList<>();
+        List<String> internacional = new ArrayList<>();
+        PaisRegistry pr = PaisRegistry.getInstance();
+        for (Player player : onlinePlayers) {
+            Division division = pr.findDivisionByPlayer(player.getUuid());
+            if (division == null) continue;
+            String playerInfo = PlaceholderUtils.replaceDS("%player.nombrePublico%", language, player);
+            switch (division.getPais().getNombre()) {
+                case "argentina" -> argentina.add(playerInfo);
+                case "bolivia" -> bolivia.add(playerInfo);
+                case "chile" -> chile.add(playerInfo);
+                case "paraguay" -> paraguay.add(playerInfo);
+                case "peru" -> peru.add(playerInfo);
+                case "uruguay" -> uruguay.add(playerInfo);
+                default -> internacional.add(playerInfo);
+            }
+        }
+        String noOnline = LanguageHandler.getText(language, "ds-embeds.online.no-online");
+        String paisField = LanguageHandler.getText(language, "ds-embeds.online.fields");
+        String internationalField = LanguageHandler.getText(language, "ds-embeds.online.international")
+            .replace("%cantidad%", String.valueOf(internacional.size()))
+            .replace("%logo%", LanguageHandler.getText(language, "placeholder.pais-ds.logo.internacional"));
+        eb.addField(PlaceholderUtils.replaceDS(paisField, language, pr.getArgentina()).replace("%cantidad%", String.valueOf(argentina.size())), argentina.isEmpty() ? noOnline : String.join(",", argentina), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getBolivia()).replace("%cantidad%", String.valueOf(bolivia.size())), bolivia.isEmpty() ? noOnline : String.join(",", bolivia), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getChile()).replace("%cantidad%", String.valueOf(chile.size())), chile.isEmpty() ? noOnline : String.join(",", chile), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getParaguay()).replace("%cantidad%", String.valueOf(paraguay.size())), paraguay.isEmpty() ? noOnline : String.join(",", paraguay), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getPeru()).replace("%cantidad%", String.valueOf(peru.size())), peru.isEmpty() ? noOnline : String.join(",", peru), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getUruguay()).replace("%cantidad%", String.valueOf(uruguay.size())), uruguay.isEmpty() ? noOnline : String.join(",", uruguay), true)
+            .addField(internationalField, internacional.isEmpty() ? noOnline : String.join(",", internacional), true);  
+
         return eb.build();
     }
 

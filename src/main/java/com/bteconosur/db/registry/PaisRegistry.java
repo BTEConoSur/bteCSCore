@@ -2,9 +2,11 @@ package com.bteconosur.db.registry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
@@ -218,7 +220,15 @@ public class PaisRegistry extends Registry<Long, Pais> {
     public Pais findByPolygon(Polygon polygon) {
         Point centroid = polygon.getCentroid();
         return findByLocation(centroid.getX(), centroid.getY());
-    }   
+    }
+
+    public Division findDivisionByPlayer(UUID playerUuid) {
+        org.bukkit.entity.Player bukkitPlayer = Bukkit.getPlayer(playerUuid);
+        if (bukkitPlayer == null) return null;
+        if (WorldManager.getInstance().getBTEWorld().isLobbyLocation(bukkitPlayer.getLocation())) return null;
+        Location loc = bukkitPlayer.getLocation();
+        return findDivisionByLocation(loc.getX(), loc.getZ(), findByLocation(loc.getX(), loc.getZ()));  
+    }
 
     public Division findDivisionByPolygon(Polygon polygon, Pais pais) {
         Point centroid = polygon.getCentroid();

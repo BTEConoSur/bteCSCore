@@ -27,6 +27,8 @@ public class DsCommandManager {
         DsHelpDiscordCommand.addHelpCommand(new DsProyectoCommand());
         addCommand(new DsHelpCommand());
         DsHelpDiscordCommand.addHelpCommand(new DsHelpCommand());
+        addCommand(new DsOnlineCommand());
+        DsHelpDiscordCommand.addHelpCommand(new DsOnlineCommand());
 
         addCommand(new DsContextDeleteChatCommand());
         addCommand(new DsContextPlayerCommand());
