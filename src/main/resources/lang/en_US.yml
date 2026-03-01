@@ -944,6 +944,8 @@ ds-embeds:
 # The 'head-id' is obtained from Head Database - https://minecraft-heads.com/.
 # In case of an invalid material, STONE will be used by default.
 gui-titles:
+  search-estado: "Search by State"
+  search-pais: "Search by Country"
   get-menu: "Get Menu"
   chat-select: "Chat Selection"
   chat-set: "Chat Selection: %player.nombre%"
@@ -1040,6 +1042,18 @@ items:
     searched: "<gray>Results for: <white>'%search%'" # %search% -> Search text.
     search-again-Line-1: "<gray>Click to search again."
     search-again-Line-2: "<gray>Enter empty text to reset."
+  search-estado:
+    name: "<aqua>Buscar por estado"
+    search-line: "<gray>Haz clic para buscar por estado"
+    searched: "<gray>Resultados para estado: <white>'%search%'" # %search% -> Estado de búsqueda.
+    search-again-Line-1: "<gray>Haz clic para buscar de nuevo."
+    search-again-Line-2: "<gray>Selecciona el mismo para resetear."
+  search-pais:
+    name: "<aqua>Buscar por País"
+    search-line: "<gray>Haz clic para buscar por País"
+    searched: "<gray>Resultados para País: <white>'%pais.nombrePublico%'" # %search% -> País de búsqueda.
+    search-again-Line-1: "<gray>Haz clic para buscar de nuevo."
+    search-again-Line-2: "<gray>Selecciona el mismo para resetear."
   promote:
     name: "<green>Confirm and Promote"
     lore:
@@ -1098,7 +1112,8 @@ items:
       - "<gray>Leader: <white>%proyecto.lider%"
       - "<gray>Members: <white>%proyecto.miembrosCantidad%"
       - "<gray>Location: <white>%proyecto.paisNombre%"
-      - "<white>%proyecto.divisionContexto%, %proyecto.divisionFna%"
+      - "<white>%proyecto.divisionContexto%,"
+      - "<white>%proyecto.divisionFna%"
       - "<gray>Size: <white>%proyecto.tamano%m²"
       - "<gray>Type: <white>%proyecto.tipo%"
       - "<gray>Created: <white>%proyecto.fechaCreacion%"
@@ -1316,6 +1331,8 @@ placeholder:
     search-term:
       nombre: "Name"
       id: "ID"
+      ubicacion: "Location"
+      estado: "State"
   player-mc:
     online: "<green><b>Online</b></green>"
     offline: "<red><b>Offline</b></red>"

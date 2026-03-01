@@ -300,9 +300,8 @@ public final class BTEConoSur extends JavaPlugin {
     }   
 }
 
-// TODO: /online
-
 // TODO: Tab
+// TODO: Menu npc
 
 // TODO: Añadir parametros y descripción a las funciones
 // TODO: Añadir iconos a los proyectos

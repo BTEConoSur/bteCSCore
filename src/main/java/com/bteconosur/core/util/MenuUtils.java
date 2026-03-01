@@ -15,11 +15,14 @@ import org.bukkit.inventory.meta.BlockDataMeta;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.util.Estado;
 import com.bteconosur.db.util.PlaceholderUtils;
+import com.bteconosur.db.util.PlaceholderUtils.PlaceholderContext;
 
 import de.rapha149.signgui.SignGUI;
 import de.rapha149.signgui.SignGUIFinishHandler;
@@ -149,6 +152,38 @@ public class MenuUtils {
             gui.getString("item-materials.search"),
             LanguageHandler.getText(language,"items.search.name").replace("%searchTerm%", searchTerm),
             lore, (search != null && !search.isBlank())
+        );
+    }
+
+    public static GuiItem getSearchItem(Estado estado, Language language) {
+        List<String> lore = new ArrayList<String>();
+        if (estado != null) {
+            lore.add(LanguageHandler.getText(language, "items.search-estado.searched").replace("%search%", estado.getDisplayName(PlaceholderContext.MINECRAFT, language)));
+            lore.add(LanguageHandler.getText(language, "items.search-estado.search-again-Line-1"));
+            lore.add(LanguageHandler.getText(language, "items.search-estado.search-again-Line-2"));
+        } else {
+            lore.add(LanguageHandler.getText(language, "items.search-estado.search-line"));
+        }
+        return buildGuiItem(
+            gui.getString("item-materials.search"),
+            LanguageHandler.getText(language,"items.search-estado.name"),
+            lore, (estado != null)
+        );
+    }
+
+    public static GuiItem getSearchItem(Pais pais, Language language) {
+        List<String> lore = new ArrayList<String>();
+        if (pais != null) {
+            lore.add(LanguageHandler.replaceMC("items.search-pais.searched", language, pais));
+            lore.add(LanguageHandler.getText(language, "items.search-pais.search-again-Line-1"));
+            lore.add(LanguageHandler.getText(language, "items.search-pais.search-again-Line-2"));
+        } else {
+            lore.add(LanguageHandler.getText(language, "items.search-pais.search-line"));
+        }
+        return buildGuiItem(
+            gui.getString("item-materials.search"),
+            LanguageHandler.getText(language,"items.search-pais.name"),
+            lore, (pais != null)
         );
     }
 
@@ -555,6 +590,46 @@ public class MenuUtils {
 
     public static enum PlayerContext {
         LIDER, MIEMBRO, DEFAULT, REVIEWER, MANAGER
+    }
+
+    public static GuiItem getEstadoItem(Estado estado, Language language, boolean isSelected) {
+        String value = Estado.getDisplayName(estado, PlaceholderContext.MINECRAFT, language);
+        String materialPath = "item-materials.project-estado.";
+        switch (estado) {
+            case EN_CREACION:
+                materialPath += "en-creacion";
+                break;
+            case EN_FINALIZACION:
+                materialPath += "en-finalizacion";
+                break;
+            case EN_FINALIZACION_EDICION:
+                materialPath += "en-finalizacion-edit";
+                break;
+            case ACTIVO:
+                materialPath += "activo";
+                break;
+            case COMPLETADO:
+                materialPath += "completado";
+                break;
+            case EDITANDO:
+                materialPath += "editando";
+                break;
+            case REDEFINIENDO:
+                materialPath += "redefiniendo";
+                break;
+            case ABANDONADO:
+                materialPath += "abandonado";
+                break;
+            default:
+                materialPath += "default";
+        }
+        List<String> lore = new ArrayList<>();
+        if (isSelected) lore.addFirst(LanguageHandler.getText(language, "placeholder.selected"));
+        return buildGuiItem(
+            gui.getString(materialPath),
+            value,
+            lore, isSelected
+        );
     }
 
     public static boolean createSignGUI(org.bukkit.entity.Player player, SignGUIFinishHandler handler, Language language) {

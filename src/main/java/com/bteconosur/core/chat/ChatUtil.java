@@ -536,7 +536,7 @@ public class ChatUtil {
             .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getParaguay()).replace("%cantidad%", String.valueOf(paraguay.size())), paraguay.isEmpty() ? noOnline : String.join(",", paraguay), true)
             .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getPeru()).replace("%cantidad%", String.valueOf(peru.size())), peru.isEmpty() ? noOnline : String.join(",", peru), true)
             .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getUruguay()).replace("%cantidad%", String.valueOf(uruguay.size())), uruguay.isEmpty() ? noOnline : String.join(",", uruguay), true)
-            .addField(internationalField, internacional.isEmpty() ? noOnline : String.join(",", internacional), true);  
+            .addField(internationalField, internacional.isEmpty() ? noOnline : String.join(", ", internacional), true);  
 
         return eb.build();
     }

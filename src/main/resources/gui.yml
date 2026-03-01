@@ -3,6 +3,15 @@
 # La 'head-id' es la que se obtiene desde Head Database - https://minecraft-heads.com/.
 # En caso de un material inválido, se usará STONE por defecto.
 item-materials:
+  project-estado:
+    activo: "LIME_WOOL"
+    en-finalizacion: "YELLOW_WOOL"
+    en-finalizacion-edit: "YELLOW_WOOL"
+    completado: "GREEN_WOOL"
+    en-creacion: "RED_WOOL"
+    editando: "ORANGE_WOOL"
+    redefiniendo: "ORANGE_WOOL"
+    abandonado: "BLACK_WOOL"
   teleport: "ENDER_PEARL"
   save: "hdb:21771"
   player-search-info: "NAME_TAG"

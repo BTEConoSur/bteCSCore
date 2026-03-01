@@ -1,5 +1,6 @@
 package com.bteconosur.db.model;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,7 +20,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "division")
@@ -45,6 +48,9 @@ public class Division {
     @Column(name = "contexto", length = 100)
     private String contexto;
 
+    @Transient
+    private String searchIndex;
+
     @ManyToOne
     @JoinColumn(name = "id_pais")
     private Pais pais;
@@ -68,6 +74,17 @@ public class Division {
         this.fna = fna;
         this.contexto = contexto;
         this.pais = pais;
+    }
+
+    @PostLoad
+    public void buildSearchIndex() {
+        String ubicacion = this.pais.getNombrePublico() + " " + this.getContexto() + " " + this.getFna();
+        ubicacion = Normalizer.normalize(ubicacion.toLowerCase(), Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+        this.searchIndex = ubicacion;
+    }
+
+    public String getSearchIndex() {
+        return searchIndex;
     }
 
     public Long getId() {

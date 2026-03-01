@@ -969,6 +969,8 @@ ds-embeds:
 
 # GUI
 gui-titles:
+  search-estado: "Seleccionar Estado a buscar"
+  search-pais: "Seleccionar País a buscar"
   get-menu: "Get Menú"
   chat-select: "Selección de Chat"
   chat-set: "Selección de Chat: %player.nombre%"
@@ -1065,6 +1067,18 @@ items:
     searched: "<gray>Resultados para: <white>'%search%'" # %search% -> Texto de búsqueda.
     search-again-Line-1: "<gray>Haz clic para buscar de nuevo."
     search-again-Line-2: "<gray>Ingresa un texto vacío para resetear."
+  search-estado:
+    name: "<aqua>Buscar por Estado"
+    search-line: "<gray>Haz clic para buscar por Estado"
+    searched: "<gray>Resultados para Estado: <white>'%search%'" # %search% -> Estado de búsqueda.
+    search-again-Line-1: "<gray>Haz clic para buscar de nuevo."
+    search-again-Line-2: "<gray>Selecciona el mismo para resetear."
+  search-pais:
+    name: "<aqua>Buscar por País"
+    search-line: "<gray>Haz clic para buscar por País"
+    searched: "<gray>Resultados para País: <white>'%pais.nombrePublico%'"
+    search-again-Line-1: "<gray>Haz clic para buscar de nuevo."
+    search-again-Line-2: "<gray>Selecciona el mismo para resetear."
   promote:
     name: "<green>Confirmar y Promover"
     lore:
@@ -1123,7 +1137,8 @@ items:
       - "<gray>Líder: <white>%proyecto.lider%"
       - "<gray>Miembros: <white>%proyecto.miembrosCantidad%"
       - "<gray>Ubicación: <white>%proyecto.paisNombre%"
-      - "<white>%proyecto.divisionContexto%, %proyecto.divisionFna%"
+      - "<white>%proyecto.divisionContexto%,"
+      - "<white>%proyecto.divisionFna%"
       - "<gray>Tamaño: <white>%proyecto.tamano%m²"
       - "<gray>Tipo: <white>%proyecto.tipo%"
       - "<gray>Creación: <white>%proyecto.fechaCreacion%"
@@ -1341,6 +1356,8 @@ placeholder:
     search-term:
       nombre: "Nombre"
       id: "ID"
+      ubicacion: "Ubicación"
+      estado: "Estado"
   player-mc:
     online: "<green><b>En línea</b></green>"
     offline: "<red><b>Desconectado</b></red>"
