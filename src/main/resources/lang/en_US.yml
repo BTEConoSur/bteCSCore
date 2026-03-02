@@ -334,6 +334,32 @@ commands-descriptions:
     config.desc: "Open Reviewer configuration menu."
     togglebypass: "Activate or deactivate review bypass for a project."
 
+help-visitar:
+  using-coords:
+    - ""
+    - "(coords)lorem ipsum dolor sit amet"
+    - "consectetur adipiscing elit"
+    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    - ""
+  using-address:
+    - ""
+    - "(address)lorem ipsum dolor sit amet"
+    - "consectetur adipiscing elit"
+    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    - ""
+  tour:
+    - ""
+    - "(tour)lorem ipsum dolor sit amet"
+    - "consectetur adipiscing elit"
+    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    - ""
+  warps:
+    - ""
+    - "(warps)lorem ipsum dolor sit amet"
+    - "consectetur adipiscing elit"
+    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    - ""
+
 region:
   selected: "<green>Region successfully selected."
   not-selected: "You don't have a region selected."
@@ -945,6 +971,9 @@ ds-embeds:
 # The 'head-id' is obtained from Head Database - https://minecraft-heads.com/.
 # In case of an invalid material, STONE will be used by default.
 gui-titles:
+  help-visitar: "Select how you want to visit"
+  visit-anyplace: "Visit any place"
+  visit-builtplace: "Visit built places"
   search-estado: "Search by State"
   search-pais: "Search by Country"
   get-menu: "Get Menu"
@@ -988,6 +1017,37 @@ gui-titles:
   manager-list-country: "Managers país '%pais.nombrePublico%'"
 
 items:
+  help-visitar:
+    anyplace:
+      name: "<green>Visit any place"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    builtplace:
+      name: "<green>Visit built places"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    using-coords:
+      name: "<green>Using coordinates"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    using-address:
+      name: "<green>Using addresses"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    tour:
+      name: "<green>Tour"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    warps:
+      name: "<green>Warps"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
   teleport:
     name: "<green>Teleport"
     lore:
@@ -1417,6 +1477,7 @@ placeholder:
       paraguay: "<:BTEGuay:1455248093791649826>"
       bolivia: "<:BTEBolivia:1455209926640140413>"
       peru: "<:BTEPeru:1455209955706540135>"
+      antartida: "<:BTEAntartida:1477680856880860160>"
   rango-ds:
     normal: "[🎮]"
     admin: "[<:Test:1455195552802148586>]"

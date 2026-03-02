@@ -363,6 +363,32 @@ commands-descriptions:
     config.desc: "Abrir menú de configuración de Reviewer."
     togglebypass: "Activar o desactivar el bypass de revisión para un proyecto."
 
+help-visitar: # En cualquier línea se puede usar %plugin-prefix%
+  using-coords:
+    - ""
+    - "(coords)lorem ipsum dolor sit amet"
+    - "consectetur adipiscing elit"
+    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    - ""
+  using-address:
+    - "%plugin-prefix%"
+    - "(address)lorem ipsum dolor sit amet"
+    - "consectetur adipiscing elit"
+    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    - ""
+  tour:
+    - ""
+    - "(tour)lorem ipsum dolor sit amet"
+    - "consectetur adipiscing elit"
+    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    - ""
+  warps:
+    - ""
+    - "(warps)lorem ipsum dolor sit amet"
+    - "consectetur adipiscing elit"
+    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+    - ""
+
 region:
   selected: "<green>Región seleccionada correctamente."
   not-selected: "No tienes una región seleccionada."
@@ -970,6 +996,9 @@ ds-embeds:
 
 # GUI
 gui-titles:
+  help-visitar: "Selecciona cómo quieres visitar"
+  visit-anyplace: "Visitar cualquier lugar"
+  visit-builtplace: "Visitar construcciones"
   search-estado: "Seleccionar Estado a buscar"
   search-pais: "Seleccionar País a buscar"
   get-menu: "Get Menú"
@@ -1013,6 +1042,37 @@ gui-titles:
   manager-list-country: "Managers país '%pais.nombrePublico%'"
 
 items:
+  help-visitar:
+    anyplace:
+      name: "<green>Visitar cualquier lugar"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    builtplace:
+      name: "<green>Visitar lugares construidos"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    using-coords:
+      name: "<green>Usando coordenadas"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    using-address:
+      name: "<green>Usando direcciones"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    tour:
+      name: "<green>Tour"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    warps:
+      name: "<green>Warps"
+      lore:
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
   teleport:
     name: "<green>Teletransportarse"
     lore:
@@ -1442,6 +1502,7 @@ placeholder:
       paraguay: "<:BTEGuay:1455248093791649826>"
       bolivia: "<:BTEBolivia:1455209926640140413>"
       peru: "<:BTEPeru:1455209955706540135>"
+      antartida: "<:BTEInternacional:1477680858633863323>"
   rango-ds:
     normal: "[🎮]"
     admin: "[<:Test:1455195552802148586>]"

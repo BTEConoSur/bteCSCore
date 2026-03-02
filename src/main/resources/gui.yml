@@ -3,6 +3,13 @@
 # La 'head-id' es la que se obtiene desde Head Database - https://minecraft-heads.com/.
 # En caso de un material inválido, se usará STONE por defecto.
 item-materials:
+  help-visitar:
+    anyplace: "GRASS_BLOCK"
+    builtplace: "CRAFTING_TABLE"
+    using-coords: "COMPASS"
+    using-address: "BIRCH_SIGN"
+    tour: "SPYGLASS"
+    warps: "END_CRYSTAL"
   project-estado:
     activo: "LIME_WOOL"
     en-finalizacion: "YELLOW_WOOL"

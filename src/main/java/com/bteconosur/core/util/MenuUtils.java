@@ -35,6 +35,38 @@ public class MenuUtils {
 
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
 
+    private static GuiItem getHelpVisitarItem(String key, Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.help-visitar." + key),
+            LanguageHandler.getText(language, "items.help-visitar." + key + ".name"),
+            LanguageHandler.getTextList(language, "items.help-visitar." + key + ".lore"), false
+        );
+    }
+
+    public static GuiItem getHelpVisitarAnyplaceItem(Language language) {
+        return getHelpVisitarItem("anyplace", language);
+    }
+
+    public static GuiItem getHelpVisitarBuiltplaceItem(Language language) {
+        return getHelpVisitarItem("builtplace", language);
+    }
+
+    public static GuiItem getHelpVisitarUsingCoordsItem(Language language) {
+        return getHelpVisitarItem("using-coords", language);
+    }
+
+    public static GuiItem getHelpVisitarUsingAddressItem(Language language) {
+        return getHelpVisitarItem("using-address", language);
+    }
+
+    public static GuiItem getHelpVisitarTourItem(Language language) {
+        return getHelpVisitarItem("tour", language);
+    }
+
+    public static GuiItem getHelpVisitarWarpsItem(Language language) {
+        return getHelpVisitarItem("warps", language);
+    }
+
     public static GuiItem getTeleportItem(Language language) {
         return buildGuiItem(
             gui.getString("item-materials.teleport"),

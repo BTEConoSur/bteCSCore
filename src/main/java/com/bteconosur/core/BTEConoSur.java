@@ -6,6 +6,7 @@ import com.bteconosur.core.command.BackCommand;
 import com.bteconosur.core.command.DeletePlayerDataCommand;
 import com.bteconosur.core.command.GetCommand;
 import com.bteconosur.core.command.HelpCommand;
+import com.bteconosur.core.command.HelpVisitarCommand;
 import com.bteconosur.core.command.LobbyCommand;
 import com.bteconosur.core.command.NightvisionCommand;
 import com.bteconosur.core.command.PlayerCommand;
@@ -207,6 +208,8 @@ public final class BTEConoSur extends JavaPlugin {
         HelpCommand.addCommand(new PromoteCommand());
         PluginRegistry.registerCommand(new BTECSCommand());
         HelpCommand.addCommand(new BTECSCommand());
+
+        PluginRegistry.registerCommand(new HelpVisitarCommand());
     }
 
     @Override
