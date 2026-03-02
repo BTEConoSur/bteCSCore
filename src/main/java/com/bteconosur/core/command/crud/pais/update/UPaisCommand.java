@@ -23,6 +23,7 @@ public class UPaisCommand extends BaseCommand {
         this.addSubcommand(new AddPaisRegionGeojsonCommand());
         this.addSubcommand(new AddDivisionesGeojsonCommand());
         this.addSubcommand(new RemovePaisRegionCommand());
+        this.addSubcommand(new AddPaisRegionCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

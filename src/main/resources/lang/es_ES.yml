@@ -255,6 +255,7 @@ commands-descriptions:
         desc: "Actualizar atributos de un País."
         adddivisiones.desc: "Cargar divisiones de un País desde archivos GeoJSON."
         addregiones.desc: "Cargar regiones de un País desde un archivo GeoJSON. Colocar en geojson/countries."
+        addregion.desc: "Agregar una región a un País con World Edit."
         removeregion.desc: "Eliminar región de un País."
       create.desc: "Crear un nuevo País. Se crea sin poligono."
       delete.desc: "Eliminar un País. Se eliminan también las divisiones y regiones asociadas a ese País."
@@ -1332,7 +1333,7 @@ world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."
 bte-world-loading: "Cargando mundo de BTE..."
 label-world-loading: "Cargando capa: %name% con offset %offset%..." # %name% -> Nombre de la capa. %offset% -> Offset de la capa.
 invalid-bte-world: "El mundo de BTE no es válido."
-capa-alta-no-region: "La capa alta no tiene una región asociada."
+capas-no-region: "La capa '%name%' no tiene una región asignada."
 invalid-label-world: "La capa '%name%' no está creada en el servidor." 
 
 teleport-layer-title: "Teletransportando a %destination%" # %destination% -> Nombre del mundo o capa de destino.

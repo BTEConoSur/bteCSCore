@@ -22,7 +22,7 @@ public class MovingListeners implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        worldManager.checkMove(event.getFrom(), event.getTo(), event.getPlayer());
+        worldManager.checkMove(event.getTo(), event.getPlayer());
         worldManager.checkTitles(event.getTo(), event.getPlayer());
         if (!worldManager.checkPaisMove(event.getFrom(), event.getTo(), event.getPlayer())) {
             event.setCancelled(true);
@@ -35,7 +35,7 @@ public class MovingListeners implements Listener {
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         PlayerRegistry.updateLastLocation(event.getPlayer().getUniqueId(), event.getFrom());
         if (event.getFrom().getWorld() != event.getTo().getWorld()) return;
-        worldManager.checkMove(event.getFrom(), event.getTo(), event.getPlayer());
+        worldManager.checkMove(event.getTo(), event.getPlayer());
         if (!worldManager.checkPaisMove(event.getFrom(), event.getTo(), event.getPlayer())) {
             event.setCancelled(true);
             Player player = Player.getBTECSPlayer(event.getPlayer());

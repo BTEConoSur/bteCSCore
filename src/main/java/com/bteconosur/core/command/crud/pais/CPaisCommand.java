@@ -24,7 +24,7 @@ public class CPaisCommand extends BaseCommand {
         Player commandPlayer = null;
         if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
         Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
-        if (args.length != 6) {
+        if (args.length != 7) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;

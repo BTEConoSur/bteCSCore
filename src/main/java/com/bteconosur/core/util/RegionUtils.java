@@ -203,64 +203,7 @@ public class RegionUtils {
     }
 
     public static void spawnBorderParticles(Player player, Polygon poly, String particleName) {
-        if (poly == null || poly.isEmpty()) return;
-        
-        Particle particle;
-        try {
-            particle = Particle.valueOf(particleName);
-        } catch (IllegalArgumentException e) {
-            particle = Particle.FLAME;
-        }
-        
-        double maxDistance = config.getDouble("border-particles.max-distance");
-        double maxDistSq = maxDistance * maxDistance;
-        int layers = config.getInt("border-particles.layers");
-        double playerY = player.getLocation().getY();
-        double height = playerY - (layers / 2.0);
-        
-        double playerX = player.getLocation().getX();
-        double playerZ = player.getLocation().getZ();
-        
-        CoordinateSequence seq = poly.getExteriorRing().getCoordinateSequence();
-        int size = seq.size();
-        
-        for (int i = 0; i < size - 1; i++) {
-            double startX = seq.getX(i);
-            double startZ = seq.getY(i);
-            double endX = seq.getX(i + 1);
-            double endZ = seq.getY(i + 1);
-            
-            double minX = Math.min(startX, endX) - maxDistance;
-            double maxX = Math.max(startX, endX) + maxDistance;
-            double minZ = Math.min(startZ, endZ) - maxDistance;
-            double maxZ = Math.max(startZ, endZ) + maxDistance;
-            
-            if (playerX < minX || playerX > maxX || playerZ < minZ || playerZ > maxZ) {
-                continue;
-            }
-            
-            double segDx = endX - startX;
-            double segDz = endZ - startZ;
-            double segmentLength = Math.sqrt(segDx * segDx + segDz * segDz);
-            int numPoints = (int) Math.ceil(segmentLength);
-            if (numPoints < 1) numPoints = 1;
-            
-            for (int j = 0; j < numPoints; j++) {
-                double t = j / (double) numPoints;
-                double x = startX + segDx * t;
-                double z = startZ + segDz * t;
-                
-                double dx = x - playerX;
-                double dz = z - playerZ;
-                double distSq = dx * dx + dz * dz;
-                
-                if (distSq <= maxDistSq) {
-                    for (int layer = 0; layer < layers; layer++) {
-                        player.spawnParticle(particle, x, height + layer, z, 1, 0, 0, 0, 0);
-                    }
-                }
-            }
-        }
+        spawnBorderParticles(player, poly, particleName, 0.0);
     }
 
     public static void spawnBorderParticles(Player player, Polygon poly, String particleName, double offset) {
@@ -273,18 +216,25 @@ public class RegionUtils {
             particle = Particle.FLAME;
         }
         
-        double maxDistance = config.getDouble("border-particles.max-distance");
-        double maxDistSq = maxDistance * maxDistance;
-        int layers = config.getInt("border-particles.layers");
-        double playerY = player.getLocation().getY();
-        double height = playerY - (layers / 2.0);
-        
+        CoordinateSequence seq = poly.getExteriorRing().getCoordinateSequence();
+        spawnBorderParticles(player, seq, particle, offset);
+        int cantInterior = poly.getNumInteriorRing();
+        if (cantInterior > 0) {
+            for (int i = 0; i < cantInterior; i++) {
+                spawnBorderParticles(player, poly.getInteriorRingN(i).getCoordinateSequence(), particle, offset);
+            }
+        }
+    }
+
+    public static void spawnBorderParticles(Player player, CoordinateSequence seq, Particle particle, double offset) {
         double playerX = player.getLocation().getX();
         double playerZ = player.getLocation().getZ();
-        
-        CoordinateSequence seq = poly.getExteriorRing().getCoordinateSequence();
+        double playerY = player.getLocation().getY();
+        double maxDistance = config.getDouble("border-particles.max-distance");
+        int layers = config.getInt("border-particles.layers");
+        double maxDistSq = maxDistance * maxDistance;
+        double height = playerY - (layers / 2.0);
         int size = seq.size();
-        
         for (int i = 0; i < size - 1; i++) {
             double startX = seq.getX(i);
             double startZ = seq.getY(i);

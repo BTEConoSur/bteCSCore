@@ -226,6 +226,7 @@ commands-descriptions:
         desc: "Update attributes of a Country."
         adddivisiones.desc: "Load divisions of a Country from GeoJSON files."
         addregiones.desc: "Load regions of a Country from a GeoJSON file. Place in geojson/countries."
+        addregion.desc: "Add a region to a Country with World Edit."
         removeregion.desc: "Remove region from a Country."
       create.desc: "Create a new Country. Created without polygon."
       delete.desc: "Delete a Country. Associated divisions and regions are also deleted."

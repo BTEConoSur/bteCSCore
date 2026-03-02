@@ -1,14 +1,21 @@
 package com.bteconosur.world.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.GeoJsonUtils;
+import com.bteconosur.core.util.RegionUtils;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -24,6 +31,8 @@ public abstract class LabelWorld {
 
     private final World bukkitWorld;
     private final RegionManager regionManager;
+
+    private final List<RegionData> regions = new ArrayList<>();
 
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
@@ -43,7 +52,8 @@ public abstract class LabelWorld {
             ConsoleLogger.warn("La región padre de proyectos " + config.getString("wg-parent-proyecto") + " no existe en WorldGuard. Creándola...");
             parentProject = new GlobalProtectedRegion(config.getString("wg-parent-proyecto"));
             regionManager.addRegion(parentProject);
-        }   
+        }
+        loadRegions();
     }
 
     public void teleportPlayer(Player player, double x, double y, double z, float yaw, float pitch) {
@@ -55,8 +65,34 @@ public abstract class LabelWorld {
         if (location == null) return false;
         if (bukkitWorld == null) return false;
         return location.getWorld().equals(bukkitWorld);
-    }   
+    }
 
+    private void loadRegions() {
+        List<Polygon> polygons = GeoJsonUtils.geoJsonToPolygons("world", getName() + ".geojson");
+        for (Polygon polygon : polygons) {
+            regions.add(new RegionData(polygon));
+        }
+        return;
+    }
+
+    public List<RegionData> getRegions() {
+        return this.regions;
+    }
+
+    public Polygon getPolygonForPlayer(com.bteconosur.db.model.Player player) {
+        org.bukkit.entity.Player bukkitPlayer = Bukkit.getPlayer(player.getUuid());
+        if (bukkitPlayer == null) return null;
+
+        double x = bukkitPlayer.getLocation().getX();
+        double z = bukkitPlayer.getLocation().getZ();
+
+        for (RegionData regionData : regions) {
+            if (RegionUtils.containsCoordinate(regionData.getPrepared(), regionData.getEnvelope(), x, z)) {
+                return regionData.getPolygon();
+            }
+        }
+        return null;
+    }
 
     public World getBukkitWorld() {
         return this.bukkitWorld;

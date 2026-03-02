@@ -10,9 +10,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.locationtech.jts.geom.Polygon;
 import org.mvplugins.multiverse.core.MultiverseCoreApi;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
@@ -25,8 +26,10 @@ import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PaisRegistry;
+import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.util.ChunkKey;
+import com.bteconosur.world.WorldManager;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -57,6 +60,7 @@ public class BTEWorld {
 
         loadWorld();
         if (!isValid) ConsoleLogger.error(LanguageHandler.getText("invalid-bte-world"));
+        if (config.getBoolean("border-particles.label-enable")) enableParticlesSpawning();
     }
 
     private void loadWorld() {
@@ -66,34 +70,31 @@ public class BTEWorld {
                 ok = false;
                 break;
             }
-            if (lw instanceof CapaAlta) {
-                if (capaAlta.getRegions().isEmpty() || capaAlta.getRegions() == null) {
-                    ok = false;
-                    ConsoleLogger.error(LanguageHandler.getText("capa-alta-no-regions"));
-                    break;
-                }
+            if (lw.getRegions().isEmpty() || lw.getRegions() == null) {
+                ok = false;
+                ConsoleLogger.error(LanguageHandler.getText("capas-no-region").replace("%name%", lw.getDisplayName()));
+                break;
             }
         }
         this.isValid = ok;
     }
 
+    public LabelWorld getLabelWorld(String bukkitWorldName) {
+        if (capaAlta.getBukkitWorld().getName().equals(bukkitWorldName)) return capaAlta;
+        if (capaBaja.getBukkitWorld().getName().equals(bukkitWorldName)) return capaBaja;
+        return null;
+    }
+
     public LabelWorld getLabelWorld(double x, double z) {
+        List<RegionData> regionsb = capaBaja.getRegions();
+        for (RegionData regionData : regionsb) {
+            if (RegionUtils.containsCoordinate(regionData.getPrepared(), regionData.getEnvelope(), x, z)) return capaBaja;
+        }
         List<RegionData> regions = capaAlta.getRegions();
         for (RegionData regionData : regions) {
             if (RegionUtils.containsCoordinate(regionData.getPrepared(), regionData.getEnvelope(), x, z)) return capaAlta;
         }
-        
-        return capaBaja;
-    }
-
-    public boolean isValidLocation(Location loc) {
-        World bw = getLabelWorld(loc.getX(), loc.getZ()).getBukkitWorld();
-        return bw == loc.getWorld();
-    }
-
-    public boolean isValidLocation(Location loc, LabelWorld lw) {
-        World bw = lw.getBukkitWorld();
-        return bw == loc.getWorld();
+        return null;
     }
 
     public boolean isLobbyLocation(Location loc) {
@@ -159,42 +160,64 @@ public class BTEWorld {
         ); 
     }
 
-    public void checkLayerMove(Location lFrom, Location lTo, Player player) {
+    public void checkLayerMove(Location lTo, Player player) {
         LabelWorld currentlw = getLabelWorld(lTo.getX(), lTo.getZ());
         UUID pUuid = player.getUniqueId();
         Language language = com.bteconosur.db.model.Player.getBTECSPlayer(player).getLanguage();
-        if (isValidLocation(lTo) == false) return;
+        if (isLobbyLocation(lTo)) return;
+        if (currentlw == null) return;
+    
         LabelWorld lastlw = lastLabelWorld.get(pUuid);
-
         if (lastlw == null) {
+            if (!currentlw.isValidLocation(lTo)) {
+                lastLabelWorld.put(pUuid, getLabelWorld(lTo.getWorld().getName()));
+                return;
+            }
             lastLabelWorld.put(pUuid, currentlw);
             return;
         }
 
-        if (currentlw == lastlw && playerTasks.containsKey(pUuid)) {
-            playerTasks.get(pUuid).cancel();      
-            playerTasks.remove(pUuid);
-            return;
-        };
-        if (currentlw == lastlw) return;
+        if (currentlw.equals(lastlw) && currentlw.isValidLocation(lTo)) return;
 
         int tpCooldownSeconds = config.getInt("tp-cooldown-seconds");
-        if (lastlw != currentlw && !playerTasks.containsKey(pUuid)) {
+        if ((!lastlw.equals(currentlw) || !currentlw.isValidLocation(lTo)) && !playerTasks.containsKey(pUuid)) {
             BukkitTask task = new BukkitRunnable() {
                 Integer elapsedSeconds = 0;
                 @Override
                 public void run() {
-                    if (!isValidLocation(player.getLocation())) {
+                    Location playerLocation = player.getLocation();
+                    if (isLobbyLocation(playerLocation)) {
                         playerTasks.remove(pUuid);
-                        lastLabelWorld.remove(pUuid);
                         this.cancel();
                         return;
                     }
                     LabelWorld destination = getLabelWorld(player.getX(), player.getZ());
+                    if (destination == null) {
+                        playerTasks.remove(pUuid);
+                        this.cancel();
+                        return;
+                    }
+                    LabelWorld lastDestination = lastLabelWorld.get(pUuid);
+                    if (lastDestination == null) { // Probablemente no se ejecute nunca
+                        lastLabelWorld.put(pUuid, destination);
+                        this.cancel();     
+                        playerTasks.remove(pUuid);
+                        return;
+                    }
+                    
+                    if (destination.equals(lastDestination) && destination.isValidLocation(playerLocation)) {
+                        this.cancel();     
+                        playerTasks.remove(pUuid);
+                        return;
+                    };
+                    
                     if (elapsedSeconds >= tpCooldownSeconds) {
                         this.cancel();
                         lastLabelWorld.put(pUuid, destination);
-                        destination.teleportPlayer(player, player.getX(), convertY(player.getY(), lastlw, destination), player.getZ(), player.getYaw(), player.getPitch());
+                        ConsoleLogger.debug("Teleporting player " + player.getName() + " to layer " + destination.getDisplayName() + " from layer " + lastDestination.getDisplayName());
+                        ConsoleLogger.debug("Player location before teleport: " + player.getLocation().toString());
+                        ConsoleLogger.debug("Player Y before conversion: " + convertY(player.getY(), lastDestination, destination));
+                        destination.teleportPlayer(player, player.getX(), convertY(player.getY(), lastDestination, destination), player.getZ(), player.getYaw(), player.getPitch());
                         playerTasks.remove(pUuid);
                         return;
                     }
@@ -227,7 +250,6 @@ public class BTEWorld {
     }
 
     private double convertY(double ySource, LabelWorld sourceLw, LabelWorld destLw) {
-        if (sourceLw == null || destLw == null) return ySource;
         return ySource - destLw.getOffset() + sourceLw.getOffset();
     }
 
@@ -253,5 +275,26 @@ public class BTEWorld {
 
     public MultiverseCoreApi getMultiverseApi() {
         return this.multiverseApi;
+    }
+
+    private void enableParticlesSpawning() {
+        long periodTicks = ConfigHandler.getInstance().getConfig().getLong("border-particles.spawn-period");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (com.bteconosur.db.model.Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+                    if (!player.getConfiguration().getGeneralLabelBorder()) continue;
+                    Player bukkitPlayer = Bukkit.getPlayer(player.getUuid());
+                    if (bukkitPlayer == null) continue;
+                    if (WorldManager.getInstance().getBTEWorld().isLobbyLocation(bukkitPlayer.getLocation())) continue;
+                    
+                    Location location = bukkitPlayer.getLocation();
+                    LabelWorld currentLabelWorld = WorldManager.getInstance().getBTEWorld().getLabelWorld(location.getX(), location.getZ());
+                    Polygon polygon = currentLabelWorld.getPolygonForPlayer(player);
+                    if (polygon == null) continue;
+                    RegionUtils.spawnBorderParticles(bukkitPlayer, polygon, config.getString("border-particles.label-particle"));
+                }
+            }
+        }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
     }
 }

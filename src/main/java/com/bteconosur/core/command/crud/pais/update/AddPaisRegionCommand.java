@@ -1,26 +1,24 @@
 package com.bteconosur.core.command.crud.pais.update;
 
-import java.util.List;
-
 import org.bukkit.command.CommandSender;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
-import com.bteconosur.core.util.GeoJsonUtils;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.DBManager;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.RegionPais;
 
-public class AddPaisRegionGeojsonCommand extends BaseCommand {
+public class AddPaisRegionCommand extends BaseCommand {
 
     private final DBManager dbManager;
 
-    public AddPaisRegionGeojsonCommand() {
-        super("addregiones", "<id_pais> <archivo_geojson>", "btecs.command.crud", CommandMode.BOTH);
+    public AddPaisRegionCommand() {
+        super("addregion", "<id_pais> <nombre_region>", "btecs.command.crud", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 
@@ -51,21 +49,11 @@ public class AddPaisRegionGeojsonCommand extends BaseCommand {
             return true;
         }
 
-        String fileName = args[1];
-        List<Polygon> polygons = GeoJsonUtils.geoJsonToPolygons("countries", fileName);
-        if (polygons == null || polygons.isEmpty()) {
-            PlayerLogger.error(sender, LanguageHandler.getText(language, "crud.not-valid-geojson"), (String) null);
-            return true;
-        }
-
+        Polygon regionPolygon = RegionUtils.getPolygon(sender);
+        if (regionPolygon == null) return true;
         Pais pais = dbManager.get(Pais.class, paisId);
-
-        for (int i = 0; i < polygons.size(); i++) {
-            String regionName = pais.getNombre() + "_" + fileName + "_" + (i + 1);
-            RegionPais region = new RegionPais(pais, regionName, polygons.get(i));
-            dbManager.save(region);
-        }
-
+        RegionPais regionPais = new RegionPais(pais, args[1], regionPolygon);
+        dbManager.save(regionPais);
         String message = LanguageHandler.getText(language, "crud.update").replace("%entity%", "Pais").replace("%id%", args[0]);
         PlayerLogger.info(sender, message, (String) null);
         return true;

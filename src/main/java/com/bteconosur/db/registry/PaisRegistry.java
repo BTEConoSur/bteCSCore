@@ -1,6 +1,7 @@
 package com.bteconosur.db.registry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -125,7 +126,9 @@ public class PaisRegistry extends Registry<Long, Pais> {
     }
 
     public List<Division> getDivisions(Pais pais) {
-        return loadedDivisions.get(pais.getId());
+        if (pais == null) return Collections.emptyList();
+        List<Division> divisions = loadedDivisions.get(pais.getId());
+        return divisions != null ? divisions : Collections.emptyList();
     }
 
     public List<RegionPais> getRegions(Pais pais) {
@@ -285,7 +288,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
             }
             if (!hasDefault) {
                 Division defaultDivision = new Division(pais, "default", "Default",  "Division", "Default division", "N/A");
-                loadedDivisions.get(pais.getId()).add(defaultDivision);
+                loadedDivisions.computeIfAbsent(pais.getId(), k -> new ArrayList<>()).add(defaultDivision);
                 dbManager.save(defaultDivision);
             }
         }

@@ -64,16 +64,17 @@ cono-sur-logo: https://i.imgur.com/LtR9vt1.png
 
 discord-message-track: 1000 # Cantidad máxima de mensajes a trackear para eliminación en los canales de Discord.
 # World
+tp-outside-country: true # Permitir teletransportarse fuera de los países. Si se deshabilita, los jugadores solo podrán teletransportarse dentro de los países.
 tp-cooldown-seconds: 5
 layers:
   capa_baja:
     name: "capa_1"
     display-name: "Capa Baja"
-    offset: 1700
+    offset: 1832
   capa_alta:
     name: "capa_2"
     display-name: "Capa Alta"
-    offset: 5500
+    offset: 4968
 
 min-height: -2032
 max-height: 2032
