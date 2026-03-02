@@ -304,10 +304,10 @@ public final class BTEConoSur extends JavaPlugin {
 }
 
 // TODO: Tab
-// TODO: Menu npc
+// TODO: Scoreboard
 
 // TODO: Añadir parametros y descripción a las funciones
-// TODO: Añadir iconos a los proyectos
 
+// TODO: V3.1. Añadir iconos a los proyectos
 
 // TODO: Dynamic en las cabezas - Sin solución

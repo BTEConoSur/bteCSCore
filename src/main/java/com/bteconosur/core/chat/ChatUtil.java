@@ -509,6 +509,7 @@ public class ChatUtil {
         List<String> paraguay = new ArrayList<>();
         List<String> peru = new ArrayList<>();
         List<String> uruguay = new ArrayList<>();
+        List<String> antartida = new ArrayList<>();
         List<String> internacional = new ArrayList<>();
         PaisRegistry pr = PaisRegistry.getInstance();
         for (Player player : onlinePlayers) {
@@ -522,6 +523,7 @@ public class ChatUtil {
                 case "paraguay" -> paraguay.add(playerInfo);
                 case "peru" -> peru.add(playerInfo);
                 case "uruguay" -> uruguay.add(playerInfo);
+                case "antartida" -> antartida.add(playerInfo);
                 default -> internacional.add(playerInfo);
             }
         }
@@ -536,6 +538,7 @@ public class ChatUtil {
             .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getParaguay()).replace("%cantidad%", String.valueOf(paraguay.size())), paraguay.isEmpty() ? noOnline : String.join(",", paraguay), true)
             .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getPeru()).replace("%cantidad%", String.valueOf(peru.size())), peru.isEmpty() ? noOnline : String.join(",", peru), true)
             .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getUruguay()).replace("%cantidad%", String.valueOf(uruguay.size())), uruguay.isEmpty() ? noOnline : String.join(",", uruguay), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getAntartida()).replace("%cantidad%", String.valueOf(antartida.size())), antartida.isEmpty() ? noOnline : String.join(",", antartida), true)
             .addField(internationalField, internacional.isEmpty() ? noOnline : String.join(", ", internacional), true);  
 
         return eb.build();

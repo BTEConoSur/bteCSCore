@@ -109,6 +109,10 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return get("uruguay");
     }
 
+    public Pais getAntartida() {
+        return get("antartida");
+    }
+
     public List<Long> getDsGuildIds() {
         return loadedObjects.values().stream().map(Pais::getDsIdGuild).toList();
     }
