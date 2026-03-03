@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.scoreboard.ScoreboardManager;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.util.ConfigurationService;
 import com.bteconosur.core.util.PlayerLogger;
@@ -75,6 +76,7 @@ public class PlayerJoinListener implements Listener {
             player = playerRegistry.merge(player.getUuid());
             GlobalChatService.broadcastPlayerJoinedServer(player);
         }
+        if (player.getConfiguration().getGeneralScoreboard()) ScoreboardManager.getInstance().addPlayer(player);
         
         if (player.getConfiguration().getGeneralGlobalChatOnJoin()) ChatService.setChatToGlobal(player);
         else if (ChatService.wasInCountryChat(player)) ChatService.setChatToCountry(player);

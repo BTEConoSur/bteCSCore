@@ -43,6 +43,9 @@ public class Configuration {
     @Column(name = "general_division_title")
     private Boolean generalDivisionTitle;
 
+    @Column(name = "general_scoreboard")
+    private Boolean generalScoreboard;
+
     @Column(name = "reviewer_ds_notifications")
     private Boolean reviewerDsNotifications;
 
@@ -72,6 +75,7 @@ public class Configuration {
         this.generalLabelBorder = false;
         this.generalProjectTitle = false;
         this.generalDivisionTitle = false;
+        this.generalScoreboard = false;
         this.lang = Language.SPANISH;
     }
 
@@ -93,6 +97,14 @@ public class Configuration {
 
     public void setGeneralSimultaneousNotifications(Boolean generalSimultaneousNotifications) {
         this.generalSimultaneousNotifications = generalSimultaneousNotifications;
+    }
+
+    public Boolean getGeneralScoreboard() {
+        return generalScoreboard;
+    }
+
+    public void setGeneralScoreboard(Boolean generalScoreboard) {
+        this.generalScoreboard = generalScoreboard;
     }
 
     public Boolean getGeneralLabelBorder() {
@@ -173,6 +185,10 @@ public class Configuration {
 
     public void toggleGeneralDivisionTitle() {
         this.generalDivisionTitle = !this.generalDivisionTitle;
+    }
+
+    public void toggleGeneralScoreboard() {
+        this.generalScoreboard = !this.generalScoreboard;
     }
 
     public void toggleGeneralPaisBorder() {

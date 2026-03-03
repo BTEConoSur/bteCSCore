@@ -131,6 +131,14 @@ public class MenuUtils {
         );
     }
 
+    public static GuiItem getSeparatorItem() {
+        return buildGuiItem(
+            gui.getString("item-materials.separator"),
+            " ",
+            List.of(), false
+        );
+    }
+
     public static GuiItem getRejectItem(Language language) {
         return buildGuiItem(
             gui.getString("item-materials.reject"),

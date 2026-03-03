@@ -312,7 +312,7 @@ public final class BTEConoSur extends JavaPlugin {
 }
 
 // TODO: Tab
-// TODO: Scoreboard
+// TODO: Sacar manager config.
 
 // TODO: Añadir parametros y descripción a las funciones
 

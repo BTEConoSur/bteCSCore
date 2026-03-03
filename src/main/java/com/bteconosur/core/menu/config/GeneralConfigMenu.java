@@ -75,30 +75,42 @@ public class GeneralConfigMenu extends Menu {
         });
 
         Boolean projectTitle = configuration.getGeneralProjectTitle();
-        gui.setItem(4, 2, MenuUtils.getGeneralConfigItem(language, "project-title", projectTitle));
-        gui.addSlotAction(4, 2, event -> {
+        gui.setItem(3, 3, MenuUtils.getGeneralConfigItem(language, "project-title", projectTitle));
+        gui.addSlotAction(3, 3, event -> {
             addSelectedKey(ConfigurationKey.GENERAL_PROJECT_TITLE);
-            gui.updateItem(4, 2, MenuUtils.getGeneralConfigItem(language, "project-title", selectedKeys.contains(ConfigurationKey.GENERAL_PROJECT_TITLE) ? !projectTitle : projectTitle));
+            gui.updateItem(3, 3, MenuUtils.getGeneralConfigItem(language, "project-title", selectedKeys.contains(ConfigurationKey.GENERAL_PROJECT_TITLE) ? !projectTitle : projectTitle));
         });
 
         Boolean divisionTitle = configuration.getGeneralDivisionTitle();
-        gui.setItem(4, 4, MenuUtils.getGeneralConfigItem(language, "division-title", divisionTitle));
-        gui.addSlotAction(4, 4, event -> {
+        gui.setItem(3, 5, MenuUtils.getGeneralConfigItem(language, "division-title", divisionTitle));
+        gui.addSlotAction(3, 5, event -> {
             addSelectedKey(ConfigurationKey.GENERAL_DIVISION_TITLE);
-            gui.updateItem(4, 4, MenuUtils.getGeneralConfigItem(language, "division-title", selectedKeys.contains(ConfigurationKey.GENERAL_DIVISION_TITLE) ? !divisionTitle : divisionTitle));
+            gui.updateItem(3, 5, MenuUtils.getGeneralConfigItem(language, "division-title", selectedKeys.contains(ConfigurationKey.GENERAL_DIVISION_TITLE) ? !divisionTitle : divisionTitle));
         });
 
-        gui.setItem(4, 6, MenuUtils.getPaisPrefixConfigItem(language));
-        gui.addSlotAction(4, 6, event -> {
+        Boolean scoreboard = configuration.getGeneralScoreboard();
+        gui.setItem(3, 7, MenuUtils.getGeneralConfigItem(language, "scoreboard", scoreboard));
+        gui.addSlotAction(3, 7, event -> {
+            addSelectedKey(ConfigurationKey.GENERAL_SCOREBOARD);
+            gui.updateItem(3, 7, MenuUtils.getGeneralConfigItem(language, "scoreboard", selectedKeys.contains(ConfigurationKey.GENERAL_SCOREBOARD) ? !scoreboard : scoreboard));
+        });
+
+        for (int i = 1; i <= 9; i++) {
+            gui.setItem(4, i, MenuUtils.getSeparatorItem());
+        }
+        
+
+        gui.setItem(5, 4, MenuUtils.getPaisPrefixConfigItem(language));
+        gui.addSlotAction(5, 4, event -> {
             new PaisPrefixSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.pais-prefix-select")).open();
         });
 
-        gui.setItem(4, 8, MenuUtils.getLangConfigItem(language));
-        gui.addSlotAction(4, 8, event -> {
+        gui.setItem(5, 6, MenuUtils.getLangConfigItem(language));
+        gui.addSlotAction(5, 6, event -> {
             new LanguageSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.language-select")).open();
         });
         
-        gui.addSlotAction(rows, 5, event -> {
+        gui.addSlotAction(4, 5, event -> {
             if (selectedKeys.isEmpty()) return;
             event.getWhoClicked().closeInventory();
             ConfigurationService.save(btecsPlayer, selectedKeys);
@@ -111,8 +123,8 @@ public class GeneralConfigMenu extends Menu {
     private void addSelectedKey(ConfigurationKey key) {
         if (selectedKeys.contains(key)) selectedKeys.remove(key);
         else selectedKeys.add(key);
-        if (selectedKeys.isEmpty()) gui.updateItem(rows, 5, MenuUtils.getFillerItem());
-        else gui.updateItem(rows, 5, MenuUtils.getSaveItem(btecsPlayer.getConfiguration().getLang()));
+        if (selectedKeys.isEmpty()) gui.updateItem(4, 5, MenuUtils.getSeparatorItem());
+        else gui.updateItem(4, 5, MenuUtils.getSaveItem(btecsPlayer.getConfiguration().getLang()));
     }
 
 }

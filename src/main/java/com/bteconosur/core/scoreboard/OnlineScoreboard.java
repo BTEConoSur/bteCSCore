@@ -2,6 +2,7 @@ package com.bteconosur.core.scoreboard;
 
 import java.util.List;
 
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.model.Player;
@@ -26,7 +27,7 @@ public class OnlineScoreboard implements Scoreboard {
     @Override
     public ComponentSidebarLayout getLayout(Player context, Language language) {
         String pluginPrefix = LanguageHandler.getText(language, "plugin-prefix");
-        SidebarComponent title = SidebarComponent.staticLine(MiniMessage.miniMessage().deserialize(LanguageHandler.replaceMC("scoreboard-online.title", language, context).replace("%pluginPrefix%", pluginPrefix   )));
+        SidebarComponent title = SidebarComponent.staticLine(MiniMessage.miniMessage().deserialize(LanguageHandler.replaceMC("scoreboard-online.title", language, context).replace("%plugin-prefix%", pluginPrefix   )));
         SidebarComponent.Builder builder = SidebarComponent.builder();
         List<String> lines = LanguageHandler.getTextList(language,"scoreboard-online.lines");
         for (String line : lines) {
@@ -61,5 +62,16 @@ public class OnlineScoreboard implements Scoreboard {
     public boolean isGlobal() {
         return true;
     }
+
+    @Override
+    public boolean isRefreshable() {
+        return true;
+    }
+
+    @Override
+    public long getRefreshIntervalTicks() {
+        return ConfigHandler.getInstance().getConfig().getInt("online-scoreboard-refresh") * 20L;
+    }
+
 
 }

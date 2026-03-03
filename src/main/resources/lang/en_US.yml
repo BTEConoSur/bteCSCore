@@ -1253,7 +1253,6 @@ items:
       - "<gray>Completed projects: <white>%player.proyectosCompletados%"
       - "<gray>Joined: <white>%player.fechaIngreso%"
       - "<gray>Last login: <white>%player.fechaUltimaConexion%"
-      
     contexto:
       lider: "<b><yellow>Leader</b>"
       miembro: "<b><aqua>Member</b>"
@@ -1300,6 +1299,10 @@ items:
           desc:
             - "Display division information on"
             - "screen when entering them."
+        scoreboard:
+          name: "Scoreboard"
+          desc:
+            - "Display the Scoreboards."
         pais-prefix:
           name: "Country Prefix"
           desc:

@@ -1325,6 +1325,10 @@ items:
           desc:
             - "Mostrar información en pantalla de"
             - "las divisiónes al entrar en ellas."
+        scoreboard:
+          name: "Scoreboard"
+          desc:
+            - "Mostrar los Scoreboards."
         pais-prefix:
           name: "Prefijo de País"
           desc:

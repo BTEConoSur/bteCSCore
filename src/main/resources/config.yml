@@ -166,6 +166,7 @@ commands-aliases:
 # Scoreboard
 scoreboard-rotation: 10 # Cada cuantos segundos rota la scoreboard.
 proyecto-scoreboard-refresh: 2 # Cada cuantos segundos refresca la scoreboard de proyectos.
+online-scoreboard-refresh: 3 # Cada cuantos segundos refresca la scoreboard de jugadores online.
 
 # Configuración de Players
 player-defaults:
@@ -175,6 +176,7 @@ player-defaults:
     pais-border: true
     label-border: true
     project-title: true
+    scoreboard: true
   reviewer:
     ds-notifications: true
   manager:

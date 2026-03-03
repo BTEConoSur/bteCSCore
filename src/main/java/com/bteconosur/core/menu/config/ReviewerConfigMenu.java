@@ -24,13 +24,13 @@ public class ReviewerConfigMenu extends Menu {
     private Set<ConfigurationKey> selectedKeys = new HashSet<>();
     
     public ReviewerConfigMenu(Player player) {
-        super("Configuración de Reviewer", 5, player);
+        super("Configuración de Reviewer", 3, player);
         this.configuration = player.getConfiguration();
         this.btecsPlayer = player;
     }
 
     public ReviewerConfigMenu(Player player, Menu previousMenu) {
-        super("Configuración de Reviewer", 5, player, previousMenu);
+        super("Configuración de Reviewer", 3, player, previousMenu);
         this.configuration = player.getConfiguration();
         this.btecsPlayer = player;
     }

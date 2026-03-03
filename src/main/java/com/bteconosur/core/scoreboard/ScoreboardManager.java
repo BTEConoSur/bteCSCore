@@ -57,17 +57,22 @@ public class ScoreboardManager {
         startRotation(config.getInt("scoreboard-rotation"), config.getInt("proyecto-scoreboard-refresh"));
     }
 
-    public Sidebar addPlayer(org.bukkit.entity.Player bukkitPlayer) {
+    public void addPlayer(Player player) {
+        org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
+        if (bukkitPlayer == null) return;
         Sidebar sidebar = scoreboardLibrary.createSidebar();
-        sidebar.addPlayer(bukkitPlayer);
-        playerScoreboards.put(bukkitPlayer.getUniqueId(), sidebar);
-        return sidebar;
+        sidebar.addPlayer(player.getBukkitPlayer());
+        playerScoreboards.put(player.getUuid(), sidebar);
+        if (currentScoreboard == null) return;
+        render(player, currentScoreboard);
     }
 
-    public void removePlayer(org.bukkit.entity.Player bukkitPlayer) {
-        Sidebar sidebar = playerScoreboards.remove(bukkitPlayer.getUniqueId());
+    public void removePlayer(Player player) {
+        org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
+        if (bukkitPlayer == null) return;
+        Sidebar sidebar = playerScoreboards.remove(player.getUuid());
         if (sidebar != null) {
-            sidebar.removePlayer(bukkitPlayer);
+            sidebar.removePlayer(player.getBukkitPlayer());
             sidebar.close();
         }
     }
@@ -88,7 +93,9 @@ public class ScoreboardManager {
         }
         if (!currentScoreboard.isRefreshable()) return;
         refreshTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            if (currentScoreboard.isGlobal()) currentScoreboard.update();
             for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+                if (!player.getConfiguration().getGeneralScoreboard()) continue;
                 render(player, currentScoreboard);
             }
 
@@ -103,15 +110,14 @@ public class ScoreboardManager {
         }
 
         for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+            if (!player.getConfiguration().getGeneralScoreboard()) continue;
             render(player, currentScoreboard);
         }
     }
 
     private void render(Player player, Scoreboard scoreboard) {
         Sidebar sidebar = playerScoreboards.get(player.getUuid());
-        if (sidebar == null) {
-            sidebar = addPlayer(player.getBukkitPlayer());
-        }
+        if (sidebar == null) return;
         ComponentSidebarLayout layout = scoreboard.getLayout(player, player.getLanguage());
         layout.apply(sidebar);
     }
@@ -122,8 +128,8 @@ public class ScoreboardManager {
 
         if (refreshTask != null) refreshTask.cancel();
         for (UUID uuid : playerScoreboards.keySet()) {
-            org.bukkit.entity.Player bukkitPlayer = Bukkit.getPlayer(uuid);
-            if (bukkitPlayer != null) removePlayer(bukkitPlayer);
+            Player player = PlayerRegistry.getInstance().get(uuid);
+            if (player != null) removePlayer(player);
             else {
                 Sidebar sidebar = playerScoreboards.get(uuid);
                 if (sidebar != null) {
