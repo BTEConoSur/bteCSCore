@@ -52,6 +52,9 @@ dependencies {
 
     compileOnly("net.luckperms:api:5.4")
     compileOnly("com.sk89q.worldguard:worldguard-bukkit:7.0.15")
+
+    compileOnly("net.megavex:scoreboard-library-api:2.7.0") // bteCSLibs
+    runtimeOnly("net.megavex:scoreboard-library-implementation:2.7.0")
 }
 
 def targetJavaVersion = 21

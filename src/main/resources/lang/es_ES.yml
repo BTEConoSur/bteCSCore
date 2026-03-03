@@ -170,6 +170,55 @@ discord-bot-restarting: "Reiniciando Bot de Discord..."
 discord-command-manager-initializing: "Inicializando Gestor de Comandos de Discord..."
 discord-command-manager-shutting-down: "Apagando Gestor de Comandos de Discord..."
 
+scoreboard-manager-initializing: "Inicializando Scoreboard..."
+scoreboard-manager-shutting-down: "Apagando Scoreboard..."
+scoreboard-manager-error: "Error al inicializar el Scoreboard."
+
+# Scoreboard
+scoreboard-player:
+  title: "<gold>%player.nombre%</gold>"
+  lines:
+    - "Rango: <yellow>%player.rangoUsuario%</yellow>"
+    - "Tipo: <yellow>%player.tipoUsuario%</yellow>"
+    - "País: <yellow>%player.paisPrefix%</yellow>"
+    - "Discord: <yellow>%player.discordName%</yellow>"
+    - "Lenguaje: <yellow>%player.lenguaje%</yellow>"
+    - "Chat: <yellow>%player.chat%</yellow>"
+    - ""
+    - "<yellow>Proyectos</yellow>"
+    - "- Activos: %player.proyectosActivos%"
+    - "- Completados: %player.proyectosCompletados%"
+scoreboard-proyecto:
+  title: "<gold>%proyecto.id%</gold>"
+  lines:
+    - "Nombre: <yellow>%proyecto.nombre%</yellow>"
+    - "Estado: <yellow>%proyecto.estado%</yellow>"
+    - "Líder: <yellow>%proyecto.lider%</yellow>"
+    - "Miembros: <yellow>%proyecto.miembrosCantidad%</yellow>"
+    - "Tamaño: <yellow>%proyecto.tamano%m²</yellow>"
+    - "País: <yellow>%proyecto.paisNombre%</yellow>"
+    - "Tipo: <yellow>%proyecto.tipo%</yellow>"
+scoreboard-no-proyecto:
+  title: "<gold>N/A</gold>"
+  lines:
+    - "No hay proyectos en"
+    - "esta ubicación."
+scoreboard-multiple-proyectos:
+  title: "<gold>Proyectos:</gold>"
+  lines: "<yellow>%proyecto.id% - %proyecto.nombre%</yellow>"
+scoreboard-online:
+  title: "%plugin-prefix%" # Se puede usar %plugin-prefix%.
+  lines:
+    - "Total: <yellow>%onlinePlayers%</yellow>"
+    - ""
+    - "Argentina: <yellow>%argentinaPlayers%</yellow>"
+    - "Bolivia: <yellow>%boliviaPlayers%</yellow>"
+    - "Chile: <yellow>%chilePlayers%</yellow>"
+    - "Paraguay: <yellow>%paraguayPlayers%</yellow>"
+    - "Perú: <yellow>%peruPlayers%</yellow>"
+    - "Uruguay: <yellow>%uruguayPlayers%</yellow>"
+    - "Antártida: <yellow>%antartidaPlayers%</yellow>"
+
 # Command
 no-permission: "No tienes permisos para ejecutar este comando."
 item-prohibited: "No puedes usar %item%."
@@ -1515,12 +1564,18 @@ placeholder:
     postulante: "[📚]"
     constructor: "[⚒️]"
   chat-mc:
+    country: "<yellow>%pais.nombrePublico%</yellow>"
+    global: "<yellow>Global</yellow>"
+    notepad: "<yellow>Notepad</yellow>"
     image: "<gray>[</gray><white>IMAGEN</white><gray>]</gray>"
     video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
     spoiler: "<gray>[</gray><white>SPOILER</white><gray>]</gray>"
     file: "<gray>[</gray><white>ARCHIVO</white><gray>]</gray>"
     ds: "<gray>[</gray><blue>DS-%pais.nombrePublico%</blue><gray>]</gray>"
   chat-ds:
+    country: "%pais.nombrePublico%"
+    global: "Global"
+    notepad: "Notepad"
     mc: "<:Minecraft:1457374388575014923>"
     ds: "%pais.logo%"
   without-fecha: "Sin fecha"

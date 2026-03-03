@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.util.PlaceholderUtils.PlaceholderContext;
 
 public class ChatService {
 
@@ -18,6 +20,16 @@ public class ChatService {
     private static Map<Player, Pais> playersLastCountryChat = new HashMap<>();
 
     private static List<Player> playersInNotePad = new ArrayList<>();
+
+    public static String getChat(Player player, PlaceholderContext context, Language language) {
+        String path;
+        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.chat-mc.";
+        else path = "placeholder.chat-ds.";
+        if (playersInGlobalChat.contains(player)) return LanguageHandler.getText(language, path + "global");
+        if (playersInCountryChat.containsKey(player)) return LanguageHandler.replaceMC(path + "country", language, playersInCountryChat.get(player));
+        if (playersInNotePad.contains(player)) return LanguageHandler.getText(language, path + "notepad");
+        return "ERROR_NO_CHAT";
+    }
 
     public static void switchChatToGlobal(Player player) {
         if (playersInGlobalChat.contains(player)) return;

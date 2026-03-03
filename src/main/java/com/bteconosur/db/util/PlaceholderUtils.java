@@ -6,6 +6,7 @@ import java.util.List;
 import org.locationtech.jts.geom.Point;
 
 import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
@@ -25,7 +26,6 @@ import net.dv8tion.jda.api.entities.User;
 
 public class PlaceholderUtils {
 
-
     public static String replaceMC(String text, Language language, List<Player> players, List<Proyecto> proyectos) {
         String replaced = replace(text, language, PlaceholderContext.MINECRAFT, players.toArray(new Player[0]));
         return replace(replaced, language, PlaceholderContext.MINECRAFT, proyectos.toArray(new Proyecto[0]));
@@ -37,50 +37,62 @@ public class PlaceholderUtils {
     }
 
     public static String replaceMC(String text, Language language, Player... players) {
+        if (players == null || players.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, players);
     }
 
     public static String replaceDS(String text, Language language, Player... players) {
+        if (players == null || players.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, players);
     }
 
     public static String replaceMC(String text, Language language, Proyecto... proyectos) {
+        if (proyectos == null || proyectos.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, proyectos);
     }
 
     public static String replaceDS(String text, Language language, Proyecto... proyectos) {
+        if (proyectos == null || proyectos.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, proyectos);
     }
 
     public static String replaceMC(String text, Language language, Pais... paises) {
+        if (paises == null || paises.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, paises);
     }
 
     public static String replaceDS(String text, Language language, Pais... paises) {
+        if (paises == null || paises.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, paises);
     }
 
     public static String replaceMC(String text, Language language, RangoUsuario... rangos) {
+        if (rangos == null || rangos.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, rangos);
     }
 
     public static String replaceDS(String text, Language language, RangoUsuario... rangos) {
+        if (rangos == null || rangos.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, rangos);
     }
 
     public static String replaceMC(String text, Language language, TipoUsuario... tipos) {
+        if (tipos == null || tipos.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, tipos);
     }
 
     public static String replaceDS(String text, Language language, TipoUsuario... tipos) {
+        if (tipos == null || tipos.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, tipos);
     }
 
     public static String replaceMC(String text, Language language, Division... divisiones) {
+        if (divisiones == null || divisiones.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, divisiones);
     }
 
     public static String replaceDS(String text, Language language, Division... divisiones) {
+        if (divisiones == null || divisiones.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, divisiones);
     }
 
@@ -193,6 +205,9 @@ public class PlaceholderUtils {
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.lang-mc.";
                         else path = "placeholder.lang-ds.";
                         value = LanguageHandler.getText(language, path + p.getConfiguration().getLang().getCode());
+                        break;
+                    case "chat":
+                        value = ChatService.getChat(p, context, language);
                         break;
                     default:
                         ConsoleLogger.warn("Caso no reconocido en placeholder: " + token);

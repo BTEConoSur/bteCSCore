@@ -135,7 +135,6 @@ banned-items: # No aplica para Admins.
 # Cooldowns por comando (En segundos). En caso de no especificar, se usa el valor por defecto. 
 # Nota: El cooldown es por cada comando/subcomando. Es decir, si se especifica un cooldown para "btecs" y otro para "btecs test", ambos se aplican independientemente.
 # Por lo que el cooldown de btecs no afecta al de btecs test y el resto de subcomandos. 
-
 default-cooldown: 5
 commands-cooldowns:
   btecs: 10
@@ -163,6 +162,10 @@ commands-aliases:
      aliases: ["lang", "idioma"]
   nightvision:
     aliases: ["nv", "vn"]
+
+# Scoreboard
+scoreboard-rotation: 10 # Cada cuantos segundos rota la scoreboard.
+proyecto-scoreboard-refresh: 2 # Cada cuantos segundos refresca la scoreboard de proyectos.
 
 # Configuración de Players
 player-defaults:

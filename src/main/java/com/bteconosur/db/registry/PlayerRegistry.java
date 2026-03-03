@@ -13,6 +13,7 @@ import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Pwarp;
@@ -113,6 +114,21 @@ public class PlayerRegistry extends Registry<UUID, Player> {
                 .map(player -> get(player.getUniqueId()))
                 .sorted(Comparator.comparing(Player::getNombrePublico))
                 .collect(Collectors.toList());
+    }
+
+    public int getOnlinePlayersCount() {
+        return Bukkit.getOnlinePlayers().size();
+    }
+
+    public int getOnlinePlayersCount(Pais pais) {
+        PaisRegistry pr = PaisRegistry.getInstance();
+        int count = 0;
+        for (Player player : getOnlinePlayers()) {
+            Division division = pr.findDivisionByPlayer(player.getUuid());
+            if (division == null) continue;
+            if (division.getPais().equals(pais)) count++;
+        }
+        return count;
     }
 
     public List<Player> getOfflinePlayers() {
