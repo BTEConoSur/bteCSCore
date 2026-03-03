@@ -102,12 +102,12 @@ public class GeneralConfigMenu extends Menu {
 
         gui.setItem(5, 4, MenuUtils.getPaisPrefixConfigItem(language));
         gui.addSlotAction(5, 4, event -> {
-            new PaisPrefixSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.pais-prefix-select")).open();
+            new PaisPrefixSelectMenu(btecsPlayer, this, LanguageHandler.getText(language, "gui-titles.pais-prefix-select")).open();
         });
 
         gui.setItem(5, 6, MenuUtils.getLangConfigItem(language));
         gui.addSlotAction(5, 6, event -> {
-            new LanguageSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.language-select")).open();
+            new LanguageSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.language-select"), this).open();
         });
         
         gui.addSlotAction(4, 5, event -> {

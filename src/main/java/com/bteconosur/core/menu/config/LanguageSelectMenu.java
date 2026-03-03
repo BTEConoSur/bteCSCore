@@ -22,6 +22,11 @@ public class LanguageSelectMenu extends Menu {
         this.BTECSPlayer = player;
     }
 
+    public LanguageSelectMenu(Player player, String title, Menu previousMenu) {
+        super(title, 3, player, previousMenu);
+        this.BTECSPlayer = player;
+    }
+
     @Override
     protected BaseGui createGui() {
         gui = Gui.gui()

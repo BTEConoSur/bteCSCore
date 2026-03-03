@@ -1344,11 +1344,13 @@ items:
           name: "Notificaciones de Manager"
           desc: 
             - "Habilitar las notificaciones para Managers de Discord."
+            - "Esto incluye las notificaciones para Reviewers."
       reviewer:
         ds-notifications:
           name: "Notificaciones de Reviewer"
           desc:
             - "Habilitar las notificaciones para Reviewers de Discord."
+            - "Si eres Manager, esta configuración no tendra efecto."
   notepad:
     name: "<yellow>Bloc de Notas"
     lore:
