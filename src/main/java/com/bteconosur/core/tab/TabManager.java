@@ -3,6 +3,11 @@ package com.bteconosur.core.tab;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitTask;
+
+import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
@@ -21,6 +26,7 @@ public class TabManager {
     private static TabManager instance;
 
     private TabAPI tabAPI;
+    private BukkitTask footerRefreshTask;
     
     public TabManager() {
         ConsoleLogger.info(LanguageHandler.getText("tab-manager-initializing"));
@@ -34,6 +40,8 @@ public class TabManager {
         tabAPI.getEventBus().register(PlayerLoadEvent.class, event -> {
             setTab(event.getPlayer());
         });
+
+        startFooterRefresher();
     }
 
     public void joinPlayer(Player player) {
@@ -43,7 +51,6 @@ public class TabManager {
             return;
         }
         setTab(tabPlayer);
-        
     }
 
     public void setTab(TabPlayer tabPlayer) {
@@ -68,10 +75,39 @@ public class TabManager {
         tlm.setSuffix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-suffix"), language, player));
         tlm.setName(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-name"), language, player));
     }
+
+    public void startFooterRefresher() {
+        long refreshIntervalMs = ConfigHandler.getInstance().getConfig().getLong("tab-reload");
+        long refreshIntervalTicks = Math.max(1L, refreshIntervalMs / 50L);
+        if (footerRefreshTask != null) {
+            footerRefreshTask.cancel();
+            footerRefreshTask = null;
+        }
+        footerRefreshTask = Bukkit.getScheduler().runTaskTimer(BTEConoSur.getInstance(), this::reloadFooter, 0L, refreshIntervalTicks);
+    }
+
+    public void reloadFooter() {
+        for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+            if (player == null) continue;
+            TabPlayer tabPlayer = tabAPI.getPlayer(player.getUuid());
+            if (tabPlayer == null) continue;
+            Language language = player.getLanguage();
+            HeaderFooterManager hfm = tabAPI.getHeaderFooterManager();
+            List<String> processedFooter = new ArrayList<>();
+            for (String line : LanguageHandler.getTextList(language, "tab-footer")) {
+                processedFooter.add(PlaceholderUtils.replaceMC(line, language, player));  
+            }
+            hfm.setFooter(tabPlayer, String.join("\n", processedFooter));
+        }
+    }
     
 
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("tab-manager-shutting-down"));
+        if (footerRefreshTask != null) {
+            footerRefreshTask.cancel();
+            footerRefreshTask = null;
+        }
         if (instance != null) {
             instance = null;
         }

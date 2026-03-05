@@ -319,7 +319,6 @@ public final class BTEConoSur extends JavaPlugin {
 }
 
 // TODO: Reemplazar hora por UTC 3
-// TODO: Añadir paquete de recursos al server y advertencia
 
 // TODO: Añadir parametros y descripción a las funciones
 

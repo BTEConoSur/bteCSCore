@@ -163,6 +163,9 @@ commands-aliases:
   nightvision:
     aliases: ["nv", "vn"]
 
+# TAB
+tab-reload: 100 # Cada cuantos milisegundos se refresca el footer de TAB.
+
 # Scoreboard
 scoreboard-rotation: 10 # Cada cuantos segundos rota la scoreboard.
 proyecto-scoreboard-refresh: 2 # Cada cuantos segundos refresca la scoreboard de proyectos.
