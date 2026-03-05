@@ -10,6 +10,7 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.InteractionRegistry;
@@ -50,7 +51,7 @@ public class DsHelpMinecraftCommand extends DsSubcommand {
         }
         
         buttons.add(Button.danger("help-cancel", LanguageHandler.getText(language, "ds-help.cancel")));
-        Instant now = Instant.now();
+        Instant now = DateUtils.instantOffset();
         Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.help-command") * 60L);
         event.replyEmbeds(embed)
             .addComponents(ActionRow.of(buttons))

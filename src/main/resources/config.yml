@@ -24,6 +24,8 @@ related-languages:
 default-language: "es_ES" # Lenguaje por defecto del sistema.
 international-default-language: "en_US" # Lenguaje por defecto para cuando se encuentre un lenguaje no soportado.
 
+gmt-offset: -3
+
 # Map Sat
 map-padding: 0.005
 map-link: "https://api.mapbox.com/styles/v1/mapbox/satellite-v9/static/%geojson%/[%minLon%,%minLat%,%maxLon%,%maxLat%]/800x600?attribution=false&logo=false&access_token=%token%"
@@ -164,7 +166,7 @@ commands-aliases:
     aliases: ["nv", "vn"]
 
 # TAB
-tab-reload: 100 # Cada cuantos milisegundos se refresca el footer de TAB.
+tab-reload: 100 # Cada cuantos milisegundos se refresca el TAB.
 
 # Scoreboard
 scoreboard-rotation: 10 # Cada cuantos segundos rota la scoreboard.

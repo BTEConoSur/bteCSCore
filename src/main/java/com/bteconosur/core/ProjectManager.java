@@ -1,7 +1,6 @@
 package com.bteconosur.core;
 
 import java.io.File;
-import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +17,7 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.SatMapUtils;
@@ -122,7 +122,7 @@ public class ProjectManager {
             return;
         }
         
-        Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(Instant.now()));
+        Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(DateUtils.instantOffset()));
         pr.load(proyecto);
 
         File contextImage = SatMapUtils.downloadContext(proyecto, pr.getOverlapping(proyecto.getId(), proyecto.getPoligono()));
@@ -431,8 +431,8 @@ public class ProjectManager {
             requester.getUuid(),
             proyecto.getId(),
             InteractionKey.FINISH_PROJECT,
-            Instant.now(),
-            Instant.now().plusSeconds(config.getLong("interaction-expirations.finish-project") * 60)
+            DateUtils.instantOffset(),
+            DateUtils.instantOffset().plusSeconds(config.getLong("interaction-expirations.finish-project") * 60)
         );
         InteractionRegistry.getInstance().load(interaction);
         Player lider = getLider(proyecto);
@@ -471,7 +471,7 @@ public class ProjectManager {
 
     public void acceptFinishRequest(String proyectoId, Player staff, String comentario, Boolean promote) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
-        proyecto.setFechaTerminado(Date.from(Instant.now()));
+        proyecto.setFechaTerminado(Date.from(DateUtils.instantOffset()));
         cancelFinishRequest(proyecto, Estado.COMPLETADO);
 
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
@@ -709,8 +709,8 @@ public class ProjectManager {
             commandPlayer.getUuid(),
             proyecto.getId(),
             InteractionKey.FINISH_EDIT_PROJECT,
-            Instant.now(),
-            Instant.now().plusSeconds(config.getLong("interaction-expirations.finish-edit-project") * 60)
+            DateUtils.instantOffset(),
+            DateUtils.instantOffset().plusSeconds(config.getLong("interaction-expirations.finish-edit-project") * 60)
         );
         InteractionRegistry.getInstance().load(interaction);
     

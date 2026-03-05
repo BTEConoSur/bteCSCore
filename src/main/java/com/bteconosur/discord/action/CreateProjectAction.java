@@ -1,12 +1,11 @@
 package com.bteconosur.discord.action;
 
-import java.time.Instant;
-
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
@@ -57,8 +56,8 @@ public class CreateProjectAction implements ButtonAction {
                 .build();
             Interaction ctxAccept = new Interaction(
                 InteractionKey.ACCEPT_CREATE_PROJECT,
-                Instant.now(),
-                Instant.now().plusSeconds(expiration * 60L)
+                DateUtils.instantOffset(),
+                DateUtils.instantOffset().plusSeconds(expiration * 60L)
             );
             ctxAccept.setComponentId(modalId);
             ctxAccept.addPayloadValue("parentCtxId", ctx.getId());
@@ -71,8 +70,8 @@ public class CreateProjectAction implements ButtonAction {
                 .build();
             Interaction ctxAccept = new Interaction(
                 InteractionKey.REJECT_CREATE_PROJECT,
-                Instant.now(),
-                Instant.now().plusSeconds(expiration * 60L)
+                DateUtils.instantOffset(),
+                DateUtils.instantOffset().plusSeconds(expiration * 60L)
             );
             ctxAccept.setComponentId(modalId);
             ctxAccept.addPayloadValue("parentCtxId", ctx.getId());

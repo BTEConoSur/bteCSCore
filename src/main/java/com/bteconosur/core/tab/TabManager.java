@@ -41,7 +41,7 @@ public class TabManager {
             setTab(event.getPlayer());
         });
 
-        startFooterRefresher();
+        //startFooterRefresher();
     }
 
     public void joinPlayer(Player player) {

@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.db.util.InteractionKey;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
@@ -224,7 +225,7 @@ public class Interaction {
     }
 
     public boolean isExpired() {
-        return expiresAt != null && expiresAt.isBefore(Instant.now());
+        return expiresAt != null && expiresAt.isBefore(DateUtils.instantOffset());
     }
 
     public void clearPayload() {

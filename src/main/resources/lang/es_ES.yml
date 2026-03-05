@@ -1052,7 +1052,7 @@ ds-embeds:
       nombre-proyecto: "Nombre del proyecto"
       descripcion: "Descripción"
       separator: "────────────────────────────────────────"
-    footer: "Vence el %fechaHoraVencimiento% (Horario Server)"
+    footer: "Vence el %fechaHoraVencimiento% (GMT-3)"
   project-redefine-requested:
     title: "%player.nombre% quiere redefinir un proyecto: %proyecto.id%"
     has-collisions: "> **[!]** El proyecto tiene colisiones con otros proyectos."
@@ -1067,7 +1067,7 @@ ds-embeds:
       coordenadas: "Coordenadas geográficas"
       nombre-proyecto: "Nombre del proyecto"
       descripcion: "Descripción"
-    footer: "Vence el %fechaHoraVencimiento% (Horario Server)"
+    footer: "Vence el %fechaHoraVencimiento% (GMT-3)"
   error: "Error"
   warn: "Warn"
 

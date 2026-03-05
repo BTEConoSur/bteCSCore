@@ -14,6 +14,7 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.TagResolverUtils;
@@ -39,7 +40,7 @@ public class ProjectRequestService {
 
     @SuppressWarnings("null")
     public static boolean sendProjectRequest(Proyecto proyecto, File mapImage) {
-        Instant now = Instant.now();
+        Instant now = DateUtils.instantOffset();
         Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.create-project") * 60L);
         MessageEmbed embed = ChatUtil.getDsProjectCreated(proyecto, Date.from(expiration) );
         Pais pais = proyecto.getPais();
@@ -86,7 +87,7 @@ public class ProjectRequestService {
 
     @SuppressWarnings("null")
     public static boolean sendProjectRedefineRequest(Proyecto proyecto, Polygon newPolygon, Long tipoProyectoId, Long divisionId, File mapImage, Player requester) {
-        Instant now = Instant.now();
+        Instant now = DateUtils.instantOffset();
         Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.redefine-project") * 60L);
         MessageEmbed embed = ChatUtil.getDsProjectRedefineRequested(proyecto, requester, newPolygon, Date.from(expiration));
         Pais pais = proyecto.getPais();
@@ -143,8 +144,8 @@ public class ProjectRequestService {
             player.getUuid(),
             proyecto.getId(),
             InteractionKey.JOIN_PROJECT,
-            Instant.now(),
-            Instant.now().plusSeconds(config.getInt("interaction-expirations.join-project") * 60L)
+            DateUtils.instantOffset(),
+            DateUtils.instantOffset().plusSeconds(config.getInt("interaction-expirations.join-project") * 60L)
         );
         ir.load(ctx);
         if (LinkService.isPlayerLinked(lider)) {
