@@ -145,6 +145,33 @@ scoreboard-manager-initializing: "Initializing Scoreboard..."
 scoreboard-manager-shutting-down: "Shutting Down Scoreboard..."
 scoreboard-manager-error: "Error initializing Scoreboard."
 
+tab-manager-initializing: "Initializing Tab Manager..."
+tab-manager-shutting-down: "Shutting Down Tab Manager..."
+tab-manager-error: "Error initializing Tab Manager."
+
+# TAB
+# Placeholders de TAB: https://github.com/NEZNAMY/TAB/wiki/Placeholders
+tab-prefix: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo%"
+tab-name: " <gold>%player.nombre%</gold>  "
+tab-suffix: "<green>%ping%</green>"
+tab-header:
+  - "<b>                                                            <b>"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "<reset>㍿"
+  - "<b>ᴡᴇʟᴄᴏᴍᴇ %player.nombre%!"
+  - ""
+tab-footer:
+  - ""
+  - "<yellow>Date: <white>%date%</white></yellow>"
+  - "<yellow>Time: <white>%time%</white></yellow>"
+  - ""
+
 # Scoreboard
 scoreboard-player:
   title: "<gold>%player.nombre%</gold>"
@@ -190,6 +217,8 @@ scoreboard-online:
     - "Antártida: <yellow>%antartidaPlayers%</yellow>"
 
 # Command
+join-later: "<red><b>An error occurred while joining the server. Please try again in a few seconds.\n If this error persists, please contact an administrator.</b></red>"
+
 no-permission: "You don't have permission to execute this command."
 item-prohibited: "You cannot use %item%."
 player-only-command: "This command can only be executed by a player."
@@ -804,6 +833,7 @@ tipo:
 # Chat
 # If the player is not registered in the database, the rest of prefixes are not used.
 mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold><player></gold><gray>: </gray>%mensaje%"
+mc-tab: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold><player></gold>"
 from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>%mensaje%" # From player not registered in the database.
 from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
 
@@ -821,7 +851,7 @@ player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> has left
 
 player-welcome-message:
   - ""
-  - "<dark_green>Welcome to the server, <yellow>%player.nombrePublico%</yellow>!</dark_green>"
+  - "<dark_green>Welcome to the server, <yellow>%player%</yellow>!</dark_green>"
   - "<dark_green>Have a great experience on the server. Que alguien añada mas cosas.</dark_green>"
   - ""
 

@@ -97,6 +97,7 @@ public class PlaceholderUtils {
     }
 
     private static String replace(String text, Language language, PlaceholderContext context, Player... players) {
+        if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
         List<String> playerTokens = new ArrayList<>();
         int i = 0;
@@ -223,6 +224,7 @@ public class PlaceholderUtils {
     }   
 
     private static String replace(String text, Language language, PlaceholderContext context, Proyecto... proyectos) {
+        if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
         List<String> proyectoTokens = new ArrayList<>();
         int i = 0;
@@ -372,6 +374,7 @@ public class PlaceholderUtils {
     }
 
     private static String replace(String text, Language language, PlaceholderContext context, Pais... paises) {
+        if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
         List<String> paisTokens = new ArrayList<>();
         int i = 0;
@@ -443,6 +446,7 @@ public class PlaceholderUtils {
     }
 
     private static String replace(String text, Language language, PlaceholderContext context, RangoUsuario... rangos) {
+        if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
         List<String> rangoTokens = new ArrayList<>();
         int i = 0;
@@ -498,6 +502,7 @@ public class PlaceholderUtils {
     }
 
     private static String replace(String text, Language language, PlaceholderContext context, TipoUsuario... tipos) {
+        if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
         List<String> tipoTokens = new ArrayList<>();
         int i = 0;
@@ -556,6 +561,7 @@ public class PlaceholderUtils {
     }
 
     private static String replace(String text, Language language, PlaceholderContext context, Division... divisiones) {
+        if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
         List<String> divisionTokens = new ArrayList<>();
         int i = 0;

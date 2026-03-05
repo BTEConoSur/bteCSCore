@@ -214,6 +214,12 @@ public class PlayerLogger {
         }
     }
 
+    public static void sendMc(String message, org.bukkit.entity.Player player, TagResolver... resolvers) {
+        if (PlayerRegistry.getInstance().isOnline(player.getUniqueId())) {
+            player.sendMessage(MiniMessage.miniMessage().deserialize(message, resolvers));
+        }
+    }
+
     private static boolean checkSimultaneousNotifications(Player player) {
         return !PlayerRegistry.getInstance().isOnline(player.getUuid()) || player.getConfiguration().getGeneralSimultaneousNotifications();
     }

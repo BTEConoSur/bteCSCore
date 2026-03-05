@@ -15,6 +15,13 @@ public enum Language {
         this.code = code;
     }
 
+    public static Language getByCode(String code) {
+        for (Language language : Language.values()) {
+            if (language.getCode().equalsIgnoreCase(code)) return language;
+        }
+        return null;
+    }
+
     public String getCode() {
         return code;
     }
@@ -32,10 +39,10 @@ public enum Language {
     }
 
     public static Language getDefault() {
-        return Language.valueOf(ConfigHandler.getInstance().getConfig().getString("default-language").toUpperCase());
+        return Language.getByCode(ConfigHandler.getInstance().getConfig().getString("default-language").toUpperCase());
     }
 
     public static Language getInternationalDefault() {
-        return Language.valueOf(ConfigHandler.getInstance().getConfig().getString("international-default-language").toUpperCase());
+        return Language.getByCode(ConfigHandler.getInstance().getConfig().getString("international-default-language").toUpperCase());
     }
 }

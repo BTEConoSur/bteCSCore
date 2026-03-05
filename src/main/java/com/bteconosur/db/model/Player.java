@@ -282,6 +282,11 @@ public class Player {
     }
 
     @JsonIgnore
+    public static org.bukkit.entity.Player getBukkitPlayer(UUID uuid) {
+        return Bukkit.getPlayer(uuid);
+    }
+
+    @JsonIgnore
     public static Player getBTECSPlayer(org.bukkit.entity.Player bukkitPlayer) {
         return PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId());
     }

@@ -170,9 +170,35 @@ discord-bot-restarting: "Reiniciando Bot de Discord..."
 discord-command-manager-initializing: "Inicializando Gestor de Comandos de Discord..."
 discord-command-manager-shutting-down: "Apagando Gestor de Comandos de Discord..."
 
+tab-manager-initializing: "Inicializando Tab Manager..."
+tab-manager-shutting-down: "Apagando Tab Manager..."
+tab-manager-error: "Error al inicializar el Tab Manager."
+
 scoreboard-manager-initializing: "Inicializando Scoreboard..."
 scoreboard-manager-shutting-down: "Apagando Scoreboard..."
 scoreboard-manager-error: "Error al inicializar el Scoreboard."
+
+# TAB
+tab-prefix: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo%"
+tab-name: " <gold>%player.nombre%</gold>  "
+tab-suffix: "<green>%ping%</green>"
+tab-header:
+  - "<b>                                                            <b>"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "<reset>㍿"
+  - "<b>ʙɪᴇɴᴠᴇɴɪᴅᴏ %player.nombre%!"
+  - ""
+tab-footer:
+  - ""
+  - "<yellow>Fecha: <white>%date%</white></yellow>"
+  - "<yellow>Hora: <white>%time%</white></yellow>"
+  - ""
 
 # Scoreboard
 scoreboard-player:
@@ -220,6 +246,8 @@ scoreboard-online:
     - "Antártida: <yellow>%antartidaPlayers%</yellow>"
 
 # Command
+join-later: "<red><b>Ha ocurrido un error al ingresar al servidor. Por favor, intenta de nuevo en unos segundos.\n En caso de repetirse este error contacta a un administrador.</b></red>"
+
 no-permission: "No tienes permisos para ejecutar este comando."
 item-prohibited: "No puedes usar %item%."
 player-only-command: "Este comando solo puede ser ejecutado por un jugador."
@@ -449,7 +477,7 @@ language:
   set: "<green>El idioma de <yellow>%player.nombre%</yellow> ha sido establecido a <yellow>%language%</yellow>.</green>" # %language% -> Idioma establecido. 
   switch: "<green>Idioma establecido a <yellow>%language%</yellow>." # %language% -> Idioma establecido.
   not-supported: "El idioma <yellow>%language%</yellow> que tienes en el Minecraft no es soportado. Se ha puesto el Inglés por defecto. Si quieres que tu idioma sea soportado, contacta con los administras para saber cómo aportar." # %language% -> Idioma proporcionado.
-  default: "<green>Detectámos que tu Mincreaft está en %language%, se ha puesto como idioma por defecto. Si quieres cambiarlo, usa /idioma."
+  default: "<green>Detectámos que tu Minecraft está en %language%, se ha puesto como idioma por defecto. Si quieres cambiarlo, usa /idioma."
 config-updated: "<green>Configuración actualizada.</green>"
 
 nightvision:
@@ -833,9 +861,9 @@ tipo:
 
 # Chat
 # En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
-mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold><player></gold><gray>: </gray>%mensaje%"
-from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>%mensaje%" # De jugador no registrado en la base de datos.
-from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
+mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold><player></gold><reset><gray>: </gray>%mensaje%"
+from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><reset><gray>: </gray>%mensaje%" # De jugador no registrado en la base de datos.
+from-ds-message: "%dsPrefix% <gold><player></gold><reset><gray>: </gray>%mensaje%"
 
 # %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
 # %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %message% -> Mensaje enviado.
@@ -851,7 +879,7 @@ player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> ha salid
 
 player-welcome-message:
   - ""
-  - "<dark_green>Bienvenido al servidor, <yellow>%player.nombrePublico%</yellow>!</dark_green>"
+  - "<dark_green>Bienvenido al servidor, <yellow>%player%</yellow>!</dark_green>" # %player% -> Nombre público del jugador.
   - "<dark_green>Que tengas una gran experiencia en el servidor. Que alguien añada mas cosas</dark_green>"
   - ""
 

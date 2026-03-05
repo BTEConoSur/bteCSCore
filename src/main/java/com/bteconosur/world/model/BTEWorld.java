@@ -283,6 +283,7 @@ public class BTEWorld {
             @Override
             public void run() {
                 for (com.bteconosur.db.model.Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+                    if (player == null) continue;
                     if (!player.getConfiguration().getGeneralLabelBorder()) continue;
                     Player bukkitPlayer = Bukkit.getPlayer(player.getUuid());
                     if (bukkitPlayer == null) continue;

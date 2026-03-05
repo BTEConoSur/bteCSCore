@@ -21,8 +21,8 @@ related-languages:
   es_ES: ["es_AR", "es_MX", "es_CL", "es_CO", "es_PE", "es_VE", "es_UY", "es_PY", "es_BO", "es_EC"]
   en_US: ["en_GB", "en_AU", "en_CA", "en_NZ", "en_IE", "en_ZA", "en_IN", "en_SG", "en_PH"]
 
-default-language: "SPANISH" # Lenguaje por defecto del sistema.
-international-default-language: "ENGLISH" # Lenguaje por defecto para cuando se encuentre un lenguaje no soportado.
+default-language: "es_ES" # Lenguaje por defecto del sistema.
+international-default-language: "en_US" # Lenguaje por defecto para cuando se encuentre un lenguaje no soportado.
 
 # Map Sat
 map-padding: 0.005
@@ -184,3 +184,6 @@ player-defaults:
 
 # Configuración de Proyectos
 max-members-for-postulantes: 1 # Cantidad máxima de miembros que un usuario con rango Postulante puede agregar a sus proyectos.
+
+# Resource Pack
+rp-required: true

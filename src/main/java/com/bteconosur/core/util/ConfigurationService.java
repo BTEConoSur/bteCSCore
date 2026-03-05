@@ -42,7 +42,6 @@ public class ConfigurationService {
         configuration.setGeneralProjectTitle(config.getBoolean("player-defaults.general.project-title"));
         configuration.setGeneralDivisionTitle(config.getBoolean("player-defaults.general.division-title"));
         configuration.setGeneralScoreboard(config.getBoolean("player-defaults.general.scoreboard"));
-        configuration.setLang(Language.SPANISH);
 
         return playerRegistry.merge(player.getUuid());
     }

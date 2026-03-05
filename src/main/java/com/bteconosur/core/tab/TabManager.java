@@ -1,0 +1,86 @@
+package com.bteconosur.core.tab;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.db.model.Player;
+import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.util.PlaceholderUtils;
+
+import me.neznamy.tab.api.TabAPI;
+import me.neznamy.tab.api.TabPlayer;
+import me.neznamy.tab.api.event.player.PlayerLoadEvent;
+import me.neznamy.tab.api.tablist.HeaderFooterManager;
+import me.neznamy.tab.api.tablist.TabListFormatManager;
+
+public class TabManager {
+
+    private static TabManager instance;
+
+    private TabAPI tabAPI;
+    
+    public TabManager() {
+        ConsoleLogger.info(LanguageHandler.getText("tab-manager-initializing"));
+        try {
+            tabAPI = TabAPI.getInstance();
+        } catch (Exception e) {
+            ConsoleLogger.error(LanguageHandler.getText("tab-manager-error"), e);
+            return;
+        }
+
+        tabAPI.getEventBus().register(PlayerLoadEvent.class, event -> {
+            setTab(event.getPlayer());
+        });
+    }
+
+    public void joinPlayer(Player player) {
+        if (player == null) return;
+        TabPlayer tabPlayer = tabAPI.getPlayer(player.getUuid());
+        if (tabPlayer == null) {
+            return;
+        }
+        setTab(tabPlayer);
+        
+    }
+
+    public void setTab(TabPlayer tabPlayer) {
+        HeaderFooterManager hfm = tabAPI.getHeaderFooterManager();
+        Player player = PlayerRegistry.getInstance().get(tabPlayer.getUniqueId());
+        if (player == null) return;
+        Language language = player.getLanguage();
+
+        List<String> processedHeader = new ArrayList<>();
+        List<String> processedFooter = new ArrayList<>();
+        for (String line : LanguageHandler.getTextList(language, "tab-header")) {
+            processedHeader.add(PlaceholderUtils.replaceMC(line, language, player));  
+        }
+        for (String line : LanguageHandler.getTextList(language, "tab-footer")) {
+            processedFooter.add(PlaceholderUtils.replaceMC(line, language, player));  
+        }
+
+        hfm.setHeader(tabPlayer, String.join("\n", processedHeader));
+        hfm.setFooter(tabPlayer, String.join("\n", processedFooter));
+        TabListFormatManager tlm = tabAPI.getTabListFormatManager();
+        tlm.setPrefix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-prefix"), language, player));
+        tlm.setSuffix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-suffix"), language, player));
+        tlm.setName(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-name"), language, player));
+    }
+    
+
+    public void shutdown() {
+        ConsoleLogger.info(LanguageHandler.getText("tab-manager-shutting-down"));
+        if (instance != null) {
+            instance = null;
+        }
+    }
+
+    public static TabManager getInstance() {
+        if (instance == null) {
+            instance = new TabManager();
+        }
+        return instance;
+    }
+}

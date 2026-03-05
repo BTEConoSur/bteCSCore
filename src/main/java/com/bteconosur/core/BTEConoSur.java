@@ -31,6 +31,7 @@ import com.bteconosur.core.listener.ChatListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
 import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.scoreboard.ScoreboardManager;
+import com.bteconosur.core.tab.TabManager;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.HeadDBUtil;
@@ -69,6 +70,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static PermissionManager permissionManager;
     private static ProjectManager projectManager;
     private static ScoreboardManager scoreboardManager;
+    private static TabManager tabManager;
 
     private static PlayerRegistry playerRegistry;
     private static ProyectoRegistry proyectoRegistry;
@@ -122,7 +124,7 @@ public final class BTEConoSur extends JavaPlugin {
         worldManager = WorldManager.getInstance();
         projectManager = ProjectManager.getInstance();
         scoreboardManager = ScoreboardManager.getInstance();
-        
+        tabManager = TabManager.getInstance();
 
         playerRegistry = PlayerRegistry.getInstance();
         proyectoRegistry = ProyectoRegistry.getInstance();
@@ -258,6 +260,11 @@ public final class BTEConoSur extends JavaPlugin {
             permissionManager = null;
         }
 
+        if (tabManager != null) {
+            tabManager.shutdown();
+            tabManager = null;
+        }
+
         if (scoreboardManager != null) {
             scoreboardManager.shutdown();
             scoreboardManager = null;
@@ -311,7 +318,8 @@ public final class BTEConoSur extends JavaPlugin {
     }   
 }
 
-// TODO: Tab
+// TODO: Reemplazar hora por UTC 3
+// TODO: Añadir paquete de recursos al server y advertencia
 
 // TODO: Añadir parametros y descripción a las funciones
 
