@@ -273,6 +273,7 @@ invalid-project-location: "La ubicación del proyecto es inválida o no está de
 invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 
 commands-descriptions:
+  tpdir.desc: "Teletransportarse a lugares o direcciones reales."
   player.desc: "Obtener información de un jugador."
   back.desc: "Teletransportarse a tu última ubicación."
   pwarp:
@@ -472,6 +473,10 @@ region:
   not-complete: "La selección de la región está incompleta."
   not-supported: "Tipo de selección de WorldEdit no soportado. Usa cuboid o poly."
   we-error: "Error de WorldEdit."
+
+tpdir:
+  no-results: "No se encontraron resultados para '%query%'."
+  tped: "Teletransportando a <yellow>%destino%</yellow> . . ."
 
 language:
   set: "<green>El idioma de <yellow>%player.nombre%</yellow> ha sido establecido a <yellow>%language%</yellow>.</green>" # %language% -> Idioma establecido. 
@@ -1073,6 +1078,7 @@ ds-embeds:
 
 # GUI
 gui-titles:
+  tpdir-selection: "Seleccionar destino"
   help-visitar: "Selecciona cómo quieres visitar"
   visit-anyplace: "Visitar cualquier lugar"
   visit-builtplace: "Visitar construcciones"
@@ -1119,6 +1125,9 @@ gui-titles:
   manager-list-country: "Managers país '%pais.nombrePublico%'"
 
 items:
+  tpdir:
+    name: "<green>%name%" # Se completa con el nombre del lugar.
+    lore: "<gray>%context-line%" # Se completa con el contexto del lugar.
   help-visitar:
     anyplace:
       name: "<green>Visitar cualquier lugar"

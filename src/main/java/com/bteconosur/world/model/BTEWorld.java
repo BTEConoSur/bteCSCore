@@ -249,6 +249,12 @@ public class BTEWorld {
         return true;
     }
 
+    public boolean checkPaisMove(double x, double z) {
+        Pais paisTo = PaisRegistry.getInstance().findByLocation(x, z);
+        if (paisTo == null) return false;
+        return true;
+    }
+
     private double convertY(double ySource, LabelWorld sourceLw, LabelWorld destLw) {
         return ySource - destLw.getOffset() + sourceLw.getOffset();
     }

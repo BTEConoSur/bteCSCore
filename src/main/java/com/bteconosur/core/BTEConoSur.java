@@ -11,6 +11,7 @@ import com.bteconosur.core.command.HelpVisitarCommand;
 import com.bteconosur.core.command.LobbyCommand;
 import com.bteconosur.core.command.NightvisionCommand;
 import com.bteconosur.core.command.PlayerCommand;
+import com.bteconosur.core.command.TpdirCommand;
 import com.bteconosur.core.command.btecs.BTECSCommand;
 import com.bteconosur.core.command.chat.ChatCommand;
 import com.bteconosur.core.command.config.GeneralConfigCommand;
@@ -171,6 +172,9 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new WhereIAmCommand());
         HelpCommandCommand.addCommand(new WhereIAmCommand());
         DsHelpMinecraftCommand.addHelpCommand(new WhereIAmCommand());
+        PluginRegistry.registerCommand(new TpdirCommand()); 
+        HelpCommandCommand.addCommand(new TpdirCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new TpdirCommand());
         PluginRegistry.registerCommand(new GetCommand());
         HelpCommandCommand.addCommand(new GetCommand());
         DsHelpMinecraftCommand.addHelpCommand(new GetCommand());

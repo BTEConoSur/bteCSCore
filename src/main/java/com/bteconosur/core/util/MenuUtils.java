@@ -35,6 +35,25 @@ public class MenuUtils {
 
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
 
+    public static GuiItem getTpdirItem(String displayname) {
+        String[] display = displayname.split(", ");
+        List<String> lore = new ArrayList<>();
+        String name = LanguageHandler.getText(Language.getDefault(), "items.tpdir.name").replace("%name%", display[0]);
+        String contextLine = LanguageHandler.getText(Language.getDefault(), "items.tpdir.lore");
+        if (display.length > 1) {
+            name += ",";
+            for (int i = 1; i < display.length; i++) {
+                lore.add(contextLine.replace("%context-line%", display[i]) + (i < display.length - 1 ? "," : ""));
+            }
+        }
+        return buildGuiItem(
+            gui.getString("item-materials.tpdir"),
+            name,
+            lore,
+            false
+        );
+    }
+
     private static GuiItem getHelpVisitarItem(String key, Language language) {
         return buildGuiItem(
             gui.getString("item-materials.help-visitar." + key),

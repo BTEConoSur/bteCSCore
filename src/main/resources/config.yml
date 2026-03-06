@@ -45,6 +45,9 @@ map:
     fill-color: "#DE5742" # Color de la redefinición en el mapa.
     border-color: "#DE5742" # Color del borde de la redefinición en el mapa.
 
+tpdir-link: "https://nominatim.openstreetmap.org/search?q=%search%&format=json" # Link para buscar coordenadas en el comando /tpdir. Se reemplaza %search% por la consulta del usuario.
+tpdir-accept-language: "es-AR,es;q=0.9,en;q=0.7"
+
 # Base de Datos
 database-driver: "org.mariadb.jdbc.Driver"
 database-show-sql: "false"

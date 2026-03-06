@@ -3,6 +3,7 @@
 # La 'head-id' es la que se obtiene desde Head Database - https://minecraft-heads.com/.
 # En caso de un material inválido, se usará STONE por defecto.
 item-materials:
+  tpdir: "PAPER"
   separator: "BLACK_STAINED_GLASS_PANE"
   help-visitar:
     anyplace: "GRASS_BLOCK"

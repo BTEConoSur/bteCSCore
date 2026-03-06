@@ -244,6 +244,7 @@ invalid-project-location: "Project location is invalid or not within a valid div
 invalid-project-comment: "Maximum 300 characters allowed for comment."
 
 commands-descriptions:
+  tpdir.desc: "Teleport to real places or addresses."
   player.desc: "Get information about a player."
   back.desc: "Teleport back to your last location."
   pwarp:
@@ -443,6 +444,10 @@ region:
   not-complete: "Region selection is incomplete."
   not-supported: "WorldEdit selection type not supported. Use cuboid or poly."
   we-error: "WorldEdit error."
+
+tpdir:
+  no-results: "No results found for '%query%'."
+  tped: "Teleporting to <yellow>%destino%</yellow> . . ."
 
 language:
   set: "<green>The language of <yellow>%player.nombre%</yellow> has been set to <yellow>%language%</yellow>.</green>" # %language% -> Set language.
@@ -1049,6 +1054,7 @@ ds-embeds:
 # The 'head-id' is obtained from Head Database - https://minecraft-heads.com/.
 # In case of an invalid material, STONE will be used by default.
 gui-titles:
+  tpdir-selection: "Select Destination"
   help-visitar: "Select how you want to visit"
   visit-anyplace: "Visit any place"
   visit-builtplace: "Visit built places"
@@ -1095,6 +1101,9 @@ gui-titles:
   manager-list-country: "Managers país '%pais.nombrePublico%'"
 
 items:
+  tpdir:
+    name: "<green>%name%" # Se completa con el nombre del lugar.
+    lore: "<gray>%context-line%" # Se completa con el contexto del lugar.
   help-visitar:
     anyplace:
       name: "<green>Visit any place"

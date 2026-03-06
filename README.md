@@ -42,6 +42,7 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 * ✔️ /pwarp -> Comando general para gestionar warps personales.
 * ✔️ /help -> Comando general de ayuda.
 * ✔️ /get -> Obtener bloques especiales.
+* ✔️ /tpdir -> Tepearse a lugares o direcciones reales.
 
 ## Proyectos
 
