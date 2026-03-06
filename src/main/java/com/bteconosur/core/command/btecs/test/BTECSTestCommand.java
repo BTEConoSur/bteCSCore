@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class BTECSTestCommand extends BaseCommand {
 
     public BTECSTestCommand() {
-        super("test", null, "btecs.command.test", CommandMode.BOTH);
+        super("test", null, "btecs.command.btecs.test", CommandMode.BOTH);
         this.addSubcommand(new TestGenericCommand());
         this.addSubcommand(new TestConsoleLoggerCommand());
         this.addSubcommand(new TestExceptionLoggerCommand());

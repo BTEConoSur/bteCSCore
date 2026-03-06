@@ -30,7 +30,7 @@ public class TestAllRegionPaisGeojsonCommand extends BaseCommand {
     private final BTEConoSur plugin;
 
     public TestAllRegionPaisGeojsonCommand() {
-        super("allregionpaisgeojson", null, "btecs.command.test", CommandMode.CONSOLE_ONLY);
+        super("allregionpaisgeojson", null, "btecs.command.btecs.test", CommandMode.CONSOLE_ONLY);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
         dbManager = DBManager.getInstance();

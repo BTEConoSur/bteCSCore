@@ -27,7 +27,7 @@ public class TestRegionDivisionGeojsonCommand extends BaseCommand {
     private final YamlConfiguration config;
 
     public TestRegionDivisionGeojsonCommand() {
-        super("regiondivisiongeojson", "<id_region>", "btecs.command.test", CommandMode.BOTH);
+        super("regiondivisiongeojson", "<id_region>", "btecs.command.btecs.test", CommandMode.BOTH);
         config = ConfigHandler.getInstance().getConfig();
         dbManager = DBManager.getInstance();
         plugin = BTEConoSur.getInstance();

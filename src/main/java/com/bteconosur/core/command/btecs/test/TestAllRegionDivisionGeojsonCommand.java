@@ -29,7 +29,7 @@ public class TestAllRegionDivisionGeojsonCommand extends BaseCommand {
     private final YamlConfiguration config;
 
     public TestAllRegionDivisionGeojsonCommand() {
-        super("allregiondivisiongeojson", null, "btecs.command.test", CommandMode.CONSOLE_ONLY);
+        super("allregiondivisiongeojson", null, "btecs.command.btecs.test", CommandMode.CONSOLE_ONLY);
         ConfigHandler configHandler = ConfigHandler.getInstance();
         dbManager = DBManager.getInstance();
         config = configHandler.getConfig();
