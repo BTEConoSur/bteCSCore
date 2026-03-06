@@ -291,6 +291,7 @@ public class BTEWorld {
                     
                     Location location = bukkitPlayer.getLocation();
                     LabelWorld currentLabelWorld = WorldManager.getInstance().getBTEWorld().getLabelWorld(location.getX(), location.getZ());
+                    if (currentLabelWorld == null) continue;
                     Polygon polygon = currentLabelWorld.getPolygonForPlayer(player);
                     if (polygon == null) continue;
                     RegionUtils.spawnBorderParticles(bukkitPlayer, polygon, config.getString("border-particles.label-particle"));

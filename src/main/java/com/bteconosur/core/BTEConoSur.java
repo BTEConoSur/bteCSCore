@@ -220,11 +220,6 @@ public final class BTEConoSur extends JavaPlugin {
     @Override
     public void onDisable() {
         
-        if (playerRegistry != null) {
-            playerRegistry.shutdown();
-            playerRegistry = null;
-        }
-
         if (proyectoRegistry != null) {
             proyectoRegistry.shutdown();
             proyectoRegistry = null;
@@ -268,6 +263,11 @@ public final class BTEConoSur extends JavaPlugin {
         if (scoreboardManager != null) {
             scoreboardManager.shutdown();
             scoreboardManager = null;
+        }
+
+        if (playerRegistry != null) {
+            playerRegistry.shutdown();
+            playerRegistry = null;
         }
 
         if (dbManager != null) {

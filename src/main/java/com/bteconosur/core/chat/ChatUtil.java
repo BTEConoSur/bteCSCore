@@ -246,7 +246,7 @@ public class ChatUtil {
     }
 
     public static MessageEmbed getDsProjectRequestExpired(Proyecto proyecto, Language language) {
-        return buildDMNotification("project-request-expired", proyecto, language, null);
+        return buildDMNotification("project-expired", proyecto, language, null);
     }
 
     public static MessageEmbed getDsProjectFinishAccepted(Proyecto proyecto, String comentario, Language language) {

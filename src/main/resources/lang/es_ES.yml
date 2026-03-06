@@ -787,7 +787,7 @@ reviewer:
     switched: "<green>Construcción cambiada al proyecto <yellow>'%proyecto.id%'</yellow>. Ahora puedes construir aquí."
 where:
   division: "Pais: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>"
-  no-division: "No estás dentro de ninguna división del '%pais.nombrePublico%'."
+  no-division: "No estás dentro de ninguna división de '%pais.nombrePublico%'."
   no-pais: "No estás dentro de ningún país."
 get-list:
   header: " ===== <gold>Lista de %entity%s</gold>" # %entity% -> Nombre de la entidad en plural.

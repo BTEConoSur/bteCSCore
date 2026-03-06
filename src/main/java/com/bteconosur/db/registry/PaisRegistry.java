@@ -212,6 +212,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
                 }
             }
         }
+
         return null;
     }
 
@@ -234,7 +235,10 @@ public class PaisRegistry extends Registry<Long, Pais> {
         if (bukkitPlayer == null) return null;
         if (WorldManager.getInstance().getBTEWorld().isLobbyLocation(bukkitPlayer.getLocation())) return null;
         Location loc = bukkitPlayer.getLocation();
-        return findDivisionByLocation(loc.getX(), loc.getZ(), findByLocation(loc.getX(), loc.getZ()));  
+        Pais pais = findByLocation(loc.getX(), loc.getZ());
+        Division division = findDivisionByLocation(loc.getX(), loc.getZ(), pais);
+        if (division == null) return getDefaultDivision(pais);
+        return division;
     }
 
     public Division findDivisionByPolygon(Polygon polygon, Pais pais) {
