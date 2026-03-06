@@ -9,7 +9,7 @@ import com.bteconosur.db.model.Player;
 public class HelpVisitarCommand extends BaseCommand {
 
     public HelpVisitarCommand() {
-        super("helpvisitar", "", "btecs.command.helpvisitar", CommandMode.PLAYER_ONLY);
+        super("visitar", "", "btecs.command.helpvisitar", CommandMode.PLAYER_ONLY);
     }
 
     @Override
