@@ -16,8 +16,8 @@
 
 # Los <atributos> disponibles para cada tipo de objeto son los siguientes:
 # Player: (%player.<atributo>%)
-#     nombre, nombrePublico, uuid, lenguaje, paisPrefix, tipoUsuario, rangoUsuario, tipoUsuarioPrefijo, rangoUsuarioPrefijo, discordName, proyectosActivos, proyectosCompletados, 
-#     fechaIngreso, fechaUltimaConexion, estado (Online/Offline), discordId, discordName.
+#     nombre, nombrePublico, uuid, lenguaje, paisPrefix, tipoUsuario, rangoUsuario, tipoUsuarioPrefijo, rangoUsuarioPrefijo, prefix (Si tiene rango distinto al 'Normal' muestra su prefijo, sino, muestra el prefijo del tipo de usuario)
+#     , discordName, proyectosActivos, proyectosCompletados,fechaIngreso, fechaUltimaConexion, estado (Online/Offline), discordId, discordName, chat (Nombre del chat actual).
 # Proyecto: %proyecto.<atributo>%
 #     id, nombre, descripcion, tamano (Tamaño), paisId, paisNombre, tipoId, tipo, lider (Nombre Público), miembrosCantidad, fechaCreacion, fechaFinalizacion, maxMiembros, divisionId
 #     divisionNombre, divisionGna, divisionFna, divisionNam, divisionContexto, geoCoords.
@@ -179,7 +179,8 @@ scoreboard-manager-shutting-down: "Apagando Scoreboard..."
 scoreboard-manager-error: "Error al inicializar el Scoreboard."
 
 # TAB
-tab-prefix: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo%"
+# Letras chicas: https://lingojam.com/MinecraftSmallFont
+tab-prefix: " %player.paisPrefix% %player.prefix%"
 tab-name: " <gold>%player.nombre%</gold>  "
 tab-suffix: "<green>%ping%</green>"
 tab-header:
@@ -866,7 +867,7 @@ tipo:
 
 # Chat
 # En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
-mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold><player></gold><reset><gray>: </gray>%mensaje%"
+mc-message: "%player.paisPrefix% %player.prefix% <gold><player></gold><reset><gray>: </gray>%mensaje%"
 from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><reset><gray>: </gray>%mensaje%" # De jugador no registrado en la base de datos.
 from-ds-message: "%dsPrefix% <gold><player></gold><reset><gray>: </gray>%mensaje%"
 
@@ -874,7 +875,7 @@ from-ds-message: "%dsPrefix% <gold><player></gold><reset><gray>: </gray>%mensaje
 # %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %message% -> Mensaje enviado.
 ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
 ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # De jugador no registrado en la base de datos. %username% -> Nombre del usuario que envía el mensaje.
-from-mc-message: "**%mcPrefix% %player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% %player.nombrePublico%**: %mensaje%"
+from-mc-message: "**%mcPrefix% %player.paisPrefix% %player.prefix% %player.nombrePublico%**: %mensaje%"
 
 player-join-message: "<green>El jugador <yellow>%player.nombrePublico%<reset><green> se ha unido al servidor."
 player-new-join-message: "<green>El jugador <yellow>%player.nombrePublico%<reset><green> se ha unido al servidor por primera vez."
@@ -892,6 +893,8 @@ player-hover-chat:
   - "<gray>Nombre: <white>%player.nombre%"
   - "<gray>Lenguaje: <white>%player.lenguaje%"
   - "<gray>Discord: <white>%player.discordName%</white>"
+  - "<gray>Rango: <white>%player.rangoUsuario%</white>"
+  - "<gray>Tipo: <white>%player.tipoUsuario%</white>"
   - "<gray>Proyectos activos: <white>%player.proyectosActivos%"
   - "<gray>Proyectos completados: <white>%player.proyectosCompletados%"
   - "<gray>Ingreso: <white>%player.fechaIngreso%"

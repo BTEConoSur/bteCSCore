@@ -151,7 +151,7 @@ tab-manager-error: "Error initializing Tab Manager."
 
 # TAB
 # Placeholders de TAB: https://github.com/NEZNAMY/TAB/wiki/Placeholders
-tab-prefix: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo%"
+tab-prefix: " %player.paisPrefix% %player.prefix%"
 tab-name: " <gold>%player.nombre%</gold>  "
 tab-suffix: "<green>%ping%</green>"
 tab-header:
@@ -837,8 +837,7 @@ tipo:
 
 # Chat
 # If the player is not registered in the database, the rest of prefixes are not used.
-mc-message: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold><player></gold><gray>: </gray>%mensaje%"
-mc-tab: "%player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% <gold><player></gold>"
+mc-message: "%player.paisPrefix% %player.prefix% <gold><player></gold><gray>: </gray>%mensaje%"
 from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>%mensaje%" # From player not registered in the database.
 from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
 
@@ -846,7 +845,7 @@ from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
 # %mcPrefix% -> Minecraft prefix. %dsPais% -> Country where message comes from. %player% -> Player name. %mensaje% -> Sent message.
 ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
 ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # From player not registered in the database. %username% -> Username sending the message.
-from-mc-message: "**%mcPrefix% %player.paisPrefix%%player.rangoUsuarioPrefijo%%player.tipoUsuarioPrefijo% %player.nombrePublico%**: %mensaje%"
+from-mc-message: "**%mcPrefix% %player.paisPrefix% %player.prefix% %player.nombrePublico%**: %mensaje%"
 
 player-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow><reset><green> has joined the server."
 player-new-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow><reset><green> has joined the server for the first time."
@@ -864,6 +863,8 @@ player-hover-chat:
   - "<gray>Name: <white>%player.nombre%"
   - "<gray>Language: <white>%player.lenguaje%"
   - "<gray>Discord: <white>%player.discordName%</white>"
+  - "<gray>Rango: <white>%player.rangoUsuario%</white>"
+  - "<gray>Tipo: <white>%player.tipoUsuario%</white>"
   - "<gray>Active Projects: <white>%player.proyectosActivos%"
   - "<gray>Completed Projects: <white>%player.proyectosCompletados%"
   - "<gray>Joined: <white>%player.fechaIngreso%"

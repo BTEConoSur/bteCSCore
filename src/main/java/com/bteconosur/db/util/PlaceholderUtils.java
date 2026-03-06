@@ -12,6 +12,7 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.TerraUtils;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
@@ -159,6 +160,11 @@ public class PlaceholderUtils {
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipo-mc.";
                         else path = "placeholder.tipo-ds.";
                         value = p.getTipoUsuario() != null ? LanguageHandler.getText(language, path + p.getTipoUsuario().getNombre().toLowerCase()) : "ERROR_TIPO_USUARIO_NULL";
+                        break;
+                    case "prefix":
+                        PermissionManager pm = PermissionManager.getInstance();
+                        if (!pm.isNormal(p)) value = replace("%player.rangoUsuarioPrefijo%", language, context, p);
+                        else value = replace("%player.tipoUsuarioPrefijo%", language, context, p);
                         break;
                     case "paisPrefix":
                         Pais pais = p.getPaisPrefix();

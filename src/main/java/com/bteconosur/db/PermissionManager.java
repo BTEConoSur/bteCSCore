@@ -154,6 +154,12 @@ public class PermissionManager {
         return isTipoUsuario(player, tipoPostulante);
     }
 
+    public boolean isNormal(Player player) {
+        if (player == null) return false;
+        RangoUsuario rango = rangoUsuarioRegistry.getNormal();
+        return isRangoUsuario(player, rango);
+    }
+
     public boolean isAdmin(Player player) {
         if (player == null) return false;
         RangoUsuario rango = player.getRangoUsuario();
