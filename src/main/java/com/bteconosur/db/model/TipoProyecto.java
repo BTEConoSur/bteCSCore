@@ -27,10 +27,10 @@ public class TipoProyecto {
     @Column(name = "max_miembros", nullable = false)
     private Integer maxMiembros;
 
-    @Column(name = "tamano_min", nullable = false)
+    @Column(name = "tamano_min")
     private Integer tamanoMin;
 
-    @Column(name = "tamano_max", nullable = false)
+    @Column(name = "tamano_max")
     private Integer tamanoMax;
 
     @OneToMany(mappedBy = "tipoProyecto")

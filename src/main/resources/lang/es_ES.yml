@@ -272,6 +272,7 @@ invalid-project-description: "Máximo 100 caracteres permitidos para la descripc
 invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50m²."
 invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una división válida."
 invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
+invalid-admin-id: "El ID de tipo de proyecto de Admin no es válido. Verifica que el ID configurado en 'id-proyecto-admin' corresponda a un tipo de proyecto existente en la base de datos."
 
 commands-descriptions:
   tpdir.desc: "Teletransportarse a lugares o direcciones reales."
@@ -633,6 +634,9 @@ project:
       staff-log: "🔄 | **%player.nombre%** ha reemplazado a **%player.nombre.1%** por **%player.nombre.2%** como líder del proyecto `%proyecto.id%`."
       staff-no-old-leader-log: "🔄 | **%player.nombre%** ha promovido a **%player.nombre.1%** a líder del proyecto `%proyecto.id%`. El proyecto ha sido marcado como **Activo**"
   create:
+    admin:
+      success: "Has creado exitosamente el proyecto <yellow>'%proyecto.id%'</yellow> de tipo Admin."
+      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%` de tipo Admin. Nombre: `%proyecto.nombre%`. Descripción: `%proyecto.descripcion%`."
     request:
       success: "<green>Solicitud de proyecto con ID <yellow>'%proyecto.id%'</yellow> enviada correctamente. Espera a que un Reviewer la revise."
       already: "Ya has enviado una solicitud de proyecto. Espera a que un Reviewer la revise."
@@ -778,7 +782,7 @@ reviewer:
   not-a-reviewer-country: "No eres Reviewer de ningún país."
   already: "El jugador '%player.nombre%' ya es Reviewer del país '%pais.nombrePublico%'."
   not-reviewer: "El jugador '%player.nombre%' no es Reviewer del país '%pais.nombrePublico%'."
-  ds-not-reviewer-country: "No sos Reviewer del país **'%pais%'**."
+  ds-not-reviewer-country: "No sos Reviewer del país **'%pais.nombrePublico%'**."
   add:
     success: "El jugador '%player.nombre%' ha sido agregado como Reviewer del país '%pais.nombrePublico%' correctamente."
     for-target: "Has sido agregado como Reviewer del país '%pais.nombrePublico%' correctamente."

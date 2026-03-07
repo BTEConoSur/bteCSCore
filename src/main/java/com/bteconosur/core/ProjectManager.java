@@ -91,7 +91,42 @@ public class ProjectManager {
             }
         }
         return requesters;
-    }   
+    }
+
+    public void createAdminProject(String nombre, String descripcion, Polygon regionPolygon, Player player, Language language) {
+        Double tamaño = regionPolygon.getArea();
+        TipoProyecto tipoProyecto = TipoProyectoRegistry.getInstance().get(config.getLong("id-proyecto-admin", 1));
+        if (tipoProyecto == null) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "invalid-admin-id"), (String) null);
+            return;
+        }
+
+        PaisRegistry paisr = PaisRegistry.getInstance();
+        Division division = paisr.findDivisionByPolygon(regionPolygon, paisr.findByPolygon(regionPolygon));
+        if (division == null) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "invalid-project-location"), (String) null);
+            return;
+        }
+
+        ProyectoRegistry pr = ProyectoRegistry.getInstance(); 
+        
+        Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.ACTIVO, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(DateUtils.instantOffset()));
+        pr.load(proyecto);
+
+        File contextImage = SatMapUtils.downloadImage(proyecto);
+        if (contextImage == null) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "internal-error"), (String) null);
+            pr.unload(proyecto.getId());
+            return;
+        }
+        WorldManager.getInstance().createRegion(proyecto);
+        Pais pais = proyecto.getPais();
+
+        PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.admin.success", language, proyecto), (String) null);
+        
+        String countryLog = LanguageHandler.replaceDS("project.create.admin.log", language, player, proyecto);
+        DiscordLogger.countryLog(countryLog, pais);
+    }
 
     public void createProject(String nombre, String descripcion, Polygon regionPolygon, Player player, Language language) {
         Interaction previousctx = InteractionRegistry.getInstance().findCreateRequest(player);

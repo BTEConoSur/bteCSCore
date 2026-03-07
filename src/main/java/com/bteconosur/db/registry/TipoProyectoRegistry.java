@@ -34,6 +34,7 @@ public class TipoProyectoRegistry extends Registry<Long, TipoProyecto>{
 
     public TipoProyecto get(Double size) {
         for (TipoProyecto tipo : loadedObjects.values()) {
+            if (tipo.getTamanoMin() == null || tipo.getTamanoMax() == null) continue;
             if (tipo.getTamanoMin() <= size && tipo.getTamanoMax() >= size) {
                 return tipo;
             }

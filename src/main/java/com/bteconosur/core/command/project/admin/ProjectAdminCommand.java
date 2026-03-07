@@ -17,6 +17,7 @@ public class ProjectAdminCommand extends BaseCommand {
         this.addSubcommand(new ProjectAdminRemoveManager());
         this.addSubcommand(new ProjectAdminAddReviewer());
         this.addSubcommand(new ProjectAdminRemoveReviewer());
+        this.addSubcommand(new ProjectAdminCreateCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

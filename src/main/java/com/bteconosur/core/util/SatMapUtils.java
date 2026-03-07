@@ -59,6 +59,18 @@ public class SatMapUtils {
         }
     }
 
+    public static File downloadImage(Proyecto proyecto) {
+        File file = downloadContext(proyecto, Set.of());
+        if (file != null) {
+            File createFolder = new File(BTEConoSur.getInstance().getDataFolder(), "images/create");
+            File contextFile = new File(createFolder, proyecto.getId() + ".png");
+            if (contextFile.exists()) {
+                contextFile.delete();
+            }
+        }
+        return file;
+    }
+
     public static File downloadContext(Proyecto proyecto, Set<Proyecto> otrosProyectos) {
         try {
             checkReset();

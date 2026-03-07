@@ -242,6 +242,7 @@ invalid-project-description: "Maximum 100 characters allowed for project descrip
 invalid-project-size: "Project size is invalid. Min. 2m² - Max. 50m²."
 invalid-project-location: "Project location is invalid or not within a valid division."
 invalid-project-comment: "Maximum 300 characters allowed for comment."
+invalid-admin-id: "The ID of the Admin project type is invalid. Verify that the ID configured in 'id-proyecto-admin' corresponds to an existing project type in the database."
 
 commands-descriptions:
   tpdir.desc: "Teleport to real places or addresses."
@@ -603,6 +604,9 @@ project:
       staff-log: "🔄 | **%player.nombre%** has replaced **%player.nombre.1%** with **%player.nombre.2%** as leader of project `%proyecto.id%`."
       staff-no-old-leader-log: "🔄 | **%player.nombre%** has promoted **%player.nombre.1%** to leader of project `%proyecto.id%`. The project has been marked as **Active**"
   create:
+    admin:
+      success: "You have successfully created project <yellow>'%proyecto.id%'</yellow> of type Admin."
+      log: "📋 | **%player.nombre%** has created project `%proyecto.id%`. Type: `Admin`. Name: `%proyecto.nombre%`. Description: `%proyecto.descripcion%`."
     request:
       success: "<green>Project request with ID <yellow>'%proyecto.id%'</yellow> sent successfully. Wait for a Reviewer to review it."
       already: "You have already submitted a project request. Wait for a Reviewer to review it."
