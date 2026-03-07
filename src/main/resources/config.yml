@@ -103,6 +103,8 @@ lobby.world: "lobby" # Nombre del mundo del lobby. Se asume que el mundo ya exis
 wg-proyecto-prefix: "proyecto_" # Prefijo para las regiones de los proyectos en WorldGuard.
 wg-parent-proyecto: "proyectos"
 
+sync-project-regions: true # Sincronizar las regiones de los proyectos en el lobby con WorldGuard al iniciar el plugin.
+
 border-particles:
   pais-enable: true # Habilitar partículas para los bordes de los países.
   label-enable: true # Habilitar partículas para los bordes de las etiquetas.

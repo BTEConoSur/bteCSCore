@@ -89,7 +89,6 @@ public final class BTEConoSur extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Guardar instancia del plugin
         instance = this;
 
         try {
@@ -150,8 +149,8 @@ public final class BTEConoSur extends JavaPlugin {
         registerCommands();
         ConsoleLogger.info("El Plugin se ha activado.");
         
-        worldManager.syncRegions();
-
+        if (config.getBoolean("sync-project-regions")) worldManager.syncRegions();
+        
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
     }
 

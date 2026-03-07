@@ -74,10 +74,14 @@ public class WorldManager {
 
     private RegionManager getRegionManager(Proyecto proyecto) {
         Polygon polygon = proyecto.getPoligono();
+        if (polygon == null) {
+            ConsoleLogger.info("El proyecto " + proyecto.getId() + " no tiene polígono asignado.");
+            return null;
+        }
         Point centroid = polygon.getCentroid();
         LabelWorld labelWorld = bteWorld.getLabelWorld(centroid.getX(), centroid.getY());
         if (labelWorld == null) {
-            ConsoleLogger.warn("No se pudo obtener el LabelWorld para el proyecto " + proyecto.getId());
+            ConsoleLogger.info("No se pudo obtener el LabelWorld para el proyecto " + proyecto.getId());
             return null;
         }
         return labelWorld.getRegionManager();
@@ -88,7 +92,7 @@ public class WorldManager {
         if (regionManager == null) return null;
         ProtectedRegion region = regionManager.getRegion(config.getString("wg-proyecto-prefix") + proyecto.getId());
         if (region == null) {
-            ConsoleLogger.warn("Region no encontrada: " + config.getString("wg-proyecto-prefix") + proyecto.getId());
+            ConsoleLogger.info("Region no encontrada: " + config.getString("wg-proyecto-prefix") + proyecto.getId());
             return null;
         }
         return region;

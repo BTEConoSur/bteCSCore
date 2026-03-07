@@ -62,7 +62,7 @@ public class Proyecto {
     @Column(name = "tamaño")
     private double tamaño;
 
-    @Column(name = "f_creado", nullable = false)
+    @Column(name = "f_creado")
     private Date fechaCreado;
 
     @Column(name = "f_terminado")
