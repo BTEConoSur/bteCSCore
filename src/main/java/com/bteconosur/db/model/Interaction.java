@@ -25,6 +25,10 @@ import org.locationtech.jts.geom.Polygon;
 
 @Entity
 @Table(name = "interaction")
+/**
+ * Entidad que representa una interacción temporal del sistema.
+ * Se utiliza para solicitudes, componentes y datos auxiliares con expiración.
+ */
 public class Interaction {
 
     @Id
@@ -224,14 +228,27 @@ public class Interaction {
         this.payloadJson = payloadJson;
     }
 
+    /**
+     * Indica si la interacción se encuentra expirada.
+     *
+     * @return {@code true} si la fecha de expiración ya pasó.
+     */
     public boolean isExpired() {
         return expiresAt != null && expiresAt.isBefore(DateUtils.instantOffset());
     }
 
+    /**
+     * Limpia completamente el payload JSON almacenado.
+     */
     public void clearPayload() {
         this.payloadJson = null;
     }
 
+    /**
+     * Reemplaza el payload serializando un mapa de datos a JSON.
+     *
+     * @param data datos a serializar.
+     */
     public void setPayloadData(Map<String, Object> data) {
         try {
             this.payloadJson = new ObjectMapper().writeValueAsString(data);
@@ -240,6 +257,11 @@ public class Interaction {
         }
     }
 
+    /**
+     * Obtiene el payload como mapa deserializado.
+     *
+     * @return mapa de datos del payload, o un mapa vacío si no existe o falla la deserialización.
+     */
     @SuppressWarnings("unchecked")
     public Map<String, Object> getPayloadData() {
         if (payloadJson == null || payloadJson.isEmpty()) {
@@ -253,10 +275,22 @@ public class Interaction {
         }
     }
 
+    /**
+     * Obtiene un valor puntual del payload por clave.
+     *
+     * @param key clave del valor buscado.
+     * @return valor asociado a la clave, o {@code null} si no existe.
+     */
     public Object getPayloadValue(String key) {
         return getPayloadData().get(key);
     }
 
+    /**
+     * Agrega o reemplaza un valor dentro del payload.
+     *
+     * @param key clave a insertar o actualizar.
+     * @param value valor a guardar.
+     */
     public void addPayloadValue(String key, Object value) {
         Map<String, Object> data = getPayloadData();
         data.put(key, value);

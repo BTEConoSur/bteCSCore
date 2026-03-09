@@ -21,10 +21,20 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
+/**
+ * Servicio de chat global del servidor.
+ * Gestiona la difusión de mensajes y notificaciones a todos los jugadores conectados
+ * al chat global, tanto en Minecraft como en Discord.
+ */
 public class GlobalChatService {
 
     private static YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    /**
+     * Notifica a los jugadores del chat global que un jugador se unio.
+     *
+     * @param player jugador que se une al chat global.
+     */
     public static void joinChat(Player player) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
@@ -35,6 +45,11 @@ public class GlobalChatService {
         if (config.getBoolean("discord-player-join-leave-chat")) broadcastEmbed(ChatUtil.getDsChatJoined(player));
     }
 
+    /**
+     * Notifica a los jugadores del chat global que un jugador salió.
+     *
+     * @param player jugador que sale del chat global.
+     */
     public static void leaveChat(Player player) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
@@ -45,6 +60,16 @@ public class GlobalChatService {
         if (config.getBoolean("discord-player-join-leave-chat")) broadcastEmbed(ChatUtil.getDsChatLeft(player));
     }
 
+    /**
+     * Reenvía un mensaje de Discord al chat global de Minecraft y al resto de canales globales de Discord.
+     *
+     * @param player jugador vinculado al autor del mensaje.
+     * @param message contenido del mensaje.
+     * @param dsFrom país/canal de origen del mensaje.
+     * @param dsFromId id del canal de origen para evitar rebote.
+     * @param attachments adjuntos del mensaje original.
+     * @param messageId id del mensaje original en Discord.
+     */
     public static void broadcastDsChat(Player player, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments, String messageId) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
@@ -71,6 +96,16 @@ public class GlobalChatService {
         MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, dsMessage, Language.getDefault(), dsFrom), messageId);
     }
 
+    /**
+     * Reenvía un mensaje de Discord al chat global cuando no hay un jugador vinculado.
+     *
+     * @param username nombre del autor del mensaje.
+     * @param message contenido del mensaje.
+     * @param dsFrom país/canal de origen del mensaje.
+     * @param dsFromId id del canal de origen para evitar rebote.
+     * @param attachments adjuntos del mensaje original.
+     * @param messageId id del mensaje original en Discord.
+     */
     public static void broadcastDsChat(String username, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments, String messageId) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
@@ -91,6 +126,12 @@ public class GlobalChatService {
         MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(username, dsMessage, Language.getDefault(), dsFrom), messageId);
     }
 
+    /**
+     * Difunde un mensaje de Minecraft al chat global y a Discord.
+     *
+     * @param player jugador autor del mensaje.
+     * @param message contenido del mensaje.
+     */
     public static void broadcastMcChat(Player player, String message) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
@@ -108,12 +149,22 @@ public class GlobalChatService {
         MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, message, Language.getDefault()));
     }
 
+    /**
+     * Envia un embed a todos los canales globales de Discord.
+     *
+     * @param embed embed a difundir.
+     */
     public static void broadcastEmbed(MessageEmbed embed) {
         if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
         MessageService.sendBroadcastEmbed(ids, embed);
     }
 
+    /**
+     * Difunde el mensaje de ingreso de un jugador nuevo al servidor.
+     *
+     * @param player jugador que ingreso por primera vez.
+     */
     public static void broadcastNewPlayerJoinedServer(Player player) {
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcNewPlayerJoined(player, onlinePlayer.getLanguage())));
@@ -123,6 +174,11 @@ public class GlobalChatService {
         broadcastEmbed(dsMessage);
     }
 
+    /**
+     * Difunde el mensaje de ingreso de un jugador al servidor.
+     *
+     * @param player jugador que ingreso al servidor.
+     */
     public static void broadcastPlayerJoinedServer(Player player) {
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcPlayerJoined(player, onlinePlayer.getLanguage())));
@@ -132,6 +188,11 @@ public class GlobalChatService {
         broadcastEmbed(dsMessage);
     }
 
+    /**
+     * Difunde el mensaje de salida de un jugador del servidor.
+     *
+     * @param player jugador que se desconectó.
+     */
     public static void broadcastPlayerLeftServer(Player player) {
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcPlayerLeft(player, onlinePlayer.getLanguage())));

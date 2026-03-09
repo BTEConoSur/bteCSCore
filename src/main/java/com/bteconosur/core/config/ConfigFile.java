@@ -9,18 +9,26 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Maneja la carga, guardado y recarga de archivos de configuración YAML.
+ */
 public class ConfigFile {
     private YamlConfiguration fileConfiguration;
     private final BTEConoSur plugin = BTEConoSur.getInstance();
     private File file;
     private final String fileName;
 
+    /**
+     * Crea una instancia del manejador de archivo de configuración.
+     *
+     * @param fileName nombre del archivo relativo a la carpeta de datos del plugin.
+     */
     public ConfigFile(String fileName) {
         this.fileName = fileName;
     }
 
     /**
-     * Crea un archivo de configuración si no existe y carga la configuración.
+     * Registra el archivo de configuración: lo crea desde recursos si no existe y carga la configuración.
      */
     public void register() {
         this.file = new File(plugin.getDataFolder(), fileName);
@@ -33,7 +41,9 @@ public class ConfigFile {
     }
 
     /**
-     * Guarda la configuración en el archivo.
+     * Guarda los cambios de la configuración al archivo en disco.
+     *
+     * @throws RuntimeException si ocurre un error de I/O durante el guardado.
      */
     public void save() {
         try {
@@ -45,7 +55,9 @@ public class ConfigFile {
     }
 
     /**
-     * Recarga el archivo.
+     * Recarga la configuración desde el archivo en disco.
+     *
+     * @throws RuntimeException si ocurre un error de I/O o de formato YAML durante la recarga.
      */
     public void reload() {
         try {
@@ -56,6 +68,11 @@ public class ConfigFile {
         }
     }
 
+    /**
+     * Obtiene la configuración YAML cargada en memoria.
+     *
+     * @return instancia de {@code YamlConfiguration} del archivo.
+     */
     public YamlConfiguration getFileConfiguration() {
         return this.fileConfiguration;
     }

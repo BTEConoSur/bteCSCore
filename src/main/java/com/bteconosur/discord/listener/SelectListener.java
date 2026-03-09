@@ -14,10 +14,21 @@ import com.bteconosur.discord.action.SelectAction;
 import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * Listener para eventos de interacción con menús de selección en Discord.
+ * Maneja las selecciones en menús desplegables, valida interacciones
+ * y delega a las acciones correspondientes.
+ */
 public class SelectListener extends ListenerAdapter {
 
     private static final InteractionRegistry registry = InteractionRegistry.getInstance();
 
+    /**
+     * Maneja eventos de interacción con menús de selección.
+     * Valida la interacción, verifica expiración y ejecuta la acción correspondiente.
+     * 
+     * @param event Evento de interacción del menú de selección
+     */
     @SuppressWarnings("null")
     @Override
     public void onStringSelectInteraction(@Nonnull StringSelectInteractionEvent event) {

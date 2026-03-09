@@ -24,6 +24,11 @@ import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 
+/**
+ * Clase base abstracta para comandos de Discord.
+ * Define la estructura y funcionalidad común para todos los comandos slash del bot.
+ * Soporta diferentes modos de registro (global, por país, staffhub) y subcomandos.
+ */
 public abstract class DsCommand {
 
     protected String command;
@@ -37,6 +42,15 @@ public abstract class DsCommand {
     protected final YamlConfiguration config;
     private final YamlConfiguration secret = ConfigHandler.getInstance().getSecret();
 
+    /**
+     * Constructor completo de un comando de Discord.
+     * 
+     * @param command Nombre del comando
+     * @param description Descripción del comando
+     * @param options Opciones del comando
+     * @param permissions Permisos requeridos para ejecutar el comando
+     * @param mode Modo de registro del comando (global, país, staffhub)
+     */
     public DsCommand(String command, String description, Collection<OptionData> options, Collection<Permission> permissions, CommandMode mode) {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
@@ -48,17 +62,39 @@ public abstract class DsCommand {
         this.mode = mode;
     }
 
+    /**
+     * Constructor simplificado de un comando de Discord sin opciones.
+     * 
+     * @param command Nombre del comando
+     * @param description Descripción del comando
+     * @param permissions Permisos requeridos para ejecutar el comando
+     * @param mode Modo de registro del comando
+     */
     public DsCommand(String command, String description, Collection<Permission> permissions, CommandMode mode) {
         this(command, description, null, permissions, mode);
     }
 
+    /**
+     * Ejecuta la lógica del comando cuando es invocado.
+     * 
+     * @param event Evento de interacción del comando slash
+     */
     public abstract void execute(SlashCommandInteractionEvent event);
 
+    /**
+     * Añade un subcomando a este comando.
+     * 
+     * @param subcommand Subcomando a añadir
+     */
     public void addSubcommand(DsSubcommand subcommand) {
         subcommands.put(subcommand.getCommand(), subcommand);
         subcommand.setParentCommand(command);
     }
 
+    /**
+     * Registra el comando en Discord según el modo configurado.
+     * Puede registrarse globalmente, en servidores de países, o en el staffhub.
+     */
     @SuppressWarnings("null")
     public void registerCommand() {
         JDA jda = DiscordManager.getInstance().getJda();
@@ -91,6 +127,11 @@ public abstract class DsCommand {
         }
     }
     
+    /**
+     * Configura y registra los datos del comando en Discord.
+     * 
+     * @param commandData Acción de creación del comando
+     */
     @SuppressWarnings("null")
     private void registerCommandData(CommandCreateAction commandData) {
         if (permissions != null && !permissions.isEmpty()) commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(permissions));
@@ -108,22 +149,47 @@ public abstract class DsCommand {
         }
     }
 
+    /**
+     * Obtiene el modo de registro del comando.
+     * 
+     * @return El modo de registro configurado
+     */
     public CommandMode getMode() {
         return mode;
     }
 
+    /**
+     * Obtiene el nombre del comando.
+     * 
+     * @return El nombre del comando
+     */
     public String getCommand() {
         return command;
     }
 
+    /**
+     * Obtiene la descripción del comando.
+     * 
+     * @return La descripción del comando
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Verifica si el comando tiene subcomandos registrados.
+     * 
+     * @return true si tiene subcomandos, false en caso contrario
+     */
     public boolean hasSubcommands() {
         return !subcommands.isEmpty();
     }
 
+    /**
+     * Obtiene el mapa de subcomandos registrados.
+     * 
+     * @return Mapa con los subcomandos, indexados por su nombre
+     */
     public Map<String, DsSubcommand> getSubcommands() {
         return subcommands;
     }

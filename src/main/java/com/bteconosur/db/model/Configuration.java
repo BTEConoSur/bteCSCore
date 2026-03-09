@@ -19,6 +19,10 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "configuration")
+/**
+ * Entidad de preferencias de configuración por jugador.
+ * Almacena opciones de interfaz, notificaciones y lenguaje.
+ */
 public class Configuration {
     @Id
     @Column(name = "uuid_player", columnDefinition = "CHAR(36)", nullable = false)

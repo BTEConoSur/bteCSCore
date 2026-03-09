@@ -34,12 +34,27 @@ import com.sk89q.worldedit.regions.selector.Polygonal2DRegionSelector;
 import com.sk89q.worldguard.protection.regions.ProtectedPolygonalRegion;
 
 
+/**
+ * Utilidad para manipulación de regiones poligonales y selección en WorldEdit.
+ * Proporciona conversión entre geometrías JTS y regiones de WorldGuard/WorldEdit,
+ * así como visualización de partículas y comparación de formas.
+ */
 public class RegionUtils {
 
     private static final GeometryFactory gf = new GeometryFactory();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
     private static final Coordinate TMP_COORD = new Coordinate();
 
+    /**
+     * Selecciona un polígono en WorldEdit para un jugador.
+     * Convierte la geometría a una selección poligonal 2D en modo WorldEdit.
+     *
+     * @param player jugador que recibe la selección.
+     * @param poly polígono a seleccionar.
+     * @param minY altura mínima de la selección.
+     * @param maxY altura máxima de la selección.
+     * @param language idioma para mensajes de error.
+     */
     public static void selectPolygon(Player player, Polygon poly, int minY, int maxY, Language language) {
         
         if (poly == null || poly.isEmpty()) {
@@ -68,6 +83,13 @@ public class RegionUtils {
         PlayerLogger.info(player, LanguageHandler.getText(language, "region.selected"), (String) null);
     }
 
+    /**
+     * Convierte un polígono JTS a una región poligonal protegida de WorldGuard.
+     *
+     * @param polygon polígono a convertir.
+     * @param name nombre de la región protegida.
+     * @return región protegida creada, o {@code null} si el polígono es nulo, vacío o inválido.
+     */
     public static ProtectedPolygonalRegion toProtectedRegion(Polygon polygon, String name) {
         if (polygon == null || polygon.isEmpty()) return null;
         Coordinate[] coords = polygon.getExteriorRing().getCoordinates();
@@ -82,6 +104,13 @@ public class RegionUtils {
         return new ProtectedPolygonalRegion(name, points, config.getInt("min-height"), config.getInt("max-height"));
     }
 
+    /**
+     * Compara si un polígono de base de datos y una región protegida representan la misma forma.
+     *
+     * @param dbPoly polígono almacenado en base de datos.
+     * @param region región protegida a comparar.
+     * @return {@code true} si ambas geometrías son equivalentes tras normalización.
+     */
     public static boolean sameShape(Polygon dbPoly, ProtectedPolygonalRegion region) {
         if (dbPoly == null || dbPoly.isEmpty() || region == null) return false;
         List<BlockVector2> pts = region.getPoints();
@@ -101,6 +130,12 @@ public class RegionUtils {
         return a.equalsExact(b);
     }
 
+    /**
+     * Convierte una región cúbica de WorldEdit en un polígono 2D.
+     *
+     * @param region región cúbica a convertir.
+     * @return polígono equivalente en el plano XZ.
+     */
     public static Polygon toPolygon(CuboidRegion region) {
         return gf.createPolygon(new Coordinate[] {
             new Coordinate(region.getMinimumPoint().getX(), region.getMinimumPoint().getZ()),
@@ -111,6 +146,12 @@ public class RegionUtils {
         });
     }
 
+    /**
+     * Convierte una región poligonal 2D de WorldEdit en un polígono JTS.
+     *
+     * @param region región poligonal a convertir.
+     * @return polígono equivalente en el plano XZ.
+     */
     public static Polygon toPolygon(Polygonal2DRegion region) {
         int size = region.getPoints().size();
         Coordinate[] coords = new Coordinate[size + 1];
@@ -121,6 +162,12 @@ public class RegionUtils {
         return gf.createPolygon(coords);
     }
 
+    /**
+     * Obtiene la selección actual de WorldEdit del emisor y la convierte en polígono JTS.
+     *
+     * @param sender emisor del comando, que debe ser un jugador.
+     * @return polígono de la selección actual, o {@code null} si no hay selección válida.
+     */
     public static Polygon getPolygon(CommandSender sender) {
         Player player = (Player) sender;
         Language language = PlayerRegistry.getInstance().get(sender).getLanguage();
@@ -155,6 +202,12 @@ public class RegionUtils {
         return regionPolygon;
     }
 
+    /**
+     * Calcula el conjunto de chunks que intersectan con el polígono de un proyecto.
+     *
+     * @param proyecto proyecto del cual se toma el polígono.
+     * @return conjunto de claves de chunk intersectadas, o conjunto vacío si no hay polígono.
+     */
     public static Set<ChunkKey> chunksFor(Proyecto proyecto) {
         Polygon poly = proyecto.getPoligono();
         if (poly == null || poly.isEmpty()) return Set.of();
@@ -174,10 +227,25 @@ public class RegionUtils {
         return result;
     }
 
+    /**
+     * Determina si un polígono intersecta un chunk específico.
+     *
+     * @param poly polígono a evaluar.
+     * @param chunkKey clave del chunk objetivo.
+     * @return {@code true} si existe intersección entre el polígono y el chunk.
+     */
     public static boolean intersectsChunk(Polygon poly, ChunkKey chunkKey) {
         return intersectsChunk(poly, chunkKey.x(), chunkKey.z());
     }
 
+    /**
+     * Determina si un polígono intersecta un chunk por sus coordenadas.
+     *
+     * @param poly polígono a evaluar.
+     * @param chunkX coordenada X del chunk.
+     * @param chunkZ coordenada Z del chunk.
+     * @return {@code true} si existe intersección entre el polígono y el chunk.
+     */
     private static boolean intersectsChunk(Polygon poly, int chunkX, int chunkZ) {
         if (poly == null || poly.isEmpty()) return false;
         double x0 = chunkX * 16.0;
@@ -194,6 +262,16 @@ public class RegionUtils {
         return poly.intersects(chunkPoly);
     }
 
+    /**
+     * Verifica si una coordenada está contenida dentro de una geometría preparada,
+     * validando previamente su envolvente para optimizar el cálculo.
+     *
+     * @param poly geometría preparada del polígono.
+     * @param envelope envolvente del polígono.
+     * @param x coordenada X a evaluar.
+     * @param z coordenada Z a evaluar.
+     * @return {@code true} si la coordenada pertenece a la geometría.
+     */
     public static boolean containsCoordinate(PreparedGeometry poly, Envelope envelope, double x, double z) {
         if (poly == null) return false;
         if (!envelope.contains(x, z)) return false;
@@ -202,10 +280,25 @@ public class RegionUtils {
         return poly.covers(gf.createPoint(TMP_COORD));
     }
 
+    /**
+     * Dibuja partículas en el borde exterior e interior de un polígono sin desplazamiento.
+     *
+     * @param player jugador que verá las partículas.
+     * @param poly polígono del cual se renderiza el borde.
+     * @param particleName nombre de la partícula de Bukkit.
+     */
     public static void spawnBorderParticles(Player player, Polygon poly, String particleName) {
         spawnBorderParticles(player, poly, particleName, 0.0);
     }
 
+    /**
+     * Dibuja partículas en el borde exterior e interior de un polígono con desplazamiento.
+     *
+     * @param player jugador que verá las partículas.
+     * @param poly polígono del cual se renderiza el borde.
+     * @param particleName nombre de la partícula de Bukkit.
+     * @param offset desplazamiento aplicado en los ejes X y Z al renderizado.
+     */
     public static void spawnBorderParticles(Player player, Polygon poly, String particleName, double offset) {
         if (poly == null || poly.isEmpty()) return;
         
@@ -226,6 +319,15 @@ public class RegionUtils {
         }
     }
 
+    /**
+     * Dibuja partículas a lo largo de una secuencia de coordenadas con límites de distancia
+     * y cantidad de capas configuradas.
+     *
+     * @param player jugador que verá las partículas.
+     * @param seq secuencia de coordenadas que define el borde.
+     * @param particle partícula a renderizar.
+     * @param offset desplazamiento aplicado en los ejes X y Z al renderizado.
+     */
     public static void spawnBorderParticles(Player player, CoordinateSequence seq, Particle particle, double offset) {
         double playerX = player.getLocation().getX();
         double playerZ = player.getLocation().getZ();

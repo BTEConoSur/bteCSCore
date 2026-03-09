@@ -16,6 +16,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "nodo_permiso")
+/**
+ * Entidad que representa un nodo de permiso asignable a rangos y tipos de usuario.
+ */
 public class NodoPermiso {
 
     @Id

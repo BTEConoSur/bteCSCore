@@ -71,4 +71,17 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 #
 > Este roadmap representa el estado y los objetivos **generales** de la versión **V3**.
 
+## Dependencias
+
+El plugin requiere los siguientes plugins para funcionar correctamente:
+
+* **BTEConoSurLibs** - Librerías utilizadas por BTE Cono Sur: https://github.com/BTEConoSur/bteCSLibs
+* **Multiverse-Core**
+* **LuckPerms**
+* **WorldEdit**
+* **HeadDatabase**
+* **WorldGuard**
+* **PlaceholderAPI**
+* **TAB**
+
 

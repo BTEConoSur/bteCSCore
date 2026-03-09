@@ -22,6 +22,12 @@ import net.megavex.scoreboardlibrary.api.noop.NoopScoreboardLibrary;
 import net.megavex.scoreboardlibrary.api.sidebar.Sidebar;
 import net.megavex.scoreboardlibrary.api.sidebar.component.ComponentSidebarLayout;
 
+/**
+ * Gestor centralizado de scoreboards del servidor.
+ * Administra la rotación automática entre diferentes tipos de scoreboards, su actualización
+ * de datos periódica y asignación a jugadores individuales cuando corresponda.
+ * Implementa patrón singleton.
+ */
 public class ScoreboardManager {
     
     private static ScoreboardManager instance;
@@ -43,6 +49,10 @@ public class ScoreboardManager {
 
     private final YamlConfiguration config;
     
+    /**
+     * Crea e inicializa el gestor de scoreboards, cargando la biblioteca de scoreboards
+     * e iniciando la rotación automática según la configuración.
+     */
     public ScoreboardManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
@@ -57,6 +67,12 @@ public class ScoreboardManager {
         startRotation(config.getInt("scoreboard-rotation"), config.getInt("proyecto-scoreboard-refresh"));
     }
 
+    /**
+     * Agrega un jugador al sistema de scoreboards.
+     * Crea una barra lateral para el jugador y renderiza el scoreboard actual.
+     *
+     * @param player jugador a agregar.
+     */
     public void addPlayer(Player player) {
         org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
         if (bukkitPlayer == null) return;
@@ -67,6 +83,12 @@ public class ScoreboardManager {
         render(player, currentScoreboard);
     }
 
+    /**
+     * Elimina un jugador del sistema de scoreboards.
+     * Cierra su barra lateral y libera sus recursos.
+     *
+     * @param player jugador a eliminar.
+     */
     public void removePlayer(Player player) {
         org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
         if (bukkitPlayer == null) return;
@@ -77,6 +99,12 @@ public class ScoreboardManager {
         }
     }
 
+    /**
+     * Inicia la rotación automática entre scoreboards y configura el intervalo de refresco.
+     *
+     * @param seconds intervalo en segundos para rotar entre scoreboards.
+     * @param proyectoRefreshSeconds intervalo en segundos para actualizar scoreboard de proyecto.
+     */
     public void startRotation(int seconds, int proyectoRefreshSeconds) {
         rotationTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             globalIndex = (globalIndex + 1) % scoreboards.size();
@@ -86,6 +114,10 @@ public class ScoreboardManager {
         }, 0L, seconds * 20L);
     }
 
+    /**
+     * Reinicia la tarea de actualización periódica para el scoreboard actual.
+     * Se invoca al cambiar de scoreboard en la rotación.
+     */
     private void restartRefreshTask() {
         if (refreshTask != null) {
             refreshTask.cancel();
@@ -102,6 +134,9 @@ public class ScoreboardManager {
         }, 0L, currentScoreboard.getRefreshIntervalTicks());
     }
 
+    /**
+     * Renderiza el scoreboard actual a todos los jugadores en línea que lo tengan habilitado.
+     */
     private void renderAll() {
         if (currentScoreboard == null) return;
 
@@ -115,6 +150,12 @@ public class ScoreboardManager {
         }
     }
 
+    /**
+     * Renderiza un scoreboard específico a un jugador individual.
+     *
+     * @param player jugador para renderizar.
+     * @param scoreboard scoreboard a renderizar.
+     */
     private void render(Player player, Scoreboard scoreboard) {
         Sidebar sidebar = playerScoreboards.get(player.getUuid());
         if (sidebar == null) return;
@@ -122,19 +163,18 @@ public class ScoreboardManager {
         layout.apply(sidebar);
     }
 
+    /**
+     * Detiene el gestor de scoreboards y libera todos los recursos.
+     * Cancela tareas de rotación/refresco, elimina scoreboards de jugadores y cierra la biblioteca.
+     */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("scoreboard-manager-shutting-down"));
         if (rotationTask != null) rotationTask.cancel();
 
         if (refreshTask != null) refreshTask.cancel();
-        for (UUID uuid : playerScoreboards.keySet()) {
-            Player player = PlayerRegistry.getInstance().get(uuid);
-            if (player != null) removePlayer(player);
-            else {
-                Sidebar sidebar = playerScoreboards.get(uuid);
-                if (sidebar != null) {
-                    sidebar.close();
-                }
+        for (Sidebar sidebar : playerScoreboards.values()) {
+            if (sidebar != null) {
+                sidebar.close();
             }
         }
         playerScoreboards.clear();
@@ -144,6 +184,11 @@ public class ScoreboardManager {
         }
     }
 
+    /**
+     * Obtiene la instancia única del gestor de scoreboards (patrón singleton).
+     *
+     * @return instancia única del gestor.
+     */
     public static ScoreboardManager getInstance() {
         if (instance == null) {
             instance = new ScoreboardManager();

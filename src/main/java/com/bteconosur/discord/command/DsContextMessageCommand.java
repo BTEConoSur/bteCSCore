@@ -21,6 +21,11 @@ import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionE
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
+/**
+ * Clase base abstracta para comandos de contexto de mensajes en Discord.
+ * Los comandos de contexto aparecen en el menú contextual al hacer clic derecho sobre un mensaje.
+ * Soporta diferentes modos de registro (global, por país, staffhub).
+ */
 public abstract class DsContextMessageCommand {
 
     protected String command;
@@ -29,14 +34,30 @@ public abstract class DsContextMessageCommand {
 
     private final YamlConfiguration secret = ConfigHandler.getInstance().getSecret();
 
+    /**
+     * Constructor de un comando de contexto de mensaje.
+     * 
+     * @param command Nombre del comando
+     * @param permissions Permisos requeridos para ejecutar el comando
+     * @param mode Modo de registro del comando (global, país, staffhub)
+     */
     public DsContextMessageCommand(String command, Collection<Permission> permissions, CommandMode mode) {
         this.command = command;
         this.permissions = permissions;
         this.mode = mode;
     }
 
+    /**
+     * Ejecuta la lógica del comando cuando es invocado desde el contexto de un mensaje.
+     * 
+     * @param event Evento de interacción del comando de contexto de mensaje
+     */
     public abstract void execute(MessageContextInteractionEvent event);
 
+    /**
+     * Registra el comando de contexto en Discord según el modo configurado.
+     * Puede registrarse globalmente, en servidores de países, o en el staffhub.
+     */
     @SuppressWarnings("null")
     public void registerCommand() {
         JDA jda = DiscordManager.getInstance().getJda();
@@ -66,10 +87,20 @@ public abstract class DsContextMessageCommand {
         }
     }
 
+    /**
+     * Obtiene el modo de registro del comando.
+     * 
+     * @return El modo de registro configurado
+     */
     public CommandMode getMode() {
         return mode;
     }
 
+    /**
+     * Obtiene el nombre del comando.
+     * 
+     * @return El nombre del comando
+     */
     public String getCommand() {
         return command;
     }

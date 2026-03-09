@@ -18,17 +18,30 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
+/**
+ * Configuración y administración del bot de Discord.
+ * Gestiona el ciclo de vida del bot: inicialización, apagado y reinicio.
+ * Registra los listeners necesarios y configura los intents del bot.
+ */
 public class BotConfig {
 
     private final YamlConfiguration secret;
 
     private JDA jda;
 
+    /**
+     * Constructor de la configuración del bot.
+     * Carga las configuraciones de los archivos YAML.
+     */
     public BotConfig() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         secret = configHandler.getSecret();
     }
 
+    /**
+     * Inicia el bot de Discord.
+     * Configura los intents, listeners y actividad del bot.
+     */
     @SuppressWarnings("null")
     public void startBot() {
         if (jda != null) {
@@ -49,6 +62,10 @@ public class BotConfig {
         }
     }
 
+    /**
+     * Detiene el bot de Discord de forma segura.
+     * Espera a que se complete el apagado antes de continuar.
+     */
     public void stopBot() {
         ConsoleLogger.info(LanguageHandler.getText("discord-bot-shutting-down"));
         if (jda == null) {
@@ -67,12 +84,21 @@ public class BotConfig {
         
     }
 
+    /**
+     * Reinicia el bot de Discord.
+     * Detiene el bot actual y lo vuelve a iniciar.
+     */
     public void restartBot() {
         ConsoleLogger.info(LanguageHandler.getText("discord-bot-restarting"));
         stopBot();
         startBot();
     }
 
+    /**
+     * Obtiene la instancia de JDA (Java Discord API).
+     * 
+     * @return La instancia de JDA o null si el bot no está inicializado
+     */
     public JDA getJDA() {
         if (jda == null) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.bot-not-initialized"));

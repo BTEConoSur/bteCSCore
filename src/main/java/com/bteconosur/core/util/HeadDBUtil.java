@@ -13,6 +13,10 @@ import org.bukkit.inventory.meta.SkullMeta;
 import me.arcaniax.hdb.api.DatabaseLoadEvent;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
 
+/**
+ * Utilidad para obtener cabezas personalizadas de la base de datos HeadDB.
+ * Proporciona métodos para descargar cabezas por ID y cabezas de jugadores.
+ */
 public class HeadDBUtil implements Listener {
 
     private static boolean initialized = false;
@@ -23,6 +27,12 @@ public class HeadDBUtil implements Listener {
         initialized = true;
     }
 
+    /**
+     * Obtiene una cabeza personalizada por su ID en HeadDatabase.
+     *
+     * @param headId identificador único de la cabeza en la base de datos.
+     * @return ItemStack con la cabeza, o cabeza de jugador por defecto si no se encuentra.
+     */
     public static ItemStack get(String headId) {
         if (!initialized) {
             ConsoleLogger.warn("HeadDatabase no está inicializado. No se pueden obtener cabezas.");
@@ -44,6 +54,13 @@ public class HeadDBUtil implements Listener {
         return ItemStack.of(Material.PLAYER_HEAD);
     }
 
+    /**
+     * Obtiene la cabeza de un jugador usando su UUID.
+     *
+     * @param playerUUID UUID del jugador.
+     * @param getOffline si {@code true} permite obtener cabezas de jugadores offline.
+     * @return ItemStack con la cabeza del jugador, o cabeza por defecto si offline no está habilitado.
+     */
     public static ItemStack getPlayerHead(UUID playerUUID, boolean getOffline) {
         if (!getOffline) {
             return ItemStack.of(Material.PLAYER_HEAD);

@@ -15,6 +15,11 @@ import com.bteconosur.core.util.json.JsonUtils;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
+/**
+ * Utilidad centralizada para registrar mensajes en la consola del servidor.
+ * Proporciona métodos de info, debug, advertencia y error con soporte para
+ * serialización JSON y notificaciones asincrónicas a Discord.
+ */
 public class ConsoleLogger {
 
     private static YamlConfiguration config = ConfigHandler.getInstance().getConfig();
@@ -22,21 +27,43 @@ public class ConsoleLogger {
     private static final ComponentLogger logger = BTEConoSur.getInstance().getComponentLogger();
     private static final MiniMessage miniMessage = MiniMessage.miniMessage();
 
+    /**
+     * Registra un mensaje de información en la consola.
+     *
+     * @param message mensaje a registrar.
+     */
     public static void info(String message) {
         logger.info(miniMessage.deserialize((LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("info-prefix") + message)));
     }
 
+    /**
+     * Registra un mensaje de información con objeto serializado en JSON.
+     *
+     * @param message mensaje a registrar.
+     * @param object objeto a serializar en JSON.
+     */
     public static void info(String message, Object object) {
         String json = JsonUtils.toJson(object);
         logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("info-prefix") + message + "\n" + json));
     }
 
+    /**
+     * Registra un mensaje de debug si el modo debug está habilitado.
+     *
+     * @param message mensaje a registrar.
+     */
     public static void debug(String message) {
         if (config.getBoolean("debug-mode", false)) {
             logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("debug-prefix") + message));
         }
     }
 
+    /**
+     * Registra un mensaje de debug con objeto serializado si debug está habilitado.
+     *
+     * @param message mensaje a registrar.
+     * @param object objeto a serializar.
+     */
     public static void debug(String message, Object object) {
         if (config.getBoolean("debug-mode", false)) {
             String json = JsonUtils.toJson(object);
@@ -44,23 +71,45 @@ public class ConsoleLogger {
         }
     }
 
+    /**
+     * Registra un mensaje de advertencia en consola y lo notifica a Discord.
+     *
+     * @param message mensaje a registrar.
+     */
     public static void warn(String message) {
         logger.warn(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("warn-prefix") + message));
         DiscordLogger.staffConsoleLog(LoggerUtil.getWarnEmbed(message));
     }
 
+    /**
+     * Registra un mensaje de advertencia con objeto serializado.
+     *
+     * @param message mensaje a registrar.
+     * @param object objeto a serializar.
+     */
     public static void warn(String message, Object object) {
         String json = JsonUtils.toJson(object);
         logger.warn(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("warn-prefix") + message + "\n" + json));
         DiscordLogger.staffConsoleLog(LoggerUtil.getWarnEmbed(message + "\n" + json));
     }
 
+    /**
+     * Registra un mensaje de error en consola y lo notifica a Discord y desarrolladores.
+     *
+     * @param message mensaje a registrar.
+     */
     public static void error(String message) {
         logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message));
         DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(message));
         DiscordLogger.notifyDevs(message);
     }
 
+    /**
+     * Registra un mensaje de error con objeto serializado.
+     *
+     * @param message mensaje a registrar.
+     * @param object objeto a serializar.
+     */
     public static void error(String message, Object object) {
         String json = JsonUtils.toJson(object);
         logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message + "\n" + json));
@@ -68,6 +117,13 @@ public class ConsoleLogger {
         DiscordLogger.notifyDevs(message);
     }
 
+    /**
+     * Registra un mensaje de error con objeto y excepción.
+     *
+     * @param message mensaje a registrar.
+     * @param object objeto a serializar.
+     * @param throwable excepción ocurrida.
+     */
     public static void error(String message, Object object, Throwable throwable) {
         String json = JsonUtils.toJson(object);
         String errorInfo = getCompactStackTrace(throwable);
@@ -77,6 +133,12 @@ public class ConsoleLogger {
         saveStackTraceToFile(message, throwable);
     }
 
+    /**
+     * Registra un mensaje de error con excepción.
+     *
+     * @param message mensaje a registrar.
+     * @param throwable excepción ocurrida.
+     */
     public static void error(String message, Throwable throwable) {
         String errorInfo = getCompactStackTrace(throwable);
         logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message + "\n" + errorInfo));
@@ -132,10 +194,21 @@ public class ConsoleLogger {
         }
     }
 
+    /**
+     * Registra un mensaje genérico en la consola sin prefijos especiales.
+     *
+     * @param message mensaje a registrar.
+     */
     public static void send(String message) {
         logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + message));
     }
 
+    /**
+     * Registra un mensaje genérico con objeto serializado en JSON.
+     *
+     * @param message mensaje a registrar.
+     * @param object objeto a serializar en JSON.
+     */
     public static void send(String message, Object object) {
         String json = JsonUtils.toJson(object);
         logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + message + "\n" + json));

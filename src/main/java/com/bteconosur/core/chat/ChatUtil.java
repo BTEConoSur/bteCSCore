@@ -36,6 +36,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 
+/**
+ * Utilidades para formateo de mensajes de chat y construcción de embeds de Discord.
+ * Provee métodos para crear mensajes formateados tanto para Minecraft como para Discord,
+ * incluyendo notificaciones de eventos del servidor, jugadores, proyectos y sistema de rangos.
+ */
 public class ChatUtil {
 
     private final static YamlConfiguration embedColors = ConfigHandler.getInstance().getEmbedColors();

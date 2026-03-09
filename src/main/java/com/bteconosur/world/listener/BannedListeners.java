@@ -10,9 +10,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
-
+/**
+ * Listener que controla el spawn de entidades, permitiendo solo tipos específicos.
+ * Previene el spawn de entidades no permitidas como mobs, vehículos, etc.
+ */
 public class BannedListeners implements Listener {
 
+    /**
+     * Cancela el spawn de entidades excepto las permitidas.
+     * Entidades permitidas: ArmorStand, TextDisplay, ItemDisplay, BlockDisplay, ItemFrame, Painting.
+     * 
+     * @param event Evento de spawn de entidad
+     */
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent event) {
         if (event.getEntity() instanceof ArmorStand) return;

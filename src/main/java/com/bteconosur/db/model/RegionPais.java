@@ -20,6 +20,9 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "region_pais")
+/**
+ * Entidad que representa una región geométrica perteneciente a un país.
+ */
 public class RegionPais {
 
     @Id
@@ -96,6 +99,9 @@ public class RegionPais {
         this.pais = pais;
     }
 
+    /**
+     * Inicializa campos transitorios geométricos al cargar la entidad.
+     */
     @PostLoad
     private void initTransientFields() {
         if (poligono != null) {

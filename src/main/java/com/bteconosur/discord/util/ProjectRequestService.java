@@ -34,10 +34,23 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.utils.FileUpload;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
+/**
+ * Servicio para gestionar solicitudes de proyectos en Discord.
+ * Maneja el envío de solicitudes de creación, redefinición y unión a proyectos,
+ * incluyendo la generación de embeds y botones de interacción.
+ */
 public class ProjectRequestService {
 
     public static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    /**
+     * Envía una solicitud de creación de proyecto al canal de revisiones de Discord.
+     * Incluye un embed con la información del proyecto y una imagen del mapa satelital.
+     * 
+     * @param proyecto Proyecto a solicitar
+     * @param mapImage Archivo de imagen del mapa satelital
+     * @return true si se envió exitosamente, false en caso contrario
+     */
     @SuppressWarnings("null")
     public static boolean sendProjectRequest(Proyecto proyecto, File mapImage) {
         Instant now = DateUtils.instantOffset();
@@ -85,6 +98,18 @@ public class ProjectRequestService {
         return true;
     }
 
+    /**
+     * Envía una solicitud de redefinición de proyecto al canal de revisiones de Discord.
+     * Permite modificar el polígono, tipo de proyecto y división de un proyecto existente.
+     * 
+     * @param proyecto Proyecto a redefinir
+     * @param newPolygon Nuevo polígono del proyecto
+     * @param tipoProyectoId ID del nuevo tipo de proyecto
+     * @param divisionId ID de la nueva división
+     * @param mapImage Archivo de imagen del mapa satelital
+     * @param requester Jugador que solicita la redefinición
+     * @return true si se envió exitosamente, false en caso contrario
+     */
     @SuppressWarnings("null")
     public static boolean sendProjectRedefineRequest(Proyecto proyecto, Polygon newPolygon, Long tipoProyectoId, Long divisionId, File mapImage, Player requester) {
         Instant now = DateUtils.instantOffset();
@@ -136,6 +161,13 @@ public class ProjectRequestService {
         return true;
     }
 
+    /**
+     * Envía una solicitud para unirse a un proyecto al líder del mismo.
+     * Notifica tanto por Discord (si está vinculado) como por Minecraft.
+     * 
+     * @param proyecto Proyecto al que se solicita unirse
+     * @param player Jugador que solicita unirse
+     */
     @SuppressWarnings("null")
     public static void sendProjectJoinRequest(Proyecto proyecto, Player player) {
         Player lider = ProjectManager.getInstance().getLider(proyecto);

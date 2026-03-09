@@ -31,6 +31,9 @@ import com.bteconosur.db.registry.PlayerRegistry;
 
 @Entity
 @Table(name = "player")
+/**
+ * Entidad que representa un jugador registrado en bteCSCore.
+ */
 public class Player {
 
     @Id
@@ -44,10 +47,10 @@ public class Player {
     @Column(name = "nombre_publico", length = 16, nullable = false)
     private String nombrePublico;
 
-    @Column(name = "f_ingreso", nullable = false)
+    @Column(name = "f_ingreso")
     private Date fechaIngreso;
 
-    @Column(name = "f_ult_conexion", nullable = false)
+    @Column(name = "f_ult_conexion")
     private Date fechaUltimaConexion;
 
     @Column(name = "ds_id_usuario")
@@ -175,16 +178,32 @@ public class Player {
         this.pwarps = pwarps;
     }
 
+    /**
+     * Agrega un pwarp al jugador.
+     *
+     * @param pwarp pwarp a agregar.
+     */
     public void addPwarp(Pwarp pwarp) {
         if (pwarp == null) return;
         this.pwarps.add(pwarp);
     }
 
+    /**
+     * Elimina un pwarp del jugador.
+     *
+     * @param pwarp pwarp a eliminar.
+     */
     public void removePwarp(Pwarp pwarp) {
         if (pwarp == null) return;
         this.pwarps.remove(pwarp);
     }
 
+    /**
+     * Verifica si el jugador tiene un pwarp con el nombre indicado.
+     *
+     * @param nombre nombre del pwarp.
+     * @return {@code true} si existe un pwarp con ese nombre.
+     */
     public boolean hasPwarp(String nombre) {
         for (Pwarp p : pwarps) {
             if (p.getId().getNombre().equalsIgnoreCase(nombre)) return true;
@@ -192,6 +211,12 @@ public class Player {
         return false;
     }
 
+    /**
+     * Busca un pwarp del jugador por nombre.
+     *
+     * @param nombre nombre del pwarp.
+     * @return pwarp encontrado, o {@code null} si no existe.
+     */
     public Pwarp getPwarp(String nombre) {
         for (Pwarp p : pwarps) {
             if (p.getId().getNombre().equalsIgnoreCase(nombre)) return p;
@@ -199,6 +224,11 @@ public class Player {
         return null;
     }
 
+    /**
+     * Obtiene la lista de nombres de pwarps del jugador.
+     *
+     * @return lista de nombres de pwarps.
+     */
     public List<String> getPwarpNames() {
         List<String> names = new ArrayList<>();
         for (Pwarp p : pwarps) {
@@ -255,37 +285,79 @@ public class Player {
         this.configuration = configuration;
     }
 
+    /**
+     * Agrega un país al conjunto de países que el jugador administra.
+     *
+     * @param pais país a agregar.
+     */
     public void addPaisManager(Pais pais) {
         this.paisesManager.add(pais);
     }
 
+    /**
+     * Quita un país del conjunto de países que el jugador administra.
+     *
+     * @param pais país a remover.
+     */
     public void removePaisManager(Pais pais) {
         this.paisesManager.remove(pais);
     }
 
+    /**
+     * Agrega un país al conjunto de países que el jugador revisa.
+     *
+     * @param pais país a agregar.
+     */
     public void addPaisReviewer(Pais pais) {
         this.paisesReviewer.add(pais);
     }
 
+    /**
+     * Quita un país del conjunto de países que el jugador revisa.
+     *
+     * @param pais país a remover.
+     */
     public void removePaisReviewer(Pais pais) {
         this.paisesReviewer.remove(pais);
     }
 
+    /**
+     * Obtiene el idioma utilizado por el jugador.
+     *
+     * @return idioma configurado, o español por defecto si no existe configuración.
+     */
     public Language getLanguage() {
         if (configuration == null || configuration.getLang() == null) return Language.SPANISH;
         return configuration.getLang();
     }
 
+    /**
+     * Obtiene la instancia Bukkit del jugador asociado.
+     *
+     * @return jugador de Bukkit, o {@code null} si no está conectado.
+     */
     @JsonIgnore
     public org.bukkit.entity.Player getBukkitPlayer() {
         return Bukkit.getPlayer(this.uuid);
     }
 
+    /**
+     * Obtiene la instancia Bukkit de un jugador por UUID.
+     *
+     * @param uuid UUID del jugador.
+     * @return jugador de Bukkit, o {@code null} si no está conectado.
+     */
     @JsonIgnore
     public static org.bukkit.entity.Player getBukkitPlayer(UUID uuid) {
         return Bukkit.getPlayer(uuid);
     }
 
+    /**
+     * Obtiene la entidad interna de bteCSCore a partir de un jugador de Bukkit.
+     *
+     * @param bukkitPlayer jugador de Bukkit.
+     * @return entidad {@code Player} asociada en el registro.
+     */
     @JsonIgnore
     public static Player getBTECSPlayer(org.bukkit.entity.Player bukkitPlayer) {
         return PlayerRegistry.getInstance().get(bukkitPlayer.getUniqueId());

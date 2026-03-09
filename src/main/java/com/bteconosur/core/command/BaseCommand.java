@@ -22,8 +22,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Clase base abstracta para todos los comandos del plugin.
+ * Proporciona gestión automática de subcomandos, permisos, cooldowns,
+ * autocompletado dinámico y validación de tipos de emisor.
+ */
 public abstract class BaseCommand extends Command {
 
+    /**
+     * Modo de ejecución permitido para el comando.
+     */
     public enum CommandMode {
         PLAYER_ONLY,
         CONSOLE_ONLY,
@@ -44,18 +52,46 @@ public abstract class BaseCommand extends Command {
 
     protected final YamlConfiguration config;
 
+    /**
+     * Crea un comando sin permiso específico y disponible para jugador/consola.
+     *
+     * @param command nombre base del comando.
+     * @param args representación de argumentos para ayuda/autocompletado.
+     */
     public BaseCommand(String command, String args) {
         this(command, args, null, CommandMode.BOTH);
     }
 
+    /**
+     * Crea un comando sin permiso específico y con modo de ejecución definido.
+     *
+     * @param command nombre base del comando.
+     * @param args representación de argumentos para ayuda/autocompletado.
+     * @param mode modo permitido de ejecución.
+     */
     public BaseCommand(String command, String args, CommandMode mode) {
         this(command, args, null, mode);
     }
 
+    /**
+     * Crea un comando con permiso específico y disponible para jugador/consola.
+     *
+     * @param command nombre base del comando.
+     * @param args representación de argumentos para ayuda/autocompletado.
+     * @param permission permiso requerido para ejecutar el comando.
+     */
     public BaseCommand(String command, String args, String permission) {
         this(command, args, permission, CommandMode.BOTH);
     }
 
+    /**
+     * Crea un comando con permiso y modo de ejecución.
+     *
+     * @param command nombre base del comando.
+     * @param args representación de argumentos para ayuda/autocompletado.
+     * @param permission permiso requerido para ejecutar el comando.
+     * @param mode modo permitido de ejecución.
+     */
     public BaseCommand(String command, String args, String permission, CommandMode mode) {
         super(command);
 
@@ -77,6 +113,14 @@ public abstract class BaseCommand extends Command {
         }
     }
 
+    /**
+     * Ejecuta el comando validando tipo de emisor, permisos, subcomandos y cooldown.
+     *
+     * @param sender emisor del comando.
+     * @param commandLabel etiqueta usada para invocar el comando.
+     * @param args argumentos recibidos.
+     * @return {@code true} si se ejecutó correctamente; {@code false} si se bloqueó por validaciones.
+     */
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         Language language = Language.getDefault();
@@ -114,7 +158,12 @@ public abstract class BaseCommand extends Command {
     }
 
     /**
-     * Método para autocompletar el comando si tiene subcomandos.
+     * Devuelve sugerencias de autocompletado para subcomandos y argumentos.
+     *
+     * @param sender emisor que solicita el autocompletado.
+     * @param alias alias usado en la invocación.
+     * @param args argumentos escritos hasta el momento.
+     * @return lista de sugerencias aplicables al contexto actual.
      */
     @Override
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
@@ -172,16 +221,33 @@ public abstract class BaseCommand extends Command {
     }
 
     /**
-     * Método para sobrescribir en subclases que necesiten tab-complete de argumentos.
+     * Punto de extensión para autocompletar argumentos propios del comando.
+     *
+     * @param sender emisor que solicita el autocompletado.
+     * @param alias alias usado en la invocación.
+     * @param args argumentos parciales del comando actual.
+     * @return sugerencias de argumentos o las sugerencias por defecto.
      */
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         return super.tabComplete(sender, alias, args);
     }
 
+    /**
+     * Validación extra de permisos para comandos.
+     *
+     * @param sender emisor a validar.
+     * @return {@code true} si tiene permiso lógico para continuar.
+     */
     protected boolean customPermissionCheck(CommandSender sender) {
         return true;
     }
 
+    /**
+     * Verifica y actualiza el cooldown del comando por jugador.
+     *
+     * @param sender emisor del comando.
+     * @return {@code true} si puede ejecutar; {@code false} si aún está en cooldown.
+     */
     protected boolean checkCooldown(CommandSender sender) {
         if (sender instanceof Player player) {
             Language language = PlayerRegistry.getInstance().get(sender).getLanguage();
@@ -209,6 +275,13 @@ public abstract class BaseCommand extends Command {
         return true;
     }
 
+    /**
+     * Formatea el tiempo restante de cooldown según idioma.
+     *
+     * @param millis milisegundos restantes.
+     * @param language idioma para la plantilla de formato.
+     * @return texto formateado en segundos o minutos.
+     */
     protected String formatTime(long millis, Language language) {
         double seconds = millis / 1000.0;
         
@@ -222,12 +295,18 @@ public abstract class BaseCommand extends Command {
     }
 
     /**
-     * Método abstracto para manejar la ejecución del comando.
+     * Ejecuta la lógica propia del comando concreto.
+     *
+     * @param sender emisor del comando.
+     * @param args argumentos restantes después de resolver subcomandos.
+     * @return {@code true} si la ejecución fue exitosa.
      */
     protected abstract boolean onCommand(CommandSender sender, String[] args);
 
     /**
-     * Agrega un subcomando a este comando.
+     * Agrega un subcomando al comando actual y recalcula su ruta completa.
+     *
+     * @param subcommand subcomando a registrar.
      */
     public void addSubcommand(BaseCommand subcommand) {
         subcommand.parent = this;
@@ -235,6 +314,12 @@ public abstract class BaseCommand extends Command {
         subcommands.put(subcommand.getCommand(), subcommand);
     }
 
+    /**
+     * Busca un subcomando por nombre o alias.
+     *
+     * @param nameOrAlias nombre o alias ingresado.
+     * @return subcomando encontrado o {@code null} si no existe.
+     */
     private BaseCommand getSubcommand(String nameOrAlias) {
         BaseCommand direct = subcommands.get(nameOrAlias);
         if (direct != null) return direct;
@@ -245,7 +330,9 @@ public abstract class BaseCommand extends Command {
         return null;
     }
 
-
+    /**
+     * Recalcula el comando completo y recarga aliases configurados recursivamente.
+     */
     private void updateFullCommand() {
         if (parent != null) {
             this.fullCommand = parent.fullCommand + " " + this.command;
@@ -263,7 +350,10 @@ public abstract class BaseCommand extends Command {
     }
 
     /**
-     * Verifica si el sender es un tipo de sender permitido.
+     * Verifica si el emisor corresponde al tipo permitido por el comando.
+     *
+     * @param sender emisor a validar.
+     * @return {@code true} si el emisor está permitido para el modo configurado.
      */
     protected boolean isAllowedSender(CommandSender sender) {
         return switch (commandMode) {
@@ -274,7 +364,10 @@ public abstract class BaseCommand extends Command {
     }
 
     /**
-     * Desplaza los argumentos eliminando el primer elemento.
+     * Desplaza el arreglo de argumentos removiendo el primero.
+     *
+     * @param args argumentos originales.
+     * @return nuevo arreglo sin el primer argumento.
      */
     private String[] shiftArgs(String[] args) {
         if (args.length <= 1) return new String[0];
@@ -284,12 +377,20 @@ public abstract class BaseCommand extends Command {
     }
 
     /**
-     * Obtiene el nombre del comando.
+     * Obtiene el nombre base del comando.
+     *
+     * @return nombre del comando.
      */
     public String getCommand() {
         return command;
     }
 
+    /**
+     * Obtiene la descripción localizada del comando.
+     *
+     * @param language idioma en el que se busca la descripción.
+     * @return descripción del comando o {@code null} si no está definida.
+     */
     public String getDescription(Language language) {
         String configPath = "commands-descriptions." + fullCommand.replace(" ", ".") + ".desc";
         String description = LanguageHandler.getTextWithouthWarn(language, configPath);
@@ -297,18 +398,38 @@ public abstract class BaseCommand extends Command {
         return description;
     }
 
+    /**
+     * Obtiene una copia de la lista de subcomandos registrados.
+     *
+     * @return lista con los subcomandos del comando actual.
+     */
     public List<BaseCommand> getSubcommands() {
         return new ArrayList<>(subcommands.values());
     }
 
+    /**
+     * Obtiene la representación de argumentos para este comando.
+     *
+     * @return cadena de argumentos esperados.
+     */
     public String getArgs() {
         return args;
     }
 
+    /**
+     * Obtiene la ruta completa del comando (incluyendo padres).
+     *
+     * @return comando completo.
+     */
     public String getFullCommand() {
         return fullCommand;
     }
 
+    /**
+     * Obtiene el permiso requerido para ejecutar el comando.
+     *
+     * @return permiso configurado o {@code null} si no requiere.
+     */
     public String getPermission() {
         return permission;
     }

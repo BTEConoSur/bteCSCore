@@ -51,6 +51,11 @@ public class NicknameSetCommand extends BaseCommand {
             return true;
         }
 
+        if (nuevoNombre.matches(".*<[^>]+>.*")) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "nickname.invalid-regex"), (String) null);
+            return true;
+        }
+
         targetPlayer.setNombrePublico(nuevoNombre);
         playerRegistry.merge(targetPlayer.getUuid());
         PlayerLogger.info(targetPlayer, LanguageHandler.getText(targetPlayer.getLanguage(), "nickname.change").replace("%nickname%", nuevoNombre), (String) null);

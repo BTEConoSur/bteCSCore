@@ -13,11 +13,20 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Utilidad para serialización JSON y búsquedas de ubicaciones mediante API remota y respuesta en JSON.
+ */
 public class JsonUtils {
     
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
     
+    /**
+     * Serializa un objeto a formato JSON con indentación.
+     *
+     * @param obj objeto a serializar.
+     * @return cadena JSON formateada o cadena vacía si hay error.
+     */
     public static String toJson(Object obj) {
         String json = "";
 
@@ -31,6 +40,12 @@ public class JsonUtils {
         return json;
     }
 
+    /**
+     * Busca ubicaciones por consulta en el servicio de directorio remoto.
+     *
+     * @param query término de búsqueda de ubicación.
+     * @return lista de ubicaciones encontradas o lista vacía si hay error o no encuentra.
+     */
     @SuppressWarnings("deprecation")
     public static List<RealLocation> buscar(String query) {
         HttpURLConnection conn = null;

@@ -26,6 +26,9 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "division")
+/**
+ * Entidad que representa una división administrativa dentro de un país.
+ */
 public class Division {
 
     @Id
@@ -76,6 +79,9 @@ public class Division {
         this.pais = pais;
     }
 
+    /**
+     * Construye el índice de búsqueda normalizado de la división al cargarse desde base de datos.
+     */
     @PostLoad
     public void buildSearchIndex() {
         String ubicacion = this.pais.getNombrePublico() + " " + this.getContexto() + " " + this.getFna();

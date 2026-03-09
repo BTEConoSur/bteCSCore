@@ -824,6 +824,7 @@ notepad:
   set: "<green><yellow>%player.nombre%</yellow>'s notepad has been opened."
   switched: "<aqua>You have opened the notepad."
 nickname:
+  invalid-regex: "The public name cannot contain text between '<>'."
   change: "<green>Your public name has been changed to <yellow>'%nickname%'</yellow>." # %nickname% -> New public name.
   set: "<green><yellow>'%player.nombre%'</yellow>'s public name has been changed to <yellow>'%nickname%'</yellow>." # %nickname% -> New public name.
 country-prefix:

@@ -13,7 +13,11 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 
-
+/**
+ * Configurador de Hibernate para el plugin.
+ * Gestiona la creación y configuración de la SessionFactory utilizando las propiedades
+ * definidas en los archivos de configuración del plugin.
+ */
 public class HibernateConfig {
 
     private final YamlConfiguration config;
@@ -29,6 +33,13 @@ public class HibernateConfig {
     }
 
 
+    /**
+     * Construye la SessionFactory de Hibernate con las entidades especificadas.
+     * Configura los parámetros de conexión a la base de datos y registra las clases de entidad.
+     * 
+     * @param entities Lista de clases de entidad a registrar en Hibernate
+     * @return La SessionFactory construida, o null si ocurre un error
+     */
     public synchronized SessionFactory buildSessionFactory(List<Class<?>> entities) {
         if (sessionFactory != null) {
             ConsoleLogger.warn("SessionFactory ya está inicializado. Usar getSessionFactory().");
@@ -63,6 +74,11 @@ public class HibernateConfig {
         }
     }
 
+    /**
+     * Obtiene la SessionFactory de Hibernate.
+     * 
+     * @return La SessionFactory activa, o null si no ha sido inicializada
+     */
     public SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             ConsoleLogger.error(LanguageHandler.getText("database-not-connected"));
@@ -71,6 +87,9 @@ public class HibernateConfig {
         return sessionFactory;
     }
 
+    /**
+     * Cierra la SessionFactory y libera los recursos de Hibernate.
+     */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("hibernate-shutting-down"));
         if (sessionFactory == null) {

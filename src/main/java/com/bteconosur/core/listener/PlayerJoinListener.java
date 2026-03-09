@@ -49,6 +49,13 @@ public class PlayerJoinListener implements Listener {
 
     private static final Set<UUID> newPlayers = new HashSet<>();
 
+    /**
+     * Procesa el estado de descarga del resource pack del jugador.
+     * Si el jugador es nuevo y la carga fue exitosa, determina su idioma por defecto,
+     * notifica fallback cuando corresponde y envía el mensaje de bienvenida.
+     *
+     * @param event evento con el estado del resource pack del jugador.
+     */
     @EventHandler
     public void onResourcePackStatus(PlayerResourcePackStatusEvent event) {
         org.bukkit.entity.Player bukkitPlayer = event.getPlayer();
@@ -81,6 +88,13 @@ public class PlayerJoinListener implements Listener {
         }
     }
 
+    /**
+     * Gestiona el ingreso del jugador al servidor.
+     * Registra jugadores nuevos, actualiza jugadores existentes, aplica configuraciones
+     * iniciales de chat y scoreboard, y sincroniza permisos y actividad externa.
+     *
+     * @param event evento de ingreso del jugador.
+     */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.joinMessage(null);

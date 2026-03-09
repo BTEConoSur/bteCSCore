@@ -13,6 +13,11 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.util.ConfigurationKey;
 
+/**
+ * Servicio de gestión de configuraciones de jugador.
+ * Establece valores por defecto para nuevos jugadores y guarda cambios
+ * en la configuración individual de cada uno.
+ */
 public class ConfigurationService {
 
     // 1- Crear configuración en la clase Configuración.
@@ -24,6 +29,12 @@ public class ConfigurationService {
 
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    /**
+     * Establece todas las configuraciones por defecto para un jugador nuevo.
+     *
+     * @param player jugador para el que se establecen los defaults.
+     * @return jugador actualizado con configuraciones por defecto.
+     */
     public static Player setDefaults(Player player) {
         player = setGeneralDefaults(player);
         player = setReviewerDefaults(player);
@@ -31,6 +42,12 @@ public class ConfigurationService {
         return player;
     }
 
+    /**
+     * Establece configuraciones generales por defecto para un jugador.
+     *
+     * @param player jugador a configurar.
+     * @return jugador actualizado con configuraciones generales por defecto.
+     */
     public static Player setGeneralDefaults(Player player) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
@@ -46,6 +63,12 @@ public class ConfigurationService {
         return playerRegistry.merge(player.getUuid());
     }
 
+    /**
+     * Establece configuraciones de reviewer por defecto para un jugador.
+     *
+     * @param player jugador a configurar.
+     * @return jugador actualizado con configuraciones de reviewer por defecto.
+     */
     public static Player setReviewerDefaults(Player player) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
@@ -55,6 +78,12 @@ public class ConfigurationService {
         return playerRegistry.merge(player.getUuid());
     }
 
+    /**
+     * Establece configuraciones de manager por defecto para un jugador.
+     *
+     * @param player jugador a configurar.
+     * @return jugador actualizado con configuraciones de manager por defecto.
+     */
     public static Player setManagerDefaults(Player player) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
@@ -64,6 +93,13 @@ public class ConfigurationService {
         return playerRegistry.merge(player.getUuid());
     }
 
+    /**
+     * Cambia el idioma de configuración de un jugador.
+     *
+     * @param player jugador a actualizar.
+     * @param language nuevo idioma.
+     * @return jugador con idioma actualizado.
+     */
     public static Player setLang(Player player, Language language) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();
@@ -71,6 +107,13 @@ public class ConfigurationService {
         return playerRegistry.merge(player.getUuid());
     }
 
+    /**
+     * Guarda cambios en las configuraciones especificadas para un jugador.
+     *
+     * @param player jugador cuya configuración se guarda.
+     * @param keys conjunto de claves de configuración a actualizar.
+     * @return jugador con configuraciones guardadas.
+     */
     public static Player save(Player player, Set<ConfigurationKey> keys) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Configuration configuration = playerRegistry.get(player.getUuid()).getConfiguration();

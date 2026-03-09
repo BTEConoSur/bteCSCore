@@ -1,5 +1,8 @@
 package com.bteconosur.db.util;
 
+/**
+ * Claves disponibles para opciones de configuración de jugador.
+ */
 public enum ConfigurationKey {
     GENERAL_GLOBAL_CHAT_ON_JOIN,
     GENERAL_SIMULTANEOUS_NOTIFICATIONS,

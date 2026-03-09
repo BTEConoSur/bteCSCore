@@ -18,6 +18,11 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.db.model.Proyecto;
 import com.sk89q.worldedit.util.net.HttpRequest;
 
+/**
+ * Utilidad para descarga de imágenes de mapas satélite desde MapBox.
+ * Gestiona descargas de imágenes para proyectos, respeta límites de requests
+ * mensuales y proporciona imágenes por defecto cuando no está disponible.
+ */
 public class SatMapUtils {
 
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
@@ -25,6 +30,9 @@ public class SatMapUtils {
     private static final BTEConoSur plugin = BTEConoSur.getInstance();
     private static final Object requestsLock = new Object();
 
+    /**
+     * Reinicia el contador de requests a MapBox si ha cambiado el mes.
+     */
     private static void checkReset() {
         YamlConfiguration data = ConfigHandler.getInstance().getData();
         String currentMonth = YearMonth.now().toString();
@@ -40,6 +48,11 @@ public class SatMapUtils {
         }
     }
     
+    /**
+     * Verifica si se ha alcanzado el límite mensual de requests a MapBox.
+     *
+     * @return {@code true} si hay requests disponibles, {@code false} si se alcanzó el límite.
+     */
     private static boolean checkMonthlyRequests() {
         YamlConfiguration data = ConfigHandler.getInstance().getData();
         int currentRequests = data.getInt("mapbox-requests") + 1;
@@ -50,6 +63,9 @@ public class SatMapUtils {
         return true;
     }
     
+    /**
+     * Incrementa el contador de requests mensuales a MapBox.
+     */
     private static void incrementMonthlyRequests() {
         synchronized (requestsLock) {
             YamlConfiguration data = ConfigHandler.getInstance().getData();
@@ -59,6 +75,12 @@ public class SatMapUtils {
         }
     }
 
+    /**
+     * Descarga la imagen satélite de un proyecto desde MapBox.
+     *
+     * @param proyecto proyecto cuya imagen se descargará.
+     * @return archivo descargado o {@code null} si no se pudo descargar.
+     */
     public static File downloadImage(Proyecto proyecto) {
         File file = downloadContext(proyecto, Set.of());
         if (file != null) {
@@ -71,6 +93,13 @@ public class SatMapUtils {
         return file;
     }
 
+    /**
+     * Descarga la imagen con contexto de otros proyectos incluidos.
+     *
+     * @param proyecto proyecto principal cuya imagen se descargará.
+     * @param otrosProyectos conjunto de otros proyectos a mostrar como contexto.
+     * @return archivo descargado o {@code null} si no se pudo descargar.
+     */
     public static File downloadContext(Proyecto proyecto, Set<Proyecto> otrosProyectos) {
         try {
             checkReset();
@@ -123,6 +152,16 @@ public class SatMapUtils {
         }
     }
 
+    /**
+     * Descarga una imagen de contexto para redefinición de proyecto,
+     * superponiendo el polígono anterior, el nuevo y los solapamientos.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param oldPolygon polígono actual del proyecto.
+     * @param newPolygon nuevo polígono propuesto.
+     * @param overlapping polígonos superpuestos de otros proyectos.
+     * @return archivo de imagen generado, o {@code null} si ocurre un error.
+     */
     public static File downloadRedefineContext(String proyectoId, Polygon oldPolygon, Polygon newPolygon, Set<Polygon> overlapping) {
         try {
             File redefineFolder = new File(plugin.getDataFolder(), "images/redefine");
@@ -152,6 +191,12 @@ public class SatMapUtils {
         }
     }
 
+    /**
+     * Reemplaza la imagen principal del proyecto por una nueva captura satelital
+     * luego de finalizar una redefinición.
+     *
+     * @param proyecto proyecto cuya imagen principal se actualizará.
+     */
     public static void switchRedefineImage(Proyecto proyecto) {
         try {
             File redefineFolder = new File(plugin.getDataFolder(), "images/redefine");
@@ -183,6 +228,11 @@ public class SatMapUtils {
         }
     }
 
+    /**
+     * Elimina la imagen temporal de redefinición asociada a un proyecto.
+     *
+     * @param proyecto proyecto cuya imagen temporal se eliminará.
+     */
     public static void deleteRedefineImage(Proyecto proyecto) {
         try {
             File redefineFolder = new File(plugin.getDataFolder(), "images/redefine");
@@ -199,6 +249,14 @@ public class SatMapUtils {
         }
     }
     
+    /**
+     * Construye el enlace de MapBox para renderizar el polígono del proyecto
+     * y, opcionalmente, polígonos de contexto de otros proyectos.
+     *
+     * @param proyecto polígono principal del proyecto.
+     * @param otrosProyectos conjunto opcional de polígonos de otros proyectos.
+     * @return URL completa para solicitar la imagen satelital, o cadena vacía si ocurre un error.
+     */
     private static String createMapSatLink(Polygon proyecto, Set<Polygon> otrosProyectos) {
         try {
             String link = config.getString("map-link");
@@ -255,6 +313,15 @@ public class SatMapUtils {
         }
     }
 
+    /**
+     * Construye el enlace de MapBox para un escenario de redefinición,
+     * incluyendo polígono actual, nuevo polígono y superposiciones de contexto.
+     *
+     * @param proyecto polígono actual del proyecto.
+     * @param newPolygon nuevo polígono propuesto.
+     * @param otrosProyectos conjunto opcional de polígonos superpuestos.
+     * @return URL completa para solicitar la imagen satelital, o cadena vacía si ocurre un error.
+     */
     private static String createMapSatLink(Polygon proyecto, Polygon newPolygon, Set<Polygon> otrosProyectos) {
         try {
             String link = config.getString("map-link");

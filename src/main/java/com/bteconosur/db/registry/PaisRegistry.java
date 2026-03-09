@@ -25,6 +25,9 @@ import com.bteconosur.db.model.RegionDivision;
 import com.bteconosur.db.model.RegionPais;
 import com.bteconosur.world.WorldManager;
 
+/**
+ * Registro de países, divisiones y regiones geométricas asociadas.
+ */
 public class PaisRegistry extends Registry<Long, Pais> {
 
     private static PaisRegistry instance;
@@ -33,6 +36,10 @@ public class PaisRegistry extends Registry<Long, Pais> {
     private ConcurrentHashMap<Long, List<Division>> loadedDivisions = new ConcurrentHashMap<>();
     private ConcurrentHashMap<Long, List<RegionDivision>> loadedRegionDivisions = new ConcurrentHashMap<>();
 
+    /**
+     * Inicializa el registro, carga países y sus regiones/divisiones,
+     * asegura valores por defecto y activa partículas si corresponde.
+     */
     public PaisRegistry() {
         super();
         ConsoleLogger.info(LanguageHandler.getText("pais-registry-initializing"));
@@ -69,6 +76,11 @@ public class PaisRegistry extends Registry<Long, Pais> {
         if (config.getBoolean("border-particles.pais-enable")) enableParticlesSpawning();
     }
 
+    /**
+     * Carga un país en persistencia y memoria.
+     *
+     * @param obj país a cargar.
+     */
     @Override
     public void load(Pais obj) {
         if (obj == null || obj.getId() == null) return;
@@ -76,6 +88,12 @@ public class PaisRegistry extends Registry<Long, Pais> {
         loadedObjects.put(obj.getId(), obj);
     }
 
+    /**
+     * Obtiene un país por nombre interno.
+     *
+     * @param name nombre del país.
+     * @return país encontrado, o {@code null}.
+     */
     public Pais get(String name) {
         for (Pais pais : loadedObjects.values()) {
             if (pais.getNombre().equalsIgnoreCase(name)) {
@@ -85,64 +103,115 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /** @return país Argentina. */
     public Pais getArgentina() {
         return get("argentina");
     }
 
+    /** @return país Chile. */
     public Pais getChile() {
         return get("chile");
     }
 
+    /** @return país Bolivia. */
     public Pais getBolivia() {
         return get("bolivia");
     }
 
+    /** @return país Perú. */
     public Pais getPeru() {
         return get("peru");
     }
 
+    /** @return país Paraguay. */
     public Pais getParaguay() {
         return get("paraguay");
     }
 
+    /** @return país Uruguay. */
     public Pais getUruguay() {
         return get("uruguay");
     }
 
+    /** @return país Antártida. */
     public Pais getAntartida() {
         return get("antartida");
     }
 
+    /**
+     * Obtiene todos los IDs de guild de Discord registrados.
+     *
+     * @return lista de IDs de guild.
+     */
     public List<Long> getDsGuildIds() {
         return loadedObjects.values().stream().map(Pais::getDsIdGuild).toList();
     }
 
+    /**
+     * Obtiene todos los IDs de canales de log de Discord registrados.
+     *
+     * @return lista de IDs de log.
+     */
     public List<Long> getDsLogIds() {
         return loadedObjects.values().stream().map(Pais::getDsIdLog).toList();
     }
 
+    /**
+     * Obtiene todos los IDs de canales de chat global de Discord registrados.
+     *
+     * @return lista de IDs de chat global.
+     */
     public List<Long> getDsGlobalChatIds() {
         return loadedObjects.values().stream().map(Pais::getDsIdGlobalChat).toList();
     }
 
+    /**
+     * Obtiene todos los IDs de canales de chat por país de Discord registrados.
+     *
+     * @return lista de IDs de chat de país.
+     */
     public List<Long> getDsCountryChatIds() {
         return loadedObjects.values().stream().map(Pais::getDsIdCountryChat ).toList();
     }
 
+    /**
+     * Obtiene las divisiones cargadas de un país.
+     *
+     * @param pais país objetivo.
+     * @return lista de divisiones, o vacía si no hay datos.
+     */
     public List<Division> getDivisions(Pais pais) {
         if (pais == null) return Collections.emptyList();
         List<Division> divisions = loadedDivisions.get(pais.getId());
         return divisions != null ? divisions : Collections.emptyList();
     }
 
+    /**
+     * Obtiene las regiones cargadas de un país.
+     *
+     * @param pais país objetivo.
+     * @return lista de regiones, o {@code null} si no existen.
+     */
     public List<RegionPais> getRegions(Pais pais) {
         return loadedRegions.get(pais.getId());
     }
 
+    /**
+     * Obtiene las regiones cargadas de una división.
+     *
+     * @param division división objetivo.
+     * @return lista de regiones, o {@code null} si no existen.
+     */
     public List<RegionDivision> getRegionDivisions(Division division) {
         return loadedRegionDivisions.get(division.getId());
     }
 
+    /**
+     * Busca un país por ID de guild de Discord.
+     *
+     * @param dsGuildId id de guild.
+     * @return país encontrado, o {@code null}.
+     */
     public Pais findByDsGuildId(Long dsGuildId) {
         if (dsGuildId == null) return null;
         for (Pais pais : loadedObjects.values()) {
@@ -151,6 +220,12 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /**
+     * Busca un país por ID de canal global de Discord.
+     *
+     * @param dsGlobalChatId id de canal global.
+     * @return país encontrado, o {@code null}.
+     */
     public Pais findByDsGlobalChatId(Long dsGlobalChatId) {
         if (dsGlobalChatId == null) return null;
         for (Pais pais : loadedObjects.values()) {
@@ -159,6 +234,12 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /**
+     * Busca un país por ID de canal de solicitudes.
+     *
+     * @param dsRequestId id del canal de solicitudes.
+     * @return país encontrado, o {@code null}.
+     */
     public Pais findByRequestId(Long dsRequestId) {
         if (dsRequestId == null) return null;
         for (Pais pais : loadedObjects.values()) {
@@ -167,6 +248,12 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /**
+     * Busca un país por ID de canal de chat por país.
+     *
+     * @param dsCountryChatId id del canal de país.
+     * @return país encontrado, o {@code null}.
+     */
     public Pais findByDsCountryChatId(Long dsCountryChatId) {
         if (dsCountryChatId == null) return null;
         for (Pais pais : loadedObjects.values()) {
@@ -176,6 +263,13 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /**
+     * Busca el país que contiene una ubicación XZ.
+     *
+     * @param x coordenada X.
+     * @param z coordenada Z.
+     * @return país encontrado, o {@code null}.
+     */
     public Pais findByLocation(double x, double z) {
         for (Pais pais : loadedObjects.values()) {
             List<RegionPais> regiones = getRegions(pais);
@@ -189,6 +283,13 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /**
+     * Busca la región de país que contiene una ubicación XZ.
+     *
+     * @param x coordenada X.
+     * @param z coordenada Z.
+     * @return región encontrada, o {@code null}.
+     */
     public RegionPais findRegionByLocation(double x, double z) {
         for (Pais pais : loadedObjects.values()) {
             List<RegionPais> regiones = getRegions(pais);
@@ -202,6 +303,14 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /**
+     * Busca la división que contiene una ubicación XZ dentro de un país.
+     *
+     * @param x coordenada X.
+     * @param z coordenada Z.
+     * @param pais país donde buscar.
+     * @return división encontrada, o {@code null}.
+     */
     public Division findDivisionByLocation(double x, double z, Pais pais) {
         for (Division division : getDivisions(pais)) {
             List<RegionDivision> regiones = getRegionDivisions(division);
@@ -216,6 +325,12 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /**
+     * Busca una división por su identificador.
+     *
+     * @param divisionId id de división.
+     * @return división encontrada, o {@code null}.
+     */
     public Division findDivisionById(Long divisionId) {
         for (List<Division> divisions : loadedDivisions.values()) {
             for (Division division : divisions) {
@@ -225,11 +340,23 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /**
+     * Busca un país a partir del centroide de un polígono.
+     *
+     * @param polygon polígono de referencia.
+     * @return país encontrado, o {@code null}.
+     */
     public Pais findByPolygon(Polygon polygon) {
         Point centroid = polygon.getCentroid();
         return findByLocation(centroid.getX(), centroid.getY());
     }
 
+    /**
+     * Busca la división actual de un jugador por su ubicación en el mundo.
+     *
+     * @param playerUuid uuid del jugador.
+     * @return división encontrada, división por defecto o {@code null}.
+     */
     public Division findDivisionByPlayer(UUID playerUuid) {
         org.bukkit.entity.Player bukkitPlayer = Bukkit.getPlayer(playerUuid);
         if (bukkitPlayer == null) return null;
@@ -241,6 +368,13 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return division;
     }
 
+    /**
+     * Busca la división correspondiente a un polígono dentro de un país según su centroide.
+     *
+     * @param polygon polígono de referencia.
+     * @param pais país donde buscar.
+     * @return división encontrada o división por defecto.
+     */
     public Division findDivisionByPolygon(Polygon polygon, Pais pais) {
         Point centroid = polygon.getCentroid();
         Division division = findDivisionByLocation(centroid.getX(), centroid.getY(), pais);
@@ -248,6 +382,12 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return division;
     }
 
+    /**
+     * Obtiene la división por defecto de un país.
+     *
+     * @param pais país objetivo.
+     * @return división llamada {@code default}, o {@code null} si no existe.
+     */
     public Division getDefaultDivision(Pais pais) {
         for (Division division : getDivisions(pais)) { // Capaz no hace falta mapaear esto.
             if (division.getNombre().equalsIgnoreCase("default")) return division;
@@ -256,6 +396,9 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return null;
     }
 
+    /**
+     * Asegura la existencia de países por defecto.
+     */
     private void ensureDefaults() {
         if (get("argentina") == null) {
             Pais pais = new Pais("argentina", "Argentina", 1425856269029474304L, 1451333771319050320L, 1451333825149014118L, 1451333852046950583L, 1451333884749807616L);
@@ -285,6 +428,9 @@ public class PaisRegistry extends Registry<Long, Pais> {
         ensureDefaultsDivisions();
     }
 
+    /**
+     * Asegura la existencia de división por defecto para cada país.
+     */
     private void ensureDefaultsDivisions() {
         for (Pais pais : loadedObjects.values()) {
             boolean hasDefault = false;
@@ -302,6 +448,9 @@ public class PaisRegistry extends Registry<Long, Pais> {
         }
     }
 
+    /**
+     * Activa el renderizado periódico de partículas de bordes de país para jugadores.
+     */
     private void enableParticlesSpawning() {
         long periodTicks = ConfigHandler.getInstance().getConfig().getLong("border-particles.spawn-period");
         new BukkitRunnable() {
@@ -321,12 +470,20 @@ public class PaisRegistry extends Registry<Long, Pais> {
         }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
     }
 
+    /**
+     * Cierra el registro de países y limpia sus caches.
+     */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("pais-registry-shutting-down"));
         loadedObjects.clear();
         loadedObjects = null;
     }
 
+    /**
+     * Obtiene la instancia singleton de {@code PaisRegistry}.
+     *
+     * @return instancia única del registro.
+     */
     public static PaisRegistry getInstance() {
         if (instance == null) {
             instance = new PaisRegistry();

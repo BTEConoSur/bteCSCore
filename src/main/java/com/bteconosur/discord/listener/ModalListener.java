@@ -15,10 +15,21 @@ import com.bteconosur.discord.action.ModalAction;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * Listener para eventos de interacción con modales en Discord.
+ * Maneja los formularios modales enviados por usuarios, valida interacciones
+ * y delega a las acciones correspondientes.
+ */
 public class ModalListener extends ListenerAdapter {
 
     private static final InteractionRegistry registry = InteractionRegistry.getInstance();
 
+    /**
+     * Maneja eventos de interacción con modales.
+     * Valida la interacción, verifica expiración y ejecuta la acción correspondiente.
+     * 
+     * @param event Evento de interacción del modal
+     */
     @SuppressWarnings("null")
     @Override
     public void onModalInteraction(@Nonnull ModalInteractionEvent event) {

@@ -30,11 +30,24 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+/**
+ * Utilidad para conversión y manejo de geometrías en formato GeoJSON.
+ * Proporciona métodos para serializar polígonos a GeoJSON y desserializar
+ * archivos GeoJSON.
+ */
 public class GeoJsonUtils {
 
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
     private static final BTEConoSur plugin = BTEConoSur.getInstance();
 
+    /**
+     * Convierte un polígono a formato GeoJSON con estilos de relleno y borde.
+     *
+     * @param polygon polígono a convertir.
+     * @param fillColor color de relleno en hexadecimal.
+     * @param strokeColor color de borde en hexadecimal.
+     * @return cadena JSON con la geometría formateada.
+     */
     public static String polygonToGeoJson(Polygon polygon, String fillColor, String strokeColor) {
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -93,6 +106,15 @@ public class GeoJsonUtils {
         }
     }
 
+    /**
+     * Convierte un archivo GeoJSON en una lista de polígonos en coordenadas de Minecraft.
+     * Lee la primera feature del archivo, soporta geometrías {@code Polygon} y
+     * {@code MultiPolygon}, corrige orientación de anillos y valida cantidad mínima de puntos.
+     *
+     * @param pathString ruta relativa dentro de {@code geojson/}.
+     * @param fileName nombre del archivo GeoJSON a leer.
+     * @return lista de polígonos convertidos, o {@code null} si ocurre un error de deserialización.
+     */
     public static List<Polygon> geoJsonToPolygons(String pathString, String fileName) {
         GeometryFactory gf = new GeometryFactory();
         try {
@@ -182,6 +204,16 @@ public class GeoJsonUtils {
         }
     }
 
+    /**
+     * Convierte un conjunto de archivos GeoJSON de divisiones en las entidades correspondientes.
+     * Cada archivo se interpreta como una división y sus polígonos se transforman en
+     * regiones asociadas a dicha división.
+     *
+     * @param pais país al que pertenecen las divisiones.
+     * @param path subruta de divisiones dentro de {@code geojson/divisions/}.
+     * @return lista de divisiones cargadas, lista vacía si no existe la carpeta,
+     *         o {@code null} si ocurre un error durante la deserialización.
+     */
     public static List<Division> geoJsonToDivisions(Pais pais, String path) {
         try {
             String fullPath = "divisions/" + path;

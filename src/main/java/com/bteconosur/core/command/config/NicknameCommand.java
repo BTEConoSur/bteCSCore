@@ -35,6 +35,11 @@ public class NicknameCommand extends BaseCommand {
             return true;
         }
 
+        if (nuevoNombre.matches(".*<[^>]+>.*")) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "nickname.invalid-regex"), (String) null);
+            return true;
+        }
+
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
         commandPlayer.setNombrePublico(nuevoNombre);

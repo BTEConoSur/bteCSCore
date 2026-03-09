@@ -2,6 +2,9 @@ package com.bteconosur.core.config;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+/**
+ * Manejador centralizado de archivos de configuración del plugin.
+ */
 public class ConfigHandler {
     private static ConfigHandler instance;
     private final ConfigFile config = new ConfigFile("config.yml");
@@ -10,11 +13,17 @@ public class ConfigHandler {
     private final ConfigFile embedColors = new ConfigFile("embed-colors.yml");
     private final ConfigFile secret = new ConfigFile("secret.yml");
 
+    /**
+     * Inicializa el manejador de configuración registrando todos los archivos.
+     */
     public ConfigHandler() {
         registerConfig();
         LanguageHandler.initialize();
     }
 
+    /**
+     * Registra todos los archivos de configuración del plugin.
+     */
     private void registerConfig() {
         config.register();
         data.register();
@@ -23,26 +32,54 @@ public class ConfigHandler {
         secret.register();
     }
 
+    /**
+     * Obtiene la configuración principal del plugin.
+     *
+     * @return configuración YAML de {@code config.yml}.
+     */
     public YamlConfiguration getConfig() {
         return config.getFileConfiguration();
     }
 
+    /**
+     * Obtiene la configuración de colores de embeds de Discord.
+     *
+     * @return configuración YAML de {@code embed-colors.yml}.
+     */
     public YamlConfiguration getEmbedColors() {
         return embedColors.getFileConfiguration();
     }
 
+    /**
+     * Obtiene la configuración de datos persistentes.
+     *
+     * @return configuración YAML de {@code data.yml}.
+     */
     public YamlConfiguration getData() {
         return data.getFileConfiguration();
     }
 
+    /**
+     * Obtiene la configuración de interfaces gráficas.
+     *
+     * @return configuración YAML de {@code gui.yml}.
+     */
     public YamlConfiguration getGui() {
         return gui.getFileConfiguration();
     }
 
+    /**
+     * Obtiene la configuración secreta (credenciales, tokens).
+     *
+     * @return configuración YAML de {@code secret.yml}.
+     */
     public YamlConfiguration getSecret() {
         return secret.getFileConfiguration();
     }
 
+    /**
+     * Guarda todos los archivos de configuración y de idioma en disco.
+     */
     public void save() {
         config.save();
         data.save();
@@ -52,6 +89,9 @@ public class ConfigHandler {
         LanguageHandler.save();
     }
 
+    /**
+     * Recarga todos los archivos de configuración y de idioma desde disco.
+     */
     public void reload() {
         config.reload();
         data.reload();
@@ -62,8 +102,9 @@ public class ConfigHandler {
     }
 
     /**
-     * Get the instance of the ConfigHandler
-     * @return ConfigHandler instance
+     * Obtiene la instancia singleton del manejador de configuración.
+     *
+     * @return instancia única de {@code ConfigHandler}.
      */
     public static ConfigHandler getInstance() {
         if (instance == null) {

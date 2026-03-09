@@ -16,10 +16,21 @@ import com.bteconosur.discord.action.ButtonAction;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * Listener para eventos de interacción con botones en Discord.
+ * Maneja los clicks en botones de mensajes, valida interacciones y delega
+ * a las acciones correspondientes según el tipo de interacción.
+ */
 public class ButtonListener extends ListenerAdapter {
 
     private static final InteractionRegistry registry = InteractionRegistry.getInstance();
 
+    /**
+     * Maneja eventos de interacción con botones.
+     * Valida la interacción, verifica expiración y ejecuta la acción correspondiente.
+     * 
+     * @param event Evento de interacción del botón
+     */
     @SuppressWarnings("null")
     @Override
     public void onButtonInteraction(@Nonnull ButtonInteractionEvent event) {

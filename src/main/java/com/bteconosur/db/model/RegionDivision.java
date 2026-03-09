@@ -20,6 +20,9 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "region_division")
+/**
+ * Entidad que representa una región geométrica perteneciente a una división.
+ */
 public class RegionDivision {
 
     @Id
@@ -96,6 +99,9 @@ public class RegionDivision {
         this.division = division    ;
     }
 
+    /**
+     * Inicializa campos transitorios geométricos al cargar la entidad.
+     */
     @PostLoad
     private void initTransientFields() {
         if (poligono != null) {

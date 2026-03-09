@@ -30,6 +30,11 @@ import net.luckperms.api.node.types.PermissionNode;
 import net.luckperms.api.node.NodeEqualityPredicate;
 import net.luckperms.api.util.Tristate;
 
+/**
+ * Gestor de permisos del plugin.
+ * Sincroniza los permisos de la base de datos con LuckPerms y proporciona métodos
+ * para verificar roles, permisos y estados de jugadores en proyectos y países.
+ */
 public class PermissionManager {
 
     private static PermissionManager instance;
@@ -38,6 +43,10 @@ public class PermissionManager {
     private final TipoUsuarioRegistry tipoUsuarioRegistry;
     private final RangoUsuarioRegistry rangoUsuarioRegistry;
 
+    /**
+     * Constructor del gestor de permisos.
+     * Inicializa LuckPerms y verifica la sincronización de tipos de usuario y rangos.
+     */
     public PermissionManager() {
         ConsoleLogger.info(LanguageHandler.getText("permission-manager-initializing"));
 
@@ -56,6 +65,12 @@ public class PermissionManager {
         }
     }
 
+    /**
+     * Verifica si alguno de los proyectos del conjunto está en estado ACTIVO o EDITANDO.
+     * 
+     * @param proyectos Conjunto de proyectos a verificar
+     * @return true si al menos un proyecto está activo o en edición, false en caso contrario
+     */
     public boolean areActiveOrEditing(Set<Proyecto> proyectos) {
         if (proyectos == null || proyectos.isEmpty()) return false;
         for (Proyecto proyecto : proyectos) {
@@ -64,18 +79,39 @@ public class PermissionManager {
         return false;
     }
 
+    /**
+     * Verifica si un jugador es miembro de un proyecto.
+     * 
+     * @param player Jugador a verificar
+     * @param proyecto Proyecto a verificar
+     * @return true si el jugador es miembro del proyecto, false en caso contrario
+     */
     public boolean isMiembro(Player player, Proyecto proyecto) {
         if (player == null) return false;
         if (proyecto == null) return false;
         return proyecto.getMiembros().contains(player);
     }
 
+    /**
+     * Verifica si un jugador es miembro o líder de un proyecto.
+     * 
+     * @param player Jugador a verificar
+     * @param proyecto Proyecto a verificar
+     * @return true si el jugador es miembro o líder del proyecto, false en caso contrario
+     */
     public boolean isMiembroOrLider(Player player, Proyecto proyecto) {
         if (player == null) return false;
         if (proyecto == null) return false;
         return isMiembro(player, proyecto) || isLider(player, proyecto);
     }
 
+    /**
+     * Verifica si un jugador es miembro de al menos uno de los proyectos del conjunto.
+     * 
+     * @param player Jugador a verificar
+     * @param proyectos Conjunto de proyectos a verificar
+     * @return true si el jugador es miembro de al menos un proyecto, false en caso contrario
+     */
     public boolean isMiembro(Player player, Set<Proyecto> proyectos) {
         if (player == null) return false;
         if (proyectos == null || proyectos.isEmpty()) return false;
@@ -87,22 +123,48 @@ public class PermissionManager {
         return false;
     }
 
+    /**
+     * Verifica si un jugador es líder de un proyecto.
+     * 
+     * @param player Jugador a verificar
+     * @param proyecto Proyecto a verificar
+     * @return true si el jugador es líder del proyecto, false en caso contrario
+     */
     public boolean isLider(Player player, Proyecto proyecto) {
         if (player == null) return false;
         if (proyecto == null) return false;
         return player.equals(proyecto.getLider());
     }
 
+    /**
+     * Verifica si un proyecto tiene miembros asignados.
+     * 
+     * @param proyecto Proyecto a verificar
+     * @return true si el proyecto tiene al menos un miembro, false en caso contrario
+     */
     public boolean hasMembers(Proyecto proyecto) {
         if (proyecto == null) return false;
         return !proyecto.getMiembros().isEmpty();
     }
 
+    /**
+     * Verifica si un proyecto tiene un líder asignado.
+     * 
+     * @param proyecto Proyecto a verificar
+     * @return true si el proyecto tiene líder, false en caso contrario
+     */
     public boolean hasLider(Proyecto proyecto) {
         if (proyecto == null) return false;
         return proyecto.getLider() != null;
     }
 
+    /**
+     * Verifica si un jugador es líder de al menos uno de los proyectos del conjunto.
+     * 
+     * @param player Jugador a verificar
+     * @param proyectos Conjunto de proyectos a verificar
+     * @return true si el jugador es líder de al menos un proyecto, false en caso contrario
+     */
     public boolean isLider(Player player, Set<Proyecto> proyectos) {
         if (player == null) return false;
         if (proyectos == null || proyectos.isEmpty()) return false;
@@ -112,17 +174,38 @@ public class PermissionManager {
         return false;
     }
 
+    /**
+     * Verifica si un jugador es manager de un país específico.
+     * 
+     * @param player Jugador a verificar
+     * @param pais País a verificar
+     * @return true si el jugador es manager del país, false en caso contrario
+     */
     public boolean isManager(Player player, Pais pais) {
         if (player == null) return false;
         if (pais == null) return false;
         return player.getPaisesManager().contains(pais);
     }
 
+    /**
+     * Verifica si un jugador es manager de algún país.
+     * 
+     * @param player Jugador a verificar
+     * @return true si el jugador es manager de al menos un país, false en caso contrario
+     */
     public boolean isManager(Player player) {
         if (player == null) return false;
         return player.getPaisesManager() != null && !player.getPaisesManager().isEmpty();
     }
 
+    /**
+     * Verifica si un jugador es reviewer de un país específico.
+     * Un manager también se considera reviewer.
+     * 
+     * @param player Jugador a verificar
+     * @param pais País a verificar
+     * @return true si el jugador es reviewer o manager del país, false en caso contrario
+     */
     public boolean isReviewer(Player player, Pais pais) {
         if (player == null) return false;
         if (pais == null) return false;
@@ -130,36 +213,75 @@ public class PermissionManager {
         return isManager(player, pais);
     }
 
+    /**
+     * Verifica si un jugador es reviewer de algún país.
+     * Un manager también se considera reviewer.
+     * 
+     * @param player Jugador a verificar
+     * @return true si el jugador es reviewer o manager de al menos un país, false en caso contrario
+     */
     public boolean isReviewer(Player player) {
         if (player == null) return false;
         if (player.getPaisesReviewer() != null && !player.getPaisesReviewer().isEmpty()) return true;
         return isManager(player);
     }
 
+    /**
+     * Verifica si un jugador tiene un rango de usuario específico.
+     * 
+     * @param player Jugador a verificar
+     * @param rango Rango a verificar
+     * @return true si el jugador tiene el rango especificado, false en caso contrario
+     */
     public boolean isRangoUsuario(Player player, RangoUsuario rango) {
         if (player == null) return false;
         if (rango == null) return false;
         return player.getRangoUsuario().equals(rango);
     }
 
+    /**
+     * Verifica si un jugador tiene un tipo de usuario específico.
+     * 
+     * @param player Jugador a verificar
+     * @param tipo Tipo de usuario a verificar
+     * @return true si el jugador tiene el tipo especificado, false en caso contrario
+     */
     public boolean isTipoUsuario(Player player, TipoUsuario tipo) {
         if (player == null) return false;
         if (tipo == null) return false;
         return player.getTipoUsuario().equals(tipo);
     }
 
+    /**
+     * Verifica si un jugador tiene el tipo "Postulante".
+     * 
+     * @param player Jugador a verificar
+     * @return true si el jugador es postulante, false en caso contrario
+     */
     public boolean isPostulante(Player player) {
         if (player == null) return false;
         TipoUsuario tipoPostulante = tipoUsuarioRegistry.getPostulante();
         return isTipoUsuario(player, tipoPostulante);
     }
 
+    /**
+     * Verifica si un jugador tiene el rango "Normal".
+     * 
+     * @param player Jugador a verificar
+     * @return true si el jugador tiene el rango normal, false en caso contrario
+     */
     public boolean isNormal(Player player) {
         if (player == null) return false;
         RangoUsuario rango = rangoUsuarioRegistry.getNormal();
         return isRangoUsuario(player, rango);
     }
 
+    /**
+     * Verifica si un jugador tiene el rango "Admin".
+     * 
+     * @param player Jugador a verificar
+     * @return true si el jugador es administrador, false en caso contrario
+     */
     public boolean isAdmin(Player player) {
         if (player == null) return false;
         RangoUsuario rango = player.getRangoUsuario();
@@ -167,6 +289,12 @@ public class PermissionManager {
         return rango.getNombre().equalsIgnoreCase("Admin");
     }
 
+    /**
+     * Sincroniza los grupos de tipos de usuario de la base de datos con LuckPerms.
+     * Crea grupos faltantes y actualiza permisos según la configuración de la base de datos.
+     * 
+     * @return true si la sincronización fue exitosa, false si hubo errores
+     */
     private boolean checkTipoUsuario() {
         ConsoleLogger.info(LanguageHandler.getText("checking-tipos-usuario")); 
         GroupManager groupManager = lpApi.getGroupManager();
@@ -241,6 +369,12 @@ public class PermissionManager {
         return true;
     }
 
+    /**
+     * Sincroniza los grupos de rangos de usuario de la base de datos con LuckPerms.
+     * Crea grupos faltantes y actualiza permisos según la configuración de la base de datos.
+     * 
+     * @return true si la sincronización fue exitosa, false si hubo errores
+     */
     private boolean checkRangoUsuario() {
         ConsoleLogger.info(LanguageHandler.getText("checking-rangos-usuario"));
         GroupManager groupManager = lpApi.getGroupManager();
@@ -297,7 +431,6 @@ public class PermissionManager {
                 ConsoleLogger.info(LanguageHandler.getText("lp-permission-desync").replace("%permiso%", node.getPermission()).replace("%grupo%", groupName));
             }
 
-            // Añadir permisos faltantes
             List<String> toAdd = permisosEsperados.stream()
                 .filter(permisoNombre -> {
                     PermissionNode node = PermissionNode.builder(permisoNombre).build();
@@ -317,6 +450,12 @@ public class PermissionManager {
         return true;
     }
 
+    /**
+     * Verifica y sincroniza el tipo de usuario de un jugador con LuckPerms.
+     * Asegura que el jugador tenga el grupo correcto de tipo de usuario asignado.
+     * 
+     * @param player Jugador a sincronizar
+     */
     public void checkTipoUsuario(Player player) {
         if (player == null || player.getTipoUsuario() == null) return;
         
@@ -355,6 +494,12 @@ public class PermissionManager {
         if (modified) userManager.saveUser(user).join();
     }
 
+    /**
+     * Verifica y sincroniza el rango de usuario de un jugador con LuckPerms.
+     * Asegura que el jugador tenga el grupo correcto de rango de usuario asignado.
+     * 
+     * @param player Jugador a sincronizar
+     */
     public void checkRangoUsuario(Player player) {
         if (player == null || player.getRangoUsuario() == null) return;
         
@@ -393,10 +538,21 @@ public class PermissionManager {
         if (modified) userManager.saveUser(user).join();
     }
 
+    /**
+     * Cierra el gestor de permisos.
+     */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("permission-manager-shutting-down"));
     }
 
+    /**
+     * Cambia el tipo de usuario de un jugador y sincroniza con LuckPerms.
+     * Actualiza la base de datos y los grupos en LuckPerms.
+     * 
+     * @param player Jugador a modificar
+     * @param tipo Nuevo tipo de usuario
+     * @return El jugador actualizado con el nuevo tipo de usuario
+     */
     public Player switchTipoUsuario(Player player, TipoUsuario tipo) {
         player.setTipoUsuario(tipo);
         player = PlayerRegistry.getInstance().merge(player.getUuid());
@@ -425,6 +581,14 @@ public class PermissionManager {
         return player;  
     }
 
+    /**
+     * Cambia el rango de usuario de un jugador y sincroniza con LuckPerms.
+     * Actualiza la base de datos y los grupos en LuckPerms.
+     * 
+     * @param player Jugador a modificar
+     * @param rango Nuevo rango de usuario
+     * @return El jugador actualizado con el nuevo rango
+     */
     public Player switchRangoUsuario(Player player, RangoUsuario rango) {
         if (player == null || rango == null) return player;
         if (rango.equals(player.getRangoUsuario())) return player;
@@ -456,6 +620,13 @@ public class PermissionManager {
         return player;
     }
 
+    /**
+     * Añade a un jugador como manager de un país.
+     * 
+     * @param player Jugador a añadir como manager
+     * @param pais País del cual será manager
+     * @return El jugador actualizado
+     */
     public Player addManager(Player player, Pais pais) {
         if (player == null || pais == null) return player;
         if (isManager(player, pais)) return player;
@@ -464,6 +635,13 @@ public class PermissionManager {
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
+    /**
+     * Remueve a un jugador como manager de un país.
+     * 
+     * @param player Jugador a remover como manager
+     * @param pais País del cual dejará de ser manager
+     * @return El jugador actualizado
+     */
     public Player removeManager(Player player, Pais pais) {
         if (player == null || pais == null) return player;
         if (!isManager(player, pais)) return player;
@@ -471,6 +649,13 @@ public class PermissionManager {
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
+    /**
+     * Añade a un jugador como reviewer de un país.
+     * 
+     * @param player Jugador a añadir como reviewer
+     * @param pais País del cual será reviewer
+     * @return El jugador actualizado
+     */
     public Player addReviewer(Player player, Pais pais) {
         if (player == null || pais == null) return player;
         if (isReviewer(player, pais)) return player;
@@ -479,6 +664,13 @@ public class PermissionManager {
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
+    /**
+     * Remueve a un jugador como reviewer de un país.
+     * 
+     * @param player Jugador a remover como reviewer
+     * @param pais País del cual dejará de ser reviewer
+     * @return El jugador actualizado
+     */
     public Player removeReviewer(Player player, Pais pais) {
         if (player == null || pais == null) return player;
         if (!isReviewer(player, pais)) return player;
@@ -487,6 +679,11 @@ public class PermissionManager {
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
+    /**
+     * Obtiene la instancia singleton del gestor de permisos.
+     * 
+     * @return La instancia única de PermissionManager
+     */
     public static PermissionManager getInstance() {
         if (instance == null) {
             instance = new PermissionManager();

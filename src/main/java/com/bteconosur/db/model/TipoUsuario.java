@@ -20,6 +20,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tipo_usuario")
+/**
+ * Entidad que representa un tipo funcional de usuario.
+ */
 public class TipoUsuario {
 
     @Id

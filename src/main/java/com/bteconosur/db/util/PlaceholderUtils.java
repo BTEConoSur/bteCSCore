@@ -25,78 +25,138 @@ import com.bteconosur.discord.DiscordManager;
 
 import net.dv8tion.jda.api.entities.User;
 
+/**
+ * Utilidad de reemplazo de placeholders para textos de Minecraft y Discord.
+ */
 public class PlaceholderUtils {
 
+    /**
+     * Reemplaza placeholders de jugadores y proyectos en contexto Minecraft.
+     *
+     * @param text texto base.
+     * @param language idioma de reemplazo.
+     * @param players jugadores disponibles para reemplazo indexado.
+     * @param proyectos proyectos disponibles para reemplazo indexado.
+     * @return texto con placeholders reemplazados.
+     */
     public static String replaceMC(String text, Language language, List<Player> players, List<Proyecto> proyectos) {
         String replaced = replace(text, language, PlaceholderContext.MINECRAFT, players.toArray(new Player[0]));
         return replace(replaced, language, PlaceholderContext.MINECRAFT, proyectos.toArray(new Proyecto[0]));
     }
 
+    /**
+     * Reemplaza placeholders de jugadores y proyectos en contexto Discord.
+     *
+     * @param text texto base.
+     * @param language idioma de reemplazo.
+     * @param players jugadores disponibles para reemplazo indexado.
+     * @param proyectos proyectos disponibles para reemplazo indexado.
+     * @return texto con placeholders reemplazados.
+     */
     public static String replaceDS(String text, Language language, List<Player> players, List<Proyecto> proyectos) {
         String replaced = replace(text, language, PlaceholderContext.DISCORD, players.toArray(new Player[0]));
         return replace(replaced, language, PlaceholderContext.DISCORD, proyectos.toArray(new Proyecto[0]));
     }
 
+    /**
+     * Reemplaza placeholders de jugadores en contexto Minecraft.
+     */
     public static String replaceMC(String text, Language language, Player... players) {
         if (players == null || players.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, players);
     }
 
+    /**
+     * Reemplaza placeholders de jugadores en contexto Discord.
+     */
     public static String replaceDS(String text, Language language, Player... players) {
         if (players == null || players.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, players);
     }
 
+    /**
+     * Reemplaza placeholders de proyectos en contexto Minecraft.
+     */
     public static String replaceMC(String text, Language language, Proyecto... proyectos) {
         if (proyectos == null || proyectos.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, proyectos);
     }
 
+    /**
+     * Reemplaza placeholders de proyectos en contexto Discord.
+     */
     public static String replaceDS(String text, Language language, Proyecto... proyectos) {
         if (proyectos == null || proyectos.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, proyectos);
     }
 
+    /**
+     * Reemplaza placeholders de países en contexto Minecraft.
+     */
     public static String replaceMC(String text, Language language, Pais... paises) {
         if (paises == null || paises.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, paises);
     }
 
+    /**
+     * Reemplaza placeholders de países en contexto Discord.
+     */
     public static String replaceDS(String text, Language language, Pais... paises) {
         if (paises == null || paises.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, paises);
     }
 
+    /**
+     * Reemplaza placeholders de rangos en contexto Minecraft.
+     */
     public static String replaceMC(String text, Language language, RangoUsuario... rangos) {
         if (rangos == null || rangos.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, rangos);
     }
 
+    /**
+     * Reemplaza placeholders de rangos en contexto Discord.
+     */
     public static String replaceDS(String text, Language language, RangoUsuario... rangos) {
         if (rangos == null || rangos.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, rangos);
     }
 
+    /**
+     * Reemplaza placeholders de tipos de usuario en contexto Minecraft.
+     */
     public static String replaceMC(String text, Language language, TipoUsuario... tipos) {
         if (tipos == null || tipos.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, tipos);
     }
 
+    /**
+     * Reemplaza placeholders de tipos de usuario en contexto Discord.
+     */
     public static String replaceDS(String text, Language language, TipoUsuario... tipos) {
         if (tipos == null || tipos.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, tipos);
     }
 
+    /**
+     * Reemplaza placeholders de divisiones en contexto Minecraft.
+     */
     public static String replaceMC(String text, Language language, Division... divisiones) {
         if (divisiones == null || divisiones.length == 0) return text;
         return replace(text, language, PlaceholderContext.MINECRAFT, divisiones);
     }
 
+    /**
+     * Reemplaza placeholders de divisiones en contexto Discord.
+     */
     public static String replaceDS(String text, Language language, Division... divisiones) {
         if (divisiones == null || divisiones.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, divisiones);
     }
 
+    /**
+     * Reemplaza placeholders de jugador en el texto.
+     */
     private static String replace(String text, Language language, PlaceholderContext context, Player... players) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
@@ -229,6 +289,9 @@ public class PlaceholderUtils {
         return text;
     }   
 
+    /**
+     * Reemplaza placeholders de proyecto en el texto.
+     */
     private static String replace(String text, Language language, PlaceholderContext context, Proyecto... proyectos) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
@@ -379,6 +442,9 @@ public class PlaceholderUtils {
         return text;
     }
 
+    /**
+     * Reemplaza placeholders de país en el texto.
+     */
     private static String replace(String text, Language language, PlaceholderContext context, Pais... paises) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
@@ -451,6 +517,9 @@ public class PlaceholderUtils {
         return text;
     }
 
+    /**
+     * Reemplaza placeholders de rango en el texto.
+     */
     private static String replace(String text, Language language, PlaceholderContext context, RangoUsuario... rangos) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
@@ -507,6 +576,9 @@ public class PlaceholderUtils {
         return text;
     }
 
+    /**
+     * Reemplaza placeholders de tipo de usuario en el texto.
+     */
     private static String replace(String text, Language language, PlaceholderContext context, TipoUsuario... tipos) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
@@ -566,6 +638,9 @@ public class PlaceholderUtils {
         return text;
     }
 
+    /**
+     * Reemplaza placeholders de división en el texto.
+     */
     private static String replace(String text, Language language, PlaceholderContext context, Division... divisiones) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
@@ -634,6 +709,9 @@ public class PlaceholderUtils {
         return text;
     }
 
+    /**
+     * Contexto de renderizado de placeholders.
+     */
     public static enum PlaceholderContext {
         DISCORD,
         MINECRAFT

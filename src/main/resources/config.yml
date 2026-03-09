@@ -155,6 +155,8 @@ pwarp-list-per-page: 10 # Cantidad de pwarps a mostrar por página en el comando
 pwarp-list-cooldown: 0 # Cooldown para el comando de listado de pwarps (en segundos).
 
 commands-aliases:
+  help:
+    aliases: ["ayuda"]
   btecs:
     aliases: ["bteconosur"]
     test:

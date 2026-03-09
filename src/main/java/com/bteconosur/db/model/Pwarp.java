@@ -22,6 +22,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pwarp")
+/**
+ * Entidad que representa un warp personal de un jugador.
+ */
 public class Pwarp {
 
     @EmbeddedId
@@ -116,20 +119,38 @@ public class Pwarp {
         this.player = player;
     }
 
+    /**
+     * Convierte este pwarp en una ubicación de Bukkit.
+     *
+     * @return ubicación equivalente en el mundo configurado.
+     */
     public Location toLocation() {
         World world =  WorldManager.getInstance().getBTEWorld().getLabelWorld(x, z).getBukkitWorld();
         return new Location(world, x, y, z, yaw, pitch);
     }
 
+    /**
+     * Obtiene el nombre del pwarp desde su clave compuesta.
+     *
+     * @return nombre del pwarp.
+     */
     public String getNombre() {
         return id.getNombre();
     }
 
+    /**
+     * Obtiene el UUID del propietario desde su clave compuesta.
+     *
+     * @return UUID del jugador propietario.
+     */
     public UUID getUuidPlayer() {
         return id.getUuid();
     }
 
     @Embeddable
+    /**
+     * Clave compuesta de un pwarp (jugador + nombre).
+     */
     public static class PwarpId implements Serializable {
         
         @Column(name = "uuid_player", columnDefinition = "CHAR(36)", nullable = false)

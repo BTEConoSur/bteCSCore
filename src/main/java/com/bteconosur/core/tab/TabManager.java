@@ -21,6 +21,12 @@ import me.neznamy.tab.api.event.player.PlayerLoadEvent;
 import me.neznamy.tab.api.tablist.HeaderFooterManager;
 import me.neznamy.tab.api.tablist.TabListFormatManager;
 
+/**
+ * Gestor centralizado de TAB del servidor.
+ * Administra encabezados, pies de página y formato de nombres en la lista de TAB.
+ * Soporta personalización por idioma del jugador.
+ * Implementa patrón singleton.
+ */
 public class TabManager {
 
     private static TabManager instance;
@@ -28,6 +34,10 @@ public class TabManager {
     private TabAPI tabAPI;
     private BukkitTask footerRefreshTask;
     
+    /**
+     * Crea e inicializa el gestor de TAB, registrando evento de carga de jugador
+     * y configurando la API de TAB para el servidor.
+     */
     public TabManager() {
         ConsoleLogger.info(LanguageHandler.getText("tab-manager-initializing"));
         try {
@@ -44,6 +54,12 @@ public class TabManager {
         //startFooterRefresher();
     }
 
+    /**
+     * Configura la TAB para un jugador que ingresa al servidor.
+     * Aplica encabezado, pie de página y formato personalizado según su idioma.
+     *
+     * @param player jugador que ingresa.
+     */
     public void joinPlayer(Player player) {
         if (player == null) return;
         TabPlayer tabPlayer = tabAPI.getPlayer(player.getUuid());
@@ -53,6 +69,13 @@ public class TabManager {
         setTab(tabPlayer);
     }
 
+    /**
+     * Aplica el diseño de TAB a un jugador específico.
+     * Establece encabezado, pie de página, prefijo, sufijo y nombre personalizados
+     * según el idioma del jugador, reemplazando placeholders.
+     *
+     * @param tabPlayer jugador de TAB API a configurar.
+     */
     public void setTab(TabPlayer tabPlayer) {
         HeaderFooterManager hfm = tabAPI.getHeaderFooterManager();
         Player player = PlayerRegistry.getInstance().get(tabPlayer.getUniqueId());
@@ -102,6 +125,10 @@ public class TabManager {
     }
     
 
+    /**
+     * Detiene el gestor de TAB y libera todos los recursos.
+     * Limpia la instancia singleton.
+     */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("tab-manager-shutting-down"));
         if (footerRefreshTask != null) {
@@ -113,6 +140,11 @@ public class TabManager {
         }
     }
 
+    /**
+     * Obtiene la instancia única del gestor de TAB (patrón singleton).
+     *
+     * @return instancia única del gestor.
+     */
     public static TabManager getInstance() {
         if (instance == null) {
             instance = new TabManager();

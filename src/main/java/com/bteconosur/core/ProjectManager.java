@@ -46,12 +46,20 @@ import com.bteconosur.world.WorldManager;
 
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
+/**
+ * Gestor central del ciclo de vida de proyectos del servidor.
+ * Administra creación, solicitudes, membresías, redefiniciones, cambios de liderazgo
+ * y transiciones de estado, incluyendo notificaciones en Minecraft y Discord.
+ */
 public class ProjectManager {
 
     private static ProjectManager instance;
 
     private final YamlConfiguration config;
     
+    /**
+     * Inicializa el gestor de proyectos y carga la configuración principal.
+     */
     public ProjectManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
@@ -59,6 +67,12 @@ public class ProjectManager {
         ConsoleLogger.info(LanguageHandler.getText("project-manager-initializing"));
     }
 
+    /**
+     * Obtiene los miembros del proyecto resolviendo sus referencias desacopladas en el registro de jugadores.
+     *
+     * @param proyecto proyecto del cual se desean obtener los miembros.
+     * @return conjunto de miembros cargados desde el registro.
+     */
     public Set<Player> getMembers(Proyecto proyecto) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Set<Player> detachedMembers = proyecto.getMiembros();
@@ -72,6 +86,12 @@ public class ProjectManager {
         return members;
     }
 
+    /**
+     * Obtiene el líder del proyecto resolviendo su referencia desacoplada en el registro de jugadores.
+     *
+     * @param proyecto proyecto del cual se desea obtener el líder.
+     * @return líder cargado desde el registro, o {@code null} si no existe líder asignado.
+     */
     public Player getLider(Proyecto proyecto) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Player detachedLider = proyecto.getLider();
@@ -79,6 +99,12 @@ public class ProjectManager {
         return playerRegistry.get(detachedLider.getUuid());
     }
 
+    /**
+     * Obtiene los jugadores que tienen una solicitud de ingreso pendiente para un proyecto.
+     *
+     * @param proyecto proyecto a consultar.
+     * @return conjunto de jugadores solicitantes.
+     */
     public Set<Player> getJoinRequests(Proyecto proyecto) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         InteractionRegistry interactionRegistry = InteractionRegistry.getInstance();
@@ -93,6 +119,15 @@ public class ProjectManager {
         return requesters;
     }
 
+    /**
+     * Crea un proyecto administrativo activo sin pasar por el flujo de solicitud.
+     *
+     * @param nombre nombre del proyecto.
+     * @param descripcion descripción del proyecto.
+     * @param regionPolygon polígono que define la región del proyecto.
+     * @param player jugador que crea el proyecto.
+     * @param language idioma para mensajes al jugador.
+     */
     public void createAdminProject(String nombre, String descripcion, Polygon regionPolygon, Player player, Language language) {
         Double tamaño = regionPolygon.getArea();
         TipoProyecto tipoProyecto = TipoProyectoRegistry.getInstance().get(config.getLong("id-proyecto-admin", 1));
@@ -128,6 +163,15 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Crea un proyecto en estado de creación y envía su solicitud a revisión.
+     *
+     * @param nombre nombre del proyecto.
+     * @param descripcion descripción del proyecto.
+     * @param regionPolygon polígono que define la región del proyecto.
+     * @param player jugador que realiza la solicitud.
+     * @param language idioma para mensajes al jugador.
+     */
     public void createProject(String nombre, String descripcion, Polygon regionPolygon, Player player, Language language) {
         Interaction previousctx = InteractionRegistry.getInstance().findCreateRequest(player);
         if (previousctx != null) {
@@ -181,6 +225,14 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Acepta una solicitud de creación de proyecto y lo activa en el mundo.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param staff miembro del staff que acepta la solicitud.
+     * @param interactionId identificador de la interacción a cerrar.
+     * @param comentario comentario opcional para el líder.
+     */
     public void acceptCreateRequest(String proyectoId, Player staff, Long interactionId, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         proyecto.setEstado(Estado.ACTIVO);
@@ -216,6 +268,14 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Rechaza una solicitud de creación de proyecto y elimina el proyecto asociado.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param staff miembro del staff que rechaza la solicitud.
+     * @param interactionId identificador de la interacción a cerrar.
+     * @param comentario comentario opcional para el líder.
+     */
     public void cancelCreateRequest(String proyectoId, Player staff, Long interactionId , String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Pais pais = proyecto.getPais();
@@ -240,6 +300,12 @@ public class ProjectManager {
         deleteProject(proyecto, null);
     }
 
+    /**
+     * Procesa la expiración de una solicitud de creación de proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param interactionId identificador de la interacción expirada.
+     */
     public void expiredCreateRequest(String proyectoId, Long interactionId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Pais pais = proyecto.getPais();
@@ -259,6 +325,13 @@ public class ProjectManager {
         deleteProject(proyecto, null);
     }
 
+    /**
+     * Elimina un proyecto, su región y su imagen asociada.
+     * Si es realizado por un staff notifica a los miembros.
+     *
+     * @param proyecto proyecto a eliminar.
+     * @param commandId UUID del jugador que ejecutó la acción, o {@code null} si fue realizado por el sistema.
+     */
     public void deleteProject(Proyecto proyecto, UUID commandId) {
         Pais pais = proyecto.getPais();
         Player lider = getLider(proyecto);
@@ -284,6 +357,12 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Crea una solicitud de ingreso de un jugador a un proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param playerId UUID del jugador solicitante.
+     */
     public void createJoinRequest(String proyectoId, UUID playerId) {
         Interaction previousctx = InteractionRegistry.getInstance().findJoinRequest(proyectoId, playerId);
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
@@ -300,6 +379,12 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Cancela una solicitud de ingreso existente.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param playerId UUID del jugador solicitante.
+     */
     public void cancelJoinRequest(String proyectoId, UUID playerId) {
         InteractionRegistry interactionRegistry = InteractionRegistry.getInstance();
         Interaction interaction = interactionRegistry.findJoinRequest(proyectoId, playerId);
@@ -307,6 +392,12 @@ public class ProjectManager {
         interactionRegistry.unload(interaction.getId());    
     }
 
+    /**
+     * Procesa la expiración de una solicitud de ingreso.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param playerId UUID del jugador solicitante.
+     */
     public void expiredJoinRequest(String proyectoId, UUID playerId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Player player = PlayerRegistry.getInstance().get(playerId);
@@ -323,6 +414,14 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Acepta una solicitud de ingreso y agrega al jugador al proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param playerId UUID del jugador aceptado.
+     * @param interactionId identificador de la interacción de solicitud.
+     * @param commandId UUID del jugador que ejecuta la acción.
+     */
     public void acceptJoinRequest(String proyectoId, UUID playerId, Long interactionId, UUID commandId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         cancelJoinRequest(proyectoId, playerId);
@@ -339,6 +438,14 @@ public class ProjectManager {
         joinProject(proyectoId, playerId, commandId, false);
     }
 
+    /**
+     * Rechaza una solicitud de ingreso de un jugador.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param playerId UUID del jugador rechazado.
+     * @param interactionId identificador de la interacción de solicitud.
+     * @param commandId UUID del jugador que ejecuta la acción.
+     */
     public void rejectJoinRequest(String proyectoId, UUID playerId, Long interactionId, UUID commandId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         cancelJoinRequest(proyectoId, playerId);
@@ -354,6 +461,14 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Agrega un jugador al proyecto y notifica a sus miembros.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param playerId UUID del jugador a agregar.
+     * @param commandId UUID del jugador que ejecuta la acción.
+     * @param isAdded indica si fue agregado manualmente por staff.
+     */
     public void joinProject(String proyectoId, UUID playerId, UUID commandId, Boolean isAdded) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Player player = PlayerRegistry.getInstance().get(playerId);
@@ -383,6 +498,12 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Procesa la salida voluntaria de un jugador de un proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param playerId UUID del jugador que abandona.
+     */
     public void leaveProject(String proyectoId, UUID playerId) {
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
@@ -416,6 +537,13 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Expulsa a un jugador de un proyecto por acción de comando.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param playerId UUID del jugador removido.
+     * @param commanUuid UUID del jugador que ejecuta la acción.
+     */
     public void removeFromProject(String proyectoId, UUID playerId, UUID commanUuid) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
@@ -456,6 +584,12 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Crea una solicitud de finalización de proyecto para revisión.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param requesterId UUID del jugador solicitante.
+     */
     public void createFinishRequest(String proyectoId, UUID requesterId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         proyecto.setEstado(Estado.EN_FINALIZACION);
@@ -496,6 +630,12 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Cancela una solicitud de finalización y restablece el estado del proyecto.
+     *
+     * @param proyecto proyecto afectado.
+     * @param newEstado estado al que volverá el proyecto.
+     */
     public void cancelFinishRequest(Proyecto proyecto, Estado newEstado) {
         proyecto.setEstado(newEstado);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
@@ -504,6 +644,14 @@ public class ProjectManager {
         interactionRegistry.unload(interaction.getId());
     }
 
+    /**
+     * Acepta la finalización de un proyecto y opcionalmente promueve al líder.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param staff miembro del staff que acepta.
+     * @param comentario comentario opcional para los miembros.
+     * @param promote indica si debe promoverse al líder.
+     */
     public void acceptFinishRequest(String proyectoId, Player staff, String comentario, Boolean promote) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         proyecto.setFechaTerminado(Date.from(DateUtils.instantOffset()));
@@ -534,6 +682,13 @@ public class ProjectManager {
     
     }
 
+    /**
+     * Rechaza una solicitud de finalización y devuelve el proyecto a estado activo.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param staff miembro del staff que rechaza.
+     * @param comentario comentario opcional para los miembros.
+     */
     public void rejectFinishRequest(String proyectoId, Player staff, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         cancelFinishRequest(proyecto, Estado.ACTIVO);
@@ -552,6 +707,11 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Procesa la expiración de una solicitud de finalización de proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     */
     public void expiredFinishRequest(String proyectoId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         cancelFinishRequest(proyecto, Estado.ACTIVO);
@@ -566,6 +726,13 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Cambia el líder de un proyecto y notifica a los involucrados.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param newLiderId UUID del nuevo líder.
+     * @param commandId UUID del jugador que ejecuta la acción.
+     */
     public void switchLeader(String proyectoId, UUID newLiderId, UUID commandId) {
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
@@ -608,6 +775,16 @@ public class ProjectManager {
         PlayerLogger.info(newLider, newLiderNotification, ChatUtil.getDsLeaderSwitched(proyecto, newLider.getLanguage()));
     }
 
+    /**
+     * Crea una solicitud de redefinición de región para un proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param newPolygon nuevo polígono propuesto.
+     * @param commandUuid UUID del jugador que realiza la solicitud.
+     * @param tipoProyecto tipo de proyecto propuesto.
+     * @param division división propuesta para el proyecto.
+     * @return {@code true} si la solicitud se envía correctamente, o {@code false} en caso contrario.
+     */
     public boolean createRedefineRequest(String proyectoId, Polygon newPolygon, UUID commandUuid, TipoProyecto tipoProyecto, Division division) {
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         Proyecto proyecto = pr.get(proyectoId);
@@ -634,6 +811,12 @@ public class ProjectManager {
         return true;
     }
 
+    /**
+     * Cancela una solicitud de redefinición y restaura el estado indicado.
+     *
+     * @param proyecto proyecto afectado.
+     * @param newEstado estado al que volverá el proyecto.
+     */
     public void cancelRedefineRequest(Proyecto proyecto, Estado newEstado) {
         proyecto.setEstado(newEstado);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
@@ -643,6 +826,12 @@ public class ProjectManager {
         SatMapUtils.deleteRedefineImage(proyecto);
     }
 
+    /**
+     * Procesa la expiración de una solicitud de redefinición.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param interactionId identificador de la interacción expirada.
+     */
     public void expiredRedefineRequest(String proyectoId, Long interactionId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Interaction interaction = InteractionRegistry.getInstance().get(interactionId);
@@ -657,6 +846,14 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Acepta una solicitud de redefinición y aplica los nuevos datos del proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param staff miembro del staff que acepta.
+     * @param interactionId identificador de la interacción de redefinición.
+     * @param comentario comentario opcional para los miembros.
+     */
     public void acceptRedefineRequest(String proyectoId, Player staff, Long interactionId, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         InteractionRegistry ir = InteractionRegistry.getInstance();
@@ -691,6 +888,14 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Rechaza una solicitud de redefinición y restaura el estado previo del proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param staff miembro del staff que rechaza.
+     * @param interactionId identificador de la interacción de redefinición.
+     * @param comentario comentario opcional para los miembros.
+     */
     public void rejectRedefineRequest(String proyectoId, Player staff, Long interactionId, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         InteractionRegistry ir = InteractionRegistry.getInstance();
@@ -714,6 +919,12 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Activa el modo de edición de un proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param comanUuid UUID del jugador que ejecuta la acción.
+     */
     public void activateEdit(String proyectoId, UUID comanUuid) {
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         Proyecto proyecto = pr.get(proyectoId);
@@ -733,6 +944,12 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Crea una solicitud de finalización de edición para revisión.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param commandUuid UUID del jugador que realiza la solicitud.
+     */
     public void createFinishEditRequest(String proyectoId, UUID commandUuid) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Player commandPlayer = PlayerRegistry.getInstance().get(commandUuid);
@@ -772,6 +989,12 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Cancela una solicitud de finalización de edición y restablece el estado del proyecto.
+     *
+     * @param proyecto proyecto afectado.
+     * @param newEstado estado al que volverá el proyecto.
+     */
     public void cancelFinishEditRequest(Proyecto proyecto, Estado newEstado) {
         proyecto.setEstado(newEstado);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
@@ -780,6 +1003,11 @@ public class ProjectManager {
         interactionRegistry.unload(interaction.getId());
     }
 
+    /**
+     * Procesa la expiración de una solicitud de finalización de edición.
+     *
+     * @param proyectoId identificador del proyecto.
+     */
     public void expiredFinishEditRequest(String proyectoId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         cancelFinishEditRequest(proyecto, Estado.EDITANDO);
@@ -794,6 +1022,13 @@ public class ProjectManager {
         DiscordLogger.countryLog(countryLog, pais);
     }
 
+    /**
+     * Acepta la finalización de edición de un proyecto.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param staff miembro del staff que acepta.
+     * @param comentario comentario opcional para los miembros.
+     */
     public void acceptEditRequest(String proyectoId, Player staff, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         cancelFinishEditRequest(proyecto, Estado.COMPLETADO);
@@ -813,6 +1048,13 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Rechaza la finalización de edición y devuelve el proyecto al estado de edición.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param staff miembro del staff que rechaza.
+     * @param comentario comentario opcional para los miembros.
+     */
     public void rejectedEditRequest(String proyectoId, Player staff, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         cancelFinishEditRequest(proyecto, Estado.EDITANDO);
@@ -830,6 +1072,12 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Permite reclamar un proyecto abandonado, asignando un nuevo líder.
+     *
+     * @param proyectoId identificador del proyecto.
+     * @param playerId UUID del jugador que reclama el proyecto.
+     */
     public void claim(String proyectoId, UUID playerId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         Player player = PlayerRegistry.getInstance().get(playerId);
@@ -841,6 +1089,9 @@ public class ProjectManager {
         DiscordLogger.countryLog(LanguageHandler.replaceMC("project.claim.log", Language.getDefault(), player, proyecto), pais);
     }
     
+    /**
+     * Finaliza el gestor de proyectos y limpia su instancia singleton.
+     */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("project-manager-shutting-down"));
         if (instance != null) {
@@ -848,6 +1099,12 @@ public class ProjectManager {
         }
     }
 
+    /**
+     * Obtiene la instancia singleton de {@code ProjectManager}.
+     * Si no existe, crea una nueva instancia.
+     *
+     * @return instancia única de {@code ProjectManager}.
+     */
     public static ProjectManager getInstance() {
         if (instance == null) {
             instance = new ProjectManager();

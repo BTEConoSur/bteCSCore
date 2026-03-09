@@ -29,6 +29,10 @@ import com.bteconosur.discord.action.RejectRedefineProjectAction;
 import com.bteconosur.discord.action.SelectAction;
 import com.bteconosur.discord.util.MessageService;
 
+/**
+ * Registro de interacciones activas de Discord y flujo interno.
+ * Gestiona su ciclo de vida, acciones asociadas y expiraciones.
+ */
 public class InteractionRegistry extends Registry<Long, Interaction> {
 
     private static InteractionRegistry instance;
@@ -37,6 +41,10 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
     private final Map<InteractionKey, ButtonAction> buttonActions = new HashMap<>();
     private final Map<InteractionKey, SelectAction> selectActions = new HashMap<>();
 
+    /**
+     * Inicializa el registro de interacciones, carga datos persistidos,
+     * registra acciones y programa la purga periódica.
+     */
     public InteractionRegistry() {
         super();
         ConsoleLogger.info(LanguageHandler.getText("interaction-registry-initializing"));
@@ -68,6 +76,11 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         }
     }
 
+    /**
+     * Carga una interacción en base de datos y memoria.
+     *
+     * @param obj interacción a cargar.
+     */
     @Override
     public void load(Interaction obj) {
         if (obj == null) return;
@@ -75,6 +88,9 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         loadedObjects.put(obj.getId(), obj);
     }
 
+    /**
+     * Cierra el registro y libera su cache en memoria.
+     */
     @Override
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("interaction-registry-shutting-down"));
@@ -82,6 +98,9 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         loadedObjects = null;
     }
 
+    /**
+     * Purga interacciones vencidas y ejecuta acciones de expiración según el tipo.
+     */
     public void purgeExpired() {
         ProjectManager pm = ProjectManager.getInstance();
         ConsoleLogger.debug("Purgando interacciones.");
@@ -103,6 +122,11 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         });
     }
     
+    /**
+     * Descarga una interacción, limpia referencias externas y la elimina de persistencia.
+     *
+     * @param id identificador de interacción.
+     */
     @Override
     public void unload(Long id) {
         if (id == null) return;
@@ -134,6 +158,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         dbManager.remove(interaction);
     }
 
+    /**
+     * Busca la solicitud de creación asociada a un proyecto.
+     *
+     * @param project proyecto a buscar.
+     * @return interacción encontrada, o {@code null}.
+     */
     public Interaction findCreateRequest(Proyecto project) {
         if (project == null) return null;
         return findByInteractionKey(InteractionKey.CREATE_PROJECT)
@@ -143,6 +173,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);
     }
 
+    /**
+     * Busca la solicitud de creación asociada a un jugador.
+     *
+     * @param player jugador a buscar.
+     * @return interacción encontrada, o {@code null}.
+     */
     public Interaction findCreateRequest(Player player) {
         if (player == null) return null;
         return findByInteractionKey(InteractionKey.CREATE_PROJECT)
@@ -152,6 +188,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);
     }
 
+    /**
+     * Obtiene todas las interacciones de una clave determinada.
+     *
+     * @param key clave de interacción.
+     * @return lista de interacciones coincidentes.
+     */
     public List<Interaction> findByInteractionKey(InteractionKey key) {
         if (key == null) return null;
         List<Interaction> results = new ArrayList<>();
@@ -161,6 +203,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         return results;
     }
 
+    /**
+     * Obtiene todas las solicitudes de ingreso de un proyecto.
+     *
+     * @param proyectoId id del proyecto.
+     * @return lista de solicitudes, o {@code null} si el id es nulo.
+     */
     public List<Interaction> findJoinRequest(String proyectoId) {
         if (proyectoId == null) return null;
         List<Interaction> results = findByInteractionKey(InteractionKey.JOIN_PROJECT)
@@ -170,6 +218,13 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         return results;
     }
 
+    /**
+     * Busca una solicitud de ingreso específica por proyecto y jugador.
+     *
+     * @param proyectoId id del proyecto.
+     * @param playerId uuid del jugador.
+     * @return interacción encontrada, o {@code null}.
+     */
     public Interaction findJoinRequest(String proyectoId, UUID playerId) {
         if (proyectoId == null || playerId == null) return null;
         return findByInteractionKey(InteractionKey.JOIN_PROJECT)
@@ -179,6 +234,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);
     }
 
+    /**
+     * Cuenta la cantidad de solicitudes de ingreso para un proyecto.
+     *
+     * @param proyectoId id del proyecto.
+     * @return cantidad de solicitudes.
+     */
     public int countJoinRequests(String proyectoId) {
         if (proyectoId == null) return 0;
         return (int) findByInteractionKey(InteractionKey.JOIN_PROJECT)
@@ -187,6 +248,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .count();
     }
 
+    /**
+     * Busca la solicitud de finalización de un proyecto.
+     *
+     * @param proyectoId id del proyecto.
+     * @return interacción encontrada, o {@code null}.
+     */
     public Interaction findFinishRequest(String proyectoId) {
         if (proyectoId == null) return null;
         return findByInteractionKey(InteractionKey.FINISH_PROJECT)
@@ -196,6 +263,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);
     }
 
+    /**
+     * Busca la solicitud de redefinición de un proyecto.
+     *
+     * @param proyectoId id del proyecto.
+     * @return interacción encontrada, o {@code null}.
+     */
     public Interaction findRedefineRequest(String proyectoId) {
         if (proyectoId == null) return null;
         return findByInteractionKey(InteractionKey.REDEFINE_PROJECT)
@@ -205,6 +278,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);  
     }
 
+    /**
+     * Busca la solicitud de finalización de edición de un proyecto.
+     *
+     * @param proyectoId id del proyecto.
+     * @return interacción encontrada, o {@code null}.
+     */
     public Interaction findFinishEditRequest(String proyectoId) {
         if (proyectoId == null) return null;
         return findByInteractionKey(InteractionKey.FINISH_EDIT_PROJECT)
@@ -214,6 +293,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
             .orElse(null);
     }
 
+    /**
+     * Busca una interacción por id de componente.
+     *
+     * @param componentId id del componente.
+     * @return interacción encontrada, o {@code null}.
+     */
     public Interaction findByComponentId(String componentId) {
         if (componentId == null) return null;
         for (Interaction interaction : loadedObjects.values()) {
@@ -222,6 +307,12 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         return null;
     }
 
+    /**
+     * Busca una interacción por id de mensaje.
+     *
+     * @param messageId id del mensaje.
+     * @return interacción encontrada, o {@code null}.
+     */
     public Interaction findByMessageId(Long messageId) {
         if (messageId == null) return null;
         for (Interaction interaction : loadedObjects.values()) {
@@ -230,30 +321,71 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         return null;
     }
 
+    /**
+     * Registra una acción de modal para una clave de interacción.
+     *
+     * @param key clave de interacción.
+     * @param action acción de modal.
+     */
     public void registerModalAction(InteractionKey key, ModalAction action) {
         modalActions.put(key, action);
     }
 
+    /**
+     * Registra una acción de botón para una clave de interacción.
+     *
+     * @param key clave de interacción.
+     * @param action acción de botón.
+     */
     public void registerButtonAction(InteractionKey key, ButtonAction action) {
         buttonActions.put(key, action);
     }
 
+    /**
+     * Registra una acción de selector para una clave de interacción.
+     *
+     * @param key clave de interacción.
+     * @param action acción de selector.
+     */
     public void registerSelectAction(InteractionKey key, SelectAction action) {
         selectActions.put(key, action);
     }
 
+    /**
+     * Obtiene la acción de modal para una clave.
+     *
+     * @param key clave de interacción.
+     * @return acción asociada, o {@code null}.
+     */
     public ModalAction getModalAction(InteractionKey key) {
         return modalActions.get(key);
     }
 
+    /**
+     * Obtiene la acción de botón para una clave.
+     *
+     * @param key clave de interacción.
+     * @return acción asociada, o {@code null}.
+     */
     public ButtonAction getButtonAction(InteractionKey key) {
         return buttonActions.get(key);
     }
 
+    /**
+     * Obtiene la acción de selector para una clave.
+     *
+     * @param key clave de interacción.
+     * @return acción asociada, o {@code null}.
+     */
     public SelectAction getSelectAction(InteractionKey key) {
         return selectActions.get(key);
     }
 
+    /**
+     * Obtiene la instancia singleton de {@code InteractionRegistry}.
+     *
+     * @return instancia única del registro.
+     */
     public static InteractionRegistry getInstance() {
         if (instance == null) {
             instance = new InteractionRegistry();

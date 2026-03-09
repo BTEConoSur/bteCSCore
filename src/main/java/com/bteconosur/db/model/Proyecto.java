@@ -34,6 +34,9 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "proyecto")
+/**
+ * Entidad que representa un proyecto de construcción.
+ */
 public class Proyecto {
 
     @Id
@@ -186,15 +189,30 @@ public class Proyecto {
         this.division = division;
     }
 
+    /**
+     * Obtiene el país del proyecto a partir de su división.
+     *
+     * @return país asociado, o {@code null} si no hay división.
+     */
     public Pais getPais() {
         if (division == null) return null;
         return division.getPais();
     }
 
+    /**
+     * Agrega un miembro al proyecto.
+     *
+     * @param player jugador a agregar.
+     */
     public void addMiembro(Player player) {
         this.miembros.add(player);
     }
 
+    /**
+     * Quita un miembro del proyecto.
+     *
+     * @param player jugador a remover.
+     */
     public void removeMiembro(Player player) {
         this.miembros.remove(player);
     }
@@ -203,6 +221,9 @@ public class Proyecto {
         return tamaño;
     }
 
+    /**
+     * Recalcula y actualiza el tamaño del proyecto según su polígono actual.
+     */
     public void updateTamaño() {
         this.tamaño = poligono.getArea();
     }
@@ -223,19 +244,33 @@ public class Proyecto {
         this.fechaTerminado = fechaTerminado;
     }
 
+    /**
+     * Obtiene el centroide geométrico del proyecto.
+     *
+     * @return punto centroide, o {@code null} si el polígono no existe.
+     */
     public Point getCentroide() {
         if (poligono == null) return null;
         return poligono.getCentroid();
     }
 
+    /**
+     * Verifica si la cantidad actual de miembros respeta el máximo permitido por el tipo de proyecto.
+     *
+     * @return {@code true} si el número de miembros está dentro del límite.
+     */
     public boolean checkMaxMiembros() {
         return miembros.size() <= tipoProyecto.getMaxMiembros();
     }
 
+    /**
+     * Obtiene la cantidad actual de miembros del proyecto.
+     *
+     * @return cantidad de miembros.
+     */
     public int getCantMiembros() {
         return miembros.size();
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -251,6 +286,9 @@ public class Proyecto {
         return Objects.hash(id);
     }
 
+    /**
+     * Inicializa los campos transitorios de geometría al cargar la entidad desde base de datos.
+     */
     @PostLoad
     private void initTransientFields() {
         if (poligono != null) {

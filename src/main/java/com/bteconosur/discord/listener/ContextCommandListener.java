@@ -12,8 +12,19 @@ import net.dv8tion.jda.api.events.interaction.command.MessageContextInteractionE
 import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * Listener para eventos de comandos de contexto en Discord.
+ * Maneja tanto comandos de contexto de mensajes como de usuarios,
+ * ejecutando la lógica correspondiente según el tipo de comando.
+ */
 public class ContextCommandListener extends ListenerAdapter {
 
+    /**
+     * Maneja eventos de comandos de contexto de mensajes.
+     * Se activa cuando un usuario hace clic derecho en un mensaje y selecciona un comando.
+     * 
+     * @param event Evento de interacción del comando de contexto de mensaje
+     */
     @SuppressWarnings("null")
     @Override
     public void onMessageContextInteraction(@Nonnull MessageContextInteractionEvent event) {
@@ -30,6 +41,12 @@ public class ContextCommandListener extends ListenerAdapter {
         event.reply(LanguageHandler.getText("ds-internal-error")).setEphemeral(true).queue();
     }
 
+    /**
+     * Maneja eventos de comandos de contexto de usuarios.
+     * Se activa cuando un usuario hace clic derecho en otro usuario y selecciona un comando.
+     * 
+     * @param event Evento de interacción del comando de contexto de usuario
+     */
     @SuppressWarnings("null")
     @Override
     public void onUserContextInteraction(@Nonnull UserContextInteractionEvent event) {

@@ -31,6 +31,11 @@ import dev.triumphteam.gui.guis.GuiItem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 
+/**
+ * Utilidad centralizada para construcción de items de interfaz gráfica (GUI) del servidor.
+ * Proporciona factory methods para obtener items preconstruidos de menús como botones,
+ * iconos de acción y elementos decorativos, todos localizados.
+ */
 public class MenuUtils {
 
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
@@ -691,6 +696,15 @@ public class MenuUtils {
         );
     }
 
+    /**
+     * Crea y abre una interfaz de cartel para el jugador con las líneas configuradas
+     * en el idioma indicado.
+     *
+     * @param player jugador al que se le abrirá la interfaz de cartel.
+     * @param handler manejador que procesa el resultado cuando el jugador confirma el texto.
+     * @param language idioma utilizado para obtener las líneas iniciales del cartel.
+     * @return {@code true} si la interfaz se crea y se abre correctamente, o {@code false} si ocurre un error.
+     */
     public static boolean createSignGUI(org.bukkit.entity.Player player, SignGUIFinishHandler handler, Language language) {
         SignGUI gui;
         try {

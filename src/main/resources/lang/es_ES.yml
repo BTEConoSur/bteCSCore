@@ -854,6 +854,7 @@ notepad:
   set: "<green>El bloc de notas de <yellow>%player.nombre% <green>ha sido abierto."
   switched: "<aqua>Has abierto el bloc de notas."
 nickname:
+  invalid-regex: "El nombre público no puede contener texto entre '<>'."
   change: "<green>Tu nombre público ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
   set: "<green>El nombre público de <yellow>'%player.nombre%'</yellow> ha sido cambiado a <yellow>'%nickname%'</yellow>." # %nickname% -> Nuevo nombre público.
 country-prefix:

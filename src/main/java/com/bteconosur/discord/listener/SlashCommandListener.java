@@ -11,8 +11,18 @@ import com.bteconosur.discord.command.DsSubcommand;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * Listener para eventos de comandos slash en Discord.
+ * Detecta y ejecuta comandos slash y subcomandos registrados en el bot.
+ */
 public class SlashCommandListener extends ListenerAdapter {
 
+    /**
+     * Maneja eventos de comandos slash.
+     * Identifica el comando y subcomando (si existe) y ejecuta la lógica correspondiente.
+     * 
+     * @param event Evento de interacción del comando slash
+     */
     @SuppressWarnings("null")
     @Override
     public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {

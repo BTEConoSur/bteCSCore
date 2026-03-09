@@ -1,5 +1,8 @@
 package com.bteconosur.db.util;
 
+/**
+ * Claves de interacción utilizadas para identificar flujos y acciones.
+ */
 public enum InteractionKey {
     HELP_COMMAND,
     JOIN_PROJECT,

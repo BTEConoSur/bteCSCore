@@ -14,6 +14,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tipo_proyecto")
+/**
+ * Entidad que representa una categoría de proyecto con límites de tamaño y miembros.
+ */
 public class TipoProyecto {
 
     @Id

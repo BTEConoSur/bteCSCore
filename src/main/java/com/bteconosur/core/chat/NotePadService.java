@@ -11,8 +11,19 @@ import com.bteconosur.db.util.PlaceholderUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
+/**
+ * Servicio de bloc de notas personal.
+ * Permite a los jugadores escribir mensajes que solo ellos mismos pueden ver,
+ * útil para tomar notas sin enviar mensajes al chat público.
+ */
 public class NotePadService {
 
+    /**
+     * Envía un mensaje al propio jugador cuando escribe en modo bloc de notas.
+     *
+     * @param player jugador que recibe el mensaje.
+     * @param message contenido del mensaje.
+     */
     public static void sendChat(Player player, String message) {
         List<String> processedHover = new ArrayList<>();
         for (String line : LanguageHandler.getTextList(player.getLanguage(), "player-hover-chat")) {

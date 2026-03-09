@@ -31,6 +31,11 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
+/**
+ * Gestor principal del sistema de mundos, regiones y permisos de construcción.
+ * Administra la integración con WorldGuard para el control de regiones de proyectos.
+ * Implementa el patrón Singleton.
+ */
 public class WorldManager {
 
     private static WorldManager instance;
@@ -43,6 +48,10 @@ public class WorldManager {
 
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    /**
+     * Constructor del WorldManager.
+     * Inicializa el contenedor de WorldGuard, carga los items prohibidos y crea el BTEWorld.
+     */
     public WorldManager() {
 
         ConsoleLogger.info(LanguageHandler.getText("world-module-initializing"));
@@ -72,6 +81,12 @@ public class WorldManager {
         bteWorld = new BTEWorld();
     }
 
+    /**
+     * Obtiene el gestor de regiones de WorldGuard correspondiente al mundo del proyecto.
+     * 
+     * @param proyecto Proyecto del cual obtener el gestor de regiones
+     * @return RegionManager del mundo correspondiente, o null si el proyecto no tiene polígono o no se encuentra el mundo
+     */
     private RegionManager getRegionManager(Proyecto proyecto) {
         Polygon polygon = proyecto.getPoligono();
         if (polygon == null) {
@@ -87,6 +102,12 @@ public class WorldManager {
         return labelWorld.getRegionManager();
     }
 
+    /**
+     * Obtiene la región protegida de WorldGuard asociada a un proyecto.
+     * 
+     * @param proyecto Proyecto del cual obtener la región
+     * @return ProtectedRegion del proyecto, o null si no existe
+     */
     private ProtectedRegion getRegion(Proyecto proyecto) {
         RegionManager regionManager = getRegionManager(proyecto);
         if (regionManager == null) return null;
@@ -98,6 +119,11 @@ public class WorldManager {
         return region;
     }
 
+    /**
+     * Crea una región de WorldGuard para un proyecto, añadiendo automáticamente al líder como miembro.
+     * 
+     * @param proyecto Proyecto para el cual crear la región
+     */
     public void createRegion(Proyecto proyecto) {
         RegionManager regionContainer = getRegionManager(proyecto);
         ProtectedPolygonalRegion region = RegionUtils.toProtectedRegion(proyecto.getPoligono(), config.getString("wg-proyecto-prefix") + proyecto.getId());
@@ -117,6 +143,12 @@ public class WorldManager {
         regionContainer.addRegion(region);
     }
 
+    /**
+     * Crea una región de WorldGuard para un proyecto con un dominio de miembros específico.
+     * 
+     * @param proyecto Proyecto para el cual crear la región
+     * @param members Dominio de miembros que tendrán permisos en la región
+     */
     public void createRegion(Proyecto proyecto, DefaultDomain members) {
         RegionManager regionContainer = getRegionManager(proyecto);
         ProtectedPolygonalRegion region = RegionUtils.toProtectedRegion(proyecto.getPoligono(), config.getString("wg-proyecto-prefix") + proyecto.getId());
@@ -130,11 +162,22 @@ public class WorldManager {
         regionContainer.addRegion(region);
     }
 
+    /**
+     * Elimina la región de WorldGuard asociada a un proyecto.
+     * 
+     * @param proyecto Proyecto cuya región se eliminará
+     */
     public void removeRegion(Proyecto proyecto) {
         RegionManager regionContainer = getRegionManager(proyecto);
         regionContainer.removeRegion(config.getString("wg-proyecto-prefix") + proyecto.getId());
     }
 
+    /**
+     * Añade un jugador a los miembros de la región de un proyecto.
+     * 
+     * @param proyecto Proyecto al cual añadir el jugador
+     * @param playerUuid UUID del jugador a añadir
+     */
     public void addPlayer(Proyecto proyecto, UUID playerUuid) {
         RegionManager regionContainer = getRegionManager(proyecto);
         ProtectedRegion region = getRegion(proyecto);
@@ -145,6 +188,11 @@ public class WorldManager {
         regionContainer.addRegion(region);
     }
 
+    /**
+     * Añade todos los miembros y el líder de un proyecto a la región de WorldGuard.
+     * 
+     * @param proyecto Proyecto cuyos miembros se añadirán
+     */
     public void addPlayers(Proyecto proyecto) {
         RegionManager regionContainer = getRegionManager(proyecto);
         ProtectedRegion region = getRegion(proyecto);
@@ -161,6 +209,11 @@ public class WorldManager {
         regionContainer.addRegion(region);
     }
 
+    /**
+     * Remueve todos los miembros y el líder de un proyecto de la región de WorldGuard.
+     * 
+     * @param proyecto Proyecto cuyos miembros se removerán
+     */
     public void removePlayers(Proyecto proyecto) {
         RegionManager regionContainer = getRegionManager(proyecto);
         ProtectedRegion region = getRegion(proyecto);
@@ -177,6 +230,12 @@ public class WorldManager {
         regionContainer.addRegion(region);
     }
 
+    /**
+     * Remueve un jugador específico de los miembros de la región de un proyecto.
+     * 
+     * @param proyecto Proyecto del cual remover el jugador
+     * @param playerUuid UUID del jugador a remover
+     */
     public void removePlayer(Proyecto proyecto, UUID playerUuid) {
         if (proyecto == null) return;
         RegionManager regionContainer = getRegionManager(proyecto);
@@ -188,18 +247,36 @@ public class WorldManager {
         regionContainer.addRegion(region);
     }
 
+    /**
+     * Actualiza la región de un proyecto, preservando los miembros actuales.
+     * Se utiliza cuando cambia la forma o ubicación del proyecto.
+     * 
+     * @param proyecto Proyecto cuya región se actualizará
+     */
     public void updateRegion(Proyecto proyecto) {
         DefaultDomain members = getRegion(proyecto).getMembers();
         removeRegion(proyecto);
         createRegion(proyecto, members);
     }
 
+    /**
+     * Verifica si un jugador es miembro de la región de un proyecto.
+     * 
+     * @param proyecto Proyecto a verificar
+     * @param playerUuid UUID del jugador
+     * @return true si el jugador es miembro de la región, false en caso contrario
+     */
     public boolean hasPlayerInRegion(Proyecto proyecto, UUID playerUuid) {
         ProtectedRegion region = getRegion(proyecto);
         if (region == null) return false;
         return region.getMembers().contains(playerUuid);
     }
 
+    /**
+     * Sincroniza todas las regiones de proyectos con la base de datos.
+     * Crea regiones faltantes, actualiza formas desactualizadas y ajusta miembros según el estado del proyecto.
+     * Los revisores con toggle activo se mantienen incluso en proyectos no activos.
+     */
     public void syncRegions() {
         for (Proyecto proyecto : ProyectoRegistry.getInstance().getList()) {
             ProtectedPolygonalRegion region = (ProtectedPolygonalRegion) getRegion(proyecto);
@@ -297,12 +374,24 @@ public class WorldManager {
         }
     }
 
+    /**
+     * Verifica el movimiento de un jugador para gestionar el cambio de capas.
+     * 
+     * @param lTo Ubicación de destino
+     * @param player Jugador que se mueve
+     */
     public void checkMove(Location lTo, org.bukkit.entity.Player player) {
         if (bteWorld == null || !bteWorld.isValid()) return;
         if (lTo.getWorld().getName().equalsIgnoreCase(config.getString("lobby.world"))) return;
         bteWorld.checkLayerMove(lTo, player);
     }
 
+    /**
+     * Verifica el movimiento de un jugador para mostrar títulos de proyecto y división.
+     * 
+     * @param lTo Ubicación de destino
+     * @param player Jugador que se mueve
+     */
     public void checkTitles(Location lTo, org.bukkit.entity.Player player) {
         if (bteWorld == null || !bteWorld.isValid()) return;
         if (lTo.getWorld().getName().equalsIgnoreCase(config.getString("lobby.world"))) return;
@@ -310,29 +399,60 @@ public class WorldManager {
         bteWorld.checkDivisionMove(lTo, player);
     }
 
+    /**
+     * Verifica si un jugador puede moverse de una ubicación a otra sin salir de los límites de los países.
+     * 
+     * @param lFrom Ubicación de origen
+     * @param lTo Ubicación de destino
+     * @param player Jugador que se mueve
+     * @return true si el movimiento es válido, false si está intentando salir de los límites
+     */
     public boolean checkPaisMove(Location lFrom, Location lTo, org.bukkit.entity.Player player) {
         if (config.getBoolean("tp-outside-country")) return true;
         if (lTo.getWorld().getName().equalsIgnoreCase(config.getString("lobby.world"))) return true;
         return bteWorld.checkPaisMove(lFrom, lTo, player);
     }
 
+    /**
+     * Obtiene la instancia del mundo BTE.
+     * 
+     * @return Instancia de BTEWorld
+     */
     public BTEWorld getBTEWorld() {
         return this.bteWorld;
     }
 
+    /**
+     * Obtiene el contenedor de regiones de WorldGuard.
+     * 
+     * @return RegionContainer de WorldGuard
+     */
     public RegionContainer getWorldGuardContainer() {
         return this.worldGuardContainer;
     }
 
+    /**
+     * Obtiene el conjunto de items prohibidos en el servidor.
+     * 
+     * @return Conjunto de materiales prohibidos
+     */
     public Set<Material> getBannedItems() {
         return this.bannedItems;
     }
 
+    /**
+     * Apaga el gestor de mundos, cancelando todas las tareas programadas.
+     */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("world-module-shutting-down"));
         bteWorld.shutdown();
     }
 
+    /**
+     * Obtiene la instancia singleton del WorldManager.
+     * 
+     * @return Instancia única de WorldManager
+     */
     public static WorldManager getInstance() {
         if (instance == null) {
             instance = new WorldManager();

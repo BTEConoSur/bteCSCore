@@ -20,6 +20,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "rango_usuario")
+/**
+ * Entidad que representa un rango jerárquico de usuario.
+ */
 public class RangoUsuario {
 
     @Id

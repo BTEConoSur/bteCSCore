@@ -23,6 +23,9 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "pais")
+/**
+ * Entidad que representa un país dentro del servidor.
+ */
 public class Pais {
 
     @Id
@@ -184,26 +187,56 @@ public class Pais {
         this.jugadoresPrefix = jugadoresPrefix;
     }
 
+    /**
+     * Agrega un jugador al conjunto de managers del país.
+     *
+     * @param player jugador a agregar.
+     */
     public void addPlayerManager(Player player) {
         this.managers.add(player);
     }
 
+    /**
+     * Quita un jugador del conjunto de managers del país.
+     *
+     * @param player jugador a remover.
+     */
     public void removePlayerManager(Player player) {
         this.managers.remove(player);
     }
 
+    /**
+     * Agrega un jugador al conjunto de reviewers del país.
+     *
+     * @param player jugador a agregar.
+     */
     public void addPlayerReviewer(Player player) {
         this.reviewers.add(player);
     }
 
+    /**
+     * Quita un jugador del conjunto de reviewers del país.
+     *
+     * @param player jugador a remover.
+     */
     public void removePlayerReviewer(Player player) {
         this.reviewers.remove(player);
     }
 
+    /**
+     * Agrega una división al país.
+     *
+     * @param division división a agregar.
+     */
     public void addDivision(Division division) {
         this.divisiones.add(division);
     }
 
+    /**
+     * Quita una división del país.
+     *
+     * @param division división a remover.
+     */
     public void removeDivision(Division division) {
         this.divisiones.remove(division);
     }

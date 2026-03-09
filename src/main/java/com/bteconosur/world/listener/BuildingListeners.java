@@ -17,9 +17,18 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.world.WorldManager;
 
-
+/**
+ * Listener que controla el uso de items prohibidos durante la construcción.
+ * Los administradores están exentos de estas restricciones.
+ */
 public class BuildingListeners implements Listener {
 
+    /**
+     * Previene el uso de items prohibidos por jugadores no administradores.
+     * Los items prohibidos se configuran en la lista 'banned-items' del archivo de configuración.
+     * 
+     * @param event Evento de interacción del jugador
+     */
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getHand() != EquipmentSlot.HAND) return;

@@ -21,10 +21,21 @@ import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * Listener para eventos de mensajes de chat en Discord.
+ * Sincroniza mensajes entre los canales de Discord y Minecraft,
+ * soportando tanto chat global como chat por país.
+ */
 public class ChatListener extends ListenerAdapter {
 
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    /**
+     * Maneja eventos de mensajes recibidos en Discord.
+     * Detecta si el mensaje es de chat global o de país y lo sincroniza con Minecraft.
+     * 
+     * @param event Evento de mensaje recibido
+     */
     @Override 
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
