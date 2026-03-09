@@ -1,5 +1,6 @@
 package com.bteconosur.core.listener;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -29,6 +30,10 @@ import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
+
+import net.kyori.adventure.resource.ResourcePackInfo;
+import net.kyori.adventure.resource.ResourcePackRequest;
+import net.kyori.adventure.text.Component;
 
 public class PlayerJoinListener implements Listener {
 
@@ -102,7 +107,18 @@ public class PlayerJoinListener implements Listener {
         org.bukkit.entity.Player bukkitPlayer = event.getPlayer();
         Player player;
         Language language = LanguageHandler.checkDefaultLang(event.getPlayer());
-        bukkitPlayer.setResourcePack(secret.getString("rp-url"), secret.getString("rp-sha1"), config.getBoolean("rp-required"));
+        UUID packUuid = UUID.fromString(secret.getString("rp-id"));
+        ResourcePackInfo pack = ResourcePackInfo.resourcePackInfo()
+            .uri(URI.create(secret.getString("rp-url")))
+            .hash(secret.getString("rp-sha1"))
+            .id(packUuid)
+            .build();
+        ResourcePackRequest request = ResourcePackRequest.resourcePackRequest()
+            .packs(pack)
+            .required(config.getBoolean("rp-required"))
+            .prompt(Component.text("Este servidor requiere un resource pack"))
+            .build();
+        bukkitPlayer.sendResourcePacks(request);
         if (!playerRegistry.exists(event.getPlayer().getUniqueId())) {
             player = new Player(
                 event.getPlayer().getUniqueId(),

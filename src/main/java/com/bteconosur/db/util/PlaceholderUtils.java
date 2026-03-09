@@ -212,13 +212,31 @@ public class PlaceholderUtils {
                         value = p.getRangoUsuario() != null ? p.getRangoUsuario().getNombre() : "RANGO_USUARIO_NULL";
                         break;
                     case "rangoUsuarioPrefijo":
-                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.rango-mc.";
-                        else path = "placeholder.rango-ds.";
-                        value = p.getRangoUsuario() != null ? LanguageHandler.getText(language, path + p.getRangoUsuario().getNombre().toLowerCase()) : "ERROR_RANGO_USUARIO_NULL";
+                        if (context == PlaceholderContext.MINECRAFT) value = LanguageHandler.replaceMC("placeholder.rango-mc.format", language, p.getRangoUsuario());
+                        else value = LanguageHandler.replaceDS("placeholder.rango-ds.format", language, p.getRangoUsuario());
                         break;
                     case "tipoUsuarioPrefijo":
-                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipo-mc.";
-                        else path = "placeholder.tipo-ds.";
+                        if (context == PlaceholderContext.MINECRAFT) value = LanguageHandler.replaceMC("placeholder.tipo-mc.format", language, p.getTipoUsuario());
+                        else value = LanguageHandler.replaceDS("placeholder.tipo-ds.format", language, p.getTipoUsuario());
+                        break;
+                    case "rangoUsuarioBadge":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.rango-mc.badge.";
+                        else path = "placeholder.rango-ds.badge.";
+                        value = p.getRangoUsuario() != null ? LanguageHandler.getText(language, path + p.getRangoUsuario().getNombre().toLowerCase()) : "ERROR_RANGO_USUARIO_NULL";
+                        break;
+                    case "tipoUsuarioBadge":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipo-mc.badge.";
+                        else path = "placeholder.tipo-ds.badge.";
+                        value = p.getTipoUsuario() != null ? LanguageHandler.getText(language, path + p.getTipoUsuario().getNombre().toLowerCase()) : "ERROR_TIPO_USUARIO_NULL";
+                        break;
+                    case "rangoUsuarioLabel":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.rango-mc.label.";
+                        else path = "placeholder.rango-ds.label.";
+                        value = p.getRangoUsuario() != null ? LanguageHandler.getText(language, path + p.getRangoUsuario().getNombre().toLowerCase()) : "ERROR_RANGO_USUARIO_NULL";
+                        break;
+                    case "tipoUsuarioLabel":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipo-mc.label.";
+                        else path = "placeholder.tipo-ds.label.";
                         value = p.getTipoUsuario() != null ? LanguageHandler.getText(language, path + p.getTipoUsuario().getNombre().toLowerCase()) : "ERROR_TIPO_USUARIO_NULL";
                         break;
                     case "prefix":
@@ -559,10 +577,19 @@ public class PlaceholderUtils {
                     case "nombre":
                         value = rango.getNombre() != null ? rango.getNombre() : "ERROR_NOMBRE_NULL";
                         break;
+                    case "badge":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.rango-mc.badge.";
+                        else path = "placeholder.rango-ds.badge.";
+                        value = LanguageHandler.getText(language, path + rango.getNombre().toLowerCase());
+                        break;
+                    case "label":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.rango-mc.label.";
+                        else path = "placeholder.rango-ds.label.";
+                        value = LanguageHandler.getText(language, path + rango.getNombre().toLowerCase());
+                        break;
                     case "prefijo":
-                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.rango-mc.";
-                        else path = "placeholder.rango-ds.";
-                        value = rango.getNombre() != null ? LanguageHandler.getText(language, path + rango.getNombre().toLowerCase()) : "ERROR_NOMBRE_NULL";
+                        if (context == PlaceholderContext.MINECRAFT) value = LanguageHandler.replaceMC("placeholder.rango-mc.format", language, rango);
+                        else value = LanguageHandler.replaceDS("placeholder.rango-ds.format", language, rango);
                         break;
                     default:
                         value = "";
@@ -618,11 +645,19 @@ public class PlaceholderUtils {
                     case "nombre":
                         value = tipo.getNombre() != null ? tipo.getNombre() : "ERROR_NOMBRE_NULL";
                         break;
-                    case "prefijo":
-                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipo-mc.";
-                        else path = "placeholder.tipo-ds.";
-                        value = tipo.getNombre() != null ? LanguageHandler.getText(language, path + tipo.getNombre().toLowerCase()) : "ERROR_NOMBRE_NULL";
+                    case "badge":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipo-mc.badge.";
+                        else path = "placeholder.tipo-ds.badge.";
+                        value = LanguageHandler.getText(language, path + tipo.getNombre().toLowerCase());
                         break;
+                    case "label":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipo-mc.label.";
+                        else path = "placeholder.tipo-ds.label.";
+                        value = LanguageHandler.getText(language, path + tipo.getNombre().toLowerCase());
+                        break;
+                    case "prefijo":
+                        if (context == PlaceholderContext.MINECRAFT) value = LanguageHandler.replaceMC("placeholder.tipo-mc.format", language, tipo);
+                        else value = LanguageHandler.replaceDS("placeholder.tipo-ds.format", language, tipo);
                     case "cantProyecSim":
                         value = tipo.getCantProyecSim() != null ? tipo.getCantProyecSim().toString() : "ERROR_CANT_PROYEC_SIM_NULL";
                         break;

@@ -510,6 +510,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
                     if (!playerBorderParticles.containsKey(player.getUniqueId())) continue;
                     if (WorldManager.getInstance().getBTEWorld().isLobbyLocation(player.getLocation())) continue;
                     Proyecto proyecto = get(playerBorderParticles.get(player.getUniqueId()));
+                    if (proyecto == null || proyecto.getPoligono() == null) continue;
                     RegionUtils.spawnBorderParticles(player, proyecto.getPoligono(), config.getString("border-particles.project-particle"), 0.5);
                 }
             }

@@ -382,7 +382,7 @@ public class WorldManager {
             for (String regionId : new ArrayList<>(rm.getRegions().keySet())) {
                 if (!regionId.startsWith(prefix)) continue;
                 String proyectoId = regionId.substring(prefix.length());
-                if (!proyectoRegistry.exists(proyectoId)) {
+                if (!proyectoRegistry.exists(proyectoId.toUpperCase())) {
                     ConsoleLogger.info("Eliminando región huérfana " + regionId + " (proyecto no encontrado en la base de datos)");
                     rm.removeRegion(regionId);
                 }

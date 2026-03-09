@@ -178,7 +178,7 @@ scoreboard-player:
   lines:
     - "Rank: <yellow>%player.rangoUsuario%</yellow>"
     - "Type: <yellow>%player.tipoUsuario%</yellow>"
-    - "Country: <yellow>%player.paisPrefix%</yellow>"
+    - "Country: %player.paisPrefix%"
     - "Discord: <yellow>%player.discordName%</yellow>"
     - "Language: <yellow>%player.lenguaje%</yellow>"
     - "Chat: <yellow>%player.chat%</yellow>"
@@ -828,8 +828,8 @@ nickname:
   change: "<green>Your public name has been changed to <yellow>'%nickname%'</yellow>." # %nickname% -> New public name.
   set: "<green><yellow>'%player.nombre%'</yellow>'s public name has been changed to <yellow>'%nickname%'</yellow>." # %nickname% -> New public name.
 country-prefix:
-  set: "<green>%player.nombre%'s country prefix has been set to <yellow>%player.paisPrefix%</yellow>." #  %paisPrefix% -> Country prefix.
-  switched: "<aqua>Your country prefix has been changed to <yellow>%player.paisPrefix%</yellow>." # %paisPrefix% -> Country prefix.
+  set: "<green>%player.nombre%'s country prefix has been set to <r>%player.paisPrefix%</yellow>." #  %paisPrefix% -> Country prefix.
+  switched: "<aqua>Your country prefix has been changed to <r>%player.paisPrefix%</yellow>." # %paisPrefix% -> Country prefix.
 rango:
   set: "<green><yellow>%player.nombre%</yellow>'s rank has been changed to <yellow>%rango.nombre%</yellow>."
   switch: "<aqua>Your rank has been changed to <yellow>%rango.nombre%</yellow>."
@@ -854,7 +854,7 @@ from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
 # %mcPrefix% -> Minecraft prefix. %dsPais% -> Country where message comes from. %player% -> Player name. %mensaje% -> Sent message.
 ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
 ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # From player not registered in the database. %username% -> Username sending the message.
-from-mc-message: "**%mcPrefix% %player.paisPrefix% %player.prefix% %player.nombrePublico%**: %mensaje%"
+from-mc-message: "**%mcPrefix% %player.paisPrefix%  %player.prefix% %player.nombrePublico%**: %mensaje%"
 
 player-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow><reset><green> has joined the server."
 player-new-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow><reset><green> has joined the server for the first time."
@@ -1542,33 +1542,46 @@ placeholder:
     en_US: "English"
   pais-mc:
     prefix:
-      internacional: "<gray>[</gray><white>INT</white><gray>]</gray>"
-      argentina: "<gray>[</gray><aqua>AR</aqua><gray>]</gray>"
-      chile: "<gray>[</gray><red>CL</red><gray>]</gray>"
-      uruguay: "<gray>[</gray><white>UY</white><gray>]</gray>"
-      paraguay: "<gray>[</gray><yellow>PY</yellow><gray>]</gray>"
-      bolivia: "<gray>[</gray><green>BO</green><gray>]</gray>"
-      peru: "<gray>[</gray><red>PE</red><gray>]</gray>"
+      internacional: "国"
+      argentina: "🇦"
+      chile: "🇨"
+      uruguay: "🇺"
+      paraguay: "🇾"
+      bolivia: "🇧"
+      peru: "🇵"
   rango-mc:
-    normal: "<gray>[</gray><white>PLAYER</white><gray>]</gray>"
-    admin: "<gray>[</gray><dark_red>ADMIN</dark_red><gray>]</gray>"
-    mod: "<gray>[</gray><red>MOD</red><gray>]</gray>"
-    reviewer: "<gray>[</gray><blue>REVIEWER</blue><gray>]</gray>"
-    influencer: "<gray>[</gray><dark_purple>INFLUENCER</dark_purple><gray>]</gray>"
-    donador: "<gray>[</gray><gold>DONATOR</gold><gray>]</gray>"
+    format: "%rango.badge%%rango.label%"
+    badge:
+      normal: ""
+      admin: ""
+      mod: ""
+      influencer: ""
+      donador: ""
+    label:
+      normal: ""
+      admin: ""
+      mod: ""
+      influencer: ""
+      donador: ""
   tipo-mc:
-    visita: "<gray>[</gray><white>VISITOR</white><gray>]</gray>"
-    postulante: "<gray>[</gray><yellow>APPLICANT</yellow><gray>]</gray>"
-    constructor: "<gray>[</gray><green>BUILDER</green><gray>]</gray>"
+    format: "%tipo.badge%%tipo.label%"
+    badge:
+      visita: ""
+      postulante: ""
+      constructor: ""
+    label:
+      visita: ""
+      postulante: ""
+      constructor: "造" 
   pais-ds:
     prefix:
-      internacional: "[INT]"
-      argentina: "[🇦🇷]"
-      chile: "[🇨🇱]"
-      uruguay: "[🇺🇾]"
-      paraguay: "[🇵🇾]"
-      bolivia: "[🇧🇴]"
-      peru: "[🇵🇪]"
+      internacional: "INT"
+      argentina: "🇦🇷"
+      chile: "🇨🇱"
+      uruguay: "🇺🇾"
+      paraguay: "🇵🇾"
+      bolivia: "🇧🇴"
+      peru: "🇵🇪"
     logo:
       internacional: "<:BTEInternacional:1477680858633863323>"
       argentina: "<:BTEArgentina:1455209909665661184>"
@@ -1579,16 +1592,29 @@ placeholder:
       peru: "<:BTEPeru:1455209955706540135>"
       antartida: "<:BTEAntartida:1478128115447365643>"
   rango-ds:
-    normal: "[🎮]"
-    admin: "[<:Test:1455195552802148586>]"
-    mod: "[🛡️]"
-    reviewer: "[🔍]"
-    influencer: "[📸]"
-    donador: "[💸]"
+    format: "%rango.badge%"
+    badge:
+      normal: "🎮"
+      admin: "<:badgead:1480637314161049680>"
+      mod: "<:badgemo:1480637321824047165>"
+      influencer: "<:badgein:1480637320188268789>"
+      donador: "<:badgedo:1480637318107762728>"
+    label:
+      normal: ""
+      admin: ""
+      mod: ""
+      influencer: ""
+      donador: ""
   tipo-ds:
-    visita: "[👀]"
-    postulante: "[📚]"
-    constructor: "[⚒️]"
+    format: "%tipo.badge%"
+    badge:
+      visita: "[<:badgevi:1480637325951107194>]"
+      postulante: "[<:badgepo:1480637323455758467>]"
+      constructor: "[<:badgeco:1480637315813605549>]"
+    label:
+      visita: ""
+      postulante: ""
+      constructor: ""
   chat-mc:
     global: "<yellow>Global</yellow>"
     notepad: "<yellow>Notepad</yellow>"

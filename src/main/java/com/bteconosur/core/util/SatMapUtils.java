@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.BTEConoSur;
@@ -120,6 +120,7 @@ public class SatMapUtils {
             //URL mapUrl = URI.create(createMapSatLink(proyecto.getPoligono(), otrosProyectos.stream().map(Proyecto::getPoligono).toList())).toURL();
             @SuppressWarnings("deprecation")
             URL mapUrl = new URL(createMapSatLink(proyecto.getPoligono(), otrosProyectos.stream().map(Proyecto::getPoligono).collect(Collectors.toSet())));
+            ConsoleLogger.debug(mapUrl.toString());
             if (!checkMonthlyRequests()) {
                 Files.copy(defaultFile.toPath(), imageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 Files.copy(defaultFile.toPath(), contextFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -249,6 +250,21 @@ public class SatMapUtils {
         }
     }
     
+    private static double[] computeGeoBounds(Polygon polygon, double padding) {
+        double lonMin = Double.MAX_VALUE, lonMax = -Double.MAX_VALUE;
+        double latMin = Double.MAX_VALUE, latMax = -Double.MAX_VALUE;
+        for (Coordinate coord : polygon.getExteriorRing().getCoordinates()) {
+            double[] geo = TerraUtils.toGeo(coord.x, coord.y);
+            lonMin = Math.min(lonMin, geo[0]);
+            lonMax = Math.max(lonMax, geo[0]);
+            latMin = Math.min(latMin, geo[1]);
+            latMax = Math.max(latMax, geo[1]);
+        }
+        double lonPad = (lonMax - lonMin) * padding;
+        double latPad = (latMax - latMin) * padding;
+        return new double[] { lonMin - lonPad, latMin - latPad, lonMax + lonPad, latMax + latPad };
+    }
+
     /**
      * Construye el enlace de MapBox para renderizar el polígono del proyecto
      * y, opcionalmente, polígonos de contexto de otros proyectos.
@@ -263,33 +279,12 @@ public class SatMapUtils {
             link = link.replace("%token%", secret.getString("mapbox-access-token"));
 
             double padding = config.getDouble("map.padding");
-            
-            Envelope env = proyecto.getEnvelopeInternal();
-            double[] minLatLon = TerraUtils.toGeo(env.getMinX(), env.getMinY());
-            double[] maxLatLon = TerraUtils.toGeo(env.getMaxX(), env.getMaxY());
-            double lonMin = minLatLon[0];
-            double lonMax = maxLatLon[0];
-            double latMin = minLatLon[1];
-            double latMax = maxLatLon[1];
-            
-            if (lonMin > lonMax) {
-                double temp = lonMin;
-                lonMin = lonMax;
-                lonMax = temp;
-            }
-            if (latMin > latMax) {
-                double temp = latMin;
-                latMin = latMax;
-                latMax = temp;
-            }
-            
-            double lonPadding = (lonMax - lonMin) * padding;
-            double latPadding = (latMax - latMin) * padding;
+            double[] bounds = computeGeoBounds(proyecto, padding);
 
-            link = link.replace("%minLon%", String.valueOf(lonMin - lonPadding));
-            link = link.replace("%minLat%", String.valueOf(latMin - latPadding));
-            link = link.replace("%maxLon%", String.valueOf(lonMax + lonPadding));
-            link = link.replace("%maxLat%", String.valueOf(latMax + latPadding));
+            link = link.replace("%minLon%", String.valueOf(bounds[0]));
+            link = link.replace("%minLat%", String.valueOf(bounds[1]));
+            link = link.replace("%maxLon%", String.valueOf(bounds[2]));
+            link = link.replace("%maxLat%", String.valueOf(bounds[3]));
             
             String borderColor = config.getString("map.project.border-color").replace("#", "%23");
             String fillColor = config.getString("map.project.fill-color").replace("#", "%23");
@@ -328,33 +323,12 @@ public class SatMapUtils {
             link = link.replace("%token%", secret.getString("mapbox-access-token"));
 
             double padding = config.getDouble("map.padding");
-            
-            Envelope env = newPolygon.getEnvelopeInternal();
-            double[] minLatLon = TerraUtils.toGeo(env.getMinX(), env.getMinY());
-            double[] maxLatLon = TerraUtils.toGeo(env.getMaxX(), env.getMaxY());
-            double lonMin = minLatLon[0];
-            double lonMax = maxLatLon[0];
-            double latMin = minLatLon[1];
-            double latMax = maxLatLon[1];
-            
-            if (lonMin > lonMax) {
-                double temp = lonMin;
-                lonMin = lonMax;
-                lonMax = temp;
-            }
-            if (latMin > latMax) {
-                double temp = latMin;
-                latMin = latMax;
-                latMax = temp;
-            }
-            
-            double lonPadding = (lonMax - lonMin) * padding;
-            double latPadding = (latMax - latMin) * padding;
+            double[] bounds = computeGeoBounds(newPolygon, padding);
 
-            link = link.replace("%minLon%", String.valueOf(lonMin - lonPadding));
-            link = link.replace("%minLat%", String.valueOf(latMin - latPadding));
-            link = link.replace("%maxLon%", String.valueOf(lonMax + lonPadding));
-            link = link.replace("%maxLat%", String.valueOf(latMax + latPadding));
+            link = link.replace("%minLon%", String.valueOf(bounds[0]));
+            link = link.replace("%minLat%", String.valueOf(bounds[1]));
+            link = link.replace("%maxLon%", String.valueOf(bounds[2]));
+            link = link.replace("%maxLat%", String.valueOf(bounds[3]));
             
             String fullGeoJsonOverlay = "geojson(" + GeoJsonUtils.polygonToGeoJson(proyecto, 
                 config.getString("map.project.border-color").replace("#", "%23"), 
