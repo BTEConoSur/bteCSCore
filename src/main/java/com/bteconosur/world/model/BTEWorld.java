@@ -90,6 +90,15 @@ public class BTEWorld {
     }
 
     /**
+     * Obtiene ambos LabelWorlds (capa alta y capa baja).
+     *
+     * @return Lista con ambos LabelWorlds
+     */
+    public List<LabelWorld> getLabelWorlds() {
+        return List.of(capaAlta, capaBaja);
+    }
+
+    /**
      * Obtiene un LabelWorld por el nombre del mundo de Bukkit.
      * 
      * @param bukkitWorldName Nombre del mundo de Bukkit

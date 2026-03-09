@@ -22,6 +22,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion.CircularInheritanceException;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -371,6 +372,21 @@ public class WorldManager {
             }
             region.setMembers(members);
             regionContainer.addRegion(region);
+        }
+
+        String prefix = config.getString("wg-proyecto-prefix");
+        for (com.bteconosur.world.model.LabelWorld lw : bteWorld.getLabelWorlds()) {
+            RegionManager rm = lw.getRegionManager();
+            ProyectoRegistry proyectoRegistry = ProyectoRegistry.getInstance();
+            if (rm == null) continue;
+            for (String regionId : new ArrayList<>(rm.getRegions().keySet())) {
+                if (!regionId.startsWith(prefix)) continue;
+                String proyectoId = regionId.substring(prefix.length());
+                if (!proyectoRegistry.exists(proyectoId)) {
+                    ConsoleLogger.info("Eliminando región huérfana " + regionId + " (proyecto no encontrado en la base de datos)");
+                    rm.removeRegion(regionId);
+                }
+            }
         }
     }
 
