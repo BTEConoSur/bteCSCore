@@ -322,8 +322,6 @@ public final class BTEConoSur extends JavaPlugin {
     }   
 }
 
-// TODO: Añadir parametros y descripción a las funciones
-
 // TODO: V3.1. Añadir iconos a los proyectos
 
 // TODO: Dynamic en las cabezas - Sin solución

@@ -68,6 +68,8 @@ discord-server-start-stop: true # Habilitar mensajes de inicio y stop del servid
 cono-sur-logo: https://i.imgur.com/LtR9vt1.png
 
 discord-message-track: 1000 # Cantidad máxima de mensajes a trackear para eliminación en los canales de Discord.
+
+schematic-path: "schematics/%nombre%.schem" # Ruta para obtener los schematics de WorldEdit. Se reemplaza %nombre% por el nombre del proyecto.
 # World
 tp-outside-country: true # Permitir teletransportarse fuera de los países. Si se deshabilita, los jugadores solo podrán teletransportarse dentro de los países.
 tp-cooldown-seconds: 5

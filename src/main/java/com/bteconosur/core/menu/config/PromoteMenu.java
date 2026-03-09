@@ -5,6 +5,7 @@ import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.Menu;
+import com.bteconosur.core.tab.TabManager;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
@@ -67,6 +68,7 @@ public class PromoteMenu extends Menu {
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), admin);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
+                TabManager.getInstance().setTabLine(BTECSPlayer);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(player);
             }));
@@ -89,6 +91,7 @@ public class PromoteMenu extends Menu {
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), mod);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
+                TabManager.getInstance().setTabLine(BTECSPlayer);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(player);
             }));
@@ -111,6 +114,7 @@ public class PromoteMenu extends Menu {
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), normal);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
+                TabManager.getInstance().setTabLine(BTECSPlayer);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(player);
             }));
@@ -133,6 +137,7 @@ public class PromoteMenu extends Menu {
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), influencer);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
+                TabManager.getInstance().setTabLine(BTECSPlayer);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(player);
             }));
@@ -155,6 +160,7 @@ public class PromoteMenu extends Menu {
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), donador);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
+                TabManager.getInstance().setTabLine(BTECSPlayer);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(player);
             }));

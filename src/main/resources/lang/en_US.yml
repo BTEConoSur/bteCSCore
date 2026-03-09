@@ -839,6 +839,10 @@ tipo:
   switch: "<aqua>Your user type has been changed to <yellow>%tipo.nombre%</yellow>."
   promote-log: "💪 | **%player.nombre%** has been promoted to User Type **%tipo.nombre%**."
   promote-staff-log: "💪 | **%player.nombre%** has promoted **%player.nombre.1%** to User Type **%tipo.nombre%**."
+ds-schematic:
+  success: "Schematic found:"
+  not-found: "No schematic found with the name **%nombre%**."
+  name-needed: "You must provide the name of the schematic."
 
 # Chat
 # If the player is not registered in the database, the rest of prefixes are not used.

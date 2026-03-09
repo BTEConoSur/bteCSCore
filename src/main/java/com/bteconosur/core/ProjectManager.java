@@ -16,6 +16,7 @@ import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.tab.TabManager;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.DiscordLogger;
@@ -257,6 +258,7 @@ public class ProjectManager {
         if (tur.getVisita().equals(lider.getTipoUsuario())) {
             TipoUsuario postulante = tur.getPostulante();
             PermissionManager.getInstance().switchTipoUsuario(lider, postulante);
+            TabManager.getInstance().setTabLine(lider);
             PlayerLogger.info(lider, LanguageHandler.replaceMC("tipo.switch", lider.getLanguage(), postulante), ChatUtil.getDsTipoUsuarioSwitched(postulante, lider.getLanguage()));
             String countryLog2 = LanguageHandler.replaceDS("tipo.promote-log", Language.getDefault(), postulante);
             DiscordLogger.countryLog(PlaceholderUtils.replaceDS(countryLog2, Language.getDefault(), lider), pais);
@@ -674,6 +676,7 @@ public class ProjectManager {
         if (promote) {
             if (lider == null) return;
             PermissionManager.getInstance().switchTipoUsuario(lider, constructor);
+            TabManager.getInstance().setTabLine(lider);
             PlayerLogger.info(lider, LanguageHandler.replaceMC("tipo.switch", lider.getLanguage(), constructor), ChatUtil.getDsTipoUsuarioSwitched(constructor, lider.getLanguage()));
             String promoteLog = LanguageHandler.replaceDS("tipo.promote-log", Language.getDefault(), constructor);
             promoteLog = PlaceholderUtils.replaceDS(promoteLog, Language.getDefault(), lider);

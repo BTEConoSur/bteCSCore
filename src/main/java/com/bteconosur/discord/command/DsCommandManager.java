@@ -34,6 +34,8 @@ public class DsCommandManager {
         DsHelpDiscordCommand.addHelpCommand(new DsPlayerCommand());
         addCommand(new DsProyectoCommand());
         DsHelpDiscordCommand.addHelpCommand(new DsProyectoCommand());
+        addCommand(new DsSchemCommand());
+        DsHelpDiscordCommand.addHelpCommand(new DsSchemCommand());
         addCommand(new DsHelpCommand());
         DsHelpDiscordCommand.addHelpCommand(new DsHelpCommand());
         addCommand(new DsOnlineCommand());

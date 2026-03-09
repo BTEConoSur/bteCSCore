@@ -12,6 +12,7 @@ import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.project.ProjectListMenu;
+import com.bteconosur.core.tab.TabManager;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
@@ -89,6 +90,7 @@ public class ProjectClaimCommand extends BaseCommand {
                         if (tipoUsuarioRegistry.getVisita().equals(commandPlayer.getTipoUsuario())) {
                             TipoUsuario postulante = tipoUsuarioRegistry.getPostulante();
                             PermissionManager.getInstance().switchTipoUsuario(commandPlayer, postulante);
+                            TabManager.getInstance().setTabLine(commandPlayer);
                             PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("tipo.switch", commandPlayer.getLanguage(), postulante), ChatUtil.getDsTipoUsuarioSwitched(postulante, commandPlayer.getLanguage()));
                             String countryLog2 = LanguageHandler.replaceDS("tipo.promote-log", Language.getDefault(), postulante);
                             DiscordLogger.countryLog(PlaceholderUtils.replaceDS(countryLog2, Language.getDefault(), commandPlayer), proyecto.getPais());
@@ -123,6 +125,7 @@ public class ProjectClaimCommand extends BaseCommand {
             if (tipoUsuarioRegistry.getVisita().equals(commandPlayer.getTipoUsuario())) {
                 TipoUsuario postulante = tipoUsuarioRegistry.getPostulante();
                 PermissionManager.getInstance().switchTipoUsuario(commandPlayer, postulante);
+                TabManager.getInstance().setTabLine(commandPlayer);
                 PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("tipo.switch", commandPlayer.getLanguage(), postulante), ChatUtil.getDsTipoUsuarioSwitched(postulante, commandPlayer.getLanguage()));
                 String countryLog2 = LanguageHandler.replaceDS("tipo.promote-log", Language.getDefault(), postulante);
                 DiscordLogger.countryLog(PlaceholderUtils.replaceDS(countryLog2, Language.getDefault(), commandPlayer), proyecto.getPais());

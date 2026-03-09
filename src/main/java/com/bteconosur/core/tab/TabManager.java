@@ -90,9 +90,36 @@ public class TabManager {
         for (String line : LanguageHandler.getTextList(language, "tab-footer")) {
             processedFooter.add(PlaceholderUtils.replaceMC(line, language, player));  
         }
-
+        
         hfm.setHeader(tabPlayer, String.join("\n", processedHeader));
         hfm.setFooter(tabPlayer, String.join("\n", processedFooter));
+        setTabLine(tabPlayer, player);
+    }
+
+    /**
+     * Configura la TAB para un jugador específico.
+     * Obtiene el TabPlayer de la API y aplica el diseño personalizado.
+     *
+     * @param player jugador a configurar.
+     */
+    public void setTabLine(Player player) {
+        if (player == null) return;
+        TabPlayer tabPlayer = tabAPI.getPlayer(player.getUuid());
+        if (tabPlayer == null) {
+            return;
+        }
+        setTab(tabPlayer);
+    }
+
+    /**
+     * Configura el prefijo, sufijo y nombre personalizado de un jugador en la lista de TAB.
+     * Reemplaza placeholders según el idioma del jugador.
+     *
+     * @param tabPlayer jugador de TAB API a configurar.
+     * @param player jugador con información de idioma y datos personales.
+     */
+    public void setTabLine(TabPlayer tabPlayer, Player player) {
+        Language language = player.getLanguage();
         TabListFormatManager tlm = tabAPI.getTabListFormatManager();
         tlm.setPrefix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-prefix"), language, player));
         tlm.setSuffix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-suffix"), language, player));

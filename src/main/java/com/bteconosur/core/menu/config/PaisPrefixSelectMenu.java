@@ -3,6 +3,7 @@ package com.bteconosur.core.menu.config;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.Menu;
+import com.bteconosur.core.tab.TabManager;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Pais;
@@ -121,6 +122,7 @@ public class PaisPrefixSelectMenu extends Menu {
             BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
             PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText(language, "country-prefix.switched"), BTECSPlayer.getLanguage(), BTECSPlayer), (String) null);
             if (!BTECSPlayer.equals(playerMenu)) PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(LanguageHandler.getText(language, "country-prefix.set"), language, BTECSPlayer), (String) null);
+            TabManager.getInstance().setTabLine(BTECSPlayer);
         });
         
         return gui;

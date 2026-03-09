@@ -29,6 +29,8 @@ El plugin está diseñado y desarrollado específicamente para cubrir las necesi
 * ✔️ Chat de País.
 * ✔️ /player -> Muestra información de un Jugador.
 * ✔️ /project -> Muestra información de un Proyecto.
+* ✔️ /online -> Muestra los jugadores online.
+* ✔️ /schematic -> Obtiene un schematic de WorldEdit por su nombre.
 
 ## Minecraft
 
