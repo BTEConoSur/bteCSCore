@@ -60,6 +60,10 @@ public class ConfigurationService {
         configuration.setGeneralDivisionTitle(config.getBoolean("player-defaults.general.division-title"));
         configuration.setGeneralScoreboard(config.getBoolean("player-defaults.general.scoreboard"));
 
+        configuration.setScoreboardOnline(config.getBoolean("player-defaults.scoreboard.online"));
+        configuration.setScoreboardPlayer(config.getBoolean("player-defaults.scoreboard.player"));
+        configuration.setScoreboardProyecto(config.getBoolean("player-defaults.scoreboard.proyecto"));
+
         return playerRegistry.merge(player.getUuid());
     }
 
@@ -150,6 +154,15 @@ public class ConfigurationService {
                     break;
                 case MANAGER_DS_NOTIFICATIONS:
                     configuration.toggleManagerDsNotifications();
+                    break;
+                case SCOREBOARD_ONLINE:
+                    configuration.toggleScoreboardOnline();
+                    break;
+                case SCOREBOARD_PLAYER:
+                    configuration.toggleScoreboardPlayer(); 
+                    break;
+                case SCOREBOARD_PROYECTO:
+                    configuration.toggleScoreboardProyecto();
                     break;
                 default:
                     ConsoleLogger.warn(LanguageHandler.getText("config-key-error").replace("%key%", key.name()));

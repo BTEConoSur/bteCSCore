@@ -56,6 +56,15 @@ public class Configuration {
     @Column(name = "manager_ds_notifications")
     private Boolean managerDsNotifications;
 
+    @Column(name = "scoreboard_player")
+    private Boolean scoreboardPlayer;
+
+    @Column(name = "scoreboard_online")
+    private Boolean scoreboardOnline;
+
+    @Column(name = "scoreboard_proyecto")
+    private Boolean scoreboardProyecto;
+
     @Enumerated(EnumType.STRING) 
     @Column(name = "lang", nullable = false)
     private Language lang;
@@ -80,6 +89,9 @@ public class Configuration {
         this.generalProjectTitle = false;
         this.generalDivisionTitle = false;
         this.generalScoreboard = false;
+        this.scoreboardPlayer = false;
+        this.scoreboardOnline = false;
+        this.scoreboardProyecto = false;
         this.lang = Language.SPANISH;
     }
 
@@ -165,6 +177,42 @@ public class Configuration {
 
     public void setLang(Language lang) {
         this.lang = lang;
+    }
+
+    public void setScoreboardPlayer(Boolean scoreboardPlayer) {
+        this.scoreboardPlayer = scoreboardPlayer;
+    }
+
+    public Boolean getScoreboardPlayer() {
+        return scoreboardPlayer;
+    }
+
+    public void setScoreboardOnline(Boolean scoreboardOnline) {
+        this.scoreboardOnline = scoreboardOnline;
+    }
+
+    public Boolean getScoreboardOnline() {
+        return scoreboardOnline;
+    }   
+
+    public void setScoreboardProyecto(Boolean scoreboardProyecto) {
+        this.scoreboardProyecto = scoreboardProyecto;
+    }   
+
+    public Boolean getScoreboardProyecto() {
+        return scoreboardProyecto;
+    }
+
+    public void toggleScoreboardPlayer() {
+        this.scoreboardPlayer = !this.scoreboardPlayer;
+    }
+
+    public void toggleScoreboardOnline() {
+        this.scoreboardOnline = !this.scoreboardOnline;
+    }
+
+    public void toggleScoreboardProyecto() {
+        this.scoreboardProyecto = !this.scoreboardProyecto;
     }
 
     public void toggleGeneralGlobalChatOnJoin() {

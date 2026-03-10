@@ -24,13 +24,13 @@ public class ManagerConfigMenu extends Menu {
     private Set<ConfigurationKey> selectedKeys = new HashSet<>();
     
     public ManagerConfigMenu(Player player) {
-        super("Configuración de Manager", 3, player);
+        super(LanguageHandler.getText(player.getLanguage(), "gui-titles.manager-config"), 3, player);
         this.configuration = player.getConfiguration();
         this.btecsPlayer = player;
     }
 
     public ManagerConfigMenu(Player player, Menu previousMenu) {
-        super("Configuración de Manager", 3, player, previousMenu);
+        super(LanguageHandler.getText(player.getLanguage(), "gui-titles.manager-config"), 3, player, previousMenu);
         this.configuration = player.getConfiguration();
         this.btecsPlayer = player;
     }

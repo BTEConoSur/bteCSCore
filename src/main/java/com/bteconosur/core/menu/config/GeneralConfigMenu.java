@@ -24,13 +24,13 @@ public class GeneralConfigMenu extends Menu {
     private Set<ConfigurationKey> selectedKeys = new HashSet<>();
     
     public GeneralConfigMenu(Player player) {
-        super("Configuración General", 5, player);
+        super(LanguageHandler.getText(player.getLanguage(), "gui-titles.general-config"), 5, player);
         this.configuration = player.getConfiguration();
         this.btecsPlayer = player;
     }
 
     public GeneralConfigMenu(Player player, Menu previousMenu) {
-        super("Configuración General", 5, player, previousMenu);
+        super(LanguageHandler.getText(player.getLanguage(), "gui-titles.general-config"), 5, player, previousMenu);
         this.configuration = player.getConfiguration();
         this.btecsPlayer = player;
     }
@@ -100,14 +100,19 @@ public class GeneralConfigMenu extends Menu {
         }
         
 
-        gui.setItem(5, 4, MenuUtils.getPaisPrefixConfigItem(language));
-        gui.addSlotAction(5, 4, event -> {
+        gui.setItem(5, 3, MenuUtils.getPaisPrefixConfigItem(language));
+        gui.addSlotAction(5, 3, event -> {
             new PaisPrefixSelectMenu(btecsPlayer, this, LanguageHandler.getText(language, "gui-titles.pais-prefix-select")).open();
         });
 
-        gui.setItem(5, 6, MenuUtils.getLangConfigItem(language));
-        gui.addSlotAction(5, 6, event -> {
+        gui.setItem(5, 5, MenuUtils.getLangConfigItem(language));
+        gui.addSlotAction(5, 5, event -> {
             new LanguageSelectMenu(btecsPlayer, LanguageHandler.getText(language, "gui-titles.language-select"), this).open();
+        });
+
+        gui.setItem(5, 7, MenuUtils.getScoreboardsConfigItem(language));
+        gui.addSlotAction(5, 7, event -> {
+            new ScoreboardConfigMenu(btecsPlayer, this).open();
         });
         
         gui.addSlotAction(4, 5, event -> {

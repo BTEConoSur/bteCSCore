@@ -275,6 +275,10 @@ public class MenuUtils {
         return getConfigItem(language, "reviewer", name, value);
     }
 
+    public static GuiItem getScoreboardConfigItem(Language language, String name, Boolean value) { // name -> Nombre de la sección de la config en gui.yml. Ej: "notifications"
+        return getConfigItem(language, "scoreboard", name, value);
+    }
+
     public static GuiItem getLanguageSelectionItem(Language language, Boolean isSelected) {
         String langCode = language.getCode();
         String path = "item-materials.configs.general.lang.langs." + langCode;
@@ -289,6 +293,13 @@ public class MenuUtils {
             lore,
             false
         );
+    }
+
+    public static GuiItem getScoreboardsConfigItem(Language language) {
+        String displayName = LanguageHandler.getText(language, "items.config.name");
+        displayName = displayName.replace("%name%", LanguageHandler.getText(language, "items.config.configs.general.scoreboards.name"));
+        List<String> lore = LanguageHandler.getTextList(language, "items.config.configs.general.scoreboards.desc");
+        return buildGuiItem(gui.getString("item-materials.configs.general.scoreboards"), displayName, lore, false);
     }
 
     public static GuiItem getPaisPrefixConfigItem(Language language) {

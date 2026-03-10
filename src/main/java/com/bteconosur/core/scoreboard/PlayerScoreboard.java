@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.util.PlaceholderUtils;
 
@@ -24,5 +25,10 @@ public class PlayerScoreboard implements Scoreboard {
         return new ComponentSidebarLayout(title, builder.build());
     }
 
+
+    @Override
+    public boolean isEnabledFor(Configuration configuration) {
+        return configuration.getScoreboardPlayer();
+    }
 
 }

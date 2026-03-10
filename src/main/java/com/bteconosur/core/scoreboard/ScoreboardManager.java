@@ -35,6 +35,7 @@ public class ScoreboardManager {
     private final BTEConoSur plugin;
 
     private Map<UUID, Sidebar> playerScoreboards = new HashMap<>();
+    private Map<UUID, Integer> playerIndices = new HashMap<>();
     private List<Scoreboard> scoreboards = List.of(
         new OnlineScoreboard(),
         new PlayerScoreboard(),
@@ -42,10 +43,7 @@ public class ScoreboardManager {
     );
 
     private BukkitTask rotationTask;
-    private BukkitTask refreshTask;
-
-    private int globalIndex = 0;
-    private Scoreboard currentScoreboard;
+    private Map<Scoreboard, BukkitTask> refreshTasks = new HashMap<>();
 
     private final YamlConfiguration config;
     
@@ -64,12 +62,13 @@ public class ScoreboardManager {
             scoreboardLibrary = new NoopScoreboardLibrary();
             ConsoleLogger.error(LanguageHandler.getText("scoreboard-manager-error"), e);
         }
-        startRotation(config.getInt("scoreboard-rotation"), config.getInt("proyecto-scoreboard-refresh"));
+        startRotation(config.getInt("scoreboard-rotation"));
+        startRefreshTasks();
     }
 
     /**
      * Agrega un jugador al sistema de scoreboards.
-     * Crea una barra lateral para el jugador y renderiza el scoreboard actual.
+     * Crea una barra lateral para el jugador y renderiza el primer scoreboard habilitado.
      *
      * @param player jugador a agregar.
      */
@@ -79,8 +78,9 @@ public class ScoreboardManager {
         Sidebar sidebar = scoreboardLibrary.createSidebar();
         sidebar.addPlayer(player.getBukkitPlayer());
         playerScoreboards.put(player.getUuid(), sidebar);
-        if (currentScoreboard == null) return;
-        render(player, currentScoreboard);
+        Scoreboard next = getNextEnabledScoreboard(player);
+        if (next == null) return;
+        render(player, next);
     }
 
     /**
@@ -93,6 +93,7 @@ public class ScoreboardManager {
         org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
         if (bukkitPlayer == null) return;
         Sidebar sidebar = playerScoreboards.remove(player.getUuid());
+        playerIndices.remove(player.getUuid());
         if (sidebar != null) {
             sidebar.removePlayer(player.getBukkitPlayer());
             sidebar.close();
@@ -100,54 +101,69 @@ public class ScoreboardManager {
     }
 
     /**
-     * Inicia la rotación automática entre scoreboards y configura el intervalo de refresco.
+     * Inicia la rotación automática por jugador entre scoreboards habilitados.
      *
      * @param seconds intervalo en segundos para rotar entre scoreboards.
-     * @param proyectoRefreshSeconds intervalo en segundos para actualizar scoreboard de proyecto.
      */
-    public void startRotation(int seconds, int proyectoRefreshSeconds) {
+    public void startRotation(int seconds) {
         rotationTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-            globalIndex = (globalIndex + 1) % scoreboards.size();
-            currentScoreboard = scoreboards.get(globalIndex);
-            renderAll();
-            restartRefreshTask();
+            for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+                if (!player.getConfiguration().getGeneralScoreboard()) continue;
+                Scoreboard next = getNextEnabledScoreboard(player);
+                if (next == null) continue;
+                if (next.isGlobal()) next.update();
+                render(player, next);
+            }
         }, 0L, seconds * 20L);
     }
 
     /**
-     * Reinicia la tarea de actualización periódica para el scoreboard actual.
-     * Se invoca al cambiar de scoreboard en la rotación.
+     * Inicia tareas de refresco independientes para cada scoreboard que lo requiera.
+     * Cada tarea corre a su propio intervalo y solo renderiza a jugadores que estén viendo ese scoreboard.
      */
-    private void restartRefreshTask() {
-        if (refreshTask != null) {
-            refreshTask.cancel();
-            refreshTask = null;
+    private void startRefreshTasks() {
+        for (Scoreboard sb : scoreboards) {
+            if (!sb.isRefreshable()) continue;
+            BukkitTask task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+                if (sb.isGlobal()) sb.update();
+                for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+                    if (!player.getConfiguration().getGeneralScoreboard()) continue;
+                    int index = playerIndices.getOrDefault(player.getUuid(), 0);
+                    if (scoreboards.get(index) != sb) continue;
+                    render(player, sb);
+                }
+            }, 0L, sb.getRefreshIntervalTicks());
+            refreshTasks.put(sb, task);
         }
-        if (!currentScoreboard.isRefreshable()) return;
-        refreshTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-            if (currentScoreboard.isGlobal()) currentScoreboard.update();
-            for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
-                if (!player.getConfiguration().getGeneralScoreboard()) continue;
-                render(player, currentScoreboard);
-            }
-
-        }, 0L, currentScoreboard.getRefreshIntervalTicks());
     }
 
     /**
-     * Renderiza el scoreboard actual a todos los jugadores en línea que lo tengan habilitado.
+     * Detiene todas las tareas de refresco de scoreboards.
      */
-    private void renderAll() {
-        if (currentScoreboard == null) return;
-
-        if (currentScoreboard.isGlobal()) {
-            currentScoreboard.update();
+    private void stopRefreshTasks() {
+        for (BukkitTask task : refreshTasks.values()) {
+            task.cancel();
         }
+        refreshTasks.clear();
+    }
 
-        for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
-            if (!player.getConfiguration().getGeneralScoreboard()) continue;
-            render(player, currentScoreboard);
+    /**
+     * Obtiene el siguiente scoreboard habilitado para un jugador, saltando los desactivados.
+     *
+     * @param player jugador para el que se busca el siguiente scoreboard.
+     * @return el siguiente scoreboard habilitado, o {@code null} si todos están deshabilitados.
+     */
+    private Scoreboard getNextEnabledScoreboard(Player player) {
+        int current = playerIndices.getOrDefault(player.getUuid(), -1);
+        for (int i = 1; i <= scoreboards.size(); i++) {
+            int index = (current + i) % scoreboards.size();
+            Scoreboard sb = scoreboards.get(index);
+            if (sb.isEnabledFor(player.getConfiguration())) {
+                playerIndices.put(player.getUuid(), index);
+                return sb;
+            }
         }
+        return null;
     }
 
     /**
@@ -170,14 +186,14 @@ public class ScoreboardManager {
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("scoreboard-manager-shutting-down"));
         if (rotationTask != null) rotationTask.cancel();
-
-        if (refreshTask != null) refreshTask.cancel();
+        stopRefreshTasks();
         for (Sidebar sidebar : playerScoreboards.values()) {
             if (sidebar != null) {
                 sidebar.close();
             }
         }
         playerScoreboards.clear();
+        playerIndices.clear();
         scoreboardLibrary.close();
         if (instance != null) {
             instance = null;

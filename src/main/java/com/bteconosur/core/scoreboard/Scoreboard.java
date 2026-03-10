@@ -1,6 +1,7 @@
 package com.bteconosur.core.scoreboard;
 
 import com.bteconosur.core.config.Language;
+import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
 
 import net.megavex.scoreboardlibrary.api.sidebar.component.ComponentSidebarLayout;
@@ -57,5 +58,16 @@ public interface Scoreboard {
      * Solo se invoca si {@code isGlobal()} devuelve {@code true}.
      */
     default void update() {}
+
+
+    /**
+     * Determina si este scoreboard está habilitado para un jugador según su configuración.
+     *
+     * @param configuration configuración del jugador.
+     * @return {@code true} si el jugador tiene este scoreboard habilitado.
+     */
+    default boolean isEnabledFor(Configuration configuration) {
+        return true;
+    }
     
 }

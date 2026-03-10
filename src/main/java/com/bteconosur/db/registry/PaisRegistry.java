@@ -389,6 +389,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
      * @return división llamada {@code default}, o {@code null} si no existe.
      */
     public Division getDefaultDivision(Pais pais) {
+        if (pais == null) return null;
         for (Division division : getDivisions(pais)) { // Capaz no hace falta mapaear esto.
             if (division.getNombre().equalsIgnoreCase("default")) return division;
         }

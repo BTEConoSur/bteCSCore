@@ -19,6 +19,7 @@ import com.bteconosur.core.command.config.LanguageCommand;
 import com.bteconosur.core.command.config.LinkCommand;
 import com.bteconosur.core.command.config.NicknameCommand;
 import com.bteconosur.core.command.config.PromoteCommand;
+import com.bteconosur.core.command.config.ScoreboardConfigCommand;
 import com.bteconosur.core.command.config.UnlinkCommand;
 import com.bteconosur.core.command.crud.CrudCommand;
 import com.bteconosur.core.command.manager.ManagerCommand;
@@ -195,6 +196,9 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new NicknameCommand());
         HelpCommandCommand.addCommand(new NicknameCommand());
         DsHelpMinecraftCommand.addHelpCommand(new NicknameCommand());
+        PluginRegistry.registerCommand(new ScoreboardConfigCommand());
+        HelpCommandCommand.addCommand(new ScoreboardConfigCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new ScoreboardConfigCommand());
         PluginRegistry.registerCommand(new LobbyCommand());
         HelpCommandCommand.addCommand(new LobbyCommand());
         DsHelpMinecraftCommand.addHelpCommand(new LobbyCommand());

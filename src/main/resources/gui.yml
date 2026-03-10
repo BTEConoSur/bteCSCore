@@ -75,6 +75,17 @@ item-materials:
         langs:
           es_ES: "hdb:23236"
           en_US: "hdb:27546"
+      scoreboards: "PAPER"
+    scoreboard:
+      player:
+        true: "CYAN_GLAZED_TERRACOTTA"
+        false: "CYAN_CONCRETE"
+      online:
+        true: "MAGENTA_GLAZED_TERRACOTTA"
+        false: "MAGENTA_CONCRETE"
+      proyecto:
+        true: "LIGHT_GRAY_GLAZED_TERRACOTTA"
+        false: "LIGHT_GRAY_CONCRETE"
     manager:
       ds-notifications:
         true: "WHITE_GLAZED_TERRACOTTA"

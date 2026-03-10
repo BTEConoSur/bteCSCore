@@ -169,7 +169,7 @@ tab-header:
 tab-footer:
   - ""
   - "<yellow>Date: <white>%date%</white></yellow>"
-  - "<yellow>Time: <white>%time%</white></yellow>"
+  - "<yellow>Time: <white>%time%</white> (GMT-3)</yellow>"
   - ""
 
 # Scoreboard
@@ -1064,6 +1064,10 @@ ds-embeds:
 # The 'head-id' is obtained from Head Database - https://minecraft-heads.com/.
 # In case of an invalid material, STONE will be used by default.
 gui-titles:
+  manager-config: "Manager Configuration"
+  reviewer-config: "Reviewer Configuration"
+  scoreboard-config: "Scoreboard Configuration"
+  general-config: "General Configuration"
   tpdir-selection: "Select Destination"
   help-visitar: "Select how you want to visit"
   visit-anyplace: "Visit any place"
@@ -1362,6 +1366,23 @@ items:
           desc:
             - "<gray>Selected: %current%" # %current% -> Current plugin language.
             - "<gray>Click to select plugin language."
+        scoreboards:
+          name: "Scoreboards"
+          desc:
+            - "Select which Scoreboards to display."
+      scoreboard:
+        online:
+          name: "Online Scoreboard"
+          desc:
+            - "Display the number of online players in the   Scoreboard."
+        player: 
+          name: "Player Scoreboard"
+          desc:
+            - "Display player information in the Scoreboard."
+        proyecto:
+          name: "Project Scoreboard"
+          desc:
+            - "Display project information in the Scoreboard."
       manager:
         ds-notifications:
           name: "Manager Notifications"
@@ -1484,6 +1505,8 @@ no-building-permissions: "You don't have permissions to build here."
 not-limbo: "You can't be outside the countries. Teleporting to lobby..."
 cant-leave-paises: "You can't leave the countries."
 lobby-teleport: "Teleporting to lobby..."
+
+world-height-limit: "You have exceeded the world height limit and have been teleported to the lobby. If you have fallen out of the world while generating terrain, try exploring by flying."
 
 # Placeholder
 placeholder:

@@ -199,7 +199,7 @@ tab-header:
 tab-footer:
   - ""
   - "<yellow>Fecha: <white>%date%</white></yellow>"
-  - "<yellow>Hora: <white>%time%</white></yellow>"
+  - "<yellow>Hora: <white>%time%</white> (GMT-3)</yellow>"
   - ""
 
 # Scoreboard
@@ -1091,6 +1091,10 @@ ds-embeds:
 
 # GUI
 gui-titles:
+  manager-config: "Configuración de Manager"
+  reviewer-config: "Configuración de Reviewer"
+  scoreboard-config: "Configuración del Scoreboard"
+  general-config: "Configuración General"
   tpdir-selection: "Seleccionar destino"
   help-visitar: "Selecciona cómo quieres visitar"
   visit-anyplace: "Visitar cualquier lugar"
@@ -1389,6 +1393,23 @@ items:
           desc:
             - "<gray>Seleccionado: %current%" # %current% -> Idioma actual del plugin.
             - "<gray>Haz click para seleccionar el idioma del plugin."
+        scoreboards:
+          name: "Scoreboards"
+          desc:
+            - "Seleccionar qué Scoreboards mostrar."
+      scoreboard:
+        online:
+          name: "Scoreboard de Online"
+          desc:
+            - "Mostrar la cantidad de jugadores online en el Scoreboard."
+        player: 
+          name: "Scoreboard de Jugador"
+          desc:
+            - "Mostrar información del jugador en el Scoreboard."
+        proyecto:
+          name: "Scoreboard de Proyecto"
+          desc:
+            - "Mostrar información de proyecto en el Scoreboard."
       manager:
         ds-notifications:
           name: "Notificaciones de Manager"
@@ -1514,6 +1535,8 @@ no-building-permissions: "No tienes permisos para construir aquí."
 not-limbo: "No puedes estar afuera de los paises. Teletransportando al lobby..."
 cant-leave-paises: "No puedes salir de los paises."
 lobby-teleport: "Teletransportando al lobby..."
+
+world-height-limit: "Has superado el límite de altura del mundo y te hemos teletransportado al lobby. Si te has caído del mundo al generar terreno, prueba a explorar volando."
 
 # Placeholder
 placeholder:

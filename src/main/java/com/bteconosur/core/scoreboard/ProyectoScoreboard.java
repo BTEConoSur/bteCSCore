@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.db.model.Configuration;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.ProyectoRegistry;
@@ -54,4 +55,8 @@ public class ProyectoScoreboard implements Scoreboard {
         return ConfigHandler.getInstance().getConfig().getInt("proyecto-scoreboard-refresh") * 20L;
     }
 
+    @Override
+    public boolean isEnabledFor(Configuration configuration) {
+        return configuration.getScoreboardProyecto();
+    }
 }

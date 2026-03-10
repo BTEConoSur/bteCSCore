@@ -191,6 +191,10 @@ player-defaults:
     label-border: true
     project-title: true
     scoreboard: true
+  scoreboard:
+    player: true
+    online: true
+    proyecto: true
   reviewer:
     ds-notifications: true
   manager:
