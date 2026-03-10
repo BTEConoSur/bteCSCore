@@ -176,6 +176,7 @@ commands-aliases:
 
 # TAB
 tab-reload: 100 # Cada cuantos milisegundos se refresca el TAB.
+current-tip-rotation: 10 # Cada cuantos segundos rota el tip actual en el TAB.
 
 # Scoreboard
 scoreboard-rotation: 10 # Cada cuantos segundos rota la scoreboard.

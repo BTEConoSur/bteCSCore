@@ -32,8 +32,10 @@ public class TabManager {
     private static TabManager instance;
 
     private TabAPI tabAPI;
-    private BukkitTask footerRefreshTask;
+    private BukkitTask tipRotationTask;
     
+    private volatile int currentTip = 0;
+
     /**
      * Crea e inicializa el gestor de TAB, registrando evento de carga de jugador
      * y configurando la API de TAB para el servidor.
@@ -47,12 +49,54 @@ public class TabManager {
             return;
         }
 
+        startTipRotationTask();
+
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new BTEConoSurExpansion(BTEConoSur.getInstance()).register();
+        } else {
+            ConsoleLogger.error(LanguageHandler.getText("placeholder-not-found"));
+        }
+
         tabAPI.getEventBus().register(PlayerLoadEvent.class, event -> {
             setTab(event.getPlayer());
         });
 
-        //startFooterRefresher();
+        
     }
+
+    /**
+     * Obtiene el tip actual para el idioma solicitado.
+     *
+     * @param language idioma del jugador.
+     * @return tip actual del idioma indicado, o una cadena vacía si no hay tips configurados.
+     */
+    public String getCurrentTip(Language language) {
+        List<String> tips = LanguageHandler.getTextList(language, "tips");
+        if (tips.isEmpty()) return "";
+        return tips.get(currentTip % tips.size());
+    }
+
+    /**
+     * Inicia una tarea asíncrona que rota el índice del tip actual cada cierta cantidad de segundos.
+     * Si las listas de tips en español e inglés no coinciden en tamaño,
+     * o si el intervalo configurado no es válido, registra el error y no inicia la tarea.
+     */
+    private void startTipRotationTask() {
+        List<String> spanishTips = LanguageHandler.getTextList(Language.SPANISH, "tips");
+        List<String> englishTips = LanguageHandler.getTextList(Language.ENGLISH, "tips");
+        if (spanishTips.size() != englishTips.size()) {
+            ConsoleLogger.error("Las listas de tips en es_ES y en_US deben tener el mismo tamaño.");
+            return;
+        }
+        if (spanishTips.isEmpty()) return;
+
+        long rotationTicks = ConfigHandler.getInstance().getConfig().getLong("current-tip-rotation") * 20L;
+
+        tipRotationTask = Bukkit.getScheduler().runTaskTimerAsynchronously(BTEConoSur.getInstance(), () -> {
+            currentTip = (currentTip + 1) % spanishTips.size();
+        }, rotationTicks, rotationTicks);
+    }
+    
 
     /**
      * Configura la TAB para un jugador que ingresa al servidor.
@@ -125,42 +169,16 @@ public class TabManager {
         tlm.setSuffix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-suffix"), language, player));
         tlm.setName(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-name"), language, player));
     }
-
-    public void startFooterRefresher() {
-        long refreshIntervalMs = ConfigHandler.getInstance().getConfig().getLong("tab-reload");
-        long refreshIntervalTicks = Math.max(1L, refreshIntervalMs / 50L);
-        if (footerRefreshTask != null) {
-            footerRefreshTask.cancel();
-            footerRefreshTask = null;
-        }
-        footerRefreshTask = Bukkit.getScheduler().runTaskTimer(BTEConoSur.getInstance(), this::reloadFooter, 0L, refreshIntervalTicks);
-    }
-
-    public void reloadFooter() {
-        for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
-            if (player == null) continue;
-            TabPlayer tabPlayer = tabAPI.getPlayer(player.getUuid());
-            if (tabPlayer == null) continue;
-            Language language = player.getLanguage();
-            HeaderFooterManager hfm = tabAPI.getHeaderFooterManager();
-            List<String> processedFooter = new ArrayList<>();
-            for (String line : LanguageHandler.getTextList(language, "tab-footer")) {
-                processedFooter.add(PlaceholderUtils.replaceMC(line, language, player));  
-            }
-            hfm.setFooter(tabPlayer, String.join("\n", processedFooter));
-        }
-    }
     
-
     /**
      * Detiene el gestor de TAB y libera todos los recursos.
      * Limpia la instancia singleton.
      */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("tab-manager-shutting-down"));
-        if (footerRefreshTask != null) {
-            footerRefreshTask.cancel();
-            footerRefreshTask = null;
+        if (tipRotationTask != null) {
+            tipRotationTask.cancel();
+            tipRotationTask = null;
         }
         if (instance != null) {
             instance = null;

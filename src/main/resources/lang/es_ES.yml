@@ -175,6 +175,8 @@ tab-manager-initializing: "Inicializando Tab Manager..."
 tab-manager-shutting-down: "Apagando Tab Manager..."
 tab-manager-error: "Error al inicializar el Tab Manager."
 
+placeholder-not-found: "No se ha encontrado el Plugin PlaceholderAPI. Asegúrate de tenerlo instalado para que los placeholders funcionen correctamente." 
+
 scoreboard-manager-initializing: "Inicializando Scoreboard..."
 scoreboard-manager-shutting-down: "Apagando Scoreboard..."
 scoreboard-manager-error: "Error al inicializar el Scoreboard."
@@ -185,7 +187,7 @@ tab-prefix: " %player.paisPrefix% %player.prefix%"
 tab-name: " <gold>%player.nombre%</gold>  "
 tab-suffix: "<green>%ping%</green>"
 tab-header:
-  - "<b>                                                            <b>"
+  - "<b>                                                                <b>"
   - ""
   - ""
   - ""
@@ -201,6 +203,18 @@ tab-footer:
   - "<yellow>Fecha: <white>%date%</white></yellow>"
   - "<yellow>Hora: <white>%time%</white> (GMT-3)</yellow>"
   - ""
+  - "<gray>%btecs_currentTip%</gray>"
+  - ""
+
+tips:
+  - "¿Querés desactivar algo que te molesta?\nUsa /config para configurar tu experiencia!"
+  - "¿Sabías que podes cambiar de chat?\nUsa /chat para cambiar entre los chats disponibles!"
+  - "¿Querés teletransportarte a un lugar específico?\nUsa /tpdir para teletransportarte a lugares\no direcciones reales!"
+  - "¿Querés cambiar tu nombre que se muestra en el chat?\nUsa /nickname para cambiar tu nombre público!"
+  - "¿No te ubicás? Usa /whereiam para saber dónde estás!"
+  - "¿Sabías que el 70% de la salchicha es sal?"
+  - "Con /language podés cambiar el idioma del servidor"
+  - "Si necesitas ayuda usa /help"
 
 # Scoreboard
 scoreboard-player:
@@ -210,7 +224,7 @@ scoreboard-player:
     - "Tipo: <yellow>%player.tipoUsuario%</yellow>"
     - "País: %player.paisPrefix%"
     - "Discord: <yellow>%player.discordName%</yellow>"
-    - "Lenguaje: <yellow>%player.lenguaje%</yellow>"
+    - "Idioma: <yellow>%player.lenguaje%</yellow>"
     - "Chat: <yellow>%player.chat%</yellow>"
     - ""
     - "<yellow>Proyectos</yellow>"
@@ -512,7 +526,7 @@ player-info-command:
   - "\n <b>=========</b> <gold>Información de %player.nombre%</gold> <b>=========</b>"
   - " <yellow>Nombre Público:</yellow> <white>%player.nombrePublico%</white>"
   - " <yellow>UUID:</yellow> <white>%player.uuid%</white>"
-  - " <yellow>Lenguaje:</yellow> <white>%player.lenguaje%</white>"
+  - " <yellow>Idioma:</yellow> <white>%player.lenguaje%</white>"
   - " <yellow>País:</yellow> <white>%player.paisPrefix%</white>"
   - " <yellow>Tipo de Usuario:</yellow> <white>%player.tipoUsuario%</white>"
   - " <yellow>Rango de Usuario:</yellow> <white>%player.rangoUsuario%</white>"
@@ -902,7 +916,7 @@ player-welcome-message:
 
 player-hover-chat:
   - "<gray>Nombre: <white>%player.nombre%"
-  - "<gray>Lenguaje: <white>%player.lenguaje%"
+  - "<gray>Idioma: <white>%player.lenguaje%"
   - "<gray>Discord: <white>%player.discordName%</white>"
   - "<gray>Rango: <white>%player.rangoUsuario%</white>"
   - "<gray>Tipo: <white>%player.tipoUsuario%</white>"
@@ -1325,7 +1339,7 @@ items:
     lore:
       - "%player.estado%"
       - "<gray>Nombre público: <white>%player.nombrePublico%"
-      - "<gray>Lenguaje: <white>%player.lenguaje%"
+      - "<gray>Idioma: <white>%player.lenguaje%"
       - "<gray>Rango: <white>%player.rangoUsuario%"
       - "<gray>Tipo: <white>%player.tipoUsuario%"
       - "<gray>País: %player.paisPrefix%"

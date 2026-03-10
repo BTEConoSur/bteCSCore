@@ -149,13 +149,15 @@ tab-manager-initializing: "Initializing Tab Manager..."
 tab-manager-shutting-down: "Shutting Down Tab Manager..."
 tab-manager-error: "Error initializing Tab Manager."
 
+placeholder-not-found: "PlaceholderAPI plugin not found. Please ensure it is installed for placeholders to work correctly."
+
 # TAB
 # Placeholders de TAB: https://github.com/NEZNAMY/TAB/wiki/Placeholders
 tab-prefix: " %player.paisPrefix% %player.prefix%"
 tab-name: " <gold>%player.nombre%</gold>  "
 tab-suffix: "<green>%ping%</green>"
 tab-header:
-  - "<b>                                                            <b>"
+  - "<b>                                                                <b>"
   - ""
   - ""
   - ""
@@ -171,6 +173,18 @@ tab-footer:
   - "<yellow>Date: <white>%date%</white></yellow>"
   - "<yellow>Time: <white>%time%</white> (GMT-3)</yellow>"
   - ""
+  - "<gray>%btecs_currentTip%</gray>"
+  - ""
+
+tips:
+  - "Do you want to disable something that bothers you?\nUse /config to configure your experience!"
+  - "Did you know you can change chats?\nUse /chat to switch between available chats!"
+  - "Do you want to teleport to a specific location?\nUse /tpdir to teleport to locations or real addresses!"
+  - "Do you want to change your name that is displayed in the chat?\nUse /nickname to change your public name!"
+  - "Can't find your location? Use /whereiam to see where you are!"
+  - "Did you know that 70% of the sausage is salt?"
+  - "With /language you can change the server language"
+  - "If you need help, use /help"
 
 # Scoreboard
 scoreboard-player:

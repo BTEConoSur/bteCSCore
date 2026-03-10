@@ -21,6 +21,7 @@ repositories {
 
     maven { url = "https://repo.onarandombox.com/content/groups/public/" }
     maven { url = "https://maven.enginehub.org/repo/" }
+    maven { url = 'https://repo.extendedclip.com/releases/' }
     maven { url 'https://jitpack.io' }
     jcenter()
 }
@@ -58,6 +59,7 @@ dependencies {
     runtimeOnly("net.megavex:scoreboard-library-implementation:2.7.0")
 
     compileOnly("com.github.NEZNAMY:TAB-API:5.5.0")
+    compileOnly("me.clip:placeholderapi:2.12.2")
 }
 
 def targetJavaVersion = 21
