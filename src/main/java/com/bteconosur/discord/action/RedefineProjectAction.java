@@ -36,7 +36,7 @@ public class RedefineProjectAction implements ButtonAction {
             return;
         }
         Pais pais = PaisRegistry.getInstance().findByRequestId(event.getChannelIdLong());
-        if (!PermissionManager.getInstance().isReviewer(player)) {
+        if (!PermissionManager.getInstance().isReviewer(player, pais)) {
             event.reply(LanguageHandler.replaceDS("reviewer.ds-not-reviewer-country", language, pais)).setEphemeral(true).queue();
             return;
         }

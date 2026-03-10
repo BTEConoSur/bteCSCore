@@ -245,6 +245,7 @@ invalid-project-comment: "Maximum 300 characters allowed for comment."
 invalid-admin-id: "The ID of the Admin project type is invalid. Verify that the ID configured in 'id-proyecto-admin' corresponds to an existing project type in the database."
 
 commands-descriptions:
+  scoreboard.desc: "Configure the Scoreboards that are displayed."
   tpdir.desc: "Teleport to real places or addresses."
   player.desc: "Get information about a player."
   back.desc: "Teleport back to your last location."
@@ -766,8 +767,8 @@ reviewer:
     disabled: "<yellow>Build toggle disabled for project <yellow>'%proyecto.id%'</yellow>. You can no longer build in this project."
     switched: "<green>Build toggle switched to project <yellow>'%proyecto.id%'</yellow>. You can now build here."
 where:
-  division: "Country: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>"
-  no-division: "You are not within any division of '%pais.nombrePublico%'."
+  division: "Country: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordinates: <yellow><coords></yellow>"
+  no-division: "You are not within any division of '%pais.nombrePublico%'.\n Coordinates: <yellow><coords></yellow>"
   no-pais: "You are not within any country."
 get-list:
   header: " ===== <gold>List of %entity%s</gold>" # %entity% -> Entity name in plural.

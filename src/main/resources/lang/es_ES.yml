@@ -276,6 +276,7 @@ invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 invalid-admin-id: "El ID de tipo de proyecto de Admin no es válido. Verifica que el ID configurado en 'id-proyecto-admin' corresponda a un tipo de proyecto existente en la base de datos."
 
 commands-descriptions:
+  scoreboard.desc: "Configurar los Scoreboard que se muestran."
   tpdir.desc: "Teletransportarse a lugares o direcciones reales."
   player.desc: "Obtener información de un jugador."
   back.desc: "Teletransportarse a tu última ubicación."
@@ -797,8 +798,8 @@ reviewer:
     disabled: "<yellow>Construcción desactivada para el proyecto <yellow>'%proyecto.id%'</yellow>. Ya no puedes construir en este proyecto."
     switched: "<green>Construcción cambiada al proyecto <yellow>'%proyecto.id%'</yellow>. Ahora puedes construir aquí."
 where:
-  division: "Pais: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>"
-  no-division: "No estás dentro de ninguna división de '%pais.nombrePublico%'."
+  division: "Pais: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordenadas: <yellow><coords></yellow>"
+  no-division: "No estás dentro de ninguna división de '%pais.nombrePublico%'.\n Coordenadas: <yellow><coords></yellow>"
   no-pais: "No estás dentro de ningún país."
 get-list:
   header: " ===== <gold>Lista de %entity%s</gold>" # %entity% -> Nombre de la entidad en plural.
