@@ -43,14 +43,16 @@ public class DsHelpDiscordCommand extends DsSubcommand {
         MessageEmbed embed = ChatUtil.getDsHelpDiscord(language, page);
 
         List<Button> buttons = new ArrayList<>();
-        if (ChatUtil.hasDsHelpPreviousPage(page)) {
-            buttons.add(Button.success("ds-help-previous", LanguageHandler.getText(language, "ds-help.previous-page")));
-        }
+        Button previousButton = Button.success("ds-help-previous", LanguageHandler.getText(language, "ds-help.previous-page"));
+        Button nextButton = Button.success("ds-help-next", LanguageHandler.getText(language, "ds-help.next-page"));
+        String pageButton = LanguageHandler.getText(language, "ds-help.page").replace("%currentPage%", String.valueOf(page)).replace("%totalPages%", String.valueOf(ChatUtil.getDsHelpTotalPages()));
+        if (!ChatUtil.hasDsHelpPreviousPage(page)) previousButton = previousButton.asDisabled();
+        if (!ChatUtil.hasDsHelpNextPage(page)) nextButton = nextButton.asDisabled();
         
-        if (ChatUtil.hasDsHelpNextPage(page)) {
-            buttons.add(Button.success("ds-help-next", LanguageHandler.getText(language, "ds-help.next-page")));
-        }
-
+        buttons.add(previousButton);
+        buttons.add(Button.secondary("help-page", pageButton).asDisabled());
+        buttons.add(nextButton);
+        
         buttons.add(Button.danger("help-cancel", LanguageHandler.getText(language, "ds-help.cancel"))); 
         Instant now = DateUtils.instantOffset();
         Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.help-command") * 60L);

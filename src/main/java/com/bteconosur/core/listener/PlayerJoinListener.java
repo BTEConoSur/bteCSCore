@@ -22,6 +22,7 @@ import com.bteconosur.core.scoreboard.ScoreboardManager;
 import com.bteconosur.core.tab.TabManager;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.util.ConfigurationService;
+import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Configuration;
@@ -123,11 +124,11 @@ public class PlayerJoinListener implements Listener {
             player = new Player(
                 event.getPlayer().getUniqueId(),
                 event.getPlayer().getName(),
-                new Date(),
+                Date.from(DateUtils.instantOffset()),
                 tipoUsuarioRegistry.getVisita(),
                 rangoUsuarioRegistry.getNormal()
             );
-            player.setFechaUltimaConexion(new Date());
+            player.setFechaUltimaConexion(Date.from(DateUtils.instantOffset()));
             player.setConfiguration(new Configuration(player));
             
             if (language == null) language = Language.getInternationalDefault();
@@ -142,7 +143,8 @@ public class PlayerJoinListener implements Listener {
         } else {
             player = playerRegistry.get(event.getPlayer().getUniqueId());
             player.setNombre(event.getPlayer().getName());
-            player.setFechaUltimaConexion(new Date());
+            player.setFechaUltimaConexion(Date.from(DateUtils.instantOffset()));
+            if (player.getFechaIngreso() == null) player.setFechaIngreso(Date.from(DateUtils.instantOffset()));
             player = playerRegistry.merge(player.getUuid());
             GlobalChatService.broadcastPlayerJoinedServer(player);
         }

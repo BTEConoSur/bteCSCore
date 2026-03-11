@@ -27,6 +27,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.bteconosur.core.config.Language;
+import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.db.registry.PlayerRegistry;
 
 @Entity
@@ -101,7 +102,7 @@ public class Player {
         this.nombre = nombre;
         this.nombrePublico = nombre;
         this.fechaIngreso = fechaIngreso;
-        this.fechaUltimaConexion = new Date();
+        this.fechaUltimaConexion = Date.from(DateUtils.instantOffset());
         this.tipoUsuario = tipoUsuario;
         this.rangoUsuario = rangoUsuario;
     }

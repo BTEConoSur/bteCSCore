@@ -2,6 +2,7 @@ package com.bteconosur.core.chat;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -557,13 +558,14 @@ public class ChatUtil {
         EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
         eb.addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.descripcion"), PlaceholderUtils.replaceDS("%proyecto.descripcion%", language, proyecto), false)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.nombre"), PlaceholderUtils.replaceDS("%proyecto.nombre%", language, proyecto), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.tipo"), PlaceholderUtils.replaceDS("%proyecto.tipo%", language, proyecto), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.max-miembros"), PlaceholderUtils.replaceDS("%proyecto.maxMiembros%", language, proyecto), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.lider"), PlaceholderUtils.replaceDS("%proyecto.lider%", language, proyecto), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.miembros"), PlaceholderUtils.replaceDS("%proyecto.miembrosCantidad%", language, proyecto), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.estado"), PlaceholderUtils.replaceDS("%proyecto.estado%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.lider"), PlaceholderUtils.replaceDS("%proyecto.lider%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.tipo"), PlaceholderUtils.replaceDS("%proyecto.tipo%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.max-miembros"), PlaceholderUtils.replaceDS("%proyecto.maxMiembros%", language, proyecto), true)   
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.miembros-cant"), PlaceholderUtils.replaceDS("%proyecto.miembrosCantidad%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.miembros"), PlaceholderUtils.replaceDS("%proyecto.miembros%", language, proyecto), false)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.pais"), PlaceholderUtils.replaceDS("%proyecto.paisNombre%", language, proyecto), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.ubicacion"), PlaceholderUtils.replaceDS("%proyecto.divisionContexto%, %proyecto.divisionFna%", language, proyecto), true)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.ubicacion"), PlaceholderUtils.replaceDS("%proyecto.divisionContexto%, %proyecto.divisionFna%", language, proyecto), false)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.coordenadas"), PlaceholderUtils.replaceDS("%proyecto.geoCoords%", language, proyecto), false)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-creacion"), DateUtils.getDsTimestamp(proyecto.getFechaCreado(), language), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-finalizacion"), DateUtils.getDsTimestamp(proyecto.getFechaTerminado(), language), true)
@@ -571,6 +573,60 @@ public class ChatUtil {
         Player lider = ProjectManager.getInstance().getLider(proyecto);
         if (lider != null) eb.setThumbnail(config.getString("avatar-project-leader-url").replace("%uuid%", lider.getUuid().toString()));
         return eb.setColor(embedColors.getInt("ds-embeds.project-info")).build();
+    }
+
+    @SuppressWarnings("null")
+    public static MessageEmbed getDsProyectoList(Player player, Language language, int page) {
+        String author = LanguageHandler.getText(language, "ds-embeds.author");
+        String iconUrl = config.getString("cono-sur-logo");
+        String title = LanguageHandler.replaceDS("ds-embeds.project-list.title", language, player);
+        EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
+        LinkedHashSet<Proyecto> proyectos = ProyectoRegistry.getInstance().getByPlayer(player);
+        String fieldName = LanguageHandler.getText(language, "ds-embeds.project-list.field-name");
+        List<String> fieldLines = LanguageHandler.getTextList(language, "ds-embeds.project-list.field-info");
+        List<String> proccesedLines = new ArrayList<>();
+        if (proyectos.isEmpty()) eb.setDescription(LanguageHandler.getText(language, "ds-embeds.project-info.no-projects"));
+        else  {
+            int projectsPerPage = config.getInt("ds-project-list-per-page");
+            int totalProjects = proyectos.size();
+            int totalPages = (int) Math.ceil(totalProjects / (double) projectsPerPage);
+
+            if (page < 1 || page > totalPages) page = 1;
+
+            int startIndex = (page - 1) * projectsPerPage;
+            int endIndex = Math.min(startIndex + projectsPerPage, totalProjects);
+
+            List<Proyecto> proyectoList = new ArrayList<>(proyectos);
+            for (int i = startIndex; i < endIndex; i++) {
+                Proyecto proyecto = proyectoList.get(i);
+                proccesedLines.clear();
+                for (String line : fieldLines) {
+                    proccesedLines.add(PlaceholderUtils.replaceDS(line, language, proyecto));
+                }
+                eb.addField(PlaceholderUtils.replaceDS(fieldName, language, proyecto), String.join("\n", proccesedLines), true);
+            }
+
+            String footer = LanguageHandler.getText(language, "ds-help.footer").replace("%currentPage%", String.valueOf(page)).replace("%totalPages%", String.valueOf(totalPages));
+            eb.setFooter(footer);
+        }
+        return eb.setColor(embedColors.getInt("ds-embeds.project-info")).build();
+    }
+
+    public static boolean hasDsProjectListNextPage(Player player, int currentPage) {
+        int projectsPerPage = config.getInt("ds-project-list-per-page");
+        int totalProjects = ProyectoRegistry.getInstance().getByPlayer(player).size();
+        int totalPages = (int) Math.ceil(totalProjects / (double) projectsPerPage);
+        return currentPage < totalPages;
+    }
+
+    public static int getDsProjectListTotalPages(Player player) {
+        int projectsPerPage = config.getInt("ds-project-list-per-page");
+        int totalProjects = ProyectoRegistry.getInstance().getByPlayer(player).size();
+        return (int) Math.ceil(totalProjects / (double) projectsPerPage);
+    }
+
+    public static boolean hasDsProjectListPreviousPage(int currentPage) {
+        return currentPage > 1;
     }
 
     @SuppressWarnings("null")
@@ -646,6 +702,22 @@ public class ChatUtil {
         return currentPage < totalPages;
     }
 
+    public static int getDsHelpTotalPages() {
+        int commandsPerPage = config.getInt("ds-help-command-per-page");
+        
+        List<DsCommand> allCommands = DsHelpDiscordCommand.getCommands();
+        int totalCommands = 0;
+        for (DsCommand cmd : allCommands) {
+            if (cmd.getSubcommands().isEmpty()) {
+                totalCommands++;
+            } else {
+                totalCommands += cmd.getSubcommands().size();
+            }
+        }
+        
+        return (int) Math.ceil(totalCommands / (double) commandsPerPage);
+    }
+
     public static boolean hasDsHelpPreviousPage(int currentPage) {
         return currentPage > 1;
     }
@@ -705,6 +777,12 @@ public class ChatUtil {
         int totalCommands = DsHelpMinecraftCommand.getCommands().size();
         int totalPages = (int) Math.ceil(totalCommands / (double) commandsPerPage);
         return currentPage < totalPages;
+    }
+
+    public static int getMcHelpTotalPages() {
+        int commandsPerPage = config.getInt("help-command-per-page");
+        int totalCommands = DsHelpMinecraftCommand.getCommands().size();
+        return (int) Math.ceil(totalCommands / (double) commandsPerPage);
     }
 
     public static boolean hasMcHelpPreviousPage(int currentPage) {

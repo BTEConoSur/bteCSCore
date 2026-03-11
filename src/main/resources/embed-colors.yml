@@ -54,6 +54,7 @@ ds-notifications:
     project-description-updated: 0x00b0f4
 ds-help: 0x00b0f4
 ds-embeds:
+  project-list: 0x00b0f4
   online: 0x43B581
   project-info: 0x00b0f4
   player-info: 0x00b0f4

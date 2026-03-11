@@ -42,6 +42,7 @@ public class ModalListener extends ListenerAdapter {
             ConsoleLogger.warn(LanguageHandler.getText("ds-error.modal-interaction")
                 .replace("%modalId%", modalId)
                 .replace("%messageId%", event.getMessage() != null ? event.getMessage().getId() : "null"));
+            event.getMessage().delete().queue();
             event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
             return;
         }

@@ -23,6 +23,7 @@ import com.bteconosur.discord.action.CreateProjectAction;
 import com.bteconosur.discord.action.DiscordHelpAction;
 import com.bteconosur.discord.action.JoinProjectAction;
 import com.bteconosur.discord.action.ModalAction;
+import com.bteconosur.discord.action.PlayerInfoAction;
 import com.bteconosur.discord.action.RedefineProjectAction;
 import com.bteconosur.discord.action.RejectCreateProjectAction;
 import com.bteconosur.discord.action.RejectRedefineProjectAction;
@@ -64,6 +65,7 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         registerModalAction(InteractionKey.ACCEPT_REDEFINE_PROJECT, new AcceptRedefineProjectAction());
         registerModalAction(InteractionKey.REJECT_REDEFINE_PROJECT, new RejectRedefineProjectAction());
         registerButtonAction(InteractionKey.HELP_COMMAND, new DiscordHelpAction());
+        registerButtonAction(InteractionKey.PLAYER_INFO, new PlayerInfoAction());
         try {
             int expirationMinutes = config.getInt("interaction-expiration");
             long periodTicks = 20L * 60L * expirationMinutes;

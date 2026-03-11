@@ -51,6 +51,7 @@ public class ReviewerToggleBuildService {
      * Alterna el permiso de construcción de un revisor en un proyecto específico.
      * Si el revisor ya tenía un toggle activo en otro proyecto, se cambia al nuevo proyecto.
      * Si el toggle era en el mismo proyecto, se desactiva.
+     * Se tiene en cuenta los casos en el que el reviewer es miembro del proyecto.
      * 
      * @param player Jugador que activa/desactiva el toggle
      * @param proyecto Proyecto en el que se activa/desactiva el permiso

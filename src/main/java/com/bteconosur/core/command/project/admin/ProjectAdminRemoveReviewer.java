@@ -26,7 +26,7 @@ public class ProjectAdminRemoveReviewer extends BaseCommand {
     private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
     public ProjectAdminRemoveReviewer() {
-        super("removereviewer", "<nombre_pais> <uuid/nombre_reviewer>", "btecs.command.project.admin", CommandMode.PLAYER_ONLY);
+        super("removereviewer", "<nombre_pais> <uuid/nombre_reviewer>", "btecs.command.project.admin.other", CommandMode.PLAYER_ONLY);
     }
 
     @Override

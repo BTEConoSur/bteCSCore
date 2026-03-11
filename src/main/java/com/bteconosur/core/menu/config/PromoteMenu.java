@@ -125,7 +125,7 @@ public class PromoteMenu extends Menu {
         gui.setItem(2,7, MenuUtils.getRangoUsuario(influencer, pm.isRangoUsuario(BTECSPlayer, influencer), language));
         gui.addSlotAction(2,7, event -> {
             if (pm.isRangoUsuario(BTECSPlayer, influencer)) return;
-            String confirmTitle = LanguageHandler.getText(language, "gui-titles.rango-confirm");
+            String confirmTitle = LanguageHandler.getText(language, "gui-titles.tipo-confirm");
             confirmationMenu = new ConfirmationMenu(confirmTitle, player, this, confirmClick -> {
                 pm.switchRangoUsuario(BTECSPlayer, influencer);
                 PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(messageSwitch, BTECSPlayer.getLanguage(), influencer), ChatUtil.getDsRangoUsuarioSwitched(influencer, BTECSPlayer.getLanguage()));
@@ -133,7 +133,7 @@ public class PromoteMenu extends Menu {
                     String message = PlaceholderUtils.replaceMC(messageSet, playerMenu.getLanguage(), influencer);
                     PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, playerMenu.getLanguage(), BTECSPlayer), (String) null);
                 }
-                String countryLog = LanguageHandler.replaceDS("rango.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                String countryLog = LanguageHandler.replaceDS("tipo.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), influencer);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
@@ -148,7 +148,7 @@ public class PromoteMenu extends Menu {
         gui.setItem(2,8, MenuUtils.getRangoUsuario(donador, pm.isRangoUsuario(BTECSPlayer, donador), language));
         gui.addSlotAction(2,8, event -> {
             if (pm.isRangoUsuario(BTECSPlayer, donador)) return;
-            String confirmTitle = LanguageHandler.getText(language, "gui-titles.rango-confirm");
+            String confirmTitle = LanguageHandler.getText(language, "gui-titles.tipo-confirm");
             confirmationMenu = new ConfirmationMenu(confirmTitle, player, this, confirmClick -> {
                 pm.switchRangoUsuario(BTECSPlayer, donador);
                 PlayerLogger.info(BTECSPlayer, PlaceholderUtils.replaceMC(messageSwitch, BTECSPlayer.getLanguage(), donador), ChatUtil.getDsRangoUsuarioSwitched(donador, BTECSPlayer.getLanguage()));
@@ -156,7 +156,7 @@ public class PromoteMenu extends Menu {
                     String message = PlaceholderUtils.replaceMC(messageSet, playerMenu.getLanguage(), donador);
                     PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, playerMenu.getLanguage(), BTECSPlayer), (String) null);
                 }
-                String countryLog = LanguageHandler.replaceDS("rango.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                String countryLog = LanguageHandler.replaceDS("tipo.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), donador);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);

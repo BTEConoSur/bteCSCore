@@ -47,6 +47,7 @@ public class ButtonListener extends ListenerAdapter {
                 .replace("%buttonId%", buttonId)
                 .replace("%messageId%", messageId)
             );
+            event.getMessage().delete().queue();
             event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
             return;
         }
@@ -56,6 +57,10 @@ public class ButtonListener extends ListenerAdapter {
             if (ctx.getInteractionKey() == InteractionKey.CREATE_PROJECT) ProjectManager.getInstance().expiredCreateRequest(ctx.getProjectId(), ctx.getId());
             if (ctx.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) ProjectManager.getInstance().expiredRedefineRequest(ctx.getProjectId(), ctx.getId());
             if (ctx.getInteractionKey() == InteractionKey.JOIN_PROJECT) ProjectManager.getInstance().expiredJoinRequest(messageId, ctx.getPlayerId());
+            if (ctx.getInteractionKey() == InteractionKey.PLAYER_INFO || ctx.getInteractionKey() == InteractionKey.HELP_COMMAND) {
+                event.getMessage().delete().queue();
+                InteractionRegistry.getInstance().unload(ctx.getId());
+            };
             event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
             return;
         }

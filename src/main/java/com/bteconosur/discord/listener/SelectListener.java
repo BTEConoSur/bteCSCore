@@ -44,6 +44,7 @@ public class SelectListener extends ListenerAdapter {
                 .replace("%selectId%", selectId)
                 .replace("%messageId%", event.getMessage().getId())
             );
+            event.getMessage().delete().queue();
             event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
             return;
         }

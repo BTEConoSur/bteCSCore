@@ -70,6 +70,7 @@ public class MovingListeners implements Listener {
         }
         if (!bukkitPlayer.isFlying()) {
             event.setTo(new Location(event.getTo().getWorld(), event.getTo().getX(), event.getTo().getY() + 0.1, event.getTo().getZ(), event.getTo().getYaw(), event.getTo().getPitch()));
+            bukkitPlayer.setAllowFlight(true);
             bukkitPlayer.setFlying(true);
         }
     }

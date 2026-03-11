@@ -11,7 +11,8 @@ interaction-expirations:
   create-project: 10080 # Expiración de solicitudes de creación de proyectos (en minutos). 10080 = 7 días.
   accept-reject-create-project: 60 # Expiración del modal de aceptación/rechazo de creación de proyecto (en minutos). 60 = 1 hora.
   accept-reject-redefine-project: 60 # Expiración del modal de aceptación/rechazo de redefinición de proyecto (en minutos). 60 = 1 hora.
-  help-command: 60 # Expiración del mensaje de ayuda de Discord (en minutos). 60 = 1 hora.
+  help-command: 10 # Expiración del mensaje de ayuda de Discord (en minutos). 60 = 1 hora.
+  player-info: 10 # Expiración de la información de jugador en Discord (en minutos). 60 = 1 hora.
 avatar-url: "https://cravatar.eu/helmavatar/%uuid%/190.png"
 avatar-info-url: "https://api.mineatar.io/body/full/%uuid%?scale=8"
 avatar-project-leader-url: "https://api.mineatar.io/head/%uuid%?scale=8"
@@ -151,12 +152,15 @@ commands-cooldowns:
   nightvision: 0
 
 ds-help-command-per-page: 5 # Cantidad de comandos a mostrar por página en el comando de ayuda de Discord.
+ds-project-list-per-page: 9 # Cantidad de proyectos a mostrar por página en el comando de listado de proyectos de Discord por usuario.
 help-command-per-page: 5 # Cantidad de comandos a mostrar por página en el comando de ayuda.
 help-command-cooldown: 0 # Cooldown para el comando de ayuda (en segundos).
 pwarp-list-per-page: 10 # Cantidad de pwarps a mostrar por página en el comando de listado.
 pwarp-list-cooldown: 0 # Cooldown para el comando de listado de pwarps (en segundos).
 
 commands-aliases:
+  scoreboard:
+    aliases: ["sb"]
   help:
     aliases: ["ayuda"]
   btecs:

@@ -41,37 +41,37 @@ ds-purge-failed: "Could not schedule periodic interaction purge: "
 
 checking-tipos-usuario: "Checking User Types..."
 tipos-usuarios-not-found: "No User Types found in the database."
-lp-group-tipo-usuario-missing: "The LuckPerms group for User Type <yellow>'%tipoUsuario.nombre%'</yellow> does not exist. Creating it..."
+lp-group-tipo-usuario-missing: "The LuckPerms group for User Type <yellow>%tipoUsuario.nombre%</yellow> does not exist. Creating it..."
 
 checking-rangos-usuario: "Checking User Ranks..."
 rangos-usuarios-not-found: "No User Ranks found in the database."
-lp-group-rango-usuario-missing: "The LuckPerms group for User Rank <yellow>'%rangoUsuario.nombre%'</yellow> does not exist. Creating it..."
+lp-group-rango-usuario-missing: "The LuckPerms group for User Rank <yellow>%rangoUsuario.nombre%</yellow> does not exist. Creating it..."
 
-lp-permission-desync: "Desynchronization detected: Permission '%permiso%' removed from group '%grupo%'."
-lp-group-removed: "Desynchronization detected: Group '%grupo%' removed from player %player%."
-lp-group-added: "Desynchronization detected: Group '%grupo%' added to player %player%."
-lp-permission-added: "Permission '%permiso%' added to group '%grupo%'."
-lp-user-not-found: "Could not get LuckPerms user for player '%player%'."
+lp-permission-desync: "Desynchronization detected: Permission %permiso% removed from group %grupo%."
+lp-group-removed: "Desynchronization detected: Group %grupo% removed from player %player%."
+lp-group-added: "Desynchronization detected: Group %grupo% added to player %player%."
+lp-permission-added: "Permission %permiso% added to group %grupo%."
+lp-user-not-found: "Could not get LuckPerms user for player %player%."
 
-console-player-not-registered: "Player '%player%' is not registered in the database."
+console-player-not-registered: "Player %player% is not registered in the database."
 
 ds-error:
   ds-help: "Discord Error: Could not execute help command."
   staffhub-not-found: "Discord Error: Could not find StaffHub."  
   subcommand-cant-register: "Discord Error: Subcommands are not registered individually: %subcommand%."
-  button-interaction: "Discord Error: Button interaction with ID '%buttonId%' / message with ID '%messageId%' not found in registry."
+  button-interaction: "Discord Error: Button interaction with ID %buttonId% / message with ID %messageId% not found in registry."
   button-action-not-found: "Discord Error: No button action registered for key: %interactionKey%."
   button-internal-error: "Discord Error: Error handling button interaction: "
-  modal-interaction: "Discord Error: Modal interaction with ID '%modalId%' / message with ID '%messageId%' not found in registry."
+  modal-interaction: "Discord Error: Modal interaction with ID %modalId% / message with ID %messageId% not found in registry."
   modal-action-not-found: "Discord Error: No modal action registered for key: %interactionKey%."
   modal-internal-error: "Discord Error: Error handling modal interaction: "
-  select-interaction: "Discord Error: Select menu interaction with ID '%selectId%' / message with ID '%messageId%' not found in registry."
+  select-interaction: "Discord Error: Select menu interaction with ID %selectId% / message with ID %messageId% not found in registry."
   select-action-not-found: "Discord Error: No select menu action registered for key: %interactionKey%."
   select-internal-error: "Discord Error: Error handling select menu interaction: "
-  subcommand-not-found: "Discord Error: Subcommand '%subcommand%' not found for command '/%command%'."
-  command-not-found: "Discord Error: Command '/%command%' not found."
-  context-message-command-not-found: "Error de Discord: No se encontró el comando de contexto de mensaje '%command%'."
-  context-user-command-not-found: "Error de Discord: No se encontró el comando de contexto de usuario '%command%'."
+  subcommand-not-found: "Discord Error: Subcommand %subcommand% not found for command /%command%."
+  command-not-found: "Discord Error: Command /%command% not found."
+  context-message-command-not-found: "Error de Discord: No se encontró el comando de contexto de mensaje %command%."
+  context-user-command-not-found: "Error de Discord: No se encontró el comando de contexto de usuario %command%."
   not-jda: "Discord Error: Action skipped. Discord bot is not initialized."
   invalid-channel-id: "Discord Error: Invalid channel ID."
   invalid-user-id: "Discord Error: Invalid user ID."
@@ -80,14 +80,14 @@ ds-error:
   invalid-channel: "Discord Error: Invalid channel."
   invalid-message-id: "Discord Error: Invalid message ID."
   invalid-embed: "Discord Error: Invalid embed."
-  send-channel: "Discord Error: Could not send message to channel '%channelId%'."
-  send-user: "Discord Error: Could not send message to user '%userId%'."
-  send-embed-channel: "Discord Error: Could not send embed to channel '%channelId%'."
-  send-embed-user: "Discord Error: Could not send embed to user '%userId%'."
-  delete-channel-message: "Discord Error: Could not delete message with ID '%messageId%' in channel '%channelId%'."  
-  delete-user-message: "Discord Error: Could not delete message with ID '%messageId%' for user '%userId%'."
-  channel-pais-not-found: "Discord Error: Could not find Discord channel for country '%pais.nombrePublico%'."
-  request-channel-pais-not-found: "Discord Error: Could not find Discord request channel for country '%pais.nombrePublico%'."
+  send-channel: "Discord Error: Could not send message to channel %channelId%."
+  send-user: "Discord Error: Could not send message to user %userId%."
+  send-embed-channel: "Discord Error: Could not send embed to channel %channelId%."
+  send-embed-user: "Discord Error: Could not send embed to user %userId%."
+  delete-channel-message: "Discord Error: Could not delete message with ID %messageId% in channel %channelId%."  
+  delete-user-message: "Discord Error: Could not delete message with ID %messageId% for user %userId%."
+  channel-pais-not-found: "Discord Error: Could not find Discord channel for country %pais.nombrePublico%."
+  request-channel-pais-not-found: "Discord Error: Could not find Discord request channel for country %pais.nombrePublico%."
   sat-map-not-found: "Map image unavailable, cannot send project to Discord."
   send-project: "Discord Error: Could not send project request to Discord."
   send-join-request: "Discord Error: Could not send join request to Discord."
@@ -181,7 +181,7 @@ tips:
   - "Did you know you can change chats?\nUse /chat to switch between available chats!"
   - "Do you want to teleport to a specific location?\nUse /tpdir to teleport to locations or real addresses!"
   - "Do you want to change your name that is displayed in the chat?\nUse /nickname to change your public name!"
-  - "Can't find your location? Use /whereiam to see where you are!"
+  - "Cant find your location? Use /whereiam to see where you are!"
   - "Did you know that 70% of the sausage is salt?"
   - "With /language you can change the server language"
   - "If you need help, use /help"
@@ -233,20 +233,20 @@ scoreboard-online:
 # Command
 join-later: "<red><b>An error occurred while joining the server. Please try again in a few seconds.\n If this error persists, please contact an administrator.</b></red>"
 
-no-permission: "You don't have permission to execute this command."
+no-permission: "You dont have permission to execute this command."
 item-prohibited: "You cannot use %item%."
 player-only-command: "This command can only be executed by a player."
 console-only-command: "This command can only be executed from console."
 unknown-command: "Unknown command." 
-help-command-usage: "Use '/%comando% help' to see command help."
+help-command-usage: "Use /%comando% help to see command help."
 command-on-cooldown: "You must wait %time% before using this command again."
 command-cooldown-second-format: "%.1f second(s)"
 command-cooldown-minute-format: "%d minute(s) %.1f second(s)"
 
-player-not-found: "Player '%player%' was not found." # %player% -> Player name.
-player-not-online: "Player '%player%' is not online." # %player% -> Player name.
-player-not-registered: "Player '%player%' is not registered in the database." # %player% -> Player name.
-pais-not-found: "Country '%search%' was not found." # %pais% -> Country name.
+player-not-found: "Player %player% was not found." # %player% -> Player name.
+player-not-online: "Player %player% is not online." # %player% -> Player name.
+player-not-registered: "Player %player% is not registered in the database." # %player% -> Player name.
+pais-not-found: "Country %search% was not found." # %pais% -> Country name.
 
 internal-error: "An internal error occurred. Please contact an administrator."
 invalid-discord-id: "The provided Discord ID is not valid."
@@ -256,7 +256,7 @@ invalid-project-description: "Maximum 100 characters allowed for project descrip
 invalid-project-size: "Project size is invalid. Min. 2m² - Max. 50m²."
 invalid-project-location: "Project location is invalid or not within a valid division."
 invalid-project-comment: "Maximum 300 characters allowed for comment."
-invalid-admin-id: "The ID of the Admin project type is invalid. Verify that the ID configured in 'id-proyecto-admin' corresponds to an existing project type in the database."
+invalid-admin-id: "The ID of the Admin project type is invalid. Verify that the ID configured in id-proyecto-admin corresponds to an existing project type in the database."
 
 commands-descriptions:
   scoreboard.desc: "Configure the Scoreboards that are displayed."
@@ -456,13 +456,13 @@ help-visitar:
 
 region:
   selected: "<green>Region successfully selected."
-  not-selected: "You don't have a region selected."
+  not-selected: "You dont have a region selected."
   not-complete: "Region selection is incomplete."
   not-supported: "WorldEdit selection type not supported. Use cuboid or poly."
   we-error: "WorldEdit error."
 
 tpdir:
-  no-results: "No results found for '%query%'."
+  no-results: "No results found for %query%."
   tped: "Teleporting to <yellow>%destino%</yellow> . . ."
 
 language:
@@ -481,15 +481,15 @@ back:
   no-location: "You are already in your last location."
 
 pwarp:
-  created: "Pwarp <yellow>'%nombre%'</yellow> created successfully."
-  already: "You already have a Pwarp with the name <yellow>'%nombre%'</yellow>."
-  removed: "Pwarp <yellow>'%nombre%'</yellow> removed successfully."
-  not-found: "No Pwarp found with the name <yellow>'%nombre%'</yellow>."
-  teleported: "Teleported to Pwarp <yellow>'%nombre%'</yellow>."
+  created: "Pwarp <yellow>%nombre%</yellow> created successfully."
+  already: "You already have a Pwarp with the name <yellow>%nombre%</yellow>."
+  removed: "Pwarp <yellow>%nombre%</yellow> removed successfully."
+  not-found: "No Pwarp found with the name <yellow>%nombre%</yellow>."
+  teleported: "Teleported to Pwarp <yellow>%nombre%</yellow>."
   cant-create: "You cannot create a Pwarp at this location."
   invalid-name: "The Pwarp name is not valid."
   invalid-name-length: "The Pwarp name cannot be longer than 50 characters."
-  empty: "You don't have any Pwarps yet."
+  empty: "You dont have any Pwarps yet."
 
 player-info-command:
   - "\n <b>=========</b> <gold>Player info for %player.nombre%</gold> <b>=========</b>"
@@ -552,7 +552,7 @@ global-help-command:
   footer: " <b>=========</b> <gold><backtext> Page <yellow>%currentPage% of %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Text to go to previous page (if applicable). %currentPage% -> Current page. %totalPages% -> Total pages. <nextText> -> Text to go to next page (if applicable).
 
 project:
-  not-found-id: "No project found with ID <yellow>'%search%'</yellow>."
+  not-found-id: "No project found with ID <yellow>%search%</yellow>."
   not-found-here: "No project found at this location."
   not-finishing-here: "No finishing project found at this location."
   not-active-here: "No active project found at this location."
@@ -561,234 +561,234 @@ project:
   not-completed-here: "No completed project found at this location."
   not-with-room-here: "No project with room for new members found at this location."
   not-with-room-active-editing-here: "No active or editing project with room for new members found at this location."
-  not-active: "Project '%proyecto.id%' is not active."
-  not-active-editing: "Project '%proyecto.id%' is not active or editing."
-  not-abandoned: "Project '%proyecto.id%' is not abandoned."
-  not-completed: "Project '%proyecto.id%' is not completed."
-  tp-success: "Teleporting to project <yellow>'%proyecto.id%'</yellow>."
+  not-active: "Project %proyecto.id% is not active."
+  not-active-editing: "Project %proyecto.id% is not active or editing."
+  not-abandoned: "Project %proyecto.id% is not abandoned."
+  not-completed: "Project %proyecto.id% is not completed."
+  tp-success: "Teleporting to project <yellow>%proyecto.id%</yellow>."
   member:
-    already: "Player <yellow>'%player.nombre%'</yellow> is already a member or leader of project <yellow>'%proyecto.id%'</yellow>."
-    already-a-member: "You are already a Member or Leader of project <yellow>'%proyecto.id%'</yellow>."
-    not-member: "Player <yellow>'%player.nombre%'</yellow> is not a member of project <yellow>'%proyecto.id%'</yellow>."
-    not-a-member: "You are not a Member or Leader of project <yellow>'%proyecto.id%'</yellow>."
+    already: "Player <yellow>%player.nombre%</yellow> is already a member or leader of project <yellow>%proyecto.id%</yellow>."
+    already-a-member: "You are already a Member or Leader of project <yellow>%proyecto.id%</yellow>."
+    not-member: "Player <yellow>%player.nombre%</yellow> is not a member of project <yellow>%proyecto.id%</yellow>."
+    not-a-member: "You are not a Member or Leader of project <yellow>%proyecto.id%</yellow>."
     not-member-here: "You are not a Member or Leader of any project at this location."
     already-here: "There are no projects you can join at this location."
     add:
-      success: "Player <yellow>'%player.nombre%'</yellow> has been successfully added to project <yellow>'%proyecto.id%'</yellow>."
-      added: "You have been added to project <yellow>'%proyecto.id%'</yellow>."
-      for-member: "Player <yellow>'%player.nombre%'</yellow> has been added to project ID <yellow>'%proyecto.id%'</yellow> you belong to."
-      max-reached: "Project ID <yellow>'%proyecto.id%'</yellow> has reached the maximum allowed members. (Max. <yellow>%proyecto.maxMiembros%</yellow>, Has <yellow>%current%</yellow>)" # %current% -> Current member count.
+      success: "Player <yellow>%player.nombre%</yellow> has been successfully added to project <yellow>%proyecto.id%</yellow>."
+      added: "You have been added to project <yellow>%proyecto.id%</yellow>."
+      for-member: "Player <yellow>%player.nombre%</yellow> has been added to project ID <yellow>%proyecto.id%</yellow> you belong to."
+      max-reached: "Project ID <yellow>%proyecto.id%</yellow> has reached the maximum allowed members. (Max. <yellow>%proyecto.maxMiembros%</yellow>, Has <yellow>%current%</yellow>)" # %current% -> Current member count.
       cant-add-postulante: "You cannot add a user with Postulante rank to a project."
       postulante-max-reached: "Users with Postulante rank can only add %max% member to their projects." # %max% -> Maximum members allowed.
       log: "➕ | **%player.nombre%** has added **%player.nombre.1%** to project `%proyecto.id%`."
     remove:
-      success: "Player <yellow>'%player.nombre%'</yellow> has been successfully removed from project <yellow>'%proyecto.id%'</yellow>."
-      removed: "You have been removed from project <yellow>'%proyecto.id%'</yellow>."
-      for-member: "Player <yellow>'%player.nombre%'</yellow> has been removed from project ID <yellow>'%proyecto.id%'</yellow> you belong to."
+      success: "Player <yellow>%player.nombre%</yellow> has been successfully removed from project <yellow>%proyecto.id%</yellow>."
+      removed: "You have been removed from project <yellow>%proyecto.id%</yellow>."
+      for-member: "Player <yellow>%player.nombre%</yellow> has been removed from project ID <yellow>%proyecto.id%</yellow> you belong to."
       log: "➖ | **%player.nombre%** has removed **%player.nombre.1%** from project `%proyecto.id%`."
     leave:
-      success: "You have successfully left project <yellow>'%proyecto.id%'</yellow>."
-      for-member: "Player <yellow>'%player.nombre%'</yellow> has left project ID <yellow>'%proyecto.id%'</yellow> you belong to."
+      success: "You have successfully left project <yellow>%proyecto.id%</yellow>."
+      for-member: "Player <yellow>%player.nombre%</yellow> has left project ID <yellow>%proyecto.id%</yellow> you belong to."
       log: "🚪 | **%player.nombre%** has left project `%proyecto.id%`."
   leader:
-    not-leader: "You are not the Leader of project <yellow>'%proyecto.id%'</yellow>."
+    not-leader: "You are not the Leader of project <yellow>%proyecto.id%</yellow>."
     not-lider-completed-here: "You are not the Leader of any completed project at this location."
     ds-not-leader: "You are not the Leader of project **%proyecto.id%**."
     not-leader-active-editing-here: "You are not the Leader of any active or editing project at this location."
     not-leader-active-here: "You are not the Leader of any active project at this location."
     not-leader-here: "You are not the Leader of any project at this location."
     max-active-projects: "You have reached the maximum allowed active projects. (Max. %maxProyectos%, You have %currentProyectos%)"
-    max-active-projects-transfer: "Player '%player.nombre%' cannot be assigned as project leader because they have reached the maximum allowed active projects. (Max. %maxProyectos%, Has %currentProyectos%)" #  %maxProyectos% -> Maximum projects allowed. %currentProyectos% -> Current projects.
-    other-not-leader: "Player <yellow>'%player.nombre%'</yellow> is not the Leader of project <yellow>'%proyecto.id%'</yellow>."
-    other-already: "Player <yellow>'%player.nombre%'</yellow> is already the Leader of project ID <yellow>'%proyecto.id%'</yellow>."
+    max-active-projects-transfer: "Player %player.nombre% cannot be assigned as project leader because they have reached the maximum allowed active projects. (Max. %maxProyectos%, Has %currentProyectos%)" #  %maxProyectos% -> Maximum projects allowed. %currentProyectos% -> Current projects.
+    other-not-leader: "Player <yellow>%player.nombre%</yellow> is not the Leader of project <yellow>%proyecto.id%</yellow>."
+    other-already: "Player <yellow>%player.nombre%</yellow> is already the Leader of project ID <yellow>%proyecto.id%</yellow>."
     leave:
-      cant-leave: "You cannot leave project ID <yellow>'%proyecto.id%'</yellow> because you are the Leader and there are other members in the project. Assign a new Leader."
-      cant-leave-staff: "The leader of project ID <yellow>'%proyecto.id%'</yellow> cannot leave the project because there are other members in the project. Assign a new Leader."
-      success: "You have successfully left project <yellow>'%proyecto.id%'</yellow> as Leader. The project has been marked as <yellow>Abandoned</yellow>."
+      cant-leave: "You cannot leave project ID <yellow>%proyecto.id%</yellow> because you are the Leader and there are other members in the project. Assign a new Leader."
+      cant-leave-staff: "The leader of project ID <yellow>%proyecto.id%</yellow> cannot leave the project because there are other members in the project. Assign a new Leader."
+      success: "You have successfully left project <yellow>%proyecto.id%</yellow> as Leader. The project has been marked as <yellow>Abandoned</yellow>."
       log: "🚪 | Leader **%player.nombre%** has left project `%proyecto.id%`. The project has been marked as **Abandoned**."
     remove:
-      staff: "You have removed project leader <yellow>'%player.nombre%'</yellow> of ID <yellow>'%proyecto.id%'</yellow>. The project has been marked as <yellow>Abandoned</yellow>."
-      for-leader: "You have been removed from project <yellow>'%proyecto.id%'</yellow> as Leader. The project has been marked as <yellow>Abandoned</yellow>."
+      staff: "You have removed project leader <yellow>%player.nombre%</yellow> of ID <yellow>%proyecto.id%</yellow>. The project has been marked as <yellow>Abandoned</yellow>."
+      for-leader: "You have been removed from project <yellow>%proyecto.id%</yellow> as Leader. The project has been marked as <yellow>Abandoned</yellow>."
       log: "❌ | **%player.nombre%** has removed **%player.nombre.1%** as leader of project `%proyecto.id%`. The project has been marked as **Abandoned**."
     switch:
-      success: "You have successfully transferred leadership of project ID <yellow>'%proyecto.id%'</yellow> to <yellow>'%player.nombre%'</yellow>."
-      for-new-leader: "You have been assigned as the new Leader of project ID <yellow>'%proyecto.id%'</yellow>."
-      for-old-leader: "You have been replaced as Leader of project ID <yellow>'%proyecto.id%'</yellow> by <yellow>'%player.nombre%'</yellow>."
-      for-member: "The Leader of project ID <yellow>'%proyecto.id%'</yellow> has been changed to <yellow>'%player.nombre%'</yellow>."
+      success: "You have successfully transferred leadership of project ID <yellow>%proyecto.id%</yellow> to <yellow>%player.nombre%</yellow>."
+      for-new-leader: "You have been assigned as the new Leader of project ID <yellow>%proyecto.id%</yellow>."
+      for-old-leader: "You have been replaced as Leader of project ID <yellow>%proyecto.id%</yellow> by <yellow>%player.nombre%</yellow>."
+      for-member: "The Leader of project ID <yellow>%proyecto.id%</yellow> has been changed to <yellow>%player.nombre%</yellow>."
       log:  "🔄 | **%player.nombre%** has been replaced by **%player.nombre.1%** as leader of project `%proyecto.id%`."
       staff-log: "🔄 | **%player.nombre%** has replaced **%player.nombre.1%** with **%player.nombre.2%** as leader of project `%proyecto.id%`."
       staff-no-old-leader-log: "🔄 | **%player.nombre%** has promoted **%player.nombre.1%** to leader of project `%proyecto.id%`. The project has been marked as **Active**"
   create:
     admin:
-      success: "You have successfully created project <yellow>'%proyecto.id%'</yellow> of type Admin."
+      success: "You have successfully created project <yellow>%proyecto.id%</yellow> of type Admin."
       log: "📋 | **%player.nombre%** has created project `%proyecto.id%`. Type: `Admin`. Name: `%proyecto.nombre%`. Description: `%proyecto.descripcion%`."
     request:
-      success: "<green>Project request with ID <yellow>'%proyecto.id%'</yellow> sent successfully. Wait for a Reviewer to review it."
+      success: "<green>Project request with ID <yellow>%proyecto.id%</yellow> sent successfully. Wait for a Reviewer to review it."
       already: "You have already submitted a project request. Wait for a Reviewer to review it."
-      for-reviewer: "New project creation request from <yellow>'%pais.nombrePublico%'</yellow>. <gray><link>" 
+      for-reviewer: "New project creation request from <yellow>%pais.nombrePublico%</yellow>. <gray><link>" 
       ds-for-reviewer: "New project creation request from %pais.nombrePublico%. [View request](%link%)"
-      expired: "Project request with ID <yellow>'%proyecto.id%'</yellow> has expired."
+      expired: "Project request with ID <yellow>%proyecto.id%</yellow> has expired."
       log: "📋 | **%player.nombre%** has created project `%proyecto.id%`. Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. Division: `%proyecto.divisionId%`-`%proyecto.divisionNombre%`. Name: `%proyecto.nombre%`. Description: `%proyecto.descripcion%`."
       expired-log: "❌ | Project creation request `%proyecto.id%` by **%player.nombre%** has expired."
     accept:
-      success: "You have accepted the request for project ID <yellow>'%proyecto.id%'</yellow>."
+      success: "You have accepted the request for project ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Project accepted."
-      for-leader: "<green>Project ID <yellow>'%proyecto.id%'</yellow> has been accepted. You can now build."
+      for-leader: "<green>Project ID <yellow>%proyecto.id%</yellow> has been accepted. You can now build."
       comment: "<green>Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "✅ | **%player.nombre%** has accepted project `%proyecto.id%` by **%player.nombre.1%**."
     reject:
-      success: "You have rejected the request for project ID <yellow>'%proyecto.id%'</yellow>."
+      success: "You have rejected the request for project ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Project rejected."
-      for-leader: "<red>Project ID <yellow>'%proyecto.id%'</yellow> has been rejected."
+      for-leader: "<red>Project ID <yellow>%proyecto.id%</yellow> has been rejected."
       comment: "<red>Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "❌ | **%player.nombre%** has denied project `%proyecto.id%` by **%player.nombre.1%**."
   delete:
-    success: "Project <yellow>'%proyecto.id%'</yellow> has been successfully deleted."
-    for-member: "Project ID <yellow>'%proyecto.id%'</yellow> you belong to has been deleted."
+    success: "Project <yellow>%proyecto.id%</yellow> has been successfully deleted."
+    for-member: "Project ID <yellow>%proyecto.id%</yellow> you belong to has been deleted."
     staff-log: "🗑️ | **%player.nombre%** has deleted project `%proyecto.id%`."
     log: "🗑️ | Project `%proyecto.id%` by **%player.nombre%** has been deleted."
   edit:
     activate:
-      success: "<green>Editing of project ID <yellow>'%proyecto.id%'</yellow> has been activated. You can now build again."
-      for-member: "%player.nombre% has activated project ID <yellow>'%proyecto.id%'</yellow> you belong to. You can now build again."
+      success: "<green>Editing of project ID <yellow>%proyecto.id%</yellow> has been activated. You can now build again."
+      for-member: "%player.nombre% has activated project ID <yellow>%proyecto.id%</yellow> you belong to. You can now build again."
       log: "✏️ | **%player.nombre%** has activated editing of project `%proyecto.id%`."
     finish:
       request:
-        success: "Completion request for project ID <yellow>'%proyecto.id%'</yellow> sent successfully. Wait for a Reviewer to review it."
-        already: "You have already sent a completion request for project ID <yellow>'%proyecto.id%'</yellow>. Wait for a Reviewer to review it."
-        expired: "Completion request for project ID <yellow>'%proyecto.id%'</yellow> has expired."
-        for-member: "%player.nombre% has requested to finish project ID <yellow>'%proyecto.id%'</yellow> you belong to."
-        for-reviewer: "New project edit completion request from <yellow>'%pais.nombrePublico%'</yellow>. ID: <yellow><id></yellow>. Coordinates: <yellow><coords></yellow>"
+        success: "Completion request for project ID <yellow>%proyecto.id%</yellow> sent successfully. Wait for a Reviewer to review it."
+        already: "You have already sent a completion request for project ID <yellow>%proyecto.id%</yellow>. Wait for a Reviewer to review it."
+        expired: "Completion request for project ID <yellow>%proyecto.id%</yellow> has expired."
+        for-member: "%player.nombre% has requested to finish project ID <yellow>%proyecto.id%</yellow> you belong to."
+        for-reviewer: "New project edit completion request from <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordinates: <yellow><coords></yellow>"
         ds-for-reviewer: "New project edit completion request from %pais.nombrePublico%. ID: `%proyecto.id%`. Coordinates: `%proyecto.geoCoords%`"
         log: "✏️ | **%player.nombre%** has requested to finish editing project `%proyecto.id%`."
         expired-log: "❌ | Edit completion request for project `%proyecto.id%` has expired."
       accept:
-        success: "You have accepted the edit completion for project ID <yellow>'%proyecto.id%'</yellow>."
-        for-member: "<green>Edit completion for project ID <yellow>'%proyecto.id%'</yellow> has been accepted."
+        success: "You have accepted the edit completion for project ID <yellow>%proyecto.id%</yellow>."
+        for-member: "<green>Edit completion for project ID <yellow>%proyecto.id%</yellow> has been accepted."
         comment: "<green>Comment: <gray>\"<white>%comentario%\"</gray>"
         log: "✅ | **%player.nombre%** has accepted edit completion for project `%proyecto.id%`."
       reject:
-        success: "You have rejected the edit completion for project ID <yellow>'%proyecto.id%'</yellow>."
-        for-member: "<red>Edit completion for project ID <yellow>'%proyecto.id%'</yellow> has been denied."
+        success: "You have rejected the edit completion for project ID <yellow>%proyecto.id%</yellow>."
+        for-member: "<red>Edit completion for project ID <yellow>%proyecto.id%</yellow> has been denied."
         comment: "<red>Comment: <gray>\"<white>%comentario%\"</gray>"
         log: "❌ | **%player.nombre%** has denied edit completion for project `%proyecto.id%`."
   finish:
     request:
-      success: "Completion request for project ID <yellow>'%proyecto.id%'</yellow> sent successfully. Wait for a Reviewer to review it."
-      already: "You have already sent a completion request for project ID <yellow>'%proyecto.id%'</yellow>. Wait for a Reviewer to review it."
-      expired: "Completion request for project ID <yellow>'%proyecto.id%'</yellow> has expired."
-      for-member: "%player.nombre% has requested to finish project ID <yellow>'%proyecto.id%'</yellow> you belong to."
-      for-reviewer: "New project completion request from <yellow>'%pais.nombrePublico%'</yellow>. ID: <yellow><id></yellow>. Coordinates: <yellow><coords></yellow>"
+      success: "Completion request for project ID <yellow>%proyecto.id%</yellow> sent successfully. Wait for a Reviewer to review it."
+      already: "You have already sent a completion request for project ID <yellow>%proyecto.id%</yellow>. Wait for a Reviewer to review it."
+      expired: "Completion request for project ID <yellow>%proyecto.id%</yellow> has expired."
+      for-member: "%player.nombre% has requested to finish project ID <yellow>%proyecto.id%</yellow> you belong to."
+      for-reviewer: "New project completion request from <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordinates: <yellow><coords></yellow>"
       ds-for-reviewer: "New project completion request from %pais.nombrePublico%. ID: `%proyecto.id%`. Coordinates: `%proyecto.geoCoords%`"
       log: "⏰ | **%player.nombre%** has requested to finish project `%proyecto.id%`."
       expired-log: "❌ | Completion request for project `%proyecto.id%` has expired."
     accept:
-      success: "You have accepted the completion of project ID <yellow>'%proyecto.id%'</yellow>."
-      success-promote: "You have accepted the completion of project ID <yellow>'%proyecto.id%'</yellow> and promoted the Leader to Constructor."
-      for-member: "<green>Completion of project ID <yellow>'%proyecto.id%'</yellow> has been accepted."
+      success: "You have accepted the completion of project ID <yellow>%proyecto.id%</yellow>."
+      success-promote: "You have accepted the completion of project ID <yellow>%proyecto.id%</yellow> and promoted the Leader to Constructor."
+      for-member: "<green>Completion of project ID <yellow>%proyecto.id%</yellow> has been accepted."
       comment: "<green>Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "✅ | **%player.nombre%** has accepted completion of project `%proyecto.id%` by **%player.nombre.1%**."
     reject:
-      success: "You have rejected the completion of project ID <yellow>'%proyecto.id%'</yellow>."
-      for-member: "<red>Completion of project ID <yellow>'%proyecto.id%'</yellow> has been denied."
+      success: "You have rejected the completion of project ID <yellow>%proyecto.id%</yellow>."
+      for-member: "<red>Completion of project ID <yellow>%proyecto.id%</yellow> has been denied."
       comment: "<red>Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "❌ | **%player.nombre%** has denied completion of project `%proyecto.id%` by **%player.nombre.1%**."
   redefine:
     request:
-      success: "Redefinition request for project ID <yellow>'%proyecto.id%'</yellow> sent successfully. Wait for a Reviewer to review it."
-      already: "You have already sent a redefinition request for project ID <yellow>'%proyecto.id%'</yellow>. Wait for a Reviewer to review it."
-      expired: "Redefinition request for project ID <yellow>'%proyecto.id%'</yellow> has expired."
-      for-reviewer: "New project redefinition request from <yellow>'%pais.nombrePublico%'</yellow>. <gray><link>"
+      success: "Redefinition request for project ID <yellow>%proyecto.id%</yellow> sent successfully. Wait for a Reviewer to review it."
+      already: "You have already sent a redefinition request for project ID <yellow>%proyecto.id%</yellow>. Wait for a Reviewer to review it."
+      expired: "Redefinition request for project ID <yellow>%proyecto.id%</yellow> has expired."
+      for-reviewer: "New project redefinition request from <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "New project redefinition request from %pais.nombrePublico%. [View request](%link%)"
-      for-member: "%player.nombre% has requested to redefine project ID <yellow>'%proyecto.id%'</yellow> you belong to."
+      for-member: "%player.nombre% has requested to redefine project ID <yellow>%proyecto.id%</yellow> you belong to."
       log: "♻️ | **%player.nombre%** has requested to redefine project `%proyecto.id%`. New Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. New Division: `%proyecto.divisionId%`-`%proyecto.divisionNombre%`."
       expired-log: "❌ | Redefinition request for project `%proyecto.id%` has expired."
     accept:
-      success: "You have accepted the redefinition of project ID <yellow>'%proyecto.id%'</yellow>."
+      success: "You have accepted the redefinition of project ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Redefinition accepted."
-      for-member: "Redefinition of project ID <yellow>'%proyecto.id%'</yellow> has been accepted."
+      for-member: "Redefinition of project ID <yellow>%proyecto.id%</yellow> has been accepted."
       comment: "Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "✅ | **%player.nombre%** has accepted redefinition of project `%proyecto.id%` by **%player.nombre.1%**."
     reject:
-      success: "You have rejected the redefinition of project ID <yellow>'%proyecto.id%'</yellow>."
+      success: "You have rejected the redefinition of project ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Redefinition rejected."
-      for-member: "Redefinition of project ID <yellow>'%proyecto.id%'</yellow> has been denied."
+      for-member: "Redefinition of project ID <yellow>%proyecto.id%</yellow> has been denied."
       comment: "Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "❌ | **%player.nombre%** has denied redefinition of project `%proyecto.id%` by **%player.nombre.1%**."
   claim:
-    success: "<green>You have successfully claimed project ID <yellow>'%proyecto.id%'</yellow>. You are now the project Leader."
+    success: "<green>You have successfully claimed project ID <yellow>%proyecto.id%</yellow>. You are now the project Leader."
     log: "📌 | **%player.nombre%** has claimed project `%proyecto.id%`. The project has been marked as **Active**"
   join:
     log: "➕ | **%player.nombre%** has been added to project `%proyecto.id%`."
     request:
-      success: "You have successfully requested to join project ID <yellow>'%proyecto.id%'</yellow>. Wait for the Leader to review it."
-      already: "You have already requested to join project ID <yellow>'%proyecto.id%'</yellow>. Wait for the Leader to review it."
-      expired: "Your request to join project ID <yellow>'%proyecto.id%'</yellow> has expired."
-      expired-lider: "Player <yellow>'%player.nombre%'</yellow>'s request to join project ID <yellow>'%proyecto.id%'</yellow> has expired."
-      for-lider: "%player.nombre% has requested to join project ID <yellow>'%proyecto.id%'</yellow> you belong to."
+      success: "You have successfully requested to join project ID <yellow>%proyecto.id%</yellow>. Wait for the Leader to review it."
+      already: "You have already requested to join project ID <yellow>%proyecto.id%</yellow>. Wait for the Leader to review it."
+      expired: "Your request to join project ID <yellow>%proyecto.id%</yellow> has expired."
+      expired-lider: "Player <yellow>%player.nombre%</yellow>s request to join project ID <yellow>%proyecto.id%</yellow> has expired."
+      for-lider: "%player.nombre% has requested to join project ID <yellow>%proyecto.id%</yellow> you belong to."
       log: "🔔 | **%player.nombre%** has requested to join project `%proyecto.id%`."
-      expired-log: "❌ | **%player.nombre%**'s request to join project `%proyecto.id%` has expired."
+      expired-log: "❌ | **%player.nombre%**s request to join project `%proyecto.id%` has expired."
     accept:
-      success: "You have accepted the request to join project ID <yellow>'%proyecto.id%'</yellow>."
+      success: "You have accepted the request to join project ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Request accepted."
-      for-member: "<green>You have been accepted to join project ID <yellow>'%proyecto.id%'</yellow> you belong to."
-      log: "✅ | **%player.nombre%** has accepted **%player.nombre.1%**'s request to join project `%proyecto.id%`."
+      for-member: "<green>You have been accepted to join project ID <yellow>%proyecto.id%</yellow> you belong to."
+      log: "✅ | **%player.nombre%** has accepted **%player.nombre.1%**s request to join project `%proyecto.id%`."
     reject:
-      success: "You have rejected the request to join project ID <yellow>'%proyecto.id%'</yellow>."
+      success: "You have rejected the request to join project ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Request rejected."
-      for-member: "<red>You have been rejected to join project ID <yellow>'%proyecto.id%'</yellow> you belong to."
-      log: "❌ | **%player.nombre%** has denied **%player.nombre.1%**'s request to join project `%proyecto.id%`."
+      for-member: "<red>You have been rejected to join project ID <yellow>%proyecto.id%</yellow> you belong to."
+      log: "❌ | **%player.nombre%** has denied **%player.nombre.1%**s request to join project `%proyecto.id%`."
   update:
     description:
-      success: "Description for project <yellow>'%proyecto.id%'</yellow> has been successfully updated."
-      for-member: "Description for project ID <yellow>'%proyecto.id%'</yellow> you belong to has been updated."
+      success: "Description for project <yellow>%proyecto.id%</yellow> has been successfully updated."
+      for-member: "Description for project ID <yellow>%proyecto.id%</yellow> you belong to has been updated."
       log: "✏️ | **%player.nombre%** has updated project `%proyecto.id%` description to `%proyecto.descripcion%`."
     name:
-      success: "Name for project <yellow>'%proyecto.id%'</yellow> has been successfully updated."
-      for-member: "Name for project ID <yellow>'%proyecto.id%'</yellow> you belong to has been updated."
+      success: "Name for project <yellow>%proyecto.id%</yellow> has been successfully updated."
+      for-member: "Name for project ID <yellow>%proyecto.id%</yellow> you belong to has been updated."
       log: "✏️ | **%player.nombre%** has updated project `%proyecto.id%` name to `%proyecto.nombre%`."
   border:
     deactivated: "<green>Border for project ID <yellow>%proyecto.id%</yellow> has been deactivated."
     activated: "<green>Border for project ID <yellow>%proyecto.id%</yellow> has been activated."
 manager:
-  not-manager-country: "You are not a Manager of country '%pais.nombrePublico%'."
-  already: "Player '%player.nombre%' is already a Manager of country '%pais.nombrePublico%'."
-  not-manager: "Player '%player.nombre%' is not a Manager of country '%pais.nombrePublico%'."
+  not-manager-country: "You are not a Manager of country %pais.nombrePublico%."
+  already: "Player %player.nombre% is already a Manager of country %pais.nombrePublico%."
+  not-manager: "Player %player.nombre% is not a Manager of country %pais.nombrePublico%."
   add:
-    success: "Player '%player.nombre%' has been successfully added as Manager of country '%pais.nombrePublico%'."
-    for-target: "You have been successfully added as Manager of country '%pais.nombrePublico%'."
-    log: "🔍 | **%player.nombre%** has added **%player.nombre.1%** as Manager of country '%pais.nombrePublico%'."
+    success: "Player %player.nombre% has been successfully added as Manager of country %pais.nombrePublico%."
+    for-target: "You have been successfully added as Manager of country %pais.nombrePublico%."
+    log: "🔍 | **%player.nombre%** has added **%player.nombre.1%** as Manager of country %pais.nombrePublico%."
   remove:
-    success: "Player '%player.nombre%' has been successfully removed as Manager of country '%pais.nombrePublico%'."
-    for-target: "You have been successfully removed as Manager of country '%pais.nombrePublico%'."
-    log: "❌ | **%player.nombre%** has removed **%player.nombre.1%** as Manager of country '%pais.nombrePublico%'."
+    success: "Player %player.nombre% has been successfully removed as Manager of country %pais.nombrePublico%."
+    for-target: "You have been successfully removed as Manager of country %pais.nombrePublico%."
+    log: "❌ | **%player.nombre%** has removed **%player.nombre.1%** as Manager of country %pais.nombrePublico%."
 reviewer:
-  not-reviewer-country: "You are not a Reviewer of country '%pais.nombrePublico%'."
+  not-reviewer-country: "You are not a Reviewer of country %pais.nombrePublico%."
   not-a-reviewer-country: "You are not a Reviewer of any country."
-  already: "Player '%player.nombre%' is already a Reviewer of country '%pais.nombrePublico%'."
-  not-reviewer: "Player '%player.nombre%' is not a Reviewer of country '%pais.nombrePublico%'."
-  ds-not-reviewer-country: "You are not a Reviewer of country **'%pais.nombrePublico%'**."
+  already: "Player %player.nombre% is already a Reviewer of country %pais.nombrePublico%."
+  not-reviewer: "Player %player.nombre% is not a Reviewer of country %pais.nombrePublico%."
+  ds-not-reviewer-country: "You are not a Reviewer of country **%pais.nombrePublico%**."
   add:
-    success: "Player '%player.nombre%' has been successfully added as Reviewer of country '%pais.nombrePublico%'."
-    for-target: "You have been successfully added as Reviewer of country '%pais.nombrePublico%'."
-    log: "🔍 | **%player.nombre%** has added **%player.nombre.1%** as Reviewer of country '%pais.nombrePublico%'."
+    success: "Player %player.nombre% has been successfully added as Reviewer of country %pais.nombrePublico%."
+    for-target: "You have been successfully added as Reviewer of country %pais.nombrePublico%."
+    log: "🔍 | **%player.nombre%** has added **%player.nombre.1%** as Reviewer of country %pais.nombrePublico%."
   remove:
-    success: "Player '%player.nombre%' has been successfully removed as Reviewer of country '%pais.nombrePublico%'."
-    for-target: "You have been successfully removed as Reviewer of country '%pais.nombrePublico%'."  
-    log: "❌ | **%player.nombre%** has removed **%player.nombre.1%** as Reviewer of country '%pais.nombrePublico%'."
+    success: "Player %player.nombre% has been successfully removed as Reviewer of country %pais.nombrePublico%."
+    for-target: "You have been successfully removed as Reviewer of country %pais.nombrePublico%."  
+    log: "❌ | **%player.nombre%** has removed **%player.nombre.1%** as Reviewer of country %pais.nombrePublico%."
   toggle-build:
-    enabled: "<green>Build toggle enabled for project <yellow>'%proyecto.id%'</yellow>. You can now build here."
-    disabled: "<yellow>Build toggle disabled for project <yellow>'%proyecto.id%'</yellow>. You can no longer build in this project."
-    switched: "<green>Build toggle switched to project <yellow>'%proyecto.id%'</yellow>. You can now build here."
+    enabled: "<green>Build toggle enabled for project <yellow>%proyecto.id%</yellow>. You can now build here."
+    disabled: "<yellow>Build toggle disabled for project <yellow>%proyecto.id%</yellow>. You can no longer build in this project."
+    switched: "<green>Build toggle switched to project <yellow>%proyecto.id%</yellow>. You can now build here."
 where:
   division: "Country: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordinates: <yellow><coords></yellow>"
-  no-division: "You are not within any division of '%pais.nombrePublico%'.\n Coordinates: <yellow><coords></yellow>"
+  no-division: "You are not within any division of %pais.nombrePublico%.\n Coordinates: <yellow><coords></yellow>"
   no-pais: "You are not within any country."
 get-list:
   header: " ===== <gold>List of %entity%s</gold>" # %entity% -> Entity name in plural.
   line: " - <gold>%id%:</gold> %details%" # %id% -> Entity identifier. %details% -> Entity details.
   footer: ""
-  empty: "No '%entity%' found." # %entity% -> Entity name in plural.
+  empty: "No %entity% found." # %entity% -> Entity name in plural.
 link:
   ds-already-linked: "Your Discord account is already linked to a Minecraft account."
   mc-already-linked: "Your Minecraft account is already linked to a Discord account."
@@ -798,28 +798,28 @@ link:
   mc-success: "Account successfully linked."
   ds-success: "Account successfully linked to **%player.nombre%**."
   unlink-success: "Account successfully unlinked."
-  set-success: "Discord account has been successfully linked to <yellow>'%player.nombre%'</yellow>."
-  unlink-set-success: "Discord account has been successfully unlinked from <yellow>'%player.nombre%'</yellow>."
+  set-success: "Discord account has been successfully linked to <yellow>%player.nombre%</yellow>."
+  unlink-set-success: "Discord account has been successfully unlinked from <yellow>%player.nombre%</yellow>."
   mc-code: "Your code is: <yellow><codigo></yellow>. Use <gray>/link %codigo%</gray> in Discord."
   ds-code: "Your code is: `%code%`. Use **/link %code%** in Minecraft."
-  mc-link-needed: "You must link your Discord account to use this command. Use '/link'."
-  mc-link-recomendation: "We recommend linking your Discord account. Use '/link'."
-  ds-link-needed: "You must link your Minecraft account to perform this action. Use '/link'."
+  mc-link-needed: "You must link your Discord account to use this command. Use /link."
+  mc-link-recomendation: "We recommend linking your Discord account. Use /link."
+  ds-link-needed: "You must link your Minecraft account to perform this action. Use /link."
 crud:
-  create: "Entity '%entity%' created successfully. Restart the server to apply changes." # %entity% -> Entity name.
-  read: "Entity '%entity%' with id '%id%':" # %entity% -> Entity name. %id% -> Entity identifier.
-  update: "Entity '%entity%' with id '%id%' updated successfully. Restart the server to apply changes." # %entity% -> Entity name. %id% -> Entity identifier.
-  delete: "Entity '%entity%' with id '%id%' deleted successfully. Restart the server to apply changes." # %entity% -> Entity name. %id% -> Entity identifier.  
-  already-exists: "Entity '%entity%' with id '%id%' already exists." # %entity% -> Entity name. %id% -> Entity identifier.
-  read-not-found: "Entity '%entity%' with id '%id%' not found." # %entity% -> Entity name. %id% -> Entity identifier.
-  not-valid-parse: "Could not convert value '%value%' to type '%type%' for entity '%entity%'." # %entity% -> Entity name. %value% -> Invalid value. %type% -> Expected type.  
-  not-valid-id: "Provided id '%id%' is not valid for entity '%entity%'." # %entity% -> Entity name. %id% -> Entity identifier.
-  not-valid-name: "Provided name '%name%' is not valid for entity '%entity%'. Reason: %reason%" # %entity% -> Entity name. %name% -> Invalid name. %reason% -> Reason for invalidity.
-  not-valid-description: "Provided description is not valid for entity '%entity%'. Reason: %reason%" # %entity% -> Entity name. %reason% -> Reason for invalidity.
+  create: "Entity %entity% created successfully. Restart the server to apply changes." # %entity% -> Entity name.
+  read: "Entity %entity% with id %id%:" # %entity% -> Entity name. %id% -> Entity identifier.
+  update: "Entity %entity% with id %id% updated successfully. Restart the server to apply changes." # %entity% -> Entity name. %id% -> Entity identifier.
+  delete: "Entity %entity% with id %id% deleted successfully. Restart the server to apply changes." # %entity% -> Entity name. %id% -> Entity identifier.  
+  already-exists: "Entity %entity% with id %id% already exists." # %entity% -> Entity name. %id% -> Entity identifier.
+  read-not-found: "Entity %entity% with id %id% not found." # %entity% -> Entity name. %id% -> Entity identifier.
+  not-valid-parse: "Could not convert value %value% to type %type% for entity %entity%." # %entity% -> Entity name. %value% -> Invalid value. %type% -> Expected type.  
+  not-valid-id: "Provided id %id% is not valid for entity %entity%." # %entity% -> Entity name. %id% -> Entity identifier.
+  not-valid-name: "Provided name %name% is not valid for entity %entity%. Reason: %reason%" # %entity% -> Entity name. %name% -> Invalid name. %reason% -> Reason for invalidity.
+  not-valid-description: "Provided description is not valid for entity %entity%. Reason: %reason%" # %entity% -> Entity name. %reason% -> Reason for invalidity.
   not-valid-region: "Region has no associated polygon."
   not-valid-geojson: "Could not load GeoJSON or it contains no polygons."
-  division-region-not-found: "Region with id '%regionId%' not found for division with id '%divisionId%'." # %regionId% -> Region identifier. %divisionId% -> Division identifier.
-  loading-division: "Loading divisions for country '%pais.nombrePublico%' from GeoJSON file..."
+  division-region-not-found: "Region with id %regionId% not found for division with id %divisionId%." # %regionId% -> Region identifier. %divisionId% -> Division identifier.
+  loading-division: "Loading divisions for country %pais.nombrePublico% from GeoJSON file..."
   no-divisions: "Could not load GeoJSON or \"%path%\" contains no valid divisions." # %path% -> GeoJSON file path.
   division-exception: "An error occurred while loading divisions from GeoJSON: %error%" # %error% -> Error details.
   loaded-division: " (%count% divisions loaded)" # %count% -> Number of divisions loaded.
@@ -830,27 +830,27 @@ crud:
   tipo-not-have-permiso: "User Type does not have that permission."
   permisos-list: "Permissions: %permisos%" # %permisos% -> List of User Rank permissions.
 global-chat:
-  set: "<green><yellow>%player.nombre%</yellow>'s chat has been changed to global chat."
+  set: "<green><yellow>%player.nombre%</yellow>s chat has been changed to global chat."
   switched: "<aqua>You have switched to global chat."
 country-chat:
-  set: "<green><yellow>%player.nombre%</yellow>'s chat has been changed to <yellow>%pais.nombrePublico%</yellow> chat."
+  set: "<green><yellow>%player.nombre%</yellow>s chat has been changed to <yellow>%pais.nombrePublico%</yellow> chat."
   switched: "<aqua>You have switched to <yellow>%pais.nombrePublico%</yellow> chat."
 notepad:
-  set: "<green><yellow>%player.nombre%</yellow>'s notepad has been opened."
+  set: "<green><yellow>%player.nombre%</yellow>s notepad has been opened."
   switched: "<aqua>You have opened the notepad."
 nickname:
-  invalid-regex: "The public name cannot contain text between '<>'."
-  change: "<green>Your public name has been changed to <yellow>'%nickname%'</yellow>." # %nickname% -> New public name.
-  set: "<green><yellow>'%player.nombre%'</yellow>'s public name has been changed to <yellow>'%nickname%'</yellow>." # %nickname% -> New public name.
+  invalid-regex: "The public name cannot contain text between <>."
+  change: "<green>Your public name has been changed to <yellow>%nickname%</yellow>." # %nickname% -> New public name.
+  set: "<green><yellow>%player.nombre%</yellow>s public name has been changed to <yellow>%nickname%</yellow>." # %nickname% -> New public name.
 country-prefix:
-  set: "<green>%player.nombre%'s country prefix has been set to <r>%player.paisPrefix%</yellow>." #  %paisPrefix% -> Country prefix.
-  switched: "<aqua>Your country prefix has been changed to <r>%player.paisPrefix%</yellow>." # %paisPrefix% -> Country prefix.
+  set: "<green>%player.nombre%s country prefix has been set to <reset>%player.paisPrefix%</yellow>." #  %paisPrefix% -> Country prefix.
+  switched: "<aqua>Your country prefix has been changed to <reset>%player.paisPrefix%</yellow>." # %paisPrefix% -> Country prefix.
 rango:
-  set: "<green><yellow>%player.nombre%</yellow>'s rank has been changed to <yellow>%rango.nombre%</yellow>."
+  set: "<green><yellow>%player.nombre%</yellow>s rank has been changed to <yellow>%rango.nombre%</yellow>."
   switch: "<aqua>Your rank has been changed to <yellow>%rango.nombre%</yellow>."
-  promote-staff-log: "💪 | **%player.nombre%** has promoted **%player.nombre.1%** to User Type **%tipo.nombre%**."
+  promote-staff-log: "💪 | **%player.nombre%** has promoted **%player.nombre.1%** to User Type **%rango.nombre%**."
 tipo:
-  set: "<green><yellow>%player.nombre%</yellow>'s user type has been changed to <yellow>%tipo.nombre%</yellow>."
+  set: "<green><yellow>%player.nombre%</yellow>s user type has been changed to <yellow>%tipo.nombre%</yellow>."
   switch: "<aqua>Your user type has been changed to <yellow>%tipo.nombre%</yellow>."
   promote-log: "💪 | **%player.nombre%** has been promoted to User Type **%tipo.nombre%**."
   promote-staff-log: "💪 | **%player.nombre%** has promoted **%player.nombre.1%** to User Type **%tipo.nombre%**."
@@ -913,20 +913,20 @@ ds-chat-notifications:
 # Discord
 ds-notifications:
   rango-switched:
-    title: "Your rank has been changed to '%rango.nombre%'"
+    title: "Your rank has been changed to %rango.nombre%"
   tipo-switched:
-    title: "You have been promoted to '%tipo.nombre%'"
+    title: "You have been promoted to %tipo.nombre%"
     max-projects: "Max. simultaneous projects: %tipo.cantProyecSim%"
-  manager-target-added: "You have been added as Manager of country '%pais.nombrePublico%'"
-  manager-target-removed: "You have been removed as Manager of country '%pais.nombrePublico%'"
-  reviewer-target-added: "You have been added as Reviewer of country '%pais.nombrePublico%'"
-  reviewer-target-removed: "You have been removed as Reviewer of country '%pais.nombrePublico%'"
-  link-success: "Your account has been linked to '%player.nombre%'"
+  manager-target-added: "You have been added as Manager of country %pais.nombrePublico%"
+  manager-target-removed: "You have been removed as Manager of country %pais.nombrePublico%"
+  reviewer-target-added: "You have been added as Reviewer of country %pais.nombrePublico%"
+  reviewer-target-removed: "You have been removed as Reviewer of country %pais.nombrePublico%"
+  link-success: "Your account has been linked to %player.nombre%"
   project:
-    id: "Project ID: '%proyecto.id%'" # In all.
-    nombre: "Project name: '%proyecto.nombre%'" # In all.
-    nombre-nuevo: "New project name: '%nombreNuevo%'" # Only in project-name-updated.
-    descripcion-nueva: "New project description: '%descripcionNueva%'" # Only in project-description-updated.
+    id: "Project ID: %proyecto.id%" # In all.
+    nombre: "Project name: %proyecto.nombre%" # In all.
+    nombre-nuevo: "New project name: %nombreNuevo%" # Only in project-name-updated.
+    descripcion-nueva: "New project description: %descripcionNueva%" # Only in project-description-updated.
     comment: "Comment: %comentario%" # Only in: project-rejected, project-redefine-rejected, project-finish-rejected, project-finish-edit-rejected, project-accepted, project-redefine-accepted, project-finish-accepted, proproject-finish-edit-accepted. %comentario% -> Staff comment.
     project-accepted: "Project accepted"
     project-expired: "Project request has expired"
@@ -946,7 +946,7 @@ ds-notifications:
     project-member-left-member: "Player %player.nombre% has left a project you belong to"
     project-member-join-request: "%player.nombre% has requested to join your project"
     project-join-request-expired: "Request to join project has expired"
-    project-join-request-expired-lider: "%player.nombre%'s request to join project has expired"
+    project-join-request-expired-lider: "%player.nombre%s request to join project has expired"
     project-join-request-rejected: "Request to join project rejected"
     project-join-request-accepted: "Request to join project accepted"
     project-redefine-request-member: "%player.nombre% has requested to redefine a project you belong to"
@@ -966,6 +966,7 @@ ds-help:
   cancel: "Cancel"
   next-page: "Next page"
   previous-page: "Previous page"
+  page: "%currentPage% / %totalPages%"
   description: "Shows help information."
   footer: "Page %currentPage% of %totalPages%"
   minecraft:
@@ -994,8 +995,31 @@ ds-help:
       proyecto:
         usage: "/project <project_id>"
         description: "Shows detailed information about a specific project."
+      online: 
+        usage: "/online"
+        description: "Shows the number of players online and their distribution by country."
+      schematic:
+        usage: "/schematic <nombre_schematic>"
+        description: "Descarga un schematic de WE guardado en el servidor."
+        
 ds-embeds:
   author: "BTE Cono Sur"
+  ds-embeds:
+  project-list:
+    title: "Project list"
+    no-projects: "No projects to show."
+    see-player: "See Player Info"
+    cancel-message: "Project list closed."
+    cancel: "Cancel"
+    next-page: "Next page"
+    previous-page: "Previous page"
+    page: "%currentPage% / %totalPages%"
+    field-name: "%proyecto.id% - %proyecto.nombre%"
+    field-info:
+      - "> Leader: %proyecto.lider%"
+      - "> Members: %proyecto.miembrosCantidad2%"
+      - "> Country: %proyecto.paisNombre%"
+      - "> Status: %proyecto.estado%"
   online: 
     title: "Jugadores en línea: %online%" # %online% -> Cantidad de jugadores en línea.
     no-online: "N/A"
@@ -1009,7 +1033,8 @@ ds-embeds:
       tipo: "Type"
       max-miembros: "Max. members"
       lider: "Leader"
-      miembros: "Member Count"
+      miembros-cant: "Member Count"
+      miembros: "Members"
       estado: "Status"
       pais: "Country"
       ubicacion: "Location"
@@ -1019,6 +1044,10 @@ ds-embeds:
   player-info:
     title: "Player Information: %player.nombre%"
     ds-no-link: "> **[!]** The user does not have a Minecraft account linked."
+    see-projects: "See Projects"
+    see-player: "See Player"
+    cancel-message: "Player info closed."
+    cancel: "Cancel"
     fields:
       nombre: "Public Name"
       discord: "Discord"
@@ -1035,8 +1064,8 @@ ds-embeds:
     footer-no-link: "Discord ID: %discordId%"
   project-created:
     title: "%player.nombre% wants to create a new project."
-    player-is-visita: "> **[!]** Player is of type 'Visita'."
-    player-is-postulante: "> **[!]** Player is of type 'Postulante'." 
+    player-is-visita: "> **[!]** Player is of type Visita."
+    player-is-postulante: "> **[!]** Player is of type Postulante." 
     has-collisions: "> **[!]** Project has collisions with other projects."
     polygons-colors:
       - "🟦 - Project"
@@ -1074,9 +1103,9 @@ ds-embeds:
   warn: "Warn"
 
 # GUI
-# 'material' must be from https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
-# To use a head from the database, use 'hdb:<head-id>'.
-# The 'head-id' is obtained from Head Database - https://minecraft-heads.com/.
+# material must be from https://jd.papermc.io/paper/1.21.4/org/bukkit/Material.
+# To use a head from the database, use hdb:<head-id>.
+# The head-id is obtained from Head Database - https://minecraft-heads.com/.
 # In case of an invalid material, STONE will be used by default.
 gui-titles:
   manager-config: "Manager Configuration"
@@ -1099,35 +1128,35 @@ gui-titles:
   project-promote: "Promote Player: %player.nombre%"
   tipo-confirm: "Confirm Type Change"
   unlink-confirm: "Confirm Unlink"
-  finish-project-confirm: "Confirm Completion: '%proyecto.id%'"
-  redefine-project-confirm: "Confirm Redefinition: '%proyecto.id%'"
-  edit-project-confirm: "Confirm Edit: '%proyecto.id%'"
-  leave-project-confirm: "Confirm Leave: '%proyecto.id%'"
-  claim-project-confirm: "Confirm Claim: '%proyecto.id%'"
-  delete-project-confirm: "Confirm Deletion: '%proyecto.id%'"
-  finish-project-reject: "Reject Completion: '%proyecto.id%'"
-  finish-project-accept: "Accept Completion: '%proyecto.id%'"
-  finish-edit-project-reject: "Reject Edit: '%proyecto.id%'"
-  finish-edit-project-accept: "Accept Edit: '%proyecto.id%'"
+  finish-project-confirm: "Confirm Completion: %proyecto.id%"
+  redefine-project-confirm: "Confirm Redefinition: %proyecto.id%"
+  edit-project-confirm: "Confirm Edit: %proyecto.id%"
+  leave-project-confirm: "Confirm Leave: %proyecto.id%"
+  claim-project-confirm: "Confirm Claim: %proyecto.id%"
+  delete-project-confirm: "Confirm Deletion: %proyecto.id%"
+  finish-project-reject: "Reject Completion: %proyecto.id%"
+  finish-project-accept: "Accept Completion: %proyecto.id%"
+  finish-edit-project-reject: "Reject Edit: %proyecto.id%"
+  finish-edit-project-accept: "Accept Edit: %proyecto.id%"
   proyectos-list: "Proyectos: %player.nombre%"
   proyectos-activos-list: "Projects at this location"
   proyectos-abandonados-list: "Projects at this location"
   proyectos-completados-list: "Projects at this location"
   proyectos-here-list: "Projects at this location"
   proyectos-search: "Search Projects"
-  select-member: "Select Member: '%proyecto.id%'"
+  select-member: "Select Member: %proyecto.id%"
   select-member-remove: "Select Member to Remove"
   select-player-add: "Select Player to Add"
-  select-leader: "Select new Leader: '%proyecto.id%'"
+  select-leader: "Select new Leader: %proyecto.id%"
   join-request-confirmation: "Confirm join request"
-  join-request-list: "Join requests: '%proyecto.id%'"
-  project-members: "Project members: '%proyecto.id%'"
-  project-manage: "Manage project: '%proyecto.id%'"
-  project-info: "Project info: '%proyecto.id%'"
+  join-request-list: "Join requests: %proyecto.id%"
+  project-members: "Project members: %proyecto.id%"
+  project-manage: "Manage project: %proyecto.id%"
+  project-info: "Project info: %proyecto.id%"
   language-select: "Select language"
   language-set: "Select language: %player.nombre%"
-  reviewer-list-country: "Reviewers país '%pais.nombrePublico%'"
-  manager-list-country: "Managers país '%pais.nombrePublico%'"
+  reviewer-list-country: "Reviewers país %pais.nombrePublico%"
+  manager-list-country: "Managers país %pais.nombrePublico%"
 
 items:
   tpdir:
@@ -1177,8 +1206,8 @@ items:
   player-search-info:
     name: "<aqua>Search Info"
     lore:
-      - "<gray>If the player you're looking for doesn't appear"
-      - "<gray>it's because they haven't connected recently."
+      - "<gray>If the player youre looking for doesnt appear"
+      - "<gray>its because they havent connected recently."
       - "<gray>Use the command to perform this action."
   back:
     name: "Back"
@@ -1216,19 +1245,19 @@ items:
   search:
     name: "<aqua>Search by %searchTerm%" # %searchTerm% -> Search term.
     search-line: "<gray>Click to search"
-    searched: "<gray>Results for: <white>'%search%'" # %search% -> Search text.
+    searched: "<gray>Results for: <white>%search%" # %search% -> Search text.
     search-again-Line-1: "<gray>Click to search again."
     search-again-Line-2: "<gray>Enter empty text to reset."
   search-estado:
     name: "<aqua>Buscar por estado"
     search-line: "<gray>Haz clic para buscar por estado"
-    searched: "<gray>Resultados para estado: <white>'%search%'" # %search% -> Estado de búsqueda.
+    searched: "<gray>Resultados para estado: <white>%search%" # %search% -> Estado de búsqueda.
     search-again-Line-1: "<gray>Haz clic para buscar de nuevo."
     search-again-Line-2: "<gray>Selecciona el mismo para resetear."
   search-pais:
     name: "<aqua>Buscar por País"
     search-line: "<gray>Haz clic para buscar por País"
-    searched: "<gray>Resultados para País: <white>'%pais.nombrePublico%'" # %search% -> País de búsqueda.
+    searched: "<gray>Resultados para País: <white>%pais.nombrePublico%" # %search% -> País de búsqueda.
     search-again-Line-1: "<gray>Haz clic para buscar de nuevo."
     search-again-Line-2: "<gray>Selecciona el mismo para resetear."
   promote:
@@ -1489,10 +1518,10 @@ ds-modals:
   reject-project-redefinition: "Confirm redefinition rejection"
 
 ds-comando-empty: "Please provide a valid command name."
-ds-comando-removed: "Attempted to delete command '/%comando%'."
+ds-comando-removed: "Attempted to delete command /%comando%."
 
 ds-exec-empty: "Please provide a command."
-ds-exec: "Command executed: '%comando%'."
+ds-exec: "Command executed: %comando%."
 
 ds-delete-global-chat:
   success: "Chat global eliminado exitosamente."
@@ -1505,7 +1534,7 @@ bte-world-loading: "Loading BTE world..."
 label-world-loading: "Loading layer: %name% with offset %offset%..." # %name% -> Layer name. %offset% -> Layer offset.
 invalid-bte-world: "BTE world is not valid."
 capa-alta-no-region: "High layer has no associated region."
-invalid-label-world: "Layer '%name%' is not created on the server." 
+invalid-label-world: "Layer %name% is not created on the server." 
 
 teleport-layer-title: "Teleporting to %destination%" # %destination% -> Destination world or layer name.
 teleport-layer-subtitle: "In %seconds% second(s)..." # %seconds% -> Remaining seconds for teleport.
@@ -1516,9 +1545,9 @@ project-subtitle: "<dark_gray>ID: <white>%proyecto.id% Status: <white>%proyecto.
 division-title: "<dark_purple>%division.nam%</dark_purple>"
 division-subtitle: "<light_purple>%division.fna%</light_purple>"
 
-no-building-permissions: "You don't have permissions to build here."
-not-limbo: "You can't be outside the countries. Teleporting to lobby..."
-cant-leave-paises: "You can't leave the countries."
+no-building-permissions: "You dont have permissions to build here."
+not-limbo: "You cant be outside the countries. Teleporting to lobby..."
+cant-leave-paises: "You cant leave the countries."
 lobby-teleport: "Teleporting to lobby..."
 
 world-height-limit: "You have exceeded the world height limit and have been teleported to the lobby. If you have fallen out of the world while generating terrain, try exploring by flying."

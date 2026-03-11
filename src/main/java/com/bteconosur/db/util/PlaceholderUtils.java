@@ -2,6 +2,8 @@ package com.bteconosur.db.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.locationtech.jts.geom.Point;
 
@@ -60,6 +62,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de jugadores en contexto Minecraft.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceMC(String text, Language language, Player... players) {
         if (players == null || players.length == 0) return text;
@@ -68,6 +71,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de jugadores en contexto Discord.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceDS(String text, Language language, Player... players) {
         if (players == null || players.length == 0) return text;
@@ -76,6 +80,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de proyectos en contexto Minecraft.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceMC(String text, Language language, Proyecto... proyectos) {
         if (proyectos == null || proyectos.length == 0) return text;
@@ -84,6 +89,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de proyectos en contexto Discord.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceDS(String text, Language language, Proyecto... proyectos) {
         if (proyectos == null || proyectos.length == 0) return text;
@@ -92,6 +98,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de países en contexto Minecraft.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceMC(String text, Language language, Pais... paises) {
         if (paises == null || paises.length == 0) return text;
@@ -100,6 +107,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de países en contexto Discord.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceDS(String text, Language language, Pais... paises) {
         if (paises == null || paises.length == 0) return text;
@@ -108,6 +116,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de rangos en contexto Minecraft.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceMC(String text, Language language, RangoUsuario... rangos) {
         if (rangos == null || rangos.length == 0) return text;
@@ -116,6 +125,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de rangos en contexto Discord.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceDS(String text, Language language, RangoUsuario... rangos) {
         if (rangos == null || rangos.length == 0) return text;
@@ -124,6 +134,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de tipos de usuario en contexto Minecraft.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceMC(String text, Language language, TipoUsuario... tipos) {
         if (tipos == null || tipos.length == 0) return text;
@@ -132,6 +143,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de tipos de usuario en contexto Discord.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceDS(String text, Language language, TipoUsuario... tipos) {
         if (tipos == null || tipos.length == 0) return text;
@@ -140,6 +152,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de divisiones en contexto Minecraft.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceMC(String text, Language language, Division... divisiones) {
         if (divisiones == null || divisiones.length == 0) return text;
@@ -148,6 +161,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de divisiones en contexto Discord.
+     * @return texto con placeholders reemplazados.
      */
     public static String replaceDS(String text, Language language, Division... divisiones) {
         if (divisiones == null || divisiones.length == 0) return text;
@@ -156,6 +170,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de jugador en el texto.
+     * @return texto con placeholders reemplazados.
      */
     private static String replace(String text, Language language, PlaceholderContext context, Player... players) {
         if (language == null) language = Language.getDefault();
@@ -309,6 +324,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de proyecto en el texto.
+     * @return texto con placeholders reemplazados.
      */
     private static String replace(String text, Language language, PlaceholderContext context, Proyecto... proyectos) {
         if (language == null) language = Language.getDefault();
@@ -410,11 +426,20 @@ public class PlaceholderUtils {
                         else path = "placeholder.proyecto-ds.";
                         value = lider != null ? lider.getNombrePublico() : LanguageHandler.getText(language, path + "sin-lider");
                         break;
+                    case "miembrosCantidad2":
+                        value = String.valueOf(proyecto.getCantMiembros());
+                        break;
                     case "miembrosCantidad":
                         int miembrosCount = proyecto.getCantMiembros();
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.proyecto-mc.";
                         else path = "placeholder.proyecto-ds.";
                         value = miembrosCount > 0 ? String.valueOf(miembrosCount) : LanguageHandler.getText(language, path + "sin-miembros");
+                        break;
+                    case "miembros":
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.proyecto-mc.";
+                        else path = "placeholder.proyecto-ds.";
+                        Set<Player> miembros = ProjectManager.getInstance().getMembers(proyecto);
+                        value = !miembros.isEmpty() ? String.join(", ", miembros.stream().map(Player::getNombre).collect(Collectors.toList())) : LanguageHandler.getText(language, path + "sin-miembros");
                         break;
                     case "fechaCreacion":
                         value = DateUtils.formatDate(proyecto.getFechaCreado(), language);
@@ -462,6 +487,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de país en el texto.
+     * @return texto con placeholders reemplazados.
      */
     private static String replace(String text, Language language, PlaceholderContext context, Pais... paises) {
         if (language == null) language = Language.getDefault();
@@ -536,7 +562,8 @@ public class PlaceholderUtils {
     }
 
     /**
-     * Reemplaza placeholders de rango en el texto.
+     * Reemplaza placeholders de rango de usuario en el texto.
+     * @return texto con placeholders reemplazados.
      */
     private static String replace(String text, Language language, PlaceholderContext context, RangoUsuario... rangos) {
         if (language == null) language = Language.getDefault();
@@ -605,6 +632,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de tipo de usuario en el texto.
+     * @return texto con placeholders reemplazados.
      */
     private static String replace(String text, Language language, PlaceholderContext context, TipoUsuario... tipos) {
         if (language == null) language = Language.getDefault();
@@ -675,6 +703,7 @@ public class PlaceholderUtils {
 
     /**
      * Reemplaza placeholders de división en el texto.
+     * @return texto con placeholders reemplazados.
      */
     private static String replace(String text, Language language, PlaceholderContext context, Division... divisiones) {
         if (language == null) language = Language.getDefault();

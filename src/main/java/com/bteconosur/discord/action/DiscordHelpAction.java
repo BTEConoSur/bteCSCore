@@ -41,54 +41,48 @@ public class DiscordHelpAction implements ButtonAction {
         MessageEmbed embed;
         List<Button> buttons = new ArrayList<>();
         
+        Button previousButton = Button.success("mc-help-previous", LanguageHandler.getText(language, "ds-help.previous-page"));
+        Button nextButton = Button.success("mc-help-next", LanguageHandler.getText(language, "ds-help.next-page"));
+        String pageButton = LanguageHandler.getText(language, "ds-help.page");
         switch (buttonId) {
             case "mc-help-previous":
                 page--;
-                if (ChatUtil.hasMcHelpPreviousPage(page)) {
-                    buttons.add(Button.success("mc-help-previous", LanguageHandler.getText(language, "ds-help.previous-page")));
-                }
-                if (ChatUtil.hasMcHelpNextPage(page)) {
-                    buttons.add(Button.success("mc-help-next", LanguageHandler.getText(language, "ds-help.next-page")));
-                }
+                if (!ChatUtil.hasMcHelpPreviousPage(page)) previousButton = previousButton.asDisabled().withCustomId("mc-help-previous");
+                 if (!ChatUtil.hasMcHelpNextPage(page)) nextButton = nextButton.asDisabled().withCustomId("mc-help-next");
+                if (!ChatUtil.hasMcHelpNextPage(page)) nextButton = nextButton.asDisabled();
                 embed = ChatUtil.getDsHelpMinecraft(language, page);
+                pageButton = pageButton.replace("%totalPages%", String.valueOf(ChatUtil.getMcHelpTotalPages()));
                 break;
-                
             case "mc-help-next":
                 page++;
-                if (ChatUtil.hasMcHelpPreviousPage(page)) {
-                    buttons.add(Button.success("mc-help-previous", LanguageHandler.getText(language, "ds-help.previous-page")));
-                }
-                if (ChatUtil.hasMcHelpNextPage(page)) {
-                    buttons.add(Button.success("mc-help-next", LanguageHandler.getText(language, "ds-help.next-page")));
-                }
+                if (!ChatUtil.hasMcHelpPreviousPage(page)) previousButton = previousButton.asDisabled().withCustomId("mc-help-previous");
+                if (!ChatUtil.hasMcHelpNextPage(page)) nextButton = nextButton.asDisabled().withCustomId("mc-help-next");
                 embed = ChatUtil.getDsHelpMinecraft(language, page);
+                pageButton = pageButton.replace("%totalPages%", String.valueOf(ChatUtil.getMcHelpTotalPages()));
                 break;
-                
             case "ds-help-previous":
                 page--;
-                if (ChatUtil.hasDsHelpPreviousPage(page)) {
-                    buttons.add(Button.success("ds-help-previous", LanguageHandler.getText(language, "ds-help.previous-page")));
-                }
-                if (ChatUtil.hasDsHelpNextPage(page)) {
-                    buttons.add(Button.success("ds-help-next", LanguageHandler.getText(language, "ds-help.next-page")));
-                }
+                if (!ChatUtil.hasDsHelpPreviousPage(page)) previousButton = previousButton.asDisabled().withCustomId("ds-help-previous");
+                if (!ChatUtil.hasDsHelpNextPage(page)) nextButton = nextButton.asDisabled().withCustomId("ds-help-next");
                 embed = ChatUtil.getDsHelpDiscord(language, page);
+                pageButton = pageButton.replace("%totalPages%", String.valueOf(ChatUtil.getDsHelpTotalPages()));
                 break;
-                
             case "ds-help-next":
                 page++;
-                if (ChatUtil.hasDsHelpPreviousPage(page)) {
-                    buttons.add(Button.success("ds-help-previous", LanguageHandler.getText(language, "ds-help.previous-page")));
-                }
-                if (ChatUtil.hasDsHelpNextPage(page)) {
-                    buttons.add(Button.success("ds-help-next", LanguageHandler.getText(language, "ds-help.next-page")));
-                }
+                if (!ChatUtil.hasDsHelpPreviousPage(page)) previousButton = previousButton.asDisabled().withCustomId("ds-help-previous");
+                if (!ChatUtil.hasDsHelpNextPage(page)) nextButton = nextButton.asDisabled().withCustomId("ds-help-next");
                 embed = ChatUtil.getDsHelpDiscord(language, page);
+                pageButton = pageButton.replace("%totalPages%", String.valueOf(ChatUtil.getDsHelpTotalPages()));
                 break;
             default:
                 event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue();
                 return;
         }
+        pageButton = pageButton.replace("%currentPage%", String.valueOf(page));
+        buttons.add(previousButton);
+        buttons.add(Button.secondary("help-page", pageButton).asDisabled());
+        buttons.add(nextButton);
+        
         buttons.add(Button.danger("help-cancel", LanguageHandler.getText(language, "ds-help.cancel")));
         
         ctx.clearPayload();

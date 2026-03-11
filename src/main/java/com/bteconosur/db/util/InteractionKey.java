@@ -5,6 +5,7 @@ package com.bteconosur.db.util;
  */
 public enum InteractionKey {
     HELP_COMMAND,
+    PLAYER_INFO,
     JOIN_PROJECT,
     FINISH_PROJECT,
     CREATE_PROJECT,

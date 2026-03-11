@@ -42,13 +42,15 @@ public class DsHelpMinecraftCommand extends DsSubcommand {
         MessageEmbed embed = ChatUtil.getDsHelpMinecraft(language, page);
 
         List<Button> buttons = new ArrayList<>();
-        if (ChatUtil.hasMcHelpPreviousPage(page)) {
-            buttons.add(Button.success("mc-help-previous", LanguageHandler.getText(language, "ds-help.previous-page")));
-        }
-        
-        if (ChatUtil.hasMcHelpNextPage(page)) {
-            buttons.add(Button.success("mc-help-next", LanguageHandler.getText(language, "ds-help.next-page")));
-        }
+        Button previousButton = Button.success("mc-help-previous", LanguageHandler.getText(language, "ds-help.previous-page"));
+        Button nextButton = Button.success("mc-help-next", LanguageHandler.getText(language, "ds-help.next-page"));
+        String pageButton = LanguageHandler.getText(language, "ds-help.page").replace("%currentPage%", String.valueOf(page)).replace("%totalPages%", String.valueOf(ChatUtil.getMcHelpTotalPages()));
+        if (!ChatUtil.hasMcHelpPreviousPage(page)) previousButton = previousButton.asDisabled();
+        if (!ChatUtil.hasMcHelpNextPage(page)) nextButton = nextButton.asDisabled();
+
+        buttons.add(previousButton);
+        buttons.add(Button.secondary("help-page", pageButton).asDisabled());
+        buttons.add(nextButton);
         
         buttons.add(Button.danger("help-cancel", LanguageHandler.getText(language, "ds-help.cancel")));
         Instant now = DateUtils.instantOffset();
