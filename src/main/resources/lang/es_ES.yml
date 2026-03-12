@@ -187,16 +187,12 @@ tab-prefix: " %player.paisPrefix% %player.prefix%"
 tab-name: " <gold>%player.nombre%</gold>  "
 tab-suffix: "<green>%ping%</green>"
 tab-header:
-  - "<b>                                                                <b>"
+  - "<b>                                                          <b>"
   - ""
   - ""
   - ""
-  - ""
-  - ""
-  - ""
-  - ""
-  - "<reset>㍿"
-  - "<b>ʙɪᴇɴᴠᴇɴɪᴅᴏ %player.nombre%!"
+  - "<reset>\ue238"
+  - "<b>Bienvenido %player.nombre%!"
   - ""
 tab-footer:
   - ""
@@ -1663,7 +1659,7 @@ placeholder:
     badge:
       visita: ""
       postulante: ""
-      constructor: ""
+      constructor: ""
     label:
       visita: ""
       postulante: ""

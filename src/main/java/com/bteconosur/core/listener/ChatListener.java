@@ -2,6 +2,7 @@ package com.bteconosur.core.listener;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.NotePadService;
@@ -15,6 +16,21 @@ import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
 public class ChatListener implements Listener {
+
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent event) {
+        String msg = event.getMessage();
+
+        if (!msg.startsWith("/")) return;
+
+        String[] args = msg.split(" ");
+        if (args.length >= 1) {
+            args[0] = args[0].toLowerCase();
+        }
+
+        String newCommand = String.join(" ", args);
+        event.setMessage(newCommand);
+    }
 
     @EventHandler
     public void onChat(AsyncChatEvent event) {
