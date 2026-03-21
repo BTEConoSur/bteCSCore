@@ -194,7 +194,7 @@ public class ProjectManager {
         }
 
         ProyectoRegistry pr = ProyectoRegistry.getInstance(); 
-        int activeProjects = pr.getCounts(player)[1];
+        int activeProjects = pr.getActivosCount(player);
         int maxActiveProjects = player.getTipoUsuario().getCantProyecSim();
         if (activeProjects >= maxActiveProjects) {
             String message = LanguageHandler.getText(language, "project.leader.max-active-projects").replace("%maxProjects%", String.valueOf(maxActiveProjects)).replace("%currentProjects%", String.valueOf(activeProjects));

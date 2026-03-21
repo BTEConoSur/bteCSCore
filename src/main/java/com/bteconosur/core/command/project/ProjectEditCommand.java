@@ -47,7 +47,7 @@ public class ProjectEditCommand extends BaseCommand {
         }
 
         ProyectoRegistry pr = ProyectoRegistry.getInstance(); 
-        int activeProjects = pr.getCounts(commandPlayer)[1];
+        int activeProjects = pr.getActivosCount(commandPlayer);
         int maxActiveProjects = commandPlayer.getTipoUsuario().getCantProyecSim();
         if (activeProjects >= maxActiveProjects) {
             String message = LanguageHandler.getText(language, "project.leader.max-active-projects").replace("%maxProyectos%", String.valueOf(maxActiveProjects)).replace("%currentProyectos%", String.valueOf(activeProjects));

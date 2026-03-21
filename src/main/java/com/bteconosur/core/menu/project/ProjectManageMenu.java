@@ -117,7 +117,7 @@ public class ProjectManageMenu extends Menu {
                             return;
                         }
                         if (!permissionManager.isManager(BTECSPlayer, proyecto.getPais())) {
-                            int activeProjects = proyectoRegistry.getCounts(player)[1];
+                            int activeProjects = proyectoRegistry.getActivosCount(player);
                             int maxActiveProjects = player.getTipoUsuario().getCantProyecSim();
                             if (activeProjects >= maxActiveProjects) {
                                 String message = LanguageHandler.replaceMC("project.leader.max-active-projects-transfer", language, player).replace("%maxProjects%", String.valueOf(maxActiveProjects)).replace("%currentProjects%", String.valueOf(activeProjects)).replace("%player%", player.getNombre());

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
@@ -400,7 +401,6 @@ public class ChatUtil {
         ProjectManager pm = ProjectManager.getInstance();
         Player player = pm.getLider(proyecto);
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
-        int[] counts = ProyectoRegistry.getInstance().getCounts(player);   
         String title = LanguageHandler.replaceDS("ds-embeds.project-created.title", Language.getDefault(), player);
         EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
         Polygon polygon = proyecto.getPoligono();
@@ -416,8 +416,8 @@ public class ChatUtil {
         eb.addField(LanguageHandler.getText("ds-embeds.project-created.fields.rango"), player.getRangoUsuario().getNombre(), true)   
             .addField(LanguageHandler.getText("ds-embeds.project-created.fields.tipo"), player.getTipoUsuario().getNombre(), true)
             .addField(LanguageHandler.getText("ds-embeds.project-created.fields.fecha-ingreso"), DateUtils.getDsTimestamp(player.getFechaIngreso(), Language.getDefault()), true)
-            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.proyectos-completados"), String.valueOf(counts[0]), true)
-            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.proyectos-activos"), String.valueOf(counts[1]), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.proyectos-completados"), String.valueOf(pr.getCompletadosCount(player)), true)
+            .addField(LanguageHandler.getText("ds-embeds.project-created.fields.proyectos-activos"), String.valueOf(pr.getActivosCount(player)), true)
             .addField(LanguageHandler.getText("ds-embeds.project-created.fields.separator"), "", false)
             .addField(LanguageHandler.getText("ds-embeds.project-created.fields.tipo-proyecto"), proyecto.getTipoProyecto().getNombre(), true)
             .addField(LanguageHandler.getText("ds-embeds.project-created.fields.max-miembros"), String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
@@ -471,19 +471,36 @@ public class ChatUtil {
         String iconUrl = config.getString("cono-sur-logo");
         String title = LanguageHandler.replaceDS("ds-embeds.player-info.title", language, player);
         EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
-        eb.addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.nombre"), player.getNombrePublico(), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.discord"), discordUser != null ? discordUser.getAsMention() : LanguageHandler.getText(language, "placeholder.player-ds.no-link"), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.idioma"), PlaceholderUtils.replaceDS("%player.lenguaje%", language, player), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.pais"), PlaceholderUtils.replaceDS("%player.paisPrefix%", language, player), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.rango"), PlaceholderUtils.replaceDS("%player.rangoUsuario%", language, player), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.tipo"), PlaceholderUtils.replaceDS("%player.tipoUsuario%", language, player), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.estado"), PlaceholderUtils.replaceDS("%player.estado%", language, player), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.proyectos-completados"), String.valueOf(ProyectoRegistry.getInstance().getCompletadosCount(player)), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.proyectos-activos"), String.valueOf(ProyectoRegistry.getInstance().getActivosCount(player)), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.fecha-ingreso"), DateUtils.getDsTimestamp(player.getFechaIngreso(), language), true)
-            .addField(LanguageHandler.getText(language, "ds-embeds.player-info.fields.fecha-ultima-conexion"), DateUtils.getDsTimestamp(player.getFechaUltimaConexion(), language), true)
+        String path = "ds-embeds.player-info.fields.";
+        eb.addField(LanguageHandler.getText(language, path + "nombre"), player.getNombrePublico(), true)
+            .addField(LanguageHandler.getText(language, path + "discord"), discordUser != null ? discordUser.getAsMention() : LanguageHandler.getText(language, "placeholder.player-ds.no-link"), true)
+            .addField(LanguageHandler.getText(language, path + "idioma"), PlaceholderUtils.replaceDS("%player.lenguaje%", language, player), true)
+            .addField(LanguageHandler.getText(language, path + "pais-prefix"), PlaceholderUtils.replaceDS("%player.paisPrefix%", language, player), true)
+            .addField(LanguageHandler.getText(language, path + "rango"), PlaceholderUtils.replaceDS("%player.rangoUsuario%", language, player), true)
+            .addField(LanguageHandler.getText(language, path + "tipo"), PlaceholderUtils.replaceDS("%player.tipoUsuario%", language, player), true)
+            .addField(LanguageHandler.getText(language, path + "proyectos-completados"), String.valueOf(ProyectoRegistry.getInstance().getCompletadosCount(player)), true)
+            .addField(LanguageHandler.getText(language, path + "proyectos-activos"), String.valueOf(ProyectoRegistry.getInstance().getActivosCount(player)), true)
+            .addField(LanguageHandler.getText(language, path + "proyectos-editando"), String.valueOf(ProyectoRegistry.getInstance().getEditandoCount(player)), true)
+            .addField(LanguageHandler.getText(language, path + "estado"), PlaceholderUtils.replaceDS("%player.estado%", language, player), true)
             .setThumbnail(config.getString("avatar-info-url").replace("%uuid%", player.getUuid().toString()))
             .setColor(embedColors.getInt("ds-embeds.player-info"));
+        Location loc = PlayerRegistry.getInstance().getLocation(player.getUuid());
+        if (loc != null) {
+            Double x = loc.getX();
+            Double z = loc.getZ();
+            double[] geoCoords = TerraUtils.toGeo(x, z);
+            String coords = geoCoords[1] + ", " + geoCoords[0];
+            Pais pais = PaisRegistry.getInstance().findByLocation(x, z);
+            Division division = PaisRegistry.getInstance().findDivisionByLocation(x, z, pais);
+            eb.addField(LanguageHandler.getText(language, path + "chat"), PlaceholderUtils.replaceDS("%player.chat%", language, player), true);
+            if (pais != null) eb.addField(LanguageHandler.getText(language, path + "pais"), PlaceholderUtils.replaceDS("%pais.nombrePublico%", language, pais), true);
+            if (division != null) eb.addField(LanguageHandler.getText(language, path + "ubicacion"), PlaceholderUtils.replaceDS("%division.contexto%, %division.fna%", language, division), false);
+            if (pais != null && division != null) eb.addField(LanguageHandler.getText(language, path + "coords"), coords, false);
+        } else {
+            eb.addBlankField(true).addBlankField(true);
+        }
+        eb.addField(LanguageHandler.getText(language, path + "fecha-ingreso"), DateUtils.getDsTimestamp(player.getFechaIngreso(), language), true)
+            .addField(LanguageHandler.getText(language, path + "fecha-ultima-conexion"), DateUtils.getDsTimestamp(player.getFechaUltimaConexion(), language), true);
         String footer = LanguageHandler.replaceDS("ds-embeds.player-info.footer", language, player);   
         eb.setFooter(footer);
         return eb.build();

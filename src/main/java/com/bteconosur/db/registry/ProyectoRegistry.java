@@ -311,38 +311,13 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     }
 
     /**
-     * Obtiene conteo de proyectos liderados por estado.
-     *
-     * @param player jugador líder.
-     * @return arreglo con [completados, activos].
-     */
-    public int[] getCounts(Player player) { // returns [Finalizados, Activos]
-        int[] count = new int[2];
-        PermissionManager pm = PermissionManager.getInstance();
-        for (Proyecto proyecto : loadedObjects.values()) {
-            if (pm.isLider(player, proyecto)) {
-                if(proyecto.getEstado() == Estado.COMPLETADO) count[0]++;
-                if(proyecto.getEstado() == Estado.ACTIVO) count[1]++;
-            }
-        }
-        return count;
-    }
-
-    /**
      * Cuenta proyectos completados liderados por un jugador.
      *
      * @param player jugador líder.
      * @return cantidad de proyectos completados.
      */
     public int getCompletadosCount(Player player) {
-        int count = 0;
-        PermissionManager pm = PermissionManager.getInstance();
-        for (Proyecto proyecto : loadedObjects.values()) {
-            if (pm.isLider(player, proyecto)) {
-                if(proyecto.getEstado() == Estado.COMPLETADO) count++;
-            }
-        }
-        return count;
+        return getCount(player, Estado.COMPLETADO);
     }
 
     /**
@@ -352,11 +327,32 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
      * @return cantidad de proyectos activos.
      */
     public int getActivosCount(Player player) {
+        return getCount(player, Estado.ACTIVO);
+    }
+
+    /**
+     * Cuenta proyectos en edición liderados por un jugador.
+     *
+     * @param player jugador líder.
+     * @return cantidad de proyectos activos.
+     */
+    public int getEditandoCount(Player player) {
+        return getCount(player, Estado.EDITANDO);
+    }
+
+    /**
+     * Cuenta proyectos liderados por un jugador según un estado dado.
+     *
+     * @param player jugador líder.
+     * @param estado estado a contar.
+     * @return cantidad de proyectos activos.
+     */
+    public int getCount(Player player, Estado estado) {
         int count = 0;
         PermissionManager pm = PermissionManager.getInstance();
         for (Proyecto proyecto : loadedObjects.values()) {
             if (pm.isLider(player, proyecto)) {
-                if(proyecto.getEstado() == Estado.ACTIVO) count++;
+                if(proyecto.getEstado() == estado) count++;
             }
         }
         return count;

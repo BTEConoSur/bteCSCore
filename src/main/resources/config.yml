@@ -72,7 +72,7 @@ discord-message-track: 1000 # Cantidad máxima de mensajes a trackear para elimi
 
 schematic-path: "schematics/%nombre%.schem" # Ruta para obtener los schematics de WorldEdit. Se reemplaza %nombre% por el nombre del proyecto.
 # World
-tp-outside-country: true # Permitir teletransportarse fuera de los países. Si se deshabilita, los jugadores solo podrán teletransportarse dentro de los países.
+tp-outside-country: false # Permitir teletransportarse fuera de los países. Si se deshabilita, los jugadores solo podrán teletransportarse dentro de los países.
 tp-cooldown-seconds: 5
 layers:
   capa_baja:

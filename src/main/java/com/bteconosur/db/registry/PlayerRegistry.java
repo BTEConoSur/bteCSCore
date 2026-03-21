@@ -104,6 +104,18 @@ public class PlayerRegistry extends Registry<UUID, Player> {
     }
 
     /**
+     * Obtiene la ubicación de un jugador.
+     *
+     * @param uuid uuid del jugador.
+     * @return ubicación almacenada, o {@code null}.
+     */
+    public Location getLocation(UUID uuid) {
+        if (uuid == null) return null;
+        if (!isOnline(uuid)) return null;
+        return Player.getBukkitPlayer(uuid).getLocation();
+    }
+
+    /**
      * Busca un jugador por su ID de usuario de Discord.
      *
      * @param discordUserId id de usuario de Discord.

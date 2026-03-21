@@ -17,7 +17,7 @@
 # Los <atributos> disponibles para cada tipo de objeto son los siguientes:
 # Player: (%player.<atributo>%)
 #     nombre, nombrePublico, uuid, lenguaje, paisPrefix, tipoUsuario, rangoUsuario, tipoUsuarioPrefijo, rangoUsuarioPrefijo, prefix (Si tiene rango distinto al Normal muestra su prefijo, sino, muestra el prefijo del tipo de usuario),
-#     rangoUsuarioBadge, tipoUsuarioBadge, rangoUsuarioLabel, tipoUsuarioLabel, discordName, proyectosActivos, proyectosCompletados, fechaIngreso, fechaUltimaConexion, estado (Online/Offline),
+#     rangoUsuarioBadge, tipoUsuarioBadge, rangoUsuarioLabel, tipoUsuarioLabel, discordName, proyectosActivos, proyectosCompletados, proyectosEditando, fechaIngreso, fechaUltimaConexion, estado (Online/Offline),
 #     discordId, discordName, chat (Nombre del chat actual).
 # Proyecto: %proyecto.<atributo>%
 #     id, nombre, descripcion, tamano (Tamaño), paisId, paisNombre, tipoId, tipo, lider (Nombre Público), miembrosCantidad (Si son 0 dice "Sin Miembros"), miembrosCantidad2 (Si son 0 dice 0)
@@ -183,7 +183,7 @@ scoreboard-manager-error: "Error al inicializar el Scoreboard."
 
 # TAB
 # Letras chicas: https://lingojam.com/MinecraftSmallFont
-tab-prefix: " %player.paisPrefix% %player.prefix%"
+tab-prefix: " %player.paisPrefix%%player.prefix%"
 tab-name: " <gold>%player.nombre%</gold>  "
 tab-suffix: "<green>%ping%</green>"
 tab-header:
@@ -226,6 +226,7 @@ scoreboard-player:
     - "<yellow>Proyectos</yellow>"
     - "- Activos: %player.proyectosActivos%"
     - "- Completados: %player.proyectosCompletados%"
+    - "- Editando: %player.proyectosEditando%"
 scoreboard-proyecto:
   title: "<gold>%proyecto.id%</gold>"
   lines:
@@ -529,6 +530,7 @@ player-info-command:
   - " <yellow>Discord:</yellow> <white>%player.discordName%</white>"
   - " <yellow>Proyectos activos: <white>%player.proyectosActivos%</white> "
   - " <yellow>Proyectos completados: <white>%player.proyectosCompletados%</white>"
+  - " <yellow>Proyectos editando: <white>%player.proyectosEditando%</white>"
   - " <yellow>Fecha de Ingreso:</yellow> <white>%player.fechaIngreso%</white>"
   - " <yellow>Última Conexión:</yellow> <white>%player.fechaUltimaConexion%</white>"
   - " <b>=========</b> %plugin-prefix% <b>=========</b>\n" # %plugin-prefix% -> Prefijo del plugin.
@@ -888,7 +890,7 @@ ds-schematic:
 
 # Chat
 # En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
-mc-message: "%player.paisPrefix% %player.prefix% <gold><player></gold><reset><gray>: </gray>%mensaje%"
+mc-message: "%player.paisPrefix%%player.prefix% <gold><player></gold><reset><gray>: </gray>%mensaje%"
 from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><reset><gray>: </gray>%mensaje%" # De jugador no registrado en la base de datos.
 from-ds-message: "%dsPrefix% <gold><player></gold><reset><gray>: </gray>%mensaje%"
 
@@ -898,9 +900,9 @@ ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
 ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # De jugador no registrado en la base de datos. %username% -> Nombre del usuario que envía el mensaje.
 from-mc-message: "**%mcPrefix% %player.paisPrefix%  %player.prefix% %player.nombrePublico%**: %mensaje%"
 
-player-join-message: "<green>El jugador <yellow>%player.nombrePublico%<reset><green> se ha unido al servidor."
-player-new-join-message: "<green>El jugador <yellow>%player.nombrePublico%<reset><green> se ha unido al servidor por primera vez."
-player-leave-message: "<red>El jugador <yellow>%player.nombrePublico%<reset><red> ha salido del servidor."
+player-join-message: "<green><yellow>%player.nombrePublico%<reset><green> se ha unido al servidor."
+player-new-join-message: "<green><yellow>%player.nombrePublico%<reset><green> se ha unido al servidor por primera vez."
+player-leave-message: "<red><yellow>%player.nombrePublico%<reset><red> ha salido del servidor."
 player-join-chat-message: "<yellow>%player.nombrePublico%<reset><gold> se ha unido al chat."
 player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> ha salido del chat."
 
@@ -918,6 +920,7 @@ player-hover-chat:
   - "<gray>Tipo: <white>%player.tipoUsuario%</white>"
   - "<gray>Proyectos activos: <white>%player.proyectosActivos%"
   - "<gray>Proyectos completados: <white>%player.proyectosCompletados%"
+  - "<gray>Proyectos editando: <white>%player.proyectosEditando%"
   - "<gray>Ingreso: <white>%player.fechaIngreso%"
 
 ds-chat-notifications:
@@ -1077,12 +1080,17 @@ ds-embeds:
       nombre: "Nombre Público"
       discord: "Discord"
       idioma: "Idioma"
-      pais: "País"
+      pais-prefix: "País Prefix"
       rango: "Rango"
       tipo: "Tipo"
-      estado: "Estado"
       proyectos-completados: "Proyectos completados"
       proyectos-activos: "Proyectos activos"
+      proyectos-editando: "Proyectos editando"
+      estado: "Estado"
+      chat: "Chat Actual"
+      pais: "País Actual"
+      ubicacion: "Ubicación"
+      coords: "Coordenadas"
       fecha-ingreso: "Fecha de ingreso"
       fecha-ultima-conexion: "Fecha de última conexión"
     footer: "UUID: %player.uuid% - Discord ID: %player.discordId%"
@@ -1369,6 +1377,7 @@ items:
       - "<gray>Discord: <white>%player.discordName%</white>"
       - "<gray>Proyectos activos: <white>%player.proyectosActivos%"
       - "<gray>Proyectos completados: <white>%player.proyectosCompletados%"
+      - "<gray>Proyectos editando: <white>%player.proyectosEditando%"
       - "<gray>Ingreso: <white>%player.fechaIngreso%"
       - "<gray>Último login: <white>%player.fechaUltimaConexion%"
     contexto:
@@ -1521,8 +1530,8 @@ player-error: "<dark_red>[!]</dark_red> <red>%message%" # %message% -> Mensaje a
 ds-activity: "Vigilando a %players% jugador(es)" # %players% -> Cantidad de jugadores online.
 
 ds-internal-error: "Un error interno ha ocurrido."
-ds-interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
-interaction-expired: "Esta interacción ha expirado. Por favor, vuelve a intentarlo."
+ds-interaction-expired: "Esta interacción ha expirado."
+interaction-expired: "Esta interacción ha expirado."
 
 ds-manager-notification: "%mention%: %message%" # %mention% -> Mención al usuario. %message% -> Mensaje a enviar.
 ds-reviewer-notification: "%mention%: %message%" # %mention% -> Mención al reviewer. %message% -> Mensaje a enviar.
@@ -1643,7 +1652,7 @@ placeholder:
   rango-mc:
     format: "%rango.badge%%rango.label%"
     badge:
-      normal: ""
+      normal: ""
       admin: ""
       mod: ""
       influencer: ""
@@ -1685,11 +1694,11 @@ placeholder:
   rango-ds:
     format: "%rango.badge%"
     badge:
-      normal: "🎮"
-      admin: "<:badgead:1480637314161049680>"
-      mod: "<:badgemo:1480637321824047165>"
-      influencer: "<:badgein:1480637320188268789>"
-      donador: "<:badgedo:1480637318107762728>"
+      normal: "🎮" # No se muestra.
+      admin: "<:badgead:1483542504967114854>"
+      mod: "<:badgemo:1483542588446216323>"
+      influencer: "<:badgein:1483542735850962974>"
+      donador: "<:badgedo:1483542693291491479>"
     label:
       normal: ""
       admin: ""
@@ -1699,9 +1708,9 @@ placeholder:
   tipo-ds:
     format: "%tipo.badge%"
     badge:
-      visita: "<:badgevi:1480637325951107194>"
-      postulante: "<:badgepo:1480637323455758467>"
-      constructor: "<:badgeco:1480637315813605549>"
+      visita: "<:badgeno:1483542740913619026>"
+      postulante: "<:badgepo:1483542739533561936>"
+      constructor: "<:badgeco:1483542737889267873>"
     label:
       visita: ""
       postulante: ""
@@ -1710,6 +1719,7 @@ placeholder:
     country: "<yellow>%pais.nombrePublico%</yellow>"
     global: "<yellow>Global</yellow>"
     notepad: "<yellow>Notepad</yellow>"
+    none: <yellow>N/A</yellow>"
     image: "<gray>[</gray><white>IMAGEN</white><gray>]</gray>"
     video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
     spoiler: "<gray>[</gray><white>SPOILER</white><gray>]</gray>"
@@ -1719,6 +1729,7 @@ placeholder:
     country: "%pais.nombrePublico%"
     global: "Global"
     notepad: "Notepad"
+    none: "N/A"
     mc: "<:Minecraft:1457374388575014923>"
     ds: "%pais.logo%"
   without-fecha: "Sin fecha"

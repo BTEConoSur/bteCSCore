@@ -153,7 +153,7 @@ placeholder-not-found: "PlaceholderAPI plugin not found. Please ensure it is ins
 
 # TAB
 # Placeholders de TAB: https://github.com/NEZNAMY/TAB/wiki/Placeholders
-tab-prefix: " %player.paisPrefix% %player.prefix%"
+tab-prefix: " %player.paisPrefix%%player.prefix%"
 tab-name: " <gold>%player.nombre%</gold>  "
 tab-suffix: "<green>%ping%</green>"
 tab-header:
@@ -857,7 +857,7 @@ ds-schematic:
 
 # Chat
 # If the player is not registered in the database, the rest of prefixes are not used.
-mc-message: "%player.paisPrefix% %player.prefix% <gold><player></gold><gray>: </gray>%mensaje%"
+mc-message: "%player.paisPrefix%%player.prefix% <gold><player></gold><gray>: </gray>%mensaje%"
 from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>%mensaje%" # From player not registered in the database.
 from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
 
@@ -867,9 +867,9 @@ ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
 ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # From player not registered in the database. %username% -> Username sending the message.
 from-mc-message: "**%mcPrefix% %player.paisPrefix%  %player.prefix% %player.nombrePublico%**: %mensaje%"
 
-player-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow><reset><green> has joined the server."
-player-new-join-message: "<green>Player <yellow>%player.nombrePublico%</yellow><reset><green> has joined the server for the first time."
-player-leave-message: "<red>Player <yellow>%player.nombrePublico%</yellow><reset><red> has left the server."
+player-join-message: "<green><yellow>%player.nombrePublico%</yellow><reset><green> has joined the server."
+player-new-join-message: "<green><yellow>%player.nombrePublico%</yellow><reset><green> has joined the server for the first time."
+player-leave-message: "<red><yellow>%player.nombrePublico%</yellow><reset><red> has left the server."
 player-join-chat-message: "<yellow>%player.nombrePublico%<reset><gold> has joined the chat."
 player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> has left the chat."
 
@@ -1000,7 +1000,6 @@ ds-help:
         
 ds-embeds:
   author: "BTE Cono Sur"
-  ds-embeds:
   project-list:
     title: "Project list"
     no-projects: "No projects to show."
@@ -1048,10 +1047,15 @@ ds-embeds:
       nombre: "Public Name"
       discord: "Discord"
       idioma: "Language"
-      pais: "Country"
+      pais-prefix: "Country"
       rango: "Rank"
       tipo: "Type"
-      estado: "Status"
+      proyectos-editando: "Proyectos editando"
+      estado: "Estado"
+      chat: "Chat Actual"
+      pais: "País Actual"
+      ubicacion: "Ubicación"
+      coords: "Coordendas"
       proyectos-completados: "Completed Projects"
       proyectos-activos: "Active Projects"
       fecha-ingreso: "Join Date"
@@ -1615,7 +1619,7 @@ placeholder:
   rango-mc:
     format: "%rango.badge%%rango.label%"
     badge:
-      normal: ""
+      normal: ""
       admin: ""
       mod: ""
       influencer: ""
@@ -1681,6 +1685,7 @@ placeholder:
   chat-mc:
     global: "<yellow>Global</yellow>"
     notepad: "<yellow>Notepad</yellow>"
+    none: "<yellow>N/A</yellow>"
     image: "<gray>[</gray><white>IMAGE</white><gray>]</gray>"
     video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
     spoiler: "<gray>[</gray><white>SPOILER</white><gray>]</gray>"
@@ -1689,6 +1694,7 @@ placeholder:
   chat-ds:
     global: "Global"
     notepad: "Notepad"
+    none: "N/A"
     mc: "<:Minecraft:1457374388575014923>"
     ds: "%pais.logo%" # %paisLogo% -> Country logo where message comes from.
   without-fecha: "No date"

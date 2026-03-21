@@ -20,6 +20,7 @@ public class BTECSTestCommand extends BaseCommand {
         this.addSubcommand(new TestPaginatedMenuCommand());
         this.addSubcommand(new TestDiscordLogger());
         this.addSubcommand(new TestPlayerLoggerCommand());
+        this.addSubcommand(new TestChatFormatCommand());
         this.addSubcommand(new TestRegionPaisGeojsonCommand());
         this.addSubcommand(new TestRegionDivisionGeojsonCommand());
         this.addSubcommand(new TestAllRegionPaisGeojsonCommand());

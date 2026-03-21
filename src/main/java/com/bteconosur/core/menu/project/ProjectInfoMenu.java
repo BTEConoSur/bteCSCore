@@ -72,7 +72,7 @@ public class ProjectInfoMenu extends Menu {
         });
 
         int maxActiveProjects = BTECSPlayer.getTipoUsuario().getCantProyecSim();
-        int activeProjects = ProyectoRegistry.getInstance().getCounts(BTECSPlayer)[1];
+        int activeProjects = ProyectoRegistry.getInstance().getActivosCount(BTECSPlayer);
         if (proyecto.getEstado() == Estado.ABANDONADO && activeProjects < maxActiveProjects) {
             gui.setItem(2,8, MenuUtils.getClaimProjectItem(language));
             gui.addSlotAction(2,8, event -> {

@@ -274,12 +274,13 @@ public class PlaceholderUtils {
                         value = LanguageHandler.getText(language, path + (isOnline ? "online" : "offline"));
                         break;
                     case "proyectosActivos":
-                        int count = ProyectoRegistry.getInstance().getActivosCount(p);
-                        value = String.valueOf(count);
+                        value = String.valueOf(ProyectoRegistry.getInstance().getActivosCount(p));
                         break;
                     case "proyectosCompletados":
-                        int countFinalizados = ProyectoRegistry.getInstance().getCompletadosCount(p);
-                        value = String.valueOf(countFinalizados);
+                        value = String.valueOf(ProyectoRegistry.getInstance().getCompletadosCount(p));
+                        break;
+                    case "proyectosEditando":
+                        value = String.valueOf(ProyectoRegistry.getInstance().getEditandoCount(p));
                         break;
                     case "discordId":
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.player-mc.no-link";

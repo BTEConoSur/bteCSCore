@@ -41,7 +41,7 @@ public class ChatService {
         if (playersInGlobalChat.contains(player)) return LanguageHandler.getText(language, path + "global");
         if (playersInCountryChat.containsKey(player)) return LanguageHandler.replaceMC(path + "country", language, playersInCountryChat.get(player));
         if (playersInNotePad.contains(player)) return LanguageHandler.getText(language, path + "notepad");
-        return LanguageHandler.getText(language, path + "global");
+        return LanguageHandler.getText(language, path + "none");
     }
 
     /**
