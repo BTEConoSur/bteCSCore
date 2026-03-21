@@ -15,6 +15,7 @@ public class ReviewerReviewCommand extends BaseCommand {
 
     public ReviewerReviewCommand() {
         super("review", null, "btecs.command.reviewer", CommandMode.PLAYER_ONLY);
+        this.addSubcommand(new ReviewListCommand());
         this.addSubcommand(new ReviewAcceptCommand());
         this.addSubcommand(new ReviewRejectCommand());
         this.addSubcommand(new GenericHelpCommand(this));

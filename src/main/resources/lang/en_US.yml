@@ -550,6 +550,7 @@ global-help-command:
 project:
   not-found-id: "No project found with ID <yellow>%search%</yellow>."
   not-found-here: "No project found at this location."
+  not-finishing: "No finishing projects found to review."
   not-finishing-here: "No finishing project found at this location."
   not-active-here: "No active project found at this location."
   not-active-editing-here: "No active or editing project found at this location."
@@ -1139,6 +1140,7 @@ gui-titles:
   finish-edit-project-reject: "Reject Edit: %proyecto.id%"
   finish-edit-project-accept: "Accept Edit: %proyecto.id%"
   proyectos-list: "Proyectos: %player.nombre%"
+  proyectos-finishing-list: "Projects in completion review"
   proyectos-activos-list: "Projects at this location"
   proyectos-abandonados-list: "Projects at this location"
   proyectos-completados-list: "Projects at this location"

@@ -452,6 +452,7 @@ commands-descriptions:
       desc: "Revisar proyectos del país."
       accept.desc: "Aceptar la finalización de un proyecto."
       reject.desc: "Rechazar la finalización de un proyecto."
+      list.desc: "Listar proyectos a revisar."
     promote.desc: "Cambiar el Tipo de Usuario de un jugador."
     config.desc: "Abrir menú de configuración de Reviewer."
     togglebypass: "Activar o desactivar el bypass de revisión para un proyecto."
@@ -583,6 +584,7 @@ global-help-command:
 project:
   not-found-id: "No se encontró ningún proyecto con ID <yellow>%search%</yellow>."
   not-found-here: "No se encontró ningún proyecto en esta ubicación."
+  not-finishing: "No se encontró ningún proyecto en finalización para revisar."
   not-finishing-here: "No se encontró ningún proyecto en finalización en esta ubicación."
   not-active-here: "No se encontró ningún proyecto activo en esta ubicación."
   not-active-editing-here: "No se encontró ningún proyecto activo o en edición en esta ubicación."
@@ -1168,6 +1170,7 @@ gui-titles:
   finish-edit-project-reject: "Rechazar edición: %proyecto.id%"
   finish-edit-project-accept: "Aceptar edición: %proyecto.id%"
   proyectos-list: "Proyectos: %player.nombre%"
+  proyectos-finishing-list: "Proyectos en finalización"
   proyectos-activos-list: "Proyectos en esta ubicación"
   proyectos-abandonados-list: "Proyectos en esta ubicación"
   proyectos-completados-list: "Proyectos en esta ubicación"

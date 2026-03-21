@@ -295,6 +295,15 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     }
 
     /**
+     * Obtiene todos los proyectos en finalización o finalización de edición.
+     *
+     * @return conjunto de proyectos en estado de finalización.
+     */
+    public Set<Proyecto> getFinishing() {
+        return getFinishing(new HashSet<>(loadedObjects.values()));
+    }
+
+    /**
      * Filtra proyectos en estado completado.
      *
      * @param search conjunto de búsqueda.
