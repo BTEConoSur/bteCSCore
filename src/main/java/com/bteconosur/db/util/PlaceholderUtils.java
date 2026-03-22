@@ -255,7 +255,12 @@ public class PlaceholderUtils {
                         value = p.getUuid() != null ? p.getUuid().toString() : "ERROR_UUID_NULL";
                         break;
                     case "nombrePublico":
-                        value = p.getNombrePublico() != null ? p.getNombrePublico() : "ERROR_NOMBRE_PUBLICO_NULL";
+                        if (p.getNombre().equals(p.getNombrePublico())) value = p.getNombrePublico() != null ? p.getNombrePublico() : "ERROR_NOMBRE_PUBLICO_NULL";
+                        else {
+                            if (context == PlaceholderContext.MINECRAFT) path = "placeholder.player-mc.nickname-format";
+                            else path = "placeholder.player-ds.nickname-format";
+                            value = LanguageHandler.getText(language, path).replace("%nombre%", p.getNombrePublico());
+                        }
                         break;
                     case "fechaIngreso":
                         value = DateUtils.formatDate(p.getFechaIngreso(), language);

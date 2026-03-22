@@ -330,7 +330,7 @@ commands-descriptions:
     desc: "Linkear la cuenta de Discord."
     set.desc: "Linkear la cuenta de Discord a un jugador."
   nickname:
-    desc: "Cambiar el nombre público."
+    desc: "Cambiar el nombre público. Para resetearlo no ingrese nada."
     set.desc: "Cambiar el nombre público de un jugador."
   promote.desc: "Cambiar el Rango de Usuario de un jugador."
   unlink:
@@ -883,6 +883,9 @@ notepad:
   switched: "<aqua>Has abierto el bloc de notas."
 nickname:
   invalid-regex: "El nombre público no puede contener texto entre <>."
+  min-length: "El nombre público tiene que tener más de 2 caracteres."
+  reset: "<green>Tu nombre público ha sido reseteado."
+  set-reset: "<green>El nombre público de <yellow>%player.nombre%</yellow> ha sido reseteado."
   change: "<green>Tu nombre público ha sido cambiado a <yellow>%nickname%</yellow>." # %nickname% -> Nuevo nombre público.
   set: "<green>El nombre público de <yellow>%player.nombre%</yellow> ha sido cambiado a <yellow>%nickname%</yellow>." # %nickname% -> Nuevo nombre público.
 country-prefix:
@@ -1613,7 +1616,7 @@ placeholder:
     online: "<green><b>En línea</b></green>"
     offline: "<red><b>Desconectado</b></red>"
     no-link: "<yellow><i>No Vinculado</i></yellow>"
-    nickname-format: "<i>%nombre</i>"
+    nickname-format: "<i>%nombre%</i>"
   player-ds:
     online: "En línea"
     offline: "Desconectado"

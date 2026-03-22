@@ -23,28 +23,35 @@ public class NicknameCommand extends BaseCommand {
     protected boolean onCommand(CommandSender sender, String[] args) {
         Player player = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
         Language language = player.getLanguage();
-        if (args.length != 1) {
-            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
-            PlayerLogger.info(sender, message, (String) null);
-            return true;
-        }
  
-        String nuevoNombre = args[0];
-        if (nuevoNombre.length() > 16) {
-            PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-player-name"), (String) null);
-            return true;
-        }
+        String nuevoNombre = "";
+        if (args.length != 0) {
+            nuevoNombre = args[0];
+            if (nuevoNombre.length() > 16) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-player-name"), (String) null);
+                return true;
+            }
 
-        if (nuevoNombre.matches(".*<[^>]+>.*")) {
-            PlayerLogger.error(sender, LanguageHandler.getText(language, "nickname.invalid-regex"), (String) null);
-            return true;
-        }
+            if (nuevoNombre.length() < 2 && nuevoNombre.length() != 0) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "nickname.min-length"), (String) null);
+                return true;
+            }
 
+            if (nuevoNombre.matches(".*<[^>]+>.*")) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "nickname.invalid-regex"), (String) null);
+                return true;
+            }
+        }
         PlayerRegistry playerRegistry = PlayerRegistry.getInstance();
         Player commandPlayer = playerRegistry.get(((org.bukkit.entity.Player) sender).getUniqueId());
+        String msg;
+        if (nuevoNombre.length() == 0) {
+            nuevoNombre = commandPlayer.getNombre();
+            msg = LanguageHandler.getText(language, "nickname.reset");
+        } else msg = LanguageHandler.getText(language, "nickname.change").replace("%nickname%", nuevoNombre);
         commandPlayer.setNombrePublico(nuevoNombre);
         playerRegistry.merge(commandPlayer.getUuid());
-        PlayerLogger.info(commandPlayer, LanguageHandler.getText(language, "nickname.change").replace("%nickname%", nuevoNombre), (String) null);
+        PlayerLogger.info(commandPlayer, msg, (String) null);
         return true;
     }
 

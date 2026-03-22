@@ -86,7 +86,7 @@ public class GlobalChatService {
                 processedHover.add(PlaceholderUtils.replaceMC(line, onlinePlayer.getLanguage(), player));
             }
             String hover = String.join("\n", processedHover);
-            TagResolver hoverResolver = TagResolverUtils.getHoverText("player", player.getNombrePublico(), hover);
+            TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", onlinePlayer.getLanguage(), player), hover);
             onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, mcMessage, onlinePlayer.getLanguage(), dsFrom), hoverResolver));
         }
         List<Long> ids = new ArrayList<>(PaisRegistry.getInstance().getDsGlobalChatIds());
@@ -141,7 +141,7 @@ public class GlobalChatService {
                 processedHover.add(PlaceholderUtils.replaceMC(line, onlinePlayer.getLanguage(), player));
             }
             String hover = String.join("\n", processedHover);
-            TagResolver hoverResolver = TagResolverUtils.getHoverText("player", player.getNombrePublico(), hover);
+            TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", onlinePlayer.getLanguage(), player), hover);
             onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, message, onlinePlayer.getLanguage()), hoverResolver));
         }
         if (!config.getBoolean("discord-global-chat")) return;

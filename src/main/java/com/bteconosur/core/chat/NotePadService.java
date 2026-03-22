@@ -30,7 +30,7 @@ public class NotePadService {
             processedHover.add(PlaceholderUtils.replaceMC(line, player.getLanguage(), player));
         }
         String hover = String.join("\n", processedHover);
-        TagResolver hoverResolver = TagResolverUtils.getHoverText("player", player.getNombrePublico(), hover);
+        TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", player.getLanguage(), player), hover);
         player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, message, player.getLanguage()), hoverResolver));
     }
 }

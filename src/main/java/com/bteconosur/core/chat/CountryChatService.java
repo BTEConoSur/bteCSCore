@@ -82,7 +82,7 @@ public class CountryChatService {
                     processedHover.add(PlaceholderUtils.replaceMC(line, onlinePlayer.getLanguage(), player));
                 }
                 String hover = String.join("\n", processedHover);
-                TagResolver hoverResolver = TagResolverUtils.getHoverText("player", player.getNombrePublico(), hover);
+                TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", onlinePlayer.getLanguage(), player), hover);
                 onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, message, onlinePlayer.getLanguage()), hoverResolver));
             }
         }
@@ -115,7 +115,7 @@ public class CountryChatService {
                     processedHover.add(PlaceholderUtils.replaceMC(line, onlinePlayer.getLanguage(), player));
                 }
                 String hover = String.join("\n", processedHover);
-                TagResolver hoverResolver = TagResolverUtils.getHoverText("player", player.getNombrePublico(), hover);
+                TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", onlinePlayer.getLanguage(), player), hover);
                 onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, mcMessage, onlinePlayer.getLanguage(), pais), hoverResolver));
             }
         }

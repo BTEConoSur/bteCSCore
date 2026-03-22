@@ -1,6 +1,4 @@
 # Use MiniMessage for text formatting - https://webui.advntr.dev/
-# Contextual placeholders: %contexto% %dsPrefix% %mensaje% %username% %mcPrefix% %comentario%
-# TipoProyecto placeholders: %tipoproyecto.id% %tipoproyecto.nombre% %tipoproyecto.maxMiembros% %tipoproyecto.tamanoMin% %tipoproyecto.tamanoMax% %tipoproyecto.tamanoRango%
 
 # Console Messages
 config-reloaded: "Configuration reloaded successfully."
@@ -848,6 +846,9 @@ notepad:
   switched: "<aqua>You have opened the notepad."
 nickname:
   invalid-regex: "The public name cannot contain text between <>."
+  min-length: "El nombre público tiene que tener más de 2 caracteres."
+  reset: "<green>Tu nombre público ha sido reseteado."
+  set-reset: "<green>El nombre público de <yellow>%player.nombre%</yellow> ha sido reseteado."
   change: "<green>Your public name has been changed to <yellow>%nickname%</yellow>." # %nickname% -> New public name.
   set: "<green><yellow>%player.nombre%</yellow>s public name has been changed to <yellow>%nickname%</yellow>." # %nickname% -> New public name.
 country-prefix:
@@ -1578,12 +1579,12 @@ placeholder:
     online: "<green><b>Online</b></green>"
     offline: "<red><b>Offline</b></red>"
     no-link: "<yellow><i>No linked account</i></yellow>"
-    nickname-format: "<i>%nombre</i>"
+    nickname-format: "<i>%nombre%</i>"
   player-ds:
     online: "Online"
     offline: "Offline"
     no-link: "No linked account"
-    nickname-format: "<i>%nombre</i>"
+    nickname-format: "*%nombre%*"
   proyecto-mc:
     sin-lider: "<yellow><i>No Leader</i></yellow>"
     sin-miembros: "<yellow><i>No Members</i></yellow>"
