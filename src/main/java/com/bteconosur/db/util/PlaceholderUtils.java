@@ -20,6 +20,7 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
+import com.bteconosur.db.model.TipoProyecto;
 import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
@@ -31,6 +32,46 @@ import net.dv8tion.jda.api.entities.User;
  * Utilidad de reemplazo de placeholders para textos de Minecraft y Discord.
  */
 public class PlaceholderUtils {
+
+    private static final class PlaceholderToken {
+        private final String field;
+        private final int index;
+
+        private PlaceholderToken(String field, int index) {
+            this.field = field;
+            this.index = index;
+        }
+    }
+
+    private static List<String> extractPlaceholderTokens(String text, String placeholderPrefix) {
+        List<String> tokens = new ArrayList<>();
+        int i = 0;
+        while (true) {
+            int start = text.indexOf("%" + placeholderPrefix + ".", i);
+            if (start == -1) break;
+            int end = text.indexOf('%', start + 1);
+            if (end == -1) break;
+            String withoutPrefix = text.substring(start + 1, end).substring((placeholderPrefix + ".").length());
+            tokens.add(withoutPrefix);
+            i = end + 1;
+        }
+        return tokens;
+    }
+
+    private static PlaceholderToken parsePlaceholderToken(String token) {
+        String[] parts = token.split("\\.");
+        String field = parts[0];
+        int index = 0;
+        if (parts.length == 2) {
+            try {
+                index = Integer.parseInt(parts[1]);
+            } catch (NumberFormatException ex) {
+                ConsoleLogger.warn("Índice no válido en placeholder: " + token);
+                return null;
+            }
+        }
+        return new PlaceholderToken(field, index);
+    }
 
     /**
      * Reemplaza placeholders de jugadores y proyectos en contexto Minecraft.
@@ -151,6 +192,24 @@ public class PlaceholderUtils {
     }
 
     /**
+     * Reemplaza placeholders de tipos de proyecto en contexto Minecraft.
+     * @return texto con placeholders reemplazados.
+     */
+    public static String replaceMC(String text, Language language, TipoProyecto... tiposProyecto) {
+        if (tiposProyecto == null || tiposProyecto.length == 0) return text;
+        return replace(text, language, PlaceholderContext.MINECRAFT, tiposProyecto);
+    }
+
+    /**
+     * Reemplaza placeholders de tipos de proyecto en contexto Discord.
+     * @return texto con placeholders reemplazados.
+     */
+    public static String replaceDS(String text, Language language, TipoProyecto... tiposProyecto) {
+        if (tiposProyecto == null || tiposProyecto.length == 0) return text;
+        return replace(text, language, PlaceholderContext.DISCORD, tiposProyecto);
+    }
+
+    /**
      * Reemplaza placeholders de divisiones en contexto Minecraft.
      * @return texto con placeholders reemplazados.
      */
@@ -175,30 +234,14 @@ public class PlaceholderUtils {
     private static String replace(String text, Language language, PlaceholderContext context, Player... players) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
-        List<String> playerTokens = new ArrayList<>();
-        int i = 0;
-        while (true) {
-            int start = text.indexOf("%player.", i);
-            if (start == -1) break;
-            int end = text.indexOf('%', start + 1);
-            if (end == -1) break;
-            String withoutPrefix = text.substring(start + 1, end).substring("player.".length()); // "nombre.2"
-            playerTokens.add(withoutPrefix);
-            i = end + 1;
-        }
+        List<String> playerTokens = extractPlaceholderTokens(text, "player");
 
         for (String token : playerTokens) {
-            String[] parts = token.split("\\.");
-            String field = parts[0];
-            int index = 0;
-            if (parts.length == 2) {
-                try {
-                    index = Integer.parseInt(parts[1]);
-                } catch (NumberFormatException ex) {
-                    ConsoleLogger.warn("Índice no válido en placeholder: " + token);
-                    continue;
-                }
-            }
+            PlaceholderToken placeholderToken = parsePlaceholderToken(token);
+            if (placeholderToken == null) continue;
+
+            String field = placeholderToken.field;
+            int index = placeholderToken.index;
 
             Player p = (index >= 0 && index < players.length) ? players[index] : null;
             String value = "";
@@ -330,30 +373,14 @@ public class PlaceholderUtils {
     private static String replace(String text, Language language, PlaceholderContext context, Proyecto... proyectos) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
-        List<String> proyectoTokens = new ArrayList<>();
-        int i = 0;
-        while (true) {
-            int start = text.indexOf("%proyecto.", i);
-            if (start == -1) break;
-            int end = text.indexOf('%', start + 1);
-            if (end == -1) break;
-            String withoutPrefix = text.substring(start + 1, end).substring("proyecto.".length());
-            proyectoTokens.add(withoutPrefix);
-            i = end + 1;
-        }
+        List<String> proyectoTokens = extractPlaceholderTokens(text, "proyecto");
 
         for (String token : proyectoTokens) {
-            String[] parts = token.split("\\.");
-            String field = parts[0];
-            int index = 0;
-            if (parts.length == 2) {
-                try {
-                    index = Integer.parseInt(parts[1]);
-                } catch (NumberFormatException ex) {
-                    ConsoleLogger.warn("Índice no válido en placeholder: " + token);
-                    continue;
-                }
-            }
+            PlaceholderToken placeholderToken = parsePlaceholderToken(token);
+            if (placeholderToken == null) continue;
+
+            String field = placeholderToken.field;
+            int index = placeholderToken.index;
 
             Proyecto proyecto = (index >= 0 && index < proyectos.length) ? proyectos[index] : null;
             String value = "";
@@ -493,30 +520,14 @@ public class PlaceholderUtils {
     private static String replace(String text, Language language, PlaceholderContext context, Pais... paises) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
-        List<String> paisTokens = new ArrayList<>();
-        int i = 0;
-        while (true) {
-            int start = text.indexOf("%pais.", i);
-            if (start == -1) break;
-            int end = text.indexOf('%', start + 1);
-            if (end == -1) break;
-            String withoutPrefix = text.substring(start + 1, end).substring("pais.".length());
-            paisTokens.add(withoutPrefix);
-            i = end + 1;
-        }
+        List<String> paisTokens = extractPlaceholderTokens(text, "pais");
 
         for (String token : paisTokens) {
-            String[] parts = token.split("\\.");
-            String field = parts[0];
-            int index = 0;
-            if (parts.length == 2) {
-                try {
-                    index = Integer.parseInt(parts[1]);
-                } catch (NumberFormatException ex) {
-                    ConsoleLogger.warn("Índice no válido en placeholder: " + token);
-                    continue;
-                }
-            }
+            PlaceholderToken placeholderToken = parsePlaceholderToken(token);
+            if (placeholderToken == null) continue;
+
+            String field = placeholderToken.field;
+            int index = placeholderToken.index;
 
             Pais pais = (index >= 0 && index < paises.length) ? paises[index] : null;
             String value = "";
@@ -569,30 +580,14 @@ public class PlaceholderUtils {
     private static String replace(String text, Language language, PlaceholderContext context, RangoUsuario... rangos) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
-        List<String> rangoTokens = new ArrayList<>();
-        int i = 0;
-        while (true) {
-            int start = text.indexOf("%rango.", i);
-            if (start == -1) break;
-            int end = text.indexOf('%', start + 1);
-            if (end == -1) break;
-            String withoutPrefix = text.substring(start + 1, end).substring("rango.".length());
-            rangoTokens.add(withoutPrefix);
-            i = end + 1;
-        }
+        List<String> rangoTokens = extractPlaceholderTokens(text, "rango");
 
         for (String token : rangoTokens) {
-            String[] parts = token.split("\\.");
-            String field = parts[0];
-            int index = 0;
-            if (parts.length == 2) {
-                try {
-                    index = Integer.parseInt(parts[1]);
-                } catch (NumberFormatException ex) {
-                    ConsoleLogger.warn("Índice no válido en placeholder: " + token);
-                    continue;
-                }
-            }
+            PlaceholderToken placeholderToken = parsePlaceholderToken(token);
+            if (placeholderToken == null) continue;
+
+            String field = placeholderToken.field;
+            int index = placeholderToken.index;
 
             RangoUsuario rango = (index >= 0 && index < rangos.length) ? rangos[index] : null;
             String value = "";
@@ -638,30 +633,14 @@ public class PlaceholderUtils {
     private static String replace(String text, Language language, PlaceholderContext context, TipoUsuario... tipos) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
-        List<String> tipoTokens = new ArrayList<>();
-        int i = 0;
-        while (true) {
-            int start = text.indexOf("%tipo.", i);
-            if (start == -1) break;
-            int end = text.indexOf('%', start + 1);
-            if (end == -1) break;
-            String withoutPrefix = text.substring(start + 1, end).substring("tipo.".length());
-            tipoTokens.add(withoutPrefix);
-            i = end + 1;
-        }
+        List<String> tipoTokens = extractPlaceholderTokens(text, "tipo");
 
         for (String token : tipoTokens) {
-            String[] parts = token.split("\\.");
-            String field = parts[0];
-            int index = 0;
-            if (parts.length == 2) {
-                try {
-                    index = Integer.parseInt(parts[1]);
-                } catch (NumberFormatException ex) {
-                    ConsoleLogger.warn("Índice no válido en placeholder: " + token);
-                    continue;
-                }
-            }
+            PlaceholderToken placeholderToken = parsePlaceholderToken(token);
+            if (placeholderToken == null) continue;
+
+            String field = placeholderToken.field;
+            int index = placeholderToken.index;
 
             TipoUsuario tipo = (index >= 0 && index < tipos.length) ? tipos[index] : null;
             String value = "";
@@ -703,36 +682,77 @@ public class PlaceholderUtils {
     }
 
     /**
+     * Reemplaza placeholders de tipo de proyecto en el texto.
+     * @return texto con placeholders reemplazados.
+     */
+    private static String replace(String text, Language language, PlaceholderContext context, TipoProyecto... tiposProyecto) {
+        if (language == null) language = Language.getDefault();
+        if (text == null) return "TEXTO_NULL";
+        List<String> tipoProyectoTokens = extractPlaceholderTokens(text, "tipoproyecto");
+
+        for (String token : tipoProyectoTokens) {
+            PlaceholderToken placeholderToken = parsePlaceholderToken(token);
+            if (placeholderToken == null) continue;
+
+            String field = placeholderToken.field;
+            int index = placeholderToken.index;
+
+            TipoProyecto tipoProyecto = (index >= 0 && index < tiposProyecto.length) ? tiposProyecto[index] : null;
+            String value = "";
+            String path;
+            if (tipoProyecto != null) {
+                if (context == PlaceholderContext.MINECRAFT) path = "placeholder.tipoproyecto-mc.";
+                else path = "placeholder.tipoproyecto-ds.";
+                switch (field) {
+                    case "id":
+                        value = tipoProyecto.getId() != null ? tipoProyecto.getId().toString() : "ERROR_ID_NULL";
+                        break;
+                    case "nombre":
+                        value = tipoProyecto.getNombre() != null ? tipoProyecto.getNombre() : "ERROR_NOMBRE_NULL";
+                        break;
+                    case "maxMiembros":
+                        value = tipoProyecto.getMaxMiembros() != null ? tipoProyecto.getMaxMiembros().toString() : "ERROR_MAX_MIEMBROS_NULL";
+                        break;
+                    case "tamanoMin":
+                        value = tipoProyecto.getTamanoMin() != null ? tipoProyecto.getTamanoMin().toString() : LanguageHandler.getText(language, path + "sin-limite-tamano");
+                        break;
+                    case "tamanoMax":
+                        value = tipoProyecto.getTamanoMax() != null ? tipoProyecto.getTamanoMax().toString() : LanguageHandler.getText(language, path + "sin-limite-tamano");
+                        break;
+                    case "tamanoRango":
+                        if (tipoProyecto.getTamanoMin() == null || tipoProyecto.getTamanoMax() == null) {
+                            value = LanguageHandler.getText(language, path + "sin-limite-tamano");
+                        } else {
+                            value = tipoProyecto.getTamanoMin() + " - " + tipoProyecto.getTamanoMax() + " m2";
+                        }
+                        break;
+                    default:
+                        value = "";
+                        break;
+                }
+            }
+
+            text = text.replace("%tipoproyecto." + token + "%", value);
+        }
+
+        return text;
+    }
+
+    /**
      * Reemplaza placeholders de división en el texto.
      * @return texto con placeholders reemplazados.
      */
     private static String replace(String text, Language language, PlaceholderContext context, Division... divisiones) {
         if (language == null) language = Language.getDefault();
         if (text == null) return "TEXTO_NULL";
-        List<String> divisionTokens = new ArrayList<>();
-        int i = 0;
-        while (true) {
-            int start = text.indexOf("%division.", i);
-            if (start == -1) break;
-            int end = text.indexOf('%', start + 1);
-            if (end == -1) break;
-            String withoutPrefix = text.substring(start + 1, end).substring("division.".length());
-            divisionTokens.add(withoutPrefix);
-            i = end + 1;
-        }
+        List<String> divisionTokens = extractPlaceholderTokens(text, "division");
 
         for (String token : divisionTokens) {
-            String[] parts = token.split("\\.");
-            String field = parts[0];
-            int index = 0;
-            if (parts.length == 2) {
-                try {
-                    index = Integer.parseInt(parts[1]);
-                } catch (NumberFormatException ex) {
-                    ConsoleLogger.warn("Índice no válido en placeholder: " + token);
-                    continue;
-                }
-            }
+            PlaceholderToken placeholderToken = parsePlaceholderToken(token);
+            if (placeholderToken == null) continue;
+
+            String field = placeholderToken.field;
+            int index = placeholderToken.index;
 
             Division division = (index >= 0 && index < divisiones.length) ? divisiones[index] : null;
             String value = "";

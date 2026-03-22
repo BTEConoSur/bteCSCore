@@ -8,6 +8,7 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
+import com.bteconosur.db.model.TipoProyecto;
 import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.util.PlaceholderUtils;
 
@@ -328,6 +329,32 @@ public class LanguageHandler {
     public static String replaceDS(String key, Language language, TipoUsuario... tipos) {
         String text = getText(language, key);
         return PlaceholderUtils.replaceDS(text, language, tipos);
+    }
+
+    /**
+     * Obtiene un texto y reemplaza placeholders de tipos de proyecto para Minecraft.
+     *
+     * @param key clave de la traducción.
+     * @param language idioma del texto.
+     * @param tiposProyecto tipos de proyecto cuyos placeholders se reemplazan.
+     * @return texto con placeholders procesados para Minecraft.
+     */
+    public static String replaceMC(String key, Language language, TipoProyecto... tiposProyecto) {
+        String text = getText(language, key);
+        return PlaceholderUtils.replaceMC(text, language, tiposProyecto);
+    }
+
+    /**
+     * Obtiene un texto y reemplaza placeholders de tipos de proyecto para Discord.
+     *
+     * @param key clave de la traducción.
+     * @param language idioma del texto.
+     * @param tiposProyecto tipos de proyecto cuyos placeholders se reemplazan.
+     * @return texto con placeholders procesados para Discord.
+     */
+    public static String replaceDS(String key, Language language, TipoProyecto... tiposProyecto) {
+        String text = getText(language, key);
+        return PlaceholderUtils.replaceDS(text, language, tiposProyecto);
     }
 
     /**

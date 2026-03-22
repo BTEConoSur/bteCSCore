@@ -1,5 +1,6 @@
 # Use MiniMessage for text formatting - https://webui.advntr.dev/
 # Contextual placeholders: %contexto% %dsPrefix% %mensaje% %username% %mcPrefix% %comentario%
+# TipoProyecto placeholders: %tipoproyecto.id% %tipoproyecto.nombre% %tipoproyecto.maxMiembros% %tipoproyecto.tamanoMin% %tipoproyecto.tamanoMax% %tipoproyecto.tamanoRango%
 
 # Console Messages
 config-reloaded: "Configuration reloaded successfully."
@@ -267,6 +268,8 @@ commands-descriptions:
   lobby.desc: "Teleport to the lobby."
   get.desc: "Get special items and blocks."
   generic-help.desc: "Shows command help."
+  help:
+    proyecto.desc: "Show available project types."
   btecs:
     desc: "Main BTE Cono Sur command."
     test:
@@ -546,6 +549,14 @@ global-help-command:
   nexttext: "<b>>>></b>"
   nexthover: "<gold>Next Page</gold>"
   footer: " <b>=========</b> <gold><backtext> Page <yellow>%currentPage% of %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Text to go to previous page (if applicable). %currentPage% -> Current page. %totalPages% -> Total pages. <nextText> -> Text to go to next page (if applicable).
+
+help-proyecto:
+  header: "\n <b>=========</b> <gold>Project Guide</gold> <b>=========</b>"
+  intro: "<gray>A project is a collaborative build with boundaries, a type, and member rules.</gray>"
+  title: "<yellow>Possible project types:</yellow>"
+  line: " - <gold>%tipoproyecto.nombre%</gold> <gray>Max members:</gray> <white>%tipoproyecto.maxMiembros%</white><gray> Size:</gray> <white>%tipoproyecto.tamanoRango%</white>"
+  empty: "<yellow>No project types available.</yellow>"
+  footer: " "
 
 project:
   not-found-id: "No project found with ID <yellow>%search%</yellow>."
@@ -1567,10 +1578,12 @@ placeholder:
     online: "<green><b>Online</b></green>"
     offline: "<red><b>Offline</b></red>"
     no-link: "<yellow><i>No linked account</i></yellow>"
+    nickname-format: "<i>%nombre</i>"
   player-ds:
     online: "Online"
     offline: "Offline"
     no-link: "No linked account"
+    nickname-format: "<i>%nombre</i>"
   proyecto-mc:
     sin-lider: "<yellow><i>No Leader</i></yellow>"
     sin-miembros: "<yellow><i>No Members</i></yellow>"
@@ -1599,6 +1612,10 @@ placeholder:
       redefiniendo: "Redefining"
       abandonado: "Abandoned"
       editando: "Editing"
+  tipoproyecto-mc:
+    sin-limite-tamano: "No limit"
+  tipoproyecto-ds:
+    sin-limite-tamano: "No limit"
   tag-resolver:
     click-to-copy: "Click to copy"
     click-to-open: "Click to open link"

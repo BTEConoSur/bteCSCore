@@ -1,6 +1,7 @@
 package com.bteconosur.core.command;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.config.Language;
@@ -14,12 +15,12 @@ public class HelpCommand extends BaseCommand {
     public HelpCommand() {
         super("help", "[pagina]", "btecs.command.help", CommandMode.BOTH);
         this.addSubcommand(new HelpCommandCommand());
+        this.addSubcommand(new HelpProyectoCommand());
         this.addSubcommand(new HelpVisitarCommand());
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;               
         int page = 1;
         if (args.length > 0) {
             try {
@@ -27,7 +28,7 @@ public class HelpCommand extends BaseCommand {
             } catch (NumberFormatException e) {
             }
         }
-        bukkitPlayer.performCommand("bteconosur:help command " + page);
+        Bukkit.dispatchCommand(sender, "bteconosur:help command " + page);
         
         return true;
     }

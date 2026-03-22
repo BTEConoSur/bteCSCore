@@ -28,6 +28,8 @@
 #     id, nombre, prefijo (Determinado por placeholder.rango-<ds/mc>.format), badge, label.
 # Tipo de Usuario: %tipo.<atributo>%
 #     id, nombre, prefijo (Determinado por placeholder.tipo-<ds/mc>.format), badge, label, cantProyecSim.
+# Tipo de Proyecto: %tipoproyecto.<atributo>%
+#     id, nombre, maxMiembros, tamanoMin, tamanoMax, tamanoRango.
 # División: %division.<atributo>%
 #     id, nombre, gna, fna, nam, contexto, paisId, paisNombre.
 
@@ -299,6 +301,8 @@ commands-descriptions:
   lobby.desc: "Teletransportarse al lobby."
   get.desc: "Obtener items y bloques especiales."
   generic-help.desc: "Muestra la ayuda del comando."
+  help:
+    proyecto.desc: "Mostrar los tipos de proyecto disponibles."
   btecs:
     desc: "Comando principal de BTE Cono Sur."
     test:
@@ -580,6 +584,14 @@ global-help-command:
   nexttext: "<b>>>></b>"
   nexthover: "<gold>Siguiente Página</gold>"
   footer: " <b>=========</b> <gold><backtext> Página <yellow>%currentPage% de %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
+
+help-proyecto:
+  header: "\n <b>=========</b> <gold>Guía de Proyectos</gold> <b>=========</b>"
+  intro: "<gray> Un proyecto es una construcción con límites, un tipo y posibles miembros.</gray>"
+  title: "<yellow>Tipos de proyectos posibles:</yellow>"
+  line: " - <gold>%tipoproyecto.nombre%</gold> <gray>Máx. miembros:</gray> <white>%tipoproyecto.maxMiembros%</white><gray> Tamaño:</gray> <white>%tipoproyecto.tamanoRango%</white>"
+  empty: "<yellow>No hay tipos de proyecto disponibles.</yellow>"
+  footer: " "
 
 project:
   not-found-id: "No se encontró ningún proyecto con ID <yellow>%search%</yellow>."
@@ -1601,10 +1613,12 @@ placeholder:
     online: "<green><b>En línea</b></green>"
     offline: "<red><b>Desconectado</b></red>"
     no-link: "<yellow><i>No Vinculado</i></yellow>"
+    nickname-format: "<i>%nombre</i>"
   player-ds:
     online: "En línea"
     offline: "Desconectado"
     no-link: "No Vinculado"
+    nickname-format: "*%nombre%*"
   proyecto-mc:
     sin-lider: "<yellow><i>Sin Líder</i></yellow>"
     sin-miembros: "<yellow><i>Sin Miembros</i></yellow>"
@@ -1633,6 +1647,10 @@ placeholder:
       redefiniendo: "Redefiniendo"
       abandonado: "Abandonado"
       editando: "Editando"
+  tipoproyecto-mc:
+    sin-limite-tamano: "Sin límite"
+  tipoproyecto-ds:
+    sin-limite-tamano: "Sin límite"
   tag-resolver:
     click-to-copy: "Click para copiar"
     click-to-open: "Click para abrir enlace"

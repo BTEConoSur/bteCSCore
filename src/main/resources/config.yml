@@ -141,6 +141,14 @@ banned-items: # No aplica para Admins.
   - "MANGROVE_CHEST_BOAT"
   - "CHERRY_CHEST_BOAT"
   - "BAMBOO_CHEST_RAFT"
+  - "PALE_OAK_BOAT"
+  - "PALE_OAK_CHEST_BOAT"
+  - "MINECART"
+  - "CHEST_MINECART"
+  - "FURNACE_MINECART"
+  - "TNT_MINECART"
+  - "HOPPER_MINECART"
+  - "COMMAND_BLOCK_MINECART"
 
 # Cooldowns por comando (En segundos). En caso de no especificar, se usa el valor por defecto. 
 # Nota: El cooldown es por cada comando/subcomando. Es decir, si se especifica un cooldown para "btecs" y otro para "btecs test", ambos se aplican independientemente.
