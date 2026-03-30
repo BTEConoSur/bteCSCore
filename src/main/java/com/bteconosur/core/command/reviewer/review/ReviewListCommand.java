@@ -37,7 +37,7 @@ public class ReviewListCommand extends BaseCommand {
 		ProyectoRegistry proyectoRegistry = ProyectoRegistry.getInstance();
 		PermissionManager permissionManager = PermissionManager.getInstance();
 		Set<Proyecto> finishingProyectos = proyectoRegistry.getFinishing();
-		finishingProyectos.removeIf(proyecto -> !permissionManager.isManager(commandPlayer, proyecto.getPais()));
+		finishingProyectos.removeIf(proyecto -> !permissionManager.isReviewer(commandPlayer, proyecto.getPais()));
 
 		if (finishingProyectos.isEmpty()) {
 			PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.not-finishing"), (String) null);

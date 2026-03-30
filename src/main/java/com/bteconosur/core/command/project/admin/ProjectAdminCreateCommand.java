@@ -38,6 +38,10 @@ public class ProjectAdminCreateCommand extends BaseCommand {
                 PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-name"), (String) null);
                 return true;
             }
+            if (nombre.matches(".*<[^>]+>.*")) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
+                return true;
+            }
         }
 
         if (args.length >= 2) {
@@ -52,7 +56,14 @@ public class ProjectAdminCreateCommand extends BaseCommand {
                 PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-description"), (String) null);
                 return true;
             }
+            
+            if (descripcion.matches(".*<[^>]+>.*")) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
+                return true;
+            }
         }
+
+        
 
         Polygon regionPolygon = RegionUtils.getPolygon(sender);
         if (regionPolygon == null) return true;

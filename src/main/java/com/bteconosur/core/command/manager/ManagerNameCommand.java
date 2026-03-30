@@ -56,6 +56,11 @@ public class ManagerNameCommand extends BaseCommand {
             return true;
         }
 
+        if (nombre.matches(".*<[^>]+>.*")) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
+            return true;
+        }
+
         ProjectManager projectManager = ProjectManager.getInstance();
         targetProyecto.setNombre(nombre);
         targetProyecto = proyectoRegistry.merge(targetProyecto.getId());

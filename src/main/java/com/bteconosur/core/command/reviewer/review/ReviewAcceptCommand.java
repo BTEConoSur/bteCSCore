@@ -58,7 +58,7 @@ public class ReviewAcceptCommand extends BaseCommand {
 
         Location location = bukkitPlayer.getLocation();
         Pais pais = PaisRegistry.getInstance().findByLocation(location.getBlockX(), location.getBlockZ());
-        if (!permissionManager.isManager(commandPlayer, pais)) {
+        if (!permissionManager.isReviewer(commandPlayer, pais)) {
             PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("reviewer.not-reviewer-country", language, pais), (String) null);
             return true;
         }

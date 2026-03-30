@@ -2,7 +2,9 @@ package com.bteconosur.core.util.json;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URLEncoder;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +52,8 @@ public class JsonUtils {
     public static List<RealLocation> buscar(String query) {
         HttpURLConnection conn = null;
         try {
-            String urlStr = config.getString("tpdir-link").replace("%search%", query);
+            String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
+            String urlStr = config.getString("tpdir-link").replace("%search%", encodedQuery);
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");

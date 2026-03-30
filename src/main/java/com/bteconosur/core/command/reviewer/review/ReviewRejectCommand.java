@@ -55,7 +55,7 @@ public class ReviewRejectCommand extends BaseCommand {
 
         Location location = bukkitPlayer.getLocation();
         Pais pais = PaisRegistry.getInstance().findByLocation(location.getBlockX(), location.getBlockZ());  // Capaz que es mejor usar del proyecto;
-        if (!permissionManager.isManager(commandPlayer, pais)) {
+        if (!permissionManager.isReviewer(commandPlayer, pais)) {
             PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("reviewer.not-reviewer-country", language, pais), (String) null);
             return true;
         }

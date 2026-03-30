@@ -46,6 +46,11 @@ public class PwarpCreateCommand extends BaseCommand {
             return true;
         }
 
+        if (nombreWarp.matches(".*<[^>]+>.*")) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
+            return true;
+        }
+
         if (nombreWarp.toLowerCase().equals("add") || nombreWarp.toLowerCase().equals("remove") || nombreWarp.toLowerCase().equals("help")) {
             PlayerLogger.error(player, LanguageHandler.getText(language, "pwarp.invalid-name"), (String) null);
             return true;

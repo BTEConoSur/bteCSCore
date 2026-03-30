@@ -39,6 +39,10 @@ public class ProjectCreateCommand extends BaseCommand {
                 PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-name"), (String) null);
                 return true;
             }
+            if (nombre.matches(".*<[^>]+>.*")) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
+                return true;
+            }
         }
 
         if (args.length >= 2) {
@@ -51,6 +55,10 @@ public class ProjectCreateCommand extends BaseCommand {
 
             if (descripcion.length() > 100) {
                 PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-description"), (String) null);
+                return true;
+            }
+            if (descripcion.matches(".*<[^>]+>.*")) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
                 return true;
             }
         }

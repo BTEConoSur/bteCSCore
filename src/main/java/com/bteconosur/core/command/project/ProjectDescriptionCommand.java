@@ -62,6 +62,11 @@ public class ProjectDescriptionCommand extends BaseCommand {
             return true;
         }
 
+        if (descripcion.matches(".*<[^>]+>.*")) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
+            return true;
+        }
+
         ProjectManager projectManager = ProjectManager.getInstance();
         targetProyecto.setDescripcion(descripcion);
         proyectoRegistry.merge(targetProyecto.getId());

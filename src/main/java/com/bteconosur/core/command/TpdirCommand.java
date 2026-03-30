@@ -27,10 +27,10 @@ public class TpdirCommand extends BaseCommand {
             return true;
         }
 
-        String query = String.join("+", args);
+        String query = String.join(" ", args);
         List<RealLocation> locations = JsonUtils.buscar(query);
         if (locations.isEmpty()) {
-            PlayerLogger.error(sender, LanguageHandler.getText(player.getLanguage(), "tpdir.no-results").replace("%query%", query), (String) null);
+            PlayerLogger.error(sender, LanguageHandler.getText(player.getLanguage(), "tpdir.no-results").replace("%query%", String.join(" ", args)), (String) null);
             return true;
         }
         if (locations.size() == 1) {

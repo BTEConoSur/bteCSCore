@@ -287,6 +287,7 @@ invalid-project-size: "El tamaño del proyecto es inválido. Min. 2m² - Max. 50
 invalid-project-location: "La ubicación del proyecto es inválida o no está dentro de una división válida."
 invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 invalid-admin-id: "El ID de tipo de proyecto de Admin no es válido. Verifica que el ID configurado en id-proyecto-admin corresponda a un tipo de proyecto existente en la base de datos."
+invalid-regex: "No se puede usar texto entre <>."
 
 commands-descriptions:
   scoreboard.desc: "Configurar los Scoreboard que se muestran."

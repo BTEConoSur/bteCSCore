@@ -37,7 +37,7 @@ public class ManagerAcceptCommand extends BaseCommand {
         String proyectoId = args[0];
         proyectoFinal = ProyectoRegistry.getInstance().get(proyectoId);
         if (proyectoFinal == null) {
-            String message = LanguageHandler.replaceMC("project.not-found-id", language, proyectoFinal).replace("%proyecto.id%", proyectoId);
+            String message = LanguageHandler.replaceMC("project.not-found-id", language, proyectoFinal).replace("%search%", proyectoId);
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
