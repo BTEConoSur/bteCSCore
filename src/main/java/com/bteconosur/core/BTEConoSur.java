@@ -1,5 +1,6 @@
 package com.bteconosur.core;
 
+import com.bteconosur.core.api.ApiManager;
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BackCommand;
@@ -69,6 +70,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static DiscordManager discordManager;
     private static DsCommandManager dsCommandManager; 
     private static DBManager dbManager;
+    private static ApiManager apiManager;
     private static WorldManager worldManager;
     private static PermissionManager permissionManager;
     private static ProjectManager projectManager;
@@ -122,6 +124,7 @@ public final class BTEConoSur extends JavaPlugin {
         ConsoleLogger.debug(LanguageHandler.getText("debug-mode-enabled"));
 
         dbManager = DBManager.getInstance();
+        apiManager = ApiManager.getInstance();
         dsCommandManager = DsCommandManager.getInstance();
         worldManager = WorldManager.getInstance();
         projectManager = ProjectManager.getInstance();
@@ -283,6 +286,11 @@ public final class BTEConoSur extends JavaPlugin {
             dbManager = null;
         }
 
+        if (apiManager != null) {
+            apiManager.shutdown();
+            apiManager = null;
+        }
+
         if (worldManager != null) {
             worldManager.shutdown();
             worldManager = null;
@@ -323,7 +331,11 @@ public final class BTEConoSur extends JavaPlugin {
 
     public static DiscordManager getDiscordManager() {
         return discordManager;
-    }   
+    }
+
+    public static ApiManager getApiManager() {
+        return apiManager;
+    }
 }
 
 // TODO: V3.1. Añadir iconos a los proyectos

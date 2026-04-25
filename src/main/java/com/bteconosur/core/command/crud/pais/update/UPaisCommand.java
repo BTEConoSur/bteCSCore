@@ -19,6 +19,8 @@ public class UPaisCommand extends BaseCommand {
         this.addSubcommand(new UPaisDsIdCountryChatCommand());
         this.addSubcommand(new UPaisDsIdLogCommand());
         this.addSubcommand(new UPaisDsIdRequestCommand());
+        this.addSubcommand(new UPaisWebIdCommand());
+        this.addSubcommand(new UPaisWebTokenCommand());
         this.addSubcommand(new UPaisNombrePublicoCommand());
         this.addSubcommand(new AddPaisRegionGeojsonCommand());
         this.addSubcommand(new AddDivisionesGeojsonCommand());

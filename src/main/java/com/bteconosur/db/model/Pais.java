@@ -54,6 +54,12 @@ public class Pais {
     @Column(name = "ds_id_request", nullable = false)
     private Long dsIdRequest;
 
+    @Column(name = "web_id", length = 128)
+    private String webId;
+
+    @Column(name = "web_token", length = 512)
+    private String webToken;
+
     @OneToMany(mappedBy = "pais", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     @JsonIgnore
@@ -82,6 +88,10 @@ public class Pais {
     }
 
     public Pais(String nombre, String nombrePublico, Long dsIdGuild, Long dsIdGlobalChat, Long dsIdCountryChat, Long dsIdLog, Long dsIdRequest) {
+        this(nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest, "", "");
+    }
+
+    public Pais(String nombre, String nombrePublico, Long dsIdGuild, Long dsIdGlobalChat, Long dsIdCountryChat, Long dsIdLog, Long dsIdRequest, String webId, String webToken) {
         this.nombre = nombre;
         this.nombrePublico = nombrePublico;
         this.dsIdGuild = dsIdGuild;
@@ -89,6 +99,8 @@ public class Pais {
         this.dsIdCountryChat = dsIdCountryChat;
         this.dsIdLog = dsIdLog;
         this.dsIdRequest = dsIdRequest;
+        this.webId = webId;
+        this.webToken = webToken;
     }
 
     public Long getId() {
@@ -153,6 +165,22 @@ public class Pais {
 
     public void setDsIdRequest(Long dsIdRequest) {
         this.dsIdRequest = dsIdRequest;
+    }
+
+    public String getWebId() {
+        return webId;
+    }
+
+    public void setWebId(String webId) {
+        this.webId = webId;
+    }
+
+    public String getWebToken() {
+        return webToken;
+    }
+
+    public void setWebToken(String webToken) {
+        this.webToken = webToken;
     }
     
     public void setRegiones(List<RegionPais> regiones) {

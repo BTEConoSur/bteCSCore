@@ -12,6 +12,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
+import com.bteconosur.core.api.ApiManager;
+import com.bteconosur.core.api.json.bteweb.Claim;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
@@ -156,6 +158,7 @@ public class ProjectManager {
             return;
         }
         WorldManager.getInstance().createRegion(proyecto);
+        createWebClaim(proyecto);
         Pais pais = proyecto.getPais();
 
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.admin.success", language, proyecto), (String) null);
@@ -240,6 +243,7 @@ public class ProjectManager {
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         InteractionRegistry.getInstance().unload(interactionId);
         WorldManager.getInstance().createRegion(proyecto);
+        createWebClaim(proyecto);
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
         Player lider = getLider(proyecto);
         Pais pais = proyecto.getPais();
@@ -268,6 +272,33 @@ public class ProjectManager {
         if (contextFile.exists()) {
             contextFile.delete();
         }
+    }
+
+    /**
+     * Crea el claim del proyecto en la API web externa.
+     *
+     * @param proyecto proyecto a sincronizar como claim.
+     * @return {@code true} si se creó correctamente, {@code false} en caso contrario.
+     */
+    public boolean createWebClaim(Proyecto proyecto) {
+        if (proyecto == null) {
+            return false;
+        }
+
+        ApiManager apiManager = BTEConoSur.getApiManager();
+        if (apiManager == null) {
+            ConsoleLogger.warn("No se pudo crear claim web: ApiManager no inicializado.");
+            return false;
+        }
+
+        Claim claim = apiManager.createClaim(proyecto);
+        if (claim == null) {
+            ConsoleLogger.warn("No se pudo crear claim web para el proyecto: " + proyecto.getId());
+            return false;
+        }
+
+        ConsoleLogger.info("Claim web creado para el proyecto " + proyecto.getId() + ": " + claim.getId());
+        return true;
     }
 
     /**

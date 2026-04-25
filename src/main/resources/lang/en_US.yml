@@ -140,6 +140,9 @@ discord-bot-restarting: "Restarting Discord Bot..."
 discord-command-manager-initializing: "Initializing Discord Command Manager..."
 discord-command-manager-shutting-down: "Stopping Discord Command Manager..."
 
+api-manager-initializing: "Initializing API Manager..."
+api-manager-shutting-down: "Shutting Down API Manager..."
+
 scoreboard-manager-initializing: "Initializing Scoreboard..."
 scoreboard-manager-shutting-down: "Shutting Down Scoreboard..."
 scoreboard-manager-error: "Error initializing Scoreboard."

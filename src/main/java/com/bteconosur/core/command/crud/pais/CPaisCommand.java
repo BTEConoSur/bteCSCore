@@ -15,7 +15,7 @@ public class CPaisCommand extends BaseCommand {
     private final DBManager dbManager;
 
     public CPaisCommand() {
-        super("create", "<nombre> <nombre_publico> <ds_id_guild> <ds_id_global_chat> <ds_id_country_chat> <ds_id_log> <ds_id_request>", "btecs.command.crud", CommandMode.BOTH);
+        super("create", "<nombre> <nombre_publico> <ds_id_guild> <ds_id_global_chat> <ds_id_country_chat> <ds_id_log> <ds_id_request> <web_id> <web_token>", "btecs.command.crud", CommandMode.BOTH);
         dbManager = DBManager.getInstance();
     }
 
@@ -24,7 +24,7 @@ public class CPaisCommand extends BaseCommand {
         Player commandPlayer = null;
         if (sender instanceof org.bukkit.entity.Player) commandPlayer = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
         Language language = commandPlayer != null ? commandPlayer.getLanguage() : Language.getDefault();
-        if (args.length != 7) {
+        if (args.length != 9) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, ""));
             PlayerLogger.info(sender, message, (String) null);
             return true;
@@ -32,6 +32,8 @@ public class CPaisCommand extends BaseCommand {
 
         String nombre = args[0];
         String nombrePublico = args[1];
+        String webId = args[7];
+        String webToken = args[8];
         Long dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest;
 
         if (nombre.length() > 50) {
@@ -42,6 +44,18 @@ public class CPaisCommand extends BaseCommand {
 
         if (nombrePublico.length() > 50) {
             String message = LanguageHandler.getText(language, "crud.not-valid-name").replace("%entity%", "Pais").replace("%name%", nombrePublico).replace("%reason%", "Máximo 50 caracteres.");
+            PlayerLogger.error(sender, message, (String) null);
+            return true;
+        }
+
+        if (webId.length() > 128) {
+            String message = LanguageHandler.getText(language, "crud.not-valid-name").replace("%entity%", "Pais").replace("%name%", webId).replace("%reason%", "web_id máximo 128 caracteres.");
+            PlayerLogger.error(sender, message, (String) null);
+            return true;
+        }
+
+        if (webToken.length() > 512) {
+            String message = LanguageHandler.getText(language, "crud.not-valid-name").replace("%entity%", "Pais").replace("%name%", "web_token").replace("%reason%", "web_token máximo 512 caracteres.");
             PlayerLogger.error(sender, message, (String) null);
             return true;
         }
@@ -58,7 +72,7 @@ public class CPaisCommand extends BaseCommand {
             return true;
         }
 
-        Pais pais = new Pais(nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest);
+        Pais pais = new Pais(nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest, webId, webToken);
         dbManager.save(pais);
 
         String message = LanguageHandler.getText(language, "crud.create").replace("%entity%", "Pais");

@@ -219,3 +219,7 @@ id-proyecto-admin: 5
 
 # Resource Pack
 rp-required: true
+
+# Web
+web-debug-mode: true 
+web-claim-create-url: "https://api.buildtheearth.net/api/v1/public/buildteams/%buildteam%/claims?coordType=array" # Endpoint para crear claims.

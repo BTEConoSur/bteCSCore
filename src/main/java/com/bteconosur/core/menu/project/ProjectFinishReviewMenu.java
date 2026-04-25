@@ -53,7 +53,8 @@ public class ProjectFinishReviewMenu extends Menu {
 
         gui.setItem(0, MenuUtils.getCancelItem(language));
         gui.addSlotAction(0, event -> {
-            previousMenu.open();
+            if (previousMenu != null) previousMenu.open();
+            else event.getWhoClicked().closeInventory();
         });
 
         if (liderPostulante) {

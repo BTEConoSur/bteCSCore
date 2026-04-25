@@ -173,6 +173,9 @@ discord-bot-restarting: "Reiniciando Bot de Discord..."
 discord-command-manager-initializing: "Inicializando Gestor de Comandos de Discord..."
 discord-command-manager-shutting-down: "Apagando Gestor de Comandos de Discord..."
 
+api-manager-initializing: "Inicializando API Manager..."
+api-manager-shutting-down: "Apagando API Manager..."
+
 tab-manager-initializing: "Inicializando Tab Manager..."
 tab-manager-shutting-down: "Apagando Tab Manager..."
 tab-manager-error: "Error al inicializar el Tab Manager."

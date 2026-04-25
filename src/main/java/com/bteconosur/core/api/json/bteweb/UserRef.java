@@ -1,0 +1,42 @@
+package com.bteconosur.core.api.json.bteweb;
+
+import java.util.UUID;
+
+public class UserRef {
+    
+    private UUID id;
+    /*
+    private UUID ssoId;
+    private Long discordId;
+    private String name;
+    */
+
+    public UUID getId() {
+        return id;
+    }
+    public void setId(UUID id) {
+        this.id = id;
+    }
+    /*
+    public UUID getSsoId() {
+        return ssoId;
+    }
+    public void setSsoId(UUID ssoId) {
+        this.ssoId = ssoId;
+    }
+    public Long getDiscordId() {
+        return discordId;
+    }
+    public void setDiscordId(Long discordId) {
+        this.discordId = discordId;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    */
+     
+
+}
