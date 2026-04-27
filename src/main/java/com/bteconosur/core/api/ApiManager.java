@@ -1,14 +1,16 @@
 package com.bteconosur.core.api;
 
-import java.io.Console;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
+
+import org.bukkit.Bukkit;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.bteconosur.core.api.json.bteweb.Claim;
+import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.api.json.bteweb.ClaimRequest;
 import com.bteconosur.core.api.json.bteweb.Error;
 import com.bteconosur.core.config.ConfigHandler;
@@ -35,38 +37,55 @@ public class ApiManager {
      * Si web-debug-mode está activo usa credenciales debug; si no, usa token e ID por país.
      *
      * @param proyecto proyecto del cual se infiere el país para resolver credenciales.
-     * @return claim creado, o null si ocurre un error.
      */
-    public Claim createClaim(Proyecto proyecto) {
+    public void createClaim(Proyecto proyecto) {
         if (proyecto == null) {
             ConsoleLogger.warn("No se pudo crear claim: proyecto nulo.");
-            return null;
+            return;
+        }
+        sendClaimAsync(proyecto, "web-claim-create-url", "POST", "crear");
+    }
+
+    public void updateClaim(Proyecto proyecto) {
+        if (proyecto == null) {
+            ConsoleLogger.warn("No se pudo actualizar claim: proyecto nulo.");
+            return;
         }
 
-        ClaimRequest claimRequest = ApiUtils.toClaimRequest(proyecto);
+        sendClaimAsync(proyecto, "web-claim-update-url", "PUT", "actualizar");
+    }
 
-        String endpointTemplate = config.getString("web-claim-create-url", "");
+    private void sendClaimAsync(Proyecto proyecto, String endpointKey, String method, String operationLabel) {
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () ->
+            sendClaim(proyecto, endpointKey, method, operationLabel)
+        );
+    }
+
+    @SuppressWarnings("deprecation")
+    private void sendClaim(Proyecto proyecto, String endpointKey, String method, String operationLabel) {
+        ClaimRequest claimRequest = ApiUtils.toClaimRequest(proyecto);
+        String endpointTemplate = config.getString(endpointKey);
 
         String token = ApiUtils.getToken(proyecto.getPais());
         String buildTeamId = ApiUtils.getBuildTeamId(proyecto.getPais());
 
         if (token.isBlank()) {
-            ConsoleLogger.error("No se encontró token para crear claim (debug o país).");
-            return null;
+            ConsoleLogger.error("No se encontró token para " + operationLabel + " claim (debug o país).");
+            return;
         }
 
         if (buildTeamId.isBlank()) {
-            ConsoleLogger.error("No se encontró buildTeamId/slug para crear claim (debug o país).");
-            return null;
+            ConsoleLogger.error("No se encontró buildTeamId/slug para " + operationLabel + " claim (debug o país).");
+            return;
         }
 
-        String urlStr = endpointTemplate.replace("%buildteam%", buildTeamId);
+        String urlStr = endpointTemplate.replace("%buildteam%", buildTeamId).replace("%claimid%", proyecto.getId());
         ConsoleLogger.debug("Claim Request:", claimRequest);
         ConsoleLogger.debug("Usando URL: " + urlStr);
         HttpURLConnection conn = null;
         try {
             conn = (HttpURLConnection) new URL(urlStr).openConnection();
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod(method);
             conn.setConnectTimeout(6000);
             conn.setReadTimeout(8000);
             conn.setDoOutput(true);
@@ -84,17 +103,16 @@ public class ApiManager {
             if (status < 200 || status >= 300) {
                 try {
                     Error apiError = mapper.readValue(body, Error.class);
-                    ConsoleLogger.error("Error creando claim. HTTP " + status + ": " + apiError.getMessage());
+                    ConsoleLogger.error("Error al " + operationLabel + " claim. HTTP " + status + ": " + apiError.getMessage());
                 } catch (Exception ignored) {
-                    ConsoleLogger.error("Error creando claim. HTTP " + status + ": " + body);
+                    ConsoleLogger.error("Error al " + operationLabel + " claim. HTTP " + status + ": " + body);
                 }
-                return null;
+                return;
             }
-
-            return mapper.readValue(body, Claim.class);
+        } catch (SocketTimeoutException e) {
+            ConsoleLogger.error("Timeout al " + operationLabel + " claim en la API web:", e);
         } catch (Exception e) {
-            ConsoleLogger.error("Error al crear claim en la API web: ", e);
-            return null;
+            ConsoleLogger.error("Error al " + operationLabel + " claim en la API web: ", e);
         } finally {
             if (conn != null) {
                 conn.disconnect();

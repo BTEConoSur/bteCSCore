@@ -12,7 +12,6 @@ public class ClaimRequest {
     private String externalId;
     private String description;
     private String city;
-    private int buildings;
     private List<UserRef> builders;
 
     public UserRef getOwner() {
@@ -77,14 +76,6 @@ public class ClaimRequest {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public int getBuildings() {
-        return buildings;
-    }
-
-    public void setBuildings(int buildings) {
-        this.buildings = buildings;
     }
 
     public List<UserRef> getBuilders() {

@@ -17,12 +17,13 @@ import org.locationtech.jts.geom.Coordinate;
 import com.bteconosur.core.api.json.bteweb.ClaimRequest;
 import com.bteconosur.core.api.json.bteweb.UserRef;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.TerraUtils;
-import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
-import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.util.Estado;
+import com.bteconosur.db.util.PlaceholderUtils;
 
 public class ApiUtils {
 
@@ -30,52 +31,27 @@ public class ApiUtils {
 	private static final YamlConfiguration secret = ConfigHandler.getInstance().getSecret();
 
     private static String getWebDescription(Proyecto proyecto) {
-        if (proyecto == null) {
-            return "";
-        }
-
-        Division division = proyecto.getDivision();
-		String ownerName = proyecto.getLider().getNombre();
-		String descripcionBase = division.getContexto() + ", " + division.getFna();
-		if (proyecto.getDescripcion() != null) {
-			descripcionBase += "\n\n" + proyecto.getDescripcion();
+        if (proyecto == null) return "";
+		List<String> descriptionLines = new ArrayList<>();
+		for (String line : LanguageHandler.getTextList(Language.getDefault(), "web-proyecto-description")) {
+			descriptionLines.add(PlaceholderUtils.replaceDS(line, Language.getDefault(), proyecto));
 		}
-
-		StringBuilder membersLine = new StringBuilder();
-		if (proyecto.getMiembros() != null && !proyecto.getMiembros().isEmpty()) {
-			for (Player miembro : proyecto.getMiembros()) {
-				if (miembro == null || miembro.getNombre() == null || miembro.getNombre().isBlank()) {
-					continue;
-				}
-				if (membersLine.length() > 0) {
-					membersLine.append(", ");
-				}
-				membersLine.append(miembro.getNombre());
-			}
-		}
-
-		String membersText = membersLine.length() > 0 ? membersLine.toString() : "Sin miembros";
-
-		return descripcionBase + "\n\nOwner: " + ownerName + "\nMiembros: " + membersText;
+		return String.join(" | ", descriptionLines);
     }
 
 	public static String getToken(Pais pais) {
 		if (config.getBoolean("web-debug-mode", false)) {
-			return secret.getString("web-debug-token", "").trim();
+			return secret.getString("web-debug-token").trim();
 		}
-		if (pais == null || pais.getWebToken() == null) {
-			return "";
-		}
+		if (pais == null || pais.getWebToken() == null) return "";
 		return pais.getWebToken().trim();
 	}
 
 	public static String getBuildTeamId(Pais pais) {
 		if (config.getBoolean("web-debug-mode", false)) {
-			return secret.getString("web-debug-id", "").trim();
+			return secret.getString("web-debug-id").trim();
 		}
-		if (pais == null || pais.getWebId() == null) {
-			return "";
-		}
+		if (pais == null || pais.getWebId() == null) return "";
 		return pais.getWebId().trim();
 	}
 
@@ -110,7 +86,6 @@ public class ApiUtils {
 		request.setExternalId(proyecto.getId());
 		request.setDescription(getWebDescription(proyecto));
 		request.setCity(proyecto.getDivision().getFna());
-		request.setBuildings(0);
 
 		return request;
 	}

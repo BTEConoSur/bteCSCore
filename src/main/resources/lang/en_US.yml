@@ -1570,6 +1570,14 @@ lobby-teleport: "Teleporting to lobby..."
 
 world-height-limit: "You have exceeded the world height limit and have been teleported to the lobby. If you have fallen out of the world while generating terrain, try exploring by flying."
 
+# BTE Web
+web-proyecto-description:
+  - "%proyecto.descripcion%"
+  - "Líder: %proyecto.lider%"
+  - "Miembros: %proyecto.miembros%"
+  - "Estado: %proyecto.estado%"
+  - "Ubicación: %proyecto.divisionContexto%, %proyecto.divisionFna%"
+
 # Placeholder
 placeholder:
   item-mc:

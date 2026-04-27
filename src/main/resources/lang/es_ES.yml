@@ -21,7 +21,7 @@
 #     discordId, discordName, chat (Nombre del chat actual).
 # Proyecto: %proyecto.<atributo>%
 #     id, nombre, descripcion, tamano (Tamaño), paisId, paisNombre, tipoId, tipo, lider (Nombre Público), miembrosCantidad (Si son 0 dice "Sin Miembros"), miembrosCantidad2 (Si son 0 dice 0)
-#     fechaCreacion, fechaFinalizacion, maxMiembros, divisionId, divisionNombre, divisionGna, divisionFna, divisionNam, divisionContexto, geoCoords.
+#     fechaCreacion, fechaFinalizacion, maxMiembros, divisionId, divisionNombre, divisionGna, divisionFna, divisionNam, divisionContexto, geoCoords, miembros (Listado de los nombres separados por comas).
 # País: %pais.<atributo>%
 #     id, nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest, logo (No aplicable en textos de MC).
 # Rango de Usuario: %rango.<atributo>%
@@ -1606,6 +1606,14 @@ cant-leave-paises: "No puedes salir de los paises."
 lobby-teleport: "Teletransportando al lobby..."
 
 world-height-limit: "Has superado el límite de altura del mundo y te hemos teletransportado al lobby. Si te has caído del mundo al generar terreno, prueba a explorar volando."
+
+# BTE Web
+web-proyecto-description:
+  - "%proyecto.descripcion%"
+  - "Líder: %proyecto.lider%"
+  - "Miembros: %proyecto.miembros%"
+  - "Estado: %proyecto.estado%"
+  - "Ubicación: %proyecto.divisionContexto%, %proyecto.divisionFna%"
 
 # Placeholder
 placeholder:

@@ -5,6 +5,7 @@ import java.util.Set;
 import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.api.ApiManager;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
@@ -70,6 +71,7 @@ public class ManagerDescriptionCommand extends BaseCommand {
         ProjectManager projectManager = ProjectManager.getInstance();
         targetProyecto.setDescripcion(descripcion);
         targetProyecto = proyectoRegistry.merge(targetProyecto.getId());
+        ApiManager.getInstance().updateClaim(targetProyecto);
         PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.update.description.success", language, commandPlayer, targetProyecto), (String) null);
         Set<Player> miembros = projectManager.getMembers(targetProyecto);
         miembros.add(projectManager.getLider(targetProyecto));
