@@ -224,3 +224,4 @@ rp-required: true
 web-debug-mode: true 
 web-claim-create-url: "https://api.buildtheearth.net/api/v1/public/buildteams/%buildteam%/claims?coordType=array" # Endpoint para crear claims.
 web-claim-update-url: "https://api.buildtheearth.net/api/v1/public/buildteams/%buildteam%/claims/%claimid%?coordType=array?external=true" # Endpoint para actualizar claims.
+web-claim-delete-url: "https://api.buildtheearth.net/api/v1/public/buildteams/%buildteam%/claims/%claimid%?external=true" # Endpoint para eliminar claims por ID externa sin body.

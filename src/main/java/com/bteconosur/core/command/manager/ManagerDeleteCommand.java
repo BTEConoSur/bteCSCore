@@ -3,6 +3,7 @@ package com.bteconosur.core.command.manager;
 import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.api.ApiManager;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
@@ -53,6 +54,7 @@ public class ManagerDeleteCommand extends BaseCommand {
 
         confirmationMenu = new ConfirmationMenu( LanguageHandler.replaceMC("gui-titles.delete-project-confirm", language, proyectoFinal), bukkitPlayer, confirmClick -> {
                 ProjectManager.getInstance().deleteProject(proyectoFinal, commandPlayer.getUuid());
+                ApiManager.getInstance().deleteClaim(proyectoFinal);
                 PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.delete.success", language, proyectoFinal), (String) null);
                 confirmationMenu.getGui().close(bukkitPlayer);
             }, (cancelClick -> {    

@@ -43,7 +43,7 @@ public class ApiManager {
             ConsoleLogger.warn("No se pudo crear claim: proyecto nulo.");
             return;
         }
-        sendClaimAsync(proyecto, "web-claim-create-url", "POST", "crear");
+        sendClaimAsync(proyecto, "web-claim-create-url", "POST", "crear", true);
     }
 
     public void updateClaim(Proyecto proyecto) {
@@ -52,19 +52,33 @@ public class ApiManager {
             return;
         }
 
-        sendClaimAsync(proyecto, "web-claim-update-url", "PUT", "actualizar");
+        sendClaimAsync(proyecto, "web-claim-update-url", "PUT", "actualizar", true);
     }
 
-    private void sendClaimAsync(Proyecto proyecto, String endpointKey, String method, String operationLabel) {
+    public void deleteClaim(Proyecto proyecto) {
+        if (proyecto == null) {
+            ConsoleLogger.warn("No se pudo eliminar claim: proyecto nulo.");
+            return;
+        }
+
+        sendClaimAsync(proyecto, "web-claim-delete-url", "DELETE", "eliminar", false);
+    }
+
+    private void sendClaimAsync(Proyecto proyecto, String endpointKey, String method, String operationLabel, boolean includeBody) {
         Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () ->
-            sendClaim(proyecto, endpointKey, method, operationLabel)
+            sendClaim(proyecto, endpointKey, method, operationLabel, includeBody)
         );
     }
 
     @SuppressWarnings("deprecation")
-    private void sendClaim(Proyecto proyecto, String endpointKey, String method, String operationLabel) {
-        ClaimRequest claimRequest = ApiUtils.toClaimRequest(proyecto);
+    private void sendClaim(Proyecto proyecto, String endpointKey, String method, String operationLabel, boolean includeBody) {
         String endpointTemplate = config.getString(endpointKey);
+        if (endpointTemplate == null || endpointTemplate.isBlank()) {
+            ConsoleLogger.error("No se encontró endpoint para " + operationLabel + " claim: " + endpointKey);
+            return;
+        }
+
+        ClaimRequest claimRequest = includeBody ? ApiUtils.toClaimRequest(proyecto) : null;
 
         String token = ApiUtils.getToken(proyecto.getPais());
         String buildTeamId = ApiUtils.getBuildTeamId(proyecto.getPais());
@@ -80,7 +94,9 @@ public class ApiManager {
         }
 
         String urlStr = endpointTemplate.replace("%buildteam%", buildTeamId).replace("%claimid%", proyecto.getId());
-        ConsoleLogger.debug("Claim Request:", claimRequest);
+        if (includeBody && claimRequest != null) {
+            ConsoleLogger.debug("Claim Request:", claimRequest);
+        }
         ConsoleLogger.debug("Usando URL: " + urlStr);
         HttpURLConnection conn = null;
         try {
@@ -88,13 +104,14 @@ public class ApiManager {
             conn.setRequestMethod(method);
             conn.setConnectTimeout(6000);
             conn.setReadTimeout(8000);
-            conn.setDoOutput(true);
+            conn.setDoOutput(includeBody);
             conn.setRequestProperty("Authorization", "Bearer " + token);
             conn.setRequestProperty("Accept", "application/json");
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            
-            try (OutputStream os = conn.getOutputStream()) {
-                os.write(mapper.writeValueAsBytes(claimRequest));
+            if (includeBody) {
+                conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                try (OutputStream os = conn.getOutputStream()) {
+                    os.write(mapper.writeValueAsBytes(claimRequest));
+                }
             }
 
             int status = conn.getResponseCode();
