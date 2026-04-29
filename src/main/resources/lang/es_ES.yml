@@ -1615,6 +1615,9 @@ web-proyecto-description:
   - "Estado: %proyecto.estado%"
   - "Ubicación: %proyecto.divisionContexto%, %proyecto.divisionFna%"
 
+web-sync-task-init: "Iniciando tarea de sincronización con la web..."
+web-sync-no-pending: "No hay proyectos pendientes de sincronización con la web."
+
 # Placeholder
 placeholder:
   item-mc:

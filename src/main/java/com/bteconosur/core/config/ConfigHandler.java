@@ -12,6 +12,7 @@ public class ConfigHandler {
     private final ConfigFile gui = new ConfigFile("gui.yml");
     private final ConfigFile embedColors = new ConfigFile("embed-colors.yml");
     private final ConfigFile secret = new ConfigFile("secret.yml");
+    private final ConfigFile pending = new ConfigFile("pending.yml");
 
     /**
      * Inicializa el manejador de configuración registrando todos los archivos.
@@ -30,6 +31,16 @@ public class ConfigHandler {
         gui.register();
         embedColors.register();
         secret.register();
+        pending.register();
+    }
+
+    /**
+     * Obtiene los proyectos pendientes de sincronización con la web.
+     *
+     * @return configuración YAML de {@code embed-colors.yml}.
+     */
+    public YamlConfiguration getPending() {
+        return pending.getFileConfiguration();
     }
 
     /**
@@ -86,6 +97,7 @@ public class ConfigHandler {
         gui.save();
         embedColors.save();
         secret.save();
+        pending.save();
         LanguageHandler.save();
     }
 
@@ -98,6 +110,7 @@ public class ConfigHandler {
         gui.reload();
         embedColors.reload();
         secret.reload();
+        pending.reload();
         LanguageHandler.reload();
     }
 

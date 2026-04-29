@@ -221,7 +221,16 @@ id-proyecto-admin: 5
 rp-required: true
 
 # Web
-web-debug-mode: true 
+api-manager-enabled: true # Habilitar/deshabilitar el ApiManager para sincronizar con la web. Requiere reiniciar el servidor para aplicar cambios.
+web-debug-mode: true
+web-pending-sync-enabled: true # Activar/desactivar el task de sincronización periódica de pendientes.
+
 web-claim-create-url: "https://api.buildtheearth.net/api/v1/public/buildteams/%buildteam%/claims?coordType=array" # Endpoint para crear claims.
 web-claim-update-url: "https://api.buildtheearth.net/api/v1/public/buildteams/%buildteam%/claims/%claimid%?coordType=array?external=true" # Endpoint para actualizar claims.
 web-claim-delete-url: "https://api.buildtheearth.net/api/v1/public/buildteams/%buildteam%/claims/%claimid%?external=true" # Endpoint para eliminar claims por ID externa sin body.
+web-claim-connect-timeout: 8000 # Timeout de conexión para requests a la web (en milisegundos).
+web-claim-read-timeout: 10000 # Timeout de lectura para requests a la web
+
+web-pending-sync-interval: 6 # Cada cuantas horas se reintenta la sincronización de los proyectos pendientes con la web.
+web-load-interval: 60 # Cada cuantos segundos se envían datos a la web.
+web-consecutive-pending-failures: 5 # Cantidad de fallos consecutivos al intentar sincronizar proyectos.
