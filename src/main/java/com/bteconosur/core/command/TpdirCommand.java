@@ -26,11 +26,11 @@ public class TpdirCommand extends BaseCommand {
             PlayerLogger.info(sender, message, (String) null);
             return true;
         }
-
         String query = String.join(" ", args);
+        PlayerLogger.info(sender, LanguageHandler.getText(player.getLanguage(), "tpdir.buscando").replace("%query%", query), (String) null);
         List<RealLocation> locations = JsonUtils.buscar(query);
         if (locations.isEmpty()) {
-            PlayerLogger.error(sender, LanguageHandler.getText(player.getLanguage(), "tpdir.no-results").replace("%query%", String.join(" ", args)), (String) null);
+            PlayerLogger.error(sender, LanguageHandler.getText(player.getLanguage(), "tpdir.no-results").replace("%query%", query), (String) null);
             return true;
         }
         if (locations.size() == 1) {

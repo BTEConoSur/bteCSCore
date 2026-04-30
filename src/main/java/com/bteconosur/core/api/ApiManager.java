@@ -1,6 +1,5 @@
 package com.bteconosur.core.api;
 
-import java.io.Console;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -16,7 +15,6 @@ import org.bukkit.Bukkit;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitTask;
-import org.mvplugins.multiverse.external.vavr.collection.List.Cons;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.api.json.bteweb.ClaimRequest;

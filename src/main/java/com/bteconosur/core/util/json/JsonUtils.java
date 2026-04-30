@@ -54,6 +54,7 @@ public class JsonUtils {
         try {
             String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
             String urlStr = config.getString("tpdir-link").replace("%search%", encodedQuery);
+            ConsoleLogger.debug("Buscando ubicaciones con URL: " + urlStr);
             URL url = new URL(urlStr);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");

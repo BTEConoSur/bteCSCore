@@ -500,7 +500,8 @@ region:
   we-error: "Error de WorldEdit."
 
 tpdir:
-  no-results: "No se encontraron resultados para %query%."
+  buscando: "Buscando ubicaciones para <yellow>%query%</yellow>. Esto puede tardar un momento . . ."
+  no-results: "No se encontraron resultados para <yellow>%query%</yellow>."
   tped: "Teletransportando a <yellow>%destino%</yellow> . . ."
 
 language:

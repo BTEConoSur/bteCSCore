@@ -535,7 +535,7 @@ public class ProjectManager {
             if (lider != null) members.add(lider);
             for (Player member : members) {
                 if (!member.equals(player)) {
-                    PlayerLogger.info(member, LanguageHandler.replaceMC("project.member.leave.for-member", member.getLanguage(), proyecto), ChatUtil.getDsMemberLeftMember(proyecto, player, member.getLanguage()));
+                    PlayerLogger.info(member, LanguageHandler.replaceMC("project.member.leave.for-member", member.getLanguage(), player, proyecto), ChatUtil.getDsMemberLeftMember(proyecto, player, member.getLanguage()));
                 }
             }
             String countryLog = LanguageHandler.replaceDS("project.member.leave.log", Language.getDefault(), player, proyecto);
