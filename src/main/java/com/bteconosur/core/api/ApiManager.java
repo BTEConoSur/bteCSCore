@@ -1,5 +1,6 @@
 package com.bteconosur.core.api;
 
+import java.io.Console;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -9,11 +10,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitTask;
+import org.mvplugins.multiverse.external.vavr.collection.List.Cons;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.api.json.bteweb.ClaimRequest;
@@ -25,6 +28,11 @@ import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Gestor centralizado para la sincronización de reclamaciones (claims) entre el servidor Minecraft
+ * y la API web de BTE (Build the Earth). Administra operaciones de creación, actualización y eliminación
+ * de claims, con soporte para sincronización asincrónica y gestión de operaciones pendientes.
+ */
 public class ApiManager {
 
     private static ApiManager instance;
@@ -38,7 +46,12 @@ public class ApiManager {
 
     private BukkitTask syncTask;
     private BukkitTask loadTask;
+    private BukkitTask syncAllTask;
     
+    /**
+     * Inicializa el gestor de API cargando la configuración y estableciendo las tareas de sincronización
+     * si están habilitadas en el archivo de configuración.
+     */
     public ApiManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
@@ -63,6 +76,12 @@ public class ApiManager {
         sendClaimAsync(proyecto, "web-claim-create-url", "POST", "crear", true);
     }
 
+    /**
+     * Actualiza un claim existente en la API web de BTE.
+     * Si web-debug-mode está activo usa credenciales debug; si no, usa token e ID por país.
+     *
+     * @param proyecto proyecto cuyo claim será actualizado.
+     */
     public void updateClaim(Proyecto proyecto) {
         if (!config.getBoolean("api-manager-enabled")) return;
         if (proyecto == null) {
@@ -73,6 +92,12 @@ public class ApiManager {
         sendClaimAsync(proyecto, "web-claim-update-url", "PUT", "actualizar", true);
     }
 
+    /**
+     * Elimina un claim existente de la API web de BTE.
+     * Si web-debug-mode está activo usa credenciales debug; si no, usa token e ID por país.
+     *
+     * @param proyecto proyecto cuyo claim será eliminado.
+     */
     public void deleteClaim(Proyecto proyecto) {
         if (!config.getBoolean("api-manager-enabled")) return;
         if (proyecto == null) {
@@ -92,10 +117,6 @@ public class ApiManager {
     @SuppressWarnings("deprecation")
     private boolean sendClaim(Proyecto proyecto, String endpointKey, String method, String operationLabel, boolean includeBody) {
         String endpointTemplate = config.getString(endpointKey);
-        if (endpointTemplate == null || endpointTemplate.isBlank()) {
-            ConsoleLogger.error("No se encontró endpoint para " + operationLabel + " claim: " + endpointKey);
-            return false;
-        }
 
         ClaimRequest claimRequest = includeBody ? ApiUtils.toClaimRequest(proyecto) : null;
 
@@ -114,9 +135,9 @@ public class ApiManager {
 
         String urlStr = endpointTemplate.replace("%buildteam%", buildTeamId).replace("%claimid%", proyecto.getId());
         if (includeBody && claimRequest != null) {
-            ConsoleLogger.debug("Claim Request:", claimRequest);
+           //ConsoleLogger.debug("Claim Request:", claimRequest);
         }
-        ConsoleLogger.debug("Usando URL para " + operationLabel + ": " + urlStr);
+        //ConsoleLogger.debug("Usando URL para " + operationLabel + ": " + urlStr);
         HttpURLConnection conn = null;
         try {
             conn = (HttpURLConnection) new URL(urlStr).openConnection();
@@ -265,8 +286,151 @@ public class ApiManager {
         }, 20 * 60 * 5, intervalTicks);
     }
 
-    
+    @SuppressWarnings("deprecation")
+    private boolean claimExists(Proyecto proyecto) {
+        String endpointTemplate = config.getString("web-claim-get-url");
 
+        String token = ApiUtils.getToken(proyecto.getPais());
+        String buildTeamId = ApiUtils.getBuildTeamId(proyecto.getPais());
+        if (token.isBlank() || buildTeamId.isBlank()) {
+            ConsoleLogger.warn("No se pudo consultar existencia del claim por credenciales incompletas.");
+            return false;
+        }
+
+        String urlStr = endpointTemplate.replace("%buildteam%", buildTeamId).replace("%claimid%", proyecto.getId());
+        HttpURLConnection conn = null;
+        ConsoleLogger.debug("Usando URL para consultar claim: " + urlStr);
+        try {
+            conn = (HttpURLConnection) new URL(urlStr).openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(config.getInt("web-claim-connect-timeout"));
+            conn.setReadTimeout(config.getInt("web-claim-read-timeout"));
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+            conn.setRequestProperty("Accept", "application/json");
+
+            int status = conn.getResponseCode();
+            if (status >= 200 && status < 300) {
+                ConsoleLogger.debug("Claim existe: " + proyecto.getId());
+                return true;
+            }
+            if (status == 404) {
+                ConsoleLogger.debug("Claim no existe: " + proyecto.getId());
+                return false;
+            }
+
+            String body = ApiUtils.readBody(conn.getErrorStream());
+            ConsoleLogger.warn("No se pudo confirmar existencia del claim " + proyecto.getId() + ". HTTP " + status + ": " + body);
+        } catch (Exception e) {
+            ConsoleLogger.warn("Error al consultar existencia del claim " + proyecto.getId() + ": ", e);
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return false;
+    }
+
+    private void logProgressBar(int processed, int total, int[] nextMilestone) {
+        if (total <= 0) return;
+        int percent = (processed * 100) / total;
+        while (nextMilestone[0] <= 100 && percent >= nextMilestone[0]) {
+            int filled = nextMilestone[0] / 10;
+            String bar = "[" + "#".repeat(filled) + "-".repeat(10 - filled) + "]";
+            ConsoleLogger.info("Sync web progreso " + bar + " " + nextMilestone[0] + "% (" + processed + "/" + total + ")");
+            nextMilestone[0] += 10;
+        }
+    }
+
+    private void syncClaimByState(Proyecto proyecto) {
+        if (proyecto == null) {
+            return;
+        }
+
+        boolean exists = claimExists(proyecto);
+        if (exists) {
+            sendClaim(proyecto, "web-claim-update-url", "PUT", "actualizar", true);
+        } else {
+            sendClaim(proyecto, "web-claim-create-url", "POST", "crear", true);
+        }
+    }
+
+    /**
+     * Sincroniza un proyecto individual con la API web, verificando si el claim existe y realizando
+     * la operación correspondiente (crear o actualizar).
+     *
+     * @param proyectoId identificador del proyecto a sincronizar.
+     */
+    public void syncProject(String proyectoId) {
+        if (!config.getBoolean("api-manager-enabled")) return;
+
+        Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId.trim());
+        if (proyecto == null) {
+            ConsoleLogger.warn("No se encontró el proyecto " + proyectoId + " en el registry.");
+            return;
+        }
+
+        ConsoleLogger.info("Iniciando sincronización web del proyecto " + proyecto.getId() + "...");
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            syncClaimByState(proyecto);
+            ConsoleLogger.info("Sincronización web del proyecto " + proyecto.getId() + " completa.");
+        });
+    }
+
+    /**
+     * Sincroniza todos los proyectos registrados con la API web de forma asincrónica.
+     * Cada proyecto se procesa uno a la vez con intervalos configurables, y se muestra una barra
+     * de progreso en la consola cada vez que se completa un 10% del progreso total.
+     */
+    public void syncAll() {
+        if (!config.getBoolean("api-manager-enabled")) return;
+        if (syncAllTask != null) {
+            ConsoleLogger.warn("Ya hay una sincronización completa en curso.");
+            return;
+        }
+
+        final Set<String> updateSnapshot = ProyectoRegistry.getInstance().getList().stream()
+            .map(Proyecto::getId)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        if (updateSnapshot.isEmpty()) {
+            ConsoleLogger.info("No hay proyectos para sincronizar con la web.");
+            return;
+        }
+
+        final int total = updateSnapshot.size();
+        final int[] processed = {0};
+        final int[] nextMilestone = {0};
+        final long intervalTicks = config.getLong("web-load-interval") * 20;
+
+        ConsoleLogger.info("Iniciando sincronización web de " + total + " proyectos...");
+        logProgressBar(0, total, nextMilestone);
+        syncAllTask = Bukkit.getScheduler().runTaskTimerAsynchronously(BTEConoSur.getInstance(), () -> {
+            String id = updateSnapshot.stream().findAny().orElse(null);
+            if (id == null) {
+                if (nextMilestone[0] <= 100) {
+                    logProgressBar(total, total, nextMilestone);
+                }
+                ConsoleLogger.info("Sincronización web completa.");
+                syncAllTask.cancel();
+                syncAllTask = null;
+                return;
+            }
+
+            updateSnapshot.remove(id);
+            Proyecto proyecto = ProyectoRegistry.getInstance().get(id);
+            if (proyecto != null) {
+                syncClaimByState(proyecto);
+            }
+
+            processed[0]++;
+            logProgressBar(processed[0], total, nextMilestone);
+        }, 0L, intervalTicks);
+    }
+
+    /**
+     * Detiene el gestor de API guardando el estado de operaciones pendientes, cancelando todas las tareas
+     * asincrónicas en ejecución y liberando recursos. Debe ser llamado durante el apagado del servidor.
+     */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("api-manager-shutting-down"));
         if (syncTask != null) {
@@ -276,11 +440,23 @@ public class ApiManager {
             ConfigHandler.getInstance().save();
             syncTask.cancel();
         }
+        if (loadTask != null) {
+            loadTask.cancel();
+        }
+        if (syncAllTask != null) {
+            syncAllTask.cancel();
+        }
         if (instance != null) {
             instance = null;
         }
     }
 
+    /**
+     * Obtiene la instancia única del gestor de API (patrón Singleton).
+     * Si la instancia aún no ha sido creada, la crea automáticamente.
+     *
+     * @return instancia única del gestor de API.
+     */
     public static ApiManager getInstance() {
         if (instance == null) {
             instance = new ApiManager();

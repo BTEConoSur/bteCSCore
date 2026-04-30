@@ -4,6 +4,10 @@ import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Representa una reclamación (claim) de proyecto retornada por la API web de BTE.
+ * Contiene información completa del claim incluyendo metadatos, ubicación, estado y estadísticas.
+ */
 public class Claim {
 
     private UUID id;

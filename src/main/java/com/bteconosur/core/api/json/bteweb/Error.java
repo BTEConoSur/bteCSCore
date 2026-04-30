@@ -2,6 +2,10 @@ package com.bteconosur.core.api.json.bteweb;
 
 import java.util.List;
 
+/**
+ * Representa una respuesta de error recibida de la API web de BTE.
+ * Contiene información sobre el estado del error, código HTTP, mensaje y detalles específicos.
+ */
 public class Error {
 
     private boolean error;

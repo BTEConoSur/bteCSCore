@@ -375,7 +375,7 @@ public class WorldManager {
         }
 
         String prefix = config.getString("wg-proyecto-prefix");
-        for (com.bteconosur.world.model.LabelWorld lw : bteWorld.getLabelWorlds()) {
+        for (LabelWorld lw : bteWorld.getLabelWorlds()) {
             RegionManager rm = lw.getRegionManager();
             ProyectoRegistry proyectoRegistry = ProyectoRegistry.getInstance();
             if (rm == null) continue;

@@ -2,6 +2,10 @@ package com.bteconosur.core.api.json.bteweb;
 
 import java.util.UUID;
 
+/**
+ * Representa una referencia compacta a un usuario en el sistema de la API web de BTE.
+ * Contiene el identificador único del usuario necesario para asociaciones en claims y proyectos.
+ */
 public class UserRef {
     
     private UUID id;

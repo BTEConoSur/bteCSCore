@@ -1,5 +1,9 @@
 package com.bteconosur.core.api.json.bteweb;
 
+/**
+ * Representa el detalle específico de un error individual en una respuesta de error de la API web.
+ * Contiene el mensaje de error y la ruta del campo que causó el error.
+ */
 public class ErrorDetail {
 
     private String msg;

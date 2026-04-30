@@ -25,11 +25,23 @@ import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.util.Estado;
 import com.bteconosur.db.util.PlaceholderUtils;
 
+/**
+ * Utilitario para operaciones relacionadas con la API web de BTE. Provee métodos auxiliares
+ * para obtener credenciales, convertir datos de proyectos a formatos compatibles con la API,
+ * y manipular streams de respuesta HTTP.
+ */
 public class ApiUtils {
 
 	private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 	private static final YamlConfiguration secret = ConfigHandler.getInstance().getSecret();
 
+    /**
+     * Obtiene la descripción de un proyecto para ser utilizada en la API web.
+     * Reemplaza placeholders con información del proyecto en el idioma por defecto.
+     *
+     * @param proyecto proyecto del cual obtener la descripción, o {@code null}.
+     * @return descripción formateada del proyecto o cadena vacía si el proyecto es nulo.
+     */
     private static String getWebDescription(Proyecto proyecto) {
         if (proyecto == null) return "";
 		List<String> descriptionLines = new ArrayList<>();
@@ -39,6 +51,14 @@ public class ApiUtils {
 		return String.join(" | ", descriptionLines);
     }
 
+	/**
+	 * Obtiene el token de autenticación para la API web de BTE.
+	 * Si el modo debug está activo, retorna el token debug del archivo de secretos.
+	 * De lo contrario, retorna el token del país especificado.
+	 *
+	 * @param pais país del cual obtener el token, o {@code null}.
+	 * @return token de autenticación o cadena vacía si no se puede obtener.
+	 */
 	public static String getToken(Pais pais) {
 		if (config.getBoolean("web-debug-mode", false)) {
 			return secret.getString("web-debug-token").trim();
@@ -47,6 +67,14 @@ public class ApiUtils {
 		return pais.getWebToken().trim();
 	}
 
+	/**
+	 * Obtiene el identificador del equipo de construcción (buildTeamId o slug) para la API web de BTE.
+	 * Si el modo debug está activo, retorna el ID debug del archivo de secretos.
+	 * De lo contrario, retorna el ID del país especificado.
+	 *
+	 * @param pais país del cual obtener el ID, o {@code null}.
+	 * @return identificador del equipo o cadena vacía si no se puede obtener.
+	 */
 	public static String getBuildTeamId(Pais pais) {
 		if (config.getBoolean("web-debug-mode", false)) {
 			return secret.getString("web-debug-id").trim();
@@ -55,6 +83,14 @@ public class ApiUtils {
 		return pais.getWebId().trim();
 	}
 
+	/**
+	 * Lee el contenido completo de un stream de entrada y lo convierte en una cadena.
+	 * Utiliza codificación UTF-8 y cierra el stream automáticamente al finalizar.
+	 *
+	 * @param stream stream de entrada a leer, o {@code null}.
+	 * @return contenido del stream como cadena, o cadena vacía si el stream es nulo.
+	 * @throws IOException si ocurre un error al leer el stream.
+	 */
 	public static String readBody(InputStream stream) throws IOException {
 		if (stream == null) {
 			return "";
@@ -70,6 +106,14 @@ public class ApiUtils {
 		return builder.toString();
 	}
 
+	/**
+	 * Convierte un proyecto en una solicitud de claim compatible con la API web de BTE.
+	 * Incluye información del propietario, área del proyecto, estado, nombre y descripción.
+	 * Las coordenadas se convierten de coordenadas de Minecraft a coordenadas geográficas.
+	 *
+	 * @param proyecto proyecto a convertir, o {@code null}.
+	 * @return solicitud de claim con la información del proyecto o una solicitud vacía si el proyecto es nulo.
+	 */
 	public static ClaimRequest toClaimRequest(Proyecto proyecto) {
 		ClaimRequest request = new ClaimRequest();
 
@@ -90,6 +134,11 @@ public class ApiUtils {
 		return request;
 	}
 
+	/**
+	 * Obtiene una referencia de usuario para el propietario del proyecto desde el archivo de secretos.
+	 *
+	 * @return referencia de usuario del propietario con su UUID.
+	 */
 	private static UserRef getOwnerUserRef() {
 		String ownerId = secret.getString("web-owner-id", "").trim();
         UserRef userRef = new UserRef();
@@ -97,6 +146,13 @@ public class ApiUtils {
         return userRef;
 	}
 
+	/**
+	 * Convierte el polígono de un proyecto de coordenadas de Minecraft a coordenadas geográficas
+	 * en formato de lista de pares longitud-latitud (lon, lat) con precisión de 6 decimales.
+	 *
+	 * @param proyecto proyecto cuyo polígono será convertido, o {@code null}.
+	 * @return lista de pares [lon, lat] o lista vacía si el proyecto o polígono es nulo.
+	 */
 	private static List<List<String>> toArrayArea(Proyecto proyecto) {
 		if (proyecto == null || proyecto.getPoligono() == null) {
 			return Collections.emptyList();

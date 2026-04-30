@@ -2,6 +2,10 @@ package com.bteconosur.core.api.json.bteweb;
 
 import java.util.List;
 
+/**
+ * Representa una solicitud de reclamación (claim) a enviar a la API web de BTE.
+ * Contiene la información necesaria para crear o actualizar un claim en el servidor web.
+ */
 public class ClaimRequest {
 
     private UserRef owner;

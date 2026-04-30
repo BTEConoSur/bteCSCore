@@ -286,7 +286,8 @@ commands-descriptions:
       regiondivisiongeojson.desc: "Create GeoJSON of a division region by ID. Saved in geojson/output."
       regionpaisgeojson.desc: "Create GeoJSON of a country region by ID. Saved in geojson/output."
       simplemenu.desc: "Opens a simple test menu."
-      syncproyectos.desc: "Synchronizes all projects with WorldGuard regions."
+    syncworldguard.desc: "Synchronizes all projects with WorldGuard regions."
+    syncweb.desc: "Synchronizes all projects with the web."
     reload.desc: "Reloads the plugin configuration."
   language:
     desc: "Change language."
@@ -1572,14 +1573,17 @@ world-height-limit: "You have exceeded the world height limit and have been tele
 
 # BTE Web
 web-proyecto-description:
-  - "%proyecto.descripcion%"
-  - "Líder: %proyecto.lider%"
-  - "Miembros: %proyecto.miembros%"
-  - "Estado: %proyecto.estado%"
-  - "Ubicación: %proyecto.divisionContexto%, %proyecto.divisionFna%"
+- '%proyecto.descripcion%'
+- 'Líder: %proyecto.lider%'
+- 'Miembros: %proyecto.miembros%'
+- 'Estado: %proyecto.estado%'
+- "ID: %proyecto.id%"
+- 'Ubicación: %proyecto.divisionContexto%, %proyecto.divisionFna%'
 
 web-sync-task-init: "Iniciando tarea de sincronización con la web..."
 web-sync-no-pending: "No hay proyectos pendientes de sincronización con la web."
+
+web-sync-all: "Iniciando sincronización de todos los proyectos con la web..."
 
 # Placeholder
 placeholder:
