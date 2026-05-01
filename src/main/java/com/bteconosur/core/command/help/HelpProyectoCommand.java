@@ -1,4 +1,4 @@
-package com.bteconosur.core.command;
+package com.bteconosur.core.command.help;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
+import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.BaseCommand.CommandMode;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;

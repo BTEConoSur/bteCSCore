@@ -431,31 +431,53 @@ commands-descriptions:
     config.desc: "Open Reviewer configuration menu."
     togglebypass: "Activate or deactivate review bypass for a project."
 
-help-visitar:
+help-visitar: # En cualquier línea se puede usar %plugin-prefix%
   using-coords:
-    - ""
-    - "(coords)lorem ipsum dolor sit amet"
-    - "consectetur adipiscing elit"
-    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-    - ""
+    - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+    - "<gold>Visita un lugar ingresando sus coordenadas</gold>"
+    - "Comando: <blue><i>/tpll <lat> <long></i></blue> <red><yellow><b><hover:show_text:'Puedes obtener las coordenadas con click derecho en Google Maps.'>🛈</hover></b></yellow></red>"
+    - "Ejemplo: <blue><i>/tpll -33.44433846551859, -70.65359965216298</i></blue>"
+    - "<dark_gray>+---------------------------------------+</dark_gray>\n"
   using-address:
-    - ""
-    - "(address)lorem ipsum dolor sit amet"
-    - "consectetur adipiscing elit"
-    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-    - ""
+    - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+    - "<gold>Visita cualquier lugar ingresando su dirección</gold>"
+    - "Comando: <blue><i>/tpdir <lugar o dirección></i></blue>"
+    - "Ejemplo: <blue><i>/tpdir Obelisco, Buenos Aires</i></blue> o"
+    - "<blue><i>/tpdir Av. Corrientes 1047, Buenos Aires, Argentina</i></blue>"
+    - "<dark_gray>+---------------------------------------+</dark_gray>\n"
   tour:
-    - ""
-    - "(tour)lorem ipsum dolor sit amet"
-    - "consectetur adipiscing elit"
-    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-    - ""
+    - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+    - "<gold>Realiza un recorrido por construcciones icónicas</gold>"
+    - "Tours disponibles: <blue><i>/tour list</i></blue>"
+    - "Iniciar un tour: <blue><i>/tour <tour></i></blue>"
+    - "Ejemplo: <blue><i>/tour peru</i></blue>"
+    - "<dark_gray>+---------------------------------------+</dark_gray>\n"
   warps:
-    - ""
-    - "(warps)lorem ipsum dolor sit amet"
-    - "consectetur adipiscing elit"
-    - "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-    - ""
+    - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+    - "<gold>Visita lugares construidos</gold>"
+    - "Warps disponibles: <blue><i>/warp</i></blue> <yellow><b><hover:show_text:'Notar que todos los warps siguen el mismo formato, dependiendo de dónde se encuentran'>🛈</hover></b></yellow>"
+    - "Ir a un warp: <blue><i>/warp <warp></i></blue>"
+    - "Ejemplos: <blue><i>/warp ar.sf.rosario_Centro</i></blue>"
+    - "<blue><i>/warp pe.lim_PlazaDeArmas</i></blue>"
+    - "<dark_gray>+---------------------------------------+</dark_gray>\n"
+
+help-discord:
+  - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+  - "<gold>Discords:</gold>"
+  - "🇦 <blue><u><click:open_url:'https://discord.gg/h36vcVB'><hover:show_text:'Click para unirse'>BTE Argentina</hover></click></u></blue>"
+  - "🇧 <blue><u><click:open_url:'https://discord.gg/9wbj9J2Jbf'><hover:show_text:'Click para unirse'>BTE Bolivia</hover></click></u></blue>"
+  - "🇨 <blue><u><click:open_url:'https://discord.gg/JVM7BP3EW2'><hover:show_text:'Click para unirse'>BTE Chile</hover></click></u></blue>"
+  - "🇵 <blue><u><click:open_url:'https://discord.gg/sfmXJB9'><hover:show_text:'Click para unirse'>BTE Perú</hover></click></u></blue>"
+  - "🇾🇺 <blue><u><click:open_url:'https://discord.gg/3gZJmu6'><hover:show_text:'Click para unirse'>BTE Paraguay + Uruguay</hover></click></u></blue>"
+  - "<dark_gray>+---------------------------------------+</dark_gray>\n"
+
+help-construir:
+  - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+  - "<gold>Tutoriales para empezar a construir:</gold>"
+  - "> <u><blue><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ5i8Yj4JzDdbQaK_5E9lRau'><hover:show_text:'Click para ver'>Tutoriales básicos</hover></click></blue></u>"
+  - "> <blue><u><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ5mCILQIXTT2Kw_Gecv1t4v'><hover:show_text:'Click para er'>Tutoriales avanzados</hover></click></u></blue>"
+  - "<dark_gray>+---------------------------------------+</dark_gray>\n"
+
 
 region:
   selected: "<green>Region successfully selected."

@@ -1,9 +1,11 @@
-package com.bteconosur.core.command;
+package com.bteconosur.core.command.help;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
+import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.HelpCommandCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
@@ -17,6 +19,8 @@ public class HelpCommand extends BaseCommand {
         this.addSubcommand(new HelpCommandCommand());
         this.addSubcommand(new HelpProyectoCommand());
         this.addSubcommand(new HelpVisitarCommand());
+        this.addSubcommand(new HelpConstruir());
+        this.addSubcommand(new HelpDiscord());
     }
 
     @Override
