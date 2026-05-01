@@ -349,6 +349,11 @@ public class MenuUtils {
             ItemStack headItem = HeadDBUtil.get(headId);
             return buildGuiItem(headItem, name, lore, isEnchanted);
         }
+        if (materialName != null && materialName.startsWith("base64:")) {
+            String base64 = materialName.substring(7);
+            ItemStack headItem = HeadDBUtil.getPlayerHead(base64);
+            return buildGuiItem(headItem, name, lore, isEnchanted);
+        }
         ItemBuilder builder = ItemBuilder.from(getMaterialFromString(materialName))
             .name(MiniMessage.miniMessage().deserialize("<!italic>" + name))
             .flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);

@@ -9,6 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 
 import me.arcaniax.hdb.api.DatabaseLoadEvent;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
@@ -71,6 +73,24 @@ public class HeadDBUtil implements Listener {
         meta.setOwningPlayer(Bukkit.getOfflinePlayer(playerUUID));
         head.setItemMeta(meta);
         return head;
+    }
+
+    /**
+     * Obtiene la cabeza de un jugador usando un valor base64.
+     *
+     * @param base64 valor base64 que representa la apariencia de la cabeza.
+     * @return ItemStack con la cabeza del jugador, o cabeza por defecto si no se puede crear.
+     */
+    public static ItemStack getPlayerHead(String base64) {
+        ItemStack cabeza = new ItemStack(Material.PLAYER_HEAD);
+
+        cabeza.editMeta(SkullMeta.class, meta -> {
+            PlayerProfile perfil = Bukkit.createProfile(UUID.randomUUID(), "CustomSkin");
+            perfil.setProperty(new ProfileProperty("textures", base64));
+            meta.setPlayerProfile(perfil);
+        });
+
+        return cabeza;
     }
 
 }
