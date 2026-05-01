@@ -23,7 +23,7 @@
 #     id, nombre, descripcion, tamano (Tamaño), paisId, paisNombre, tipoId, tipo, lider (Nombre Público), miembrosCantidad (Si son 0 dice "Sin Miembros"), miembrosCantidad2 (Si son 0 dice 0)
 #     fechaCreacion, fechaFinalizacion, maxMiembros, divisionId, divisionNombre, divisionGna, divisionFna, divisionNam, divisionContexto, geoCoords, miembros (Listado de los nombres separados por comas).
 # País: %pais.<atributo>%
-#     id, nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest, logo (No aplicable en textos de MC).
+#     id, nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest, logo (No aplicable en textos de MC), prefix.
 # Rango de Usuario: %rango.<atributo>%
 #     id, nombre, prefijo (Determinado por placeholder.rango-<ds/mc>.format), badge, label.
 # Tipo de Usuario: %tipo.<atributo>%
@@ -954,15 +954,15 @@ ds-chat-notifications:
     title: "**El servidor se ha detenido.**"
     description: "Nos vemos!"
   player-join:
-    author: "%player.nombrePublico% se ha unido al servidor."
+    author: "%player.nombre% se ha unido al servidor."
   player-new-join:
-    author: "%player.nombrePublico% se ha unido al servidor por primera vez."
+    author: "%player.nombre% se ha unido al servidor por primera vez."
   player-left:
-    author: "%player.nombrePublico% ha salido del servidor."
+    author: "%player.nombre% ha salido del servidor."
   chat-join:
-    author: "%player.nombrePublico% se ha unido al chat."
+    author: "%player.nombre% se ha unido al chat."
   chat-left:
-    author: "%player.nombrePublico% ha salido del chat."
+    author: "%player.nombre% ha salido del chat."
 
 # Discord
 ds-notifications:
@@ -1694,6 +1694,7 @@ placeholder:
       paraguay: "🇾"
       bolivia: "🇧"
       peru: "🇵"
+      antartida: "国"
   rango-mc:
     format: "%rango.badge%%rango.label%"
     badge:
@@ -1727,6 +1728,7 @@ placeholder:
       paraguay: "🇵🇾"
       bolivia: "🇧🇴"
       peru: "🇵🇪"
+      antartida: "🇦🇶"
     logo:
       internacional: "<:BTEInternacional:1477680858633863323>"
       argentina: "<:BTEArgentina:1455209909665661184>"
@@ -1769,7 +1771,7 @@ placeholder:
     video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
     spoiler: "<gray>[</gray><white>SPOILER</white><gray>]</gray>"
     file: "<gray>[</gray><white>ARCHIVO</white><gray>]</gray>"
-    ds: "<gray>[</gray><blue>DS-%pais.nombrePublico%</blue><gray>]</gray>"
+    ds: "<gray>[</gray>后%pais.prefix%<gray>]</gray>"
   chat-ds:
     country: "%pais.nombrePublico%"
     global: "Global"

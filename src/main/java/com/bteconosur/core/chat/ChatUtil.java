@@ -49,6 +49,7 @@ public class ChatUtil {
     private final static YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     public static boolean hasBannedChars(String message) {
+        if (!config.getBoolean("enable-banned-chars")) return true;
         List<String> bannedChars = config.getStringList("banned-chars");
         for (String bannedChar : bannedChars) {
             if (message.contains(bannedChar)) {

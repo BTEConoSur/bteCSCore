@@ -566,6 +566,12 @@ public class PlaceholderUtils {
                         if (context == PlaceholderContext.MINECRAFT) value = "ERROR_LOGO_MC";
                         else value = LanguageHandler.getText(language, "placeholder.pais-ds.logo." + pais.getNombre().toLowerCase());
                         break;
+                    case "prefix":
+                        String path;
+                        if (context == PlaceholderContext.MINECRAFT) path = "placeholder.pais-mc.prefix.";
+                        else path = "placeholder.pais-ds.prefix.";
+                        value = LanguageHandler.getText(language, path + pais.getNombre().toLowerCase());
+                        break;
                     default:
                         value = "";
                         break;

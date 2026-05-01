@@ -916,15 +916,15 @@ ds-chat-notifications:
     title: "**The server has stopped.**"
     description: "See you!"
   player-join:
-    author: "%player.nombrePublico% has joined the server."
+    author: "%player.nombre% has joined the server."
   player-new-join:
-    author: "%player.nombrePublico% has joined the server for the first time."
+    author: "%player.nombre% has joined the server for the first time."
   player-left:
-    author: "%player.nombrePublico% has left the server."
+    author: "%player.nombre% has left the server."
   chat-join:
-    author: "%player.nombrePublico% has joined the chat."
+    author: "%player.nombre% has joined the chat."
   chat-left:
-    author: "%player.nombrePublico% has left the chat."
+    author: "%player.nombre% has left the chat."
 
 # Discord
 ds-notifications:
@@ -1657,6 +1657,7 @@ placeholder:
       paraguay: "🇾"
       bolivia: "🇧"
       peru: "🇵"
+      antartida: "国"
   rango-mc:
     format: "%rango.badge%%rango.label%"
     badge:
@@ -1680,7 +1681,7 @@ placeholder:
     label:
       visita: ""
       postulante: ""
-      constructor: "造" 
+      constructor: "造"
   pais-ds:
     prefix:
       internacional: "INT"
@@ -1690,6 +1691,7 @@ placeholder:
       paraguay: "🇵🇾"
       bolivia: "🇧🇴"
       peru: "🇵🇪"
+      antartida: "🇦🇶"
     logo:
       internacional: "<:BTEInternacional:1477680858633863323>"
       argentina: "<:BTEArgentina:1455209909665661184>"
@@ -1731,7 +1733,7 @@ placeholder:
     video: "<gray>[</gray><white>VIDEO</white><gray>]</gray>"
     spoiler: "<gray>[</gray><white>SPOILER</white><gray>]</gray>"
     file: "<gray>[</gray><white>FILE</white><gray>]</gray>"
-    ds: "<gray>[</gray><blue>DS-%pais.nombrePublico%</blue><gray>]</gray>" # %pais% -> Country where message comes from.
+    ds: "<gray>[</gray>后%pais.prefix%</blue><gray>]</gray>" # %pais% -> Country where message comes from.
   chat-ds:
     global: "Global"
     notepad: "Notepad"

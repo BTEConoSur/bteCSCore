@@ -237,6 +237,7 @@ web-load-interval: 60 # Cada cuantos segundos se envían datos a la web.
 web-consecutive-pending-failures: 5 # Cantidad de fallos consecutivos al intentar sincronizar proyectos.
 
 # Chat y nombres
+enable-banned-chars: true # Habilitar la validación de caracteres prohibidos en nombres de proyectos, managers, pwarps y nicknames.
 banned-chars:
   - "🇨"
   - "🇵"
