@@ -48,6 +48,16 @@ public class ChatUtil {
     private final static YamlConfiguration embedColors = ConfigHandler.getInstance().getEmbedColors();
     private final static YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    public static boolean hasBannedChars(String message) {
+        List<String> bannedChars = config.getStringList("banned-chars");
+        for (String bannedChar : bannedChars) {
+            if (message.contains(bannedChar)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String getMcFormatedMessage(Player player, String message, Language language) {
         String formatedMessage = LanguageHandler.replaceMC("mc-message", language, player);
         return formatedMessage.replace("%mensaje%", message);

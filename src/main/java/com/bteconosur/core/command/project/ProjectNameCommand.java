@@ -62,6 +62,11 @@ public class ProjectNameCommand extends BaseCommand {
             return true;
         }
 
+        if (ChatUtil.hasBannedChars(nombre)) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-chars"), (String) null);
+            return true;
+        }
+
         ProjectManager projectManager = ProjectManager.getInstance();
         targetProyecto.setNombre(nombre);
         proyectoRegistry.merge(targetProyecto.getId());

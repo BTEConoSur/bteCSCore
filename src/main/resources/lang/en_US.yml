@@ -256,6 +256,7 @@ invalid-project-location: "Project location is invalid or not within a valid div
 invalid-project-comment: "Maximum 300 characters allowed for comment."
 invalid-admin-id: "The ID of the Admin project type is invalid. Verify that the ID configured in id-proyecto-admin corresponds to an existing project type in the database."
 invalid-regex: "No se puede usar texto entre <>."
+invalid-chars: "No puedes usar esos caracteres."
 
 commands-descriptions:
   scoreboard.desc: "Configure the Scoreboards that are displayed."
@@ -1740,3 +1741,4 @@ placeholder:
   without-fecha: "No date"
   link-display:
     see-request: "See request"
+  ds-logo: "后"

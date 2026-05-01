@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bukkit.command.CommandSender;
 
+import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
@@ -60,6 +61,11 @@ public class NicknameSetCommand extends BaseCommand {
 
             if (nuevoNombre.matches(".*<[^>]+>.*")) {
                 PlayerLogger.error(sender, LanguageHandler.getText(language, "nickname.invalid-regex"), (String) null);
+                return true;
+            }
+
+            if (ChatUtil.hasBannedChars(nuevoNombre)) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-chars"), (String) null);
                 return true;
             }
         }

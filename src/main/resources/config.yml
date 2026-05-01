@@ -235,3 +235,34 @@ web-claim-read-timeout: 10000 # Timeout de lectura para requests a la web
 web-pending-sync-interval: 6 # Cada cuantas horas se reintenta la sincronización de los proyectos pendientes con la web.
 web-load-interval: 60 # Cada cuantos segundos se envían datos a la web.
 web-consecutive-pending-failures: 5 # Cantidad de fallos consecutivos al intentar sincronizar proyectos.
+
+# Chat y nombres
+banned-chars:
+  - "🇨"
+  - "🇵"
+  - "🇾"
+  - "🇧"
+  - "🇦"
+  - "🇺"
+  - "国"
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""
+  - "建"
+  - "造"
+  - ""
+  - ""
+  - ""
+  - "\ue238"
+  - "后"

@@ -3,6 +3,7 @@ package com.bteconosur.core.command.pwarp;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
+import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
@@ -48,6 +49,11 @@ public class PwarpCreateCommand extends BaseCommand {
 
         if (nombreWarp.matches(".*<[^>]+>.*")) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
+            return true;
+        }
+
+        if (ChatUtil.hasBannedChars(nombreWarp)) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-chars"), (String) null);
             return true;
         }
 

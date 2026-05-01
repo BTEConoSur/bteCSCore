@@ -68,6 +68,11 @@ public class ManagerDescriptionCommand extends BaseCommand {
             return true;
         }
 
+        if (ChatUtil.hasBannedChars(descripcion)) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-chars"), (String) null);
+            return true;
+        }
+
         ProjectManager projectManager = ProjectManager.getInstance();
         targetProyecto.setDescripcion(descripcion);
         targetProyecto = proyectoRegistry.merge(targetProyecto.getId());
