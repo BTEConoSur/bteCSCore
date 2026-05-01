@@ -671,12 +671,14 @@ project:
       for-leader: "<green>Project ID <yellow>%proyecto.id%</yellow> has been accepted. You can now build."
       comment: "<green>Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "✅ | **%player.nombre%** has accepted project `%proyecto.id%` by **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
     reject:
       success: "You have rejected the request for project ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Project rejected."
       for-leader: "<red>Project ID <yellow>%proyecto.id%</yellow> has been rejected."
       comment: "<red>Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "❌ | **%player.nombre%** has denied project `%proyecto.id%` by **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
   delete:
     success: "Project <yellow>%proyecto.id%</yellow> has been successfully deleted."
     for-member: "Project ID <yellow>%proyecto.id%</yellow> you belong to has been deleted."
@@ -702,11 +704,13 @@ project:
         for-member: "<green>Edit completion for project ID <yellow>%proyecto.id%</yellow> has been accepted."
         comment: "<green>Comment: <gray>\"<white>%comentario%\"</gray>"
         log: "✅ | **%player.nombre%** has accepted edit completion for project `%proyecto.id%`."
+        comment-log: "💬 | Comentario: `%comentario%`."
       reject:
         success: "You have rejected the edit completion for project ID <yellow>%proyecto.id%</yellow>."
         for-member: "<red>Edit completion for project ID <yellow>%proyecto.id%</yellow> has been denied."
         comment: "<red>Comment: <gray>\"<white>%comentario%\"</gray>"
         log: "❌ | **%player.nombre%** has denied edit completion for project `%proyecto.id%`."
+        comment-log: "💬 | Comentario: `%comentario%`."
   finish:
     request:
       success: "Completion request for project ID <yellow>%proyecto.id%</yellow> sent successfully. Wait for a Reviewer to review it."
@@ -723,11 +727,13 @@ project:
       for-member: "<green>Completion of project ID <yellow>%proyecto.id%</yellow> has been accepted."
       comment: "<green>Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "✅ | **%player.nombre%** has accepted completion of project `%proyecto.id%` by **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
     reject:
       success: "You have rejected the completion of project ID <yellow>%proyecto.id%</yellow>."
       for-member: "<red>Completion of project ID <yellow>%proyecto.id%</yellow> has been denied."
       comment: "<red>Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "❌ | **%player.nombre%** has denied completion of project `%proyecto.id%` by **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
   redefine:
     request:
       success: "Redefinition request for project ID <yellow>%proyecto.id%</yellow> sent successfully. Wait for a Reviewer to review it."
@@ -744,12 +750,14 @@ project:
       for-member: "Redefinition of project ID <yellow>%proyecto.id%</yellow> has been accepted."
       comment: "Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "✅ | **%player.nombre%** has accepted redefinition of project `%proyecto.id%` by **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
     reject:
       success: "You have rejected the redefinition of project ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Redefinition rejected."
       for-member: "Redefinition of project ID <yellow>%proyecto.id%</yellow> has been denied."
       comment: "Comment: <gray>\"<white>%comentario%\"</gray>"
       log: "❌ | **%player.nombre%** has denied redefinition of project `%proyecto.id%` by **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
   claim:
     success: "<green>You have successfully claimed project ID <yellow>%proyecto.id%</yellow>. You are now the project Leader."
     log: "📌 | **%player.nombre%** has claimed project `%proyecto.id%`. The project has been marked as **Active**"

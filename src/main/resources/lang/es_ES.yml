@@ -707,12 +707,14 @@ project:
       for-leader: "<green>El proyecto de ID <yellow>%proyecto.id%</yellow> ha sido aceptado. Ahora puedes construir."
       comment: "<green>Comentario: <gray>\"<white>%comentario%\"</gray>"
       log: "✅ | **%player.nombre%** ha aceptado el proyecto `%proyecto.id%` de **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
     reject:
       success: "Has rechazado la solicitud del proyecto de ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Proyecto rechazado."
       for-leader: "<red>El proyecto de ID <yellow>%proyecto.id%</yellow> ha sido rechazado."
       comment: "<red>Comentario: <gray>\"<white>%comentario%\"</gray>"
       log: "❌ | **%player.nombre%** ha denegado el proyecto `%proyecto.id%` de **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
   delete:
     success: "El proyecto <yellow>%proyecto.id%</yellow> ha sido eliminado correctamente."
     for-member: "El proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés ha sido eliminado."
@@ -738,11 +740,13 @@ project:
         for-member: "<green>La finalización de edición del proyecto de ID <yellow>%proyecto.id%</yellow> ha sido aceptada."
         comment: "<green>Comentario: <gray>\"<white>%comentario%\"</gray>"
         log: "✅ | **%player.nombre%** ha aceptado la finalización de edición del proyecto `%proyecto.id%`."
+        comment-log: "💬 | Comentario: `%comentario%`."
       reject:
         success: "Has rechazado la finalización de edición del proyecto de ID <yellow>%proyecto.id%</yellow>."
         for-member: "<red>La finalización de edición del proyecto de ID <yellow>%proyecto.id%</yellow> ha sido denegada."
         comment: "<red>Comentario: <gray>\"<white>%comentario%\"</gray>"
         log: "❌ | **%player.nombre%** ha denegado la finalización de edición del proyecto `%proyecto.id%`."
+        comment-log: "💬 | Comentario: `%comentario%`."
   finish:
     request:
       success: "Solicitud de finalización del proyecto de ID <yellow>%proyecto.id%</yellow> enviada correctamente. Espera a que un Reviewer la revise."
@@ -759,11 +763,13 @@ project:
       for-member: "<green>La finalización del proyecto de ID <yellow>%proyecto.id%</yellow> ha sido aceptada."
       comment: "<green>Comentario: <gray>\"<white>%comentario%\"</gray>"
       log: "✅ | **%player.nombre%** ha aceptado la finalización del proyecto `%proyecto.id%` de **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
     reject:
       success: "Has rechazado la finalización del proyecto de ID <yellow>%proyecto.id%</yellow>."
       for-member: "<red>La finalización del proyecto de ID <yellow>%proyecto.id%</yellow> ha sido denegada."
       comment: "<red>Comentario: <gray>\"<white>%comentario%\"</gray>"
       log: "❌ | **%player.nombre%** ha denegado la finalización del proyecto `%proyecto.id%` de **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
   redefine:
     request:
       success: "Solicitud de redefinición del proyecto de ID <yellow>%proyecto.id%</yellow> enviada correctamente. Espera a que un Reviewer la revise."
@@ -780,12 +786,14 @@ project:
       for-member: "La redefinición del proyecto de ID <yellow>%proyecto.id%</yellow> ha sido aceptada."
       comment: "Comentario: <gray>\"<white>%comentario%\"</gray>"
       log: "✅ | **%player.nombre%** ha aceptado la redefinición del proyecto `%proyecto.id%` de **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
     reject:
       success: "Has rechazado la redefinición del proyecto de ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Redefinición rechazada."
       for-member: "La redefinición del proyecto de ID <yellow>%proyecto.id%</yellow> ha sido denegada."
       comment: "Comentario: <gray>\"<white>%comentario%\"</gray>"
       log: "❌ | **%player.nombre%** ha denegado la redefinición del proyecto `%proyecto.id%` de **%player.nombre.1%**."
+      comment-log: "💬 | Comentario: `%comentario%`."
   claim:
     success: "<green>Has reclamado el proyecto de ID <yellow>%proyecto.id%</yellow> correctamente. Ahora eres el Líder del proyecto."
     log: "📌 | **%player.nombre%** ha reclamado el proyecto `%proyecto.id%`. El proyecto ha sido marcado como **Activo**"
