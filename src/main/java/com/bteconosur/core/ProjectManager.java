@@ -250,7 +250,7 @@ public class ProjectManager {
         String countryLog = LanguageHandler.replaceDS("project.create.accept.log", Language.getDefault(), staff, lider);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), proyecto);
         if (comentario != null && !comentario.isBlank()) {
-            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.create.accept.log-comment").replace("%comentario%", comentario);
+            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.create.accept.comment-log").replace("%comentario%", comentario);
         }
         DiscordLogger.countryLog(countryLog, pais);
 
@@ -300,7 +300,7 @@ public class ProjectManager {
         String countryLog = LanguageHandler.replaceDS("project.create.reject.log", Language.getDefault(), staff, lider);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), proyecto);
         if (comentario != null && !comentario.isBlank()) {
-            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.create.reject.log-comment").replace("%comentario%", comentario);
+            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.create.reject.comment-log").replace("%comentario%", comentario);
         }
         DiscordLogger.countryLog(countryLog, pais);
         File createFolder = new File(BTEConoSur.getInstance().getDataFolder(), "images/create");
@@ -682,7 +682,7 @@ public class ProjectManager {
         String countryLog = LanguageHandler.replaceDS("project.finish.accept.log", Language.getDefault(), staff, lider);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), proyecto);
         if (comentario != null && !comentario.isBlank()) {
-            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.finish.accept.log-comment").replace("%comentario%", comentario);
+            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.finish.accept.comment-log").replace("%comentario%", comentario);
         }
         DiscordLogger.countryLog(countryLog, pais);
 
@@ -727,7 +727,7 @@ public class ProjectManager {
         String countryLog = LanguageHandler.replaceDS("project.finish.reject.log", Language.getDefault(), staff, lider);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), proyecto);
         if (comentario != null && !comentario.isBlank()) {
-            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.finish.reject.log-comment").replace("%comentario%", comentario);
+            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.finish.reject.comment-log").replace("%comentario%", comentario);
         }
         DiscordLogger.countryLog(countryLog, pais);
     }
@@ -906,7 +906,7 @@ public class ProjectManager {
         String countryLog = LanguageHandler.replaceDS("project.redefine.accept.log", Language.getDefault(), staff, lider);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), proyecto);
         if (comentario != null && !comentario.isBlank()) {
-            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.redefine.accept.log-comment").replace("%comentario%", comentario);
+            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.redefine.accept.comment-log").replace("%comentario%", comentario);
         }
         DiscordLogger.countryLog(countryLog, pais);
 
@@ -940,7 +940,7 @@ public class ProjectManager {
         String countryLog = LanguageHandler.replaceDS("project.redefine.reject.log", Language.getDefault(), staff, lider);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), proyecto);
         if (comentario != null && !comentario.isBlank()) {
-            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.redefine.reject.log-comment").replace("%comentario%", comentario);
+            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.redefine.reject.comment-log").replace("%comentario%", comentario);
         }
         DiscordLogger.countryLog(countryLog, pais);
 
@@ -1072,7 +1072,7 @@ public class ProjectManager {
 
         String countryLog = LanguageHandler.replaceDS("project.edit.finish.accept.log", Language.getDefault(), staff, proyecto);
         if (comentario != null && !comentario.isBlank()) {
-            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.edit.finish.accept.log-comment").replace("%comentario%", comentario);
+            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.edit.finish.accept.comment-log").replace("%comentario%", comentario);
         }
         DiscordLogger.countryLog(countryLog, pais);
 
@@ -1100,7 +1100,7 @@ public class ProjectManager {
         Pais pais = proyecto.getPais();
         String countryLog = LanguageHandler.replaceDS("project.edit.finish.reject.log", Language.getDefault(), staff, proyecto);
         if (comentario != null && !comentario.isBlank()) {
-            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.edit.finish.reject.log-comment").replace("%comentario%", comentario);
+            countryLog += "\n" + LanguageHandler.getText(Language.getDefault(), "project.edit.finish.reject.comment-log").replace("%comentario%", comentario);
         }
         DiscordLogger.countryLog(countryLog, pais);
 
