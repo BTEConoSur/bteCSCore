@@ -27,8 +27,8 @@ delete-playerdata-not-found: "Playerdata not found for <yellow>%uuid%</yellow> i
 delete-playerdata-success: "Playerdata deleted for <yellow>%uuid%</yellow> in world <yellow>%world%</yellow>."
 delete-playerdata-error: "Error deleting playerdata for <yellow>%uuid%</yellow> in world <yellow>%world%</yellow>: %error%"
 
-config-key-error: "Unrecognized key in configuration: <yellow>%key%</yellow>."
-language-key-error: "Unrecognized key in language file %language%: <yellow>%key%</yellow>."
+config-key-error: "Unrecognized key in configuration: %key%."
+language-key-error: "Unrecognized key in language file %language%: %key%."
 database-transaction-error: "Error during database transaction: "
 database-query-error: "Error during database query: "
 database-connection-error: "Database connection error: "
@@ -907,15 +907,15 @@ ds-schematic:
 
 # Chat
 # If the player is not registered in the database, the rest of prefixes are not used.
-mc-message: "%player.paisPrefix%%player.prefix% <gold><player></gold><gray>: </gray>%mensaje%"
-from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>%mensaje%" # From player not registered in the database.
-from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>%mensaje%"
+mc-message: "%player.paisPrefix%%player.prefix% <gold><player></gold><gray>: </gray>"
+from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><gray>: </gray>" # From player not registered in the database.
+from-ds-message: "%dsPrefix% <gold><player></gold><gray>: </gray>"
 
 # %paisPrefix% -> Country prefix where message comes from. %rangoPrefix% -> Rank prefix. %tipoPrefix% -> User type prefix. 
-# %mcPrefix% -> Minecraft prefix. %dsPais% -> Country where message comes from. %player% -> Player name. %mensaje% -> Sent message.
-ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
-ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # From player not registered in the database. %username% -> Username sending the message.
-from-mc-message: "**%mcPrefix% %player.paisPrefix%  %player.prefix% %player.nombrePublico%**: %mensaje%"
+# %mcPrefix% -> Minecraft prefix. %dsPais% -> Country where message comes from. %player% -> Player name.  -> Sent message.
+ds-message: "**%dsPais% %player.nombrePublico%**: "
+ds-message-not-player: "**%dsPais% %username%**: " # From player not registered in the database. %username% -> Username sending the message.
+from-mc-message: "**%mcPrefix% %player.paisPrefix%  %player.prefix% %player.nombrePublico%**: "
 
 player-join-message: "<green><yellow>%player.nombrePublico%</yellow><reset><green> has joined the server."
 player-new-join-message: "<green><yellow>%player.nombrePublico%</yellow><reset><green> has joined the server for the first time."

@@ -18,6 +18,7 @@ import com.bteconosur.discord.util.MessageService;
 
 import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
@@ -83,12 +84,12 @@ public class CountryChatService {
                 }
                 String hover = String.join("\n", processedHover);
                 TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", onlinePlayer.getLanguage(), player), hover);
-                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, message, onlinePlayer.getLanguage()), hoverResolver));
+                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, onlinePlayer.getLanguage()), hoverResolver).append(Component.text(message)));
             }
         }
 
         if (!config.getBoolean("discord-country-chat")) return;
-        MessageService.sendMessage(pais.getDsIdCountryChat(), ChatUtil.getDsFormatedMessage(player, message, Language.getDefault()));
+        MessageService.sendMessage(pais.getDsIdCountryChat(), ChatUtil.getDsFormatedMessage(player, Language.getDefault()) + message);
     }
 
     /**
@@ -116,7 +117,7 @@ public class CountryChatService {
                 }
                 String hover = String.join("\n", processedHover);
                 TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", onlinePlayer.getLanguage(), player), hover);
-                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, mcMessage, onlinePlayer.getLanguage(), pais), hoverResolver));
+                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, onlinePlayer.getLanguage(), pais), hoverResolver).append(Component.text(mcMessage)));
             }
         }
     }
@@ -140,7 +141,7 @@ public class CountryChatService {
                     else if (attachment.isSpoiler()) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.spoiler");
                     else mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.file");
                 }
-                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(username, mcMessage, onlinePlayer.getLanguage(), pais)));
+                onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(username, onlinePlayer.getLanguage(), pais)).append(Component.text(mcMessage)));
             }
         }
     }

@@ -8,6 +8,7 @@ import com.bteconosur.core.util.TagResolverUtils;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.util.PlaceholderUtils;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
@@ -31,6 +32,6 @@ public class NotePadService {
         }
         String hover = String.join("\n", processedHover);
         TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", player.getLanguage(), player), hover);
-        player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, message, player.getLanguage()), hoverResolver));
+        player.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, player.getLanguage()), hoverResolver).append(Component.text(message)));
     }
 }

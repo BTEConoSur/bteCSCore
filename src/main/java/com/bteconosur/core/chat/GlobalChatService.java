@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.TagResolverUtils;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
@@ -18,6 +19,7 @@ import com.bteconosur.discord.util.MessageService;
 
 import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
@@ -87,13 +89,13 @@ public class GlobalChatService {
             }
             String hover = String.join("\n", processedHover);
             TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", onlinePlayer.getLanguage(), player), hover);
-            onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, mcMessage, onlinePlayer.getLanguage(), dsFrom), hoverResolver));
+            onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, onlinePlayer.getLanguage(), dsFrom), hoverResolver).append(Component.text(mcMessage)));
         }
         List<Long> ids = new ArrayList<>(PaisRegistry.getInstance().getDsGlobalChatIds());
         ids.remove(dsFromId);
         String dsMessage = message;
         for (Attachment attachment : attachments) dsMessage += " " + attachment.getUrl();
-        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, dsMessage, Language.getDefault(), dsFrom), messageId);
+        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, Language.getDefault(), dsFrom) + dsMessage, messageId);
     }
 
     /**
@@ -117,13 +119,13 @@ public class GlobalChatService {
                 else if (attachment.isSpoiler()) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.spoiler");
                 else mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.file");
             }
-            onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(username, mcMessage, onlinePlayer.getLanguage(), dsFrom)));
+            onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(username, onlinePlayer.getLanguage(), dsFrom)).append(Component.text(mcMessage)));
         }
         List<Long> ids = new ArrayList<>(PaisRegistry.getInstance().getDsGlobalChatIds());
         ids.remove(dsFromId);
         String dsMessage = message;
         for (Attachment attachment : attachments) dsMessage += " " + attachment.getUrl();
-        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(username, dsMessage, Language.getDefault(), dsFrom), messageId);
+        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(username, Language.getDefault(), dsFrom) + dsMessage, messageId);
     }
 
     /**
@@ -142,11 +144,11 @@ public class GlobalChatService {
             }
             String hover = String.join("\n", processedHover);
             TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", onlinePlayer.getLanguage(), player), hover);
-            onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, message, onlinePlayer.getLanguage()), hoverResolver));
+            onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, onlinePlayer.getLanguage()), hoverResolver).append(Component.text(message)));
         }
         if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
-        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, message, Language.getDefault()));
+        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, Language.getDefault()) + message);
     }
 
     /**

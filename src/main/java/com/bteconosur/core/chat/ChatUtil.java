@@ -59,40 +59,38 @@ public class ChatUtil {
         return false;
     }
 
-    public static String getMcFormatedMessage(Player player, String message, Language language) {
-        String formatedMessage = LanguageHandler.replaceMC("mc-message", language, player);
-        return formatedMessage.replace("%mensaje%", message);
+    public static String getMcFormatedMessage(Player player, Language language) {
+        return LanguageHandler.replaceMC("mc-message", language, player);
     }
 
-    public static String getMcFormatedMessage(String username, String message, Language language, Pais dsPais) {
+    public static String getMcFormatedMessage(String username, Language language, Pais dsPais) {
         String formatedMessage = LanguageHandler.getText(language, "from-ds-message-not-player");
         String dsPrefix = LanguageHandler.replaceMC("placeholder.chat-mc.ds", language, dsPais);
         formatedMessage = formatedMessage.replace("%dsPrefix%", dsPrefix);
-        return formatedMessage.replace("%mensaje%", message).replace("%username%", username);
+        return formatedMessage.replace("%username%", username);
     }
 
-    public static String getMcFormatedMessage(Player player, String message, Language language, Pais dsPais) {
+    public static String getMcFormatedMessage(Player player, Language language, Pais dsPais) {
         String formatedMessage = LanguageHandler.replaceMC("from-ds-message",language, player);
         String dsPrefix = LanguageHandler.replaceMC("placeholder.chat-mc.ds", language, dsPais);
-        return formatedMessage.replace("%mensaje%", message).replace("%dsPrefix%", dsPrefix);
+        return formatedMessage.replace("%dsPrefix%", dsPrefix);
     }
 
-    public static String getDsFormatedMessage(Player player, String message, Language language) {
+    public static String getDsFormatedMessage(Player player, Language language) {
         String formatedMessage = LanguageHandler.replaceDS("from-mc-message", language, player);
         String mcPrefix = LanguageHandler.getText(language, "placeholder.chat-ds.mc");
-        return formatedMessage.replace("%mcPrefix%", mcPrefix).replace("%mensaje%", message);
+        return formatedMessage.replace("%mcPrefix%", mcPrefix);
     }
 
-    public static String getDsFormatedMessage(Player player, String message, Language language, Pais dsPais) {
+    public static String getDsFormatedMessage(Player player, Language language, Pais dsPais) {
         String formatedMessage = LanguageHandler.replaceDS("ds-message", language, player);
         String dsPrefix = LanguageHandler.replaceDS("placeholder.chat-ds.ds", language, dsPais);
-        return formatedMessage.replace("%dsPais%", dsPrefix).replace("%mensaje%", message);
+        return formatedMessage.replace("%dsPais%", dsPrefix);
     }
 
-    public static String getDsFormatedMessage(String username, String message, Language language, Pais dsPais) {
+    public static String getDsFormatedMessage(String username, Language language, Pais dsPais) {
         String formatedMessage = LanguageHandler.getText(language, "ds-message-not-player");
         String dsPrefix = LanguageHandler.replaceDS("placeholder.chat-ds.ds", language, dsPais);
-        formatedMessage = formatedMessage.replace("%mensaje%", message);
         return formatedMessage.replace("%dsPais%", dsPrefix).replace("%username%", username);
     }
 

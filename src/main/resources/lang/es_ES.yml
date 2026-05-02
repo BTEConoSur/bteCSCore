@@ -60,8 +60,8 @@ delete-playerdata-not-found: "No se encontró playerdata para <yellow>%uuid%</ye
 delete-playerdata-success: "Playerdata eliminada para <yellow>%uuid%</yellow> en el mundo <yellow>%world%</yellow>."
 delete-playerdata-error: "Error al eliminar playerdata de <yellow>%uuid%</yellow> en el mundo <yellow>%world%</yellow>."
 
-config-key-error: "Key no reconocida en la configuración: <yellow>%key%</yellow>."
-language-key-error: "Key no reconocida en el archivo de idioma %language%: <yellow>%key%</yellow>."
+config-key-error: "Key no reconocida en la configuración: %key%."
+language-key-error: "Key no reconocida en el archivo de idioma %language%: %key%."
 database-transaction-error: "Error durante la transacción de base de datos: "
 database-query-error: "Error durante la consulta de base de datos: "
 database-connection-error: "Error de conexión a la base de datos: "
@@ -943,15 +943,15 @@ ds-schematic:
 
 # Chat
 # En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
-mc-message: "%player.paisPrefix%%player.prefix% <gold><player></gold><reset><gray>: </gray>%mensaje%"
-from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><reset><gray>: </gray>%mensaje%" # De jugador no registrado en la base de datos.
-from-ds-message: "%dsPrefix% <gold><player></gold><reset><gray>: </gray>%mensaje%"
+mc-message: "%player.paisPrefix%%player.prefix% <gold><player></gold><reset><gray>: </gray>"
+from-ds-message-not-player: "%dsPrefix% <gold>%username%</gold><reset><gray>: </gray>" # De jugador no registrado en la base de datos.
+from-ds-message: "%dsPrefix% <gold><player></gold><reset><gray>: </gray>"
 
 # %paisPrefix% -> Prefijo del país de donde viene el mensaje. %rangoPrefix% -> Prefijo del rango. %tipoPrefix% -> Prefijo del tipo de usuario. 
 # %mcPrefix% -> Prefijo de Minecraft. %dsPais% -> Pais de donde viene el mensaje. %message% -> Mensaje enviado.
-ds-message: "**%dsPais% %player.nombrePublico%**: %mensaje%"
-ds-message-not-player: "**%dsPais% %username%**: %mensaje%" # De jugador no registrado en la base de datos. %username% -> Nombre del usuario que envía el mensaje.
-from-mc-message: "**%mcPrefix% %player.paisPrefix%  %player.prefix% %player.nombrePublico%**: %mensaje%"
+ds-message: "**%dsPais% %player.nombrePublico%**: "
+ds-message-not-player: "**%dsPais% %username%**: " # De jugador no registrado en la base de datos. %username% -> Nombre del usuario que envía el mensaje.
+from-mc-message: "**%mcPrefix% %player.paisPrefix%  %player.prefix% %player.nombrePublico%**: "
 
 player-join-message: "<green><yellow>%player.nombrePublico%<reset><green> se ha unido al servidor."
 player-new-join-message: "<green><yellow>%player.nombrePublico%<reset><green> se ha unido al servidor por primera vez."

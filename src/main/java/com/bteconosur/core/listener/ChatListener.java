@@ -37,7 +37,7 @@ public class ChatListener implements Listener {
         event.setCancelled(true);
         Player player = PlayerRegistry.getInstance().get(event.getPlayer().getUniqueId());
         String message = PlainTextComponentSerializer.plainText().serialize(event.message());
-        message = message.replaceAll(".*<[^>]+>.*", "");
+        //message = message.replaceAll(".*<[^>]+>.*", "");
         
         if (ChatService.isInCountryChat(player)) {
             Pais pais = ChatService.getCountry(player);

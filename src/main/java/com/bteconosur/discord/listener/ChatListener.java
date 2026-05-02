@@ -49,7 +49,7 @@ public class ChatListener extends ListenerAdapter {
 
         Player player = playerRegistry.findByDiscordId(event.getAuthor().getIdLong());
         String message = event.getMessage().getContentDisplay();
-        message = message.replaceAll(".*<[^>]+>.*", "");
+        //message = message.replaceAll(".*<[^>]+>.*", "");
         Long channelId = event.getChannel().getIdLong();
 
         String authorName = event.getAuthor().getName();     
