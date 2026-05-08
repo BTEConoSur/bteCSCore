@@ -37,7 +37,7 @@
 config-reloaded: "Configuración recargada correctamente."
 
 # General
-plugin-prefix: "<gray>[</gray><blue>Cono</blue><red>Sur</red><gray>]</gray>"
+plugin-prefix: "<gray>[<b><gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient></b>]</gray>"
 
 # Consola
 debug-mode-enabled: "Modo debug activado."
@@ -511,7 +511,7 @@ help-construir:
   - "\n<dark_gray>+---------------------------------------+</dark_gray>"
   - "<gold>Tutoriales para empezar a construir:</gold>"
   - "> <u><blue><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ5i8Yj4JzDdbQaK_5E9lRau'><hover:show_text:'Click para ver'>Tutoriales básicos</hover></click></blue></u>"
-  - "> <blue><u><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ5mCILQIXTT2Kw_Gecv1t4v'><hover:show_text:'Click para er'>Tutoriales avanzados</hover></click></u></blue>"
+  - "> <blue><u><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ5mCILQIXTT2Kw_Gecv1t4v'><hover:show_text:'Click para ver'>Tutoriales avanzados</hover></click></u></blue>"
   - "<dark_gray>+---------------------------------------+</dark_gray>\n"
 
 region:
@@ -808,14 +808,14 @@ project:
       log: "🔔 | **%player.nombre%** ha solicitado unirse al proyecto `%proyecto.id%`."
       expired-log: "❌ | La solicitud de **%player.nombre%** para unirse al proyecto `%proyecto.id%` ha expirado."
     accept:
-      success: "Has aceptado la solicitud para unirte al proyecto de ID <yellow>%proyecto.id%</yellow>."
+      success: "Has aceptado la solicitud para unirse al proyecto de ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Solicitud aceptada."
       for-member: "<green>Has sido aceptado para unirte al proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés."
       log: "✅ | **%player.nombre%** ha aceptado la solicitud de **%player.nombre.1%** para unirse al proyecto `%proyecto.id%`."
     reject:
-      success: "Has rechazado la solicitud para unirte al proyecto de ID <yellow>%proyecto.id%</yellow>."
+      success: "Has rechazado la solicitud para unirse al proyecto de ID <yellow>%proyecto.id%</yellow>."
       ds-success: "Solicitud rechazada."
-      for-member: "<red>Has sido rechazado para unirte al proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés."
+      for-member: "<red>Has sido rechazado para unirte al proyecto de ID <yellow>%proyecto.id%</yellow>."
       log: "❌ | **%player.nombre%** ha denegado la solicitud de **%player.nombre.1%** para unirse al proyecto `%proyecto.id%`."
   update:
     description:
@@ -909,7 +909,7 @@ crud:
   tipo-not-have-permiso: "El Tipo de Usuario no posee ese permiso."
   permisos-list: "Permisos: %permisos%" # %permisos% -> Lista de permisos del Rango de Usuario.
 global-chat:
-  set: "<green>El chat <yellow>%player.nombre% <green>ha sido cambiado al chat global."
+  set: "<green>El chat de <yellow>%player.nombre% <green>ha sido cambiado al chat global."
   switched: "<aqua>Has cambiado al chat global."
 country-chat:
   set: "<green>El chat de <yellow>%player.nombre% <green>ha sido cambiado al chat de <yellow>%pais.nombrePublico%<green>."
@@ -960,10 +960,10 @@ player-join-chat-message: "<yellow>%player.nombrePublico%<reset><gold> se ha uni
 player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> ha salido del chat."
 
 player-welcome-message:
-  - ""
-  - "<dark_green>Bienvenido al servidor, <yellow>%player%</yellow>!</dark_green>" # %player% -> Nombre público del jugador.
-  - "<dark_green>Que tengas una gran experiencia en el servidor. Que alguien añada mas cosas</dark_green>"
-  - ""
+  - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+  - "<b>¡Bienvenidos a <gradient:#42C223:#3A4BCE>Build The Earth</gradient></b><gray>:</gray> <b><gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient>!</b>"
+  - "<yellow>Dirígete hacia el centro de informes para descubrir cómo <b>explorar</b> y/o <b>construir</b>.</yellow>"
+  - "<dark_gray>+---------------------------------------+</dark_gray>\n"
 
 player-hover-chat:
   - "<gray>Nombre: <white>%player.nombre%"
@@ -1164,7 +1164,7 @@ ds-embeds:
       proyectos-activos: "Proyectos activos"
       tipo-proyecto: "Tipo de proyecto"
       max-miembros: "Máx. de miembros"
-      tamaño: "Tamaño del proyecto"
+      tamaño: "Tamaño del proyecto [m²]"
       coordenadas: "Coordenadas geográficas"
       nombre-proyecto: "Nombre del proyecto"
       descripcion: "Descripción"
@@ -1180,7 +1180,7 @@ ds-embeds:
     fields:
       tipo-proyecto: "Tipo de proyecto"
       max-miembros: "Máx. de miembros"
-      tamaño: "Tamaño del proyecto"
+      tamaño: "Tamaño del proyecto [m²]"
       coordenadas: "Coordenadas geográficas"
       nombre-proyecto: "Nombre del proyecto"
       descripcion: "Descripción"
@@ -1249,33 +1249,35 @@ items:
     anyplace:
       name: "<green>Visitar cualquier lugar"
       lore:
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>Aprende a usar comandos para"
+        - "<gray>ir a cualquier lugar del Cono Sur,"
+        - "<gray>esté construido o no."
     builtplace:
       name: "<green>Visitar lugares construidos"
       lore:
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>Aprende a usar comandos para"
+        - "<gray>ir a los lugares con construcciones."
     using-coords:
       name: "<green>Usando coordenadas"
       lore:
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>Ir a un lugar sabiendo sus"
+        - "<gray>coordenadas."
     using-address:
       name: "<green>Usando direcciones"
       lore:
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>Ir a un lugar sabiendo la"
+        - "<gray>dirección. Similar a buscar el"
+        - "<gray>lugar por Google."
     tour:
       name: "<green>Tour"
       lore:
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>Realiza un tour de las construcciones"
+        - "<gray>más incónicas de cada país."
     warps:
       name: "<green>Warps"
       lore:
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        - "<gray>lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        - "<gray>Aprende a usar el comando"
+        - "<gray>/warp"
   teleport:
     name: "<green>Teletransportarse"
     lore:
@@ -1529,17 +1531,17 @@ items:
       - "<gray>No se reciben ni envían mensajes."
       - "<gray>Sólo se ven los propios."
   argentina-head:
-    name: "<aqua>Argentina"
+    name: "<color:#6cace4>Arg</color><white>e</white><color:#ffb81c>n</color><white>t</white><color:#6CACE4>ina</color>"
   chile-head:
-    name: "<red>Chile"
+    name: "<color:#0032a0>C</color><white>hi</white><color:#da291c>le</color>"
   uruguay-head:
-    name: "<white>Uruguay"
+    name: "<color:#ffcd00>U</color><white>r</white><color:#001489>u</color><white>g</white><color:#001489>u</color><white>a</white><color:#001489>y</color>"
   paraguay-head:
-    name: "<yellow>Paraguay"
+    name: "<color:#D52B1E>Par</color><white>ag</white><color:#0038a8>uay</color>"
   bolivia-head:
-    name: "<green>Bolivia"
+    name: "<color:#da291c>Bo</color><color:#f8e600>liv</color><color:#007a33>ia</color>"
   peru-head:
-    name: "<red>Perú"
+    name: "<color:#c8102e>P</color><white>er</white><color:#c8102e>ú</color>"
   global-chat-head:
     name: "<aqua>Chat Global"
     international-name: "<gray>Internacional"
@@ -1759,22 +1761,22 @@ placeholder:
       peru: "🇵🇪"
       antartida: "🇦🇶"
     logo:
-      internacional: "<:BTEInternacional:1477680858633863323>"
-      argentina: "<:BTEArgentina:1455209909665661184>"
-      chile: "<:BTEChile:1455209939378372749>"
-      uruguay: "<:BTEGuay:1455248093791649826>"
-      paraguay: "<:BTEGuay:1455248093791649826>"
-      bolivia: "<:BTEBolivia:1455209926640140413>"
-      peru: "<:BTEPeru:1455209955706540135>"
-      antartida: "<:BTEAntartida:1478128115447365643>"
+      internacional: "<:BTEInternacional:1501593151473844404>"
+      argentina: "<:BTEArgentina:1501592942140325899>"
+      chile: "<:BTEChile:1501592593396531404>"
+      uruguay: "<:BTEGuay:1501596321637990480>"
+      paraguay: "<:BTEGuay:1501596321637990480>"
+      bolivia: "<:BTEBolivia:1501592842479337632>"
+      peru: "<:BTEPeru:1501592411573588008>"
+      antartida: "<:BTEAntartida:1501593233870946494>"
   rango-ds:
     format: "%rango.badge%"
     badge:
-      normal: "🎮" # No se muestra.
-      admin: "<:badgead:1483542504967114854>"
-      mod: "<:badgemo:1483542588446216323>"
-      influencer: "<:badgein:1483542735850962974>"
-      donador: "<:badgedo:1483542693291491479>"
+      normal: "<:badgeno:1483542740913619026>" # No se muestra.
+      admin: "<:badgead:1501591553926500405>"
+      mod: "<:badgemo:1501591401459355809>"
+      influencer: "<:badgein:1501591238304862299>"
+      donador: "<:badgedo:1501591318281982002>"
     label:
       normal: ""
       admin: ""
@@ -1784,9 +1786,9 @@ placeholder:
   tipo-ds:
     format: "%tipo.badge%"
     badge:
-      visita: "<:badgeno:1483542740913619026>"
-      postulante: "<:badgepo:1483542739533561936>"
-      constructor: "<:badgeco:1483542737889267873>"
+      visita: "<:badgeno:1501590676477972603>"
+      postulante: "<:badgepo:1501591081396076767>"
+      constructor: "<:badgeco:1501591181363118081>"
     label:
       visita: ""
       postulante: ""
@@ -1806,7 +1808,7 @@ placeholder:
     global: "Global"
     notepad: "Notepad"
     none: "N/A"
-    mc: "<:Minecraft:1457374388575014923>"
+    mc: "	<:Minecraft:1501595064680579142>"
     ds: "%pais.logo%"
   without-fecha: "Sin fecha"
   link-display:
