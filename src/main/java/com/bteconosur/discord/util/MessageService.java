@@ -17,6 +17,7 @@ import com.bteconosur.core.util.ConsoleLogger;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.sticker.StickerItem;
 
 /**
  * Servicio para gestionar el envío y manipulación de mensajes en Discord.
@@ -131,12 +132,12 @@ public class MessageService {
      * @param messageId ID de referencia para rastrear el mensaje
      */
     @SuppressWarnings("null")
-    public static void sendMessage(TextChannel channel, String message, String messageId) {
+    public static void sendMessage(TextChannel channel, String message, String messageId, List<StickerItem> stickers) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
         try {
             //ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
-            channel.sendMessage(message).queue(messageSent -> {
+            channel.sendMessage(message).setStickers(stickers).queue(messageSent -> {
                 if (messageId != null) addMessageRef(messageId, new MessageRef(channel.getIdLong(), messageSent.getIdLong()));
             });
         } catch (Exception e) {
@@ -241,14 +242,15 @@ public class MessageService {
      * @param channelsIds Lista de IDs de canales destino
      * @param message Contenido del mensaje
      * @param messageId ID de referencia para rastrear los mensajes
+     * @param stickers Lista de stickers a enviar
      */
-    public static void sendBroadcastMessage(List<Long> channelsIds, String message, String messageId) {
+    public static void sendBroadcastMessage(List<Long> channelsIds, String message, String messageId, List<StickerItem> stickers) {
         if (!DiscordValidate.jda()) return;
         ConsoleLogger.debug("Enviando mensaje a canales: " + channelsIds.toString());
         for (Long channelId : channelsIds) {
             if (!DiscordValidate.channelId(channelId)) continue;
             TextChannel channel = getTextChannelById(channelId);
-            sendMessage(channel, message, messageId);
+            sendMessage(channel, message, messageId, stickers);
         }
     }
 
