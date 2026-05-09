@@ -1615,7 +1615,7 @@ placeholder:
       influencer: ""
       donador: ""
     label:
-      normal: ""
+      normal: "前"
       admin: ""
       mod: ""
       influencer: ""
@@ -1627,7 +1627,7 @@ placeholder:
       postulante: ""
       constructor: ""
     label:
-      visita: ""
+      visita: "理"
       postulante: ""
       constructor: "建"
   pais-ds:

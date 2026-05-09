@@ -369,7 +369,7 @@ public class RegionUtils {
                 
                 if (distSq <= maxDistSq) {
                     for (int layer = 0; layer < layers; layer++) {
-                        player.spawnParticle(particle, x + offset, height + layer, z + offset, 1, 0, 0, 0, 0);
+                        player.spawnParticle(particle, x + offset, height + layer, z + offset, 1, 0, 0, 0, 0, null, true);
                     }
                 }
             }

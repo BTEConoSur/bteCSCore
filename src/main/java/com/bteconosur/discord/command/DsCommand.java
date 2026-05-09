@@ -122,7 +122,7 @@ public abstract class DsCommand {
                 commandData = staffHubGuild.upsertCommand(command, description);
                 registerCommandData(commandData);
             } else {
-                ConsoleLogger.warn(LanguageHandler.getText("ds-error.staffhub-not-found"));
+                ConsoleLogger.warn(LanguageHandler.getText("ds-error.staffhub-not-found") + " (" + secret.getLong("discord-staff-guild-id") + ")");
             }
         }
     }

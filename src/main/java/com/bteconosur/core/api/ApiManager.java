@@ -180,8 +180,18 @@ public class ApiManager {
             return true;
         } catch (SocketTimeoutException e) {
             ConsoleLogger.warn("Timeout al " + operationLabel + " claim en la API web.");
+            switch (operationLabel) {
+                case "crear" -> pendingCreate.add(proyecto.getId());
+                case "actualizar" -> pendingUpdate.add(proyecto.getId());
+                case "eliminar" -> pendingDelete.add(proyecto.getId());
+            }
         } catch (Exception e) {
             ConsoleLogger.warn("Error al " + operationLabel + " claim en la API web: ", e);
+            switch (operationLabel) {
+                case "crear" -> pendingCreate.add(proyecto.getId());
+                case "actualizar" -> pendingUpdate.add(proyecto.getId());
+                case "eliminar" -> pendingDelete.add(proyecto.getId());
+            }
         } finally {
             if (conn != null) {
                 conn.disconnect();
@@ -259,14 +269,14 @@ public class ApiManager {
 
                 boolean success = false;
                 if (isCreate) {
-                    success = sendClaim(proyecto, "web-claim-create-url", "POST", "crear", true);
                     pendingCreate.remove(id);
+                    success = sendClaim(proyecto, "web-claim-create-url", "POST", "crear", true);
                 } else if (isUpdate) {
-                    success = sendClaim(proyecto, "web-claim-update-url", "PUT", "actualizar", true);
                     pendingUpdate.remove(id);
+                    success = sendClaim(proyecto, "web-claim-update-url", "PUT", "actualizar", true);
                 } else if (isDelete) {
-                    success = sendClaim(proyecto, "web-claim-delete-url", "DELETE", "eliminar", false);
                     pendingDelete.remove(id);
+                    success = sendClaim(proyecto, "web-claim-delete-url", "DELETE", "eliminar", false);    
                 }
 
                 if (success) {
@@ -285,14 +295,14 @@ public class ApiManager {
     }
 
     @SuppressWarnings("deprecation")
-    private boolean claimExists(Proyecto proyecto) {
+    private Boolean claimExists(Proyecto proyecto) {
         String endpointTemplate = config.getString("web-claim-get-url");
 
         String token = ApiUtils.getToken(proyecto.getPais());
         String buildTeamId = ApiUtils.getBuildTeamId(proyecto.getPais());
         if (token.isBlank() || buildTeamId.isBlank()) {
             ConsoleLogger.warn("No se pudo consultar existencia del claim por credenciales incompletas.");
-            return false;
+            return null;
         }
 
         String urlStr = endpointTemplate.replace("%buildteam%", buildTeamId).replace("%claimid%", proyecto.getId());
@@ -318,14 +328,15 @@ public class ApiManager {
 
             String body = ApiUtils.readBody(conn.getErrorStream());
             ConsoleLogger.warn("No se pudo confirmar existencia del claim " + proyecto.getId() + ". HTTP " + status + ": " + body);
+            return null;
         } catch (Exception e) {
             ConsoleLogger.warn("Error al consultar existencia del claim " + proyecto.getId() + ": ", e);
+            return null;
         } finally {
             if (conn != null) {
                 conn.disconnect();
             }
         }
-        return false;
     }
 
     private void logProgressBar(int processed, int total, int[] nextMilestone) {
@@ -339,17 +350,23 @@ public class ApiManager {
         }
     }
 
-    private void syncClaimByState(Proyecto proyecto) {
+    private boolean syncClaimByState(Proyecto proyecto) {
         if (proyecto == null) {
-            return;
+            return false;
         }
 
-        boolean exists = claimExists(proyecto);
-        if (exists) {
-            sendClaim(proyecto, "web-claim-update-url", "PUT", "actualizar", true);
-        } else {
-            sendClaim(proyecto, "web-claim-create-url", "POST", "crear", true);
+        Boolean exists = claimExists(proyecto);
+        if (exists == null) {
+            ConsoleLogger.warn("No se pudo determinar si el claim existe para " + proyecto.getId() + ". Se agrega a pendientes.");
+            pendingCreate.add(proyecto.getId());
+            return true;
         }
+
+        if (exists) {
+            return sendClaim(proyecto, "web-claim-update-url", "PUT", "actualizar", true);
+        }
+
+        return sendClaim(proyecto, "web-claim-create-url", "POST", "crear", true);
     }
 
     /**
@@ -369,8 +386,11 @@ public class ApiManager {
 
         ConsoleLogger.info("Iniciando sincronización web del proyecto " + proyecto.getId() + "...");
         Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
-            syncClaimByState(proyecto);
-            ConsoleLogger.info("Sincronización web del proyecto " + proyecto.getId() + " completa.");
+            if (syncClaimByState(proyecto)) {
+                ConsoleLogger.info("Sincronización web del proyecto " + proyecto.getId() + " completa.");
+            } else {
+                ConsoleLogger.warn("Sincronización web del proyecto " + proyecto.getId() + " no pudo completarse.");
+            }
         });
     }
 
@@ -416,9 +436,13 @@ public class ApiManager {
 
             updateSnapshot.remove(id);
             Proyecto proyecto = ProyectoRegistry.getInstance().get(id);
-            if (proyecto != null) {
-                syncClaimByState(proyecto);
+            if (proyecto == null) {
+                processed[0]++;
+                logProgressBar(processed[0], total, nextMilestone);
+                return;
             }
+
+            syncClaimByState(proyecto);
 
             processed[0]++;
             logProgressBar(processed[0], total, nextMilestone);
