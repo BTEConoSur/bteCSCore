@@ -71,8 +71,9 @@ public class GlobalChatService {
      * @param dsFromId id del canal de origen para evitar rebote.
      * @param attachments adjuntos del mensaje original.
      * @param messageId id del mensaje original en Discord.
+     * @param stickers cantidad de stickers enviados.
      */
-    public static void broadcastDsChat(Player player, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments, String messageId) {
+    public static void broadcastDsChat(Player player, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments, String messageId, int stickers) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (!globalChatPlayers.contains(onlinePlayer)) continue;
@@ -83,6 +84,8 @@ public class GlobalChatService {
                 else if (attachment.isSpoiler()) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.spoiler");
                 else mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.file");
             }
+            if (stickers == 1) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.sticker");
+            else if (stickers > 1) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.stickers");
             List<String> processedHover = new ArrayList<>();
             for (String line : LanguageHandler.getTextList(onlinePlayer.getLanguage(), "player-hover-chat")) {
                 processedHover.add(PlaceholderUtils.replaceMC(line, onlinePlayer.getLanguage(), player));
@@ -107,8 +110,9 @@ public class GlobalChatService {
      * @param dsFromId id del canal de origen para evitar rebote.
      * @param attachments adjuntos del mensaje original.
      * @param messageId id del mensaje original en Discord.
+     * @param stickers cantidad de stickers enviados.
      */
-    public static void broadcastDsChat(String username, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments, String messageId) {
+    public static void broadcastDsChat(String username, String message, Pais dsFrom, Long dsFromId, List<Attachment> attachments, String messageId, int stickers) {
         List<Player> globalChatPlayers = ChatService.getPlayersInGlobalChatList();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (!globalChatPlayers.contains(onlinePlayer)) continue;
@@ -119,6 +123,8 @@ public class GlobalChatService {
                 else if (attachment.isSpoiler()) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.spoiler");
                 else mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.file");
             }
+            if (stickers == 1) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.sticker");
+            else if (stickers > 1) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.stickers");
             onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(username, onlinePlayer.getLanguage(), dsFrom)).append(Component.text(mcMessage)));
         }
         List<Long> ids = new ArrayList<>(PaisRegistry.getInstance().getDsGlobalChatIds());

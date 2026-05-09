@@ -99,8 +99,9 @@ public class CountryChatService {
      * @param message contenido del mensaje.
      * @param pais país del chat destino.
      * @param attachments adjuntos recibidos junto al mensaje.
+     * @param stickers cantidad de stickers enviados.
      */
-    public static void sendMcChat(Player player, String message, Pais pais, List<Attachment> attachments) {
+    public static void sendMcChat(Player player, String message, Pais pais, List<Attachment> attachments, int stickers) {
         Map<Player, Pais> playersInChat = ChatService.getPlayersInCountryChat();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (playersInChat.containsKey(onlinePlayer) && playersInChat.get(onlinePlayer).equals(pais)) {
@@ -111,10 +112,13 @@ public class CountryChatService {
                     else if (attachment.isSpoiler()) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.spoiler");
                     else mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.file");
                 }
+                if (stickers == 1) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.sticker");
+                else if (stickers > 1) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.stickers");
                 List<String> processedHover = new ArrayList<>();
                 for (String line : LanguageHandler.getTextList(onlinePlayer.getLanguage(), "player-hover-chat")) {
                     processedHover.add(PlaceholderUtils.replaceMC(line, onlinePlayer.getLanguage(), player));
                 }
+                
                 String hover = String.join("\n", processedHover);
                 TagResolver hoverResolver = TagResolverUtils.getHoverText("player", PlaceholderUtils.replaceMC("%player.nombrePublico%", onlinePlayer.getLanguage(), player), hover);
                 onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(player, onlinePlayer.getLanguage(), pais), hoverResolver).append(Component.text(mcMessage)));
@@ -129,8 +133,9 @@ public class CountryChatService {
      * @param message contenido del mensaje.
      * @param pais país del chat destino.
      * @param attachments adjuntos recibidos junto al mensaje.
+     * @param stickers cantidad de stickers enviados.
      */
-    public static void sendMcChat(String username, String message, Pais pais, List<Attachment> attachments) {
+    public static void sendMcChat(String username, String message, Pais pais, List<Attachment> attachments, int stickers) {
         Map<Player, Pais> playersInChat = ChatService.getPlayersInCountryChat();
         for (Player onlinePlayer : PlayerRegistry.getInstance().getOnlinePlayers()) {
             if (playersInChat.containsKey(onlinePlayer) && playersInChat.get(onlinePlayer).equals(pais)) {
@@ -141,6 +146,8 @@ public class CountryChatService {
                     else if (attachment.isSpoiler()) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.spoiler");
                     else mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.file");
                 }
+                if (stickers == 1) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.sticker");
+                else if (stickers > 1) mcMessage += " " + LanguageHandler.getText(onlinePlayer.getLanguage(), "placeholder.chat-mc.stickers");
                 onlinePlayer.getBukkitPlayer().sendMessage(MiniMessage.miniMessage().deserialize(ChatUtil.getMcFormatedMessage(username, onlinePlayer.getLanguage(), pais)).append(Component.text(mcMessage)));
             }
         }

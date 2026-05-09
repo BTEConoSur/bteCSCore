@@ -49,6 +49,7 @@ public class ChatListener extends ListenerAdapter {
 
         Player player = playerRegistry.findByDiscordId(event.getAuthor().getIdLong());
         String message = event.getMessage().getContentDisplay();
+        int stickers = event.getMessage().getStickers().size();
         //message = message.replaceAll(".*<[^>]+>.*", "");
         Long channelId = event.getChannel().getIdLong();
 
@@ -60,14 +61,13 @@ public class ChatListener extends ListenerAdapter {
             String idMessage = IDUtils.generarCodigoMessage();
             MessageService.addMessageKey(idMessage);
             MessageService.addMessageRef(idMessage, new MessageRef(channelId, event.getMessage().getIdLong()));
-            if (player != null) GlobalChatService.broadcastDsChat(player, message, pais, channelId, attachments, idMessage);
-            else GlobalChatService.broadcastDsChat(authorName, message, pais, channelId, attachments, idMessage);
+            if (player != null) GlobalChatService.broadcastDsChat(player, message, pais, channelId, attachments, idMessage, stickers);
+            else GlobalChatService.broadcastDsChat(authorName, message, pais, channelId, attachments, idMessage, stickers);
             return;
         }
-
         if (!config.getBoolean("discord-country-chat")) return;
-        if (player != null) CountryChatService.sendMcChat(player, message, pais, attachments);
-        else CountryChatService.sendMcChat(authorName, message, pais, attachments);
+        if (player != null) CountryChatService.sendMcChat(player, message, pais, attachments, stickers);
+        else CountryChatService.sendMcChat(authorName, message, pais, attachments, stickers);
         
     }
 }
