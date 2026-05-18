@@ -37,14 +37,7 @@ public class DeletePlayerDataCommand extends BaseCommand {
             return true;
         }
 
-        String worldName = config.getString("lobby.world");
-        World world = Bukkit.getWorld(worldName);
-        if (world == null) {
-            String message = LanguageHandler.getText("delete-playerdata-world-not-found").replace("%world%", worldName);
-            PlayerLogger.error(sender, message, (String) null);
-            return true;
-        }
-
+        World world = Bukkit.getWorlds().get(0);
         Player onlinePlayer = Bukkit.getPlayer(uuid);
         if (onlinePlayer != null && onlinePlayer.isOnline()) {
             String message = LanguageHandler.getText("delete-playerdata-online").replace("%uuid%", uuid.toString());

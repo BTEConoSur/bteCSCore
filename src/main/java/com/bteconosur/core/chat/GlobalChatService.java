@@ -13,6 +13,7 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.util.IDUtils;
 import com.bteconosur.db.util.PlaceholderUtils;
 import com.bteconosur.discord.util.MessageService;
 
@@ -158,7 +159,9 @@ public class GlobalChatService {
         }
         if (!config.getBoolean("discord-global-chat")) return;
         List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
-        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, Language.getDefault()) + message);
+        String idMessage = IDUtils.generarCodigoMessage();
+        MessageService.addMessageKey(idMessage);
+        MessageService.sendBroadcastMessage(ids, ChatUtil.getDsFormatedMessage(player, Language.getDefault()) + message, idMessage);
     }
 
     /**

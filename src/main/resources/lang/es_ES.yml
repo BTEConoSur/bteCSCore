@@ -566,7 +566,7 @@ player-info-command:
   - " <yellow>Proyectos editando: <white>%player.proyectosEditando%</white>"
   - " <yellow>Fecha de Ingreso:</yellow> <white>%player.fechaIngreso%</white>"
   - " <yellow>Última Conexión:</yellow> <white>%player.fechaUltimaConexion%</white>"
-  - " <b>=========</b> %plugin-prefix% <b>=========</b>\n" # %plugin-prefix% -> Prefijo del plugin.
+  - " <white><b>=========</b> %plugin-prefix% <b>=========</b>\n" # %plugin-prefix% -> Prefijo del plugin.
 ds-player-info:
   invalid-options-size: "Sólo se puede elegir un método de búsqueda a la vez (Nombre, Uuid o Usuario de Discord)."
   invalid-option: "Completa una opción de búsqueda válida."
@@ -1752,7 +1752,7 @@ placeholder:
       constructor: "建" 
   pais-ds:
     prefix:
-      internacional: "INT"
+      internacional: ":earth_americas:"
       argentina: "🇦🇷"
       chile: "🇨🇱"
       uruguay: "🇺🇾"
@@ -1810,7 +1810,7 @@ placeholder:
     global: "Global"
     notepad: "Notepad"
     none: "N/A"
-    mc: "	<:Minecraft:1501595064680579142>"
+    mc: "<:Minecraft:1501595064680579142>"
     ds: "%pais.logo%"
   without-fecha: "Sin fecha"
   link-display:

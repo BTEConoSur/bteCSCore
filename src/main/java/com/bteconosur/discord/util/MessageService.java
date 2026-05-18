@@ -61,7 +61,9 @@ public class MessageService {
      * @param ref Referencia del mensaje a añadir
      */
     public static void addMessageRef(String key, MessageRef ref) {
-        messageRefs.get(key).add(ref);
+        Set<MessageRef> refs = messageRefs.get(key);
+        if (refs == null) return;
+        refs.add(ref);
     }
 
     /**
@@ -99,11 +101,12 @@ public class MessageService {
      * 
      * @param channelId ID del canal destino
      * @param message Contenido del mensaje
+     * @param messageId ID de referencia para rastrear el mensaje
      */
-    public static void sendMessage(Long channelId, String message) {
+    public static void sendMessage(Long channelId, String message, String messageId) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channelId(channelId) || !DiscordValidate.messageContent(message)) return;
-        sendMessage(BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId), message);
+        sendMessage(BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId), message, messageId);
     }
 
     /**
@@ -111,14 +114,17 @@ public class MessageService {
      * 
      * @param channel Canal destino
      * @param message Contenido del mensaje
+     * @param messageId ID de referencia para rastrear el mensaje
      */
     @SuppressWarnings("null")
-    public static void sendMessage(TextChannel channel, String message) {
+    public static void sendMessage(TextChannel channel, String message, String messageId) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
         try {
             //ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
-            channel.sendMessage(message).queue();
+            channel.sendMessage(message).queue(messageSent -> {
+                if (messageId != null) addMessageRef(messageId, new MessageRef(channel.getIdLong(), messageSent.getIdLong()));
+            });
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
         }
@@ -259,14 +265,15 @@ public class MessageService {
      * 
      * @param channelsIds Lista de IDs de canales destino
      * @param message Contenido del mensaje
+     * @param messageId ID de referencia para rastrear el mensaje
      */
-    public static void sendBroadcastMessage(List<Long> channelsIds, String message) {
+    public static void sendBroadcastMessage(List<Long> channelsIds, String message, String messageId) {
         if (!DiscordValidate.jda()) return;
         ConsoleLogger.debug("Enviando mensaje a canales: " + channelsIds.toString());
         for (Long channelId : channelsIds) {
             if (!DiscordValidate.channelId(channelId)) continue;
             TextChannel channel = getTextChannelById(channelId);
-            sendMessage(channel, message);
+            sendMessage(channel, message, messageId);
         }
     }
 

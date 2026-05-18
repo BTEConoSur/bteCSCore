@@ -13,6 +13,7 @@ import com.bteconosur.core.util.TagResolverUtils;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.util.IDUtils;
 import com.bteconosur.db.util.PlaceholderUtils;
 import com.bteconosur.discord.util.MessageService;
 
@@ -89,7 +90,9 @@ public class CountryChatService {
         }
 
         if (!config.getBoolean("discord-country-chat")) return;
-        MessageService.sendMessage(pais.getDsIdCountryChat(), ChatUtil.getDsFormatedMessage(player, Language.getDefault()) + message);
+        String idMessage = IDUtils.generarCodigoMessage();
+        MessageService.addMessageKey(idMessage);
+        MessageService.sendMessage(pais.getDsIdCountryChat(), ChatUtil.getDsFormatedMessage(player, Language.getDefault()) + message, idMessage);
     }
 
     /**

@@ -40,7 +40,7 @@ public class DiscordLogger {
      */
     public static void countryLog(String message, Pais pais) {
         if (!config.getBoolean("discord-country-log")) return;
-        MessageService.sendMessage(pais.getDsIdLog(), message);
+        MessageService.sendMessage(pais.getDsIdLog(), message, null);
         staffLog(message, pais);
     }
 
@@ -53,7 +53,7 @@ public class DiscordLogger {
     public static void countryLog(String message, List<Pais> paises) {
         if (!config.getBoolean("discord-country-log")) return;
         List<Long> channelIds = paises.stream().map(Pais::getDsIdLog).toList();
-        MessageService.sendBroadcastMessage(channelIds, message);
+        MessageService.sendBroadcastMessage(channelIds, message, null);
     }
 
     /**
@@ -63,7 +63,7 @@ public class DiscordLogger {
      */
     public static void globalLog(String message) {
         if (!config.getBoolean("discord-country-log")) return;
-        MessageService.sendBroadcastMessage(PaisRegistry.getInstance().getDsLogIds(), message);
+        MessageService.sendBroadcastMessage(PaisRegistry.getInstance().getDsLogIds(), message, null);
     }
 
     /**
@@ -73,7 +73,7 @@ public class DiscordLogger {
      */
     public static void staffLog(String message) {
         if (!config.getBoolean("discord-staff-log")) return;
-        MessageService.sendMessage(secret.getLong("discord-staff-log-id"), message);
+        MessageService.sendMessage(secret.getLong("discord-staff-log-id"), message, null);
     }
 
     /**
@@ -85,7 +85,7 @@ public class DiscordLogger {
     private static void staffLog(String message, Pais pais) {
         if (!config.getBoolean("discord-staff-log")) return;
         String formattedMessage = LanguageHandler.replaceDS("ds-staff-country-log", Language.getDefault(), pais).replace("%message%", message);
-        MessageService.sendMessage(secret.getLong("discord-staff-log-id"), formattedMessage);
+        MessageService.sendMessage(secret.getLong("discord-staff-log-id"), formattedMessage, null);
     }
 
     /**
@@ -166,7 +166,7 @@ public class DiscordLogger {
             return;
         }
         String dsMessage = LanguageHandler.getText("ds-dev-notification").replace("%mention%", devRole.getAsMention()).replace("%message%", message);
-        MessageService.sendMessage(secret.getLong("discord-staff-console-log-id"), dsMessage);
+        MessageService.sendMessage(secret.getLong("discord-staff-console-log-id"), dsMessage, null);
     }
 
     /**

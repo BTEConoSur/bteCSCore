@@ -481,7 +481,7 @@ player-info-command:
   - " <yellow>Open project edits: <white>%player.proyectosEditando%</white>"
   - " <yellow>Join date:</yellow> <white>%player.fechaIngreso%</white>"
   - " <yellow>Last seen:</yellow> <white>%player.fechaUltimaConexion%</white>"
-  - " <b>=========</b> %plugin-prefix% <b>=========</b>\n"
+  - " <white><b>=========</b> %plugin-prefix% <b>=========</b>\n"
 ds-player-info:
   invalid-options-size: "You can only search by one attribute at a time (Name, UUID, Discord Username)."
   invalid-option: "Fill out the required fields with a valid search request."
@@ -1632,7 +1632,7 @@ placeholder:
       constructor: "建"
   pais-ds:
     prefix:
-      internacional: "INT"
+      internacional: ":earth_americas:"
       argentina: "🇦🇷"
       chile: "🇨🇱"
       uruguay: "🇺🇾"
@@ -1690,7 +1690,7 @@ placeholder:
     global: "Global"
     notepad: "Notepad"
     none: "N/A"
-    mc: "	<:Minecraft:1501595064680579142>"
+    mc: "<:Minecraft:1501595064680579142>"
     ds: "%pais.logo%"
   without-fecha: "No date"
   link-display:
