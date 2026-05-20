@@ -1616,6 +1616,7 @@ ds-delete-global-chat:
   success: "Chat global eliminado exitosamente."
   not-found: "No se encontró el chat global."
 
+ds-ip: "bteconosur.com"
 # World
 world-module-initializing: "Inicializando Módulo: Gestor de Mundos..."
 world-module-shutting-down: "Cerrando Módulo: Gestor de Mundos..."

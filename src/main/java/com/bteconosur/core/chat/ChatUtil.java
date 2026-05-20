@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Point;
@@ -34,6 +35,7 @@ import com.bteconosur.discord.command.DsHelpDiscordCommand;
 import com.bteconosur.discord.command.DsHelpMinecraftCommand;
 import com.bteconosur.discord.command.DsSubcommand;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
@@ -546,8 +548,12 @@ public class ChatUtil {
         PaisRegistry pr = PaisRegistry.getInstance();
         for (Player player : onlinePlayers) {
             Division division = pr.findDivisionByPlayer(player.getUuid());
-            if (division == null) continue;
             String playerInfo = PlaceholderUtils.replaceDS("%player.nombrePublico%", language, player);
+            if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) playerInfo += PlaceholderAPI.setPlaceholders(player.getBukkitPlayer(), "%changeoutput_equals_input:{essentials_afk}_matcher:yes_ifmatch:**[AFK]**_else:%");
+            if (division == null) {
+                internacional.add(playerInfo);
+                continue;
+            }
             switch (division.getPais().getNombre()) {
                 case "argentina" -> argentina.add(playerInfo);
                 case "bolivia" -> bolivia.add(playerInfo);
@@ -564,13 +570,13 @@ public class ChatUtil {
         String internationalField = LanguageHandler.getText(language, "ds-embeds.online.international")
             .replace("%cantidad%", String.valueOf(internacional.size()))
             .replace("%logo%", LanguageHandler.getText(language, "placeholder.pais-ds.logo.internacional"));
-        eb.addField(PlaceholderUtils.replaceDS(paisField, language, pr.getArgentina()).replace("%cantidad%", String.valueOf(argentina.size())), argentina.isEmpty() ? noOnline : String.join(",", argentina), true)
-            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getBolivia()).replace("%cantidad%", String.valueOf(bolivia.size())), bolivia.isEmpty() ? noOnline : String.join(",", bolivia), true)
-            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getChile()).replace("%cantidad%", String.valueOf(chile.size())), chile.isEmpty() ? noOnline : String.join(",", chile), true)
-            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getParaguay()).replace("%cantidad%", String.valueOf(paraguay.size())), paraguay.isEmpty() ? noOnline : String.join(",", paraguay), true)
-            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getPeru()).replace("%cantidad%", String.valueOf(peru.size())), peru.isEmpty() ? noOnline : String.join(",", peru), true)
-            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getUruguay()).replace("%cantidad%", String.valueOf(uruguay.size())), uruguay.isEmpty() ? noOnline : String.join(",", uruguay), true)
-            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getAntartida()).replace("%cantidad%", String.valueOf(antartida.size())), antartida.isEmpty() ? noOnline : String.join(",", antartida), true)
+        eb.addField(PlaceholderUtils.replaceDS(paisField, language, pr.getArgentina()).replace("%cantidad%", String.valueOf(argentina.size())), argentina.isEmpty() ? noOnline : String.join(", ", argentina), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getBolivia()).replace("%cantidad%", String.valueOf(bolivia.size())), bolivia.isEmpty() ? noOnline : String.join(", ", bolivia), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getChile()).replace("%cantidad%", String.valueOf(chile.size())), chile.isEmpty() ? noOnline : String.join(", ", chile), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getParaguay()).replace("%cantidad%", String.valueOf(paraguay.size())), paraguay.isEmpty() ? noOnline : String.join(", ", paraguay), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getPeru()).replace("%cantidad%", String.valueOf(peru.size())), peru.isEmpty() ? noOnline : String.join(", ", peru), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getUruguay()).replace("%cantidad%", String.valueOf(uruguay.size())), uruguay.isEmpty() ? noOnline : String.join(", ", uruguay), true)
+            .addField(PlaceholderUtils.replaceDS(paisField, language, pr.getAntartida()).replace("%cantidad%", String.valueOf(antartida.size())), antartida.isEmpty() ? noOnline : String.join(", ", antartida), true)
             .addField(internationalField, internacional.isEmpty() ? noOnline : String.join(", ", internacional), true);  
 
         return eb.build();

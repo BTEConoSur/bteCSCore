@@ -1534,6 +1534,8 @@ ds-exec: "Executed command: %comando%."
 ds-delete-global-chat:
   success: "Successfully eliminated Global Chat."
   not-found: "Couldn't find global chat."
+
+ds-ip: "bteconosur.com"
 # World
 world-module-initializing: "Initializing World Manager module..."
 world-module-shutting-down: "Shutting down World Manager module..."

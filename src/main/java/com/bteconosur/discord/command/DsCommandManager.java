@@ -40,6 +40,8 @@ public class DsCommandManager {
         DsHelpDiscordCommand.addHelpCommand(new DsHelpCommand());
         addCommand(new DsOnlineCommand());
         DsHelpDiscordCommand.addHelpCommand(new DsOnlineCommand());
+        addCommand(new DsIpCommand());
+        DsHelpDiscordCommand.addHelpCommand(new DsIpCommand());
 
         addCommand(new DsContextDeleteChatCommand());
         addCommand(new DsContextPlayerCommand());
