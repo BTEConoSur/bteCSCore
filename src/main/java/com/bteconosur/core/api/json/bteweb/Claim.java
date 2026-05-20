@@ -4,10 +4,13 @@ import java.sql.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Representa una reclamación (claim) de proyecto retornada por la API web de BTE.
  * Contiene información completa del claim incluyendo metadatos, ubicación, estado y estadísticas.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Claim {
 
     private UUID id;

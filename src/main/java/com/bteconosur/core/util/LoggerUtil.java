@@ -25,7 +25,7 @@ public class LoggerUtil {
     public static MessageEmbed getErrorEmbed(String description) {
         return new EmbedBuilder()
             .setTitle(LanguageHandler.getText("ds-embeds.error"))
-            .setDescription(description)
+            .setDescription(description.substring(0, 4086) + "\n...")
             .setColor(embedColors.getInt("ds-embeds.error"))
             .build();
     }
@@ -39,7 +39,7 @@ public class LoggerUtil {
     public static MessageEmbed getWarnEmbed(String description) {
         return new EmbedBuilder()
             .setTitle(LanguageHandler.getText("ds-embeds.warn"))
-            .setDescription(description)
+            .setDescription(description.substring(0, 4086) + "\n...")
             .setColor(embedColors.getInt("ds-embeds.warn"))
             .build();
     }

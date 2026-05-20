@@ -2,7 +2,9 @@ package com.bteconosur.discord.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+import com.bteconosur.core.config.Language;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.util.IDUtils;
@@ -18,6 +20,20 @@ public class LinkService {
 
     private static Map<Player, String> minecraftCodes = new HashMap<>();
     private static Map<Long, String> discordCodes = new HashMap<>() ;
+
+    private static final Map<Long, String> discordNameCache = new ConcurrentHashMap<>();
+
+    public static String getDiscordName(Long discordId) {
+        return discordNameCache.get(discordId);
+    }
+
+    public static void cacheDiscordName(long discordId) {
+        DiscordManager.getInstance().getJda()
+            .retrieveUserById(discordId)
+            .queue(
+                user -> discordNameCache.put(discordId, "@" + user.getName())
+            );
+    }
 
     /**
      * Valida que un ID de usuario de Discord sea válido y exista.
@@ -145,6 +161,7 @@ public class LinkService {
 
         player.setDsIdUsuario(discordId);
         minecraftCodes.remove(player);
+        cacheDiscordName(discordId);
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
 
@@ -168,6 +185,7 @@ public class LinkService {
      * @return El jugador actualizado
      */
     public static Player unlink(Player player) {
+        discordNameCache.remove(player.getDsIdUsuario());
         player.setDsIdUsuario(null);
         return PlayerRegistry.getInstance().merge(player.getUuid());
     }
@@ -187,6 +205,7 @@ public class LinkService {
 
         player.setDsIdUsuario(discordId);
         discordCodes.remove(discordId);
+        cacheDiscordName(discordId);
         PlayerRegistry.getInstance().merge(player.getUuid());
     }
 

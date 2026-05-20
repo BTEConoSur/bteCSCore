@@ -336,7 +336,12 @@ public class MessageService {
         if (channel == null) return;
         try {
             ConsoleLogger.debug("Eliminando mensaje de ID " + messageId + " del canal " + channel.getName() + " (" + channel.getId() + ")");
-            channel.deleteMessageById(messageId).queue();
+            channel.deleteMessageById(messageId).queue(
+                success -> { },
+                failure -> {
+                    ConsoleLogger.warn(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), failure);
+                }
+            );
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), e);
         }
@@ -354,7 +359,12 @@ public class MessageService {
         BTEConoSur.getDiscordManager().getJda().retrieveUserById(userId).queue(user -> {
             try {
                 ConsoleLogger.debug("Eliminando mensaje de ID " + messageId + " del usuario " + user.getName() + " (" + user.getId() + ")");
-                user.openPrivateChannel().queue(privateChannel -> privateChannel.deleteMessageById(messageId).queue());
+                user.openPrivateChannel().queue(privateChannel -> privateChannel.deleteMessageById(messageId).queue(
+                    success -> { },
+                    failure -> {
+                        ConsoleLogger.warn(LanguageHandler.getText("ds-error.delete-user-message").replace("%userId%", userId.toString()).replace("%messageId%", messageId.toString()), failure);
+                    }
+                ));
             } catch (Exception e) {
                 ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-user-message").replace("%userId%", userId.toString()).replace("%messageId%", messageId.toString()), e);
             }

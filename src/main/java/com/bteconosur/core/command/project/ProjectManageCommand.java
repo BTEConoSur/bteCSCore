@@ -66,6 +66,7 @@ public class ProjectManageCommand extends BaseCommand {
             if (liderProyectos.size() > 1) {
                 projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.getText(language, "gui-titles.proyectos-here-list"), liderProyectos, (proyecto, event) -> {
                     projectManageMenu = new ProjectManageMenu(commandPlayer, proyecto, LanguageHandler.replaceMC("gui-titles.project-manage", language, proyecto));
+                    projectManageMenu.open();
                 });
                 projectListMenu.open();
                 return true;

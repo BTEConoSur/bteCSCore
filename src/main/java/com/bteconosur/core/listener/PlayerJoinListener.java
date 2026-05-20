@@ -31,6 +31,7 @@ import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
 import com.bteconosur.discord.DiscordManager;
+import com.bteconosur.discord.util.LinkService;
 
 import net.kyori.adventure.resource.ResourcePackInfo;
 import net.kyori.adventure.resource.ResourcePackRequest;
@@ -157,5 +158,9 @@ public class PlayerJoinListener implements Listener {
         
         permissionManager.checkTipoUsuario(player);
         permissionManager.checkRangoUsuario(player);
+
+        if (player.getDsIdUsuario() != null && LinkService.getDiscordName(player.getDsIdUsuario()) == null) {
+            LinkService.cacheDiscordName(player.getDsIdUsuario());
+        }
     }
 }

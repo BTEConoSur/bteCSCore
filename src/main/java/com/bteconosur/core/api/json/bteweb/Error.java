@@ -2,10 +2,13 @@ package com.bteconosur.core.api.json.bteweb;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Representa una respuesta de error recibida de la API web de BTE.
  * Contiene información sobre el estado del error, código HTTP, mensaje y detalles específicos.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Error {
 
     private boolean error;

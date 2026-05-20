@@ -2,7 +2,9 @@ package com.bteconosur.db.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.locationtech.jts.geom.Point;
@@ -25,6 +27,7 @@ import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.discord.DiscordManager;
+import com.bteconosur.discord.util.LinkService;
 
 import net.dv8tion.jda.api.entities.User;
 
@@ -339,12 +342,11 @@ public class PlaceholderUtils {
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.player-mc.no-link";
                         else path = "placeholder.player-ds.no-link";
                         if (p.getDsIdUsuario() != null) {
-                            try {
-                                User user = DiscordManager.getInstance().getJda().retrieveUserById(p.getDsIdUsuario()).complete();
-                                value = user != null ? "@" + user.getName() : LanguageHandler.getText(language, path);
-                            } catch (Exception ex) {
-                                ConsoleLogger.warn("No se pudo obtener el nombre de Discord para el usuario con ID " + p.getDsIdUsuario(), ex);
-                                value = LanguageHandler.getText(language, path);
+                            String cachedName = LinkService.getDiscordName(p.getDsIdUsuario());
+                            if (cachedName != null) value = cachedName;
+                            else {
+                                value = LanguageHandler.getText(language, context == PlaceholderContext.MINECRAFT ? "placeholder.ds-loading" : "placeholder.mc-loading");
+                                LinkService.cacheDiscordName(p.getDsIdUsuario());
                             }
                         } else {
                             value = LanguageHandler.getText(language, path);

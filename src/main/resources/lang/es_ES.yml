@@ -1712,10 +1712,10 @@ placeholder:
   selected: "<green><b>Seleccionado</b></green>"
   lang-mc:
     es_ES: "<yellow>Español</yellow>"
-    en_US: "<yellow>Inglés</yellow>"
+    en_US: "<yellow>English</yellow>"
   lang-ds:
     es_ES: "Español"
-    en_US: "Inglés"
+    en_US: "English"
   pais-mc:
     prefix:
       internacional: "国"
@@ -1816,3 +1816,5 @@ placeholder:
   link-display:
     see-request: "Ver solicitud"
   ds-logo: "后"
+  ds-loading: "Cargando..."
+  mc-loading: "Cargando..."

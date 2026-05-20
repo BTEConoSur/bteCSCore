@@ -1,3 +1,33 @@
+# Usar MiniMessage para el formateo de textos de MC - https://webui.advntr.dev/
+# Funcionamiento de los Placeholders:
+# - En cada texto pueden aparecer %player.<atributo>%, %proyecto.<atributo>%, %pais.<atributo>%, %tipo.<atributo>%, %rango.<atributo>%, %division.<atributo>%.
+#   Siempre cuando aparezca alguno de los anteriores, se puede acceder a cualquier atributo (Más detalle después) del objeto correspondiente en ese texto.
+#   Si un texto no tiene al menos un Placeholder de un tipo en particular, entonces ese texto no admite ese tipo de objeto.
+#   En caso de borrar manualmente todos los Placeholders de un texto, marcar qué tipo de objeto admite ese texto para poder recordarlo.
+# - Tambíén en un mismo texto puede aparecer %player.<atributo>.1%, %player.<atributo>.2%, ... .
+#   En este caso, es un texto que admite varios objetos de un mismo tipo. El orden es el cuál se ingresa por código (No cambiable) y no dentro del texto.
+#   Por lo que %player.<atributo>.1% se puede referir al Lider de un proyecto y %player.<atributo>.2% a un Staff en particular, pudiendose mover estos Placeholders libremente en el mismo texto.
+# - Por último, hay algunos Placeholders que son contextuales, es decir, no pertenecen a un objeto en particular, sino que se refieren a un valor específico dependiendo del contexto.
+#   Por ejemplo, %plugin-prefix% se refiere al prefijo del plugin y sólo se puede usar (o quitar) en los textos que se usa.
+# - Los atributos son aprueba de errores, en caso de encontrar algún error reportarlo.
+# Los <atributos> disponibles para cada tipo de objeto son los siguientes:
+# Player: (%player.<atributo>%)
+#     nombre, nombrePublico, uuid, lenguaje, paisPrefix, tipoUsuario, rangoUsuario, tipoUsuarioPrefijo, rangoUsuarioPrefijo, prefix (Si tiene rango distinto al Normal muestra su prefijo, sino, muestra el prefijo del tipo de usuario),
+#     rangoUsuarioBadge, tipoUsuarioBadge, rangoUsuarioLabel, tipoUsuarioLabel, discordName, proyectosActivos, proyectosCompletados, proyectosEditando, fechaIngreso, fechaUltimaConexion, estado (Online/Offline),
+#     discordId, discordName, chat (Nombre del chat actual).
+# Proyecto: %proyecto.<atributo>%
+#     id, nombre, descripcion, tamano (Tamaño), paisId, paisNombre, tipoId, tipo, lider (Nombre Público), miembrosCantidad (Si son 0 dice "Sin Miembros"), miembrosCantidad2 (Si son 0 dice 0)
+#     fechaCreacion, fechaFinalizacion, maxMiembros, divisionId, divisionNombre, divisionGna, divisionFna, divisionNam, divisionContexto, geoCoords, miembros (Listado de los nombres separados por comas).
+# País: %pais.<atributo>%
+#     id, nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest, logo (No aplicable en textos de MC), prefix.
+# Rango de Usuario: %rango.<atributo>%
+#     id, nombre, prefijo (Determinado por placeholder.rango-<ds/mc>.format), badge, label.
+# Tipo de Usuario: %tipo.<atributo>%
+#     id, nombre, prefijo (Determinado por placeholder.tipo-<ds/mc>.format), badge, label, cantProyecSim.
+# Tipo de Proyecto: %tipoproyecto.<atributo>%
+#     id, nombre, maxMiembros, tamanoMin, tamanoMax, tamanoRango.
+# División: %division.<atributo>%
+#     id, nombre, gna, fna, nam, contexto, paisId, paisNombre.
 # Mensajes de Consola
 config-reloaded: "Successfully reloaded all configurations."
 # General
@@ -193,7 +223,7 @@ scoreboard-online:
     - "Uruguay: <yellow>%uruguayPlayers%</yellow>"
     - "Antarctica: <yellow>%antartidaPlayers%</yellow>"
 # Command
-join-later: "<red><b>Ha ocurrido un error al ingresar al servidor. Por favor, intenta de nuevo en unos segundos.\n En caso de repetirse este error contacta a un administrador.</b></red>"
+join-later: "<red><b>An error has occurred while logging in. Try again in a few seconds\n If the error persists, please contact a staff member.</b></red>"
 no-permission: "You don't have permission to run this command."
 item-prohibited: "You can't use %item%."
 player-only-command: "This command can only be executed by a player."
@@ -219,177 +249,177 @@ invalid-admin-id: "Invalid Admin project ID. Make sure id-proyecto-admin corresp
 invalid-regex: "Can't use <> to enclose text."
 invalid-chars: "Text contains invalid characters."
 commands-descriptions:
-  scoreboard.desc: "Configurar los Scoreboard que se muestran."
-  tpdir.desc: "Teletransportarse a lugares o direcciones reales."
-  player.desc: "Obtener información de un jugador."
-  back.desc: "Teletransportarse a tu última ubicación."
+  scoreboard.desc: "Scoreboard settings."
+  tpdir.desc: "Teleport to any street address or location."
+  player.desc: "Get a player's information."
+  back.desc: "Teleport to your previous location."
   pwarp:
     desc: "Manage or teleport to personal pwarps."
-    create.desc: "Crear un nuevo Pwarp en tu ubicación actual."
-    remove.desc: "Eliminar un Pwarp por nombre."
-  nightvision.desc: "Activar o desactivar la visión nocturna."
-  lobby.desc: "Teletransportarse al lobby."
-  get.desc: "Obtener items y bloques especiales."
-  generic-help.desc: "Muestra la ayuda del comando."
+    create.desc: "Create a new Pwarp at this location."
+    remove.desc: "Delete a Pwarp."
+  nightvision.desc: "Toggle night vision."
+  lobby.desc: "Teleport to the lobby."
+  get.desc: "Get special items (Operator Utilities)."
+  generic-help.desc: "Shows help."
   help:
-    proyecto.desc: "Mostrar los tipos de proyecto disponibles."
+    proyecto.desc: "Show available Project Types."
   btecs:
     desc: "Main BTE Cono Sur command."
     test:
       desc: "Used for testing."
-      allregiondivisiongeojson.desc: "Crear GeoJSON con todas las regiones de divisiones. Se guarda en geojson/output."
-      allregionpaisgeojson.desc: "Crear GeoJSON con todas las regiones de países. Se guarda en geojson/output."
-      consolelogger.desc: "Comando de prueba para el logger de consola."
-      discordlogger.desc: "Comando de prueba para el logger de Discord."
-      generic.desc: "Comando de prueba genérico."
-      paginatedmenu.desc: "Comando de prueba para menú paginado."
-      playerLogger.desc: "Comando de prueba para el logger de jugadores."
-      regiondivisiongeojson.desc: "Crear GeoJSON de una región de división por ID. Se guarda en geojson/output."
-      regionpaisgeojson.desc: "Crear GeoJSON de una región de país por ID. Se guarda en geojson/output."
-      simplemenu.desc: "Abre un menú simple de prueba."
-    syncworldguard.desc: "Sincroniza todos los proyectos con las regiones de WorldGuard."
-    syncweb.desc: "Sincroniza todos los proyectos con la web."
-    reload.desc: "Recarga la configuración del plugin."
+      allregiondivisiongeojson.desc: "Create a GeoJSON with all regional divisions. Saved to geojson/output."
+      allregionpaisgeojson.desc: "Create a GeoJSON with all country borders. Saved to geojson/output."
+      consolelogger.desc: "Test command for Console logger."
+      discordlogger.desc: "Test command for Discord logger."
+      generic.desc: "Generic test command."
+      paginatedmenu.desc: "Test command for paginated menu."
+      playerLogger.desc: "Test command for Player logger."
+      regiondivisiongeojson.desc: "Create a GeoJSON for a regional division. Saved to geojson/output."
+      regionpaisgeojson.desc: "Create a GeoJSON file for a country's borders. Saved to geojson/output."
+      simplemenu.desc: "Open a simple testing menu."
+    syncworldguard.desc: "Sync Projects with WorldGuard regions."
+    syncweb.desc: "Sync Projects with website claims."
+    reload.desc: "Reload plugin config."
   language:
     desc: "Change language."
-    set.desc: "Cambiar el idioma de un Jugador Online."
+    set.desc: "Change a player's language."
   chat:
     desc: "Change chat channels."
-    set.desc: "Cambiar el chat de un Jugador Online."
-  config.desc: "Abrir menú de configuración general."
+    set.desc: "Change a player's chat channel."
+  config.desc: "Open the config menu."
   link:
     desc: "Link Discord account."
-    set.desc: "Linkear la cuenta de Discord a un jugador."
+    set.desc: "Link a player's Discord account."
   nickname:
     desc: "Set your nickname. Leave blank to reset your nickname."
-    set.desc: "Cambiar el nombre público de un jugador."
-  promote.desc: "Cambiar el Rango de Usuario de un jugador."
+    set.desc: "Change a player's nickname."
+  promote.desc: "Change a player's User Role."
   unlink:
     desc: "Unlink Discord account."
-    set.desc: "Desvincular la cuenta de Discord de un jugador."
+    set.desc: "Unlink a player's Discord account."
   crud:
     division:
       desc: "Perform CRUD operations on a regional division. Server restart is required."
       update:
         desc: "Update regional division attributes."
-        addregionesdivision.desc: "Cargar regiones de una División desde un archivo GeoJSON. Colocar en geojson/divisions."
-        removeregion.desc: "Eliminar región de una División."
-      create.desc: "Crear una nueva Division. Se crea sin poligono."
-      delete.desc: "Eliminar una Division. Se eliminan también las regiones asociadas a esa División."
-      read.desc: "Leer información de una Division."
+        addregionesdivision.desc: "Load regional divisions from a GeoJSON file. Must be placed in geojson/divisions."
+        removeregion.desc: "Delete a regional division."
+      create.desc: "Create a new regional division. This is done without selecting a polygon."
+      delete.desc: "Delete a regional division and all its child divisions."
+      read.desc: "Get information on a regional division."
     pais:
       desc: "Execute CRUD operation on countries."
       update:
         desc: "Update a country's attributes."
-        adddivisiones.desc: "Cargar divisiones de un País desde archivos GeoJSON."
-        addregiones.desc: "Cargar regiones de un País desde un archivo GeoJSON. Colocar en geojson/countries."
-        addregion.desc: "Agregar una región a un País con World Edit."
-        removeregion.desc: "Eliminar región de un País."
-      create.desc: "Crear un nuevo País. Se crea sin poligono."
-      delete.desc: "Eliminar un País. Se eliminan también las divisiones y regiones asociadas a ese País."
-      read.desc: "Leer información de un País."
-      list.desc: "Obtener lista de todos los países."
-      listregions.desc: "Obtener lista de todas las regiones de un país o división."
+        adddivisiones.desc: "Load a country's borders from a GeoJSON file."
+        addregiones.desc: "Load a country's borders from a GeoJSON file. Must be placed in geojson/countries."
+        addregion.desc: "Add a country's border using WorldEdit."
+        removeregion.desc: "Delete a country's border."
+      create.desc: "Create a new country. This is done without selecting a polygon."
+      delete.desc: "Delete a country and all of its child divisions."
+      read.desc: "Get information on a country."
+      list.desc: "Get a list of all countries."
+      listregions.desc: "Get a list of all regional divisions for a country or parent division."
     player:
       desc: "Execute CRUD operation on players. Server restart is required."
       update:
         desc: "Update a player's attributes."
-        fechaingreso.desc: "Actualizar fecha de ingreso (UNIX ms) de un Jugador."
-        fechaultimaconexion.desc: "Actualizar fecha de última conexión (UNIX ms) de un Jugador."
-      create.desc: "Crear un nuevo Jugador. <fecha_ingreso> con formato UNIX ms."
-      delete.desc: "Eliminar un Jugador."
-      read.desc: "Leer información de un Jugador."
+        fechaingreso.desc: "Update a player's join date (UNIX ms)."
+        fechaultimaconexion.desc: "Update a player's last seen date (UNIX ms)."
+      create.desc: "Create a new player. <fecha_ingreso> in UNIX ms."
+      delete.desc: "Delete a player."
+      read.desc: "Get a player's information."
     rangousuario:
       desc: "Execute CRUD operations on a player's User Roles. Server restart is required."
       update:
         desc: "Update a User Role's attributes."
-        addpermiso.desc: "Agregar un permiso a un Rango de Usuario."
-        removepermiso.desc: "Remover un permiso de un Rango de Usuario."
-      create.desc: "Crear un nuevo Rango de Usuario."
-      delete.desc: "Eliminar un Rango de Usuario."
-      read.desc: "Leer información de un Rango de Usuario."
-      list.desc: "Obtener lista de todos los Rangos de Usuario."
-      listpermisos.desc: "Obtener lista de permisos de un Rango de Usuario."
+        addpermiso.desc: "Add a permission to a User Role."
+        removepermiso.desc: "Remove a permission from a User Role."
+      create.desc: "Create a new User Role."
+      delete.desc: "Delete a User Role."
+      read.desc: "Get information on a User Role."
+      list.desc: "Get a list of all User Roles."
+      listpermisos.desc: "Get a permission list for a User Role."
     tipoproyecto:
       desc: "Execute CRUD operations on Project Types. Server restart is required."
-      update.desc: "Actualizar atributos de un Tipo de Proyecto."
-      create.desc: "Crear un nuevo Tipo de Proyecto."
-      delete.desc: "Eliminar un Tipo de Proyecto."
-      read.desc: "Leer información de un Tipo de Proyecto."
-      list.desc: "Obtener lista de todos los Tipos de Proyecto."
+      update.desc: "Update attributes for a Project Type."
+      create.desc: "Create a new Project Type."
+      delete.desc: "Delete a Project Type."
+      read.desc: "Get information on a Project Type."
+      list.desc: "Get a list of all Project Types."
     tipousuario:
       desc: "Execute CRUD operations on User Types. Server restart is required."
       update:
         desc: "Update a User Type's attributes."
-        addpermiso.desc: "Agregar un permiso a un Tipo de Usuario."
-        removepermiso.desc: "Remover un permiso de un Tipo de Usuario."
-        cantproyecsim.desc: "Actualizar cantidad de proyectos simultáneos permitidos para un Tipo de Usuario."
-      create.desc: "Crear un nuevo Tipo de Usuario."
-      delete.desc: "Eliminar un Tipo de Usuario."
-      read.desc: "Leer información de un Tipo de Usuario."
-      list.desc: "Obtener lista de todos los Tipos de Usuario."
-      listpermisos.desc: "Obtener lista de permisos de un Tipo de Usuario."
+        addpermiso.desc: "Add a permission to a User Type."
+        removepermiso.desc: "Remove a permission from a User Type."
+        cantproyecsim.desc: "Update the amount of active project a User Type can have."
+      create.desc: "Create a new User Type."
+      delete.desc: "Delete a User Type."
+      read.desc: "Get information on a User Type."
+      list.desc: "Get a list of all User Types."
+      listpermisos.desc: "Get a list of permissions for a User Type."
   manager:
     desc: "Command for a country's projects manager."
-    projectlist.desc: "Listar proyectos de un jugador."
-    list.desc: "Listar managers de un país."
-    accept.desc: "Aceptar o rechazar solicitudes de unión de un proyecto del país."
-    addmember.desc: "Agregar un miembro a un proyecto del país."
-    addreviewer.desc: "Añadir Reviewer a un país."
-    config.desc: "Abrir menú de configuración de Manager."
-    delete.desc: "Eliminar un proyecto del país."
-    description.desc: "Cambiar la descripción de un proyecto de un país."
-    edit.desc: "Activar edición de cualquier proyecto del país."
-    finish.desc: "Finalizar cualquier proyecto del país."
-    manage.desc: "Gestionar un proyecto del país."
-    name.desc: "Cambiar el nombre de un proyecto del país."
-    redefine.desc: "Redefinir un proyecto de un país."
-    removeleader.desc: "Quitar a un líder de un proyecto del país."
-    removemember.desc: "Remover a un miembro de un proyecto del país."
-    removereviewer.desc: "Remover Reviewer de un país."
-    select.desc: "Seleccionar un proyecto del país con World Edit."
-    transfer.desc: "Transferir el liderazgo de un proyecto del país."
+    projectlist.desc: "Get a list of a player's projects."
+    list.desc: "Get a list of a country's managers."
+    accept.desc: "Accept or reject project join requests for your county."
+    addmember.desc: "Add members to projects in your country."
+    addreviewer.desc: "Add a Reviewer for your country."
+    config.desc: "Open the Manager config menu."
+    delete.desc: "Delete a project in your country."
+    description.desc: "Change a project's description in your country."
+    edit.desc: "Activate editing for any project in your country."
+    finish.desc: "Mark any project in your country as finished."
+    manage.desc: "Manage a project in your country."
+    name.desc: "Change a project's name in your country."
+    redefine.desc: "Redefine a project in your country."
+    removeleader.desc: "Remove a project's Owner in your country."
+    removemember.desc: "Remove a project's member in your country."
+    removereviewer.desc: "Remove a country's Reviewer."
+    select.desc: "Select a project with WorldEdit."
+    transfer.desc: "Transfer a project's ownership in your country."
   pais:
     desc: "Change your prefix."
-    set.desc: "Cambia el prefix de un Jugador Online."
-  whereiam.desc: "Muestra el país y división en la que te encuentras."
+    set.desc: "Change a player's prefix."
+  whereiam.desc: "Show in which country and regional division you're in."
   project:
-    list.desc: "Listar proyectos de un jugador."
-    tp.desc: "Teletransportarse al centro de un proyecto."
+    list.desc: "Get a list of a player's projects."
+    tp.desc: "Teleport to a project."
     admin:
       desc: "Admin project commands."
-      addmanager.desc: "Añadir Manager a un país."
-      addreviewer.desc: "Añadir Reviewer a un país."
-      removemanager.desc: "Quitar Manager de un país."
-      removereviewer.desc: "Quitar Reviewer de un país."
-    accept.desc: "Aceptar o rechazar solicitudes de unión."
-    addmember.desc: "Agregar a un miembro a un proyecto."
-    border.desc: "Activar o desactivar el borde de un proyecto."
-    claim.desc: "Reclamar un proyecto Abandonado."
-    create.desc: "Crear un nuevo proyecto."
-    description.desc: "Cambiar la descripción de un proyecto."
-    edit.desc: "Activar edición de un proyecto existente."
-    finish.desc: "Finalizar un proyecto."
-    info.desc: "Ver información de un proyecto."
-    join.desc: "Unirse a un proyecto Activo o en Edición."
-    leave.desc: "Salir del proyecto en el que estás."
-    manage.desc: "Gestionar un proyecto."
-    name.desc: "Cambiar el nombre de un proyecto."
-    redefine.desc: "Redefinir un proyecto existente."
-    removemember.desc: "Remover a un miembro de un proyecto."
-    select.desc: "Seleccionar un proyecto con World Edit."
-    transfer.desc: "Transferir el liderazgo de un proyecto a un Miembro."
+      addmanager.desc: "Add a country's Manager."
+      addreviewer.desc: "Add a country's Reviewer."
+      removemanager.desc: "Remove a country's Manager."
+      removereviewer.desc: "Remove a country's Reviewer."
+    accept.desc: "Accept or reject join requests."
+    addmember.desc: "Add a member to a project."
+    border.desc: "Toggle project border."
+    claim.desc: "Claim an abandoned project."
+    create.desc: "Create a new project."
+    description.desc: "Change a project's description."
+    edit.desc: "Activate Editing on an existing project."
+    finish.desc: "Mark a project as finished."
+    info.desc: "Get information on a project."
+    join.desc: "Join an Active or Editing project."
+    leave.desc: "Leave a project."
+    manage.desc: "Manage a project."
+    name.desc: "Change a project's name."
+    redefine.desc: "Redefine an existing project."
+    removemember.desc: "Remove a member from a project."
+    select.desc: "Select a project with WorldEdit."
+    transfer.desc: "Transfer a project's ownership to another member."
     desc: "Main command for the project system."
   reviewer:
     desc: "Main command for project reviewers."
-    list.desc: "Listar reviewers de un país."
+    list.desc: "Get a list of a country's Reviewers."
     review:
       desc: "Review projects for your country."
-      accept.desc: "Aceptar la finalización de un proyecto."
-      reject.desc: "Rechazar la finalización de un proyecto."
-      list.desc: "Listar proyectos a revisar."
-    promote.desc: "Cambiar el Tipo de Usuario de un jugador."
-    config.desc: "Abrir menú de configuración de Reviewer."
+      accept.desc: "Accept a project's finish request."
+      reject.desc: "Reject a project's finish request."
+      list.desc: "List projects pending review."
+    promote.desc: "Change a player's User Type."
+    config.desc: "Open the Reviewer config menu."
     togglebypass: "Toggle reviewer bypass for a project."
 help-visitar:  # En cualquier línea se puede usar %plugin-prefix%
   using-coords:
@@ -468,7 +498,7 @@ pwarp:
   invalid-name-length: "A Pwarp's name can't be over 50 characters long."
   empty: "You don't have any Pwarps."
 player-info-command:
-  - "\n <b>=========</b> <gold>Información de %player.nombre%</gold> <b>=========</b>"
+  - "\n <b>=========</b> <gold>%player.nombre%'s information</gold> <b>=========</b>"
   - " <yellow>Nickname:</yellow> <white>%player.nombrePublico%</white>"
   - " <yellow>UUID:</yellow> <white>%player.uuid%</white>"
   - " <yellow>Language:</yellow> <white>%player.lenguaje%</white>"
@@ -489,16 +519,16 @@ ds-proyecto-info:
   invalid-id: "Couldn't find any project with ID **%id%**"
   id-needed: "You must provide a project's ID to get its information."
 pwarp-list:
-  header: "\n <b>=========</b> <gold>Lista de Pwarps</gold> <b>=========</b>"
+  header: "\n <b>=========</b> <gold>Pwarp List</gold> <b>=========</b>"
   pwarp: " - <gold><pwarp-%i%></gold>" # <pwarp-%i%> -> Texto para teletransportarse al Pwarp en la posición %i% de la lista.
   pwarp-hover: "<yellow>Click to teleport.</yellow>"
   backtext: "<b><<<</b>"
   backhover: "<gold>Previous page</gold>"
   nexttext: "<b>>>></b>"
   nexthover: "<gold>Next page</gold>"
-  footer: " <b>=========</b> <gold><backtext> Página <yellow>%currentPage% de %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
+  footer: " <b>=========</b> <gold><backtext> Page <yellow>%currentPage% of %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
 help-command:
-  header: "\n <b>=========</b> <gold>Ayuda de Comando</gold> <b>=========</b>"
+  header: "\n <b>=========</b> <gold>Command Help</gold> <b>=========</b>"
   info: "<light_purple>Field: <gray>Mandatory <></gray> - <gray>Optional [] </gray> - <gray>Options A|B </gray></light_purple>"
   usage: "<yellow>Use:</yellow> <blue>/%comando% %args%</blue>" # %command% -> Comando completo. %args% -> Argumentos del comando.
   aliases: "<yellow>Aliases:</yellow> %aliases%" # %aliases% -> Lista de alias del comando.
@@ -511,9 +541,9 @@ help-command:
   backhover: "<gold>Previous page</gold>"
   nexttext: "<b>>>></b>"
   nexthover: "<gold>Next page</gold>"
-  footer: " <b>=========</b> <gold><backtext> Página <yellow>%currentPage% de %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
+  footer: " <b>=========</b> <gold><backtext> Page <yellow>%currentPage% of %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
 global-help-command:
-  header: "\n <b>=========</b> <gold>Ayuda de %plugin-prefix%</gold> <b>=========</b>" # %plugin-prefix% -> Prefijo del plugin.
+  header: "\n <b>=========</b> <gold>%plugin-prefix% Help</gold> <b>=========</b>" # %plugin-prefix% -> Prefijo del plugin.
   info: "<light_purple>Field: <gray>Mandatory <></gray> - <gray>Optional [] </gray> - <gray>Options A|B </gray></light_purple>"
   commands-title: "<yellow>Available commands:</yellow>"
   command-line-1: " - <gold>/%comando%%args%</gold>" # %comando% -> Comando. %args% -> Argumentos del comando.
@@ -523,9 +553,9 @@ global-help-command:
   backhover: "<gold>Previous page</gold>"
   nexttext: "<b>>>></b>"
   nexthover: "<gold>Next page</gold>"
-  footer: " <b>=========</b> <gold><backtext> Página <yellow>%currentPage% de %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
+  footer: " <b>=========</b> <gold><backtext> Page <yellow>%currentPage% of %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
 help-proyecto:
-  header: "\n <b>=========</b> <gold>Guía de Proyectos</gold> <b>=========</b>"
+  header: "\n <b>=========</b> <gold>Project Guide</gold> <b>=========</b>"
   intro: "<gray> A project is an area where you can build and has a limit, a type and can have members.</gray>"
   title: "<yellow>Possible project types:</yellow>"
   line: " - <gold>%tipoproyecto.nombre%</gold> <gray>Máx. members:</gray> <white>%tipoproyecto.maxMiembros%</white><gray> Size:</gray> <white>%tipoproyecto.tamanoRango%</white>"
@@ -770,8 +800,8 @@ reviewer:
     disabled: "<yellow>Building disabled for project <yellow>%proyecto.id%</yellow>. You can no longer build here."
     switched: "<green>Building changed for project <yellow>%proyecto.id%</yellow>. You can now build here."
 where:
-  division: "Pais: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordenadas: <yellow><coords></yellow>"
-  no-division: "No estás dentro de ninguna división de %pais.nombrePublico%.\n Coordenadas: <yellow><coords></yellow>"
+  division: "Country: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordinates: <yellow><coords></yellow>"
+  no-division: "You're not in any regional division for %pais.nombrePublico%.\n Coordinates: <yellow><coords></yellow>"
   no-pais: "You're not in any country."
 get-list:
   header: " ===== <gold>%entity%s list</gold>" # %entity% -> Nombre de la entidad en plural.
@@ -867,9 +897,8 @@ player-join-chat-message: "<yellow>%player.nombrePublico%<reset><gold> has joine
 player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> has left the chat."
 player-welcome-message:
   - "\n<dark_gray>+---------------------------------------+</dark_gray>"
-  - "<b><dark_gray>+---------------------------------------+</dark_gray>"
-  - "<b>Welcome to <gradient:#42C223:#3A4BCE>Build The Earth</gradient></b><gray>:</gray> <b><gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient>!</b>"
-  - "<yellow>Head to the information area to learn how to <b>explore</b> and/or <b>start building</b>.</yellow>"
+  - "<b>¡Welcome to <gradient:#42C223:#3A4BCE>Build The Earth</gradient></b><gray>:</gray> <b><gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient>!</b>"
+  - "<yellow>Head to the information building to learn how you can <b>explore</b> and/or <b>build</b>.</yellow>"
   - "<dark_gray>+---------------------------------------+</dark_gray>\n"
 player-hover-chat:
   - "<gray>Name: <white>%player.nombre%"
@@ -1329,7 +1358,7 @@ items:
       - "<gray>Language: <white>%player.lenguaje%"
       - "<gray>Role: <white>%player.rangoUsuario%"
       - "<gray>Type: <white>%player.tipoUsuario%"
-      - "<gray>País: %player.paisPrefix%"
+      - "<gray>Country: %player.paisPrefix%"
       - "<gray>Discord: <white>%player.discordName%</white>"
       - "<gray>Active projects: <white>%player.proyectosActivos%"
       - "<gray>Finished projects: <white>%player.proyectosCompletados%"
@@ -1592,10 +1621,10 @@ placeholder:
   selected: "<green><b>Selected</b></green>"
   lang-mc:
     es_ES: "<yellow>Español</yellow>"
-    en_US: "<yellow>Inglés</yellow>"
+    en_US: "<yellow>English</yellow>"
   lang-ds:
     es_ES: "Español"
-    en_US: "Inglés"
+    en_US: "English"
   pais-mc:
     prefix:
       internacional: "国"
@@ -1696,3 +1725,5 @@ placeholder:
   link-display:
     see-request: "See request"
   ds-logo: "后"
+  ds-loading: "Loading..."
+  mc-loading: "Loading..."
