@@ -384,6 +384,7 @@ commands-descriptions:
     set.desc: "Change a player's prefix."
   whereiam.desc: "Show in which country and regional division you're in."
   project:
+    id.desc: "Obtener la ID <b>copiable</b> del proyecto en donde te encuentras."
     list.desc: "Get a list of a player's projects."
     tp.desc: "Teleport to a project."
     admin:
@@ -562,6 +563,7 @@ help-proyecto:
   empty: "<yellow>There are no available project types.</yellow>"
   footer: " "
 project:
+  id: "ID del proyecto en esta ubicación: <yellow><id></yellow>"
   not-found-id: "Couldn't find any project with ID <yellow>%search%</yellow>."
   not-found-here: "Couldn't find any projects at this location."
   not-finishing: "Couldn't find any projects to review."

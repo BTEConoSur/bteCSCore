@@ -469,7 +469,6 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         for (ChunkKey chunkKey : oldChunks) {
             List<String> ids = loadedChunkProyectos.get(chunkKey);
             if (ids != null) {
-                ConsoleLogger.debug("Removing proyecto ID: " + proyecto.getId() + " from chunk: " + chunkKey);
                 ids.remove(proyecto.getId());
                 if (ids.isEmpty()) loadedChunkProyectos.remove(chunkKey);
             }
@@ -517,7 +516,10 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
                     if (!playerBorderParticles.containsKey(player.getUniqueId())) continue;
                     if (WorldManager.getInstance().getBTEWorld().isLobbyLocation(player.getLocation())) continue;
                     Proyecto proyecto = get(playerBorderParticles.get(player.getUniqueId()));
-                    if (proyecto == null || proyecto.getPoligono() == null) continue;
+                    if (proyecto == null || proyecto.getPoligono() == null) {
+                        removePlayerBorderParticle(player.getUniqueId());
+                        continue;
+                    };
                     RegionUtils.spawnBorderParticles(player, proyecto.getPoligono(), config.getString("border-particles.project-particle"), 0.5);
                 }
             }

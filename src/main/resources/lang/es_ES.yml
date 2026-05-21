@@ -429,6 +429,7 @@ commands-descriptions:
     set.desc: "Cambia el prefix de un Jugador Online."
   whereiam.desc: "Muestra el país y división en la que te encuentras."
   project:
+    id.desc: "Obtener la ID <b>copiable</b> del proyecto en donde te encuentras."
     list.desc: "Listar proyectos de un jugador." 
     tp.desc: "Teletransportarse al centro de un proyecto."
     admin:
@@ -622,6 +623,7 @@ help-proyecto:
   footer: " "
 
 project:
+  id: "ID del proyecto en esta ubicación: <yellow><id></yellow>"
   not-found-id: "No se encontró ningún proyecto con ID <yellow>%search%</yellow>."
   not-found-here: "No se encontró ningún proyecto en esta ubicación."
   not-finishing: "No se encontró ningún proyecto en finalización para revisar."

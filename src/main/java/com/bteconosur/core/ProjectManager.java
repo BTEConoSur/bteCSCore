@@ -825,7 +825,8 @@ public class ProjectManager {
         Pais pais = proyecto.getPais();
         Boolean success = ProjectRequestService.sendProjectRedefineRequest(proyecto, newPolygon, tipoProyecto.getId(), division.getId(), contextImage, commandPlayer);
         if (!success) return false;
-        
+        proyecto.setTipoProyecto(tipoProyecto);
+        proyecto.setDivision(division);
         String countryLog = LanguageHandler.replaceDS("project.redefine.request.log", Language.getDefault(), commandPlayer, proyecto);
         DiscordLogger.countryLog(countryLog, pais);
         
