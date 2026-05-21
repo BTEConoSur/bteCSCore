@@ -195,6 +195,19 @@ public class MessageService {
     }
 
     /**
+     * Envía un embed y un mensaje a un canal de Discord.
+     * 
+     * @param channelId ID del canal destino
+     * @param embed Embed a enviar
+     * @param message Mensaje a enviar
+     */
+    public static void sendEmbed(Long channelId, MessageEmbed embed, String message) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.channelId(channelId) || !DiscordValidate.embed(embed)) return;
+        sendEmbed(BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId), embed, message);
+    }
+
+    /**
      * Envía un embed a un canal de Discord.
      * 
      * @param channel Canal destino
@@ -207,6 +220,25 @@ public class MessageService {
         try {
             //ConsoleLogger.debug("Enviando embed al canal " + channel.getName() + " (" + channel.getId() + ")");
             channel.sendMessageEmbeds(embed).queue();
+        } catch (Exception e) {
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()), e);
+        }
+    }
+
+    /**
+     * Envía un embed y un mensaje a un canal de Discord.
+     * 
+     * @param channel Canal destino
+     * @param embed Embed a enviar
+     * @param message Mensaje a enviar
+     */
+    @SuppressWarnings("null")
+    public static void sendEmbed(TextChannel channel, MessageEmbed embed, String message) {
+        if (!DiscordValidate.jda()) return;
+        if (!DiscordValidate.channel(channel) || !DiscordValidate.embed(embed)) return;
+        try {
+            //ConsoleLogger.debug("Enviando embed al canal " + channel.getName() + " (" + channel.getId() + ")");
+            channel.sendMessageEmbeds(embed).addContent(message).queue();
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()), e);
         }

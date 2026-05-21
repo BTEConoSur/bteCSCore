@@ -84,7 +84,8 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         if (mergedObj != null) {
             Set<ChunkKey> chunkKeys = RegionUtils.chunksFor(mergedObj);
             for (ChunkKey chunkKey : chunkKeys) loadedChunkProyectos.computeIfAbsent(chunkKey, k -> new ArrayList<>()).add(mergedObj.getId());
-            loadedObjects.put(id.toUpperCase(), mergedObj);
+            mergedObj.initTransientFields();
+            loadedObjects.put(mergedObj.getId(), mergedObj);
         }
         return mergedObj;
     }
@@ -468,6 +469,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         for (ChunkKey chunkKey : oldChunks) {
             List<String> ids = loadedChunkProyectos.get(chunkKey);
             if (ids != null) {
+                ConsoleLogger.debug("Removing proyecto ID: " + proyecto.getId() + " from chunk: " + chunkKey);
                 ids.remove(proyecto.getId());
                 if (ids.isEmpty()) loadedChunkProyectos.remove(chunkKey);
             }

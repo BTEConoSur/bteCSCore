@@ -78,7 +78,7 @@ public class ConsoleLogger {
      */
     public static void warn(String message) {
         logger.warn(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("warn-prefix") + message));
-        DiscordLogger.staffConsoleLog(LoggerUtil.getWarnEmbed(message));
+        DiscordLogger.staffConsoleLog(LoggerUtil.getWarnEmbed(), message);
     }
 
     /**
@@ -90,7 +90,7 @@ public class ConsoleLogger {
     public static void warn(String message, Object object) {
         String json = JsonUtils.toJson(object);
         logger.warn(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("warn-prefix") + message + "\n" + json));
-        DiscordLogger.staffConsoleLog(LoggerUtil.getWarnEmbed(message + "\n" + json));
+        DiscordLogger.staffConsoleLog(LoggerUtil.getWarnEmbed(), message + "\n" + json);
     }
 
     /**
@@ -100,7 +100,7 @@ public class ConsoleLogger {
      */
     public static void error(String message) {
         logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message));
-        DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(message));
+        DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(), message);
         DiscordLogger.notifyDevs(message);
     }
 
@@ -113,7 +113,7 @@ public class ConsoleLogger {
     public static void error(String message, Object object) {
         String json = JsonUtils.toJson(object);
         logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message + "\n" + json));
-        DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(message + "\n" + json));
+        DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(), message + "\n" + json);
         DiscordLogger.notifyDevs(message);
     }
 
@@ -128,7 +128,7 @@ public class ConsoleLogger {
         String json = JsonUtils.toJson(object);
         String errorInfo = getCompactStackTrace(throwable);
         logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message + "\n" + json + "\n" + errorInfo));
-        DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(message + "\n" + json));
+        DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(), message + "\n" + json);
         DiscordLogger.notifyDevs(errorInfo);
         saveStackTraceToFile(message, throwable);
     }
@@ -142,7 +142,7 @@ public class ConsoleLogger {
     public static void error(String message, Throwable throwable) {
         String errorInfo = getCompactStackTrace(throwable);
         logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message + "\n" + errorInfo));
-        DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(message));
+        DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(), message);
         DiscordLogger.notifyDevs(errorInfo);
         saveStackTraceToFile(message, throwable);
     }   

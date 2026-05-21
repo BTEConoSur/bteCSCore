@@ -22,10 +22,9 @@ public class LoggerUtil {
      * @param description descripción del error a mostrar.
      * @return embed de error para enviar a Discord.
      */
-    public static MessageEmbed getErrorEmbed(String description) {
+    public static MessageEmbed getErrorEmbed() {
         return new EmbedBuilder()
             .setTitle(LanguageHandler.getText("ds-embeds.error"))
-            .setDescription(description.substring(0, 4086) + "\n...")
             .setColor(embedColors.getInt("ds-embeds.error"))
             .build();
     }
@@ -36,10 +35,9 @@ public class LoggerUtil {
      * @param description descripción de la advertencia a mostrar.
      * @return embed de advertencia para enviar a Discord.
      */
-    public static MessageEmbed getWarnEmbed(String description) {
+    public static MessageEmbed getWarnEmbed() {
         return new EmbedBuilder()
             .setTitle(LanguageHandler.getText("ds-embeds.warn"))
-            .setDescription(description.substring(0, 4086) + "\n...")
             .setColor(embedColors.getInt("ds-embeds.warn"))
             .build();
     }

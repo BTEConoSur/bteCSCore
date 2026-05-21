@@ -145,8 +145,6 @@ public class Proyecto {
 
     public void setPoligono(Polygon poligono) {
         this.poligono = poligono;
-        this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);
-        this.boundingBox = poligono.getEnvelopeInternal();
     }
 
     public PreparedGeometry getPreparedGeometry() {
@@ -290,7 +288,7 @@ public class Proyecto {
      * Inicializa los campos transitorios de geometría al cargar la entidad desde base de datos.
      */
     @PostLoad
-    private void initTransientFields() {
+    public void initTransientFields() {
         if (poligono != null) {
             this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);
             this.boundingBox = poligono.getEnvelopeInternal();

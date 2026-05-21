@@ -894,6 +894,7 @@ public class ProjectManager {
         proyecto.updateTamaño();
         proyecto.setTipoProyecto(tipoProyecto);
         proyecto.setDivision(division);
+        WorldManager.getInstance().updateRegion(proyecto);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         ApiManager.getInstance().updateClaim(proyecto);
         ir.unload(interactionId);

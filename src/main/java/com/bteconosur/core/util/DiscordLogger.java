@@ -92,11 +92,12 @@ public class DiscordLogger {
      * Envía un embed al canal de consola de staff si está habilitado.
      *
      * @param embed embed a enviar.
+     * @param message mensaje a enviar.
      */
-    public static void staffConsoleLog(MessageEmbed embed) {
+    public static void staffConsoleLog(MessageEmbed embed, String message) {
         if (!enableStaffConsoleLog) return;
         if (!config.getBoolean("discord-staff-console-log")) return;
-        MessageService.sendEmbed(secret.getLong("discord-staff-console-log-id"), embed);
+        MessageService.sendEmbed(secret.getLong("discord-staff-console-log-id"), embed, message);
     }
 
     /**
