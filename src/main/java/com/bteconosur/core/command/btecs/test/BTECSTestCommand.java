@@ -27,6 +27,7 @@ public class BTECSTestCommand extends BaseCommand {
         this.addSubcommand(new TestAllRegionDivisionGeojsonCommand());
         this.addSubcommand(new TestCheckProyectoInfoCommand());
         this.addSubcommand(new TestCheckProyectoPolygonCommand());
+        this.addSubcommand(new ConvertGeoJsonToMapFormatCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 
