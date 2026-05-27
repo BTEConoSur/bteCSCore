@@ -66,12 +66,6 @@ public class ProjectManageMenu extends Menu {
         gui.getFiller().fill(MenuUtils.getFillerItem());
         gui.setItem(2,2, MenuUtils.getProyecto(proyecto, language));
 
-        gui.setItem(4,2, MenuUtils.getCopyId(language));
-        gui.addSlotAction(4,2, event -> {
-            String title = LanguageHandler.replaceMC("gui-titles.join-request-list", language, proyecto);
-            new JoinRequestListMenu(BTECSPlayer, title, proyecto, this).open();
-        });
-
         Player lider = pm.getLider(proyecto);
         gui.setItem(2,3, MenuUtils.getPlayerItem(lider, pr.isOnline(lider == null ? null : lider.getUuid()), PlayerContext.LIDER, language));
 
@@ -82,7 +76,7 @@ public class ProjectManageMenu extends Menu {
                 new JoinRequestListMenu(BTECSPlayer, title, proyecto, this).open();
             });
 
-            
+            gui.setItem(4,2, MenuUtils.getNombreDescription(language));
 
             if (proyecto.getEstado() == Estado.ACTIVO || proyecto.getEstado() == Estado.EDITANDO) {
                 gui.setItem(4,4, MenuUtils.getFinishProjectItem(language));

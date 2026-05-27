@@ -157,15 +157,15 @@ public class ApiManager {
             String body = ApiUtils.readBody(stream);
             if (status < 200 || status >= 300) {
                 Error apiError = mapper.readValue(body, Error.class);
-                ConsoleLogger.warn("Error al " + operationLabel + " claim. HTTP " + status + ": " + apiError.getMessage());
+                ConsoleLogger.warn("Error al " + operationLabel + " claim " + proyecto.getId() + ". HTTP " + status + ": " + apiError.getMessage());
                 switch (operationLabel) {
                     case "crear" -> {
                         if (!apiError.getMessage().contains("externalId")) pendingCreate.add(proyecto.getId());
                         else return true;
                     }
                     case "actualizar" -> {
-                        if (status == 404) {
-                            ConsoleLogger.warn("Claim no encontrado para actualizar.");
+                        if (status == 404 || apiError.getMessage().toLowerCase().contains("no 'claim' record")) {
+                            ConsoleLogger.warn("Claim no encontrado para actualizar, se intentará crear.");
                             pendingCreate.add(proyecto.getId());
                         } else pendingUpdate.add(proyecto.getId());
                     }
@@ -179,14 +179,14 @@ public class ApiManager {
             }
             return true;
         } catch (SocketTimeoutException e) {
-            ConsoleLogger.warn("Timeout al " + operationLabel + " claim en la API web.");
+            ConsoleLogger.warn("Timeout al " + operationLabel + " claim " + proyecto.getId() + " en la API web.");
             switch (operationLabel) {
                 case "crear" -> pendingCreate.add(proyecto.getId());
                 case "actualizar" -> pendingUpdate.add(proyecto.getId());
                 case "eliminar" -> pendingDelete.add(proyecto.getId());
             }
         } catch (Exception e) {
-            ConsoleLogger.warn("Error al " + operationLabel + " claim en la API web: ", e);
+            ConsoleLogger.warn("Error al " + operationLabel + " claim " + proyecto.getId() + " en la API web: ", e);
             switch (operationLabel) {
                 case "crear" -> pendingCreate.add(proyecto.getId());
                 case "actualizar" -> pendingUpdate.add(proyecto.getId());
@@ -196,6 +196,10 @@ public class ApiManager {
             if (conn != null) {
                 conn.disconnect();
             }
+            pending.set("create", new ArrayList<>(pendingCreate));
+            pending.set("update", new ArrayList<>(pendingUpdate));
+            pending.set("delete", new ArrayList<>(pendingDelete));
+            ConfigHandler.getInstance().save();
         }
         return false;
     }

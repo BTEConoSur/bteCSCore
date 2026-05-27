@@ -43,7 +43,7 @@ public class ConsoleLogger {
      * @param object objeto a serializar en JSON.
      */
     public static void info(String message, Object object) {
-        String json = JsonUtils.toJson(object);
+        String json = formatObjectForLog(object);
         logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("info-prefix") + message + "\n" + json));
     }
 
@@ -66,7 +66,7 @@ public class ConsoleLogger {
      */
     public static void debug(String message, Object object) {
         if (config.getBoolean("debug-mode", false)) {
-            String json = JsonUtils.toJson(object);
+            String json = formatObjectForLog(object);
             logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("debug-prefix") + message + "\n" + json));
         }
     }
@@ -88,7 +88,7 @@ public class ConsoleLogger {
      * @param object objeto a serializar.
      */
     public static void warn(String message, Object object) {
-        String json = JsonUtils.toJson(object);
+        String json = formatObjectForLog(object);
         logger.warn(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("warn-prefix") + message + "\n" + json));
         DiscordLogger.staffConsoleLog(LoggerUtil.getWarnEmbed(), message + "\n" + json);
     }
@@ -111,7 +111,7 @@ public class ConsoleLogger {
      * @param object objeto a serializar.
      */
     public static void error(String message, Object object) {
-        String json = JsonUtils.toJson(object);
+        String json = formatObjectForLog(object);
         logger.error(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + LanguageHandler.getText("error-prefix") + message + "\n" + json));
         DiscordLogger.staffConsoleLog(LoggerUtil.getErrorEmbed(), message + "\n" + json);
         DiscordLogger.notifyDevs(message);
@@ -210,8 +210,16 @@ public class ConsoleLogger {
      * @param object objeto a serializar en JSON.
      */
     public static void send(String message, Object object) {
-        String json = JsonUtils.toJson(object);
+        String json = formatObjectForLog(object);
         logger.info(miniMessage.deserialize(LanguageHandler.getText("prefix") + " " + message + "\n" + json));
+    }
+
+    private static String formatObjectForLog(Object object) {
+        if (object instanceof Throwable throwable) {
+            return getCompactStackTrace(throwable);
+        }
+
+        return JsonUtils.toJson(object);
     }
 
 }

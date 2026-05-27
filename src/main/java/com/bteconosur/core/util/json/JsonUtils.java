@@ -14,6 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 /**
  * Utilidad para serialización JSON y búsquedas de ubicaciones mediante API remota y respuesta en JSON.
@@ -22,6 +23,10 @@ public class JsonUtils {
     
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
+
+    static {
+        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    }
     
     /**
      * Serializa un objeto a formato JSON con indentación.

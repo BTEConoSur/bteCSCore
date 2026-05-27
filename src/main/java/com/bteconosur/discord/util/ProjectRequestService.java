@@ -67,34 +67,42 @@ public class ProjectRequestService {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found"));
             return false;
         }
-                
-        channel.sendMessageEmbeds(embed)
-            .addFiles(FileUpload.fromData(mapImage, "map.png"))
-            .addComponents(
-                ActionRow.of(
-                    Button.success("accept", LanguageHandler.getText("ds-button-accept")),
-                    Button.danger("cancel", LanguageHandler.getText("ds-button-reject"))
+        ConsoleLogger.info("Enviando solicitud de proyecto " + proyecto.getId() + " al canal de Discord " + channel.getId());
+        try {
+            channel.sendMessageEmbeds(embed)
+                .addFiles(FileUpload.fromData(mapImage, "map.png"))
+                .addComponents(
+                    ActionRow.of(
+                        Button.success("accept", LanguageHandler.getText("ds-button-accept")),
+                        Button.danger("cancel", LanguageHandler.getText("ds-button-reject"))
+                    )
                 )
-            )
-            .queue(message -> {
-                String dsNotification = LanguageHandler.replaceDS("project.create.request.ds-for-reviewer", Language.getDefault(), pais).replace("%link%", message.getJumpUrl());
-                TagResolver tagResolver = TagResolverUtils.getLinkText("link", message.getJumpUrl(), LanguageHandler.getText("placeholder.link-display.see-request"), Language.getDefault());
-                String mcNotification = LanguageHandler.replaceDS("project.create.request.for-reviewer", Language.getDefault(), pais);
-                DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
-                Interaction ctx = new Interaction(
-                    proyecto.getLider().getUuid(),
-                    proyecto.getId(),
-                    InteractionKey.CREATE_PROJECT,
-                    now,
-                    expiration
-                );
-                ctx.setMessageId(message.getIdLong());
-                InteractionRegistry.getInstance().load(ctx);
+                .queue(message -> {
+                    String dsNotification = LanguageHandler.replaceDS("project.create.request.ds-for-reviewer", Language.getDefault(), pais).replace("%link%", message.getJumpUrl());
+                    TagResolver tagResolver = TagResolverUtils.getLinkText("link", message.getJumpUrl(), LanguageHandler.getText("placeholder.link-display.see-request"), Language.getDefault());
+                    String mcNotification = LanguageHandler.replaceDS("project.create.request.for-reviewer", Language.getDefault(), pais);
+                    DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
+                    Interaction ctx = new Interaction(
+                        proyecto.getLider().getUuid(),
+                        proyecto.getId(),
+                        InteractionKey.CREATE_PROJECT,
+                        now,
+                        expiration
+                    );
+                    ctx.setMessageId(message.getIdLong());
+                    InteractionRegistry.getInstance().load(ctx);
 
-            }, error -> {
-                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), error);
+                }, error -> {
+                    ProjectManager.getInstance().deleteProject(proyecto, null);
+                    PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
+                    ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), error);
             });
-        
+        } catch (Exception e) {
+            ProjectManager.getInstance().deleteProject(proyecto, null);
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), e);
+            PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
+            return false;
+        }
         return true;
     }
 
@@ -126,38 +134,45 @@ public class ProjectRequestService {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found"));
             return false;
         }
-                
-        channel.sendMessageEmbeds(embed)
-            .addFiles(FileUpload.fromData(mapImage, "map.png"))
-            .addComponents(
-                ActionRow.of(
-                    Button.success("accept", LanguageHandler.getText("ds-button-accept")),
-                    Button.danger("cancel", LanguageHandler.getText("ds-button-reject"))
+        ConsoleLogger.debug("Enviando solicitud de proyecto " + proyecto.getId() + " al canal de Discord " + channel.getId());
+        try {
+            channel.sendMessageEmbeds(embed)
+                .addFiles(FileUpload.fromData(mapImage, "map.png"))
+                .addComponents(
+                    ActionRow.of(
+                        Button.success("accept", LanguageHandler.getText("ds-button-accept")),
+                        Button.danger("cancel", LanguageHandler.getText("ds-button-reject"))
+                    )
                 )
-            )
-            .queue(message -> {
-                String dsNotification = LanguageHandler.replaceDS("project.redefine.request.ds-for-reviewer", Language.getDefault(), pais).replace("%link%", message.getJumpUrl());
-                TagResolver tagResolver = TagResolverUtils.getLinkText("link", message.getJumpUrl(), LanguageHandler.getText("placeholder.link-display.see-request"), Language.getDefault());
-                String mcNotification = LanguageHandler.replaceDS("project.redefine.request.for-reviewer", Language.getDefault(), pais);
-                DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
-                
-                Interaction ctx = new Interaction(
-                    proyecto.getId(),
-                    InteractionKey.REDEFINE_PROJECT,
-                    now,
-                    expiration
-                );        
-                ctx.setPoligono(newPolygon);
-                ctx.setMessageId(message.getIdLong());
-                ctx.addPayloadValue("tipoId", tipoProyectoId);
-                ctx.addPayloadValue("divisionId", divisionId);
-                ctx.addPayloadValue("previousEstado", proyecto.getEstado().name());
-                InteractionRegistry.getInstance().load(ctx);
-                proyecto.setEstado(Estado.REDEFINIENDO);
-                ProyectoRegistry.getInstance().merge(proyecto.getId());
-            }, error -> {
-                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), error);
-            });
+                .queue(message -> {
+                    String dsNotification = LanguageHandler.replaceDS("project.redefine.request.ds-for-reviewer", Language.getDefault(), pais).replace("%link%", message.getJumpUrl());
+                    TagResolver tagResolver = TagResolverUtils.getLinkText("link", message.getJumpUrl(), LanguageHandler.getText("placeholder.link-display.see-request"), Language.getDefault());
+                    String mcNotification = LanguageHandler.replaceDS("project.redefine.request.for-reviewer", Language.getDefault(), pais);
+                    DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
+                    
+                    Interaction ctx = new Interaction(
+                        proyecto.getId(),
+                        InteractionKey.REDEFINE_PROJECT,
+                        now,
+                        expiration
+                    );        
+                    ctx.setPoligono(newPolygon);
+                    ctx.setMessageId(message.getIdLong());
+                    ctx.addPayloadValue("tipoId", tipoProyectoId);
+                    ctx.addPayloadValue("divisionId", divisionId);
+                    ctx.addPayloadValue("previousEstado", proyecto.getEstado().name());
+                    InteractionRegistry.getInstance().load(ctx);
+                    proyecto.setEstado(Estado.REDEFINIENDO);
+                    ProyectoRegistry.getInstance().merge(proyecto.getId());
+                }, error -> {
+                    PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
+                    ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), error);
+                });
+            } catch (Exception e) {
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), e);
+                PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
+                return false;
+            }
         return true;
     }
 

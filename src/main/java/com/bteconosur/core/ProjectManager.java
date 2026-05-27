@@ -497,7 +497,7 @@ public class ProjectManager {
         if (lider != null && !commandPlayer.equals(lider)) members.add(lider);
         for (Player member : members) {
             if (!member.equals(player)) {
-                PlayerLogger.info(member, LanguageHandler.replaceMC("project.member.add.for-member", member.getLanguage(), proyecto), ChatUtil.getDsMemberAddedMember(proyecto, player, member.getLanguage()));
+                PlayerLogger.info(member, LanguageHandler.replaceMC("project.member.add.for-member", member.getLanguage(), player, proyecto), ChatUtil.getDsMemberAddedMember(proyecto, player, member.getLanguage()));
             }
         }
         if (isAdded) {

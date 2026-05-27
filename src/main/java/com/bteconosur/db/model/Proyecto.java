@@ -13,6 +13,8 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.type.SqlTypes;
 
 import com.bteconosur.db.util.Estado;
@@ -85,6 +87,7 @@ public class Proyecto {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "proyecto_miembro", joinColumns = @JoinColumn(name = "id_proyecto"), inverseJoinColumns = @JoinColumn(name = "uuid_player"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Set<Player> miembros = new HashSet<>(); // Players detached, usar ProjectManager para obtener miembros.
 

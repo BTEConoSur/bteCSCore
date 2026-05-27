@@ -1756,12 +1756,12 @@ placeholder:
   pais-ds:
     prefix:
       internacional: ":earth_americas:"
-      argentina: "🇦🇷"
-      chile: "🇨🇱"
-      uruguay: "🇺🇾"
-      paraguay: "🇵🇾"
-      bolivia: "🇧🇴"
-      peru: "🇵🇪"
+      argentina: "<:Arg:1507759346644291685>"
+      chile: "<:Chi:1507759443952144545>"
+      uruguay: "<:Uru:1507759529067151521>"
+      paraguay: "<:Par:1507759505835036855>"
+      bolivia: "<:Bol:1507759403384836127>"
+      peru: "<:Per:1507759483256967289>"
       antartida: "🇦🇶"
     logo:
       internacional: "<:BTEInternacional:1501593151473844404>"

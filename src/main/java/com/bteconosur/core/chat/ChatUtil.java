@@ -549,7 +549,7 @@ public class ChatUtil {
         for (Player player : onlinePlayers) {
             Division division = pr.findDivisionByPlayer(player.getUuid());
             String playerInfo = PlaceholderUtils.replaceDS("%player.nombrePublico%", language, player);
-            if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) playerInfo += PlaceholderAPI.setPlaceholders(player.getBukkitPlayer(), "%changeoutput_equals_input:{essentials_afk}_matcher:yes_ifmatch:**[AFK]**_else:%");
+            if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) playerInfo += PlaceholderAPI.setPlaceholders(player.getBukkitPlayer(), "%changeoutput_equals_input:{essentials_afk}_matcher:yes_ifmatch: [AFK]_else:%");
             if (division == null) {
                 internacional.add(playerInfo);
                 continue;

@@ -568,11 +568,11 @@ public class MenuUtils {
         );
     }
 
-    public static GuiItem getCopyId(Language language) {
+    public static GuiItem getNombreDescription(Language language) {
         return buildGuiItem(
-            gui.getString("item-materials.copy-id"),
-            LanguageHandler.getText(language, "items.copy-id.name"),
-            LanguageHandler.getTextList(language, "items.copy-id.lore"), false
+            gui.getString("item-materials.set-name-description"),
+            LanguageHandler.getText(language, "items.set-name-description.name"),
+            LanguageHandler.getTextList(language, "items.set-name-description.lore"), false
         );
     }
 
