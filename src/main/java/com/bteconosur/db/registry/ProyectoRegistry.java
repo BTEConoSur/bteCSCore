@@ -115,7 +115,9 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
             removeFromChunkIndex(proyecto);
         }
         loadedObjects.remove(id.toUpperCase());
-        dbManager.remove(proyecto);
+        if (proyecto != null) {
+            dbManager.remove(proyecto);
+        }
     }
 
     /**

@@ -64,7 +64,7 @@ public class ProjectRequestService {
         }
         
         if (mapImage == null || !mapImage.exists()) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found"));
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found") + " " + proyecto.getId());
             return false;
         }
         ConsoleLogger.info("Enviando solicitud de proyecto " + proyecto.getId() + " al canal de Discord " + channel.getId());
@@ -95,11 +95,11 @@ public class ProjectRequestService {
                 }, error -> {
                     ProjectManager.getInstance().deleteProject(proyecto, null);
                     PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
-                    ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), error);
+                    ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + " " + pais.getNombre(), error);
             });
         } catch (Exception e) {
-            ProjectManager.getInstance().deleteProject(proyecto, null);
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), e);
+            //ProjectManager.getInstance().deleteProject(proyecto, null);
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + " " + pais.getNombre(), e);
             PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
             return false;
         }
@@ -126,12 +126,12 @@ public class ProjectRequestService {
         Pais pais = proyecto.getPais();
         TextChannel channel = MessageService.getTextChannelById(pais.getDsIdRequest());
         if (channel == null) {
-            ConsoleLogger.error(LanguageHandler.replaceDS("ds-error.request-channel-pais-not-found", Language.getDefault(), pais));
+            ConsoleLogger.error(LanguageHandler.replaceDS("ds-error.request-channel-pais-not-found", Language.getDefault(), pais) + " " + proyecto.getId());
             return false;
         }
         
         if (mapImage == null || !mapImage.exists()) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found"));
+            ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found") + " " + proyecto.getId());
             return false;
         }
         ConsoleLogger.debug("Enviando solicitud de proyecto " + proyecto.getId() + " al canal de Discord " + channel.getId());
@@ -166,10 +166,10 @@ public class ProjectRequestService {
                     ProyectoRegistry.getInstance().merge(proyecto.getId());
                 }, error -> {
                     PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
-                    ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), error);
+                    ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + " " + proyecto.getId(), error);
                 });
             } catch (Exception e) {
-                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project"), e);
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + " " + proyecto.getId(), e);
                 PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
                 return false;
             }
@@ -206,7 +206,7 @@ public class ProjectRequestService {
                             ctx2.setMessageId(message.getIdLong());
                             ir.merge(ctx2.getId());
                         }, error -> {
-                            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-join-request"), error);
+                            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-join-request") + " " + proyecto.getId(), error);
                         });
                 });
             });

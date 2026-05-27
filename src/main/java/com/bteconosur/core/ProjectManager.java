@@ -217,7 +217,7 @@ public class ProjectManager {
         Pais pais = proyecto.getPais();
         Boolean success = ProjectRequestService.sendProjectRequest(proyecto, contextImage);
         if (!success){ 
-            PlayerLogger.info(player, LanguageHandler.getText(language, "project.create.request.failed"), (String) null);
+            PlayerLogger.info(player, LanguageHandler.getText(language, "internal-error"), (String) null);
             pr.unload(proyecto.getId());
             return;
         }
@@ -344,6 +344,7 @@ public class ProjectManager {
      * @param commandId UUID del jugador que ejecutó la acción, o {@code null} si fue realizado por el sistema.
      */
     public void deleteProject(Proyecto proyecto, UUID commandId) {
+        ConsoleLogger.info("Eliminando proyecto " + proyecto.getId());
         Pais pais = proyecto.getPais();
         Player lider = getLider(proyecto);
         String proyectoId = proyecto.getId();

@@ -128,6 +128,10 @@ public class DBManager {
      * @param entity Entidad a eliminar
      */
     public void remove(Object entity) {
+        if (entity == null) {
+            ConsoleLogger.warn("No se puede eliminar una entidad nula.");
+            return;
+        }
         executeTransaction(session -> session.remove(entity));
     }
 
