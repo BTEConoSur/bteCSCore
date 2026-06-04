@@ -1,5 +1,7 @@
 package com.bteconosur.core.command.pais;
 
+import org.bukkit.Location;
+
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
@@ -12,6 +14,7 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.world.WorldManager;
 
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
@@ -25,10 +28,16 @@ public class WhereIAmCommand extends BaseCommand {
     @Override
     protected boolean onCommand(org.bukkit.command.CommandSender sender, String[] args) {
         org.bukkit.entity.Player player = (org.bukkit.entity.Player) sender;
-        Double x = player.getLocation().getX();
-        Double z = player.getLocation().getZ();
+        Location location = player.getLocation();
+        Double x = location.getX();
+        Double z = location.getZ();
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         Language language = commandPlayer.getLanguage();
+        if (WorldManager.getInstance().getBTEWorld().isLobbyLocation(location)) {
+            PlayerLogger.info(sender, LanguageHandler.getText(language, "where.lobby"), (String) null);
+            return true;
+        }
+
         double[] geoCoords = TerraUtils.toGeo(x, z);
         String coords = geoCoords[1] + ", " + geoCoords[0];
         TagResolver tagResolver = TagResolverUtils.getCopyableText("coords", coords, coords, language);

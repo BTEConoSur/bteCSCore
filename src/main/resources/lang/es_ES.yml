@@ -525,6 +525,7 @@ region:
 tpdir:
   buscando: "Buscando ubicaciones para <yellow>%query%</yellow>. Esto puede tardar un momento . . ."
   no-results: "No se encontraron resultados para <yellow>%query%</yellow>."
+  search-error: 'Error interno al buscar ubicaciones. Por favor, intenta de nuevo más tarde.'
   tped: "Teletransportando a <yellow>%destino%</yellow> . . ."
 
 language:
@@ -862,9 +863,10 @@ reviewer:
     disabled: "<yellow>Construcción desactivada para el proyecto <yellow>%proyecto.id%</yellow>. Ya no puedes construir en este proyecto."
     switched: "<green>Construcción cambiada al proyecto <yellow>%proyecto.id%</yellow>. Ahora puedes construir aquí."
 where:
-  division: "Pais: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordenadas: <yellow><coords></yellow>"
+  division: "País: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordenadas: <yellow><coords></yellow>"
   no-division: "No estás dentro de ninguna división de %pais.nombrePublico%.\n Coordenadas: <yellow><coords></yellow>"
   no-pais: "No estás dentro de ningún país."
+  lobby: "Estás en el lobby."
 get-list:
   header: " ===== <gold>Lista de %entity%s</gold>" # %entity% -> Nombre de la entidad en plural.
   line: " - <gold>%id%:</gold> %details%" # %id% -> Identificador de la entidad. %details% -> Detalles de la entidad.
@@ -1086,6 +1088,9 @@ ds-help:
       schematic:
         usage: "/schematic <nombre_schematic>"
         description: "Descarga un schematic de WE guardado en el servidor."
+      ip:
+        usage: "/ip"
+        description: "Muestra la dirección IP del servidor."
 ds-embeds:
   project-list:
     title: "Lista de proyectos de %player.nombre%"
@@ -1431,7 +1436,7 @@ items:
       - "<gray>Idioma: <white>%player.lenguaje%"
       - "<gray>Rango: <white>%player.rangoUsuario%"
       - "<gray>Tipo: <white>%player.tipoUsuario%"
-      - "<gray>País: %player.paisPrefix%"
+      - "<gray>País: <white>%player.paisPrefix%</white>"
       - "<gray>Discord: <white>%player.discordName%</white>"
       - "<gray>Proyectos activos: <white>%player.proyectosActivos%"
       - "<gray>Proyectos completados: <white>%player.proyectosCompletados%"
@@ -1715,10 +1720,10 @@ placeholder:
   selected: "<green><b>Seleccionado</b></green>"
   lang-mc:
     es_ES: "<yellow>Español</yellow>"
-    en_US: "<yellow>English</yellow>"
+    en_US: "<yellow>Inglés</yellow>"
   lang-ds:
     es_ES: "Español"
-    en_US: "English"
+    en_US: "Inglés"
   pais-mc:
     prefix:
       internacional: "国"
@@ -1755,7 +1760,7 @@ placeholder:
       constructor: "建" 
   pais-ds:
     prefix:
-      internacional: ":earth_americas:"
+      internacional: '<:Int:1508851065272144042>'
       argentina: "<:Arg:1507759346644291685>"
       chile: "<:Chi:1507759443952144545>"
       uruguay: "<:Uru:1507759529067151521>"

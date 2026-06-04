@@ -92,13 +92,13 @@ public class ConfigHandler {
      * Guarda todos los archivos de configuración y de idioma en disco.
      */
     public void save() {
-        config.save();
+        //config.save();
         data.save();
-        gui.save();
-        embedColors.save();
-        secret.save();
+        //gui.save();
+        //embedColors.save();
+        //secret.save();
         pending.save();
-        LanguageHandler.save();
+        //LanguageHandler.save();
     }
 
     /**

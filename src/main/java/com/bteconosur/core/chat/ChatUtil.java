@@ -180,7 +180,7 @@ public class ChatUtil {
 
     public static MessageEmbed buildDMNotification(String key, Player player, Language language, String description) {
         key = "ds-notifications." + key;
-        return builEmbed(key, language, LanguageHandler.replaceDS(key + ".title", language, player), description, null, null);
+        return builEmbed(key, language, LanguageHandler.replaceDS(key, language, player), description, null, null);
     }
 
     public static MessageEmbed buildDMNotification(String key, TipoUsuario tipoUsuario, Language language, String description) {

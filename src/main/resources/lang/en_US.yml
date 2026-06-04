@@ -475,6 +475,7 @@ region:
 tpdir:
   buscando: "Looking for locations for <yellow>%query%</yellow>. This may take a moment . . ."
   no-results: "No locations could be found for <yellow>%query%</yellow>."
+  search-error: Internal error while searching for locations. Please try again later.
   tped: "Teleporting to <yellow>%destino%</yellow> . . ."
 language:
   set: "<green><yellow>%player.nombre%'s</yellow> language has been set to <yellow>%language%</yellow>.</green>" # %language% -> Idioma establecido.
@@ -483,8 +484,8 @@ language:
   default: "<green>Detected %language% as your Minecraft language, and has been set as your default. You can change your language using /idioma."
 config-updated: "<green>Updated user preferences.</green>"
 nightvision:
-  enabled: "Activated night version."
-  disabled: "Deactivated night vision."
+  disabled: Night vision disabled.
+  enabled: Night version enabled.
 back:
   teleported: "Teleporting to the previous location."
   no-location: "You are already at your previous location."
@@ -512,7 +513,7 @@ player-info-command:
   - " <yellow>Open project edits: <white>%player.proyectosEditando%</white>"
   - " <yellow>Join date:</yellow> <white>%player.fechaIngreso%</white>"
   - " <yellow>Last seen:</yellow> <white>%player.fechaUltimaConexion%</white>"
-  - " <white><b>=========</b> %plugin-prefix% <b>=========</b>\n"
+  - " <b>=========</b> %plugin-prefix% <b>=========</b>\n"
 ds-player-info:
   invalid-options-size: "You can only search by one attribute at a time (Name, UUID, Discord Username)."
   invalid-option: "Fill out the required fields with a valid search request."
@@ -563,7 +564,7 @@ help-proyecto:
   empty: "<yellow>There are no available project types.</yellow>"
   footer: " "
 project:
-  id: "ID del proyecto en esta ubicación: <yellow><id></yellow>"
+  id: "Project ID: <yellow><id></yellow>"
   not-found-id: "Couldn't find any project with ID <yellow>%search%</yellow>."
   not-found-here: "Couldn't find any projects at this location."
   not-finishing: "Couldn't find any projects to review."
@@ -805,6 +806,7 @@ where:
   division: "Country: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordinates: <yellow><coords></yellow>"
   no-division: "You're not in any regional division for %pais.nombrePublico%.\n Coordinates: <yellow><coords></yellow>"
   no-pais: "You're not in any country."
+  lobby: "You are in the lobby."
 get-list:
   header: " ===== <gold>%entity%s list</gold>" # %entity% -> Nombre de la entidad en plural.
   line: " - <gold>%id%:</gold> %details%" # %id% -> Identificador de la entidad. %details% -> Detalles de la entidad.
@@ -1019,6 +1021,9 @@ ds-help:
       schematic:
         usage: "/schematic <schematic_name>"
         description: "Download a WorldEdit schematic made on the server"
+      ip:
+        usage: "/ip"
+        description: "Shows the server's IP address."
 ds-embeds:
   project-list:
     title: "%player.nombre%'s projects"
@@ -1124,10 +1129,10 @@ ds-embeds:
   warn: "Warn"
 # GUI
 gui-titles:
-  manager-config: "Manager configuration menu"
-  reviewer-config: "Reviewer configuration menu"
-  scoreboard-config: "Scoreboard configuration menu"
-  general-config: "General configuration menu"
+  manager-config: "Manager Configuration menu"
+  reviewer-config: "Reviewer Configuration menu"
+  scoreboard-config: "Scoreboard Configuration menu"
+  general-config: "General Configuration menu"
   tpdir-selection: "Select location"
   help-visitar: "Choose how you want to explore"
   visit-anyplace: "Explore any location"
@@ -1230,7 +1235,7 @@ items:
     lore:
       - "<gray>Click to go to the previous menu."
   close:
-    name: "Close"
+    name: "Exit"
     lore:
       - "<gray>Click to close the menu."
   previous-page:
@@ -1360,7 +1365,7 @@ items:
       - "<gray>Language: <white>%player.lenguaje%"
       - "<gray>Role: <white>%player.rangoUsuario%"
       - "<gray>Type: <white>%player.tipoUsuario%"
-      - "<gray>Country: %player.paisPrefix%"
+      - "<gray>Country: <white>%player.paisPrefix%</white>"
       - "<gray>Discord: <white>%player.discordName%</white>"
       - "<gray>Active projects: <white>%player.proyectosActivos%"
       - "<gray>Finished projects: <white>%player.proyectosCompletados%"
@@ -1375,8 +1380,8 @@ items:
       manager: "<b><gold>Manager</b>"
   config:
     name: "<yellow>%name%" # %name% -> Nombre de la configuración.
-    value-true: "<green>Activated"
-    value-false: "<red>Deactivated"
+    value-true: "<green>Enabled"
+    value-false: "<red>Disabled"
     desc-line: "<gray>%desc%" # %desc% -> Línea de la descripción de la configuración.
     value-line: "<gold>Status: %value%" # %value% -> Estado actual de la configuración.
     configs:
@@ -1384,66 +1389,71 @@ items:
         global-chat-on-join:
           name: "Chat Global on join"
           desc:
-            - "The player will join the global chat when they log in."
-            - "If deactivated, they will join their last chat channel."
-            - "After a server restart, all players will join the global chat."
+            - "When enabled, you automatically join the global chat upon login."
+            - "When disabled, you join their last active chat instead."
+            - "On server restart, this setting will be set back to default (enabled)."
         simultaneous-notifications:
           name: "Double notifications"
           desc:
-            - "The player will receive notifications via DM"
-            - "and on Minecraft. If deactivated, they will only"
-            - "receive them on Minecraft if they are online"
+            - "When enabled, you will be notified both in Discord DMs and
+              Minecraft."
+            - "When disabled, you only get a notification in Minecraft (if you are online)."
         pais-border:
           name: "Country border"
           desc:
-            - "Toggles a particle wall when the player"
-            - "approaches a country's border."
+            - "When enabled, a particle wall that outlines"
+            - "the countries' border is rendered."
         label-border:
           name: "World border"
           desc:
             - "Toggles a particle wall when the player"
-            - "approaches the world split line."
+            - "is near the world boundary."
         project-title:
           name: "Project titles"
           desc:
-            - "Shows the project information as"
-            - "a title when passing through them."
+            - "When enabled, displays a title with information about the project on entry."
+            - "When disabled, no such title will be rendered."
         division-title:
           name: "Division title"
           desc:
-            - "Shows a title on screen when"
-            - "entering a regional division."
+            - "When enabled, displays a title when crossing a regional division line."
+            - "When disabled, no such title will be rendered."
         scoreboard:
           name: "Scoreboard"
           desc:
-            - "Toggle scoreboard."
+            - "When enabled, the scoreboard will be shown."
+            - "When deactivated, the scoreboard will not be shown."
         pais-prefix:
           name: "Prefix"
           desc:
-            - "Change the country prefix"
-            - "that shows up in chat."
+            - "Change your prefix"
+            - "(country badge)."
         lang:
           name: "Language"
           desc:
             - "<gray>Current: %current%"
-            - "<gray>Click to change the plugin's language."
+            - "<gray>Click to change your language."
         scoreboards:
           name: "Scoreboards"
           desc:
-            - "Select what scoreboards you want to see."
+            - "Select which scoreboards you want to see."
       scoreboard:
         online:
           name: "Online scoreboard"
           desc:
-            - "Shows the amount of online players."
+            - "When enabled, shows information on online players.'"
+            - "When disabled, that scoreboard will not be shown."
         player:
           name: "Player scoreboard"
           desc:
-            - "Shows your information."
+            - "When enabled, shows your information."
+            - "When disabled, that scoreboard will not be shown."
         proyecto:
           name: "Project scoreboard"
           desc:
-            - "Shows project information."
+            - "When enabled, shows information for projects you are currently
+              standing in."
+            - "When disabled, that scoreboard will not be shown."
       manager:
         ds-notifications:
           name: "Manager notifications"
@@ -1472,7 +1482,7 @@ items:
   bolivia-head:
     name: "<color:#da291c>Bo</color><color:#f8e600>liv</color><color:#007a33>ia</color>"
   peru-head:
-    name: "<color:#c8102e>P</color><white>er</white><color:#c8102e>ú</color>"
+    name: "<color:#c8102e>P</color><white>er</white><color:#c8102e>u</color>"
   global-chat-head:
     name: "<aqua>Global Chat"
     international-name: "<gray>International"
@@ -1644,9 +1654,9 @@ placeholder:
     badge:
       normal: ""
       admin: ""
-      mod: ""
+      mod: ""
       influencer: ""
-      donador: ""
+      donador: ""
     label:
       normal: "前"
       admin: ""
@@ -1661,11 +1671,11 @@ placeholder:
       constructor: ""
     label:
       visita: "理"
-      postulante: ""
-      constructor: "建"
+      postulante: ""
+      constructor: "造"
   pais-ds:
     prefix:
-      internacional: ":earth_americas:"
+      internacional: '<:Int:1508851065272144042>'
       argentina: "<:Arg:1507759346644291685>"
       chile: "<:Chi:1507759443952144545>"
       uruguay: "<:Uru:1507759529067151521>"
@@ -1725,7 +1735,7 @@ placeholder:
     none: "N/A"
     mc: "<:Minecraft:1501595064680579142>"
     ds: "%pais.logo%"
-  without-fecha: "No date"
+  without-fecha: "No data"
   link-display:
     see-request: "See request"
   ds-logo: "后"

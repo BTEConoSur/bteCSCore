@@ -89,6 +89,8 @@ public class SatMapUtils {
             if (contextFile.exists()) {
                 contextFile.delete();
             }
+            File projectsFolder = new File(BTEConoSur.getInstance().getDataFolder(), "images/projects");
+            file = new File(projectsFolder, proyecto.getId() + ".png");
         }
         return file;
     }

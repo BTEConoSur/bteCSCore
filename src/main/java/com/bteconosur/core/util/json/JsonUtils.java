@@ -71,8 +71,8 @@ public class JsonUtils {
 
             int status = conn.getResponseCode();
             if (status != HttpURLConnection.HTTP_OK) {
-                ConsoleLogger.warn("Error al buscar ubicaciones. HTTP status: " + status);
-                return Collections.emptyList();
+                ConsoleLogger.warn("Error al buscar ubicaciones (" + query + "). HTTP status: " + status);
+                return null;
             }
 
             try (InputStream input = conn.getInputStream()) {
@@ -80,8 +80,8 @@ public class JsonUtils {
                 return Arrays.asList(arr);
             }
         } catch (Exception e) {
-            ConsoleLogger.error("Error al buscar ubicaciones: ", e);
-            return Collections.emptyList();
+            ConsoleLogger.error("Error al buscar ubicaciones (" + query + "): ", e);
+            return null;
         } finally {
             if (conn != null) conn.disconnect();
         }

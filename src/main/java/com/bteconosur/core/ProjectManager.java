@@ -217,7 +217,7 @@ public class ProjectManager {
         Pais pais = proyecto.getPais();
         Boolean success = ProjectRequestService.sendProjectRequest(proyecto, contextImage);
         if (!success){ 
-            PlayerLogger.info(player, LanguageHandler.getText(language, "internal-error"), (String) null);
+            PlayerLogger.error(player, LanguageHandler.getText(language, "internal-error"), (String) null);
             pr.unload(proyecto.getId());
             return;
         }
