@@ -1,5 +1,6 @@
 package com.bteconosur.core.command.project.admin;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -85,7 +86,8 @@ public class ProjectAdminRemoveManager extends BaseCommand {
     @Override
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) return paises.stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
-        return super.tabComplete(sender, alias, args);
+        if (args.length == 2) return getOnlinePlayers(args[1]);
+        return Collections.emptyList();
     }
 
 }

@@ -1,8 +1,11 @@
 package com.bteconosur.core.command.config;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
@@ -88,6 +91,14 @@ public class NicknameSetCommand extends BaseCommand {
             PlayerLogger.info(sender, msg2, (String) null);
         }
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        if (args.length == 1) {
+            return getOnlinePlayers(args[0]);
+        }
+        return Collections.emptyList();
     }
 
 }

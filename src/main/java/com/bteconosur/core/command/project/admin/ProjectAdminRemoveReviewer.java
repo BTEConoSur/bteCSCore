@@ -1,5 +1,7 @@
 package com.bteconosur.core.command.project.admin;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -12,6 +14,7 @@ import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
@@ -85,6 +88,8 @@ public class ProjectAdminRemoveReviewer extends BaseCommand {
     @Override
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) return paises.stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
-        return super.tabComplete(sender, alias, args);
+        if (args.length == 2) return getOnlinePlayers(args[1]);
+        
+        return Collections.emptyList();
     }
 }

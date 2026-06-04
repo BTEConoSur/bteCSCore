@@ -1,5 +1,7 @@
 package com.bteconosur.core.command.project;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.player.PlayerListMenu;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
@@ -143,7 +146,10 @@ public class ProjectAddMemberCommand extends BaseCommand {
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         Player player = PlayerRegistry.getInstance().get(sender);
         if (args.length == 1) return ProyectoRegistry.getInstance().getIdsByLider(player).stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
-        return super.tabComplete(sender, alias, args);
+        if (args.length == 2) {
+            return getOnlinePlayers(args[1]);
+        }
+        return Collections.emptyList();
     }
 
 }

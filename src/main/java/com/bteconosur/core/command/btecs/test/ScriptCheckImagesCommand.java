@@ -14,7 +14,6 @@ import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.SatMapUtils;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.ProyectoRegistry;
-import com.bteconosur.db.util.Estado;
 
 /**
  * Comando de script que se ejecuta en segundo plano verificando

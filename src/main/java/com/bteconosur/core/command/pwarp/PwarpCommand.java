@@ -1,5 +1,6 @@
 package com.bteconosur.core.command.pwarp;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
@@ -48,7 +49,7 @@ public class PwarpCommand extends BaseCommand {
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         Player player = PlayerRegistry.getInstance().get(sender);
         if (args.length == 1) return player.getPwarpNames().stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
-        return super.tabComplete(sender, alias, args);
+        return Collections.emptyList();
     }
 
 }

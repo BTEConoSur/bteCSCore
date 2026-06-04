@@ -1,8 +1,11 @@
 package com.bteconosur.core.command.reviewer;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
@@ -65,5 +68,13 @@ public class ProjectPromoteCommand extends BaseCommand {
     protected boolean customPermissionCheck(CommandSender sender) {
         Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
         return PermissionManager.getInstance().isReviewer(commandPlayer);
+    }
+
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        if (args.length == 1) {
+            return getOnlinePlayers(args[0]);
+        }
+        return Collections.emptyList();
     }
 }

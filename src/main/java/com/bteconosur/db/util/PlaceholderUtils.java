@@ -2,9 +2,7 @@ package com.bteconosur.db.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import org.locationtech.jts.geom.Point;
@@ -26,10 +24,7 @@ import com.bteconosur.db.model.TipoProyecto;
 import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
-import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.discord.util.LinkService;
-
-import net.dv8tion.jda.api.entities.User;
 
 /**
  * Utilidad de reemplazo de placeholders para textos de Minecraft y Discord.

@@ -4,6 +4,7 @@ import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.registry.PlayerRegistry;
 
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -169,19 +171,21 @@ public abstract class BaseCommand extends Command {
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         BaseCommand currentCommand = this;
         int subcommandDepth = 0;
+        boolean subcommandPathResolved = true;
         
         for (int i = 0; i < args.length - 1; i++) {
             BaseCommand nextCommand = currentCommand.getSubcommand(args[i].toLowerCase());
             if (nextCommand == null) {
-                return super.tabComplete(sender, alias, args);
+                subcommandPathResolved = false;
+                break;
             }
             currentCommand = nextCommand;
             subcommandDepth++;
         }
 
         List<String> completions = new ArrayList<>();
-        
-        if (!currentCommand.subcommands.isEmpty()) {
+
+        if (subcommandPathResolved && !currentCommand.subcommands.isEmpty()) {
             String currentArg = args[args.length - 1].toLowerCase();
             for (BaseCommand subcommand : currentCommand.subcommands.values()) {
                 if (subcommand.permission != null && !sender.hasPermission(subcommand.permission)) {
@@ -217,7 +221,7 @@ public abstract class BaseCommand extends Command {
             completions.addAll(argCompletions);
         }
         
-        return completions.isEmpty() ? super.tabComplete(sender, alias, args) : completions;
+        return completions;
     }
 
     /**
@@ -229,7 +233,7 @@ public abstract class BaseCommand extends Command {
      * @return sugerencias de argumentos o las sugerencias por defecto.
      */
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
-        return super.tabComplete(sender, alias, args);
+        return Collections.emptyList();
     }
 
     /**
@@ -432,6 +436,22 @@ public abstract class BaseCommand extends Command {
      */
     public String getPermission() {
         return permission;
+    }
+
+    /**
+     * Proporciona sugerencias de nombres de jugadores en línea para autocompletado.
+     *
+     * @param currentArg fragmento actual del argumento que se está completando.
+     * @return lista de nombres de jugadores que coinciden con el fragmento.
+     */
+    protected List<String> getOnlinePlayers(String currentArg) {
+        List<String> players = new ArrayList<>();
+        for (Player player : plugin.getServer().getOnlinePlayers()) {
+            if (player.getName().toLowerCase().startsWith(currentArg.toLowerCase())) {
+                players.add(player.getName());
+            }
+        }
+        return players;
     }
 
 }

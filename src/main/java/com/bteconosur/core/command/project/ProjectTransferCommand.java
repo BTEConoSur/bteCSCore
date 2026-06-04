@@ -1,5 +1,6 @@
 package com.bteconosur.core.command.project;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -129,7 +130,8 @@ public class ProjectTransferCommand extends BaseCommand {
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         Player player = PlayerRegistry.getInstance().get(sender);
         if (args.length == 1) return ProyectoRegistry.getInstance().getIdsByLider(player).stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
-        return super.tabComplete(sender, alias, args);
+        if (args.length == 2) return getOnlinePlayers(args[1]);
+        return Collections.emptyList();
     }
 
 }

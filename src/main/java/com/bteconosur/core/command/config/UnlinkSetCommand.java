@@ -1,8 +1,11 @@
 package com.bteconosur.core.command.config;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
@@ -69,4 +72,11 @@ public class UnlinkSetCommand extends BaseCommand {
         return true;
     }
 
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        if (args.length == 1) {
+            return getOnlinePlayers(args[0]);
+        }
+        return Collections.emptyList();
+    }
 }

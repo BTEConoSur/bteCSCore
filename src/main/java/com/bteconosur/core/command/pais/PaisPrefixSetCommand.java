@@ -1,7 +1,11 @@
 package com.bteconosur.core.command.pais;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
@@ -44,6 +48,14 @@ public class PaisPrefixSetCommand extends BaseCommand {
         menu.open();
 
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        if (args.length == 1) {
+            return getOnlinePlayers(args[0]);
+        }
+        return Collections.emptyList();
     }
 
 }

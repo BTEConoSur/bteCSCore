@@ -1,8 +1,11 @@
 package com.bteconosur.core.command.manager;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.command.BaseCommand;
@@ -114,6 +117,14 @@ public class ManagerTransferCommand extends BaseCommand {
         PlayerLogger.info(commandPlayer, successMessage, (String) null);
 
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        if (args.length == 2) {
+            return getOnlinePlayers(args[1]);
+        }
+        return Collections.emptyList();
     }
 
     @Override
