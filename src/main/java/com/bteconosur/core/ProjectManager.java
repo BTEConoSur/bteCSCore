@@ -199,7 +199,7 @@ public class ProjectManager {
         int activeProjects = pr.getActivosCount(player);
         int maxActiveProjects = player.getTipoUsuario().getCantProyecSim();
         if (activeProjects >= maxActiveProjects) {
-            String message = LanguageHandler.getText(language, "project.leader.max-active-projects").replace("%maxProjects%", String.valueOf(maxActiveProjects)).replace("%currentProjects%", String.valueOf(activeProjects));
+            String message = LanguageHandler.getText(language, "project.leader.max-active-projects").replace("%maxProyectos%", String.valueOf(maxActiveProjects)).replace("%currentProjectos%", String.valueOf(activeProjects));
             PlayerLogger.error(player, message, (String) null);
             return;
         }

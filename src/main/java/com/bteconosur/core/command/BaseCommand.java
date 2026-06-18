@@ -171,21 +171,18 @@ public abstract class BaseCommand extends Command {
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         BaseCommand currentCommand = this;
         int subcommandDepth = 0;
-        boolean subcommandPathResolved = true;
         
         for (int i = 0; i < args.length - 1; i++) {
             BaseCommand nextCommand = currentCommand.getSubcommand(args[i].toLowerCase());
             if (nextCommand == null) {
-                subcommandPathResolved = false;
                 break;
             }
             currentCommand = nextCommand;
             subcommandDepth++;
         }
-
         List<String> completions = new ArrayList<>();
 
-        if (subcommandPathResolved && !currentCommand.subcommands.isEmpty()) {
+        if (!currentCommand.subcommands.isEmpty()) {
             String currentArg = args[args.length - 1].toLowerCase();
             for (BaseCommand subcommand : currentCommand.subcommands.values()) {
                 if (subcommand.permission != null && !sender.hasPermission(subcommand.permission)) {
@@ -220,7 +217,6 @@ public abstract class BaseCommand extends Command {
         if (argCompletions != null && !argCompletions.isEmpty()) {
             completions.addAll(argCompletions);
         }
-        
         return completions;
     }
 

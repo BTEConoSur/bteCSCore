@@ -20,7 +20,7 @@ ds-notifications:
   link-success: 0x43B581
   project:
     project-accepted: 0x43B581
-    project-request-expired: 0xED4245
+    project-expired: 0xED4245
     project-rejected: 0xED4245
     project-finish-requested: 0x00b0f4
     project-finish-accepted: 0x43B581

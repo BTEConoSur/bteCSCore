@@ -1,6 +1,5 @@
 package com.bteconosur.core.command.project.admin;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +13,6 @@ import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;

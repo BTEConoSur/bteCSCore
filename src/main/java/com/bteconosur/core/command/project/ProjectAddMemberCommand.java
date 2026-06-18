@@ -1,6 +1,5 @@
 package com.bteconosur.core.command.project;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +15,6 @@ import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.player.PlayerListMenu;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
