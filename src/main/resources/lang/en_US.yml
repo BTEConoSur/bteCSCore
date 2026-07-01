@@ -803,8 +803,8 @@ reviewer:
     disabled: "<yellow>Building disabled for project <yellow>%proyecto.id%</yellow>. You can no longer build here."
     switched: "<green>Building changed for project <yellow>%proyecto.id%</yellow>. You can now build here."
 where:
-  division: "Country: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordinates: <yellow><coords></yellow>"
-  no-division: "You're not in any regional division for %pais.nombrePublico%.\n Coordinates: <yellow><coords></yellow>"
+  division: "\nCountry: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordinates: <yellow><coords></yellow>\n"
+  no-division: "\nYou're not in any regional division for %pais.nombrePublico%.\n Coordinates: <yellow><coords></yellow>\n"
   no-pais: "You're not in any country."
   lobby: "You are in the lobby."
 get-list:
@@ -1314,8 +1314,8 @@ items:
   set-name-description:
     name: "<aqua>To change:"
     lore:
-      - "<gray>Name: /project name <name>"
-      - "<gray>Description: /project description <description>"
+      - "<gray>Name: /project name <id_proyecto><name>"
+      - "<gray>Description: /project description <id_proyecto> <description>"
   transfer-leader:
     name: "<aqua>Transfer ownership"
     lore:

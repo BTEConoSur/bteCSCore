@@ -1,8 +1,12 @@
 package com.bteconosur.core.command.project;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 import org.locationtech.jts.geom.Point;
 
 import com.bteconosur.core.command.BaseCommand;
@@ -54,4 +58,11 @@ public class ProjectTpCommand extends BaseCommand {
         return true;
     }
 
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        Player player = PlayerRegistry.getInstance().get(sender);
+        if (args.length == 1) return ProyectoRegistry.getInstance().getIdsByLider(player).stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
+        return Collections.emptyList();
+    }
+    
 }

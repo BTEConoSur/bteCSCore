@@ -154,6 +154,7 @@ public class WorldManager {
         RegionManager regionContainer = getRegionManager(proyecto);
         ProtectedPolygonalRegion region = RegionUtils.toProtectedRegion(proyecto.getPoligono(), config.getString("wg-proyecto-prefix") + proyecto.getId());
         region.setMembers(members);
+        region.setPriority(1);
         ProtectedRegion parentProject = regionContainer.getRegion(config.getString("wg-parent-proyecto"));
         try {
             region.setParent(parentProject);

@@ -863,8 +863,8 @@ reviewer:
     disabled: "<yellow>Construcción desactivada para el proyecto <yellow>%proyecto.id%</yellow>. Ya no puedes construir en este proyecto."
     switched: "<green>Construcción cambiada al proyecto <yellow>%proyecto.id%</yellow>. Ahora puedes construir aquí."
 where:
-  division: "País: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordenadas: <yellow><coords></yellow>"
-  no-division: "No estás dentro de ninguna división de %pais.nombrePublico%.\n Coordenadas: <yellow><coords></yellow>"
+  division: "\nPaís: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordenadas: <yellow><coords></yellow>\n"
+  no-division: "\nNo estás dentro de ninguna división de %pais.nombrePublico%.\n Coordenadas: <yellow><coords></yellow>\n"
   no-pais: "No estás dentro de ningún país."
   lobby: "Estás en el lobby."
 get-list:
@@ -1385,8 +1385,8 @@ items:
   set-name-description:
     name: "<aqua>Para cambiar:"
     lore:
-      - "<gray>Nombre: /project name <nombre>"
-      - "<gray>Descripción: /project description <descripcion>"
+      - "<gray>Nombre: /project name <id_proyecto> <nombre>"
+      - "<gray>Descripción: /project description <id_proyecto> <descripcion>"
   transfer-leader:
     name: "<aqua>Transferir Liderazgo"
     lore:

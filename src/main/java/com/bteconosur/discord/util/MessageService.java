@@ -371,7 +371,9 @@ public class MessageService {
             channel.deleteMessageById(messageId).queue(
                 success -> { },
                 failure -> {
-                    ConsoleLogger.warn(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), failure);
+                    if (failure.getMessage() != null && !failure.getMessage().contains("Unknown Message")) {
+                        ConsoleLogger.warn(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), failure);
+                    }
                 }
             );
         } catch (Exception e) {
