@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
-import com.bteconosur.core.api.ApiManager;
+import com.bteconosur.core.api.WebManager;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
@@ -157,7 +157,7 @@ public class ProjectManager {
             return;
         }
         WorldManager.getInstance().createRegion(proyecto);
-        ApiManager.getInstance().createClaim(proyecto);
+        WebManager.getInstance().createClaim(proyecto);
         Pais pais = proyecto.getPais();
 
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.admin.success", language, proyecto), (String) null);
@@ -242,7 +242,7 @@ public class ProjectManager {
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         InteractionRegistry.getInstance().unload(interactionId);
         WorldManager.getInstance().createRegion(proyecto);
-        ApiManager.getInstance().createClaim(proyecto);
+        WebManager.getInstance().createClaim(proyecto);
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
         Player lider = getLider(proyecto);
         Pais pais = proyecto.getPais();
@@ -489,7 +489,7 @@ public class ProjectManager {
         proyecto.addMiembro(player);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         if (proyecto.getEstado() == Estado.ACTIVO || proyecto.getEstado() == Estado.EDITANDO) WorldManager.getInstance().addPlayer(proyecto, playerId);
-        ApiManager.getInstance().updateClaim(proyecto);
+        WebManager.getInstance().updateClaim(proyecto);
         Pais pais = proyecto.getPais();
         String memberNotification = LanguageHandler.replaceMC("project.member.add.added", player.getLanguage(), proyecto);
         PlayerLogger.info(player, memberNotification, ChatUtil.getDsMemberAdded(proyecto, player.getLanguage()));
@@ -548,7 +548,7 @@ public class ProjectManager {
             String countryLog = LanguageHandler.replaceDS("project.member.leave.log", Language.getDefault(), player, proyecto);
             DiscordLogger.countryLog(countryLog, pais);
         }
-        ApiManager.getInstance().updateClaim(proyecto);
+        WebManager.getInstance().updateClaim(proyecto);
     }
 
     /**
@@ -572,7 +572,7 @@ public class ProjectManager {
             proyecto.setLider(null);
             proyecto.setEstado(Estado.ABANDONADO);
             ProyectoRegistry.getInstance().merge(proyecto.getId());
-            ApiManager.getInstance().updateClaim(proyecto);
+            WebManager.getInstance().updateClaim(proyecto);
             String leaderNotification = LanguageHandler.replaceMC("project.leader.remove.for-leader", player.getLanguage(), proyecto);
             PlayerLogger.info(player, leaderNotification, ChatUtil.getDsLeaderRemoved(proyecto, player.getLanguage()));
             String countryLog = LanguageHandler.replaceDS("project.leader.remove.log", Language.getDefault(), commandPlayer, player);
@@ -582,7 +582,7 @@ public class ProjectManager {
         }
         proyecto.removeMiembro(player);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
-        ApiManager.getInstance().updateClaim(proyecto);
+        WebManager.getInstance().updateClaim(proyecto);
         Pais pais = proyecto.getPais();
         String memberNotification = LanguageHandler.replaceMC("project.member.remove.removed", player.getLanguage(), proyecto);
         PlayerLogger.info(player, memberNotification, ChatUtil.getDsMemberRemoved(proyecto, player.getLanguage()));
@@ -659,7 +659,7 @@ public class ProjectManager {
         Interaction interaction = interactionRegistry.findFinishRequest(proyecto.getId());
         interactionRegistry.unload(interaction.getId());
         if (newEstado.equals(Estado.COMPLETADO)) {
-            ApiManager.getInstance().updateClaim(proyecto);
+            WebManager.getInstance().updateClaim(proyecto);
         }
     }
 
@@ -769,7 +769,7 @@ public class ProjectManager {
         if (oldLider == null) proyecto.setEstado(Estado.ACTIVO);
         proyecto.removeMiembro(newLider);
         proyecto.setLider(newLider);
-        ApiManager.getInstance().updateClaim(proyecto);
+        WebManager.getInstance().updateClaim(proyecto);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         Pais pais = proyecto.getPais();
         String newLiderNotification = LanguageHandler.replaceMC("project.leader.switch.for-new-leader", newLider.getLanguage(), proyecto);
@@ -898,7 +898,7 @@ public class ProjectManager {
         proyecto.setDivision(division);
         WorldManager.getInstance().updateRegion(proyecto);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
-        ApiManager.getInstance().updateClaim(proyecto);
+        WebManager.getInstance().updateClaim(proyecto);
         ir.unload(interactionId);
         SatMapUtils.switchRedefineImage(proyecto);
         Player lider = getLider(proyecto);
@@ -969,7 +969,7 @@ public class ProjectManager {
         proyecto.setEstado(Estado.EDITANDO);
         WorldManager.getInstance().addPlayers(proyecto);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
-        ApiManager.getInstance().updateClaim(proyecto);
+        WebManager.getInstance().updateClaim(proyecto);
         Set<Player> members = getMembers(proyecto);
         if (lider != null && !commandPlayer.equals(lider)) members.add(lider);
         for (Player member : members) {
@@ -1038,7 +1038,7 @@ public class ProjectManager {
         Interaction interaction = interactionRegistry.findFinishEditRequest(proyecto.getId());
         interactionRegistry.unload(interaction.getId());
         if (newEstado.equals(Estado.COMPLETADO)) {
-            ApiManager.getInstance().updateClaim(proyecto);
+            WebManager.getInstance().updateClaim(proyecto);
         }
     }
 
@@ -1128,7 +1128,7 @@ public class ProjectManager {
         proyecto.setLider(player);
         proyecto.setEstado(Estado.ACTIVO);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
-        ApiManager.getInstance().updateClaim(proyecto);
+        WebManager.getInstance().updateClaim(proyecto);
         WorldManager.getInstance().addPlayer(proyecto, playerId);
         Pais pais = proyecto.getPais();
         DiscordLogger.countryLog(LanguageHandler.replaceMC("project.claim.log", Language.getDefault(), player, proyecto), pais);

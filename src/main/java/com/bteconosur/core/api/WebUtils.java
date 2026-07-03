@@ -30,7 +30,7 @@ import com.bteconosur.db.util.PlaceholderUtils;
  * para obtener credenciales, convertir datos de proyectos a formatos compatibles con la API,
  * y manipular streams de respuesta HTTP.
  */
-public class ApiUtils {
+public class WebUtils {
 
 	private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 	private static final YamlConfiguration secret = ConfigHandler.getInstance().getSecret();

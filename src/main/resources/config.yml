@@ -221,7 +221,7 @@ id-proyecto-admin: 5
 rp-required: true
 
 # Web
-api-manager-enabled: true # Habilitar/deshabilitar el ApiManager para sincronizar con la web. Requiere reiniciar el servidor para aplicar cambios.
+web-manager-enabled: true # Habilitar/deshabilitar el ApiManager para sincronizar con la web. Requiere reiniciar el servidor para aplicar cambios.
 web-debug-mode: true
 web-pending-sync-enabled: true # Activar/desactivar el task de sincronización periódica de pendientes.
 

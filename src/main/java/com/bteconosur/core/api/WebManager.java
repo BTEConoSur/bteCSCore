@@ -31,9 +31,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * y la API web de BTE (Build the Earth). Administra operaciones de creación, actualización y eliminación
  * de claims, con soporte para sincronización asincrónica y gestión de operaciones pendientes.
  */
-public class ApiManager {
+public class WebManager {
 
-    private static ApiManager instance;
+    private static WebManager instance;
     private static final ObjectMapper mapper = new ObjectMapper();
     private final YamlConfiguration config;
     private final YamlConfiguration pending;
@@ -50,12 +50,12 @@ public class ApiManager {
      * Inicializa el gestor de API cargando la configuración y estableciendo las tareas de sincronización
      * si están habilitadas en el archivo de configuración.
      */
-    public ApiManager() {
+    public WebManager() {
         ConfigHandler configHandler = ConfigHandler.getInstance();
         config = configHandler.getConfig();
         pending = configHandler.getPending();
-        if (!config.getBoolean("api-manager-enabled")) return;
-        ConsoleLogger.info(LanguageHandler.getText("api-manager-initializing"));
+        if (!config.getBoolean("web-manager-enabled")) return;
+        ConsoleLogger.info(LanguageHandler.getText("web-manager-initializing"));
         if (config.getBoolean("web-pending-sync-enabled")) initSyncTask();
     }
 
@@ -66,7 +66,7 @@ public class ApiManager {
      * @param proyecto proyecto del cual se infiere el país para resolver credenciales.
      */
     public void createClaim(Proyecto proyecto) {
-        if (!config.getBoolean("api-manager-enabled")) return;
+        if (!config.getBoolean("web-manager-enabled")) return;
         if (proyecto == null) {
             ConsoleLogger.warn("No se pudo crear claim: proyecto nulo.");
             return;
@@ -81,7 +81,7 @@ public class ApiManager {
      * @param proyecto proyecto cuyo claim será actualizado.
      */
     public void updateClaim(Proyecto proyecto) {
-        if (!config.getBoolean("api-manager-enabled")) return;
+        if (!config.getBoolean("web-manager-enabled")) return;
         if (proyecto == null) {
             ConsoleLogger.warn("No se pudo actualizar claim: proyecto nulo.");
             return;
@@ -97,7 +97,7 @@ public class ApiManager {
      * @param proyecto proyecto cuyo claim será eliminado.
      */
     public void deleteClaim(Proyecto proyecto) {
-        if (!config.getBoolean("api-manager-enabled")) return;
+        if (!config.getBoolean("web-manager-enabled")) return;
         if (proyecto == null) {
             ConsoleLogger.warn("No se pudo eliminar claim: proyecto nulo.");
             return;
@@ -116,10 +116,10 @@ public class ApiManager {
     private boolean sendClaim(Proyecto proyecto, String endpointKey, String method, String operationLabel, boolean includeBody) {
         String endpointTemplate = config.getString(endpointKey);
 
-        ClaimRequest claimRequest = includeBody ? ApiUtils.toClaimRequest(proyecto) : null;
+        ClaimRequest claimRequest = includeBody ? WebUtils.toClaimRequest(proyecto) : null;
 
-        String token = ApiUtils.getToken(proyecto.getPais());
-        String buildTeamId = ApiUtils.getBuildTeamId(proyecto.getPais());
+        String token = WebUtils.getToken(proyecto.getPais());
+        String buildTeamId = WebUtils.getBuildTeamId(proyecto.getPais());
 
         if (token.isBlank()) {
             ConsoleLogger.error("No se encontró token para " + operationLabel + " claim (debug o país).");
@@ -154,7 +154,7 @@ public class ApiManager {
 
             int status = conn.getResponseCode();
             InputStream stream = status >= 200 && status < 300 ? conn.getInputStream() : conn.getErrorStream();
-            String body = ApiUtils.readBody(stream);
+            String body = WebUtils.readBody(stream);
             if (status < 200 || status >= 300) {
                 Error apiError = mapper.readValue(body, Error.class);
                 ConsoleLogger.warn("Error al " + operationLabel + " claim " + proyecto.getId() + ". HTTP " + status + ": " + apiError.getMessage());
@@ -302,8 +302,8 @@ public class ApiManager {
     private Boolean claimExists(Proyecto proyecto) {
         String endpointTemplate = config.getString("web-claim-get-url");
 
-        String token = ApiUtils.getToken(proyecto.getPais());
-        String buildTeamId = ApiUtils.getBuildTeamId(proyecto.getPais());
+        String token = WebUtils.getToken(proyecto.getPais());
+        String buildTeamId = WebUtils.getBuildTeamId(proyecto.getPais());
         if (token.isBlank() || buildTeamId.isBlank()) {
             ConsoleLogger.warn("No se pudo consultar existencia del claim por credenciales incompletas.");
             return null;
@@ -330,7 +330,7 @@ public class ApiManager {
                 return false;
             }
 
-            String body = ApiUtils.readBody(conn.getErrorStream());
+            String body = WebUtils.readBody(conn.getErrorStream());
             ConsoleLogger.warn("No se pudo confirmar existencia del claim " + proyecto.getId() + ". HTTP " + status + ": " + body);
             return null;
         } catch (Exception e) {
@@ -380,7 +380,7 @@ public class ApiManager {
      * @param proyectoId identificador del proyecto a sincronizar.
      */
     public void syncProject(String proyectoId) {
-        if (!config.getBoolean("api-manager-enabled")) return;
+        if (!config.getBoolean("web-manager-enabled")) return;
 
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId.trim());
         if (proyecto == null) {
@@ -404,7 +404,7 @@ public class ApiManager {
      * de progreso en la consola cada vez que se completa un 10% del progreso total.
      */
     public void syncAll() {
-        if (!config.getBoolean("api-manager-enabled")) return;
+        if (!config.getBoolean("web-manager-enabled")) return;
         if (syncAllTask != null) {
             ConsoleLogger.warn("Ya hay una sincronización completa en curso.");
             return;
@@ -458,7 +458,7 @@ public class ApiManager {
      * asincrónicas en ejecución y liberando recursos. Debe ser llamado durante el apagado del servidor.
      */
     public void shutdown() {
-        ConsoleLogger.info(LanguageHandler.getText("api-manager-shutting-down"));
+        ConsoleLogger.info(LanguageHandler.getText("web-manager-shutting-down"));
         if (syncTask != null) {
             pending.set("create", new ArrayList<>(pendingCreate));
             pending.set("update", new ArrayList<>(pendingUpdate));
@@ -483,9 +483,9 @@ public class ApiManager {
      *
      * @return instancia única del gestor de API.
      */
-    public static ApiManager getInstance() {
+    public static WebManager getInstance() {
         if (instance == null) {
-            instance = new ApiManager();
+            instance = new WebManager();
         }
         return instance;
     }
