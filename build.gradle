@@ -60,6 +60,9 @@ dependencies {
 
     compileOnly("com.github.NEZNAMY:TAB-API:5.5.0")
     compileOnly("me.clip:placeholderapi:2.12.2")
+
+    implementation("io.javalin:javalin:7.2.2")
+
 }
 
 def targetJavaVersion = 21

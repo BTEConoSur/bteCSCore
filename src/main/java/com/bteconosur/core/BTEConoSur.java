@@ -1,5 +1,6 @@
 package com.bteconosur.core;
 
+import com.bteconosur.core.api.ApiManager;
 import com.bteconosur.core.api.WebManager;
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
@@ -70,7 +71,8 @@ public final class BTEConoSur extends JavaPlugin {
     private static DiscordManager discordManager;
     private static DsCommandManager dsCommandManager; 
     private static DBManager dbManager;
-    private static WebManager apiManager;
+    private static WebManager webManager;
+    private static ApiManager apiManager;
     private static WorldManager worldManager;
     private static PermissionManager permissionManager;
     private static ProjectManager projectManager;
@@ -124,13 +126,13 @@ public final class BTEConoSur extends JavaPlugin {
         ConsoleLogger.debug(LanguageHandler.getText("debug-mode-enabled"));
 
         dbManager = DBManager.getInstance();
-        apiManager = WebManager.getInstance();
+        webManager = WebManager.getInstance();
         dsCommandManager = DsCommandManager.getInstance();
         worldManager = WorldManager.getInstance();
         projectManager = ProjectManager.getInstance();
         scoreboardManager = ScoreboardManager.getInstance();
         tabManager = TabManager.getInstance();
-
+        
         playerRegistry = PlayerRegistry.getInstance();
         proyectoRegistry = ProyectoRegistry.getInstance();
         tipoUsuarioRegistry = TipoUsuarioRegistry.getInstance();
@@ -139,7 +141,7 @@ public final class BTEConoSur extends JavaPlugin {
         tipoProyectoRegistry = TipoProyectoRegistry.getInstance();
 
         permissionManager = PermissionManager.getInstance();
-        
+        apiManager = ApiManager.getInstance();
 
         getServer().getPluginManager().registerEvents(new BuildingListeners(), this);
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
@@ -286,6 +288,11 @@ public final class BTEConoSur extends JavaPlugin {
             dbManager = null;
         }
 
+        if (webManager != null) {
+            webManager.shutdown();
+            webManager = null;
+        }
+
         if (apiManager != null) {
             apiManager.shutdown();
             apiManager = null;
@@ -333,8 +340,8 @@ public final class BTEConoSur extends JavaPlugin {
         return discordManager;
     }
 
-    public static WebManager getApiManager() {
-        return apiManager;
+    public static WebManager getwebManager() {
+        return webManager;
     }
 }
 
