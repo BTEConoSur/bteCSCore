@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.api.json.api.FinishRequest;
 import com.bteconosur.core.api.json.api.PlayerSummaryDTO;
 import com.bteconosur.core.api.json.api.ProyectoDetailDTO;
 import com.bteconosur.core.api.json.api.ProyectoSummaryDTO;
@@ -48,6 +49,15 @@ public class ProyectoController {
                             post(this::aceptarSolicitud);
                             delete(this::rechazarSolicitud);
                         });
+                    });
+                    path("/finalizar", () -> {
+                        post(this::finalizarProyecto);
+                    });
+                    path("/aprobar", () -> {
+                        post(this::aprobarProyecto);
+                    });
+                    path("/rechazar", () -> {
+                        post(this::rechazarProyecto);
                     });
                 });
             });
@@ -185,6 +195,69 @@ public class ProyectoController {
 
         pm.rejectJoinRequest(proyectoId, playerId, proyecto.getLider().getUuid());
         ctx.status(200).result("Join request rejected");
+    }
+
+    private void finalizarProyecto(Context ctx) {
+        String proyectoId = ctx.pathParam("id");
+        Proyecto proyecto = pr.get(proyectoId);
+        if (proyecto == null) {
+            ctx.status(404).result("Proyecto not found");
+            return;
+        }
+        Interaction interaction = ir.findFinishRequest(proyectoId);
+        if (interaction != null) {
+            ctx.status(404).result("Finish request already exists");
+            return;
+        }
+
+        pm.createFinishRequest(proyectoId, proyecto.getLider().getUuid());
+        ctx.status(200).result("Proyecto marked as finished");
+    }
+
+    private void aprobarProyecto(Context ctx) {
+        String proyectoId = ctx.pathParam("id");
+        Proyecto proyecto = pr.get(proyectoId);
+        if (proyecto == null) {
+            ctx.status(404).result("Proyecto not found");
+            return;
+        }
+        FinishRequest finishRequest = ctx.bodyAsClass(FinishRequest.class);
+        Player staff = PlayerRegistry.getInstance().get(finishRequest.getStaffId()); //TODO: Revisar al meter autentificación
+        if (staff == null) {
+            ctx.status(404).result("Staff player not found");
+            return;
+        }
+        Interaction interaction = ir.findFinishRequest(proyectoId);
+        if (interaction == null) {
+            ctx.status(404).result("Finish request not found");
+            return;
+        }
+
+        pm.acceptFinishRequest(proyectoId, staff, finishRequest.getComentario(), finishRequest.getPromote());
+        ctx.status(200).result("Proyecto finish request approved");
+    }
+
+    private void rechazarProyecto(Context ctx) {
+        String proyectoId = ctx.pathParam("id");
+        Proyecto proyecto = pr.get(proyectoId);
+        if (proyecto == null) {
+            ctx.status(404).result("Proyecto not found");
+            return;
+        }
+        FinishRequest finishRequest = ctx.bodyAsClass(FinishRequest.class);
+        Player staff = PlayerRegistry.getInstance().get(finishRequest.getStaffId()); //TODO: Revisar al meter autentificación
+        if (staff == null) {
+            ctx.status(404).result("Staff player not found");
+            return;
+        }
+        Interaction interaction = ir.findFinishRequest(proyectoId);
+        if (interaction == null) {
+            ctx.status(404).result("Finish request not found");
+            return;
+        }
+
+        pm.rejectFinishRequest(proyectoId, staff, finishRequest.getComentario());
+        ctx.status(200).result("Proyecto finish request rejected");
     }
 
 }
