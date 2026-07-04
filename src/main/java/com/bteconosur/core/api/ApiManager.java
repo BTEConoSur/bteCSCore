@@ -4,6 +4,10 @@ import java.util.Map;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.bteconosur.core.api.controller.PaisController;
+import com.bteconosur.core.api.controller.PlayerController;
+import com.bteconosur.core.api.controller.RangoUsuarioController;
+import com.bteconosur.core.api.controller.TipoUsuarioController;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
@@ -28,6 +32,10 @@ public class ApiManager {
             config.routes.get("/api/status", ctx -> {
                 ctx.json(Map.of("status", "ok"));
             });
+            new TipoUsuarioController().registrar(config.routes);
+            new RangoUsuarioController().registrar(config.routes);
+            new PlayerController().registrar(config.routes);
+            new PaisController().registrar(config.routes);
 
         }).start(7070);
     }

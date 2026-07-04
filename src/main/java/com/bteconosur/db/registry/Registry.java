@@ -118,7 +118,9 @@ public abstract class Registry<K extends Serializable, V> {
      */
     public void unload(K id) {
         if (id == null || loadedObjects == null) return;
+        V obj = loadedObjects.get(id);
         loadedObjects.remove(id);
+        dbManager.remove(obj);
     }
 
     /**

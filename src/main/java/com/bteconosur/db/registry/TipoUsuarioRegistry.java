@@ -39,7 +39,7 @@ public class TipoUsuarioRegistry extends Registry<Long, TipoUsuario> {
      */
     @Override
     public void load(TipoUsuario obj) {
-        if (obj == null || obj.getId() == null) return;
+        if (obj == null) return;
         dbManager.save(obj);
         loadedObjects.put(obj.getId(), obj);
     }
