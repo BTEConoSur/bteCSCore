@@ -434,7 +434,7 @@ public class ProjectManager {
      * @param interactionId identificador de la interacción de solicitud.
      * @param commandId UUID del jugador que ejecuta la acción.
      */
-    public void acceptJoinRequest(String proyectoId, UUID playerId, Long interactionId, UUID commandId) {
+    public void acceptJoinRequest(String proyectoId, UUID playerId, UUID commandId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         cancelJoinRequest(proyectoId, playerId);
         Pais pais = proyecto.getPais();
@@ -458,7 +458,7 @@ public class ProjectManager {
      * @param interactionId identificador de la interacción de solicitud.
      * @param commandId UUID del jugador que ejecuta la acción.
      */
-    public void rejectJoinRequest(String proyectoId, UUID playerId, Long interactionId, UUID commandId) {
+    public void rejectJoinRequest(String proyectoId, UUID playerId, UUID commandId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         cancelJoinRequest(proyectoId, playerId);
         Pais pais = proyecto.getPais();

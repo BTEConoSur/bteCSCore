@@ -2,16 +2,23 @@ package com.bteconosur.core.api.controller;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.UUID;
 
+import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.api.json.api.DivisionSummaryDTO;
 import com.bteconosur.core.api.json.api.PlayerDetailDTO;
 import com.bteconosur.core.api.json.api.PlayerSummaryDTO;
+import com.bteconosur.core.api.json.api.ProyectoSummaryDTO;
 import com.bteconosur.db.PermissionManager;
+import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
 
 import io.javalin.config.RoutesConfig;
 import io.javalin.http.Context;
@@ -28,6 +35,9 @@ public class PlayerController {
                     get(this::obtener);
                     put(this::actualizar);
                     delete(this::eliminar);
+                });
+                path("/proyectos", () -> {
+                    get(this::listarProyectos);
                 });
             });
         });
@@ -91,6 +101,23 @@ public class PlayerController {
         }
         pr.unload(UUID.fromString(ctx.pathParam("id")));
         ctx.status(204).result("Player deleted");
+    }
+
+    private void listarProyectos(Context ctx) {
+        Player obj = pr.get(UUID.fromString(ctx.pathParam("id")));
+        if (obj == null) {
+            ctx.status(404).result("Player not found");
+            return;
+        }
+        LinkedHashSet<Proyecto> proyectos = ProyectoRegistry.getInstance().getByPlayer(obj);
+        if (proyectos == null) {
+            ctx.status(404).result("No projects found for this Player");
+            return;
+        }
+        List<ProyectoSummaryDTO> proyectoDTOs = proyectos.stream()
+            .map(ProyectoSummaryDTO::new)
+            .toList();
+        ctx.json(proyectoDTOs);
     }
 
 }

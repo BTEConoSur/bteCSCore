@@ -2,7 +2,7 @@ package com.bteconosur.core.api.json.api;
 
 import com.bteconosur.db.model.Division;
 
-public class DivisonSummaryDTO {
+public class DivisionSummaryDTO {
 
     private long id;
     private String nombre;
@@ -11,7 +11,7 @@ public class DivisonSummaryDTO {
     private String fna;
     private String contexto;
 
-    public DivisonSummaryDTO(Division division) {
+    public DivisionSummaryDTO(Division division) {
         this.id = division.getId();
         this.nombre = division.getNombre();
         this.nam = division.getNam();

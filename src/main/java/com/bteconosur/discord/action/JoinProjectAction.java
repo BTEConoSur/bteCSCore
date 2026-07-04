@@ -32,10 +32,10 @@ public class JoinProjectAction implements ButtonAction {
 
         ProjectManager pm = ProjectManager.getInstance();
         if (buttonId.equals("accept")) {
-            pm.acceptJoinRequest(proyecto.getId(), ctx.getPlayerId(), ctx.getId(), player.getUuid());
+            pm.acceptJoinRequest(proyecto.getId(), ctx.getPlayerId(), player.getUuid());
             event.reply(LanguageHandler.getText(language, "project.join.accept.ds-success")).queue();
         } else if (buttonId.equals("cancel")) {
-            pm.rejectJoinRequest(proyecto.getId(), ctx.getPlayerId(), ctx.getId(), player.getUuid());
+            pm.rejectJoinRequest(proyecto.getId(), ctx.getPlayerId(), player.getUuid());
             event.reply(LanguageHandler.getText(language, "project.join.reject.ds-success")).queue();
         } else {
             event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue();

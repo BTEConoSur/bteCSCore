@@ -12,7 +12,7 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.geojson.GeoJsonReader;
 
-import com.bteconosur.core.api.json.api.DivisonSummaryDTO;
+import com.bteconosur.core.api.json.api.DivisionSummaryDTO;
 import com.bteconosur.core.api.json.api.RegionPaisDetailDTO;
 import com.bteconosur.core.api.json.api.RegionPaisSummaryDTO;
 import com.bteconosur.db.model.Division;
@@ -176,8 +176,8 @@ public class PaisController {
             ctx.status(404).result("No divisions found for this Pais");
             return;
         }
-        List<DivisonSummaryDTO> divisionDTOs = divisions.stream()
-            .map(DivisonSummaryDTO::new)
+        List<DivisionSummaryDTO> divisionDTOs = divisions.stream()
+            .map(DivisionSummaryDTO::new)
             .toList();
         ctx.json(divisionDTOs);
     }

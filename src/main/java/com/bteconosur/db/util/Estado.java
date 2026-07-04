@@ -51,7 +51,7 @@ public enum Estado {
     }
 
     /**
-     * Obtiene el nombre localizado de un estado mediante método estático auxiliar.
+     * Obtiene el nombre localizado de un estado.
      *
      * @param estado estado a traducir.
      * @param context contexto del placeholder.

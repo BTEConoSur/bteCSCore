@@ -49,14 +49,14 @@ public class JoinRequestConfirmationMenu extends Menu {
 
         gui.setItem(3, MenuUtils.getRejectItem(language));
         gui.addSlotAction(3, event -> {
-            pm.rejectJoinRequest(proyecto.getId(), requestPlayer.getUuid(), interactionId, player.getUniqueId());
+            pm.rejectJoinRequest(proyecto.getId(), requestPlayer.getUuid(), player.getUniqueId());
             PlayerLogger.info(player, LanguageHandler.replaceMC("project.join.reject.success", language, requestPlayer, proyecto), (String) null);
             getGui().close(player);
         });
 
         gui.setItem(4, MenuUtils.getAcceptItem(language));
         gui.addSlotAction(4, event -> {
-            pm.acceptJoinRequest(proyecto.getId(), requestPlayer.getUuid(), interactionId, player.getUniqueId());
+            pm.acceptJoinRequest(proyecto.getId(), requestPlayer.getUuid(), player.getUniqueId());
             PlayerLogger.info(player, LanguageHandler.replaceMC("project.join.accept.success", language, requestPlayer, proyecto), (String) null);
             getGui().close(player);
         });
