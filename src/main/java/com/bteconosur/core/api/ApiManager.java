@@ -8,6 +8,7 @@ import com.bteconosur.core.api.controller.DivisionController;
 import com.bteconosur.core.api.controller.PaisController;
 import com.bteconosur.core.api.controller.PlayerController;
 import com.bteconosur.core.api.controller.RangoUsuarioController;
+import com.bteconosur.core.api.controller.TipoProyectoController;
 import com.bteconosur.core.api.controller.TipoUsuarioController;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
@@ -38,6 +39,7 @@ public class ApiManager {
             new PlayerController().registrar(config.routes);
             new PaisController().registrar(config.routes);
             new DivisionController().registrar(config.routes);
+            new TipoProyectoController().registrar(config.routes);
 
         }).start(7070);
     }
