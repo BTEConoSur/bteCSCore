@@ -428,6 +428,34 @@ public class PaisRegistry extends Registry<Long, Pais> {
         ensureDefaultsDivisions();
     }
 
+    public void addRegionPais(RegionPais region) {
+        if (region == null || region.getPais() == null || region.getPais().getId() == null) return;
+        Long paisId = region.getPais().getId();
+        loadedRegions.computeIfAbsent(paisId, k -> new ArrayList<>()).add(region);
+        dbManager.save(region);
+    }
+
+    public void removeRegionPais(RegionPais region) {
+        if (region == null || region.getPais() == null || region.getPais().getId() == null) return;
+        Long paisId = region.getPais().getId();
+        List<RegionPais> regiones = loadedRegions.get(paisId);
+        if (regiones != null) {
+            regiones.remove(region);
+            dbManager.remove(region);
+        }
+    }
+
+    public RegionPais getRegion(Pais pais, Long regionId) {
+        if (pais == null || regionId == null) return null;
+        List<RegionPais> regiones = loadedRegions.get(pais.getId());
+        if (regiones != null) {
+            for (RegionPais region : regiones) {
+                if (region.getId().equals(regionId)) return region;
+            }
+        }
+        return null;
+    }
+
     /**
      * Asegura la existencia de división por defecto para cada país.
      */

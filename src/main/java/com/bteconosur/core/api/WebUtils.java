@@ -148,7 +148,7 @@ public class WebUtils {
 
 	/**
 	 * Convierte el polígono de un proyecto de coordenadas de Minecraft a coordenadas geográficas
-	 * en formato de lista de pares longitud-latitud (lon, lat) con precisión de 6 decimales.
+	 * en formato de lista de pares longitud-latitud (lon, lat).
 	 *
 	 * @param proyecto proyecto cuyo polígono será convertido, o {@code null}.
 	 * @return lista de pares [lon, lat] o lista vacía si el proyecto o polígono es nulo.

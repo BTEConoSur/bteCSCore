@@ -8,6 +8,8 @@ import static io.javalin.apibuilder.ApiBuilder.put;
 
 import java.util.List;
 
+import com.bteconosur.core.api.json.api.RegionPaisDetailDTO;
+import com.bteconosur.core.api.json.api.RegionPaisSummaryDTO;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.RegionPais;
 import com.bteconosur.db.registry.PaisRegistry;
@@ -32,6 +34,7 @@ public class PaisController {
                         get(this::listarRegiones);
                         put(this::añadirRegion);
                         path("/{regionId}", () -> {
+                            get(this::obtenerRegion);
                             delete(this::eliminarRegion);
                         });
                     });
@@ -88,7 +91,9 @@ public class PaisController {
             ctx.status(404).result("Pais not found");
             return;
         }
-        List<RegionPais> regiones = ru.getRegions(obj);
+        List<RegionPaisSummaryDTO> regiones = ru.getRegions(obj).stream()
+            .map(RegionPaisSummaryDTO::new)
+            .toList();;
         ctx.json(regiones);
     }
 
@@ -99,8 +104,39 @@ public class PaisController {
             return;
         }
         RegionPais region = ctx.bodyAsClass(RegionPais.class);
-        obj.
+        ru.addRegionPais(region);
         ctx.status(201).json(region);
+    }
+
+    public void obtenerRegion(Context ctx) {
+        Pais obj = ru.get(Long.valueOf(ctx.pathParam("id")));
+        if (obj == null) {
+            ctx.status(404).result("Pais not found");
+            return;
+        }
+        Long regionId = Long.valueOf(ctx.pathParam("regionId"));
+        RegionPais region = ru.getRegion(obj, regionId);
+        if (region == null) {
+            ctx.status(404).result("RegionPais not found for this Pais");
+            return;
+        }
+        ctx.json(new RegionPaisDetailDTO(region));
+    }
+
+    public void eliminarRegion(Context ctx) {
+        Pais obj = ru.get(Long.valueOf(ctx.pathParam("id")));
+        if (obj == null) {
+            ctx.status(404).result("Pais not found");
+            return;
+        }
+        Long regionId = Long.valueOf(ctx.pathParam("regionId"));
+        RegionPais region = ru.getRegion(obj, regionId);
+        if (region == null) {
+            ctx.status(404).result("RegionPais not found for this Pais");
+            return;
+        }
+        ru.removeRegionPais(region);
+        ctx.status(204).result("RegionPais deleted");
     }
 
 }
