@@ -186,6 +186,14 @@ public class PaisRegistry extends Registry<Long, Pais> {
         return divisions != null ? divisions : Collections.emptyList();
     }
 
+    public List<Division> getDivisions() {
+        List<Division> allDivisions = new ArrayList<>();
+        for (List<Division> divisions : loadedDivisions.values()) {
+            allDivisions.addAll(divisions);
+        }
+        return allDivisions;
+    }
+
     /**
      * Obtiene las regiones cargadas de un país.
      *
@@ -450,6 +458,65 @@ public class PaisRegistry extends Registry<Long, Pais> {
         List<RegionPais> regiones = loadedRegions.get(pais.getId());
         if (regiones != null) {
             for (RegionPais region : regiones) {
+                if (region.getId().equals(regionId)) return region;
+            }
+        }
+        return null;
+    }
+
+    public void addDivision(Division division) {
+        if (division == null || division.getPais() == null || division.getPais().getId() == null) return;
+        Long paisId = division.getPais().getId();
+        loadedDivisions.computeIfAbsent(paisId, k -> new ArrayList<>()).add(division);
+        dbManager.save(division);
+    }
+
+    public void removeDivision(Division division) {
+        if (division == null || division.getPais() == null || division.getPais().getId() == null) return;
+        Long paisId = division.getPais().getId();
+        List<Division> divisions = loadedDivisions.get(paisId);
+        if (divisions != null) {
+            divisions.remove(division);
+            dbManager.remove(division);
+        }
+    }
+
+    public void mergeDivision(Division division, Long newPaisId) {
+        if (division == null || division.getPais() == null || division.getPais().getId() == null) return;
+        if (newPaisId != null) {
+            Long paisId = division.getPais().getId();
+            List<Division> divisions = loadedDivisions.get(paisId);
+            if (divisions != null) {
+                divisions.remove(division);
+            }
+            loadedDivisions.computeIfAbsent(newPaisId, k -> new ArrayList<>()).add(division);
+        }
+
+        dbManager.merge(division);
+    }
+
+    public void addRegionDivision(RegionDivision region) {
+        if (region == null || region.getDivision() == null || region.getDivision().getId() == null) return;
+        Long divisionId = region.getDivision().getId();
+        loadedRegionDivisions.computeIfAbsent(divisionId, k -> new ArrayList<>()).add(region);
+        dbManager.save(region);
+    }
+
+    public void removeRegionDivision(RegionDivision region) {
+        if (region == null || region.getDivision() == null || region.getDivision().getId() == null) return;
+        Long divisionId = region.getDivision().getId();
+        List<RegionDivision> regiones = loadedRegionDivisions.get(divisionId);
+        if (regiones != null) {
+            regiones.remove(region);
+            dbManager.remove(region);
+        }
+    }
+
+    public RegionDivision getRegionDivision(Division division, Long regionId) {
+        if (division == null || regionId == null) return null;
+        List<RegionDivision> regiones = loadedRegionDivisions.get(division.getId());
+        if (regiones != null) {
+            for (RegionDivision region : regiones) {
                 if (region.getId().equals(regionId)) return region;
             }
         }

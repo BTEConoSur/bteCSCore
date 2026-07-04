@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.bteconosur.core.api.controller.DivisionController;
 import com.bteconosur.core.api.controller.PaisController;
 import com.bteconosur.core.api.controller.PlayerController;
 import com.bteconosur.core.api.controller.RangoUsuarioController;
@@ -36,6 +37,7 @@ public class ApiManager {
             new RangoUsuarioController().registrar(config.routes);
             new PlayerController().registrar(config.routes);
             new PaisController().registrar(config.routes);
+            new DivisionController().registrar(config.routes);
 
         }).start(7070);
     }

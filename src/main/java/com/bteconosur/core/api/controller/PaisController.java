@@ -8,8 +8,14 @@ import static io.javalin.apibuilder.ApiBuilder.put;
 
 import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.io.geojson.GeoJsonReader;
+
+import com.bteconosur.core.api.json.api.DivisonSummaryDTO;
 import com.bteconosur.core.api.json.api.RegionPaisDetailDTO;
 import com.bteconosur.core.api.json.api.RegionPaisSummaryDTO;
+import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.RegionPais;
 import com.bteconosur.db.registry.PaisRegistry;
@@ -37,6 +43,9 @@ public class PaisController {
                             get(this::obtenerRegion);
                             delete(this::eliminarRegion);
                         });
+                    });
+                    path("/divisiones", () -> {
+                        get(this::listarDivisiones);
                     });
                 });
                 
@@ -91,10 +100,15 @@ public class PaisController {
             ctx.status(404).result("Pais not found");
             return;
         }
-        List<RegionPaisSummaryDTO> regiones = ru.getRegions(obj).stream()
+        List<RegionPais> regiones = ru.getRegions(obj);
+        if (regiones == null) {
+            ctx.status(404).result("No regions found for this Pais");
+            return;
+        }
+        List<RegionPaisSummaryDTO> regionDTOs = regiones.stream()
             .map(RegionPaisSummaryDTO::new)
-            .toList();;
-        ctx.json(regiones);
+            .toList();
+        ctx.json(regionDTOs);
     }
 
     private void añadirRegion(Context ctx) {
@@ -103,9 +117,21 @@ public class PaisController {
             ctx.status(404).result("Pais not found");
             return;
         }
-        RegionPais region = ctx.bodyAsClass(RegionPais.class);
-        ru.addRegionPais(region);
-        ctx.status(201).json(region);
+        RegionPaisDetailDTO region = ctx.bodyAsClass(RegionPaisDetailDTO.class);
+        RegionPais regionEntity = new RegionPais();
+        regionEntity.setNombre(region.getNombre());
+        GeoJsonReader reader = new GeoJsonReader();
+        Geometry geometry;
+        try {
+            geometry = reader.read(region.getPolygon());
+            regionEntity.setPoligono((Polygon) geometry);
+        } catch (Exception e) {
+            ctx.status(400).result("Invalid geometry format");
+            e.printStackTrace();
+        }
+        
+        ru.addRegionPais(regionEntity);
+        ctx.status(201).json(new RegionPaisDetailDTO(regionEntity));
     }
 
     public void obtenerRegion(Context ctx) {
@@ -137,6 +163,23 @@ public class PaisController {
         }
         ru.removeRegionPais(region);
         ctx.status(204).result("RegionPais deleted");
+    }
+
+    private void listarDivisiones(Context ctx) {
+        Pais obj = ru.get(Long.valueOf(ctx.pathParam("id")));
+        if (obj == null) {
+            ctx.status(404).result("Pais not found");
+            return;
+        }
+        List<Division> divisions = ru.getDivisions(obj);
+        if (divisions == null) {
+            ctx.status(404).result("No divisions found for this Pais");
+            return;
+        }
+        List<DivisonSummaryDTO> divisionDTOs = divisions.stream()
+            .map(DivisonSummaryDTO::new)
+            .toList();
+        ctx.json(divisionDTOs);
     }
 
 }
