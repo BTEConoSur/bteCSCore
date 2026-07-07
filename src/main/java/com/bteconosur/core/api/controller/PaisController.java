@@ -13,6 +13,8 @@ import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.geojson.GeoJsonReader;
 
 import com.bteconosur.core.api.json.api.DivisionSummaryDTO;
+import com.bteconosur.core.api.json.api.PaginaDTO;
+import com.bteconosur.core.api.json.api.RegionDivisionSummaryDTO;
 import com.bteconosur.core.api.json.api.RegionPaisDetailDTO;
 import com.bteconosur.core.api.json.api.RegionPaisSummaryDTO;
 import com.bteconosur.db.model.Division;
@@ -105,10 +107,16 @@ public class PaisController {
             ctx.status(404).result("No regions found for this Pais");
             return;
         }
-        List<RegionPaisSummaryDTO> regionDTOs = regiones.stream()
-            .map(RegionPaisSummaryDTO::new)
-            .toList();
-        ctx.json(regionDTOs);
+        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
+        int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
+
+        int total = regiones.size();
+        int desde = Math.min(page * size, total);
+        int hasta = Math.min(desde + size, total);
+
+        List<RegionPaisSummaryDTO> pagina = regiones.subList(desde, hasta).stream().map(RegionPaisSummaryDTO::new).toList();
+
+        ctx.json(new PaginaDTO<RegionPaisSummaryDTO>(pagina, page, size, total));
     }
 
     private void añadirRegion(Context ctx) {
@@ -176,10 +184,16 @@ public class PaisController {
             ctx.status(404).result("No divisions found for this Pais");
             return;
         }
-        List<DivisionSummaryDTO> divisionDTOs = divisions.stream()
-            .map(DivisionSummaryDTO::new)
-            .toList();
-        ctx.json(divisionDTOs);
-    }
+        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
+        int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
 
+        int total = divisions.size();
+        int desde = Math.min(page * size, total);
+        int hasta = Math.min(desde + size, total);
+
+        List<DivisionSummaryDTO> pagina = divisions.subList(desde, hasta).stream().map(DivisionSummaryDTO::new).toList();
+
+        ctx.json(new PaginaDTO<DivisionSummaryDTO>(pagina, page, size, total));
+    }
+//TODO: Revisar cuando se crea que tenga division default
 }

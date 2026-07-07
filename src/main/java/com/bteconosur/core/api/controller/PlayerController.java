@@ -4,15 +4,14 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
-import com.bteconosur.core.ProjectManager;
-import com.bteconosur.core.api.json.api.DivisionSummaryDTO;
+import com.bteconosur.core.api.json.api.PaginaDTO;
 import com.bteconosur.core.api.json.api.PlayerDetailDTO;
 import com.bteconosur.core.api.json.api.PlayerSummaryDTO;
 import com.bteconosur.core.api.json.api.ProyectoSummaryDTO;
 import com.bteconosur.db.PermissionManager;
-import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
@@ -44,10 +43,17 @@ public class PlayerController {
     }
 
     private void listar(Context ctx) {
-        List<PlayerSummaryDTO> summ = pr.getList().stream()
-            .map(PlayerSummaryDTO::new)
-            .toList();
-        ctx.json(summ);
+        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
+        int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
+
+        List<Player> todos = pr.getList();
+        int total = todos.size();
+        int desde = Math.min(page * size, total);
+        int hasta = Math.min(desde + size, total);
+
+        List<PlayerSummaryDTO> pagina = todos.subList(desde, hasta).stream().map(PlayerSummaryDTO::new).toList();
+
+        ctx.json(new PaginaDTO<PlayerSummaryDTO>(pagina, page, size, total));
     }
 
     private void obtener(Context ctx) {

@@ -19,6 +19,9 @@ public class PlayerDetailDTO {
     private TipoUsuario tipoUsuario;
     private PaisSummaryDTO paisPrefix;
 
+    public PlayerDetailDTO() {
+    }
+
     public PlayerDetailDTO(Player p) {
         this.id = p.getUuid();
         this.nombre = p.getNombre();
@@ -37,36 +40,72 @@ public class PlayerDetailDTO {
         return id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
+    }
+    
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getNombrePublico() {
         return nombrePublico;
     }
 
+    public void setNombrePublico(String nombrePublico) {
+        this.nombrePublico = nombrePublico;
+    }
+
     public Long getDsIdUsuario() {
         return dsIdUsuario;
+    }
+
+    public void setDsIdUsuario(Long dsIdUsuario) {
+        this.dsIdUsuario = dsIdUsuario;
     }
 
     public Date getFechaIngreso() {
         return fechaIngreso;
     }
 
+    public void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
     public Date getFechaUltimaConexion() {
         return fechaUltimaConexion;
+    }
+
+    public void setFechaUltimaConexion(Date fechaUltimaConexion) {
+        this.fechaUltimaConexion = fechaUltimaConexion;
     }
 
     public RangoUsuario getRangoUsuario() {
         return rangoUsuario;
     }
 
+    public void setRangoUsuario(RangoUsuario rangoUsuario) {
+        this.rangoUsuario = rangoUsuario;
+    }
+
     public TipoUsuario getTipoUsuario() {
         return tipoUsuario;
     }
 
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
     public PaisSummaryDTO getPaisPrefix() {
         return paisPrefix;
+    }
+
+    public void setPaisPrefix(PaisSummaryDTO paisPrefix) {
+        this.paisPrefix = paisPrefix;
     }
 
 }

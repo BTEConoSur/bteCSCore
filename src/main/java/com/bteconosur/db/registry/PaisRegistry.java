@@ -83,7 +83,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
      */
     @Override
     public void load(Pais obj) {
-        if (obj == null || obj.getId() == null) return;
+        if (obj == null) return;
         dbManager.save(obj);
         loadedObjects.put(obj.getId(), obj);
     }

@@ -8,6 +8,9 @@ public class FinishRequest {
     private String comentario;
     private Boolean promote;
 
+    public FinishRequest() {
+    }
+
     public FinishRequest(UUID staffId, String comentario, Boolean promote) {
         this.staffId = staffId;
         this.comentario = comentario;
@@ -18,12 +21,24 @@ public class FinishRequest {
         return staffId;
     }
 
+    public void setStaffId(UUID staffId) {
+        this.staffId = staffId;
+    }
+
     public String getComentario() {
         return comentario;
     }
 
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
     public Boolean getPromote() {
         return promote;
+    }
+
+    public void setPromote(Boolean promote) {
+        this.promote = promote;
     }
     
 }

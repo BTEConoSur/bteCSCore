@@ -7,6 +7,9 @@ public class RegionPaisSummaryDTO {
     private long id;
     private String nombre;
 
+    public RegionPaisSummaryDTO() {
+    }
+
     public RegionPaisSummaryDTO(RegionPais region) {
         this.id = region.getId();
         this.nombre = region.getNombre();
@@ -16,8 +19,16 @@ public class RegionPaisSummaryDTO {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
 }

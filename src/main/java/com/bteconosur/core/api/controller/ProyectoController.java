@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.api.json.api.FinishRequest;
+import com.bteconosur.core.api.json.api.PaginaDTO;
 import com.bteconosur.core.api.json.api.PlayerSummaryDTO;
 import com.bteconosur.core.api.json.api.ProyectoDetailDTO;
 import com.bteconosur.core.api.json.api.ProyectoSummaryDTO;
@@ -65,10 +66,17 @@ public class ProyectoController {
     }
 
     private void listar(Context ctx) {
-        List<ProyectoSummaryDTO> proyectos = pr.getList().stream()
-                .map(ProyectoSummaryDTO::new)
-                .collect(Collectors.toList());
-        ctx.json(proyectos);
+        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
+        int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
+
+        List<Proyecto> todos = pr.getList();
+        int total = todos.size();
+        int desde = Math.min(page * size, total);
+        int hasta = Math.min(desde + size, total);
+
+        List<ProyectoSummaryDTO> pagina = todos.subList(desde, hasta).stream().map(ProyectoSummaryDTO::new).toList();
+
+        ctx.json(new PaginaDTO<ProyectoSummaryDTO>(pagina, page, size, total));
     }
 
     private void obtener(Context ctx) {

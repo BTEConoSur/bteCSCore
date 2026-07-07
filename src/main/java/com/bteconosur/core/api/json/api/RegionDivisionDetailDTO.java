@@ -12,6 +12,9 @@ public class RegionDivisionDetailDTO {
     private String nombre;
     private String polygon;
 
+    public RegionDivisionDetailDTO() {
+    }
+
     public RegionDivisionDetailDTO(RegionDivision region) {
         this.id = region.getId();
         this.nombre = region.getNombre();
@@ -23,12 +26,24 @@ public class RegionDivisionDetailDTO {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getPolygon() {
         return polygon;
+    }
+
+    public void setPolygon(String polygon) {
+        this.polygon = polygon;
     }
 
 }

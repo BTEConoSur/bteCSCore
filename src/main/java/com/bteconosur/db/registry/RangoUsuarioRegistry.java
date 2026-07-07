@@ -39,7 +39,7 @@ public class RangoUsuarioRegistry extends Registry<Long, RangoUsuario> {
      */
     @Override
     public void load(RangoUsuario obj) {
-        if (obj == null || obj.getId() == null) return;
+        if (obj == null) return;
         dbManager.save(obj);
         loadedObjects.put(obj.getId(), obj);
     }

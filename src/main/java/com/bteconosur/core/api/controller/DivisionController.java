@@ -6,7 +6,6 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 import static io.javalin.apibuilder.ApiBuilder.put;
 
-import java.text.ParseException;
 import java.util.List;
 
 import org.locationtech.jts.geom.Geometry;
@@ -14,6 +13,7 @@ import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.geojson.GeoJsonReader;
 
 import com.bteconosur.core.api.json.api.DivisionDetailDTO;
+import com.bteconosur.core.api.json.api.PaginaDTO;
 import com.bteconosur.core.api.json.api.RegionDivisionDetailDTO;
 import com.bteconosur.core.api.json.api.RegionDivisionSummaryDTO;
 import com.bteconosur.db.model.Division;
@@ -52,10 +52,17 @@ public class DivisionController {
     }
 
     private void listar(Context ctx) {
-        List<DivisionDetailDTO> divisions = ru.getDivisions().stream()
-            .map(DivisionDetailDTO::new)
-            .toList();
-        ctx.json(divisions);
+        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
+        int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
+
+        List<Division> todos = ru.getDivisions();
+        int total = todos.size();
+        int desde = Math.min(page * size, total);
+        int hasta = Math.min(desde + size, total);
+
+        List<DivisionDetailDTO> pagina = todos.subList(desde, hasta).stream().map(DivisionDetailDTO::new).toList();
+
+        ctx.json(new PaginaDTO<DivisionDetailDTO>(pagina, page, size, total));
     }
 
     private void obtener(Context ctx) {
@@ -119,10 +126,16 @@ public class DivisionController {
             ctx.status(404).result("No regions found for this Division");
             return;
         }
-        List<RegionDivisionSummaryDTO> regionDTOs = regiones.stream()
-            .map(RegionDivisionSummaryDTO::new)
-            .toList();
-        ctx.json(regionDTOs);
+        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
+        int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
+
+        int total = regiones.size();
+        int desde = Math.min(page * size, total);
+        int hasta = Math.min(desde + size, total);
+
+        List<RegionDivisionSummaryDTO> pagina = regiones.subList(desde, hasta).stream().map(RegionDivisionSummaryDTO::new).toList();
+
+        ctx.json(new PaginaDTO<RegionDivisionSummaryDTO>(pagina, page, size, total));
     }
 
     private void añadirRegion(Context ctx) {

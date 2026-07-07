@@ -8,6 +8,9 @@ public class PaisSummaryDTO {
     private String nombre;
     private String nombrePublico;
 
+    public PaisSummaryDTO() {
+    }
+
     public PaisSummaryDTO(Pais p) {
         this.id = p.getId();
         this.nombre = p.getNombre();
@@ -18,12 +21,24 @@ public class PaisSummaryDTO {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getNombrePublico() {
         return nombrePublico;
+    }
+
+    public void setNombrePublico(String nombrePublico) {
+        this.nombrePublico = nombrePublico;
     }
 
 }

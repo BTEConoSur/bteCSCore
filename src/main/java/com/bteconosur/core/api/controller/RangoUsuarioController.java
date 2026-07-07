@@ -2,6 +2,7 @@ package com.bteconosur.core.api.controller;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 
@@ -41,6 +42,7 @@ public class RangoUsuarioController {
 
     private void crear(Context ctx) {
         RangoUsuario obj = ctx.bodyAsClass(RangoUsuario.class);
+        ConsoleLogger.debug("Creating RangoUsuario: ", obj);
         ru.load(obj);
         ctx.status(201).json(obj);
     }
