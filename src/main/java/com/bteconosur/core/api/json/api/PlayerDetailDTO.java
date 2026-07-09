@@ -13,8 +13,8 @@ public class PlayerDetailDTO {
     private String nombre;
     private String nombrePublico;
     private Long dsIdUsuario;
-    private Date fechaIngreso;
-    private Date fechaUltimaConexion;
+    private Long fechaIngreso;
+    private Long fechaUltimaConexion;
     private RangoUsuario rangoUsuario;
     private TipoUsuario tipoUsuario;
     private PaisSummaryDTO paisPrefix;
@@ -27,8 +27,8 @@ public class PlayerDetailDTO {
         this.nombre = p.getNombre();
         this.nombrePublico = p.getNombrePublico();
         this.dsIdUsuario = p.getDsIdUsuario();
-        this.fechaIngreso = p.getFechaIngreso();
-        this.fechaUltimaConexion = p.getFechaUltimaConexion();
+        this.fechaIngreso = p.getFechaIngreso() != null ? p.getFechaIngreso().getTime() : null;
+        this.fechaUltimaConexion = p.getFechaUltimaConexion() != null ? p.getFechaUltimaConexion().getTime() : null;
         this.rangoUsuario = p.getRangoUsuario();
         this.tipoUsuario = p.getTipoUsuario();
         if (p.getPaisPrefix() != null) {
@@ -68,19 +68,19 @@ public class PlayerDetailDTO {
         this.dsIdUsuario = dsIdUsuario;
     }
 
-    public Date getFechaIngreso() {
+    public Long getFechaIngreso() {
         return fechaIngreso;
     }
 
-    public void setFechaIngreso(Date fechaIngreso) {
+    public void setFechaIngreso(Long fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public Date getFechaUltimaConexion() {
+    public Long getFechaUltimaConexion() {
         return fechaUltimaConexion;
     }
 
-    public void setFechaUltimaConexion(Date fechaUltimaConexion) {
+    public void setFechaUltimaConexion(Long fechaUltimaConexion) {
         this.fechaUltimaConexion = fechaUltimaConexion;
     }
 

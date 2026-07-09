@@ -16,6 +16,7 @@ import com.bteconosur.core.api.json.api.DivisionDetailDTO;
 import com.bteconosur.core.api.json.api.PaginaDTO;
 import com.bteconosur.core.api.json.api.RegionDivisionDetailDTO;
 import com.bteconosur.core.api.json.api.RegionDivisionSummaryDTO;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.RegionDivision;

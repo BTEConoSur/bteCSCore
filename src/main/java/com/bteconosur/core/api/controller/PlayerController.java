@@ -4,7 +4,6 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import com.bteconosur.core.api.json.api.PaginaDTO;
@@ -15,9 +14,13 @@ import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
+import com.bteconosur.db.model.RangoUsuario;
+import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.registry.RangoUsuarioRegistry;
+import com.bteconosur.db.registry.TipoUsuarioRegistry;
 
 import io.javalin.config.RoutesConfig;
 import io.javalin.http.Context;
@@ -34,10 +37,11 @@ public class PlayerController {
                     get(this::obtener);
                     put(this::actualizar);
                     delete(this::eliminar);
+                    path("/proyectos", () -> {
+                        get(this::listarProyectos);
+                    });
                 });
-                path("/proyectos", () -> {
-                    get(this::listarProyectos);
-                });
+                
             });
         });
     }
@@ -74,8 +78,8 @@ public class PlayerController {
         }
         existing.setNombre(obj.getNombre());
         existing.setNombrePublico(obj.getNombrePublico());
-        existing.setFechaIngreso(obj.getFechaIngreso());
-        existing.setFechaUltimaConexion(obj.getFechaUltimaConexion());
+        //existing.setFechaIngreso(new Date(obj.getFechaIngreso()));
+        //existing.setFechaUltimaConexion(new Date(obj.getFechaUltimaConexion()));
         existing.setDsIdUsuario(obj.getDsIdUsuario());
 
         PaisRegistry paisRegistry = PaisRegistry.getInstance();
@@ -90,10 +94,12 @@ public class PlayerController {
 
         PermissionManager pm = PermissionManager.getInstance();
         if (!existing.getRangoUsuario().equals(obj.getRangoUsuario())) {
-            updatedPlayer = pm.switchRangoUsuario(updatedPlayer, obj.getRangoUsuario());
+            RangoUsuario newRango = RangoUsuarioRegistry.getInstance().get(obj.getRangoUsuario().getId());
+            updatedPlayer = pm.switchRangoUsuario(updatedPlayer, newRango);
         }
         if (!existing.getTipoUsuario().equals(obj.getTipoUsuario())) {
-            updatedPlayer = pm.switchTipoUsuario(updatedPlayer, obj.getTipoUsuario());
+            TipoUsuario newTipo = TipoUsuarioRegistry.getInstance().get(obj.getTipoUsuario().getId());
+            updatedPlayer = pm.switchTipoUsuario(updatedPlayer, newTipo);
         }
     
         ctx.json(updatedPlayer);

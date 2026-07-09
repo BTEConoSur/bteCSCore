@@ -14,7 +14,6 @@ import org.locationtech.jts.io.geojson.GeoJsonReader;
 
 import com.bteconosur.core.api.json.api.DivisionSummaryDTO;
 import com.bteconosur.core.api.json.api.PaginaDTO;
-import com.bteconosur.core.api.json.api.RegionDivisionSummaryDTO;
 import com.bteconosur.core.api.json.api.RegionPaisDetailDTO;
 import com.bteconosur.core.api.json.api.RegionPaisSummaryDTO;
 import com.bteconosur.db.model.Division;

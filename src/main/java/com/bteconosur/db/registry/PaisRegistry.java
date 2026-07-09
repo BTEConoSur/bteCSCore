@@ -490,6 +490,7 @@ public class PaisRegistry extends Registry<Long, Pais> {
                 divisions.remove(division);
             }
             loadedDivisions.computeIfAbsent(newPaisId, k -> new ArrayList<>()).add(division);
+            division.setPais(loadedObjects.get(newPaisId));
         }
 
         dbManager.merge(division);

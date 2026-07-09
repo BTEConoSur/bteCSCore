@@ -20,8 +20,8 @@ public class ProyectoDetailDTO {
     private Estado estado;
     private String poligono;
     private double tamaño;
-    private Date fechaCreado;
-    private Date fechaTerminado;
+    private Long fechaCreado;
+    private Long fechaTerminado;
     private TipoProyecto tipoProyecto;
     private PlayerSummaryDTO lider;
     private DivisionDetailDTO division;
@@ -37,8 +37,8 @@ public class ProyectoDetailDTO {
         Polygon geoPolygon = ApiUtils.toGeoPolygon(proyecto.getPoligono());
         this.poligono = new GeoJsonWriter().write(geoPolygon);
         this.tamaño = proyecto.getTamaño();
-        this.fechaCreado = proyecto.getFechaCreado();
-        this.fechaTerminado = proyecto.getFechaTerminado();
+        this.fechaCreado = proyecto.getFechaCreado() != null ? proyecto.getFechaCreado().getTime() : null;
+        this.fechaTerminado = proyecto.getFechaTerminado() != null ? proyecto.getFechaTerminado().getTime() : null;
         this.tipoProyecto = proyecto.getTipoProyecto();
         if (proyecto.getLider() != null) {
             this.lider = new PlayerSummaryDTO(proyecto.getLider());
@@ -96,19 +96,19 @@ public class ProyectoDetailDTO {
         this.tamaño = tamaño;
     }
 
-    public Date getFechaCreado() {
+    public Long getFechaCreado() {
         return fechaCreado;
     }
 
-    public void setFechaCreado(Date fechaCreado) {
+    public void setFechaCreado(Long fechaCreado) {
         this.fechaCreado = fechaCreado;
     }
 
-    public Date getFechaTerminado() {
+    public Long getFechaTerminado() {
         return fechaTerminado;
     }
 
-    public void setFechaTerminado(Date fechaTerminado) {
+    public void setFechaTerminado(Long fechaTerminado) {
         this.fechaTerminado = fechaTerminado;
     }
 
