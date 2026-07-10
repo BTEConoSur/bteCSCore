@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.api.controller.DivisionController;
 import com.bteconosur.core.api.controller.PaisController;
 import com.bteconosur.core.api.controller.PlayerController;
+import com.bteconosur.core.api.controller.ProyectoController;
 import com.bteconosur.core.api.controller.RangoUsuarioController;
 import com.bteconosur.core.api.controller.TipoProyectoController;
 import com.bteconosur.core.api.controller.TipoUsuarioController;
@@ -40,6 +41,7 @@ public class ApiManager {
             new PaisController().registrar(config.routes);
             new DivisionController().registrar(config.routes);
             new TipoProyectoController().registrar(config.routes);
+            new ProyectoController().registrar(config.routes);
 
         }).start(7070);
     }

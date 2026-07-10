@@ -60,6 +60,10 @@ public class ProyectoController {
                     path("/rechazar", () -> {
                         post(this::rechazarProyecto);
                     });
+                    
+                });
+                path("/finalizaciones", () -> {
+                    get(this::listarFinalizaciones);
                 });
             });
         });
@@ -266,6 +270,23 @@ public class ProyectoController {
 
         pm.rejectFinishRequest(proyectoId, staff, finishRequest.getComentario());
         ctx.status(200).result("Proyecto finish request rejected");
+    }
+
+    private void listarFinalizaciones(Context ctx) {
+        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
+        int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
+
+
+        List<Proyecto> todos = pr.getFinishing().stream().collect(Collectors.toList());;
+		//finishingProyectos.removeIf(proyecto -> !permissionManager.isReviewer(commandPlayer, proyecto.getPais()));
+        //TODO: Revisar permisos de reviewer para listar finalizaciones
+        int total = todos.size();
+        int desde = Math.min(page * size, total);
+        int hasta = Math.min(desde + size, total);
+
+        List<ProyectoSummaryDTO> pagina = todos.subList(desde, hasta).stream().map(ProyectoSummaryDTO::new).toList();
+
+        ctx.json(new PaginaDTO<ProyectoSummaryDTO>(pagina, page, size, total));
     }
 
 }
