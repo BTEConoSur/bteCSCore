@@ -41,16 +41,37 @@ public class PlayerController {
                         get(this::listarProyectos);
                     });
                 });
-                
+                path("/discord/{discordId}", () -> {
+                    get(this::obtenerPorDiscordId);
+                });
             });
         });
+    }
+
+    private void obtenerPorDiscordId(Context ctx) {
+        Long discordId = Long.valueOf(ctx.pathParam("discordId"));
+        Player player = pr.findByDiscordId(discordId);
+        if (player == null) {
+            ctx.status(404).result("Player not linked to this Discord account");
+            return;
+        }
+        ctx.json(new PlayerDetailDTO(player));
     }
 
     private void listar(Context ctx) {
         int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
         int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
+        String nombreFiltro = ctx.queryParam("nombre");
 
         List<Player> todos = pr.getList();
+
+        if (nombreFiltro != null && !nombreFiltro.isBlank()) {
+            String filtroLower = nombreFiltro.toLowerCase();
+            todos = todos.stream()
+                .filter(p -> p.getNombre() != null && p.getNombre().toLowerCase().contains(filtroLower))
+                .toList();
+        }
+
         int total = todos.size();
         int desde = Math.min(page * size, total);
         int hasta = Math.min(desde + size, total);

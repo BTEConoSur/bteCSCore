@@ -42,10 +42,46 @@ public class ApiUtils {
                 throw new IllegalStateException("No se pudo convertir la coordenada (" + x + ", " + z + ")");
             }
 
-            double lat = geo[0];
-            double lon = geo[1];
-            // GeoJSON exige orden [longitud, latitud]
+            double lat = geo[1];
+            double lon = geo[0];
             transformadas[i] = new Coordinate(lon, lat);
+        }
+
+        return geometryFactory.createLinearRing(transformadas);
+    }
+
+    public static Polygon toMcPolygon(Polygon geoPolygon) {
+        try {
+            LinearRing exterior = transformRingAMc(geoPolygon.getExteriorRing());
+
+            int numInteriores = geoPolygon.getNumInteriorRing();
+            LinearRing[] interiores = new LinearRing[numInteriores];
+            for (int i = 0; i < numInteriores; i++) {
+                interiores[i] = transformRingAMc(geoPolygon.getInteriorRingN(i));
+            }
+
+            return geometryFactory.createPolygon(exterior, interiores);
+        } catch (Exception e) {
+            ConsoleLogger.error("Error al convertir polígono geográfico a coordenadas de Minecraft: ", e);
+            return null;
+        }
+    }
+
+
+    private static LinearRing transformRingAMc(Geometry ring) {
+        Coordinate[] original = ring.getCoordinates();
+        Coordinate[] transformadas = new Coordinate[original.length];
+
+        for (int i = 0; i < original.length; i++) {
+            double lon = original[i].x; // en GeoJSON: x = longitud
+            double lat = original[i].y; // y = latitud
+
+            double[] mc = TerraUtils.toMc(lat, lon); // confirmá el orden de argumentos que espera toMc
+            if (mc == null) {
+                throw new IllegalStateException("No se pudo convertir la coordenada (" + lat + ", " + lon + ")");
+            }
+
+            transformadas[i] = new Coordinate(mc[0], mc[1]);
         }
 
         return geometryFactory.createLinearRing(transformadas);

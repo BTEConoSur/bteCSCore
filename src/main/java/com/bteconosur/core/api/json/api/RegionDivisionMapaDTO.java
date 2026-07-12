@@ -6,20 +6,23 @@ import org.locationtech.jts.io.geojson.GeoJsonWriter;
 import com.bteconosur.core.api.ApiUtils;
 import com.bteconosur.db.model.RegionDivision;
 
-public class RegionDivisionDetailDTO {
+public class RegionDivisionMapaDTO {
 
     private long id;
     private String nombre;
     private String polygon;
+    private String divisionNombre;
 
-    public RegionDivisionDetailDTO() {
-    }
+    public RegionDivisionMapaDTO() {}
 
-    public RegionDivisionDetailDTO(RegionDivision region) {
-        this.id = region.getId() == null ? 0 : region.getId();
+    public RegionDivisionMapaDTO(RegionDivision region, String divisionNombre) {
+        this.id = region.getId();
         this.nombre = region.getNombre();
-        Polygon geoPolygon = ApiUtils.toGeoPolygon(region.getPoligono());
-        this.polygon = new GeoJsonWriter().write(geoPolygon);
+        this.divisionNombre = divisionNombre;
+        if (region.getPoligono() != null) {
+            Polygon geo = ApiUtils.toGeoPolygon(region.getPoligono());
+            this.polygon = (geo != null) ? new GeoJsonWriter().write(geo) : null;
+        }
     }
 
     public long getId() {
@@ -46,4 +49,11 @@ public class RegionDivisionDetailDTO {
         this.polygon = polygon;
     }
 
+    public String getDivisionNombre() {
+        return divisionNombre;
+    }
+
+    public void setDivisionNombre(String divisionNombre) {
+        this.divisionNombre = divisionNombre;
+    }
 }

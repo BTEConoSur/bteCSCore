@@ -16,7 +16,7 @@ public class RegionPaisDetailDTO {
     }
 
     public RegionPaisDetailDTO(RegionPais region) {
-        this.id = region.getId();
+        this.id = region.getId() == null ? 0 : region.getId();
         this.nombre = region.getNombre();
         Polygon geoPolygon = ApiUtils.toGeoPolygon(region.getPoligono());
         this.polygon = new GeoJsonWriter().write(geoPolygon);

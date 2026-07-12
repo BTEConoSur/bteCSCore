@@ -6,15 +6,18 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 import static io.javalin.apibuilder.ApiBuilder.put;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.geojson.GeoJsonReader;
 
+import com.bteconosur.core.api.ApiUtils;
 import com.bteconosur.core.api.json.api.DivisionSummaryDTO;
 import com.bteconosur.core.api.json.api.PaginaDTO;
 import com.bteconosur.core.api.json.api.RegionPaisDetailDTO;
+import com.bteconosur.core.api.json.api.RegionPaisMapaDTO;
 import com.bteconosur.core.api.json.api.RegionPaisSummaryDTO;
 import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
@@ -33,10 +36,16 @@ public class PaisController {
             path("/api/pais", () -> {
                 get(this::listar);
                 post(this::crear);
+                path("/regiones/mapa", () -> {
+                    get(this::listarTodasLasRegionesMapa);
+                });
                 path("/{id}", () -> {
                     get(this::obtener);
                     put(this::actualizar);
                     delete(this::eliminar);
+                    path("/regiones-mapa", () -> {
+                        get(this::listarRegionesMapaDePais);
+                    });
                     path("/regiones", () -> {
                         get(this::listarRegiones);
                         put(this::añadirRegion);
@@ -52,6 +61,35 @@ public class PaisController {
                 
             });
         });
+    }
+
+    private void listarTodasLasRegionesMapa(Context ctx) {
+        List<RegionPaisMapaDTO> resultado = new ArrayList<>();
+        for (Pais pais : ru.getList()) {
+            List<RegionPais> regiones = ru.getRegions(pais);
+            if (regiones == null) continue;
+            for (RegionPais region : regiones) {
+                resultado.add(new RegionPaisMapaDTO(region, pais.getNombre()));
+            }
+        }
+        ctx.json(resultado);
+    }
+
+    private void listarRegionesMapaDePais(Context ctx) {
+        Pais obj = ru.get(Long.valueOf(ctx.pathParam("id")));
+        if (obj == null) {
+            ctx.status(404).result("Pais not found");
+            return;
+        }
+        List<RegionPais> regiones = ru.getRegions(obj);
+        if (regiones == null) {
+            ctx.json(List.of());
+            return;
+        }
+        List<RegionPaisMapaDTO> resultado = regiones.stream()
+            .map(r -> new RegionPaisMapaDTO(r, obj.getNombre()))
+            .toList();
+        ctx.json(resultado);
     }
 
     private void listar(Context ctx) {
@@ -127,14 +165,21 @@ public class PaisController {
         RegionPaisDetailDTO region = ctx.bodyAsClass(RegionPaisDetailDTO.class);
         RegionPais regionEntity = new RegionPais();
         regionEntity.setNombre(region.getNombre());
+        regionEntity.setPais(obj);
         GeoJsonReader reader = new GeoJsonReader();
-        Geometry geometry;
         try {
-            geometry = reader.read(region.getPolygon());
-            regionEntity.setPoligono((Polygon) geometry);
+            Geometry geometryGeo = reader.read(region.getPolygon());
+            Polygon mcPolygon = ApiUtils.toMcPolygon((Polygon) geometryGeo);
+
+            if (mcPolygon == null) {
+                ctx.status(400).result("No se pudo convertir el polígono a coordenadas de Minecraft");
+                return;
+            }
+            regionEntity.setPoligono(mcPolygon);
         } catch (Exception e) {
-            ctx.status(400).result("Invalid geometry format");
+            ctx.status(400).result("Formato de geometría inválido: " + e.getMessage());
             e.printStackTrace();
+            return;
         }
         
         ru.addRegionPais(regionEntity);

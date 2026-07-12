@@ -11,7 +11,7 @@ public class RegionDivisionSummaryDTO {
     }
 
     public RegionDivisionSummaryDTO(RegionDivision region) {
-        this.id = region.getId();
+        this.id = region.getId() == null ? 0 : region.getId();
         this.nombre = region.getNombre();
     }
 

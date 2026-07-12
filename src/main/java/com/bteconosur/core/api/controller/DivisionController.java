@@ -6,15 +6,18 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 import static io.javalin.apibuilder.ApiBuilder.put;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.geojson.GeoJsonReader;
 
+import com.bteconosur.core.api.ApiUtils;
 import com.bteconosur.core.api.json.api.DivisionDetailDTO;
 import com.bteconosur.core.api.json.api.PaginaDTO;
 import com.bteconosur.core.api.json.api.RegionDivisionDetailDTO;
+import com.bteconosur.core.api.json.api.RegionDivisionMapaDTO;
 import com.bteconosur.core.api.json.api.RegionDivisionSummaryDTO;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Division;
@@ -34,10 +37,16 @@ public class DivisionController {
             path("/api/division", () -> {
                 get(this::listar);
                 post(this::crear);
+                path("/regiones/mapa", () -> {
+                    get(this::listarTodasLasRegionesMapa);
+                });
                 path("/{id}", () -> {
                     get(this::obtener);
                     put(this::actualizar);
                     delete(this::eliminar);
+                    path("/regiones-mapa", () -> {
+                        get(this::listarRegionesMapaDeDivision);
+                    });
                     path("/regiones", () -> {
                         get(this::listarRegiones);
                         put(this::añadirRegion);
@@ -50,6 +59,35 @@ public class DivisionController {
                 
             });
         });
+    }
+
+    private void listarTodasLasRegionesMapa(Context ctx) {
+        List<RegionDivisionMapaDTO> resultado = new ArrayList<>();
+        for (Division division : ru.getDivisions()) {
+            List<RegionDivision> regiones = ru.getRegionDivisions(division);
+            if (regiones == null) continue;
+            for (RegionDivision region : regiones) {
+                resultado.add(new RegionDivisionMapaDTO(region, division.getNombre()));
+            }
+        }
+        ctx.json(resultado);
+    }
+
+    private void listarRegionesMapaDeDivision(Context ctx) {
+        Division obj = ru.findDivisionById(Long.valueOf(ctx.pathParam("id")));
+        if (obj == null) {
+            ctx.status(404).result("Division not found");
+            return;
+        }
+        List<RegionDivision> regiones = ru.getRegionDivisions(obj);
+        if (regiones == null) {
+            ctx.json(List.of());
+            return;
+        }
+        List<RegionDivisionMapaDTO> resultado = regiones.stream()
+            .map(r -> new RegionDivisionMapaDTO(r, obj.getNombre()))
+            .toList();
+        ctx.json(resultado);
     }
 
     private void listar(Context ctx) {
@@ -145,19 +183,26 @@ public class DivisionController {
             ctx.status(404).result("Division not found");
             return;
         }
+
         RegionDivisionDetailDTO region = ctx.bodyAsClass(RegionDivisionDetailDTO.class);
         RegionDivision regionEntity = new RegionDivision();
         regionEntity.setNombre(region.getNombre());
+        regionEntity.setDivision(obj);
         GeoJsonReader reader = new GeoJsonReader();
-        Geometry geometry;
         try {
-            geometry = reader.read(region.getPolygon());
-            regionEntity.setPoligono((Polygon) geometry);
+            Geometry geometryGeo = reader.read(region.getPolygon()); // esto es geo (lat/lon)
+            Polygon mcPolygon = ApiUtils.toMcPolygon((Polygon) geometryGeo); // convertimos a Minecraft
+
+            if (mcPolygon == null) {
+                ctx.status(400).result("No se pudo convertir el polígono a coordenadas de Minecraft");
+                return;
+            }
+            regionEntity.setPoligono(mcPolygon); // ahora sí, guardamos en coordenadas MC
         } catch (Exception e) {
-            ctx.status(400).result("Invalid geometry format");
+            ctx.status(400).result("Formato de geometría inválido: " + e.getMessage());
             e.printStackTrace();
+            return;
         }
-        
         ru.addRegionDivision(regionEntity);
         ctx.status(201).json(new RegionDivisionDetailDTO(regionEntity));
     }

@@ -15,6 +15,7 @@ import com.bteconosur.core.api.json.api.FinishRequest;
 import com.bteconosur.core.api.json.api.PaginaDTO;
 import com.bteconosur.core.api.json.api.PlayerSummaryDTO;
 import com.bteconosur.core.api.json.api.ProyectoDetailDTO;
+import com.bteconosur.core.api.json.api.ProyectoMapaDTO;
 import com.bteconosur.core.api.json.api.ProyectoSummaryDTO;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Player;
@@ -36,6 +37,12 @@ public class ProyectoController {
         config.apiBuilder(() -> {
             path("/api/proyecto", () -> {
                 get(this::listar);
+                path("/finalizaciones", () -> {
+                    get(this::listarFinalizaciones);
+                });
+                path("/mapa", () -> {
+                    get(this::listarParaMapa);
+                });
                 path("/{id}", () -> {
                     get(this::obtener);
                     put(this::actualizar);
@@ -62,18 +69,37 @@ public class ProyectoController {
                     });
                     
                 });
-                path("/finalizaciones", () -> {
-                    get(this::listarFinalizaciones);
-                });
+                
             });
         });
+    }
+
+    private void listarParaMapa(Context ctx) {
+        List<Proyecto> conPoligono = pr.getList().stream()
+            .filter(p -> p.getPoligono() != null)
+            .toList();
+
+        List<ProyectoMapaDTO> dtos = conPoligono.stream()
+            .map(ProyectoMapaDTO::new)
+            .toList();
+
+        ctx.json(dtos);
     }
 
     private void listar(Context ctx) {
         int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
         int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
+        String idFiltro = ctx.queryParam("id");
 
         List<Proyecto> todos = pr.getList();
+
+        if (idFiltro != null && !idFiltro.isBlank()) {
+            String filtroUpper = idFiltro.toUpperCase();
+            todos = todos.stream()
+                .filter(p -> p.getId() != null && p.getId().toUpperCase().contains(filtroUpper))
+                .toList();
+        }
+
         int total = todos.size();
         int desde = Math.min(page * size, total);
         int hasta = Math.min(desde + size, total);
@@ -102,7 +128,7 @@ public class ProyectoController {
         existing.setNombre(obj.getNombre());
         existing.setDescripcion(obj.getDescripcion());
         
-        ctx.json(pr.merge(ctx.pathParam("id")));
+        ctx.json(new ProyectoDetailDTO(pr.merge(ctx.pathParam("id"))));
     }
 
     private void eliminar(Context ctx) {
@@ -134,7 +160,7 @@ public class ProyectoController {
             ctx.status(404).result("Proyecto not found");
             return;
         }
-        UUID playerId = UUID.fromString(ctx.pathParam("playerId"));
+        UUID playerId = UUID.fromString(ctx.queryParam("playerId"));
         Player player = PlayerRegistry.getInstance().get(playerId);
         if (player == null) {
             ctx.status(404).result("Player not found");
