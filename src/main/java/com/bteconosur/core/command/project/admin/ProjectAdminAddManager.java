@@ -76,7 +76,7 @@ public class ProjectAdminAddManager extends BaseCommand {
         targetPlayer = permissionManager.addManager(targetPlayer, pais);
         PlayerLogger.info(targetPlayer, LanguageHandler.replaceMC("manager.add.for-target", targetPlayer.getLanguage(), pais),
             ChatUtil.getDsManagerAdded(pais, targetPlayer.getLanguage()));
-        if (commandPlayer != targetPlayer) PlayerLogger.info(sender, LanguageHandler.replaceMC("manager.add.success", language, targetPlayer, pais), (String) null);
+        if (!commandPlayer.equals(targetPlayer)) PlayerLogger.info(sender, LanguageHandler.replaceMC("manager.add.success", language, targetPlayer, pais), (String) null);
         String countryLog = LanguageHandler.replaceDS("manager.add.log", Language.getDefault(), commandPlayer, targetPlayer);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), pais);
         DiscordLogger.countryLog(countryLog, pais);

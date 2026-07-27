@@ -76,7 +76,7 @@ public class ProjectAdminRemoveReviewer extends BaseCommand {
         targetPlayer = permissionManager.removeReviewer(targetPlayer, pais);
         PlayerLogger.info(targetPlayer, LanguageHandler.replaceMC("reviewer.remove.for-target", targetPlayer.getLanguage(), pais),
             ChatUtil.getDsReviewerRemoved(pais, targetPlayer.getLanguage()));
-        if (commandPlayer != targetPlayer) PlayerLogger.info(sender, LanguageHandler.replaceMC("reviewer.remove.success", language, targetPlayer, pais), (String) null);
+        if (!commandPlayer.equals(targetPlayer)) PlayerLogger.info(sender, LanguageHandler.replaceMC("reviewer.remove.success", language, targetPlayer, pais), (String) null);
         String countryLog = LanguageHandler.replaceDS("reviewer.remove.log", Language.getDefault(), commandPlayer, targetPlayer);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), pais);
         DiscordLogger.countryLog(countryLog, pais);

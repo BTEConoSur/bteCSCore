@@ -76,7 +76,7 @@ public class ProjectAdminAddReviewer extends BaseCommand {
         targetPlayer = permissionManager.addReviewer(targetPlayer, pais);
         PlayerLogger.info(targetPlayer, LanguageHandler.replaceMC("reviewer.add.for-target", targetPlayer.getLanguage(), pais),
             ChatUtil.getDsReviewerAdded(pais, targetPlayer.getLanguage()));
-        if (commandPlayer != targetPlayer) PlayerLogger.info(sender, LanguageHandler.replaceMC("reviewer.add.success", language, targetPlayer, pais), (String) null);
+        if (!commandPlayer.equals(targetPlayer)) PlayerLogger.info(sender, LanguageHandler.replaceMC("reviewer.add.success", language, targetPlayer, pais), (String) null);
         String countryLog = LanguageHandler.replaceDS("reviewer.add.log", Language.getDefault(), commandPlayer, targetPlayer);
         countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), pais);
         DiscordLogger.countryLog(countryLog, pais);
