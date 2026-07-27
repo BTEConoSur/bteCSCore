@@ -33,6 +33,8 @@ public class TabManager {
 
     private TabAPI tabAPI;
     private BukkitTask tipRotationTask;
+
+    private BTEConoSurExpansion placeholderExpansion;
     
     private volatile int currentTip = 0;
 
@@ -52,7 +54,8 @@ public class TabManager {
         startTipRotationTask();
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new BTEConoSurExpansion(BTEConoSur.getInstance()).register();
+            placeholderExpansion = new BTEConoSurExpansion(BTEConoSur.getInstance());
+            placeholderExpansion.register();
         } else {
             ConsoleLogger.error(LanguageHandler.getText("placeholder-not-found"));
         }
@@ -176,6 +179,11 @@ public class TabManager {
      */
     public void shutdown() {
         ConsoleLogger.info(LanguageHandler.getText("tab-manager-shutting-down"));
+        if (placeholderExpansion != null) {
+            placeholderExpansion.unregister();
+            placeholderExpansion = null;
+        }
+
         if (tipRotationTask != null) {
             tipRotationTask.cancel();
             tipRotationTask = null;
@@ -191,6 +199,10 @@ public class TabManager {
      * @return instancia única del gestor.
      */
     public static TabManager getInstance() {
+        if (BTEConoSur.getInstance() != null && !BTEConoSur.getInstance().isEnabled()) {
+            return null;
+        }
+
         if (instance == null) {
             instance = new TabManager();
         }
