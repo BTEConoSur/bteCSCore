@@ -99,7 +99,11 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
     @Override
     public Proyecto get(String id) {
         if (id == null) return null;
-        return loadedObjects.get(id.toUpperCase());
+        Proyecto proyecto = loadedObjects.get(id.toUpperCase());
+        if (proyecto == null) return proyecto;
+        TipoProyectoRegistry tpr = TipoProyectoRegistry.getInstance();
+        proyecto.setTipoProyecto(tpr.get(proyecto.getTipoProyecto().getId()));
+        return proyecto;
     }
 
     /**

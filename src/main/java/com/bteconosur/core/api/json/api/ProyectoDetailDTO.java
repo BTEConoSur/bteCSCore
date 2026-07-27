@@ -1,9 +1,5 @@
 package com.bteconosur.core.api.json.api;
 
-import java.util.Date;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.geojson.GeoJsonWriter;
 
@@ -31,8 +27,8 @@ public class ProyectoDetailDTO {
 
     public ProyectoDetailDTO(Proyecto proyecto) {
         this.id = proyecto.getId();
-        this.nombre = proyecto.getNombre();
-        this.descripcion = proyecto.getDescripcion();
+        this.nombre = proyecto.getNombre() == null ? "" : proyecto.getNombre();
+        this.descripcion = proyecto.getDescripcion() == null ? "" : proyecto.getDescripcion();
         this.estado = proyecto.getEstado();
         Polygon geoPolygon = ApiUtils.toGeoPolygon(proyecto.getPoligono());
         this.poligono = new GeoJsonWriter().write(geoPolygon);
@@ -61,7 +57,7 @@ public class ProyectoDetailDTO {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre == null ? "" : nombre;
     }
 
     public String getDescripcion() {
@@ -69,7 +65,7 @@ public class ProyectoDetailDTO {
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = descripcion == null ? "" : descripcion;
     }
 
     public Estado getEstado() {

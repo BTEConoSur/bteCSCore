@@ -1,6 +1,7 @@
 package com.bteconosur.core.api.json.api;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.bteconosur.db.model.Player;
@@ -18,6 +19,7 @@ public class PlayerDetailDTO {
     private RangoUsuario rangoUsuario;
     private TipoUsuario tipoUsuario;
     private PaisSummaryDTO paisPrefix;
+    private List<PaisSummaryDTO> paisesReviewer;
 
     public PlayerDetailDTO() {
     }
@@ -34,6 +36,30 @@ public class PlayerDetailDTO {
         if (p.getPaisPrefix() != null) {
             this.paisPrefix = new PaisSummaryDTO(p.getPaisPrefix());
         }
+
+        if (p.getPaisesReviewer() != null && p.getPaisesManager() != null) {
+            this.paisesReviewer = new ArrayList<>(
+                p.getPaisesReviewer()
+                    .stream()
+                    .map(PaisSummaryDTO::new)
+                    .toList()
+            );
+
+            this.paisesReviewer.addAll(
+                p.getPaisesManager()
+                    .stream()
+                    .map(PaisSummaryDTO::new)
+                    .toList()
+            );
+        }
+    }
+
+    public List<PaisSummaryDTO> getPaisesReviewer() {
+        return paisesReviewer;
+    }
+
+    public void setPaisesReviewer(List<PaisSummaryDTO> paisesReviewer) {
+        this.paisesReviewer = paisesReviewer;
     }
 
     public UUID getId() {
@@ -54,7 +80,7 @@ public class PlayerDetailDTO {
 
     public String getNombrePublico() {
         return nombrePublico;
-    }
+    } 
 
     public void setNombrePublico(String nombrePublico) {
         this.nombrePublico = nombrePublico;

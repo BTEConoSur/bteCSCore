@@ -6,6 +6,8 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 import static io.javalin.apibuilder.ApiBuilder.post;
 import static io.javalin.apibuilder.ApiBuilder.put;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ import com.bteconosur.core.api.json.api.PlayerSummaryDTO;
 import com.bteconosur.core.api.json.api.ProyectoDetailDTO;
 import com.bteconosur.core.api.json.api.ProyectoMapaDTO;
 import com.bteconosur.core.api.json.api.ProyectoSummaryDTO;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
@@ -91,7 +94,14 @@ public class ProyectoController {
         int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
         String idFiltro = ctx.queryParam("id");
 
-        List<Proyecto> todos = pr.getList();
+        List<Proyecto> todos = new ArrayList<>(pr.getList());
+
+        todos.sort(
+            Comparator.comparing(
+                Proyecto::getFechaCreado,
+                Comparator.nullsLast(Comparator.reverseOrder())
+            )
+        );
 
         if (idFiltro != null && !idFiltro.isBlank()) {
             String filtroUpper = idFiltro.toUpperCase();
@@ -260,7 +270,7 @@ public class ProyectoController {
             return;
         }
         FinishRequest finishRequest = ctx.bodyAsClass(FinishRequest.class);
-        Player staff = PlayerRegistry.getInstance().get(finishRequest.getStaffId()); //TODO: Revisar al meter autentificación
+        Player staff = PlayerRegistry.getInstance().get(finishRequest.getStaffId());
         if (staff == null) {
             ctx.status(404).result("Staff player not found");
             return;
@@ -283,7 +293,7 @@ public class ProyectoController {
             return;
         }
         FinishRequest finishRequest = ctx.bodyAsClass(FinishRequest.class);
-        Player staff = PlayerRegistry.getInstance().get(finishRequest.getStaffId()); //TODO: Revisar al meter autentificación
+        Player staff = PlayerRegistry.getInstance().get(finishRequest.getStaffId());
         if (staff == null) {
             ctx.status(404).result("Staff player not found");
             return;
@@ -299,20 +309,16 @@ public class ProyectoController {
     }
 
     private void listarFinalizaciones(Context ctx) {
-        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
-        int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
-
+        UUID playerId = UUID.fromString(ctx.queryParam("staffId"));
+        Player player = PlayerRegistry.getInstance().get(playerId);
 
         List<Proyecto> todos = pr.getFinishing().stream().collect(Collectors.toList());;
-		//finishingProyectos.removeIf(proyecto -> !permissionManager.isReviewer(commandPlayer, proyecto.getPais()));
-        //TODO: Revisar permisos de reviewer para listar finalizaciones
-        int total = todos.size();
-        int desde = Math.min(page * size, total);
-        int hasta = Math.min(desde + size, total);
+        PermissionManager permissionManager = PermissionManager.getInstance();
+		todos.removeIf(proyecto -> !permissionManager.isReviewer(player, proyecto.getPais()));
 
-        List<ProyectoSummaryDTO> pagina = todos.subList(desde, hasta).stream().map(ProyectoSummaryDTO::new).toList();
+        List<ProyectoSummaryDTO> result = todos.stream().map(ProyectoSummaryDTO::new).toList();
 
-        ctx.json(new PaginaDTO<ProyectoSummaryDTO>(pagina, page, size, total));
+        ctx.json(result);
     }
 
 }

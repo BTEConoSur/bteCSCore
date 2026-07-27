@@ -139,14 +139,14 @@ public class PaisController {
             ctx.status(404).result("Pais not found");
             return;
         }
-        List<RegionPais> regiones = ru.getRegions(obj);
-        if (regiones == null) {
-            ctx.status(404).result("No regions found for this Pais");
-            return;
-        }
         int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
         int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
-
+        List<RegionPais> regiones = ru.getRegions(obj);
+        if (regiones == null) {
+            ctx.json(new PaginaDTO<RegionPaisSummaryDTO>(List.of(), page, size, 0));
+            return;
+        }
+        
         int total = regiones.size();
         int desde = Math.min(page * size, total);
         int hasta = Math.min(desde + size, total);

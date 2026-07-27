@@ -19,7 +19,6 @@ import com.bteconosur.core.api.json.api.PaginaDTO;
 import com.bteconosur.core.api.json.api.RegionDivisionDetailDTO;
 import com.bteconosur.core.api.json.api.RegionDivisionMapaDTO;
 import com.bteconosur.core.api.json.api.RegionDivisionSummaryDTO;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.RegionDivision;
@@ -62,8 +61,16 @@ public class DivisionController {
     }
 
     private void listarTodasLasRegionesMapa(Context ctx) {
+        Long paisId = Long.valueOf(ctx.queryParam("paisId"));
+
+        if (paisId == null) {
+            ctx.json(List.of());
+            return;
+        }
+
         List<RegionDivisionMapaDTO> resultado = new ArrayList<>();
-        for (Division division : ru.getDivisions()) {
+        Pais pais = ru.get(paisId);
+        for (Division division : ru.getDivisions(pais)) {
             List<RegionDivision> regiones = ru.getRegionDivisions(division);
             if (regiones == null) continue;
             for (RegionDivision region : regiones) {
@@ -160,14 +167,14 @@ public class DivisionController {
             ctx.status(404).result("Division not found");
             return;
         }
-        List<RegionDivision> regiones = ru.getRegionDivisions(obj);
-        if (regiones == null) {
-            ctx.status(404).result("No regions found for this Division");
-            return;
-        }
         int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(0);
         int size = Math.min(ctx.queryParamAsClass("size", Integer.class).getOrDefault(20), 20);
-
+        List<RegionDivision> regiones = ru.getRegionDivisions(obj);
+        if (regiones == null) {
+            ctx.json(new PaginaDTO<RegionDivisionSummaryDTO>(List.of(), page, size, 0));
+            return;
+        }
+    
         int total = regiones.size();
         int desde = Math.min(page * size, total);
         int hasta = Math.min(desde + size, total);

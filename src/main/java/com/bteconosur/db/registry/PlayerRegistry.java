@@ -16,7 +16,10 @@ import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.Pwarp;
+
+import kotlin.uuid.Uuid;
 
 /**
  * Registro de jugadores cargados y utilidades de consulta por estado.
@@ -36,6 +39,17 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         loadedObjects = new ConcurrentHashMap<>();
         List<Player> players = dbManager.selectAll(Player.class);
         if (players != null) for (Player p : players) loadedObjects.put(p.getUuid(), p);
+    }
+
+
+    @Override
+    public Player get(UUID id) {
+        if (id == null) return null;
+        Player player = loadedObjects.get(id);
+        if (player == null) return player;
+        player.setTipoUsuario(TipoUsuarioRegistry.getInstance().get(player.getTipoUsuario().getId()));
+        player.setRangoUsuario(RangoUsuarioRegistry.getInstance().get(player.getRangoUsuario().getId()));
+        return player;
     }
 
     /**

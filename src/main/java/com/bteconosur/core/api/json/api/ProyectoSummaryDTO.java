@@ -24,8 +24,8 @@ public class ProyectoSummaryDTO {
 
     public ProyectoSummaryDTO(Proyecto proyecto) {
         this.id = proyecto.getId();
-        this.nombre = proyecto.getNombre();
-        this.descripcion = proyecto.getDescripcion();
+        this.nombre = proyecto.getNombre() == null ? "" : proyecto.getNombre();
+        this.descripcion = proyecto.getDescripcion() == null ? "" : proyecto.getDescripcion();
         this.estado = proyecto.getEstado();
         this.tamaño = proyecto.getTamaño();
         this.fechaCreado = proyecto.getFechaCreado();
@@ -52,7 +52,7 @@ public class ProyectoSummaryDTO {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre == null ? "" : nombre;
     }
 
     public String getDescripcion() {
@@ -60,7 +60,7 @@ public class ProyectoSummaryDTO {
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = descripcion == null ? "" : descripcion;
     }
 
     public Estado getEstado() {

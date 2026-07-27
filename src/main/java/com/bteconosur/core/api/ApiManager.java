@@ -43,7 +43,7 @@ public class ApiManager {
             new TipoProyectoController().registrar(config.routes);
             new ProyectoController().registrar(config.routes);
 
-        }).start(7070);
+        }).start(25643);
     }
 
     public void shutdown() {
