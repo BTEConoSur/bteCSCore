@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Point;

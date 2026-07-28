@@ -610,7 +610,7 @@ public class ChatUtil {
         String fieldName = LanguageHandler.getText(language, "ds-embeds.project-list.field-name");
         List<String> fieldLines = LanguageHandler.getTextList(language, "ds-embeds.project-list.field-info");
         List<String> proccesedLines = new ArrayList<>();
-        if (proyectos.isEmpty()) eb.setDescription(LanguageHandler.getText(language, "ds-embeds.project-info.no-projects"));
+        if (proyectos.isEmpty()) eb.setDescription(LanguageHandler.getText(language, "ds-embeds.project-list.no-projects"));
         else  {
             int projectsPerPage = config.getInt("ds-project-list-per-page");
             int totalProjects = proyectos.size();
