@@ -17,8 +17,7 @@ public class DsIpCommand extends DsCommand {
         );
     }
 
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void execute(SlashCommandInteractionEvent event) {
         Long userId = event.getUser().getIdLong();
         Player player = PlayerRegistry.getInstance().findByDiscordId(userId);

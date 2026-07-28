@@ -23,8 +23,7 @@ public class SlashCommandListener extends ListenerAdapter {
      * 
      * @param event Evento de interacción del comando slash
      */
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void onSlashCommandInteraction(@Nonnull SlashCommandInteractionEvent event) {
         String commandName = event.getName();
         String subCommandName = event.getSubcommandName();

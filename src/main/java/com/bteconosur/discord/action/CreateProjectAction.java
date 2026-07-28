@@ -25,8 +25,7 @@ public class CreateProjectAction implements ButtonAction {
 
     private final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void handle(ButtonInteractionEvent event, Interaction ctx) {
         String buttonId = event.getComponentId();
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());

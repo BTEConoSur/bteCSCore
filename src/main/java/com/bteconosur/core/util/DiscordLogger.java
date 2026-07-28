@@ -108,7 +108,6 @@ public class DiscordLogger {
      * @param pais país del que se notifican managers.
      * @param extraResolvers resolvedores extra para formatear el mensaje de Minecraft.
      */
-    @SuppressWarnings("null")
     public static void notifyManagers(String mcMessage, String dsMessage, Pais pais, TagResolver... extraResolvers) {
         List<Player> managers = PlayerRegistry.getInstance().getManagers(pais);
         for (Player manager : managers) {
@@ -132,7 +131,6 @@ public class DiscordLogger {
      * @param pais país del que se notifican revisores.
      * @param extraResolvers resolvedores extra para formatear el mensaje de Minecraft.
      */
-    @SuppressWarnings("null")
     public static void notifyReviewers(String mcMessage, String dsMessage, Pais pais, TagResolver... extraResolvers) {
         List<Player> reviewers = PlayerRegistry.getInstance().getReviewers(pais);
         for (Player reviewer : reviewers) {

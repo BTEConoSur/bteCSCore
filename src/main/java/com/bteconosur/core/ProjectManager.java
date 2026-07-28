@@ -207,15 +207,8 @@ public class ProjectManager {
         Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(DateUtils.instantOffset()));
         pr.load(proyecto);
 
-        File contextImage = SatMapUtils.downloadContext(proyecto, pr.getOverlapping(proyecto.getId(), proyecto.getPoligono()));
-        if (contextImage == null) {
-            PlayerLogger.error(player, LanguageHandler.getText(language, "internal-error"), (String) null);
-            pr.unload(proyecto.getId());
-            return;
-        }
-        //SatMapUtils.downloadImage(proyecto, "Image");
         Pais pais = proyecto.getPais();
-        Boolean success = ProjectRequestService.sendProjectRequest(proyecto, contextImage);
+        Boolean success = ProjectRequestService.sendProjectRequest(proyecto);
         if (!success){ 
             PlayerLogger.error(player, LanguageHandler.getText(language, "internal-error"), (String) null);
             pr.unload(proyecto.getId());
@@ -254,12 +247,14 @@ public class ProjectManager {
         }
         DiscordLogger.countryLog(countryLog, pais);
 
-        String message = LanguageHandler.replaceMC("project.create.accept.for-leader", lider.getLanguage(), proyecto);
-        PlayerLogger.info(lider, message, ChatUtil.getDsProjectAccepted(proyecto, comentario, lider.getLanguage()));
-        if (comentario != null && !comentario.isBlank()) {
-            String commentMessage = LanguageHandler.getText(lider.getLanguage(), "project.create.accept.comment").replace("%comentario%", comentario);
-            PlayerLogger.info(lider, commentMessage, (String) null);
-        }
+        if (!staff.equals(lider)) {
+            String message = LanguageHandler.replaceMC("project.create.accept.for-leader", lider.getLanguage(), proyecto);
+            PlayerLogger.info(lider, message, ChatUtil.getDsProjectAccepted(proyecto, comentario, lider.getLanguage()));
+            if (comentario != null && !comentario.isBlank()) {
+                String commentMessage = LanguageHandler.getText(lider.getLanguage(), "project.create.accept.comment").replace("%comentario%", comentario);
+                PlayerLogger.info(lider, commentMessage, (String) null);
+            }
+        }   
 
         if (tur.getVisita().equals(lider.getTipoUsuario())) {
             TipoUsuario postulante = tur.getPostulante();
@@ -290,11 +285,13 @@ public class ProjectManager {
         Player lider = getLider(proyecto);
 
         InteractionRegistry.getInstance().unload(interactionId);
-        String message = LanguageHandler.replaceMC("project.create.reject.for-leader", lider.getLanguage(), proyecto);
-        PlayerLogger.info(lider, message, ChatUtil.getDsProjectRejected(proyecto, comentario, lider.getLanguage()));
-        if (comentario != null && !comentario.isBlank()) {
-            String commentMessage = LanguageHandler.getText(lider.getLanguage(), "project.create.reject.comment").replace("%comentario%", comentario);
-            PlayerLogger.info(lider, commentMessage, (String) null);
+        if (!staff.equals(lider)) {
+            String message = LanguageHandler.replaceMC("project.create.reject.for-leader", lider.getLanguage(), proyecto);
+            PlayerLogger.info(lider, message, ChatUtil.getDsProjectRejected(proyecto, comentario, lider.getLanguage()));
+            if (comentario != null && !comentario.isBlank()) {
+                String commentMessage = LanguageHandler.getText(lider.getLanguage(), "project.create.reject.comment").replace("%comentario%", comentario);
+                PlayerLogger.info(lider, commentMessage, (String) null);
+            }
         }
 
         String countryLog = LanguageHandler.replaceDS("project.create.reject.log", Language.getDefault(), staff, lider);
@@ -817,14 +814,9 @@ public class ProjectManager {
         Proyecto proyecto = pr.get(proyectoId);
         Player commandPlayer = PlayerRegistry.getInstance().get(commandUuid);
         Player lider = getLider(proyecto);
-        File contextImage = SatMapUtils.downloadRedefineContext(proyecto.getId(), proyecto.getPoligono(), newPolygon,
-            pr.getOverlapping(proyectoId, newPolygon).stream().map(Proyecto::getPoligono).collect(Collectors.toSet())
-        );
-
-        if (contextImage == null) return false;
-        
+                
         Pais pais = proyecto.getPais();
-        Boolean success = ProjectRequestService.sendProjectRedefineRequest(proyecto, newPolygon, tipoProyecto.getId(), division.getId(), contextImage, commandPlayer);
+        Boolean success = ProjectRequestService.sendProjectRedefineRequest(proyecto, newPolygon, tipoProyecto.getId(), division.getId(), commandPlayer);
         if (!success) return false;
         proyecto.setTipoProyecto(tipoProyecto);
         proyecto.setDivision(division);

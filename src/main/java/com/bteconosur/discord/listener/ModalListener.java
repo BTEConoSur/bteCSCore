@@ -30,8 +30,7 @@ public class ModalListener extends ListenerAdapter {
      * 
      * @param event Evento de interacción del modal
      */
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void onModalInteraction(@Nonnull ModalInteractionEvent event) {
         String modalId = event.getModalId();
         if (modalId == null || modalId.isBlank()) return;

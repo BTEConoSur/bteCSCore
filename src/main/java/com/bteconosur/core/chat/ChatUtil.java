@@ -405,7 +405,6 @@ public class ChatUtil {
         return builEmbed(key, language, LanguageHandler.getText(language, key), description, null, null);
     }
 
-    @SuppressWarnings("null")
     public static MessageEmbed getDsProjectCreated(Proyecto proyecto, Date expiredDate) {
         String author = LanguageHandler.getText(Language.getDefault(), "ds-embeds.author");
         String iconUrl = config.getString("cono-sur-logo");
@@ -446,7 +445,6 @@ public class ChatUtil {
         return eb.build();
     }
 
-    @SuppressWarnings("null")
     public static MessageEmbed getDsProjectRedefineRequested(Proyecto proyecto, Player commandPlayer, Polygon newPolygon, Date expiredDate) {
         String author = LanguageHandler.getText(Language.getDefault(), "ds-embeds.author");
         String iconUrl = config.getString("cono-sur-logo");
@@ -476,7 +474,6 @@ public class ChatUtil {
         return eb.build();
     }
 
-    @SuppressWarnings("null")
     public static MessageEmbed getDsPlayerInfo(Player player, User discordUser, Language language) {
         String author = LanguageHandler.getText(language, "ds-embeds.author");
         String iconUrl = config.getString("cono-sur-logo");
@@ -517,7 +514,6 @@ public class ChatUtil {
         return eb.build();
     }
 
-    @SuppressWarnings("null")
     public static MessageEmbed getDsPlayerInfo(User discordUser, Language language) {
         String author = LanguageHandler.getText(language, "ds-embeds.author");
         String iconUrl = config.getString("cono-sur-logo");
@@ -530,7 +526,6 @@ public class ChatUtil {
         return eb.build();
     }
 
-    @SuppressWarnings("null")
     public static MessageEmbed getDsOnline(Language language) {
         String author = LanguageHandler.getText(language, "ds-embeds.author");
         String iconUrl = config.getString("cono-sur-logo");
@@ -582,7 +577,6 @@ public class ChatUtil {
         return eb.build();
     }
 
-    @SuppressWarnings("null")
     public static MessageEmbed getDsProyectoInfo(Proyecto proyecto, Language language) {
         String author = LanguageHandler.getText(language, "ds-embeds.author");
         String iconUrl = config.getString("cono-sur-logo");
@@ -607,7 +601,6 @@ public class ChatUtil {
         return eb.setColor(embedColors.getInt("ds-embeds.project-info")).build();
     }
 
-    @SuppressWarnings("null")
     public static MessageEmbed getDsProyectoList(Player player, Language language, int page) {
         String author = LanguageHandler.getText(language, "ds-embeds.author");
         String iconUrl = config.getString("cono-sur-logo");
@@ -661,7 +654,6 @@ public class ChatUtil {
         return currentPage > 1;
     }
 
-    @SuppressWarnings("null")
     public static MessageEmbed getDsHelpDiscord(Language language, int page) {
         String author = LanguageHandler.getText(language, "ds-embeds.author");
         String iconUrl = config.getString("cono-sur-logo");

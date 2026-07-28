@@ -51,8 +51,7 @@ public class DiscordManager {
      * 
      * @param leave Si es true, resta 1 al contador de jugadores (para cuando un jugador se desconecta)
      */
-    @SuppressWarnings("null")
-    public void updateActivity(boolean leave) {
+      public void updateActivity(boolean leave) {
         if (getJda() != null) {
             int playerCount = Bukkit.getOnlinePlayers().size();
             if (leave) {

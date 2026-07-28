@@ -35,8 +35,7 @@ public class DeleteDsCommand extends DsCommand {
         );
     }
 
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void execute(SlashCommandInteractionEvent event) {
         OptionMapping comando = event.getOption("comando");
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());

@@ -14,8 +14,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
 public class JoinProjectAction implements ButtonAction {
 
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void handle(ButtonInteractionEvent event, Interaction ctx) {
         String buttonId = event.getComponentId();
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());

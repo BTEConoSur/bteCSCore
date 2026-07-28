@@ -3,6 +3,7 @@ package com.bteconosur.discord.util;
 import java.io.File;
 import java.time.Instant;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Polygon;
@@ -17,6 +18,7 @@ import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.core.util.SatMapUtils;
 import com.bteconosur.core.util.TagResolverUtils;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Pais;
@@ -51,8 +53,7 @@ public class ProjectRequestService {
      * @param mapImage Archivo de imagen del mapa satelital
      * @return true si se envió exitosamente, false en caso contrario
      */
-    @SuppressWarnings("null")
-    public static boolean sendProjectRequest(Proyecto proyecto, File mapImage) {
+      public static boolean sendProjectRequest(Proyecto proyecto) {
         Instant now = DateUtils.instantOffset();
         Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.create-project") * 60L);
         MessageEmbed embed = ChatUtil.getDsProjectCreated(proyecto, Date.from(expiration) );
@@ -62,15 +63,28 @@ public class ProjectRequestService {
             ConsoleLogger.error(LanguageHandler.replaceDS("ds-error.channel-pais-not-found", Language.getDefault(), pais));
             return false;
         }
-        
-        if (mapImage == null || !mapImage.exists()) {
+
+        Interaction ctx = new Interaction(
+            proyecto.getLider().getUuid(),
+            proyecto.getId(),
+            InteractionKey.CREATE_PROJECT,
+            now,
+            expiration
+        );
+        InteractionRegistry ir = InteractionRegistry.getInstance();
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        ir.load(ctx);
+        File contextImage = SatMapUtils.downloadContext(proyecto, pr.getOverlapping(proyecto.getId(), proyecto.getPoligono()));
+        if (contextImage == null || !contextImage.exists()) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found") + " " + proyecto.getId());
             return false;
         }
+
         ConsoleLogger.info("Enviando solicitud de proyecto " + proyecto.getId() + " al canal de Discord " + channel.getId());
+
         try {
             channel.sendMessageEmbeds(embed)
-                .addFiles(FileUpload.fromData(mapImage, "map.png"))
+                .addFiles(FileUpload.fromData(contextImage, "map.png"))
                 .addComponents(
                     ActionRow.of(
                         Button.success("accept", LanguageHandler.getText("ds-button-accept")),
@@ -82,25 +96,21 @@ public class ProjectRequestService {
                     TagResolver tagResolver = TagResolverUtils.getLinkText("link", message.getJumpUrl(), LanguageHandler.getText("placeholder.link-display.see-request"), Language.getDefault());
                     String mcNotification = LanguageHandler.replaceDS("project.create.request.for-reviewer", Language.getDefault(), pais);
                     DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
-                    Interaction ctx = new Interaction(
-                        proyecto.getLider().getUuid(),
-                        proyecto.getId(),
-                        InteractionKey.CREATE_PROJECT,
-                        now,
-                        expiration
-                    );
+
                     ctx.setMessageId(message.getIdLong());
-                    InteractionRegistry.getInstance().load(ctx);
+                    ir.merge(ctx.getId());
 
                 }, error -> {
                     ProjectManager.getInstance().deleteProject(proyecto, null);
                     PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
                     ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + " " + pais.getNombre(), error);
+                    ir.unload(ctx.getId());
             });
         } catch (Exception e) {
             //ProjectManager.getInstance().deleteProject(proyecto, null);
             ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + " " + pais.getNombre(), e);
             PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
+            ir.unload(ctx.getId());
             return false;
         }
         return true;
@@ -118,8 +128,7 @@ public class ProjectRequestService {
      * @param requester Jugador que solicita la redefinición
      * @return true si se envió exitosamente, false en caso contrario
      */
-    @SuppressWarnings("null")
-    public static boolean sendProjectRedefineRequest(Proyecto proyecto, Polygon newPolygon, Long tipoProyectoId, Long divisionId, File mapImage, Player requester) {
+      public static boolean sendProjectRedefineRequest(Proyecto proyecto, Polygon newPolygon, Long tipoProyectoId, Long divisionId, Player requester) {
         Instant now = DateUtils.instantOffset();
         Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.redefine-project") * 60L);
         MessageEmbed embed = ChatUtil.getDsProjectRedefineRequested(proyecto, requester, newPolygon, Date.from(expiration));
@@ -130,14 +139,37 @@ public class ProjectRequestService {
             return false;
         }
         
-        if (mapImage == null || !mapImage.exists()) {
+        Estado previousEstado = proyecto.getEstado();
+        Interaction ctx = new Interaction(
+            proyecto.getId(),
+            InteractionKey.REDEFINE_PROJECT,
+            now,
+            expiration
+        );        
+        ctx.setPoligono(newPolygon);
+        ctx.addPayloadValue("tipoId", tipoProyectoId);
+        ctx.addPayloadValue("divisionId", divisionId);
+        ctx.addPayloadValue("previousEstado", previousEstado.name());
+
+        InteractionRegistry ir = InteractionRegistry.getInstance();
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        ir.load(ctx);
+        proyecto.setEstado(Estado.REDEFINIENDO);
+        pr.merge(proyecto.getId());
+
+        File contextImage = SatMapUtils.downloadRedefineContext(proyecto.getId(), proyecto.getPoligono(), newPolygon,
+            pr.getOverlapping(proyecto.getId(), newPolygon).stream().map(Proyecto::getPoligono).collect(Collectors.toSet())
+        );
+        if (contextImage == null || !contextImage.exists()) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.sat-map-not-found") + " " + proyecto.getId());
             return false;
         }
+
         ConsoleLogger.debug("Enviando solicitud de proyecto " + proyecto.getId() + " al canal de Discord " + channel.getId());
+
         try {
             channel.sendMessageEmbeds(embed)
-                .addFiles(FileUpload.fromData(mapImage, "map.png"))
+                .addFiles(FileUpload.fromData(contextImage, "map.png"))
                 .addComponents(
                     ActionRow.of(
                         Button.success("accept", LanguageHandler.getText("ds-button-accept")),
@@ -150,25 +182,21 @@ public class ProjectRequestService {
                     String mcNotification = LanguageHandler.replaceDS("project.redefine.request.for-reviewer", Language.getDefault(), pais);
                     DiscordLogger.notifyReviewers(mcNotification, dsNotification, pais, tagResolver);
                     
-                    Interaction ctx = new Interaction(
-                        proyecto.getId(),
-                        InteractionKey.REDEFINE_PROJECT,
-                        now,
-                        expiration
-                    );        
-                    ctx.setPoligono(newPolygon);
                     ctx.setMessageId(message.getIdLong());
-                    ctx.addPayloadValue("tipoId", tipoProyectoId);
-                    ctx.addPayloadValue("divisionId", divisionId);
-                    ctx.addPayloadValue("previousEstado", proyecto.getEstado().name());
-                    InteractionRegistry.getInstance().load(ctx);
-                    proyecto.setEstado(Estado.REDEFINIENDO);
-                    ProyectoRegistry.getInstance().merge(proyecto.getId());
+                    ir.merge(ctx.getId());
                 }, error -> {
+                    ir.unload(ctx.getId());
+                    proyecto.setEstado(previousEstado);
+                    pr.merge(proyecto.getId());
+
                     PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
                     ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + " " + proyecto.getId(), error);
                 });
             } catch (Exception e) {
+                ir.unload(ctx.getId());
+                proyecto.setEstado(previousEstado);
+                pr.merge(proyecto.getId());
+
                 ConsoleLogger.error(LanguageHandler.getText("ds-error.send-project") + " " + proyecto.getId(), e);
                 PlayerLogger.error(proyecto.getLider(), LanguageHandler.getText("internal-error"), (String) null);
                 return false;
@@ -183,8 +211,7 @@ public class ProjectRequestService {
      * @param proyecto Proyecto al que se solicita unirse
      * @param player Jugador que solicita unirse
      */
-    @SuppressWarnings("null")
-    public static void sendProjectJoinRequest(Proyecto proyecto, Player player) {
+      public static void sendProjectJoinRequest(Proyecto proyecto, Player player) {
         Player lider = ProjectManager.getInstance().getLider(proyecto);
         InteractionRegistry ir = InteractionRegistry.getInstance();
         Interaction ctx = new Interaction(

@@ -33,8 +33,7 @@ public abstract class DsSubcommand extends DsCommand {
      * 
      * @return Los datos del subcomando configurados
      */
-    @SuppressWarnings("null")
-    public SubcommandData geSubcommandData() {
+      public SubcommandData geSubcommandData() {
         SubcommandData subcommandData = new SubcommandData(command, description);
         if (options != null && !options.isEmpty()) subcommandData.addOptions(options);
         return subcommandData;

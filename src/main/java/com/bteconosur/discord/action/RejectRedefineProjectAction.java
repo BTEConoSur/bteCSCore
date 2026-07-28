@@ -13,8 +13,7 @@ import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 
 public class RejectRedefineProjectAction implements ModalAction {
     
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void handle(ModalInteractionEvent event, Interaction ctx) {
         String comentario = event.getValue("comentario").getAsString();
         ProjectManager pm = ProjectManager.getInstance();

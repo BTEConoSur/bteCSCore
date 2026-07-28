@@ -95,8 +95,7 @@ public abstract class DsCommand {
      * Registra el comando en Discord según el modo configurado.
      * Puede registrarse globalmente, en servidores de países, o en el staffhub.
      */
-    @SuppressWarnings("null")
-    public void registerCommand() {
+      public void registerCommand() {
         JDA jda = DiscordManager.getInstance().getJda();
         CommandCreateAction commandData;
         if (mode == CommandMode.COUNTRY_ONLY || mode == CommandMode.COUNTRY_AND_STAFFHUB) {
@@ -132,8 +131,7 @@ public abstract class DsCommand {
      * 
      * @param commandData Acción de creación del comando
      */
-    @SuppressWarnings("null")
-    private void registerCommandData(CommandCreateAction commandData) {
+      private void registerCommandData(CommandCreateAction commandData) {
         if (permissions != null && !permissions.isEmpty()) commandData.setDefaultPermissions(DefaultMemberPermissions.enabledFor(permissions));
         else commandData.setDefaultPermissions(DefaultMemberPermissions.ENABLED);
         if (options != null && !options.isEmpty()) commandData.addOptions(options);

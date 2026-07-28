@@ -122,7 +122,6 @@ public class SatMapUtils {
             //URL mapUrl = URI.create(createMapSatLink(proyecto.getPoligono(), otrosProyectos.stream().map(Proyecto::getPoligono).toList())).toURL();
             @SuppressWarnings("deprecation")
             URL mapUrl = new URL(createMapSatLink(proyecto.getPoligono(), otrosProyectos.stream().map(Proyecto::getPoligono).collect(Collectors.toSet())));
-            ConsoleLogger.debug(mapUrl.toString());
             if (!checkMonthlyRequests()) {
                 Files.copy(defaultFile.toPath(), imageFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 Files.copy(defaultFile.toPath(), contextFile.toPath(), StandardCopyOption.REPLACE_EXISTING);

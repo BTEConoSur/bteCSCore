@@ -31,8 +31,7 @@ public class ButtonListener extends ListenerAdapter {
      * 
      * @param event Evento de interacción del botón
      */
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void onButtonInteraction(@Nonnull ButtonInteractionEvent event) {
         String buttonId = event.getComponentId();
         String messageId = event.getMessage().getId();

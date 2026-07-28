@@ -58,8 +58,7 @@ public abstract class DsContextMessageCommand {
      * Registra el comando de contexto en Discord según el modo configurado.
      * Puede registrarse globalmente, en servidores de países, o en el staffhub.
      */
-    @SuppressWarnings("null")
-    public void registerCommand() {
+      public void registerCommand() {
         JDA jda = DiscordManager.getInstance().getJda();
         DefaultMemberPermissions perm = permissions != null && !permissions.isEmpty() ? DefaultMemberPermissions.enabledFor(permissions) : DefaultMemberPermissions.ENABLED;
         if (mode == CommandMode.COUNTRY_ONLY || mode == CommandMode.COUNTRY_AND_STAFFHUB) {

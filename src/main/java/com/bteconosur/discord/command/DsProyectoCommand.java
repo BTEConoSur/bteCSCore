@@ -32,8 +32,7 @@ public class DsProyectoCommand extends DsCommand {
         );
     }
 
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void execute(SlashCommandInteractionEvent event) {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();

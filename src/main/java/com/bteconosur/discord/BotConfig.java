@@ -42,8 +42,7 @@ public class BotConfig {
      * Inicia el bot de Discord.
      * Configura los intents, listeners y actividad del bot.
      */
-    @SuppressWarnings("null")
-    public void startBot() {
+      public void startBot() {
         if (jda != null) {
             ConsoleLogger.warn(LanguageHandler.getText("ds-error.bot-already-started"));
         }

@@ -21,8 +21,7 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 
 public class PlayerInfoAction implements ButtonAction {
 
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void handle(ButtonInteractionEvent event, Interaction ctx) {
         String buttonId = event.getComponentId();
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
@@ -115,16 +114,14 @@ public class PlayerInfoAction implements ButtonAction {
         }
     }
 
-    @SuppressWarnings("null")
-    private List<Button> buildPlayerInfoButtons(Language language) {
+      private List<Button> buildPlayerInfoButtons(Language language) {
         List<Button> buttons = new ArrayList<>();
         buttons.add(Button.primary("see-projects", LanguageHandler.getText(language, "ds-embeds.player-info.see-projects")));
         buttons.add(Button.danger("player-info-cancel", LanguageHandler.getText(language, "ds-embeds.player-info.cancel")));
         return buttons;
     }
 
-    @SuppressWarnings("null")
-    private List<Button> buildProjectListButtons(Player targetPlayer, Language language, int page) {
+      private List<Button> buildProjectListButtons(Player targetPlayer, Language language, int page) {
         List<Button> buttons = new ArrayList<>();
         Button previousButton = Button.success("project-list-previous", LanguageHandler.getText(language, "ds-embeds.project-list.previous-page"));
         Button nextButton = Button.success("project-list-next", LanguageHandler.getText(language, "ds-embeds.project-list.next-page"));
@@ -139,8 +136,7 @@ public class PlayerInfoAction implements ButtonAction {
         return buttons;
     }
 
-    @SuppressWarnings("null")
-    private List<Button> buildProjectListButtons2(Language language) {
+      private List<Button> buildProjectListButtons2(Language language) {
         List<Button> buttons = new ArrayList<>();
         buttons.add(Button.primary("see-player", LanguageHandler.getText(language, "ds-embeds.project-list.see-player")));
         buttons.add(Button.danger("player-info-cancel", LanguageHandler.getText(language, "ds-embeds.project-list.cancel")));

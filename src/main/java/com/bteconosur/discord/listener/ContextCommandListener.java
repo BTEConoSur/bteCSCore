@@ -25,8 +25,7 @@ public class ContextCommandListener extends ListenerAdapter {
      * 
      * @param event Evento de interacción del comando de contexto de mensaje
      */
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void onMessageContextInteraction(@Nonnull MessageContextInteractionEvent event) {
         String commandName = event.getName();
 
@@ -47,8 +46,7 @@ public class ContextCommandListener extends ListenerAdapter {
      * 
      * @param event Evento de interacción del comando de contexto de usuario
      */
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void onUserContextInteraction(@Nonnull UserContextInteractionEvent event) {
         String commandName = event.getName();
 

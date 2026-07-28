@@ -29,8 +29,7 @@ public class SelectListener extends ListenerAdapter {
      * 
      * @param event Evento de interacción del menú de selección
      */
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void onStringSelectInteraction(@Nonnull StringSelectInteractionEvent event) {
         String selectId = event.getComponentId();
         if (selectId == null || selectId.isBlank()) return;

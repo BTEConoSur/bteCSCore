@@ -18,8 +18,7 @@ public class DsContextDeleteChatCommand extends DsContextMessageCommand {
         super("Borrar Global Chat", Arrays.asList(Permission.ADMINISTRATOR), CommandMode.COUNTRY_ONLY);
     }
 
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void execute(MessageContextInteractionEvent event) {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();

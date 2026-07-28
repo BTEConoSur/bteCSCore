@@ -16,8 +16,7 @@ public class DsContextPlayerCommand extends DsContextUserCommand {
         super("Obtener Información del Jugador", null, CommandMode.GLOBAL);
     }
 
-    @SuppressWarnings("null")
-    @Override
+      @Override
     public void execute(UserContextInteractionEvent event) {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();
