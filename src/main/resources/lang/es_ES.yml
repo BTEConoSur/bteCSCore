@@ -676,6 +676,8 @@ project:
     other-not-leader: "El jugador <yellow>%player.nombre%</yellow> no es el Líder del proyecto <yellow>%proyecto.id%</yellow>."
     other-already: "El jugador <yellow>%player.nombre%</yellow> ya es el Líder del proyecto de ID <yellow>%proyecto.id%</yellow>."
     leave:
+      cant-leave-estado: "No puedes salir del proyecto de ID <yellow>%proyecto.id%</yellow> porque el proyecto está en estado <yellow>%proyecto.estado%</yellow>." 
+      cant-leave-estado-staff: "El lider del proyecto de ID <yellow>%proyecto.id%</yellow> no puede salir del proyecto porque el proyecto está en estado <yellow>%proyecto.estado%</yellow>."
       cant-leave: "No puedes salir del proyecto de ID <yellow>%proyecto.id%</yellow> porque eres Líder y hay otros miembros en el proyecto. Asigna un nuevo Líder."
       cant-leave-staff: "El lider del proyecto de ID <yellow>%proyecto.id%</yellow> no puede salir del proyecto porque hay otros miembros en el proyecto. Asigna un nuevo Líder."
       success: "Has salido del proyecto <yellow>%proyecto.id%</yellow> como Líder correctamente. El proyecto ha sido marcado como <yellow>Abandonado</yellow>."

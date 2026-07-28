@@ -145,6 +145,13 @@ public class ProjectManageMenu extends Menu {
                     return;
                 }
 
+                if (proyecto.getEstado() == Estado.EN_CREACION || proyecto.getEstado() == Estado.EN_FINALIZACION || proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+                    String message = LanguageHandler.replaceMC("project.leader.leave.cant-leave-estado", language, proyecto);   
+                    PlayerLogger.error(BTECSPlayer, message, (String) null);
+                    event.getWhoClicked().closeInventory();
+                    return;
+                }
+
                 Boolean isLider = permissionManager.isLider(BTECSPlayer, proyecto);
                 if (isLider && permissionManager.hasMembers(proyecto)) {
                     String message = LanguageHandler.replaceMC("project.leader.leave.cant-leave", language, proyecto);   

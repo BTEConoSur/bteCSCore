@@ -616,6 +616,8 @@ project:
     other-not-leader: "<yellow>%player.nombre%</yellow> is not the owner of project <yellow>%proyecto.id%</yellow>."
     other-already: "<yellow>%player.nombre%</yellow> is already the owner of project <yellow>%proyecto.id%</yellow>."
     leave:
+      cant-leave-estado: "You can't leave project <yellow>%proyecto.id%</yellow> because the project is in state <yellow>%proyecto.estado%</yellow>." 
+      cant-leave-estado-staff: "Project owner for <yellow>%proyecto.id%</yellow> can't leave because the project is in state <yellow>%proyecto.estado%</yellow>."
       cant-leave: "You can't leave project <yellow>%proyecto.id%</yellow> because you're the owner and there are other members in it. Assign a new owner before you leave."
       cant-leave-staff: "Project owner for <yellow>%proyecto.id%</yellow> can't leave because there are other members in it. Assign a new owner before they leave."
       success: "You've left project <yellow>%proyecto.id%</yellow> successfully. Since you were the owner, the project has been tagged as <yellow>Abandoned</yellow>."

@@ -15,6 +15,7 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.util.Estado;
 
 public class ProjectLeaveCommand extends BaseCommand {
 
@@ -68,6 +69,13 @@ public class ProjectLeaveCommand extends BaseCommand {
                         return;
                     }
 
+                    if (proyecto.getEstado() == Estado.EN_CREACION || proyecto.getEstado() == Estado.EN_FINALIZACION || proyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+                        String message = LanguageHandler.replaceMC("project.leader.leave.cant-leave-estado", language, proyecto);   
+                        PlayerLogger.error(commandPlayer, message, (String) null);
+                        event.getWhoClicked().closeInventory();
+                        return;
+                    }
+
                     Boolean isLider = permissionManager.isLider(commandPlayer, proyecto);
                     if (isLider && permissionManager.hasMembers(proyecto)) {
                         String message = LanguageHandler.getText(language, "project.leader.leave.cant-leave");   
@@ -94,6 +102,12 @@ public class ProjectLeaveCommand extends BaseCommand {
 
         if (!permissionManager.isMiembroOrLider(commandPlayer, proyectoFinal)) {
             String message = LanguageHandler.replaceMC("project.member.not-a-member", language, proyectoFinal);   
+            PlayerLogger.error(commandPlayer, message, (String) null);
+            return true;
+        }
+
+        if (proyectoFinal.getEstado() == Estado.EN_CREACION || proyectoFinal.getEstado() == Estado.EN_FINALIZACION || proyectoFinal.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+            String message = LanguageHandler.replaceMC("project.leader.leave.cant-leave-estado", language, proyectoFinal);   
             PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }

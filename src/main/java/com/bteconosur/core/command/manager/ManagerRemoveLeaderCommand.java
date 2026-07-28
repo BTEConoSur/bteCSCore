@@ -14,6 +14,7 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.util.Estado;
 
 public class ManagerRemoveLeaderCommand extends BaseCommand {
 
@@ -45,6 +46,12 @@ public class ManagerRemoveLeaderCommand extends BaseCommand {
         Pais pais = targetProyecto.getPais();
         if (!permissionManager.isManager(commandPlayer, pais)) {
             PlayerLogger.error(commandPlayer, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
+            return true;
+        }
+
+        if (targetProyecto.getEstado() == Estado.EN_CREACION || targetProyecto.getEstado() == Estado.EN_FINALIZACION || targetProyecto.getEstado() == Estado.EN_FINALIZACION_EDICION) {
+            String message = LanguageHandler.replaceMC("project.leader.leave.cant-leave-estado-staff", language, targetProyecto);   
+            PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }
 
