@@ -57,7 +57,7 @@ public class SelectListener extends ListenerAdapter {
         SelectAction action = registry.getSelectAction(ctx.getInteractionKey());
         if (action == null) {
             ConsoleLogger.warn(LanguageHandler.getText("ds-error.select-action-not-found").replace("%interactionKey%", ctx.getInteractionKey().name()));
-            event.reply(LanguageHandler.getText(language, "discord-internal-error")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
             return;
         }
 
@@ -65,7 +65,7 @@ public class SelectListener extends ListenerAdapter {
             action.handle(event, ctx);
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.select-internal-error"), e);
-            event.reply(LanguageHandler.getText(language, "discord-internal-error")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
         }
     }
 
