@@ -7,6 +7,7 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -381,6 +382,8 @@ public class ApiManager {
      */
     public void syncProject(String proyectoId) {
         if (!config.getBoolean("api-manager-enabled")) return;
+        List<String> bannedProjects = config.getStringList("banned-projects");
+        if (bannedProjects.contains(proyectoId)) return;
 
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId.trim());
         if (proyecto == null) {
@@ -413,6 +416,7 @@ public class ApiManager {
         final Set<String> updateSnapshot = ProyectoRegistry.getInstance().getList().stream()
             .map(Proyecto::getId)
             .collect(Collectors.toCollection(LinkedHashSet::new));
+        updateSnapshot.removeAll(config.getStringList("banned-projects"));
 
         if (updateSnapshot.isEmpty()) {
             ConsoleLogger.info("No hay proyectos para sincronizar con la web.");
