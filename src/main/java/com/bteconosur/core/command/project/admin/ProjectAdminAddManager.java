@@ -73,6 +73,12 @@ public class ProjectAdminAddManager extends BaseCommand {
             return true;
         }
 
+        if (permissionManager.isReviewer(targetPlayer, pais)) {
+            String message = LanguageHandler.replaceMC("reviewer.already", language, targetPlayer, pais);
+            PlayerLogger.error(sender, message, (String) null);
+            return true;
+        }
+
         targetPlayer = permissionManager.addManager(targetPlayer, pais);
         PlayerLogger.info(targetPlayer, LanguageHandler.replaceMC("manager.add.for-target", targetPlayer.getLanguage(), pais),
             ChatUtil.getDsManagerAdded(pais, targetPlayer.getLanguage()));

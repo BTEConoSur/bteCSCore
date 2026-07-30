@@ -80,6 +80,12 @@ public class ManagerAddReviewerCommand extends BaseCommand {
             return true;
         }
 
+        if (permissionManager.isManager(targetPlayer, pais)) {
+            String message = LanguageHandler.replaceMC("manager.already", language, targetPlayer, pais);
+            PlayerLogger.error(sender, message, (String) null);
+            return true;
+        }
+
         targetPlayer = permissionManager.addReviewer(targetPlayer, pais);
         PlayerLogger.info(targetPlayer, LanguageHandler.replaceMC("reviewer.add.for-target", targetPlayer.getLanguage(), targetPlayer, pais),
             ChatUtil.getDsReviewerAdded(pais, targetPlayer.getLanguage()));
