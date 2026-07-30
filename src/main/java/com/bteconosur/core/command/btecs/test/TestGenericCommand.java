@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 
 import com.bteconosur.core.command.BaseCommand;
 
+import net.kyori.adventure.text.Component;
+
 
 public class TestGenericCommand extends BaseCommand {
 
@@ -16,10 +18,7 @@ public class TestGenericCommand extends BaseCommand {
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if (!player.isFlying()) {
-            player.teleport(new Location(player.getWorld(), player.getX(), player.getY() + 0.5, player.getZ()));
-            player.setFlying(true);
-        }
+        player.playerListName(Component.text("§b[Admin] " + player.getName()));
         return true;
     }
 

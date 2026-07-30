@@ -150,6 +150,8 @@ scoreboard-manager-shutting-down: "Shutting down scoreboard..."
 scoreboard-manager-error: "Error while initializing scoreboard."
 # TAB
 # Letras chicas: https://lingojam.com/MinecraftSmallFont
+nametag-prefix: "%player.paisPrefix%%player.rangoUsuarioBadge%%player.tipoUsuarioBadge%"
+nametag-suffix: ""
 tab-prefix: " %player.paisPrefix%%player.prefix%"
 tab-name: " <gold>%player.nombre%</gold>  "
 tab-suffix: "<green>%ping%</green>"

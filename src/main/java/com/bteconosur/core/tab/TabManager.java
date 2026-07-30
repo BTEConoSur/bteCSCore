@@ -18,6 +18,7 @@ import com.bteconosur.db.util.PlaceholderUtils;
 import me.neznamy.tab.api.TabAPI;
 import me.neznamy.tab.api.TabPlayer;
 import me.neznamy.tab.api.event.player.PlayerLoadEvent;
+import me.neznamy.tab.api.nametag.NameTagManager;
 import me.neznamy.tab.api.tablist.HeaderFooterManager;
 import me.neznamy.tab.api.tablist.TabListFormatManager;
 
@@ -171,6 +172,10 @@ public class TabManager {
         tlm.setPrefix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-prefix"), language, player));
         tlm.setSuffix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-suffix"), language, player));
         tlm.setName(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("tab-name"), language, player));
+        
+        NameTagManager ntm = tabAPI.getNameTagManager();
+        ntm.setPrefix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("nametag-prefix"), language, player));
+        ntm.setSuffix(tabPlayer, PlaceholderUtils.replaceMC(LanguageHandler.getText("nametag-suffix"), language, player));
     }
     
     /**
