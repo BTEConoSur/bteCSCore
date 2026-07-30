@@ -47,6 +47,8 @@ public class ReviewerListCommand extends BaseCommand {
             return true;
         }
         List<Player> reviewers = PlayerRegistry.getInstance().getReviewers(pais);
+        List<Player> managers = PlayerRegistry.getInstance().getManagers(pais);
+        reviewers.addAll(managers);
         String title = LanguageHandler.replaceMC("gui-titles.reviewer-list-country", language, pais);
         PlayerListMenu menu = new PlayerListMenu(player, title, Set.copyOf(reviewers), false, MenuUtils.PlayerContext.REVIEWER, (p, e) -> {
             e.setCancelled(true);
