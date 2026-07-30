@@ -105,7 +105,7 @@ public class DsPlayerCommand extends DsCommand {
 
     }
 
-      private void replyWithInteraction(SlashCommandInteractionEvent event, Player player, Language language, Player targetPlayer, User discordUser) {
+    private void replyWithInteraction(SlashCommandInteractionEvent event, Player player, Language language, Player targetPlayer, User discordUser) {
         List<Button> buttons = new ArrayList<>();
         buttons.add(Button.primary("see-projects", LanguageHandler.getText(language, "ds-embeds.player-info.see-projects")));
         buttons.add(Button.danger("player-info-cancel", LanguageHandler.getText(language, "ds-embeds.player-info.cancel")));

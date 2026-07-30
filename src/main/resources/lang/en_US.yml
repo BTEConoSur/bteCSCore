@@ -985,7 +985,7 @@ ds-notifications:
     project-description-updated: "Description updated"
 ds-help:
   cancel-message: "Help closed."
-  cancel: "Cancel"
+  cancel: "Close"
   next-page: "Next page"
   previous-page: "Previous page"
   page: "%currentPage% / %totalPages%"
@@ -1032,7 +1032,7 @@ ds-embeds:
     no-projects: "There are no projects to list"
     see-player: "See a player's information"
     cancel-message: "Project list closed"
-    cancel: "Cancel"
+    cancel: "Close"
     next-page: "Next page"
     previous-page: "Previous page"
     page: "%currentPage% / %totalPages%"
@@ -1070,7 +1070,7 @@ ds-embeds:
     see-projects: "See projects"
     see-player: "See player"
     cancel-message: "Player information closed."
-    cancel: "Cancel"
+    cancel: "Close"
     fields:
       nombre: "Nickname"
       discord: "Discord"

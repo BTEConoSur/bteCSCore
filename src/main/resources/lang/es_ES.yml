@@ -1052,7 +1052,7 @@ ds-notifications:
     project-description-updated: "Descripción del proyecto actualizada"
 ds-help:
   cancel-message: "Ayuda cerrada."
-  cancel: "Cancelar"
+  cancel: "Cerrar"
   next-page: "Página siguiente"
   previous-page: "Página anterior"
   page: "%currentPage% / %totalPages%"
@@ -1099,7 +1099,7 @@ ds-embeds:
     no-projects: "No hay proyectos para mostrar."
     see-player: "Ver Info del jugador"
     cancel-message: "Lista de proyectos cerrada."
-    cancel: "Cancelar"
+    cancel: "Cerrar"
     next-page: "Página siguiente"
     previous-page: "Página anterior"
     page: "%currentPage% / %totalPages%"
@@ -1137,7 +1137,7 @@ ds-embeds:
     see-projects: "Ver Proyectos"
     see-player: "Ver Jugador"
     cancel-message: "Información del jugador cerrada."
-    cancel: "Cancelar"
+    cancel: "Cerrar"
     fields:
       nombre: "Nombre Público"
       discord: "Discord"

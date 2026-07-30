@@ -32,7 +32,8 @@ public class DiscordHelpAction implements ButtonAction {
         }
         if (buttonId.equals("help-cancel")) {
             event.getMessage().delete().queue();
-            event.reply(LanguageHandler.getText(language, "ds-help.cancel-message")).setEphemeral(true).queue();
+            //event.reply(LanguageHandler.getText(language, "ds-help.cancel-message")).setEphemeral(true).queue();
+            event.deferEdit().queue();
             ir.unload(ctx.getId());
             return;
         }

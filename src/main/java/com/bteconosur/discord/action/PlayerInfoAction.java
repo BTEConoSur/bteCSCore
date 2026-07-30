@@ -35,7 +35,8 @@ public class PlayerInfoAction implements ButtonAction {
         }
         if (buttonId.equals("player-info-cancel")) {
             event.getMessage().delete().queue();
-            event.reply(LanguageHandler.getText(language, "ds-embeds.player-info.cancel-message")).setEphemeral(true).queue();
+            //event.reply(LanguageHandler.getText(language, "ds-embeds.player-info.cancel-message")).setEphemeral(true).queue();
+            event.deferEdit().queue();
             ir.unload(ctx.getId());
             return;
         }
