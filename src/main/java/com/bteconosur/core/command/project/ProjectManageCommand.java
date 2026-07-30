@@ -1,8 +1,11 @@
 package com.bteconosur.core.command.project;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
@@ -78,6 +81,13 @@ public class ProjectManageCommand extends BaseCommand {
         projectManageMenu = new ProjectManageMenu(commandPlayer, proyectoFinal, LanguageHandler.replaceMC("gui-titles.project-manage", language, proyectoFinal));
         projectManageMenu.open();
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        Player player = PlayerRegistry.getInstance().get(sender);
+        if (args.length == 1) return ProyectoRegistry.getInstance().getIdsByLider(player).stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
+        return Collections.emptyList();
     }
 
 }
