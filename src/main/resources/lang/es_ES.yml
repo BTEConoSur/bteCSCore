@@ -707,7 +707,7 @@ project:
       for-reviewer: "Nueva solicitud de creación de proyecto de <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "Nueva solicitud de creación de proyecto de %pais.nombrePublico%. [Ver solicitud](%link%)"
       expired: "La solicitud de proyecto de ID <yellow>%proyecto.id%</yellow> ha expirado."
-      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%`. Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. Division: `%proyecto.divisionId%`-`%proyecto.divisionNombre%`. Nombre: `%proyecto.nombre%`. Descripción: `%proyecto.descripcion%`."
+      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%`. Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Nombre: `%proyecto.nombre%`. Descripción: `%proyecto.descripcion%`."
       expired-log: "❌ | La solicitud de creación del proyecto `%proyecto.id%` de **%player.nombre%** ha expirado."
     accept:
       success: "Has aceptado la solicitud del proyecto de ID <yellow>%proyecto.id%</yellow>."
@@ -786,7 +786,7 @@ project:
       for-reviewer: "Nueva solicitud de redefinición de proyecto de <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "Nueva solicitud de redefinición de proyecto de %pais.nombrePublico%. [Ver solicitud](%link%)"
       for-member: "%player.nombre% ha solicitado redefinir el proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés."
-      log: "♻️ | **%player.nombre%** ha solicitado redefinir el proyecto `%proyecto.id%`. Nuevo Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. Nueva División: `%proyecto.divisionId%`-`%proyecto.divisionNombre%`."
+      log: "♻️ | **%player.nombre%** ha solicitado redefinir el proyecto `%proyecto.id%`. Nuevo Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. Nueva División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`."
       expired-log: "❌ | La solicitud de redefinición del proyecto `%proyecto.id%` ha expirado."
     accept:
       success: "Has aceptado la redefinición del proyecto de ID <yellow>%proyecto.id%</yellow>."

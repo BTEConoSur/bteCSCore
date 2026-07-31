@@ -647,7 +647,7 @@ project:
       for-reviewer: "New project creation request for <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "New project creation request for %pais.nombrePublico%. [See request](%link%)"
       expired: "Request with project ID <yellow>%proyecto.id%</yellow> has expired."
-      log: "📋 | **%player.nombre%** has created project `%proyecto.id%`. Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. Regional division: `%proyecto.divisionId%`-`%proyecto.divisionNombre%`. Name: `%proyecto.nombre%`. Description: `%proyecto.descripcion%`."
+      log: "📋 | **%player.nombre%** has created project `%proyecto.id%`. Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. Regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Name: `%proyecto.nombre%`. Description: `%proyecto.descripcion%`."
       expired-log: "❌ | Creation request for project `%proyecto.id%` by **%player.nombre%** has expired."
     accept:
       success: "You've accepted the request for project <yellow>%proyecto.id%</yellow>."
@@ -726,7 +726,7 @@ project:
       for-reviewer: "New redefine request in <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "New redefine request in %pais.nombrePublico%. [See request](%link%)"
       for-member: "%player.nombre% has requested to redefine project <yellow>%proyecto.id%</yellow>, of which you are a part of."
-      log: "♻️ | **%player.nombre%** has requested to redefine `%proyecto.id%`. New Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. New regional division: `%proyecto.divisionId%`-`%proyecto.divisionNombre%`."
+      log: "♻️ | **%player.nombre%** has requested to redefine `%proyecto.id%`. New Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. New regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`."
       expired-log: "❌ | The redefine request for project `%proyecto.id%` has expired."
     accept:
       success: "You've accepted the redefine request for project <yellow>%proyecto.id%</yellow>."
