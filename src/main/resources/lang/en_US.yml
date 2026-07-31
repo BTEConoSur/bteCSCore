@@ -1311,6 +1311,10 @@ items:
       - "<gray>Click to leave this project."
       - "<gray>If you are its leader"
       - "<gray>it will be tagged as Abandoned."
+  edit-project:
+    name: "<green>Edit Project"
+    lore:
+      - "<gray>Click to activate the project's editing mode."
   finish-project:
     name: "<green>Finish project"
     lore:

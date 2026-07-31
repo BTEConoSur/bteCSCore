@@ -132,6 +132,18 @@ public class ProjectManageMenu extends Menu {
                     playerListMenu.open();
                 });
             }
+
+            if (proyecto.getEstado() == Estado.COMPLETADO) {
+                gui.setItem(2,7, MenuUtils.getEditProjectItem(language));
+                gui.addSlotAction(2,7, event -> {
+                    ConfirmationMenu confirmationMenu = new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.edit-project-confirm", language, proyecto), BTECSPlayer, this, confirmClick -> {
+                        event.getWhoClicked().closeInventory();
+                        ProjectManager.getInstance().activateEdit(proyecto.getId(), BTECSPlayer.getUuid());
+                        PlayerLogger.info(BTECSPlayer, LanguageHandler.replaceMC("project.edit.activate.success", language, BTECSPlayer, proyecto), (String) null);
+                    });
+                    confirmationMenu.open();
+                });
+            }
         }
 
         gui.setItem(2,8, MenuUtils.getLeaveProjectItem(language));

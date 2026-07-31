@@ -584,6 +584,14 @@ public class MenuUtils {
         );
     }
 
+    public static GuiItem getEditProjectItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.edit-project"),
+            LanguageHandler.getText(language, "items.edit-project.name"),
+            LanguageHandler.getTextList(language, "items.edit-project.lore"), false
+        );
+    }
+
     public static GuiItem getLeaveProjectItem(Language language) {
         return buildGuiItem(
             gui.getString("item-materials.leave-project"),

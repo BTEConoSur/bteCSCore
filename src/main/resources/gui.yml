@@ -40,6 +40,7 @@ item-materials:
   add-member: "hdb:9885"
   remove-member: "hdb:9351"
   leave-project: "hdb:9334"
+  edit-project: "WRITABLE_BOOK"
   finish-project: "hdb:67132"
   set-name-description: "NAME_TAG"
   transfer-leader: "hdb:67145"

@@ -1382,6 +1382,10 @@ items:
       - "<gray>Haz clic para salir del proyecto."
       - "<gray>Si eres el líder, el proyecto"
       - "<gray>será marcado como abandonado."
+  edit-project:
+    name: "<green>Editar Proyecto"
+    lore:
+      - "<gray>Haz clic para activar la edición del proyecto."
   finish-project:
     name: "<green>Finalizar Proyecto"
     lore:
