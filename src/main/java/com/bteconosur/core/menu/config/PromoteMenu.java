@@ -133,7 +133,7 @@ public class PromoteMenu extends Menu {
                     String message = PlaceholderUtils.replaceMC(messageSet, playerMenu.getLanguage(), influencer);
                     PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, playerMenu.getLanguage(), BTECSPlayer), (String) null);
                 }
-                String countryLog = LanguageHandler.replaceDS("tipo.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                String countryLog = LanguageHandler.replaceDS("rango.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), influencer);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
@@ -156,7 +156,7 @@ public class PromoteMenu extends Menu {
                     String message = PlaceholderUtils.replaceMC(messageSet, playerMenu.getLanguage(), donador);
                     PlayerLogger.info(playerMenu, PlaceholderUtils.replaceMC(message, playerMenu.getLanguage(), BTECSPlayer), (String) null);
                 }
-                String countryLog = LanguageHandler.replaceDS("tipo.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
+                String countryLog = LanguageHandler.replaceDS("rango.promote-staff-log", Language.getDefault(), playerMenu, BTECSPlayer);
                 countryLog = PlaceholderUtils.replaceDS(countryLog, Language.getDefault(), donador);
                 DiscordLogger.staffLog(countryLog);
                 confirmationMenu.getGui().close(player);
