@@ -31,6 +31,8 @@ public class GenericHelpCommand extends BaseCommand {
         
         int visibleSubcommands = 0;
         for (BaseCommand sub : parentCommand.subcommands.values()) {
+            if (sub instanceof GenericHelpCommand) continue;
+
             if (sub.getPermission() != null && !sender.hasPermission(sub.getPermission())) {
                 continue;
             }
@@ -44,6 +46,8 @@ public class GenericHelpCommand extends BaseCommand {
         }
         
         int totalPages = (int) Math.ceil(visibleSubcommands / (double) subcommandsPerPage);
+        if (totalPages < 1) totalPages = 1;
+
         int page = 1;
         if (args.length > 0) {
             try {
@@ -91,6 +95,8 @@ public class GenericHelpCommand extends BaseCommand {
             int currentIndex = 0;
             
             for (BaseCommand sub : parentCommand.subcommands.values()) {
+                if (sub instanceof GenericHelpCommand) continue;
+
                 if (sub.getPermission() != null && !sender.hasPermission(sub.getPermission())) {
                     continue;
                 }
