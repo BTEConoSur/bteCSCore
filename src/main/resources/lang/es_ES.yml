@@ -306,6 +306,7 @@ commands-descriptions:
     remove.desc: "Eliminar un Pwarp por nombre."
   nightvision.desc: "Activar o desactivar la visión nocturna."
   lobby.desc: "Teletransportarse al lobby."
+  assets.desc: "Teletransportarse a Assets."
   get.desc: "Obtener items y bloques especiales."
   generic-help.desc: "Muestra la ayuda del comando."
   help:
@@ -1650,6 +1651,7 @@ no-building-permissions: "No tienes permisos para construir aquí."
 not-limbo: "No puedes estar afuera de los paises. Teletransportando al lobby..."
 cant-leave-paises: "No puedes salir de los paises."
 lobby-teleport: "Teletransportando al lobby..."
+assets-teleport: "Teletransportando a Assets..."
 
 world-height-limit: "Has superado el límite de altura del mundo y te hemos teletransportado al lobby. Si te has caído del mundo al generar terreno, prueba a explorar volando."
 

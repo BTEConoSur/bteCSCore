@@ -261,6 +261,7 @@ commands-descriptions:
     remove.desc: "Delete a Pwarp."
   nightvision.desc: "Toggle night vision."
   lobby.desc: "Teleport to the lobby."
+  assets.desc: "Teleport to Assets."
   get.desc: "Get special items (Operator Utilities)."
   generic-help.desc: "Shows help."
   help:
@@ -1570,6 +1571,7 @@ no-building-permissions: "Sorry, you don't have permission to build here."
 not-limbo: "You can't travel outside Cono Sur countries. Teleporting to lobby..."
 cant-leave-paises: "You can't travel outside Cono Sur countries."
 lobby-teleport: "Teleporting to lobby..."
+assets-teleport: "Teleporting to Assets..."
 world-height-limit: "Looks like you've fallen out of the world or reached the height limit, so we've teleported you back to the lobby. If this happened while generating terrain, try again while flying."
 # BTE Web
 web-proyecto-description:

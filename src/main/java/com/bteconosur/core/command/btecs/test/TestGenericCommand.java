@@ -1,6 +1,5 @@
 package com.bteconosur.core.command.btecs.test;
 
-import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

@@ -3,6 +3,7 @@ package com.bteconosur.core;
 import com.bteconosur.core.api.ApiManager;
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
+import com.bteconosur.core.command.AssetsCommand;
 import com.bteconosur.core.command.BackCommand;
 import com.bteconosur.core.command.DeletePlayerDataCommand;
 import com.bteconosur.core.command.GetCommand;
@@ -205,6 +206,9 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new LobbyCommand());
         HelpCommandCommand.addCommand(new LobbyCommand());
         DsHelpMinecraftCommand.addHelpCommand(new LobbyCommand());
+        PluginRegistry.registerCommand(new AssetsCommand());
+        HelpCommandCommand.addCommand(new AssetsCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new AssetsCommand());
         PluginRegistry.registerCommand(new BackCommand());
         HelpCommandCommand.addCommand(new BackCommand());
         DsHelpMinecraftCommand.addHelpCommand(new BackCommand());
