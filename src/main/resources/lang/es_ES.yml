@@ -188,7 +188,7 @@ scoreboard-manager-error: "Error al inicializar el Scoreboard."
 
 # TAB
 # Letras chicas: https://lingojam.com/MinecraftSmallFont
-nametag-prefix: "%player.paisPrefix%%player.rangoUsuarioBadge%%player.tipoUsuarioBadge%"
+nametag-prefix: "%player.paisPrefix%%player.labelPrefix% "
 nametag-suffix: ""
 tab-prefix: " %player.paisPrefix%%player.prefix%"
 tab-name: " <gold>%player.nombre%</gold>  "

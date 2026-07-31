@@ -305,6 +305,10 @@ public class PlaceholderUtils {
                         if (!pm.isNormal(p)) value = replace("%player.rangoUsuarioPrefijo%", language, context, p);
                         else value = replace("%player.tipoUsuarioPrefijo%", language, context, p);
                         break;
+                    case "labelPrefix":
+                        if (!PermissionManager.getInstance().isNormal(p)) value = replace("%player.rangoUsuarioBadge%", language, context, p);
+                        else value = replace("%player.tipoUsuarioBadge%", language, context, p);
+                        break;
                     case "paisPrefix":
                         Pais pais = p.getPaisPrefix();
                         if (context == PlaceholderContext.MINECRAFT) path = "placeholder.pais-mc.prefix.";
