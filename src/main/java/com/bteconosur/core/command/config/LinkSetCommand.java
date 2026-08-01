@@ -11,6 +11,7 @@ import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -75,7 +76,7 @@ public class LinkSetCommand extends BaseCommand {
             String message = LanguageHandler.replaceMC("link.set-success", language, targetPlayer);
             PlayerLogger.info(sender, message, (String) null);
         }
-
+        DiscordLogger.staffLog(LanguageHandler.replaceDS("link.link-staff-log", Language.getDefault(), commandPlayer, targetPlayer));
         return true;
     }
 

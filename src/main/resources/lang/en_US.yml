@@ -833,6 +833,10 @@ link:
   mc-link-needed: "You must link your Discord account to use this command. Use /link."
   mc-link-recomendation: "We recommend linking your Discord account. Use /link."
   ds-link-needed: "You must link your Minecraft account in order to be able to preform this action. Use /link."
+  link-log: "🔗 | **%player.nombre%** has linked their Discord account <@%player.discordId%> to their Minecraft account."
+  unlink-log: "🔓 | **%player.nombre%** has unlinked their Discord account <@%discordId%> from their Minecraft account."
+  link-staff-log: "🔗 | **%player.nombre%** has linked the Discord account <@%player.discordId%> to the Minecraft account of **%player.nombre.1%**."
+  unlink-staff-log: "🔓 | **%player.nombre%** has unlinked the Discord account <@%discordId%> from the Minecraft account of **%player.nombre.1%**."
 crud:
   create: "Successfully created entity %entity%. A server restart is required." # %entity% -> Nombre de la entidad.
   read: "Entity %entity% with ID %id%:" # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.

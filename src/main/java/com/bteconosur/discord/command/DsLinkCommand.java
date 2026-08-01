@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.util.CommandMode;
@@ -59,6 +60,8 @@ public class DsLinkCommand extends DsCommand {
         }
         
         String message = LanguageHandler.replaceMC("link.ds-success", language, player);
+        DiscordLogger.staffLog(LanguageHandler.replaceDS("link.link-log", Language.getDefault(), player));
+        
         event.reply(message).setEphemeral(true).queue();
     }
 

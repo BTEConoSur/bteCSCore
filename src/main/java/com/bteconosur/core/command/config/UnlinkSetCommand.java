@@ -10,6 +10,7 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
+import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -57,6 +58,7 @@ public class UnlinkSetCommand extends BaseCommand {
         
         org.bukkit.entity.Player bukkitPlayer = commandPlayer.getBukkitPlayer();
         final Player finalTargetPlayer = targetPlayer;
+        long discordId = targetPlayer.getDsIdUsuario();
         confirmationMenu = new ConfirmationMenu(LanguageHandler.getText(language, "gui-titles.unlink-confirm"), bukkitPlayer, confirmClick -> {
                 Player newTargetPlayer = LinkService.unlink(finalTargetPlayer);
                 PlayerLogger.info(newTargetPlayer, LanguageHandler.getText(newTargetPlayer.getLanguage(), "link.unlink-success"), (String) null);
@@ -64,6 +66,7 @@ public class UnlinkSetCommand extends BaseCommand {
                     String message = LanguageHandler.replaceMC("link.unlink-set-success", language, finalTargetPlayer);
                     PlayerLogger.info(sender, message, (String) null);
                 }
+                DiscordLogger.staffLog(LanguageHandler.replaceDS("link.unlink-staff-log", Language.getDefault(), commandPlayer, finalTargetPlayer).replace("%discordId%", String.valueOf(discordId)));
                 confirmationMenu.getGui().close(bukkitPlayer);
             }, (cancelClick -> {
                 confirmationMenu.getGui().close(bukkitPlayer);

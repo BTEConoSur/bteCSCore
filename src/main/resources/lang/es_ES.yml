@@ -893,6 +893,10 @@ link:
   mc-link-needed: "Debes vincular tu cuenta de Discord para usar este comando. Usa /link."
   mc-link-recomendation: "Te recomendamos vincular tu cuenta de Discord. Usa /link."
   ds-link-needed: "Debes vincular tu cuenta de Minecraft para realizar esta acción. Usa /link."
+  link-log: "🔗 | **%player.nombre%** ha vinculado su cuenta de Discord <@%player.discordId%> a su cuenta de Minecraft."
+  unlink-log: "🔓 | **%player.nombre%** ha desvinculado su cuenta de Discord <@%discordId%> de su cuenta de Minecraft."
+  link-staff-log: "🔗 | **%player.nombre%** ha vinculado la cuenta de Discord <@%player.discordId%> a la cuenta de Minecraft de **%player.nombre.1%**."
+  unlink-staff-log: "🔓 | **%player.nombre%** ha desvinculado la cuenta de Discord <@%discordId%> de la cuenta de Minecraft de **%player.nombre.1%**."
 crud:
   create: "Entidad %entity% creada exitosamente. Reinicia el servidor para aplicar cambios." # %entity% -> Nombre de la entidad.
   read: "Entidad %entity% con id %id%:" # %entity% -> Nombre de la entidad. %id% -> Identificador de la entidad.

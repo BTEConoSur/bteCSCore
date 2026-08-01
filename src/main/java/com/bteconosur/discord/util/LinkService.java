@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bteconosur.core.config.Language;
+import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.util.IDUtils;
@@ -205,7 +208,8 @@ public class LinkService {
         player.setDsIdUsuario(discordId);
         discordCodes.remove(discordId);
         cacheDiscordName(discordId);
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        Player updatedPlayer = PlayerRegistry.getInstance().merge(player.getUuid());
+        DiscordLogger.staffLog(LanguageHandler.replaceDS("link.link-log", Language.getDefault(), updatedPlayer));
     }
 
 }
