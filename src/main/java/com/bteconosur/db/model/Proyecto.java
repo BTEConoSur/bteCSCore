@@ -94,11 +94,10 @@ public class Proyecto {
     public Proyecto() {
     }
 
-    public Proyecto(String nombre, String descripcion, Estado estado, Polygon poligono, Double tamaño, TipoProyecto tipoProyecto, Player lider, Division division, Date fechaCreado) {
+    public Proyecto(String nombre, Estado estado, Polygon poligono, Double tamaño, TipoProyecto tipoProyecto, Player lider, Division division, Date fechaCreado) {
         this.id = IDUtils.generarCodigoProyecto();
         if (nombre == null) nombre = this.id;
         else this.nombre = nombre;
-        this.descripcion = descripcion;
         this.estado = estado;
         this.poligono = poligono;
         this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);

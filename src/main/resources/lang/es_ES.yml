@@ -700,14 +700,14 @@ project:
   create:
     admin:
       success: "Has creado exitosamente el proyecto <yellow>%proyecto.id%</yellow> de tipo Admin."
-      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%` de tipo Admin. Nombre: `%proyecto.nombre%`. Descripción: `%proyecto.descripcion%`."
+      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%` de tipo Admin. Nombre: `%proyecto.nombre%`."
     request:
       success: "<green>Solicitud de proyecto con ID <yellow>%proyecto.id%</yellow> enviada correctamente. Espera a que un Reviewer la revise."
       already: "Ya has enviado una solicitud de proyecto. Espera a que un Reviewer la revise."
       for-reviewer: "Nueva solicitud de creación de proyecto de <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "Nueva solicitud de creación de proyecto de %pais.nombrePublico%. [Ver solicitud](%link%)"
       expired: "La solicitud de proyecto de ID <yellow>%proyecto.id%</yellow> ha expirado."
-      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%`. Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Nombre: `%proyecto.nombre%`. Descripción: `%proyecto.descripcion%`."
+      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%`. Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Nombre: `%proyecto.nombre%`."
       expired-log: "❌ | La solicitud de creación del proyecto `%proyecto.id%` de **%player.nombre%** ha expirado."
     accept:
       success: "Has aceptado la solicitud del proyecto de ID <yellow>%proyecto.id%</yellow>."

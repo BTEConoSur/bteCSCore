@@ -640,14 +640,14 @@ project:
   create:
     admin:
       success: "Successfully created project <yellow>%proyecto.id%</yellow> as Admin Type."
-      log: "📋 | **%player.nombre%** has created project `%proyecto.id%` as Admin Type. Name: `%proyecto.nombre%`. Description: `%proyecto.descripcion%`."
+      log: "📋 | **%player.nombre%** has created project `%proyecto.id%` as Admin Type. Name: `%proyecto.nombre%`."
     request:
       success: "<green>Successfully sent a project request. ID: <yellow>%proyecto.id%</yellow>. You'll need to wait until a Reviewer evaluates it."
       already: "You've already sent a project request. Please wait until a Reviewer evaluates it."
       for-reviewer: "New project creation request for <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "New project creation request for %pais.nombrePublico%. [See request](%link%)"
       expired: "Request with project ID <yellow>%proyecto.id%</yellow> has expired."
-      log: "📋 | **%player.nombre%** has created project `%proyecto.id%`. Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. Regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Name: `%proyecto.nombre%`. Description: `%proyecto.descripcion%`."
+      log: "📋 | **%player.nombre%** has created project `%proyecto.id%`. Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. Regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Name: `%proyecto.nombre%`."
       expired-log: "❌ | Creation request for project `%proyecto.id%` by **%player.nombre%** has expired."
     accept:
       success: "You've accepted the request for project <yellow>%proyecto.id%</yellow>."

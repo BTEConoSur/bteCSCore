@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.locationtech.jts.geom.Polygon;
 
 import com.bteconosur.core.ProjectManager;
+import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
@@ -18,14 +19,13 @@ import com.bteconosur.discord.util.LinkService;
 public class ProjectCreateCommand extends BaseCommand {
 
     public ProjectCreateCommand() {
-        super("create", "[nombre] [descripción]", "btecs.command.project.create", CommandMode.PLAYER_ONLY);
+        super("create", "[nombre]", "btecs.command.project.create", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         String nombre = null;
-        String descripcion = null;
 
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         Language language = commandPlayer.getLanguage();
@@ -34,7 +34,12 @@ public class ProjectCreateCommand extends BaseCommand {
         }
 
         if (args.length >= 1) {
-            nombre = args[0];
+            StringBuilder nombreBuilder = new StringBuilder();
+            for (int i = 0; i < args.length; i++) {
+                if (i > 0) nombreBuilder.append(" ");
+                nombreBuilder.append(args[i]);
+            }
+            nombre = nombreBuilder.toString();
             if (nombre.length() > 50) {
                 PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-name"), (String) null);
                 return true;
@@ -43,29 +48,15 @@ public class ProjectCreateCommand extends BaseCommand {
                 PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
                 return true;
             }
-        }
-
-        if (args.length >= 2) {
-            StringBuilder descripcionBuilder = new StringBuilder();
-            for (int i = 1; i < args.length; i++) {
-                if (i > 1) descripcionBuilder.append(" ");
-                descripcionBuilder.append(args[i]);
-            }
-            descripcion = descripcionBuilder.toString();
-
-            if (descripcion.length() > 100) {
-                PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-description"), (String) null);
-                return true;
-            }
-            if (descripcion.matches(".*<[^>]+>.*")) {
-                PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
+            if (ChatUtil.hasBannedChars(nombre)) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-chars"), (String) null);
                 return true;
             }
         }
 
         Polygon regionPolygon = RegionUtils.getPolygon(sender);
         if (regionPolygon == null) return true;
-        ProjectManager.getInstance().createProject(nombre, descripcion, regionPolygon, commandPlayer, language);
+        ProjectManager.getInstance().createProject(nombre, regionPolygon, commandPlayer, language);
         return true;
     }
 

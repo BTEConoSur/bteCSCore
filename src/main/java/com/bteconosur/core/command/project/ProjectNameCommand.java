@@ -52,17 +52,21 @@ public class ProjectNameCommand extends BaseCommand {
             return true;
         }
 
-        String nombre = args[1];
+        StringBuilder nombreBuilder = new StringBuilder();
+        for (int i = 0; i < args.length; i++) {
+            if (i > 0) nombreBuilder.append(" ");
+            nombreBuilder.append(args[i]);
+        }
+        String nombre = nombreBuilder.toString();
         if (nombre.length() > 50) {
             PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-name"), (String) null);
             return true;
         }
-
         if (nombre.matches(".*<[^>]+>.*")) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-regex"), (String) null);
             return true;
         }
-
+        
         if (ChatUtil.hasBannedChars(nombre)) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-chars"), (String) null);
             return true;

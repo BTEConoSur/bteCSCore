@@ -129,7 +129,7 @@ public class ProjectManager {
      * @param player jugador que crea el proyecto.
      * @param language idioma para mensajes al jugador.
      */
-    public void createAdminProject(String nombre, String descripcion, Polygon regionPolygon, Player player, Language language) {
+    public void createAdminProject(String nombre, Polygon regionPolygon, Player player, Language language) {
         Double tamaño = regionPolygon.getArea();
         TipoProyecto tipoProyecto = TipoProyectoRegistry.getInstance().get(config.getLong("id-proyecto-admin", 1));
         if (tipoProyecto == null) {
@@ -146,7 +146,7 @@ public class ProjectManager {
 
         ProyectoRegistry pr = ProyectoRegistry.getInstance(); 
         
-        Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.ACTIVO, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(DateUtils.instantOffset()));
+        Proyecto proyecto = new Proyecto(nombre, Estado.ACTIVO, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(DateUtils.instantOffset()));
         pr.load(proyecto);
 
         File contextImage = SatMapUtils.downloadImage(proyecto);
@@ -174,7 +174,7 @@ public class ProjectManager {
      * @param player jugador que realiza la solicitud.
      * @param language idioma para mensajes al jugador.
      */
-    public void createProject(String nombre, String descripcion, Polygon regionPolygon, Player player, Language language) {
+    public void createProject(String nombre, Polygon regionPolygon, Player player, Language language) {
         Interaction previousctx = InteractionRegistry.getInstance().findCreateRequest(player);
         if (previousctx != null) {
             PlayerLogger.warn(player, LanguageHandler.getText(language, "project.create.request.already"), (String) null);
@@ -203,7 +203,7 @@ public class ProjectManager {
             return;
         }
         
-        Proyecto proyecto = new Proyecto(nombre, descripcion, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(DateUtils.instantOffset()));
+        Proyecto proyecto = new Proyecto(nombre, Estado.EN_CREACION, regionPolygon, tamaño, tipoProyecto, player, division, Date.from(DateUtils.instantOffset()));
         pr.load(proyecto);
 
         Pais pais = proyecto.getPais();
