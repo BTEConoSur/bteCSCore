@@ -5,10 +5,13 @@ import java.util.List;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.TpdirMenu;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.core.util.TerraUtils;
 import com.bteconosur.core.util.json.JsonUtils;
 import com.bteconosur.core.util.json.RealLocation;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.world.WorldManager;
+import com.bteconosur.world.model.BTEWorld;
 
 public class TpdirCommand extends BaseCommand {
 
@@ -33,17 +36,24 @@ public class TpdirCommand extends BaseCommand {
             PlayerLogger.error(sender, LanguageHandler.getText(player.getLanguage(), "tpdir.search-error").replace("%query%", query), (String) null);
             return true;
         }
-        if (locations.isEmpty()) {
+        BTEWorld world =  WorldManager.getInstance().getBTEWorld();
+        List<RealLocation> filteredLocations = locations.stream()
+            .filter(loc -> {
+                double[] coords = TerraUtils.toMc(loc.lat, loc.lon);
+                return world.checkPaisMove(coords[0], coords[1]);
+            }).toList();
+        
+        if (filteredLocations.isEmpty()) {
             PlayerLogger.error(sender, LanguageHandler.getText(player.getLanguage(), "tpdir.no-results").replace("%query%", query), (String) null);
             return true;
         }
-        if (locations.size() == 1) {
-            RealLocation loc = locations.get(0);
+        if (filteredLocations.size() == 1) {
+            RealLocation loc = filteredLocations.get(0);
             PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "tpdir.tped").replace("%destino%", loc.displayName), (String) null);
             bukkitPlayer.performCommand("terraplusminus:tpll " + loc.lat + " " + loc.lon);
             return true;
         } else {
-            TpdirMenu menu = new TpdirMenu(player, LanguageHandler.getText(player.getLanguage(), "gui-titles.tpdir-selection"), locations);
+            TpdirMenu menu = new TpdirMenu(player, LanguageHandler.getText(player.getLanguage(), "gui-titles.tpdir-selection"), filteredLocations);
             menu.open();
         }
         

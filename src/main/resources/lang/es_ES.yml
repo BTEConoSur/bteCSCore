@@ -527,7 +527,7 @@ region:
 
 tpdir:
   buscando: "Buscando ubicaciones para <yellow>%query%</yellow>. Esto puede tardar un momento . . ."
-  no-results: "No se encontraron resultados para <yellow>%query%</yellow>."
+  no-results: "No se encontraron resultados para <yellow>%query%</yellow> dentro del Cono Sur."
   search-error: 'Error interno al buscar ubicaciones. Por favor, intenta de nuevo más tarde.'
   tped: "Teletransportando a <yellow>%destino%</yellow> . . ."
 

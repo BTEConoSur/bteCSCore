@@ -477,7 +477,7 @@ region:
   we-error: "WorldEdit error."
 tpdir:
   buscando: "Looking for locations for <yellow>%query%</yellow>. This may take a moment . . ."
-  no-results: "No locations could be found for <yellow>%query%</yellow>."
+  no-results: "No locations could be found for <yellow>%query%</yellow> within the Southern Cone."
   search-error: Internal error while searching for locations. Please try again later.
   tped: "Teleporting to <yellow>%destino%</yellow> . . ."
 language:

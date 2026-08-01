@@ -24,9 +24,6 @@ public class TpdirMenu extends PaginatedMenu {
     @Override
     protected void populateItems() {
         for (RealLocation loc : locations) {
-            double[] coords = TerraUtils.toMc(loc.lat, loc.lon);
-            if (!WorldManager.getInstance().getBTEWorld().checkPaisMove(coords[0], coords[1])) continue;
-
             GuiItem item = MenuUtils.getTpdirItem(loc.displayName);
             item.setAction(event -> {
                 PlayerLogger.info(player, LanguageHandler.getText(language, "tpdir.tped").replace("%destino%", loc.displayName), (String) null);
