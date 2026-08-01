@@ -1,6 +1,7 @@
 package com.bteconosur.core;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -608,12 +609,13 @@ public class ProjectManager {
         Player requester = PlayerRegistry.getInstance().get(requesterId);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
         WorldManager.getInstance().removePlayers(proyecto);
+        Instant expiration = DateUtils.instantOffset().plusSeconds(config.getLong("interaction-expirations.finish-project") * 60);
         Interaction interaction = new Interaction(
             requester.getUuid(),
             proyecto.getId(),
             InteractionKey.FINISH_PROJECT,
             DateUtils.instantOffset(),
-            DateUtils.instantOffset().plusSeconds(config.getLong("interaction-expirations.finish-project") * 60)
+            expiration
         );
         InteractionRegistry.getInstance().load(interaction);
         Player lider = getLider(proyecto);
@@ -622,8 +624,10 @@ public class ProjectManager {
         double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
         String coords = geoCoords[1] + ", " + geoCoords[0];
         Pais pais = proyecto.getPais();
-
-        String countryLog = LanguageHandler.replaceDS("project.finish.request.log", Language.getDefault(), requester, proyecto);
+        
+        Date expirationDate = Date.from(expiration);
+        String countryLog = LanguageHandler.replaceDS("project.finish.request.log", Language.getDefault(), requester, proyecto)
+            .replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
         
         String dsNotification = LanguageHandler.replaceDS("project.finish.request.ds-for-reviewer", Language.getDefault(), proyecto);
@@ -984,12 +988,13 @@ public class ProjectManager {
         WorldManager.getInstance().removePlayers(proyecto);
         proyecto.setEstado(Estado.EN_FINALIZACION_EDICION);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
+        Instant expiration = DateUtils.instantOffset().plusSeconds(config.getLong("interaction-expirations.finish-edit-project") * 60);
         Interaction interaction = new Interaction(
             commandPlayer.getUuid(),
             proyecto.getId(),
             InteractionKey.FINISH_EDIT_PROJECT,
             DateUtils.instantOffset(),
-            DateUtils.instantOffset().plusSeconds(config.getLong("interaction-expirations.finish-edit-project") * 60)
+            expiration
         );
         InteractionRegistry.getInstance().load(interaction);
     
@@ -998,7 +1003,9 @@ public class ProjectManager {
         String coords = geoCoords[1] + ", " + geoCoords[0];
         Pais pais = proyecto.getPais();
 
-        String countryLog = LanguageHandler.replaceDS("project.edit.finish.request.log", Language.getDefault(), commandPlayer, proyecto);
+        Date expirationDate = Date.from(expiration);
+        String countryLog = LanguageHandler.replaceDS("project.edit.finish.request.log", Language.getDefault(), commandPlayer, proyecto)
+            .replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
         
         String dsNotification = LanguageHandler.replaceDS("project.edit.finish.request.ds-for-reviewer", Language.getDefault(), proyecto);

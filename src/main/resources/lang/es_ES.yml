@@ -741,7 +741,7 @@ project:
         for-member: "%player.nombre% ha solicitado finalizar el proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés."
         for-reviewer: "Nueva solicitud de finalización de edición de proyecto de <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>"
         ds-for-reviewer: "Nueva solicitud de finalización de edición de proyecto de %pais.nombrePublico%. ID: `%proyecto.id%`. Coordenadas: `%proyecto.geoCoords%`"
-        log: "✏️ | **%player.nombre%** ha solicitado terminar la edición del proyecto `%proyecto.id%`."
+        log: "✏️ | **%player.nombre%** ha solicitado terminar la edición del proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento% (GMT-3)."
         expired-log: "❌ | La solicitud de finalización de la edición del proyecto `%proyecto.id%` ha expirado."
       accept:
         success: "Has aceptado la finalización de edición del proyecto de ID <yellow>%proyecto.id%</yellow>."
@@ -763,7 +763,7 @@ project:
       for-member: "%player.nombre% ha solicitado finalizar el proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés."
       for-reviewer: "Nueva solicitud de finalización de proyecto de <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>"
       ds-for-reviewer: "Nueva solicitud de finalización de proyecto de %pais.nombrePublico%. ID: `%proyecto.id%`. Coordenadas: `%proyecto.geoCoords%`"
-      log: "⏰ | **%player.nombre%** ha solicitado finalizar el proyecto `%proyecto.id%`."
+      log: "⏰ | **%player.nombre%** ha solicitado finalizar el proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento% (GMT-3)."
       expired-log: "❌ | La solicitud de finalización del proyecto `%proyecto.id%` ha expirado."
     accept:
       success: "Has aceptado la finalización del proyecto de ID <yellow>%proyecto.id%</yellow>."
