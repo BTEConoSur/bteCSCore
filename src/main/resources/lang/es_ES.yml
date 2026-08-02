@@ -427,6 +427,7 @@ commands-descriptions:
     removereviewer.desc: "Remover Reviewer de un país."
     select.desc: "Seleccionar un proyecto del país con World Edit."
     transfer.desc: "Transferir el liderazgo de un proyecto del país."
+    create.desc: "Crear un proyecto en estado Abandonado sin pasar por la revisión."
   pais: 
     desc: "Cambiar el prefijo de país."
     set.desc: "Cambia el prefix de un Jugador Online."
@@ -441,6 +442,7 @@ commands-descriptions:
       addreviewer.desc: "Añadir Reviewer a un país."
       removemanager.desc: "Quitar Manager de un país."
       removereviewer.desc: "Quitar Reviewer de un país."
+      create.desc: "Crear un proyecto de tipo Admin (Sin límites de tamaño)."
     accept.desc: "Aceptar o rechazar solicitudes de unión."
     addmember.desc: "Agregar a un miembro a un proyecto."
     border.desc: "Activar o desactivar el borde de un proyecto."
@@ -698,6 +700,9 @@ project:
       staff-log: "🔄 | **%player.nombre%** ha reemplazado a **%player.nombre.1%** por **%player.nombre.2%** como líder del proyecto `%proyecto.id%`."
       staff-no-old-leader-log: "🔄 | **%player.nombre%** ha promovido a **%player.nombre.1%** a líder del proyecto `%proyecto.id%`. El proyecto ha sido marcado como **Activo**"
   create:
+    manager:
+      success: "Has creado exitosamente el proyecto <yellow>%proyecto.id%</yellow> como Manager."
+      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%` como Manager. Nombre: `%proyecto.nombre%`."
     admin:
       success: "Has creado exitosamente el proyecto <yellow>%proyecto.id%</yellow> de tipo Admin."
       log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%` de tipo Admin. Nombre: `%proyecto.nombre%`."

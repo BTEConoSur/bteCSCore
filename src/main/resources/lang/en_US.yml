@@ -382,6 +382,7 @@ commands-descriptions:
     removereviewer.desc: "Remove a country's Reviewer."
     select.desc: "Select a project with WorldEdit."
     transfer.desc: "Transfer a project's ownership in your country."
+    create.desc: "Create a new project in the Abandoned state without going through the review process."
   pais:
     desc: "Change your prefix."
     set.desc: "Change a player's prefix."
@@ -396,6 +397,7 @@ commands-descriptions:
       addreviewer.desc: "Add a country's Reviewer."
       removemanager.desc: "Remove a country's Manager."
       removereviewer.desc: "Remove a country's Reviewer."
+      create.desc: "Create a new Admin project (No size limits)."
     accept.desc: "Accept or reject join requests."
     addmember.desc: "Add a member to a project."
     border.desc: "Toggle project border."
@@ -638,6 +640,9 @@ project:
       staff-log: "🔄 | **%player.nombre%** has replaced **%player.nombre.1%** as owner. The new owner of project `%proyecto.id%` is **%player.nombre.2%**."
       staff-no-old-leader-log: "🔄 | **%player.nombre%** has promoted **%player.nombre.1%** to owner for project `%proyecto.id%`. It's now been tagged as **Active**"
   create:
+    manager:
+      success: "Successfully created project <yellow>%proyecto.id%</yellow> as Manager."
+      log: "📋 | **%player.nombre%** has created project `%proyecto.id%` as Manager. Name: `%proyecto.nombre%`."
     admin:
       success: "Successfully created project <yellow>%proyecto.id%</yellow> as Admin Type."
       log: "📋 | **%player.nombre%** has created project `%proyecto.id%` as Admin Type. Name: `%proyecto.nombre%`."

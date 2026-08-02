@@ -125,7 +125,6 @@ public class ProjectManager {
      * Crea un proyecto administrativo activo sin pasar por el flujo de solicitud.
      *
      * @param nombre nombre del proyecto.
-     * @param descripcion descripción del proyecto.
      * @param regionPolygon polígono que define la región del proyecto.
      * @param player jugador que crea el proyecto.
      * @param language idioma para mensajes al jugador.
@@ -167,10 +166,58 @@ public class ProjectManager {
     }
 
     /**
+     * Crea un proyecto abandonado sin pasar por el flujo de solicitud.
+     *
+     * @param nombre nombre del proyecto.
+     * @param regionPolygon polígono que define la región del proyecto.
+     * @param player jugador que realiza la solicitud.
+     * @param language idioma para mensajes al jugador.
+     */
+    public void createManagerProject(String nombre, Polygon regionPolygon, Player player, Language language) {
+        PaisRegistry paisr = PaisRegistry.getInstance();
+        Division division = paisr.findDivisionByPolygon(regionPolygon, paisr.findByPolygon(regionPolygon));
+        if (division == null) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "invalid-project-location"), (String) null);
+            return;
+        }
+
+        Pais pais = division.getPais();
+        if (!PermissionManager.getInstance().isManager(player, pais)) {
+            PlayerLogger.error(player, LanguageHandler.replaceMC("manager.not-manager-country", language, pais), (String) null);   
+            return;
+        }
+
+        Double tamaño = regionPolygon.getArea();
+        TipoProyecto tipoProyecto = TipoProyectoRegistry.getInstance().get(tamaño);
+        if (tipoProyecto == null) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "invalid-project-size"), (String) null);
+            return;
+        }
+
+        ProyectoRegistry pr = ProyectoRegistry.getInstance(); 
+        
+        Proyecto proyecto = new Proyecto(nombre, Estado.ABANDONADO, regionPolygon, tamaño, tipoProyecto, null, division, Date.from(DateUtils.instantOffset()));
+        pr.load(proyecto);
+
+        File contextImage = SatMapUtils.downloadImage(proyecto);
+        if (contextImage == null) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "internal-error"), (String) null);
+            pr.unload(proyecto.getId());
+            return;
+        }
+        WorldManager.getInstance().createRegion(proyecto);
+        ApiManager.getInstance().createClaim(proyecto);
+        
+        PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.manager.success", language, proyecto), (String) null);
+        
+        String countryLog = LanguageHandler.replaceDS("project.create.manager.log", language, player, proyecto);
+        DiscordLogger.countryLog(countryLog, pais);
+    }
+
+    /**
      * Crea un proyecto en estado de creación y envía su solicitud a revisión.
      *
      * @param nombre nombre del proyecto.
-     * @param descripcion descripción del proyecto.
      * @param regionPolygon polígono que define la región del proyecto.
      * @param player jugador que realiza la solicitud.
      * @param language idioma para mensajes al jugador.
