@@ -567,6 +567,10 @@ help-proyecto:
   title: "<yellow>Possible project types:</yellow>"
   line: " - <gold>%tipoproyecto.nombre%</gold> <gray>Máx. members:</gray> <white>%tipoproyecto.maxMiembros%</white><gray> Size:</gray> <white>%tipoproyecto.tamanoRango%</white>"
   empty: "<yellow>There are no available project types.</yellow>"
+  intro-2: "<gray> Each player has a maximum number of active projects allowed based on their User Type.</gray>"
+  title-2: "<yellow>Available user types:</yellow>"
+  line-2: " - <gold>%tipo.nombre%</gold> <gray>Max. active projects:</gray> <white>%tipo.cantProyecSim%</white>"
+  empty-2: "<yellow>There are no available user types.</yellow>"
   footer: " "
 project:
   id: "Project ID: <yellow><id></yellow>"

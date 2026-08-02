@@ -12,8 +12,10 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.TipoProyecto;
+import com.bteconosur.db.model.TipoUsuario;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.TipoProyectoRegistry;
+import com.bteconosur.db.registry.TipoUsuarioRegistry;
 
 public class HelpProyectoCommand extends BaseCommand {
 
@@ -41,13 +43,26 @@ public class HelpProyectoCommand extends BaseCommand {
 
         if (tiposProyecto.isEmpty()) {
             message.append("\n").append(LanguageHandler.getText(language, "help-proyecto.empty"));
+        } else {
+            for (TipoProyecto tipoProyecto : tiposProyecto) {
+                message.append("\n").append(LanguageHandler.replaceMC("help-proyecto.line", language, tipoProyecto));
+            }
+        }
+
+        message.append("\n\n").append(LanguageHandler.getText(language, "help-proyecto.intro-2"));
+        message.append("\n\n").append(LanguageHandler.getText(language, "help-proyecto.title-2"));
+
+        List<TipoUsuario> tipoUsuarios = new ArrayList<>(TipoUsuarioRegistry.getInstance().getList());
+
+        if (tipoUsuarios.isEmpty()) {
+            message.append("\n").append(LanguageHandler.getText(language, "help-proyecto.empty-2"));
             message.append("\n").append(footer);
             PlayerLogger.send(sender, message.toString(), (String) null);
             return true;
         }
 
-        for (TipoProyecto tipoProyecto : tiposProyecto) {
-            message.append("\n").append(LanguageHandler.replaceMC("help-proyecto.line", language, tipoProyecto));
+        for (TipoUsuario tipoUsuario : tipoUsuarios) {
+            message.append("\n").append(LanguageHandler.replaceMC("help-proyecto.line-2", language, tipoUsuario));
         }
 
         message.append("\n").append(footer);

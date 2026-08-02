@@ -626,6 +626,10 @@ help-proyecto:
   title: "<yellow>Tipos de proyectos posibles:</yellow>"
   line: " - <gold>%tipoproyecto.nombre%</gold> <gray>Máx. miembros:</gray> <white>%tipoproyecto.maxMiembros%</white><gray> Tamaño:</gray> <white>%tipoproyecto.tamanoRango%</white>"
   empty: "<yellow>No hay tipos de proyecto disponibles.</yellow>"
+  intro-2: "<gray> Cada jugador tiene un máximo de proyectos activos permitidos según su Tipo de Usuario.</gray>"
+  title-2: "<yellow>Tipos de usuario posibles:</yellow>"
+  line-2: " - <gold>%tipo.nombre%</gold> <gray>Máx. proyectos activos:</gray> <white>%tipo.cantProyecSim%</white>"
+  empty-2: "<yellow>No hay tipos de usuario disponibles.</yellow>"
   footer: " "
 
 project:
