@@ -9,6 +9,7 @@ import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.DBManager;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.NodoPermiso;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.RangoUsuario;
@@ -73,7 +74,8 @@ public class URangoUsuarioAddPermisoCommand extends BaseCommand {
         }
 
         rango.getPermisos().add(permiso);
-        dbManager.merge(rango);
+        RangoUsuario merged = (RangoUsuario) dbManager.merge(rango);
+        PermissionManager.getInstance().checkRangoUsuario(merged);
 
         String message = LanguageHandler.getText(language, "crud.update").replace("%entity%", "Rango de Usuario").replace("%id%", args[0]);
         PlayerLogger.info(sender, message, (String) null);
