@@ -58,7 +58,7 @@ public class GetRangoUsuarioListPermisosCommand extends BaseCommand {
             .map(p -> p.getNombre())
             .sorted()
             .collect(Collectors.joining(", "));
-        String message = LanguageHandler.getText(language, "permisos-list").replace("%permisos%", lista);
+        String message = LanguageHandler.getText(language, "crud.permisos-list").replace("%permisos%", lista);
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }

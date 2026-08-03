@@ -67,6 +67,13 @@ lp-permission-desync: "Sync error: permission %permiso% was deleted from group %
 lp-group-removed: "Sync error: player %player% was removed from group %grupo%."
 lp-group-added: "Sync error: player %player% was added to group %grupo%."
 lp-permission-added: "Permission %permiso% has been added to group %grupo%."
+lp-permission-removed: "Permission %permiso% has been removed from group %grupo%."
+lp-default-not-found: "Could not resolve the LuckPerms default group."
+lp-default-permission-added: "Permission %permiso% has been added to the default group."
+lp-default-permission-removed: "Permission %permiso% has been removed from the default group."
+lp-default-permission-already: "The default group already has permission %permiso%."
+lp-default-permission-not-found: "The default group does not have permission %permiso%."
+lp-default-permission-add-failed: "Could not add permission %permiso% to the default group."
 lp-user-not-found: "Could not fetch LuckPerms data for player %player%."
 console-player-not-registered: "Couldn't find player %player% in the database."
 ds-error:

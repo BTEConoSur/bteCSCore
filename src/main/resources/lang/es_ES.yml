@@ -83,6 +83,13 @@ lp-permission-desync: "Desincronización detectada: Se removió el permiso %perm
 lp-group-removed: "Desincronización detectada: Se removió el grupo %grupo% del jugador %player%."
 lp-group-added: "Desincronización detectada: Se añadió el grupo %grupo% al jugador %player%."
 lp-permission-added: "Permiso %permiso% agregado al grupo %grupo%."
+lp-permission-removed: "Permiso %permiso% removido del grupo %grupo%."
+lp-default-not-found: "No se pudo obtener el grupo por defecto de LuckPerms."
+lp-default-permission-added: "Permiso %permiso% agregado al grupo por defecto."
+lp-default-permission-removed: "Permiso %permiso% removido del grupo por defecto."
+lp-default-permission-already: "El grupo por defecto ya posee el permiso %permiso%."
+lp-default-permission-not-found: "El grupo por defecto no posee el permiso %permiso%."
+lp-default-permission-add-failed: "No se pudo agregar el permiso %permiso% al grupo por defecto."
 lp-user-not-found: "No se pudo obtener el usuario de LuckPerms para el jugador %player%."
 
 console-player-not-registered: "El jugador %player% no está registrado en la base de datos."

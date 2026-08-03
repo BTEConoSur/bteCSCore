@@ -2,6 +2,7 @@ package com.bteconosur.db;
 
 import java.util.List;
 import java.util.Set;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import com.bteconosur.core.BTEConoSur;
@@ -297,7 +298,6 @@ public class PermissionManager {
      */
     private boolean checkTipoUsuario() {
         ConsoleLogger.info(LanguageHandler.getText("checking-tipos-usuario")); 
-        GroupManager groupManager = lpApi.getGroupManager();
         List<TipoUsuario> tipos = tipoUsuarioRegistry.getList();
         if (tipos == null || tipos.isEmpty()) {
             ConsoleLogger.info(LanguageHandler.getText("tipos-usuarios-not-found"));
@@ -305,68 +305,79 @@ public class PermissionManager {
         }
 
         for (TipoUsuario tipo : tipos) {
-            String groupName = "tipo_" + tipo.getNombre().toLowerCase();
-            Group group = groupManager.getGroup(groupName);
-            if (group == null) {
-                ConsoleLogger.info(LanguageHandler.replaceMC("lp-group-tipo-usuario-missing", Language.getDefault(), tipo));
-                group = groupManager.createAndLoadGroup(groupName).join();
-            }
-            final Group groupRef = group;
-
-            boolean modified = false;
-            Set<NodoPermiso> permisos = tipo.getPermisos();
-            if (permisos == null || permisos.isEmpty()) {
-                List<PermissionNode> existingPerms = groupRef.data().toCollection().stream()
-                    .filter(node -> node instanceof PermissionNode)
-                    .map(node -> (PermissionNode) node)
-                    .toList();
-
-                if (!existingPerms.isEmpty()) {
-                    for (PermissionNode node : existingPerms) {
-                        group.data().remove(node);
-                        modified = true;
-                        ConsoleLogger.info(LanguageHandler.getText("lp-permission-desync").replace("%permiso%", node.getPermission()).replace("%grupo%", groupName));
-                    }
-                }
-
-                if (modified) groupManager.saveGroup(groupRef).join();
-                continue;
-            }
-
-            Set<String> permisosEsperados = permisos.stream()
-                .filter(p -> p != null && p.getNombre() != null)
-                .map(NodoPermiso::getNombre)
-                .collect(Collectors.toSet());
-
-            List<PermissionNode> toRemove = groupRef.data().toCollection().stream()
-                .filter(node -> node instanceof PermissionNode)
-                .map(node -> (PermissionNode) node)
-                .filter(node -> !permisosEsperados.contains(node.getPermission()))
-                .toList();
-
-            for (PermissionNode node : toRemove) {
-                group.data().remove(node);
-                modified = true;
-                ConsoleLogger.info(LanguageHandler.getText("lp-permission-desync").replace("%permiso%", node.getPermission()).replace("%grupo%", groupName));
-            }
-            
-            List<String> toAdd = permisosEsperados.stream()
-                .filter(permisoNombre -> {
-                    PermissionNode node = PermissionNode.builder(permisoNombre).build();
-                    return groupRef.data().contains(node, NodeEqualityPredicate.EXACT) == Tristate.UNDEFINED;
-                })
-                .toList();
-
-            for (String permisoNombre : toAdd) {
-                PermissionNode node = PermissionNode.builder(permisoNombre).build();
-                groupRef.data().add(node);
-                modified = true;
-                ConsoleLogger.info(LanguageHandler.getText("lp-permission-added").replace("%permiso%", permisoNombre).replace("%grupo%", groupName));
-            }
-            if (modified) groupManager.saveGroup(groupRef).join();
+            checkTipoUsuario(tipo);
         }
 
         return true;
+    }
+
+    /**
+     * Verifica y sincroniza un tipo de usuario específico con LuckPerms.
+     * Asegura que el grupo correspondiente al tipo exista y tenga los permisos correctos.
+     * 
+     * @param tipo Tipo de usuario a sincronizar
+     */
+    public void checkTipoUsuario(TipoUsuario tipo) {
+        GroupManager groupManager = lpApi.getGroupManager();
+        String groupName = "tipo_" + tipo.getNombre().toLowerCase();
+        Group group = groupManager.getGroup(groupName);
+        if (group == null) {
+            ConsoleLogger.info(LanguageHandler.replaceMC("lp-group-tipo-usuario-missing", Language.getDefault(), tipo));
+            group = groupManager.createAndLoadGroup(groupName).join();
+        }
+        final Group groupRef = group;
+
+        boolean modified = false;
+        Set<NodoPermiso> permisos = tipo.getPermisos();
+        if (permisos == null || permisos.isEmpty()) {
+            List<PermissionNode> existingPerms = groupRef.data().toCollection().stream()
+                .filter(node -> node instanceof PermissionNode)
+                .map(node -> (PermissionNode) node)
+                .toList();
+
+            if (!existingPerms.isEmpty()) {
+                for (PermissionNode node : existingPerms) {
+                    group.data().remove(node);
+                    modified = true;
+                    ConsoleLogger.info(LanguageHandler.getText("lp-permission-desync").replace("%permiso%", node.getPermission()).replace("%grupo%", groupName));
+                }
+            }
+
+            if (modified) groupManager.saveGroup(groupRef).join();
+            return;
+        }
+
+        Set<String> permisosEsperados = permisos.stream()
+            .filter(p -> p != null && p.getNombre() != null)
+            .map(NodoPermiso::getNombre)
+            .collect(Collectors.toSet());
+
+        List<PermissionNode> toRemove = groupRef.data().toCollection().stream()
+            .filter(node -> node instanceof PermissionNode)
+            .map(node -> (PermissionNode) node)
+            .filter(node -> !permisosEsperados.contains(node.getPermission()))
+            .toList();
+
+        for (PermissionNode node : toRemove) {
+            group.data().remove(node);
+            modified = true;
+            ConsoleLogger.info(LanguageHandler.getText("lp-permission-desync").replace("%permiso%", node.getPermission()).replace("%grupo%", groupName));
+        }
+        
+        List<String> toAdd = permisosEsperados.stream()
+            .filter(permisoNombre -> {
+                PermissionNode node = PermissionNode.builder(permisoNombre).build();
+                return groupRef.data().contains(node, NodeEqualityPredicate.EXACT) == Tristate.UNDEFINED;
+            })
+            .toList();
+
+        for (String permisoNombre : toAdd) {
+            PermissionNode node = PermissionNode.builder(permisoNombre).build();
+            groupRef.data().add(node);
+            modified = true;
+            ConsoleLogger.info(LanguageHandler.getText("lp-permission-added").replace("%permiso%", permisoNombre).replace("%grupo%", groupName));
+        }
+        if (modified) groupManager.saveGroup(groupRef).join();
     }
 
     /**
@@ -377,7 +388,6 @@ public class PermissionManager {
      */
     private boolean checkRangoUsuario() {
         ConsoleLogger.info(LanguageHandler.getText("checking-rangos-usuario"));
-        GroupManager groupManager = lpApi.getGroupManager();
         List<RangoUsuario> rangos = rangoUsuarioRegistry.getList();
         if (rangos == null || rangos.isEmpty()) {
             ConsoleLogger.info(LanguageHandler.getText("rangos-usuarios-not-found"));
@@ -385,69 +395,188 @@ public class PermissionManager {
         }
 
         for (RangoUsuario rango : rangos) {
-            String groupName = "rango_" + rango.getNombre().toLowerCase();
-            Group group = groupManager.getGroup(groupName);
-            if (group == null) {
-                ConsoleLogger.info(LanguageHandler.replaceMC("lp-group-rango-usuario-missing", Language.getDefault(), rango));
-                group = groupManager.createAndLoadGroup(groupName).join();
-            }
-            final Group groupRef = group;
-
-            boolean modified = false;
-            Set<NodoPermiso> permisos = rango.getPermisos();
-            if (permisos == null || permisos.isEmpty()) {
-                List<PermissionNode> existingPerms = groupRef.data().toCollection().stream()
-                    .filter(node -> node instanceof PermissionNode)
-                    .map(node -> (PermissionNode) node)
-                    .toList();
-
-                if (!existingPerms.isEmpty()) {
-                    for (PermissionNode node : existingPerms) {
-                        group.data().remove(node);
-                        modified = true;
-                        ConsoleLogger.info(LanguageHandler.getText("lp-permission-desync").replace("%permiso%", node.getPermission()).replace("%grupo%", groupName));
-                    }
-                }
-
-                if (modified) groupManager.saveGroup(groupRef).join();
-                continue;
-            }
-
-            Set<String> permisosEsperados = permisos.stream()
-                .filter(p -> p != null && p.getNombre() != null)
-                .map(NodoPermiso::getNombre)
-                .collect(Collectors.toSet());
-
-            // Remover nodos de permisos que no están en la BD
-            List<PermissionNode> toRemove = groupRef.data().toCollection().stream()
-                .filter(node -> node instanceof PermissionNode)
-                .map(node -> (PermissionNode) node)
-                .filter(node -> !permisosEsperados.contains(node.getPermission()))
-                .toList();
-
-            for (PermissionNode node : toRemove) {
-                group.data().remove(node);
-                modified = true;
-                ConsoleLogger.info(LanguageHandler.getText("lp-permission-desync").replace("%permiso%", node.getPermission()).replace("%grupo%", groupName));
-            }
-
-            List<String> toAdd = permisosEsperados.stream()
-                .filter(permisoNombre -> {
-                    PermissionNode node = PermissionNode.builder(permisoNombre).build();
-                    return groupRef.data().contains(node, NodeEqualityPredicate.EXACT) == Tristate.UNDEFINED;
-                })
-                .toList();
-
-            for (String permisoNombre : toAdd) {
-                PermissionNode node = PermissionNode.builder(permisoNombre).build();
-                groupRef.data().add(node);
-                modified = true;
-                ConsoleLogger.info(LanguageHandler.getText("lp-permission-added").replace("%permiso%", permisoNombre).replace("%grupo%", groupName));
-            }
-            if (modified) groupManager.saveGroup(groupRef).join();
+            checkRangoUsuario(rango);
         }
 
         return true;
+    }
+
+    /**
+     * Verifica y sincroniza un rango de usuario específico con LuckPerms.
+     * Asegura que el grupo correspondiente al rango exista y tenga los permisos correctos.
+     * 
+     * @param rango Rango de usuario a sincronizar
+     */
+    public void checkRangoUsuario(RangoUsuario rango) {
+        GroupManager groupManager = lpApi.getGroupManager();
+        String groupName = "rango_" + rango.getNombre().toLowerCase();
+        Group group = groupManager.getGroup(groupName);
+        if (group == null) {
+            ConsoleLogger.info(LanguageHandler.replaceMC("lp-group-rango-usuario-missing", Language.getDefault(), rango));
+            group = groupManager.createAndLoadGroup(groupName).join();
+        }
+        final Group groupRef = group;
+
+        boolean modified = false;
+        Set<NodoPermiso> permisos = rango.getPermisos();
+        if (permisos == null || permisos.isEmpty()) {
+            List<PermissionNode> existingPerms = groupRef.data().toCollection().stream()
+                .filter(node -> node instanceof PermissionNode)
+                .map(node -> (PermissionNode) node)
+                .toList();
+
+            if (!existingPerms.isEmpty()) {
+                for (PermissionNode node : existingPerms) {
+                    group.data().remove(node);
+                    modified = true;
+                    ConsoleLogger.info(LanguageHandler.getText("lp-permission-desync").replace("%permiso%", node.getPermission()).replace("%grupo%", groupName));
+                }
+            }
+
+            if (modified) groupManager.saveGroup(groupRef).join();
+            return;
+        }
+
+        Set<String> permisosEsperados = permisos.stream()
+            .filter(p -> p != null && p.getNombre() != null)
+            .map(NodoPermiso::getNombre)
+            .collect(Collectors.toSet());
+
+        // Remover nodos de permisos que no están en la BD
+        List<PermissionNode> toRemove = groupRef.data().toCollection().stream()
+            .filter(node -> node instanceof PermissionNode)
+            .map(node -> (PermissionNode) node)
+            .filter(node -> !permisosEsperados.contains(node.getPermission()))
+            .toList();
+
+        for (PermissionNode node : toRemove) {
+            group.data().remove(node);
+            modified = true;
+            ConsoleLogger.info(LanguageHandler.getText("lp-permission-desync").replace("%permiso%", node.getPermission()).replace("%grupo%", groupName));
+        }
+
+        List<String> toAdd = permisosEsperados.stream()
+            .filter(permisoNombre -> {
+                PermissionNode node = PermissionNode.builder(permisoNombre).build();
+                return groupRef.data().contains(node, NodeEqualityPredicate.EXACT) == Tristate.UNDEFINED;
+            })
+            .toList();
+
+        for (String permisoNombre : toAdd) {
+            PermissionNode node = PermissionNode.builder(permisoNombre).build();
+            groupRef.data().add(node);
+            modified = true;
+            ConsoleLogger.info(LanguageHandler.getText("lp-permission-added").replace("%permiso%", permisoNombre).replace("%grupo%", groupName));
+        }
+        if (modified) groupManager.saveGroup(groupRef).join();
+    }
+
+    /**
+     * Obtiene el grupo por defecto de LuckPerms.
+     *
+     * @return Grupo por defecto o {@code null} si no se pudo resolver.
+     */
+    private Group getDefault() {
+        GroupManager groupManager = lpApi.getGroupManager();
+        return groupManager.getGroup("default");
+    }
+
+    /**
+     * Añade un permiso al grupo por defecto de LuckPerms.
+     *
+     * @param permisoNombre Nombre del permiso a añadir.
+     * @return {@code true} si el grupo fue modificado.
+     */
+    public boolean addPermissionToDefault(String permisoNombre) {
+        return updateDefault(permisoNombre, true);
+    }
+
+    /**
+     * Remueve un permiso del grupo por defecto de LuckPerms.
+     *
+     * @param permisoNombre Nombre del permiso a remover.
+     * @return {@code true} si el grupo fue modificado.
+     */
+    public boolean removePermissionFromDefault(String permisoNombre) {
+        return updateDefault(permisoNombre, false);
+    }
+
+    /**
+     * Verifica si el grupo por defecto tiene un permiso exacto.
+     *
+     * @param permisoNombre Nombre del permiso a verificar.
+     * @return {@code true} si el permiso existe en el grupo por defecto.
+     */
+    public boolean hasPermissionInDefault(String permisoNombre) {
+        if (permisoNombre == null || permisoNombre.isBlank()) return false;
+
+        Group group = getDefault();
+        if (group == null) return false;
+
+        PermissionNode node = PermissionNode.builder(permisoNombre).build();
+        return group.data().contains(node, NodeEqualityPredicate.EXACT) != Tristate.UNDEFINED;
+    }
+
+    /**
+     * Obtiene los nombres de permisos del grupo por defecto.
+     *
+     * @return Lista ordenada de permisos, o una lista vacía si el grupo no existe.
+     */
+    public List<String> getDefaultPermissions() {
+        Group group = getDefault();
+        if (group == null) return List.of();
+
+        return group.data().toCollection().stream()
+            .filter(nodeData -> nodeData instanceof PermissionNode)
+            .map(nodeData -> (PermissionNode) nodeData)
+            .map(PermissionNode::getPermission)
+            .sorted(Comparator.naturalOrder())
+            .toList();
+    }
+
+    /**
+     * Sincroniza un permiso con el grupo por defecto de LuckPerms.
+     *
+     * @param permisoNombre Nombre del permiso a sincronizar.
+     * @param add {@code true} para añadir, {@code false} para remover.
+     * @return {@code true} si el grupo fue modificado.
+     */
+    private boolean updateDefault(String permisoNombre, boolean add) {
+        if (permisoNombre == null || permisoNombre.isBlank()) return false;
+
+        GroupManager groupManager = lpApi.getGroupManager();
+        Group group = getDefault();
+        if (group == null) {
+            ConsoleLogger.info(LanguageHandler.getText("lp-default-not-found"));
+            return false;
+        }
+
+        String groupName = group.getName();
+        PermissionNode node = PermissionNode.builder(permisoNombre).build();
+        boolean modified = false;
+
+        if (add) {
+            if (group.data().contains(node, NodeEqualityPredicate.EXACT) == Tristate.UNDEFINED) {
+                group.data().add(node);
+                modified = true;
+                ConsoleLogger.info(LanguageHandler.getText("lp-permission-added").replace("%permiso%", permisoNombre).replace("%grupo%", groupName));
+            }
+        } else {
+            List<PermissionNode> toRemove = group.data().toCollection().stream()
+                .filter(nodeData -> nodeData instanceof PermissionNode)
+                .map(nodeData -> (PermissionNode) nodeData)
+                .filter(nodeData -> nodeData.getPermission().equalsIgnoreCase(permisoNombre))
+                .toList();
+
+            for (PermissionNode existingNode : toRemove) {
+                group.data().remove(existingNode);
+                modified = true;
+                ConsoleLogger.info(LanguageHandler.getText("lp-permission-removed").replace("%permiso%", permisoNombre).replace("%grupo%", groupName));
+            }
+        }
+
+        if (modified) groupManager.saveGroup(group).join();
+        return modified;
     }
 
     /**

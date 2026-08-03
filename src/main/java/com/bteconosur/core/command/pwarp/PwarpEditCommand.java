@@ -20,7 +20,7 @@ import com.bteconosur.world.model.BTEWorld;
 public class PwarpEditCommand extends BaseCommand {
 
     public PwarpEditCommand() {
-        super("edit", "<nombre_warp>", "btecs.command.pwarp.edit", CommandMode.PLAYER_ONLY);
+        super("edit", "<nombre_warp>", "btecs.command.pwarp", CommandMode.PLAYER_ONLY);
     }
 
     @Override
