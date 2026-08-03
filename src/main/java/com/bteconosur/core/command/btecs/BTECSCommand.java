@@ -3,6 +3,7 @@ package com.bteconosur.core.command.btecs;
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.command.btecs.defaultgroup.BTECSDefaultCommand;
+import com.bteconosur.core.command.btecs.restart.BTECSRestartCommand;
 import com.bteconosur.core.command.btecs.test.BTECSTestCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
@@ -20,6 +21,8 @@ public class BTECSCommand extends BaseCommand {
         this.addSubcommand(new BTECSCheckSyncProyectos());
         this.addSubcommand(new BTECSSyncWeb());
         this.addSubcommand(new BTECSDefaultCommand());
+        this.addSubcommand(new BTECSRestartCommand());
+        this.addSubcommand(new BTECSRestartStatusCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

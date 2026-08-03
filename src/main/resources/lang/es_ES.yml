@@ -39,6 +39,16 @@ config-reloaded: "Configuración recargada correctamente."
 # General
 plugin-prefix: "<gray>[<b><gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient></b>]</gray>"
 
+restart-scheduled: "Reinicio programado en %time%."
+restart-forced: "Reinicio forzado en %time%."
+restart-cancelled: "Reinicio programado cancelado."
+restart-reloaded: "Configuración del restart recargada."
+restart-status: "Próximo reinicio en %time%."
+restart-not-scheduled: "No hay un reinicio programado."
+restart-invalid-minutes: "Los minutos deben ser un número válido mayor o igual a cero."
+restart-bossbar: "Reinicio en %time%."
+restart-kick: "El servidor se está reiniciando. Por favor, vuelve a conectar en unos segundos."
+
 # Consola
 debug-mode-enabled: "Modo debug activado."
 
@@ -284,6 +294,7 @@ help-command-usage: "Usa /%comando% help para ver la ayuda del comando."
 command-on-cooldown: "Debes esperar %time% antes de usar este comando de nuevo."
 command-cooldown-second-format: "%.1f segundo(s)"
 command-cooldown-minute-format: "%d minuto(s) %.1f segundo(s)"
+command-cooldown-hour-format: "%d hora(s) %.1f minuto(s)"
 
 player-not-found: "El jugador %player% no fue encontrado." # %player% -> Nombre del jugador.
 player-not-online: "El jugador %player% no está online." # %player% -> Nombre del jugador.
@@ -337,6 +348,11 @@ commands-descriptions:
     syncworldguard.desc: "Sincroniza todos los proyectos con las regiones de WorldGuard."
     syncweb.desc: "Sincroniza todos los proyectos con la web."
     reload.desc: "Recarga la configuración del plugin."
+    restart.desc: "Gestiona reinicios automáticos y forzados del servidor."
+    restart.reload.desc: "Recarga la configuración del restart desde el config. Primero hay que recargar las configuraciones con /btecs reload."
+    restart.cancel.desc: "Cancela el reinicio actualmente programado."
+    restart.force.desc: "Fuerza un reinicio en x minutos, cancelando el automático."
+    status.desc: "Muestra cuánto falta para el próximo reinicio."
   language:
     desc: "Cambiar el idioma."
     set.desc: "Cambiar el idioma de un Jugador Online."

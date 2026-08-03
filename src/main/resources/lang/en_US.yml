@@ -32,6 +32,17 @@
 config-reloaded: "Successfully reloaded all configurations."
 # General
 plugin-prefix: "<gray>[<b><gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient></b>]</gray>"
+
+restart-scheduled: "Restart scheduled in %time%."
+restart-forced: "Restart forced in %time%."
+restart-cancelled: "Scheduled restart cancelled."
+restart-reloaded: "Restart settings reloaded."
+restart-status: "Restart in %time%."
+restart-not-scheduled: "There is no scheduled restart."
+restart-invalid-minutes: "Minutes must be a valid number equal to or greater than zero."
+restart-bossbar: "Server restart in %time%."
+restart-kick: "The server is restarting. Please reconnect in a few seconds."
+
 # Consola
 debug-mode-enabled: "Debug mode enabled."
 prefix: "<gray>[</gray><dark_gray>Core</dark_gray><gray>]</gray>"
@@ -242,6 +253,7 @@ help-command-usage: "Use /%comando% help to get more information about this comm
 command-on-cooldown: "You must wait %time% before you can use this command again."
 command-cooldown-second-format: "%.1f second(s)"
 command-cooldown-minute-format: "%d minute(s) %.1f second(s)"
+command-cooldown-hour-format: "%d hour(s) %.1f minute(s)"
 player-not-found: "Could not find player %player%." # %player% -> Nombre del jugador.
 player-not-online: "Player %player% is not online." # %player% -> Nombre del jugador.
 player-not-registered: "Could not find player %player% in the database." # %player% -> Nombre del jugador.
@@ -292,6 +304,11 @@ commands-descriptions:
     syncworldguard.desc: "Sync Projects with WorldGuard regions."
     syncweb.desc: "Sync Projects with website claims."
     reload.desc: "Reload plugin config."
+    restart.desc: "Manage automatic and forced server restarts."
+    restart.reload.desc: "Reload restart settings from config. First, you need to reload the configurations with /btecs reload."
+    restart.cancel.desc: "Cancel the currently scheduled restart."
+    restart.force.desc: "Force a restart in x minutes, canceling the automatic one."
+    status.desc: "Show how much time remains until the next restart."
   language:
     desc: "Change language."
     set.desc: "Change a player's language."

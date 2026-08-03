@@ -286,6 +286,10 @@ public abstract class BaseCommand extends Command {
         
         if (seconds < 60) {
             return String.format(LanguageHandler.getText(language, "command-cooldown-second-format"), seconds);
+        } else if (seconds >= 3600) {
+            long hours = (long) (seconds / 3600);
+            double remainingMinutes = (seconds % 3600) / 60.0;
+            return String.format(LanguageHandler.getText(language, "command-cooldown-hour-format"), hours, remainingMinutes);
         } else {
             long minutes = (long) (seconds / 60);
             double remainingSeconds = seconds % 60;
