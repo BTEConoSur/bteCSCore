@@ -22,6 +22,7 @@ public class PwarpCommand extends BaseCommand {
         this.addSubcommand(new PwarpCreateCommand());
         this.addSubcommand(new PwarpRemoveCommand());
         this.addSubcommand(new PwarpListCommand());
+        this.addSubcommand(new PwarpEditCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

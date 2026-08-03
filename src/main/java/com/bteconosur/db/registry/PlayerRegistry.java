@@ -257,6 +257,26 @@ public class PlayerRegistry extends Registry<UUID, Player> {
     }
 
     /**
+     * Edita un pwarp existente de un jugador.
+     *
+     * @param uuid uuid del jugador.
+     * @param nombreWarp nombre del pwarp.
+     * @param loc nueva ubicación del pwarp.
+     */
+    public void editPwarp(UUID uuid, String nombreWarp, Location loc) {
+        Player player = get(uuid);
+        if (player == null) return;
+        Pwarp pwarp = player.getPwarp(nombreWarp);
+        if (pwarp == null) return;
+        pwarp.setX(loc.getX());
+        pwarp.setY(loc.getY());
+        pwarp.setZ(loc.getZ());
+        pwarp.setYaw(loc.getYaw());
+        pwarp.setPitch(loc.getPitch());
+        PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
+    /**
      * Elimina un pwarp de un jugador por nombre.
      *
      * @param uuid uuid del jugador.

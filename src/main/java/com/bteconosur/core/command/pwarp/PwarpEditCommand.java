@@ -1,7 +1,11 @@
 package com.bteconosur.core.command.pwarp;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.BaseCommand;
@@ -13,10 +17,10 @@ import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.model.BTEWorld;
 
-public class PwarpCreateCommand extends BaseCommand {
+public class PwarpEditCommand extends BaseCommand {
 
-    public PwarpCreateCommand() {
-        super("create", "<nombre_warp>", "btecs.command.pwarp", CommandMode.PLAYER_ONLY);
+    public PwarpEditCommand() {
+        super("edit", "<nombre_warp>", "btecs.command.pwarp.edit", CommandMode.PLAYER_ONLY);
     }
 
     @Override
@@ -37,8 +41,8 @@ public class PwarpCreateCommand extends BaseCommand {
             PlayerLogger.error(player, LanguageHandler.getText(language, "pwarp.cant-create"), (String) null);
             return true;
         }
-        if (player.hasPwarp(nombreWarp)) {
-            PlayerLogger.error(player, LanguageHandler.getText(language, "pwarp.already").replace("%nombre%", nombreWarp), (String) null);
+        if (!player.hasPwarp(nombreWarp)) {
+            PlayerLogger.error(player, LanguageHandler.getText(player.getLanguage(), "pwarp.not-found").replace("%nombre%", nombreWarp), (String) null);
             return true;
         }
 
@@ -62,9 +66,16 @@ public class PwarpCreateCommand extends BaseCommand {
             PlayerLogger.error(player, LanguageHandler.getText(language, "pwarp.invalid-name"), (String) null);
             return true;
         }
-        registry.createPwarp(player.getUuid(), nombreWarp, loc);
-        PlayerLogger.info(player, LanguageHandler.getText(language, "pwarp.created").replace("%nombre%", nombreWarp), (String) null);
+        registry.editPwarp(player.getUuid(), nombreWarp, loc);
+        PlayerLogger.info(player, LanguageHandler.getText(language, "pwarp.edited").replace("%nombre%", nombreWarp), (String) null);
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        Player player = PlayerRegistry.getInstance().get(sender);
+        if (args.length == 1) return player.getPwarpNames().stream().filter(p -> p.toLowerCase().startsWith(args[0].toLowerCase())).toList();
+        return Collections.emptyList();
     }
 
 }
