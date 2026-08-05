@@ -8,6 +8,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.config.ConfigHandler;
+import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.chat.CountryChatService;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
@@ -17,6 +19,7 @@ import com.bteconosur.db.util.IDUtils;
 import com.bteconosur.discord.util.MessageRef;
 import com.bteconosur.discord.util.MessageService;
 
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Message.Attachment;
 import net.dv8tion.jda.api.entities.sticker.StickerItem;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -49,7 +52,8 @@ public class ChatListener extends ListenerAdapter {
         if (pais == null) return;
 
         Player player = playerRegistry.findByDiscordId(event.getAuthor().getIdLong());
-        String message = event.getMessage().getContentDisplay();
+        Message dsMessage = event.getMessage();
+        String message = dsMessage.getContentDisplay();
         List<StickerItem> stickers = event.getMessage().getStickers();
         //message = message.replaceAll(".*<[^>]+>.*", "");
         Long channelId = event.getChannel().getIdLong();
@@ -60,6 +64,11 @@ public class ChatListener extends ListenerAdapter {
         if (isGlobalChat) {
             if (!config.getBoolean("discord-global-chat")) return;
             String idMessage = IDUtils.generarCodigoMessage();
+            if (player != null && ChatService.isMuted(player.getUuid())) {
+                dsMessage.delete().queue();
+                dsMessage.reply(LanguageHandler.getText(player.getLanguage(), "discord-mute-message")).queue();
+                return;
+            }
             MessageService.addMessageKey(idMessage);
             MessageService.addMessageRef(idMessage, new MessageRef(channelId, event.getMessage().getIdLong()));
             if (player != null) GlobalChatService.broadcastDsChat(player, message, pais, channelId, attachments, idMessage, stickers);
@@ -67,6 +76,11 @@ public class ChatListener extends ListenerAdapter {
             return;
         }
         if (!config.getBoolean("discord-country-chat")) return;
+        if (player != null && ChatService.isMuted(player.getUuid())) {
+            dsMessage.delete().queue();
+            dsMessage.reply(LanguageHandler.getText(player.getLanguage(), "discord-mute-message")).queue();
+            return;
+        }
         if (player != null) CountryChatService.sendMcChat(player, message, pais, attachments, stickers.size());
         else CountryChatService.sendMcChat(authorName, message, pais, attachments, stickers.size());
         

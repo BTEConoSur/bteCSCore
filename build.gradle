@@ -23,6 +23,14 @@ repositories {
     maven { url = "https://maven.enginehub.org/repo/" }
     maven { url = 'https://repo.extendedclip.com/releases/' }
     maven { url 'https://jitpack.io' }
+    maven {
+        name "essentialsx-releases"
+        url "https://repo.essentialsx.net/releases/"
+    }
+    maven {
+        name "papermc"
+        url "https://papermc.io/repo/repository/maven-public/"
+    }
     jcenter()
 }
 
@@ -60,6 +68,9 @@ dependencies {
 
     compileOnly("com.github.NEZNAMY:TAB-API:5.5.0")
     compileOnly("me.clip:placeholderapi:2.12.2")
+
+    compileOnly("net.essentialsx:EssentialsX:2.21.2")
+
 }
 
 def targetJavaVersion = 21

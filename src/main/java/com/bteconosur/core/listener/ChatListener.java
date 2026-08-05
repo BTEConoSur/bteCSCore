@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.NotePadService;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.chat.CountryChatService;
 import com.bteconosur.db.model.Pais;
@@ -40,12 +41,14 @@ public class ChatListener implements Listener {
         //message = message.replaceAll(".*<[^>]+>.*", "");
         
         if (ChatService.isInCountryChat(player)) {
+            if (ChatService.isMuted(player.getUuid())) return;
             Pais pais = ChatService.getCountry(player);
             CountryChatService.sendBothChat(player, message, pais);
             return;
         }
 
         if (ChatService.isInGlobalChat(player)) {
+            if (ChatService.isMuted(player.getUuid())) return;
             GlobalChatService.broadcastMcChat(player, message);
             return;
         }

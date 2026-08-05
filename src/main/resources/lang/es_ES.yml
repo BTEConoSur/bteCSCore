@@ -39,14 +39,14 @@ config-reloaded: "Configuración recargada correctamente."
 # General
 plugin-prefix: "<gray>[<b><gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient></b>]</gray>"
 
-restart-scheduled: "Reinicio programado en %time%."
-restart-forced: "Reinicio forzado en %time%."
+restart-scheduled: "Reinicio programado en <yellow>%time%</yellow>."
+restart-forced: "Reinicio forzado en <yellow>%time%</yellow>."
 restart-cancelled: "Reinicio programado cancelado."
 restart-reloaded: "Configuración del restart recargada."
-restart-status: "Próximo reinicio en %time%."
+restart-status: "Próximo reinicio en <yellow>%time%</yellow>."
 restart-not-scheduled: "No hay un reinicio programado."
 restart-invalid-minutes: "Los minutos deben ser un número válido mayor o igual a cero."
-restart-bossbar: "Reinicio en %time%."
+restart-bossbar: "Reinicio en <yellow>%time%</yellow>."
 restart-kick: "El servidor se está reiniciando. Por favor, vuelve a conectar en unos segundos."
 
 # Consola
@@ -619,7 +619,7 @@ pwarp-list:
 
 help-command:
   header: "\n <b>=========</b> <gold>Ayuda de Comando</gold> <b>=========</b>"
-  info: "<light_purple>Campo: <gray>Obligatorio <></gray> - <gray>Opcional [] </gray> - <gray>Opciones A|B </gray></light_purple>"
+  info: "<light_purple>Campo: <gray>Obligatorio <></gray> - <gray>Opcional []</gray> - <gray>Opciones A|B</gray></light_purple>"
   usage: "<yellow>Uso:</yellow> <blue>/%comando% %args%</blue>" # %command% -> Comando completo. %args% -> Argumentos del comando.
   aliases: "<yellow>Alias:</yellow> %aliases%" # %aliases% -> Lista de alias del comando.
   description: "<yellow>Descripción:</yellow> %description%" # %description% -> Descripción del comando.
@@ -1006,6 +1006,8 @@ player-new-join-message: "<green><yellow>%player.nombrePublico%<reset><green> se
 player-leave-message: "<red><yellow>%player.nombrePublico%<reset><red> ha salido del servidor."
 player-join-chat-message: "<yellow>%player.nombrePublico%<reset><gold> se ha unido al chat."
 player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> ha salido del chat."
+
+discord-mute-message: "Estás muteado en Minecraft. No puedes enviar mensajes en el chat de Discord."
 
 player-welcome-message:
   - "\n<dark_gray>+---------------------------------------+</dark_gray>"

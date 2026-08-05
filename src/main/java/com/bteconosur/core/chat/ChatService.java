@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.util.PlaceholderUtils.PlaceholderContext;
+import com.earth2me.essentials.Essentials;
 
 /**
  * Servicio centralizado de gestión de chats del servidor.
@@ -25,6 +28,8 @@ public class ChatService {
     private static Map<Player, Pais> playersLastCountryChat = new HashMap<>();
 
     private static List<Player> playersInNotePad = new ArrayList<>();
+
+    private static final Essentials essentialsPlugin = BTEConoSur.getEssentialsPlugin();
 
     /**
      * Obtiene el texto del placeholder que indica el chat actual del jugador.
@@ -235,6 +240,17 @@ public class ChatService {
      */
     public static boolean isInCountryChat(Player player, Pais pais) {
         return playersInCountryChat.containsKey(player) && playersInCountryChat.get(player).equals(pais);
+    }
+
+    /**
+     * Indica si el jugador está silenciado en Essentials.
+     *
+     * @param uuid UUID del jugador a validar.
+     * @return {@code true} si el jugador está silenciado, {@code false} en caso contrario.
+     */
+    public static boolean isMuted(UUID uuid) {
+        if (essentialsPlugin == null) return false;
+        return essentialsPlugin.getUser(uuid).isMuted();
     }
 
     /**

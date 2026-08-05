@@ -57,10 +57,13 @@ import com.bteconosur.world.WorldManager;
 import com.bteconosur.world.listener.BannedListeners;
 import com.bteconosur.world.listener.BuildingListeners;
 import com.bteconosur.world.listener.MovingListeners;
+import com.earth2me.essentials.Essentials;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
+
+import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -90,12 +93,20 @@ public final class BTEConoSur extends JavaPlugin {
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
     private static LuckPerms luckPermsApi;
+    private static Essentials essentialsPlugin;
 
     private static YamlConfiguration config;
 
     @Override
     public void onEnable() {
         instance = this;
+
+        try {
+            essentialsPlugin = (Essentials) this.getServer().getPluginManager().getPlugin("Essentials");
+        } catch (ClassCastException ex) {
+            PluginRegistry.disablePlugin("Essentials no encontrado. Asegurar de que Essentials esté instalado y habilitado.");
+            return;
+        }
 
         try {
             multiverseCoreApi = MultiverseCoreApi.get();
@@ -347,6 +358,10 @@ public final class BTEConoSur extends JavaPlugin {
 
     public static ApiManager getApiManager() {
         return apiManager;
+    }
+
+    public static Essentials getEssentialsPlugin() {
+        return essentialsPlugin;
     }
 }
 

@@ -33,14 +33,14 @@ config-reloaded: "Successfully reloaded all configurations."
 # General
 plugin-prefix: "<gray>[<b><gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient></b>]</gray>"
 
-restart-scheduled: "Restart scheduled in %time%."
-restart-forced: "Restart forced in %time%."
+restart-scheduled: "Restart scheduled in <yellow>%time%</yellow>."
+restart-forced: "Restart forced in <yellow>%time%</yellow>."
 restart-cancelled: "Scheduled restart cancelled."
 restart-reloaded: "Restart settings reloaded."
-restart-status: "Restart in %time%."
+restart-status: "Restart in <yellow>%time%</yellow>."
 restart-not-scheduled: "There is no scheduled restart."
 restart-invalid-minutes: "Minutes must be a valid number equal to or greater than zero."
-restart-bossbar: "Server restart in %time%."
+restart-bossbar: "Server restart in <yellow>%time%</yellow>."
 restart-kick: "The server is restarting. Please reconnect in a few seconds."
 
 # Consola
@@ -563,7 +563,7 @@ pwarp-list:
   footer: " <b>=========</b> <gold><backtext> Page <yellow>%currentPage% of %totalPages%</yellow> <nexttext></gold> <b>=========</b>\n" # <backText> -> Texto para ir a la página anterior (si aplica). %currentPage% -> Página actual. %totalPages% -> Total de páginas. <nextText> -> Texto para ir a la página siguiente (si aplica).
 help-command:
   header: "\n <b>=========</b> <gold>Command Help</gold> <b>=========</b>"
-  info: "<light_purple>Field: <gray>Mandatory <></gray> - <gray>Optional [] </gray> - <gray>Options A|B </gray></light_purple>"
+  info: "<light_purple>Field: <gray>Mandatory <></gray> - <gray>Optional []</gray> - <gray>Options A|B</gray></light_purple>"
   usage: "<yellow>Use:</yellow> <blue>/%comando% %args%</blue>" # %command% -> Comando completo. %args% -> Argumentos del comando.
   aliases: "<yellow>Aliases:</yellow> %aliases%" # %aliases% -> Lista de alias del comando.
   description: "<yellow>Description:</yellow> %description%" # %description% -> Descripción del comando.
@@ -944,6 +944,9 @@ player-new-join-message: "<green><yellow>%player.nombrePublico%<reset><green> jo
 player-leave-message: "<red><yellow>%player.nombrePublico%<reset><red> has left the server"
 player-join-chat-message: "<yellow>%player.nombrePublico%<reset><gold> has joined the chat."
 player-leave-chat-message: "<yellow>%player.nombrePublico%<reset><blue> has left the chat."
+
+discord-mute-message: "You are muted in Minecraft. You cannot send messages in the Discord chat."
+
 player-welcome-message:
   - "\n<dark_gray>+---------------------------------------+</dark_gray>"
   - "<b>¡Welcome to <gradient:#42C223:#3A4BCE>Build The Earth</gradient></b><gray>:</gray> <b><gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient>!</b>"
