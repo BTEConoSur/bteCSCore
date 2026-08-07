@@ -545,11 +545,14 @@ preset:
   removed: "Preset <yellow>%nombre%</yellow> eliminado correctamente."
   created: "Preset <yellow>%nombre%</yellow> creado correctamente."
   edited: "Preset <yellow>%nombre%</yellow> editado correctamente."
+  copied: "Preset <yellow>%nombre%</yellow> copiado correctamente."
   invalid-name-length: "Máximo 30 caracteres permitidos para el nombre del preset."
   invalid-format: "El formato del preset es inválido. Por ejemplo: 50%stone,50%dirt"
   max-presets: "No puedes crear más presets. El límite es de <yellow>%quantity%</yellow> presets."
   see: "Preset <yellow>%nombre%</yellow>: <yellow><contenido></yellow>\n"
   see-empty: "Preset <yellow>%nombre%</yellow> no tiene bloques."
+  empty-other: "El jugador <yellow>%player.nombre%</yellow> no tiene ningún Preset creado."
+  empty: "No tienes ningún Preset creado."
 
 player-info-command:
   - "\n <b>=========</b> <gold>%player.nombre%'s information</gold> <b>=========</b>"
@@ -1287,6 +1290,8 @@ items:
     name: "<green>%nombre%" # %nombre% -> Nombre del preset.
     lore:
       - "<gray>Click para editar el preset."
+    other-lore:
+      - "<gray>Click para copiar este preset."
     blocks-title: "<gold>Bloques"
     blocks-line: "<gray>- <yellow>%quantity%% %bloque%"
     empty: "<gray>No hay bloques en este preset."

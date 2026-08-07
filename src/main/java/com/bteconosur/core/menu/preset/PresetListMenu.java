@@ -3,7 +3,6 @@ package com.bteconosur.core.menu.preset;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.block.data.BlockData;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
@@ -12,6 +11,7 @@ import com.bteconosur.core.menu.PaginatedMenu;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Preset;
+import com.bteconosur.db.registry.PlayerRegistry;
 
 import de.rapha149.signgui.SignGUIAction;
 
@@ -21,29 +21,51 @@ import dev.triumphteam.gui.guis.GuiItem;
 
 public class PresetListMenu extends PaginatedMenu {
 
+    private boolean isOther = false;
+    private Player OtherPlayer = null;
+
     public PresetListMenu(Player player) {
         super(LanguageHandler.replaceMC("gui-titles.preset-list", player.getLanguage(), player), player);
     }
 
+    public PresetListMenu(Player player, Player otherPlayer) {
+        super(LanguageHandler.replaceMC("gui-titles.preset-list", player.getLanguage(), otherPlayer), player);
+        this.isOther = true;
+        this.OtherPlayer = otherPlayer;
+    }
+
     @Override
     protected void populateItems() {
+        Player BTECSPlayer = isOther ? OtherPlayer : super.BTECSPlayer;
+        int maxPresets = ConfigHandler.getInstance().getConfig().getInt("preset.max-per-player");
         for (Preset preset : BTECSPlayer.getPresets()) {
-            GuiItem item = MenuUtils.getPresetListItem(preset, BTECSPlayer.getLanguage());
+            GuiItem item = MenuUtils.getPresetListItem(preset, BTECSPlayer.getLanguage(), isOther);
             item.setAction(event -> {
                 event.setCancelled(true);
+                if (isOther) {
+                    if (super.BTECSPlayer.getPresets().size() < maxPresets) {
+                        PlayerRegistry.getInstance().createPreset(player.getUniqueId(), preset.getBlocksMap(), preset.getId().getNombre());
+                        PlayerLogger.info(player, LanguageHandler.getText(language, "preset.copied").replace("%nombre%", preset.getId().getNombre()), (String) null); 
+                    } else {
+                        PlayerLogger.error(player, LanguageHandler.getText(language, "preset.max-presets").replace("%quantity%", String.valueOf(maxPresets)), (String) null);
+                    }
+                    gui.close(player);
+                    return;
+                }
                 PresetCreateMenu menu = new PresetCreateMenu(BTECSPlayer, preset.getId().getNombre(), preset.getBlocksMap(), this);
                 menu.open();
             });
 
             addItem(item);
         }
-        int maxPresets = ConfigHandler.getInstance().getConfig().getInt("preset.max-per-player");
-        if (BTECSPlayer.getPresets().size() < maxPresets) {
-            gui.setItem(6, 5, MenuUtils.getPresetCreateItem(language));
-            gui.addSlotAction(6, 5, event -> {
-                event.setCancelled(true);
-                create();
-            });
+        if (!isOther) {
+            if (BTECSPlayer.getPresets().size() < maxPresets) {
+                gui.setItem(6, 5, MenuUtils.getPresetCreateItem(language));
+                gui.addSlotAction(6, 5, event -> {
+                    event.setCancelled(true);
+                    create();
+                });
+            }
         }
     }
 

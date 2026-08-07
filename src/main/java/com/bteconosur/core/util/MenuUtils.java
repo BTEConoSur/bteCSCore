@@ -116,8 +116,8 @@ public class MenuUtils {
         );
     }
 
-    public static GuiItem getPresetListItem(Preset preset, Language language) {
-        List<String> lore = LanguageHandler.getTextList(language, "items.preset.lore");
+    public static GuiItem getPresetListItem(Preset preset, Language language, boolean isOther) {
+        List<String> lore = isOther ? LanguageHandler.getTextList(language, "items.preset.other-lore") : LanguageHandler.getTextList(language, "items.preset.lore");
         String materialName = gui.getString("item-materials.preset.list");
         lore.add("");
         if (preset.getBlocks().isEmpty()) {

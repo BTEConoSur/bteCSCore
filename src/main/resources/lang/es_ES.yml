@@ -328,7 +328,7 @@ commands-descriptions:
     desc: "Gestionar presets de bloques para utilizar en comandos de FAWE."
     create.desc: "Crear un nuevo Preset."
     remove.desc: "Eliminar un Preset por nombre."
-    list.desc: "Listar todos los Presets."
+    list.desc: "Listar todos los Presets del jugador o de otro."
     edit.desc: "Editar un Preset."
     add.desc: "Agregar un bloque o varios a un Preset."
     see.desc: "Obtener los bloques <b>copiables</b> de un Preset."
@@ -599,11 +599,14 @@ preset:
   removed: "Preset <yellow>%nombre%</yellow> eliminado correctamente."
   created: "Preset <yellow>%nombre%</yellow> creado correctamente."
   edited: "Preset <yellow>%nombre%</yellow> editado correctamente."
+  copied: "Preset <yellow>%nombre%</yellow> copiado correctamente."
   invalid-name-length: "Máximo 30 caracteres permitidos para el nombre del preset."
   invalid-format: "El formato del preset es inválido. Por ejemplo: 50%stone,50%dirt"
   max-presets: "No puedes crear más presets. El límite es de <yellow>%quantity%</yellow> presets."
   see: "Preset <yellow>%nombre%</yellow>: <yellow><contenido></yellow>\n"
   see-empty: "Preset <yellow>%nombre%</yellow> no tiene bloques."
+  empty-other: "El jugador <yellow>%player.nombre%</yellow> no tiene ningún Preset creado."
+  empty: "No tienes ningún Preset creado."
 
 player-info-command:
   - "\n <b>=========</b> <gold>Información de %player.nombre%</gold> <b>=========</b>"
@@ -1353,10 +1356,13 @@ items:
     name: "<green>%nombre%" # %nombre% -> Nombre del preset.
     lore:
       - "<gray>Click para editar el preset."
+    other-lore:
+      - "<gray>Click para copiar este preset."
     blocks-title: "<gold>Bloques"
     blocks-line: "<gray>- <yellow>%quantity%% %bloque%"
     empty: "<gray>No hay bloques en este preset."
     more-blocks: "<gray>- <gold>%quantity% más bloques... "
+
   preset-delete:
     name: "<red>Eliminar Preset"
     lore:
