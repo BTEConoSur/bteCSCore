@@ -18,6 +18,7 @@ public class PresetCommand extends BaseCommand {
         this.addSubcommand(new PresetListCommand());
         this.addSubcommand(new PresetEditCommand());
         this.addSubcommand(new PresetAddCommand());
+        this.addSubcommand(new PresetSeeCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

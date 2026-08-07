@@ -329,8 +329,9 @@ commands-descriptions:
     create.desc: "Crear un nuevo Preset."
     remove.desc: "Eliminar un Preset por nombre."
     list.desc: "Listar todos los Presets."
-    edit.desc: "Editar un Preset existente."
-    add.desc: "Agregar un bloque o varios a un Preset existente."
+    edit.desc: "Editar un Preset."
+    add.desc: "Agregar un bloque o varios a un Preset."
+    see.desc: "Obtener los bloques <b>copiables</b> de un Preset."
   nightvision.desc: "Activar o desactivar la visión nocturna."
   lobby.desc: "Teletransportarse al lobby."
   assets.desc: "Teletransportarse a Assets."
@@ -601,6 +602,8 @@ preset:
   invalid-name-length: "Máximo 30 caracteres permitidos para el nombre del preset."
   invalid-format: "El formato del preset es inválido. Por ejemplo: 50%stone,50%dirt"
   max-presets: "No puedes crear más presets. El límite es de <yellow>%quantity%</yellow> presets."
+  see: "Preset <yellow>%nombre%</yellow>: <yellow><contenido></yellow>\n\n"
+  see-empty: "Preset <yellow>%nombre%</yellow> no tiene bloques."
 
 player-info-command:
   - "\n <b>=========</b> <gold>Información de %player.nombre%</gold> <b>=========</b>"
