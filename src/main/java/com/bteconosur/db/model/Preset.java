@@ -31,7 +31,7 @@ public class Preset {
     @EmbeddedId
     private PresetId id;
 
-    @Column(name = "blocks", nullable = false)
+    @Column(name = "blocks", length = 1000, nullable = false)
     private String blocks;
 
     @ManyToOne

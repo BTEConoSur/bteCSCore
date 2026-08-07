@@ -6,6 +6,7 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.preset.PresetCreateMenu;
@@ -32,6 +33,12 @@ public class PresetCreateCommand extends BaseCommand {
         }
 
         String presetName = args[0];
+
+        int maxPresets = ConfigHandler.getInstance().getConfig().getInt("preset.max-per-player");
+        if (player.getPresets().size() >= maxPresets) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "preset.max-presets").replace("%quantity%", String.valueOf(maxPresets)), (String) null);
+            return true;
+        }
 
         if (player.hasPreset(presetName)) {
             PlayerLogger.error(player, LanguageHandler.getText(language, "preset.already").replace("%nombre%", presetName), (String) null);

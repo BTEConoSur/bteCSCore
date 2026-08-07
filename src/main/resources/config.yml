@@ -23,7 +23,7 @@ restart-delay-minutes: 1440 # Cantidad de minutos hasta el próximo reinicio aut
 restart-warning-minutes: 5 # Cantidad de minutos antes del reinicio en la que se mostrará el bossbar de advertencia.
 
 preset:
-  max-per-player: 5 # Cantidad máxima de presets que un jugador puede tener.
+  max-per-player: 10 # Cantidad máxima de presets que un jugador puede tener.
   symbol: "&"
 
 related-languages:

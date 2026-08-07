@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.PaginatedMenu;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
@@ -29,7 +30,7 @@ public class PresetCreateMenu extends PaginatedMenu {
 
     private String presetName;
     private Map<BlockData, Integer> blocks = new LinkedHashMap<>();
-    private Map<BlockData, Integer> blockSlots = new LinkedHashMap<>();
+    private Map<BlockData, Integer> originalBlocks = new LinkedHashMap<>();
     private boolean isEditing = false;
 
     public PresetCreateMenu(Player player, String presetName) {
@@ -37,26 +38,31 @@ public class PresetCreateMenu extends PaginatedMenu {
         this.presetName = presetName;
     }
 
+    public PresetCreateMenu(Player player, String presetName, Menu previousMenu) {
+        super(LanguageHandler.getText(player.getLanguage(), "gui-titles.preset-create").replace("%nombre%", presetName), player);
+        this.presetName = presetName;
+        this.previousMenu = previousMenu;
+    }
+
     public PresetCreateMenu(Player player, String presetName, Map<BlockData, Integer> blocks) {
         super(LanguageHandler.getText(player.getLanguage(), "gui-titles.preset-edit").replace("%nombre%", presetName), player);
         this.presetName = presetName;
+        this.originalBlocks = new LinkedHashMap<>(blocks);
         this.blocks = blocks;
         this.isEditing = true;
-        this.blockSlots = new LinkedHashMap<>();
     }
 
     public PresetCreateMenu(Player player, String presetName, Map<BlockData, Integer> blocks, Menu previousMenu) {
         super(LanguageHandler.getText(player.getLanguage(), "gui-titles.preset-edit").replace("%nombre%", presetName), player);
         this.presetName = presetName;
+        this.originalBlocks = new LinkedHashMap<>(blocks);
         this.blocks = blocks;
         this.isEditing = true;
-        this.blockSlots = new LinkedHashMap<>();
         this.previousMenu = previousMenu;
     }
 
     @Override
     protected void populateItems() {
-        int slot = 0;
         for (Entry<BlockData, Integer> entry : blocks.entrySet()) {
             GuiItem item = MenuUtils.getPresetBlockItem(entry.getKey(), entry.getValue(), language);
 
@@ -71,13 +77,12 @@ public class PresetCreateMenu extends PaginatedMenu {
                 }
             });
             gui.addItem(item);
-            blockSlots.put(entry.getKey(), slot);
-            slot++;
         }
 
         gui.setPlayerInventoryAction(event -> {
             event.setCancelled(true);
             if (event.getCurrentItem() == null) return;
+            if (blocks.size() >= 36) return;
             ItemStack item = event.getCurrentItem();
             Material material = item.getType();
             if (!material.isBlock()) return;
@@ -87,7 +92,7 @@ public class PresetCreateMenu extends PaginatedMenu {
             blocks.put(blockData, 100);
 
             GuiItem guiItem = MenuUtils.getPresetBlockItem(blockData, 100, language);
-
+        
             guiItem.setAction(click -> {
                 click.setCancelled(true);
                 if (event.getClick().isShiftClick()) {
@@ -99,31 +104,22 @@ public class PresetCreateMenu extends PaginatedMenu {
             });
 
             gui.addItem(guiItem);
-            blockSlots.put(blockData, blocks.size() - 1);
+            refreshUI();
             gui.update();
         });
 
-        gui.setItem(6, 3, MenuUtils.getPresetDeleteAllItem(language));
-        gui.addSlotAction(6, 3, event -> {
-            event.setCancelled(true);
+        refreshUI();
+        gui.setItem(6,8, MenuUtils.getPresetInfoItem(language));
+    }
 
-            GuiAction<InventoryClickEvent> onConfirm = e -> {
-                e.setCancelled(true);
-                blocks.clear();
-                refreshMenuItems();
-                this.open();
-            };
+    private void refreshMenuItems() {
+        removePaginatedItems();
+        populateItems();
+        refreshUI();
+        gui.update();
+    }
 
-            GuiAction<InventoryClickEvent> onCancel = e -> {
-                e.setCancelled(true);
-                this.open();
-            };
-
-            String confirmTitle = LanguageHandler.getText(language, "gui-titles.confirm-preset-delete-all");
-            ConfirmationMenu confirmMenu = new ConfirmationMenu(confirmTitle, player, this, onConfirm, onCancel);
-            confirmMenu.open();
-        });
-
+    private void refreshUI() {
         if (isEditing) {
             gui.setItem(6, 7, MenuUtils.getPresetDeleteItem(language));
             gui.addSlotAction(6, 7, event -> {
@@ -146,26 +142,47 @@ public class PresetCreateMenu extends PaginatedMenu {
             });
         }
 
-        gui.setItem(6, 5, MenuUtils.getSaveItem(language));
-        gui.addSlotAction(6, 5, event -> {
-            event.setCancelled(true);
-            if (isEditing) {
-                PlayerRegistry.getInstance().editPreset(player.getUniqueId(), blocks, presetName);
-                PlayerLogger.info(player, LanguageHandler.getText(language, "preset.edited").replace("%nombre%", presetName), (String) null);
-            } else {
-                PlayerRegistry.getInstance().createPreset(player.getUniqueId(), blocks, presetName);
-                PlayerLogger.info(player, LanguageHandler.getText(language, "preset.created").replace("%nombre%", presetName), (String) null);
-            }
-            gui.close(player);
-        });
+        if (!blocks.isEmpty()) {
+            gui.setItem(6, 3, MenuUtils.getPresetDeleteAllItem(language));
+            gui.addSlotAction(6, 3, event -> {
+                event.setCancelled(true);
 
-        gui.setItem(6,8, MenuUtils.getPresetInfoItem(language));
-    }
+                GuiAction<InventoryClickEvent> onConfirm = e -> {
+                    e.setCancelled(true);
+                    blocks.clear();
+                    refreshMenuItems();
+                    this.open();
+                };
 
-    private void refreshMenuItems() {
-        blockSlots.clear();
-        removePaginatedItems();
-        populateItems();
+                GuiAction<InventoryClickEvent> onCancel = e -> {
+                    e.setCancelled(true);
+                    this.open();
+                };
+
+                String confirmTitle = LanguageHandler.getText(language, "gui-titles.confirm-preset-delete-all");
+                ConfirmationMenu confirmMenu = new ConfirmationMenu(confirmTitle, player, this, onConfirm, onCancel);
+                confirmMenu.open();
+            });
+        } else {
+            gui.setItem(6, 3, MenuUtils.getFillerItem());
+        }
+
+        if (!blocks.equals(originalBlocks) || !isEditing) {
+            gui.setItem(6, 5, MenuUtils.getSaveItem(language));
+            gui.addSlotAction(6, 5, event -> {
+                event.setCancelled(true);
+                if (isEditing) {
+                    PlayerRegistry.getInstance().editPreset(player.getUniqueId(), blocks, presetName);
+                    PlayerLogger.info(player, LanguageHandler.getText(language, "preset.edited").replace("%nombre%", presetName), (String) null);
+                } else {
+                    PlayerRegistry.getInstance().createPreset(player.getUniqueId(), blocks, presetName);
+                    PlayerLogger.info(player, LanguageHandler.getText(language, "preset.created").replace("%nombre%", presetName), (String) null);
+                }
+                gui.close(player);
+            });
+        } else {
+            gui.setItem(6, 5, MenuUtils.getFillerItem());
+        }
         gui.update();
     }
 

@@ -34,4 +34,3 @@ public class PresetCommand extends BaseCommand {
 //TODO: Mejorar preset list, añadir boton de crear
 //TODO: Añadir límite de presets por jugador
 //TODO: Comando como /p id y en p list ajeno
-//TODO: Ver si se puede mostrar guardar cuando sea correcto.

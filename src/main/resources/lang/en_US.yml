@@ -286,6 +286,7 @@ commands-descriptions:
     remove.desc: "Eliminar un Preset por nombre."
     list.desc: "Listar todos los Presets."
     edit.desc: "Editar un Preset existente."
+    add.desc: "Agregar un bloque o varios a un Preset existente."
   nightvision.desc: "Toggle night vision."
   lobby.desc: "Teleport to the lobby."
   assets.desc: "Teleport to Assets."
@@ -545,6 +546,8 @@ preset:
   edited: "Preset <yellow>%nombre%</yellow> editado correctamente."
   invalid-name-length: "Máximo 30 caracteres permitidos para el nombre del preset."
   invalid-format: "El formato del preset es inválido. Por ejemplo: 50%stone,50%dirt"
+  max-presets: "No puedes crear más presets. El límite es de <yellow>%quantity%</yellow> presets."
+
 player-info-command:
   - "\n <b>=========</b> <gold>%player.nombre%'s information</gold> <b>=========</b>"
   - " <yellow>Nickname:</yellow> <white>%player.nombrePublico%</white>"
@@ -1257,6 +1260,9 @@ items:
       - "<gray>Utiliza <yellow>%symbol%nombre%symbol% <gray>en cualquier"
       - "<gray>comando de WorldEdit para insertar"
       - "<gray>el contenido del preset."
+      - ""
+      - "Máximo de 36 bloques por preset."
+      - "Máximo de %quantity% presets por jugador."
       - ""
       - "<gray>Ejemplos:"
       - "<yellow>//set %symbol%piedra%symbol%"

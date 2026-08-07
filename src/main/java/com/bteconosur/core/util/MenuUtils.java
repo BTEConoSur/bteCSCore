@@ -50,7 +50,8 @@ public class MenuUtils {
         List<String> lore = LanguageHandler.getTextList(language, "items.preset-info.lore");
         List<String> processedLore = new ArrayList<>();
         for (String line : lore) {
-            line = line.replace("%symbol%", config.getString("preset.symbol"));
+            line = line.replace("%symbol%", config.getString("preset.symbol"))
+                .replace("%quantity%", String.valueOf(config.getInt("preset.max-per-player")));
             processedLore.add(line);
         }
         return buildGuiItem(
