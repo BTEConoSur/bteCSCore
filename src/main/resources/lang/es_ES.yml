@@ -324,6 +324,12 @@ commands-descriptions:
     remove.desc: "Eliminar un Pwarp por nombre."
     list.desc: "Listar todos tus Pwarps."
     edit.desc: "Editar un Pwarp existente."
+  preset:
+    desc: "Gestionar presets de bloques para utilizar en comandos de FAWE."
+    create.desc: "Crear un nuevo Preset."
+    remove.desc: "Eliminar un Preset por nombre."
+    list.desc: "Listar todos los Presets."
+    edit.desc: "Editar un Preset existente."
   nightvision.desc: "Activar o desactivar la visión nocturna."
   lobby.desc: "Teletransportarse al lobby."
   assets.desc: "Teletransportarse a Assets."
@@ -584,6 +590,15 @@ pwarp:
   invalid-name: "El nombre del Pwarp no está permitido."
   invalid-name-length: "Máximo 50 caracteres permitidos para el nombre del Pwarp."
   empty: "No tienes ningún Pwarp creado."
+
+preset:
+  already: "Ya existe un preset con el nombre <yellow>%nombre%</yellow>."
+  not-found: "No se encontró ningún preset con el nombre <yellow>%nombre%</yellow>."
+  removed: "Preset <yellow>%nombre%</yellow> eliminado correctamente."
+  created: "Preset <yellow>%nombre%</yellow> creado correctamente."
+  edited: "Preset <yellow>%nombre%</yellow> editado correctamente."
+  invalid-name-length: "Máximo 30 caracteres permitidos para el nombre del preset."
+  invalid-format: "El formato del preset es inválido. Por ejemplo: 50%stone,50%dirt"
 
 player-info-command:
   - "\n <b>=========</b> <gold>Información de %player.nombre%</gold> <b>=========</b>"
@@ -1293,8 +1308,48 @@ gui-titles:
   language-set: "Seleccionar idioma: %player.nombre%"
   reviewer-list-country: "Reviewers país %pais.nombrePublico%"
   manager-list-country: "Managers país %pais.nombrePublico%"
+  preset-create: "Crear preset: %nombre%"
+  preset-edit: "Editar preset: %nombre%"
+  confirm-preset-delete: "Confirmar eliminación: %nombre%"
+  confirm-preset-delete-all: "Confirmar eliminación de los bloques"
+  preset-list: "Presets: %player.nombre%"
 
 items:
+  preset-info:
+    name: "<aqua>Uso de Presets"
+    lore:
+      - "<gray>Haz click en un bloque de tu"
+      - "<gray>inventario para añadirlo al preset."
+      - ""
+      - "<gray>Utiliza <yellow>%symbol%nombre%symbol% <gray>en cualquier"
+      - "<gray>comando de WorldEdit para insertar"
+      - "<gray>el contenido del preset."
+      - ""
+      - "<gray>Ejemplos:"
+      - "<yellow>//set %symbol%piedra%symbol%"
+      - "<yellow>//replace stone %symbol%edificio%symbol%"
+  preset-block:
+    name: "<yellow>%quantity%% <green>%nombre%" # %nombre% -> Nombre del preset.
+    lore:
+      - "<gray>Click para editar el porcentaje."
+      - "<gray>Shift + Click para eliminar el bloque del preset."
+    states-title: "<gold>Estados del bloque"
+    states-line: "<gray>- <yellow>%estado%"
+  preset:
+    name: "<green>%nombre%" # %nombre% -> Nombre del preset.
+    lore:
+      - "<gray>Click para editar el preset."
+    blocks-title: "<gold>Bloques"
+    blocks-line: "<gray>- <yellow>%quantity%% %bloque%"
+    empty: "<gray>No hay bloques en este preset."
+  preset-delete:
+    name: "<red>Eliminar Preset"
+    lore:
+      - "<gray>Haz click para eliminar el preset."
+  preset-delete-all:
+    name: "<red>Eliminar bloques"
+    lore:
+      - "<gray>Haz click para eliminar todos los bloques del preset."
   tpdir:
     name: "<green>%name%" # Se completa con el nombre del lugar.
     lore: "<gray>%context-line%" # Se completa con el contexto del lugar.

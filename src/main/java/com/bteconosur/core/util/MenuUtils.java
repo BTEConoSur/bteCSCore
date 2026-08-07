@@ -1,10 +1,14 @@
 package com.bteconosur.core.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Light;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -17,6 +21,7 @@ import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Preset;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
@@ -39,6 +44,92 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 public class MenuUtils {
 
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
+    private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
+
+    public static GuiItem getPresetInfoItem(Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.preset-info.lore");
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%symbol%", config.getString("preset.symbol"));
+            processedLore.add(line);
+        }
+        return buildGuiItem(
+            gui.getString("item-materials.preset-info"),
+            LanguageHandler.getText(language, "items.preset-info.name"),
+            processedLore, true
+        );
+    }
+
+    public static GuiItem getPresetDeleteItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.preset-delete"),
+            LanguageHandler.getText(language, "items.preset-delete.name"),
+            LanguageHandler.getTextList(language, "items.preset-delete.lore"), false
+        );
+    }
+
+    public static GuiItem getPresetDeleteAllItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.preset-delete-all"),
+            LanguageHandler.getText(language, "items.preset-delete-all.name"),
+            LanguageHandler.getTextList(language, "items.preset-delete-all.lore"), false
+        );
+    }
+
+    public static GuiItem getPresetBlockItem(BlockData block, int quantity, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.preset-block.lore");
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%quantity%", String.valueOf(quantity));
+            processedLore.add(line);
+        }
+        List<String> states = getStates(block);
+        if (!states.isEmpty()) {
+            processedLore.add("");
+            processedLore.add(LanguageHandler.getText(language, "items.preset-block.states-title"));
+            for (String state : states) {
+                processedLore.add(LanguageHandler.getText(language, "items.preset-block.states-line").replace("%estado%", state));
+            }
+        }
+        return buildGuiItem(
+            block.getMaterial().toString(),
+            LanguageHandler.getText(language, "items.preset-block.name")
+                .replace("%nombre%", block.getMaterial().toString())
+                .replace("%quantity%", String.valueOf(quantity)),
+            processedLore,
+            false
+        );
+    }
+
+    public static GuiItem getPresetListItem(Preset preset, Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.preset.lore");
+        String materialName = gui.getString("item-materials.preset-list");
+        lore.add("");
+        if (preset.getBlocks().isEmpty()) {
+            lore.add(LanguageHandler.getText(language, "items.preset.empty"));
+        } else {
+            lore.add(LanguageHandler.getText(language, "items.preset.blocks-title"));
+            Map<BlockData, Integer> blocks = preset.getBlocksMap();
+            materialName = blocks.keySet().iterator().next().getMaterial().toString();
+            for (Entry<BlockData, Integer> e : blocks.entrySet()) {
+                String line = LanguageHandler.getText(language, "items.preset.blocks-line").replace("%quantity%", String.valueOf(e.getValue())).replace("%bloque%", e.getKey().getAsString(true).replace("minecraft:", ""));
+                lore.add(line);
+            }
+        }   
+        
+        return buildGuiItem(
+            materialName, 
+            LanguageHandler.getText(language, "items.preset.name").replace("%nombre%", preset.getId().getNombre()),
+            lore, false);
+    }
+
+    private static List<String> getStates(BlockData data) {
+        String value = data.getAsString(true);
+        int start = value.indexOf('[');
+        if (start == -1) { return List.of();}
+        String states = value.substring(start + 1, value.length() - 1);
+        return Arrays.stream(states.split(",")).toList();
+    }
 
     public static GuiItem getTpdirItem(String displayname) {
         String[] display = displayname.split(", ");

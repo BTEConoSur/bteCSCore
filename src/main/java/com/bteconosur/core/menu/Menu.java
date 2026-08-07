@@ -19,7 +19,7 @@ public abstract class Menu {
     protected final String title;
     protected final int rows;
     protected final Player player;
-    private final com.bteconosur.db.model.Player BTECSPlayer;
+    protected final com.bteconosur.db.model.Player BTECSPlayer;
     protected Language language;
 
     protected BaseGui gui;
@@ -112,7 +112,6 @@ public abstract class Menu {
 
         gui.setItem(rows, 9, MenuUtils.getCloseItem(language));
         gui.addSlotAction(rows, 9, event -> gui.close(player));      
-         
         gui.open(player);
     }
 

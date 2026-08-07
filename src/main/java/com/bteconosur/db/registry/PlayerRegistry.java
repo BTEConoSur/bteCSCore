@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.config.LanguageHandler;
@@ -16,6 +17,7 @@ import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Preset;
 import com.bteconosur.db.model.Pwarp;
 
 /**
@@ -287,6 +289,52 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         if (player == null) return;
         Pwarp pwarp = player.getPwarp(nombreWarp);
         player.removePwarp(pwarp);
+        PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
+    /**
+     * Crea un preset para un jugador.
+     *
+     * @param uuid uuid del jugador.
+     * @param blocks mapa de bloques y sus porcentajes.
+     * @param presetName nombre del preset.
+     */
+    public void createPreset(UUID uuid, Map<BlockData, Integer> blocks, String presetName) {
+        Player player = get(uuid);
+        if (player == null) return;
+        Preset preset = new Preset(player.getUuid(), presetName, "", player);
+        preset.setBlocksMap(blocks);
+        player.addPreset(preset);
+        PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
+    /**
+     * Edita un preset existente de un jugador.
+     *
+     * @param uuid uuid del jugador.
+     * @param blocks mapa de bloques y sus porcentajes.
+     * @param presetName nombre del preset.
+     */
+    public void editPreset(UUID uuid, Map<BlockData, Integer> blocks, String presetName) {
+        Player player = get(uuid);
+        if (player == null) return;
+        Preset preset = player.getPreset(presetName);
+        if (preset == null) return;
+        preset.setBlocksMap(blocks);
+        PlayerRegistry.getInstance().merge(player.getUuid());
+    }
+
+    /**
+     * Elimina un preset de un jugador por nombre.
+     *
+     * @param uuid uuid del jugador.
+     * @param presetName nombre del preset.
+     */
+    public void removePreset(UUID uuid, String presetName) {
+        Player player = get(uuid);
+        if (player == null) return;
+        Preset preset = player.getPreset(presetName);
+        player.removePreset(preset);
         PlayerRegistry.getInstance().merge(player.getUuid());
     }
 

@@ -27,6 +27,7 @@ import com.bteconosur.core.command.help.HelpVisitarCommand;
 import com.bteconosur.core.command.manager.ManagerCommand;
 import com.bteconosur.core.command.pais.PaisPrefixCommand;
 import com.bteconosur.core.command.pais.WhereIAmCommand;
+import com.bteconosur.core.command.preset.PresetCommand;
 import com.bteconosur.core.command.project.ProjectCommand;
 import com.bteconosur.core.command.pwarp.PwarpCommand;
 import com.bteconosur.core.command.reviewer.ReviewerCommand;
@@ -62,8 +63,6 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
-
-import java.util.UUID;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -199,6 +198,9 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new PwarpCommand());
         HelpCommandCommand.addCommand(new PwarpCommand());
         DsHelpMinecraftCommand.addHelpCommand(new PwarpCommand());
+        PluginRegistry.registerCommand(new PresetCommand());
+        HelpCommandCommand.addCommand(new PresetCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new PresetCommand());
         PluginRegistry.registerCommand(new ProjectCommand());
         HelpCommandCommand.addCommand(new ProjectCommand());
         DsHelpMinecraftCommand.addHelpCommand(new ProjectCommand());

@@ -72,6 +72,10 @@ public class Player {
     @JsonIgnore
     private List<Pwarp> pwarps = new ArrayList<>();
 
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Preset> presets = new ArrayList<>();
+
     @OneToMany(mappedBy = "lider")
     @JsonIgnore
     private Set<Proyecto> proyectosLiderados = new HashSet<>();
@@ -169,6 +173,38 @@ public class Player {
 
     public void setDsIdUsuario(Long dsIdUsuario) {
         this.dsIdUsuario = dsIdUsuario;
+    }
+
+    public List<Preset> getPresets() {
+        return presets;
+    }
+
+    public void setPresets(List<Preset> presets) {
+        this.presets = presets;
+    }
+
+    public void addPreset(Preset preset) {
+        if (preset == null) return;
+        this.presets.add(preset);
+    }
+
+    public void removePreset(Preset preset) {
+        if (preset == null) return;
+        this.presets.remove(preset);
+    }
+
+    public boolean hasPreset(String nombre) {
+        for (Preset p : presets) {
+            if (p.getId().getNombre().equalsIgnoreCase(nombre)) return true;
+        }
+        return false;
+    }
+
+    public Preset getPreset(String nombre) {
+        for (Preset p : presets) {
+            if (p.getId().getNombre().equalsIgnoreCase(nombre)) return p;
+        }
+        return null;
     }
 
     public List<Pwarp> getPwarps() {
