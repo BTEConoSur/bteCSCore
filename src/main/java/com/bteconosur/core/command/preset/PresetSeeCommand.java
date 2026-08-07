@@ -1,6 +1,10 @@
 package com.bteconosur.core.command.preset;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
@@ -42,6 +46,14 @@ public class PresetSeeCommand extends BaseCommand {
         TagResolver tagResolver1 = TagResolverUtils.getCopyableText("contenido", preset.getBlocks(), preset.getBlocks(), language);
         PlayerLogger.info(sender, LanguageHandler.getText(language, "preset.see").replace("%nombre%", preset.getId().getNombre()), (String) null, tagResolver1);
         return true;
+    }
+
+    @Override
+    protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        Player player = PlayerRegistry.getInstance().get(sender);
+        if (player == null) return Collections.emptyList();
+        if (args.length == 1) return player.getPresets().stream().map(p -> p.getId().getNombre()).filter(n -> n.toLowerCase().startsWith(args[0].toLowerCase())).toList();
+        return Collections.emptyList();
     }
 
 }

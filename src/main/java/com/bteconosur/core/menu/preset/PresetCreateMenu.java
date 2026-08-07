@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.PaginatedMenu;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
@@ -73,7 +72,7 @@ public class PresetCreateMenu extends PaginatedMenu {
                     blocks.remove(entry.getKey());
                     refreshMenuItems();
                 } else if (event.getClick().isLeftClick() || event.getClick().isRightClick()) {
-                    editPercentage(entry.getKey(), item);
+                    editPercentage(entry.getKey());
                 }
             });
             gui.addItem(item);
@@ -99,7 +98,7 @@ public class PresetCreateMenu extends PaginatedMenu {
                     blocks.remove(blockData);
                     refreshMenuItems();
                 } else if (event.getClick().isLeftClick() || event.getClick().isRightClick()) {
-                    editPercentage(blockData, guiItem);
+                    editPercentage(blockData);
                 }
             });
 
@@ -165,6 +164,9 @@ public class PresetCreateMenu extends PaginatedMenu {
             });
         } else {
             gui.setItem(6, 3, MenuUtils.getFillerItem());
+            gui.addSlotAction(6, 3, event -> {
+                event.setCancelled(true);
+            });
         }
 
         if (!blocks.equals(originalBlocks) || !isEditing) {
@@ -182,11 +184,14 @@ public class PresetCreateMenu extends PaginatedMenu {
             });
         } else {
             gui.setItem(6, 5, MenuUtils.getFillerItem());
+            gui.addSlotAction(6, 5, event -> {
+                event.setCancelled(true);
+            });
         }
         gui.update();
     }
 
-    private void editPercentage(BlockData blockData, GuiItem item) {
+    private void editPercentage(BlockData blockData) {
         Boolean opened = MenuUtils.createSignGUI(player, (p, result) -> {
             String input = result.getLine(0).trim();
             try {

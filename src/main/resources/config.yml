@@ -25,6 +25,7 @@ restart-warning-minutes: 5 # Cantidad de minutos antes del reinicio en la que se
 preset:
   max-per-player: 10 # Cantidad máxima de presets que un jugador puede tener.
   symbol: "&"
+  max-blocks-list: 15 # Cantidad máxima de bloques a mostrar en la lista de bloques de cada preset.
 
 related-languages:
   es_ES: ["es_AR", "es_MX", "es_CL", "es_CO", "es_PE", "es_VE", "es_UY", "es_PY", "es_BO", "es_EC"]

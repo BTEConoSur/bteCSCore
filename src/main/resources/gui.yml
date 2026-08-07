@@ -4,10 +4,12 @@
 # En caso de querer usar una cabeza con un valor base64, se debe usar 'base64:<base64-value>'.
 # En caso de un material inválido, se usará STONE por defecto.
 item-materials:
-  preset-delete: "REDSTONE_BLOCK"
-  preset-list: "BOOK"
-  preset-delete-all: "REDSTONE"
-  preset-info: "PAPER"
+  preset:
+    create: "hdb:9885"
+    delete: "REDSTONE_BLOCK"
+    list: "BOOK"
+    delete-all: "REDSTONE"
+    info: "PAPER"
   tpdir: "PAPER"
   separator: "BLACK_STAINED_GLASS_PANE"
   help-visitar:

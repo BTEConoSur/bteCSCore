@@ -46,6 +46,20 @@ public class MenuUtils {
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    public static GuiItem getPresetCreateItem(Language language) {
+        List<String> lore = LanguageHandler.getTextList(language, "items.preset-create.lore");
+        List<String> processedLore = new ArrayList<>();
+        for (String line : lore) {
+            line = line.replace("%quantity%", String.valueOf(config.getInt("preset.max-per-player")));
+            processedLore.add(line);
+        }
+        return buildGuiItem(
+            gui.getString("item-materials.preset.create"),
+            LanguageHandler.getText(language, "items.preset-create.name"),
+            processedLore, false
+        );
+    }
+
     public static GuiItem getPresetInfoItem(Language language) {
         List<String> lore = LanguageHandler.getTextList(language, "items.preset-info.lore");
         List<String> processedLore = new ArrayList<>();
@@ -55,7 +69,7 @@ public class MenuUtils {
             processedLore.add(line);
         }
         return buildGuiItem(
-            gui.getString("item-materials.preset-info"),
+            gui.getString("item-materials.preset.info"),
             LanguageHandler.getText(language, "items.preset-info.name"),
             processedLore, true
         );
@@ -63,7 +77,7 @@ public class MenuUtils {
 
     public static GuiItem getPresetDeleteItem(Language language) {
         return buildGuiItem(
-            gui.getString("item-materials.preset-delete"),
+            gui.getString("item-materials.preset.delete"),
             LanguageHandler.getText(language, "items.preset-delete.name"),
             LanguageHandler.getTextList(language, "items.preset-delete.lore"), false
         );
@@ -71,7 +85,7 @@ public class MenuUtils {
 
     public static GuiItem getPresetDeleteAllItem(Language language) {
         return buildGuiItem(
-            gui.getString("item-materials.preset-delete-all"),
+            gui.getString("item-materials.preset.delete-all"),
             LanguageHandler.getText(language, "items.preset-delete-all.name"),
             LanguageHandler.getTextList(language, "items.preset-delete-all.lore"), false
         );
@@ -104,17 +118,25 @@ public class MenuUtils {
 
     public static GuiItem getPresetListItem(Preset preset, Language language) {
         List<String> lore = LanguageHandler.getTextList(language, "items.preset.lore");
-        String materialName = gui.getString("item-materials.preset-list");
+        String materialName = gui.getString("item-materials.preset.list");
         lore.add("");
         if (preset.getBlocks().isEmpty()) {
             lore.add(LanguageHandler.getText(language, "items.preset.empty"));
         } else {
             lore.add(LanguageHandler.getText(language, "items.preset.blocks-title"));
             Map<BlockData, Integer> blocks = preset.getBlocksMap();
+            int maxBlocksList = config.getInt("preset.max-blocks-list");
+            int remainingStates = blocks.size() - maxBlocksList;
+            int count = 0;
             materialName = blocks.keySet().iterator().next().getMaterial().toString();
             for (Entry<BlockData, Integer> e : blocks.entrySet()) {
+                if (count >= maxBlocksList) {
+                    lore.add(LanguageHandler.getText(language, "items.preset.more-blocks").replace("%quantity%", String.valueOf(remainingStates)));
+                    break;
+                }
                 String line = LanguageHandler.getText(language, "items.preset.blocks-line").replace("%quantity%", String.valueOf(e.getValue())).replace("%bloque%", e.getKey().getAsString(true).replace("minecraft:", ""));
                 lore.add(line);
+                count++;
             }
         }   
         

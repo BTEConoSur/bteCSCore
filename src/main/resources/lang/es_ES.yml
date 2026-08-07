@@ -602,7 +602,7 @@ preset:
   invalid-name-length: "Máximo 30 caracteres permitidos para el nombre del preset."
   invalid-format: "El formato del preset es inválido. Por ejemplo: 50%stone,50%dirt"
   max-presets: "No puedes crear más presets. El límite es de <yellow>%quantity%</yellow> presets."
-  see: "Preset <yellow>%nombre%</yellow>: <yellow><contenido></yellow>\n\n"
+  see: "Preset <yellow>%nombre%</yellow>: <yellow><contenido></yellow>\n"
   see-empty: "Preset <yellow>%nombre%</yellow> no tiene bloques."
 
 player-info-command:
@@ -1316,7 +1316,7 @@ gui-titles:
   preset-create: "Crear preset: %nombre%"
   preset-edit: "Editar preset: %nombre%"
   confirm-preset-delete: "Confirmar eliminación: %nombre%"
-  confirm-preset-delete-all: "Confirmar eliminación de los bloques"
+  confirm-preset-delete-all: "Confirmar eliminación bloques"
   preset-list: "Presets: %player.nombre%"
 
 items:
@@ -1336,6 +1336,12 @@ items:
       - "<gray>Ejemplos:"
       - "<yellow>//set %symbol%piedra%symbol%"
       - "<yellow>//replace stone %symbol%edificio%symbol%"
+  preset-create:
+    name: "<green>Crear Preset"
+    lore:
+      - "<gray>Haz click para ingresar un nombre "
+      - "<gray>y crear un nuevo preset."
+      - "Máximo de %quantity% presets por jugador."
   preset-block:
     name: "<yellow>%quantity%% <green>%nombre%" # %nombre% -> Nombre del preset.
     lore:
@@ -1350,6 +1356,7 @@ items:
     blocks-title: "<gold>Bloques"
     blocks-line: "<gray>- <yellow>%quantity%% %bloque%"
     empty: "<gray>No hay bloques en este preset."
+    more-blocks: "<gray>- <gold>%quantity% más bloques... "
   preset-delete:
     name: "<red>Eliminar Preset"
     lore:
