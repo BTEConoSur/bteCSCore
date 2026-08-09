@@ -69,9 +69,7 @@ public class ProjectListCommand extends BaseCommand {
 
     @Override
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
-        if (args.length == 1) {
-            return getOnlinePlayers(args[0]);
-        }
+        if (args.length == 1) return getOnlinePlayers(args[0]);
         return Collections.emptyList();
     }
 

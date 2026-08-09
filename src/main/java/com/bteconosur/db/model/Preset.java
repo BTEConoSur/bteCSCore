@@ -13,7 +13,6 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import com.bteconosur.core.util.ConsoleLogger;
-import com.bteconosur.db.model.Preset.PresetId;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extension.input.ParserContext;
@@ -100,7 +99,7 @@ public class Preset {
             return map;
         }
 
-        String[] entries = input.split(",");
+        String[] entries = input.split(",(?![^\\[]*\\])");
         for (String e : entries) {
             try {
             
@@ -121,9 +120,14 @@ public class Preset {
                 }
 
                 //BlockData bd = Bukkit.createBlockData(blockString);
-                ParserContext context = new ParserContext();
-                BaseBlock weBlock = WorldEdit.getInstance().getBlockFactory().parseFromInput(blockString, context);
-                BlockData bd = BukkitAdapter.adapt(weBlock);
+                if (blockString.matches("^[0-9]+(:[0-9]+)?$")) {
+                    ParserContext context = new ParserContext();
+                    context.setActor(BukkitAdapter.adapt(Bukkit.getConsoleSender()));
+                    BaseBlock weBlock = WorldEdit.getInstance().getBlockFactory().parseFromInput(blockString, context);
+                    blockString = weBlock.getBlockType().getId();
+                }
+
+                BlockData bd = Bukkit.createBlockData(blockString);
                 map.put(bd, percentage);
 
             } catch (Exception ex) {

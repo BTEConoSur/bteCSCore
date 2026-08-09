@@ -128,7 +128,9 @@ public class MenuUtils {
             int maxBlocksList = config.getInt("preset.max-blocks-list");
             int remainingStates = blocks.size() - maxBlocksList;
             int count = 0;
-            materialName = blocks.keySet().iterator().next().getMaterial().toString();
+            if (!blocks.isEmpty()) {
+                materialName = blocks.keySet().iterator().next().getMaterial().toString();
+            }
             for (Entry<BlockData, Integer> e : blocks.entrySet()) {
                 if (count >= maxBlocksList) {
                     lore.add(LanguageHandler.getText(language, "items.preset.more-blocks").replace("%quantity%", String.valueOf(remainingStates)));
