@@ -12,6 +12,13 @@ import org.bukkit.block.data.BlockData;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.db.model.Preset.PresetId;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.extension.input.ParserContext;
+import com.sk89q.worldedit.world.block.BaseBlock;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
@@ -83,15 +90,20 @@ public class Preset {
     }
 
     public static Map<BlockData, Integer> parseBlocks(String input) {
+        return parseBlocks(input, false);
+    }
+
+    public static Map<BlockData, Integer> parseBlocks(String input, boolean strict) throws IllegalArgumentException {
         Map<BlockData, Integer> map = new LinkedHashMap<>();
 
         if (input == null || input.isBlank()) {
             return map;
         }
 
-        try {
-            String[] entries = input.split(",");
-            for (String e : entries) {
+        String[] entries = input.split(",");
+        for (String e : entries) {
+            try {
+            
                 e = e.trim();
                 int percentage;
                 String blockString;
@@ -99,7 +111,8 @@ public class Preset {
                     String[] split = e.split("%", 2);
 
                     percentage = Integer.parseInt(split[0].trim());
-                    if (percentage < 0 || percentage > 100) continue;
+                    if (percentage > 100) percentage = 100;
+                    if (percentage < 0) percentage = 0;
                     blockString = split[1].trim();
 
                 } else {
@@ -107,13 +120,19 @@ public class Preset {
                     blockString = e;
                 }
 
-                BlockData bd = Bukkit.createBlockData(blockString);
-
+                //BlockData bd = Bukkit.createBlockData(blockString);
+                ParserContext context = new ParserContext();
+                BaseBlock weBlock = WorldEdit.getInstance().getBlockFactory().parseFromInput(blockString, context);
+                BlockData bd = BukkitAdapter.adapt(weBlock);
                 map.put(bd, percentage);
-            }
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            } catch (Exception ex) {
+                if (strict) {
+                    throw new IllegalArgumentException(e);
+                } else {
+                    ConsoleLogger.error("Error al parsear bloques.", ex);
+                }
+            }
         }
 
         return map;

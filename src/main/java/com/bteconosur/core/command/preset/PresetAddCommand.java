@@ -42,17 +42,18 @@ public class PresetAddCommand extends BaseCommand {
             return true;
         }
 
-        Map<BlockData, Integer> newBlocks = Preset.parseBlocks(args[1]);
-
-        if (newBlocks == null) {
-            PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-format"), (String) null);
+        Map<BlockData, Integer> blocksMap;
+        try {
+            blocksMap = Preset.parseBlocks(args[1], true);
+        } catch (IllegalArgumentException e) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-format").replace("%error%", e.getMessage()), (String) null);
             return true;
         }
 
         Preset preset = player.getPreset(presetName);
 
         Map<BlockData, Integer> blocks = new LinkedHashMap<>(preset.getBlocksMap());
-        blocks.putAll(newBlocks);
+        blocks.putAll(blocksMap);
 
         registry.editPreset(player.getUuid(), blocks, presetName);
 

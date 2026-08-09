@@ -42,14 +42,16 @@ public class PresetEditCommand extends BaseCommand {
 
         if (args.length > 1) {
             if (args.length != 2) {
-                PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-format"), (String) null);
+                PlayerLogger.error(player, LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand().replace(" " + command, "")), (String) null);
                 return true;
             }
 
             String blocksArg = args[1];
-            Map<BlockData, Integer> blocksMap = Preset.parseBlocks(blocksArg);
-            if (blocksMap == null) {
-                PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-format"), (String) null);
+            Map<BlockData, Integer> blocksMap;
+            try {
+                blocksMap = Preset.parseBlocks(blocksArg, true);
+            } catch (IllegalArgumentException e) {
+                PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-format").replace("%error%", e.getMessage()), (String) null);
                 return true;
             }
 
