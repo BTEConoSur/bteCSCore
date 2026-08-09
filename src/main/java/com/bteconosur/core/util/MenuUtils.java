@@ -106,8 +106,9 @@ public class MenuUtils {
                 processedLore.add(LanguageHandler.getText(language, "items.preset-block.states-line").replace("%estado%", state));
             }
         }
+
         return buildGuiItem(
-            block.getMaterial().toString(),
+            getDisplayMaterial(block.getMaterial().name()),
             LanguageHandler.getText(language, "items.preset-block.name")
                 .replace("%nombre%", block.getMaterial().toString())
                 .replace("%quantity%", String.valueOf(quantity)),
@@ -129,7 +130,8 @@ public class MenuUtils {
             int remainingStates = blocks.size() - maxBlocksList;
             int count = 0;
             if (!blocks.isEmpty()) {
-                materialName = blocks.keySet().iterator().next().getMaterial().toString();
+                String originalName = blocks.keySet().iterator().next().getMaterial().name();
+                materialName = getDisplayMaterial(originalName);
             }
             for (Entry<BlockData, Integer> e : blocks.entrySet()) {
                 if (count >= maxBlocksList) {
@@ -146,6 +148,10 @@ public class MenuUtils {
             materialName, 
             LanguageHandler.getText(language, "items.preset.name").replace("%nombre%", preset.getId().getNombre()),
             lore, false);
+    }
+
+    private static String getDisplayMaterial(String originalMaterial) {
+        return config.getString("preset.items-blocks." + originalMaterial, originalMaterial);
     }
 
     private static List<String> getStates(BlockData data) {
