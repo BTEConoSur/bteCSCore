@@ -548,6 +548,7 @@ preset:
   copied: "Preset <yellow>%nombre%</yellow> copiado correctamente."
   invalid-name-length: "Máximo 30 caracteres permitidos para el nombre del preset."
   invalid-format: "El formato del preset es inválido (<yellow>%error%</yellow>). Por ejemplo: <yellow>50%stone,50%grass_block[snowy=true],dirt</yellow>."
+  banned-block: "El bloque <yellow>%block%</yellow> no está permitido en los presets."
   max-presets: "No puedes crear más presets. El límite es de <yellow>%quantity%</yellow> presets."
   see: "Preset <yellow>%nombre%</yellow>: <yellow><contenido></yellow>\n"
   see-empty: "Preset <yellow>%nombre%</yellow> no tiene bloques."

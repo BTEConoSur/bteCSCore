@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
@@ -48,6 +49,18 @@ public class PresetAddCommand extends BaseCommand {
         } catch (IllegalArgumentException e) {
             PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-format").replace("%error%", e.getMessage()), (String) null);
             return true;
+        }
+
+        List<String> bannedMaterials = ConfigHandler.getInstance().getConfig().getStringList("preset.banned-blocks");
+        for (BlockData blockData : blocksMap.keySet()) {
+            String materialName = blockData.getMaterial().name();
+
+            boolean isBanned = bannedMaterials.stream().anyMatch(banned -> banned.equalsIgnoreCase(materialName));
+
+            if (isBanned) {
+                PlayerLogger.error(player, LanguageHandler.getText(language, "preset.banned-block").replace("%block%", materialName), (String) null);
+                return true;
+            }
         }
 
         Preset preset = player.getPreset(presetName);

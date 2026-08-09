@@ -126,7 +126,7 @@ public class Preset {
                     BaseBlock weBlock = WorldEdit.getInstance().getBlockFactory().parseFromInput(blockString, context);
                     blockString = weBlock.getBlockType().getId();
                 }
-
+                
                 BlockData bd = Bukkit.createBlockData(blockString);
                 map.put(bd, percentage);
 

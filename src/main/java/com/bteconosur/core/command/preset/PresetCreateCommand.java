@@ -1,5 +1,6 @@
 package com.bteconosur.core.command.preset;
 
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.block.data.BlockData;
@@ -63,6 +64,18 @@ public class PresetCreateCommand extends BaseCommand {
             } catch (IllegalArgumentException e) {
                 PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-format").replace("%error%", e.getMessage()), (String) null);
                 return true;
+            }
+
+            List<String> bannedMaterials = ConfigHandler.getInstance().getConfig().getStringList("preset.banned-blocks");
+            for (BlockData blockData : blocksMap.keySet()) {
+                String materialName = blockData.getMaterial().name();
+
+                boolean isBanned = bannedMaterials.stream().anyMatch(banned -> banned.equalsIgnoreCase(materialName));
+
+                if (isBanned) {
+                    PlayerLogger.error(player, LanguageHandler.getText(language, "preset.banned-block").replace("%block%", materialName), (String) null);
+                    return true;
+                }
             }
 
             registry.createPreset(player.getUuid(), blocksMap, presetName);
