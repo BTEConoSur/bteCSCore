@@ -113,7 +113,7 @@ public class MenuUtils {
                 .replace("%nombre%", block.getMaterial().toString())
                 .replace("%quantity%", String.valueOf(quantity)),
             processedLore,
-            false
+            !getStates(block).isEmpty()
         );
     }
 
