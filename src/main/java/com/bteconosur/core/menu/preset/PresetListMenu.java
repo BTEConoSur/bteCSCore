@@ -43,11 +43,13 @@ public class PresetListMenu extends PaginatedMenu {
             item.setAction(event -> {
                 event.setCancelled(true);
                 if (isOther) {
-                    if (super.BTECSPlayer.getPresets().size() < maxPresets) {
-                        PlayerRegistry.getInstance().createPreset(player.getUniqueId(), preset.getBlocksMap(), preset.getId().getNombre());
-                        PlayerLogger.info(player, LanguageHandler.getText(language, "preset.copied").replace("%nombre%", preset.getId().getNombre()), (String) null); 
-                    } else {
+                    if (super.BTECSPlayer.getPresets().size() >= maxPresets) {
                         PlayerLogger.error(player, LanguageHandler.getText(language, "preset.max-presets").replace("%quantity%", String.valueOf(maxPresets)), (String) null);
+                    } else if (super.BTECSPlayer.hasPreset(preset.getId().getNombre())) {
+                        PlayerLogger.error(player, LanguageHandler.getText(language, "preset.already").replace("%nombre%", preset.getId().getNombre()), (String) null);
+                    } else {
+                        PlayerRegistry.getInstance().createPreset(player.getUniqueId(), preset.getBlocksMap(), preset.getId().getNombre());
+                        PlayerLogger.info(player, LanguageHandler.getText(language, "preset.copied").replace("%nombre%", preset.getId().getNombre()), (String) null);      
                     }
                     gui.close(player);
                     return;
