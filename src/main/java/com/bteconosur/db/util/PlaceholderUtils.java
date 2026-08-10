@@ -573,6 +573,12 @@ public class PlaceholderUtils {
                         else path = "placeholder.pais-ds.prefix.";
                         value = LanguageHandler.getText(language, path + pais.getNombre().toLowerCase());
                         break;
+                    case "fromPrefix":
+                        String path2;
+                        if (context == PlaceholderContext.MINECRAFT) path2 = "placeholder.pais-mc.from-prefix.";
+                        else return "ERROR_FROM_PREFIX_DS";
+                        value = LanguageHandler.getText(language, path2 + pais.getNombre().toLowerCase());
+                        break;
                     default:
                         value = "";
                         break;

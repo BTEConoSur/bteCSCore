@@ -1875,6 +1875,15 @@ placeholder:
       bolivia: "🇧"
       peru: "🇵"
       antartida: "国"
+    from-prefix:
+      internacional: "国"
+      argentina: "🇦"
+      chile: "🇨"
+      uruguay: "🇺🇾"
+      paraguay: "🇺🇾"
+      bolivia: "🇧"
+      peru: "🇵"
+      antartida: "国"
   rango-mc:
     format: "%rango.badge%%rango.label%"
     badge:
@@ -1953,7 +1962,7 @@ placeholder:
     file: "[ARCHIVO]"
     sticker: "[STICKER]"
     stickers: "[STICKERS]"
-    ds: "<gray>[</gray>后%pais.prefix%<gray>]</gray>"
+    ds: "<gray>[</gray>后%pais.fromPrefix%<gray>]</gray>"
   chat-ds:
     country: "%pais.nombrePublico%"
     global: "Global"
