@@ -10,6 +10,7 @@ item-materials:
     list: "BOOK"
     delete-all: "REDSTONE"
     info: "PAPER"
+    see: "WIND_CHARGE"
   tpdir: "PAPER"
   separator: "BLACK_STAINED_GLASS_PANE"
   help-visitar:

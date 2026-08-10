@@ -91,6 +91,14 @@ public class MenuUtils {
         );
     }
 
+    public static GuiItem getPresetSeeItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.preset.see"),
+            LanguageHandler.getText(language, "items.preset-see.name"),
+            LanguageHandler.getTextList(language, "items.preset-see.lore"), false
+        );
+    }
+
     public static GuiItem getPresetBlockItem(BlockData block, int quantity, Language language) {
         List<String> lore = LanguageHandler.getTextList(language, "items.preset-block.lore");
         List<String> processedLore = new ArrayList<>();

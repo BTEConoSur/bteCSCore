@@ -15,11 +15,14 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.PaginatedMenu;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.core.util.TagResolverUtils;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Preset;
 import com.bteconosur.db.registry.PlayerRegistry;
 
 import de.rapha149.signgui.SignGUIAction;
 import dev.triumphteam.gui.guis.GuiItem;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import dev.triumphteam.gui.components.GuiAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import com.bteconosur.core.menu.ConfirmationMenu;
@@ -119,6 +122,22 @@ public class PresetCreateMenu extends PaginatedMenu {
     }
 
     private void refreshUI() {
+        if (isEditing && blocks.equals(originalBlocks) && !blocks.isEmpty()) {
+            gui.setItem(6,2, MenuUtils.getPresetSeeItem(language));
+            gui.addSlotAction(6, 2, event -> {
+                event.setCancelled(true);
+                Preset preset = BTECSPlayer.getPreset(presetName);
+                TagResolver tagResolver1 = TagResolverUtils.getCopyableText("contenido", preset.getBlocks(), preset.getBlocks(), language);
+                PlayerLogger.info(player, LanguageHandler.getText(language, "preset.see").replace("%nombre%", preset.getId().getNombre()), (String) null, tagResolver1);
+                gui.close(player);
+            });
+        } else {
+            gui.setItem(6, 2, MenuUtils.getFillerItem());
+            gui.addSlotAction(6, 2, event -> {
+                event.setCancelled(true);
+            });
+        }
+
         if (isEditing) {
             gui.setItem(6, 7, MenuUtils.getPresetDeleteItem(language));
             gui.addSlotAction(6, 7, event -> {
