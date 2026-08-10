@@ -8,8 +8,11 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitTask;
+import org.checkerframework.checker.units.qual.s;
 
 import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.chat.ChatUtil;
+import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
@@ -36,6 +39,9 @@ public class RestartService {
     private BukkitTask restartTask;
     private BukkitTask warningTask;
     private long restartAtMillis = -1L;
+
+    private boolean isRestarting = false;
+    private boolean sentInfoMessage = false;
 
     private RestartService() {
         plugin = BTEConoSur.getInstance();
@@ -147,7 +153,7 @@ public class RestartService {
 
         clearBossBars();
         restartAtMillis = -1L;
-
+        sentInfoMessage = false;
         if (hadRestart && logToConsole) {
             ConsoleLogger.info(LanguageHandler.getText("restart-cancelled"));
         }
@@ -162,6 +168,11 @@ public class RestartService {
         if (remainingMillis <= 0L || warningMillis <= 0L || remainingMillis > warningMillis) {
             clearBossBars();
             return;
+        }
+
+        if (!sentInfoMessage && config.getBoolean("discord-server-restart-info")) {
+            GlobalChatService.broadcastEmbed(ChatUtil.getServerRestartInfo());
+            sentInfoMessage = true;
         }
 
         float progress = Math.max(0.0F, Math.min(1.0F, remainingMillis / (float) warningMillis));
@@ -217,10 +228,10 @@ public class RestartService {
             warningTask.cancel();
             warningTask = null;
         }
-
+        isRestarting = true;
         restartAtMillis = -1L;
-
         kickAllPlayers();
+        if (config.getBoolean("discord-server-restart")) GlobalChatService.broadcastEmbed(ChatUtil.getServerRestarted());
         clearBossBars();
         Bukkit.restart();
     }
@@ -266,5 +277,9 @@ public class RestartService {
         long hours = totalSeconds / 3600L;
         long minutes = (totalSeconds % 3600L) / 60L;
         return hours + "h " + minutes + "m";
+    }
+
+    public boolean isRestarting() {
+        return isRestarting;
     }
 }

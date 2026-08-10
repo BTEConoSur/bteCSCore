@@ -251,7 +251,10 @@ public final class BTEConoSur extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        
+        boolean isRestarting = false;
+        if (restartService != null) {
+            isRestarting = restartService.isRestarting();
+        }
         if (proyectoRegistry != null) {
             proyectoRegistry.shutdown();
             proyectoRegistry = null;
@@ -329,7 +332,7 @@ public final class BTEConoSur extends JavaPlugin {
 
         if (discordManager != null) {
             DiscordLogger.toggleStaffConsoleLog();
-            if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStopped());
+            if (config.getBoolean("discord-server-start-stop") && !isRestarting) GlobalChatService.broadcastEmbed(ChatUtil.getServerStopped());
             discordManager.shutdown();
             discordManager = null;
         }

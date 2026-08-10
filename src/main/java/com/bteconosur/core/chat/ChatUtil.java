@@ -132,6 +132,16 @@ public class ChatUtil {
         return buildChatNotification("stop");
     }
 
+    public static MessageEmbed getServerRestarted() {
+        return buildChatNotification("restart");
+    }
+
+    public static MessageEmbed getServerRestartInfo() {
+        Language language = Language.getDefault();
+        String title = LanguageHandler.getText(language, "ds-chat-notifications.restart-info").replace("%tiempo%", config.getString("restart-warning-minutes"));
+        return builEmbed("ds-chat-notifications.restart-info", language, title, null, null, null);
+    }
+
     public static MessageEmbed getDsPlayerJoined(Player player) {
         return buildChatNotification("player-join", player);
     }

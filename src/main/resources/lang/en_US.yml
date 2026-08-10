@@ -994,6 +994,10 @@ ds-chat-notifications:
   stop:
     title: "**Server has stopped.**"
     description: "See you soon!"
+  restart:
+    title: "El servidor se ha reiniciado."
+    description: "Vuelve en un momento!"
+  restart-info: "El servidor se reiniciará en %tiempo% minutos."
   player-join:
     author: "%player.nombre% has joined the server."
   player-new-join:

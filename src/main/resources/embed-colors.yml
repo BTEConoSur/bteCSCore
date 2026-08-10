@@ -2,6 +2,8 @@ default: 0xFFFFFF
 ds-chat-notifications:
   start: 0x43B581
   stop: 0xED4245
+  restart: 0x9743B5
+  restart-info: 0x9743B5
   player-join: 0x43B581
   player-left: 0xED4245
   player-new-join: 0x43B581

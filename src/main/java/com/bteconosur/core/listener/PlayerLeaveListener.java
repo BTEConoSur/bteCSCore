@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.scoreboard.ScoreboardManager;
 import com.bteconosur.core.util.DateUtils;
+import com.bteconosur.core.util.RestartService;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -32,8 +33,10 @@ public class PlayerLeaveListener implements Listener {
             player.setFechaUltimaConexion(Date.from(DateUtils.instantOffset()));
             player = playerRegistry.merge(player.getUuid());
             ScoreboardManager.getInstance().removePlayer(player);
-            GlobalChatService.broadcastPlayerLeftServer(player);
-            
+            if (!RestartService.getInstance().isRestarting()) {
+                GlobalChatService.broadcastPlayerLeftServer(player);
+            }
+
             ChatService.leaveChat(player);
         }
     }

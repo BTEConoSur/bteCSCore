@@ -243,6 +243,8 @@ discord-staff-console-log: true # Habilitar logs de la consola del servidor en e
 discord-player-join-leave: true # Habilitar mensajes de entrada y salida de jugadores en Discord. Depende de discord-country-chat y/o discord-global-chat para mostrarse en Discord.
 discord-player-join-leave-chat: true # Habilitar mensajes de entrada y salida del chat de jugadores en Discord. Depende de discord-country-chat y/o discord-global-chat para mostrarse en Discord.
 discord-server-start-stop: true # Habilitar mensajes de inicio y stop del servidor en Discord. Depende de discord-country-chat para mostrarse en Discord.
+discord-server-restart: true # Habilitar mensajes de reinicio del servidor en Discord. Depende de discord-country-chat para mostrarse en Discord.
+discord-server-restart-info: true # Habilitar mensajes de cuándo se va a reiniciar el servidor en Discord. Depende de discord-country-chat para mostrarse en Discord.
 
 cono-sur-logo: https://i.imgur.com/LtR9vt1.png
 
