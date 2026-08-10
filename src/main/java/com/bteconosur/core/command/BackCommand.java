@@ -28,7 +28,7 @@ public class BackCommand extends BaseCommand {
             return true;
         }
         bukkitPlayer.teleport(lastLocation);
-        PlayerRegistry.removeLastLocation(commandPlayer.getUuid());
+        //PlayerRegistry.removeLastLocation(commandPlayer.getUuid());
         PlayerLogger.info(commandPlayer, LanguageHandler.getText(language, "back.teleported"), (String) null);
         return true;
     }
