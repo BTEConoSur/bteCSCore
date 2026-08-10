@@ -83,9 +83,17 @@ public class Preset {
     }
 
     public void setBlocksMap(Map<BlockData, Integer> blocksMap) {
-        this.blocks = blocksMap.entrySet().stream()
-            .map(e -> e.getValue() + "%" + e.getKey().getAsString(true).replace("minecraft:", ""))
+        this.blocks = parseBlocks(blocksMap);
+    }
+
+    public static String parseBlocks(Map<BlockData, Integer> blocksMap) {
+        return blocksMap.entrySet().stream()
+            .map(e -> parseBlock(e.getKey(), e.getValue()))
             .collect(Collectors.joining(","));
+    }
+
+    public static String parseBlock(BlockData blockData, int percentage) {
+        return percentage + "%" + blockData.getAsString(true).replace("minecraft:", "");
     }
 
     public static Map<BlockData, Integer> parseBlocks(String input) {

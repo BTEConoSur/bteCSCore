@@ -67,7 +67,10 @@ public class PresetAddCommand extends BaseCommand {
 
         Map<BlockData, Integer> blocks = new LinkedHashMap<>(preset.getBlocksMap());
         blocks.putAll(blocksMap);
-
+        if (blocks.size() > 36) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "preset.max-blocks"), (String) null);
+            return true;
+        }
         registry.editPreset(player.getUuid(), blocks, presetName);
 
         PlayerLogger.info(player, LanguageHandler.getText(language, "preset.edited").replace("%nombre%", presetName), (String) null);

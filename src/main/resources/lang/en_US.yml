@@ -552,6 +552,8 @@ preset:
   max-presets: "No puedes crear más presets. El límite es de <yellow>%quantity%</yellow> presets."
   see: "Preset <yellow>%nombre%</yellow>: <yellow><contenido></yellow>\n"
   see-empty: "Preset <yellow>%nombre%</yellow> no tiene bloques."
+  see-block: "Bloque: <yellow><contenido></yellow>."
+  max-blocks: "No puedes agregar más bloques al preset. El límite es de <yellow>36</yellow> bloques."
   empty-other: "El jugador <yellow>%player.nombre%</yellow> no tiene ningún Preset creado."
   empty: "No tienes ningún Preset creado."
 
@@ -1288,8 +1290,10 @@ items:
   preset-block:
     name: "<yellow>%quantity%% <green>%nombre%" # %nombre% -> Nombre del preset.
     lore:
-      - "<gray>Click to edit the percentage."
+      - "<gray>Click izquierdo para editar el porcentaje."
       - "<gray>Shift + Click to delete the block from the preset."
+    lore-create:
+      - "<gray>Click derecho obtener el bloque <b>copiable</b>."
     states-title: "<gold>Block States"
     states-line: "<gray>- <yellow>%estado%"
   preset:

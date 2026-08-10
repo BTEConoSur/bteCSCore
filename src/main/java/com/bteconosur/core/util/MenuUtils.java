@@ -99,8 +99,9 @@ public class MenuUtils {
         );
     }
 
-    public static GuiItem getPresetBlockItem(BlockData block, int quantity, Language language) {
+    public static GuiItem getPresetBlockItem(BlockData block, int quantity, Language language, boolean isEditing) {
         List<String> lore = LanguageHandler.getTextList(language, "items.preset-block.lore");
+        if (isEditing) lore.addAll(LanguageHandler.getTextList(language, "items.preset-block.lore-create"));
         List<String> processedLore = new ArrayList<>();
         for (String line : lore) {
             line = line.replace("%quantity%", String.valueOf(quantity));

@@ -66,7 +66,7 @@ public class PresetCreateMenu extends PaginatedMenu {
     @Override
     protected void populateItems() {
         for (Entry<BlockData, Integer> entry : blocks.entrySet()) {
-            GuiItem item = MenuUtils.getPresetBlockItem(entry.getKey(), entry.getValue(), language);
+            GuiItem item = MenuUtils.getPresetBlockItem(entry.getKey(), entry.getValue(), language, isEditing);
 
             item.setAction(event -> {
                 event.setCancelled(true);
@@ -74,9 +74,15 @@ public class PresetCreateMenu extends PaginatedMenu {
                 if (event.getClick().isShiftClick()) {
                     blocks.remove(entry.getKey());
                     refreshMenuItems();
-                } else if (event.getClick().isLeftClick() || event.getClick().isRightClick()) {
+                } else if (event.getClick().isLeftClick()) {
                     editPercentage(entry.getKey());
+                } else if (event.getClick().isRightClick()) {
+                    String blocksString = Preset.parseBlock(entry.getKey(), entry.getValue());
+                    TagResolver tagResolver1 = TagResolverUtils.getCopyableText("contenido", blocksString, blocksString, language);
+                    PlayerLogger.info(player, LanguageHandler.getText(language, "preset.see-block"), (String) null, tagResolver1);
+                    gui.close(player);
                 }
+
             });
             gui.addItem(item);
         }
@@ -93,14 +99,14 @@ public class PresetCreateMenu extends PaginatedMenu {
             if (blocks.containsKey(blockData)) return;
             blocks.put(blockData, 100);
 
-            GuiItem guiItem = MenuUtils.getPresetBlockItem(blockData, 100, language);
+            GuiItem guiItem = MenuUtils.getPresetBlockItem(blockData, 100, language, false);
         
             guiItem.setAction(click -> {
                 click.setCancelled(true);
                 if (event.getClick().isShiftClick()) {
                     blocks.remove(blockData);
                     refreshMenuItems();
-                } else if (event.getClick().isLeftClick() || event.getClick().isRightClick()) {
+                } else if (event.getClick().isLeftClick()) {
                     editPercentage(blockData);
                 }
             });
@@ -126,9 +132,9 @@ public class PresetCreateMenu extends PaginatedMenu {
             gui.setItem(6,2, MenuUtils.getPresetSeeItem(language));
             gui.addSlotAction(6, 2, event -> {
                 event.setCancelled(true);
-                Preset preset = BTECSPlayer.getPreset(presetName);
-                TagResolver tagResolver1 = TagResolverUtils.getCopyableText("contenido", preset.getBlocks(), preset.getBlocks(), language);
-                PlayerLogger.info(player, LanguageHandler.getText(language, "preset.see").replace("%nombre%", preset.getId().getNombre()), (String) null, tagResolver1);
+                String blocksString = Preset.parseBlocks(blocks);
+                TagResolver tagResolver1 = TagResolverUtils.getCopyableText("contenido", blocksString, blocksString, language);
+                PlayerLogger.info(player, LanguageHandler.getText(language, "preset.see").replace("%nombre%", presetName), (String) null, tagResolver1);
                 gui.close(player);
             });
         } else {

@@ -68,6 +68,11 @@ public class PresetEditCommand extends BaseCommand {
                 }
             }
 
+            if (blocksMap.size() > 36) {
+                PlayerLogger.error(player, LanguageHandler.getText(language, "preset.max-blocks"), (String) null);
+                return true;
+            }
+
             registry.editPreset(player.getUuid(), blocksMap, presetName);
             PlayerLogger.info(player, LanguageHandler.getText(language, "preset.edited").replace("%nombre%", presetName), (String) null);
             return true;
