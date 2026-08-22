@@ -356,4 +356,12 @@ public class SatMapUtils {
         }
     }
 
+    public static String getGMapsLink(double lon, double lat) {
+        return config.getString("gmaps-link").replace("%lat%", String.valueOf(lat)).replace("%lon%", String.valueOf(lon));
+    }
+
+    public static String getGEarthLink(double lon, double lat) {
+        return config.getString("gearth-link").replace("%lat%", String.valueOf(lat)).replace("%lon%", String.valueOf(lon));
+    }
+
 }

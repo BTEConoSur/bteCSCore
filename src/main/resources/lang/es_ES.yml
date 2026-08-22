@@ -772,7 +772,7 @@ project:
       for-reviewer: "Nueva solicitud de creación de proyecto de <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "Nueva solicitud de creación de proyecto de %pais.nombrePublico%. [Ver solicitud](%link%)"
       expired: "La solicitud de proyecto de ID <yellow>%proyecto.id%</yellow> ha expirado."
-      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%`. Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Nombre: `%proyecto.nombre%`."
+      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%`. Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Nombre: `%proyecto.nombre%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | La solicitud de creación del proyecto `%proyecto.id%` de **%player.nombre%** ha expirado."
     accept:
       success: "Has aceptado la solicitud del proyecto de ID <yellow>%proyecto.id%</yellow>."
@@ -806,7 +806,7 @@ project:
         for-member: "%player.nombre% ha solicitado finalizar el proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés."
         for-reviewer: "Nueva solicitud de finalización de edición de proyecto de <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>"
         ds-for-reviewer: "Nueva solicitud de finalización de edición de proyecto de %pais.nombrePublico%. ID: `%proyecto.id%`. Coordenadas: `%proyecto.geoCoords%`"
-        log: "✏️ | **%player.nombre%** ha solicitado terminar la edición del proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento% (GMT-3)."
+        log: "✏️ | **%player.nombre%** ha solicitado terminar la edición del proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento%."
         expired-log: "❌ | La solicitud de finalización de la edición del proyecto `%proyecto.id%` ha expirado."
       accept:
         success: "Has aceptado la finalización de edición del proyecto de ID <yellow>%proyecto.id%</yellow>."
@@ -828,7 +828,7 @@ project:
       for-member: "%player.nombre% ha solicitado finalizar el proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés."
       for-reviewer: "Nueva solicitud de finalización de proyecto de <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>"
       ds-for-reviewer: "Nueva solicitud de finalización de proyecto de %pais.nombrePublico%. ID: `%proyecto.id%`. Coordenadas: `%proyecto.geoCoords%`"
-      log: "⏰ | **%player.nombre%** ha solicitado finalizar el proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento% (GMT-3)."
+      log: "⏰ | **%player.nombre%** ha solicitado finalizar el proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | La solicitud de finalización del proyecto `%proyecto.id%` ha expirado."
     accept:
       success: "Has aceptado la finalización del proyecto de ID <yellow>%proyecto.id%</yellow>."
@@ -1207,8 +1207,10 @@ ds-embeds:
       pais: "País"
       ubicacion: "Ubicación"
       coordenadas: "Coordenadas geográficas"
+      links: "Links"
       fecha-creacion: "Fecha de creación"
       fecha-finalizacion: "Fecha de finalización"
+    link: "[Google Maps](%gmapsLink%) - [Google Earth](%gearthLink%)"
   player-info:
     title: "Información del jugador: %player.nombre%"
     ds-no-link: "> **[!]** El Usuario no tiene la cuenta de Minecraft enlazada."

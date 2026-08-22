@@ -228,6 +228,9 @@ map:
 tpdir-link: "https://nominatim.openstreetmap.org/search?q=%search%&format=json" # Link para buscar coordenadas en el comando /tpdir. Se reemplaza %search% por la consulta del usuario.
 tpdir-accept-language: "es-AR,es;q=0.9,en;q=0.7"
 
+gmaps-link: "https://www.google.com/maps?q=%lat%,%lon%"
+gearth-link: "https://earth.google.com/web/@%lat%,%lon%,1000a,1000d,35y,0h,0t,0r"
+
 # Base de Datos
 database-driver: "org.mariadb.jdbc.Driver"
 database-show-sql: "false"
