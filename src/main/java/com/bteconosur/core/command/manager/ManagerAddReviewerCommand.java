@@ -61,6 +61,12 @@ public class ManagerAddReviewerCommand extends BaseCommand {
             return true;
         }
 
+        if (permissionManager.isManager(commandPlayer, pais)) {
+            String message = LanguageHandler.replaceMC("manager.already", language, commandPlayer, pais);
+            PlayerLogger.error(sender, message, (String) null);
+            return true;
+        }
+
         try {
             uuid = UUID.fromString(args[1]);
             targetPlayer = playerRegistry.get(uuid);
