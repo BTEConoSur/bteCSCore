@@ -372,6 +372,12 @@ commands-aliases:
     aliases: ["nv", "vn"]
   pwarp:
     aliases: ["pw"]
+  visitar:
+    aliases: ["visit"]
+  command:
+    aliases: ["comando", "comandos", "commands"]
+  construir:
+    aliases: ["build", "tutorial", "tutoriales"]
 
 # TAB
 tab-reload: 100 # Cada cuantos milisegundos se refresca el TAB.

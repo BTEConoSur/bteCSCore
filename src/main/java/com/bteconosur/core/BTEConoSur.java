@@ -23,6 +23,9 @@ import com.bteconosur.core.command.config.ScoreboardConfigCommand;
 import com.bteconosur.core.command.config.UnlinkCommand;
 import com.bteconosur.core.command.crud.CrudCommand;
 import com.bteconosur.core.command.help.HelpCommand;
+import com.bteconosur.core.command.help.HelpConstruirCommand;
+import com.bteconosur.core.command.help.HelpDiscordCommand;
+import com.bteconosur.core.command.help.HelpProyectoCommand;
 import com.bteconosur.core.command.help.HelpVisitarCommand;
 import com.bteconosur.core.command.manager.ManagerCommand;
 import com.bteconosur.core.command.pais.PaisPrefixCommand;
@@ -246,6 +249,9 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new BTECSCommand());
         HelpCommandCommand.addCommand(new BTECSCommand());
 
+        PluginRegistry.registerCommand(new HelpDiscordCommand());
+        PluginRegistry.registerCommand(new HelpCommandCommand());
+        PluginRegistry.registerCommand(new HelpConstruirCommand());
         PluginRegistry.registerCommand(new HelpVisitarCommand());
     }
 

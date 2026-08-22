@@ -11,10 +11,10 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
 
-public class HelpConstruir extends BaseCommand {
+public class HelpDiscordCommand extends BaseCommand {
 
-    public HelpConstruir() {
-        super("construir", "", "btecs.command.help", CommandMode.PLAYER_ONLY);
+    public HelpDiscordCommand() {
+        super("discord", "", "btecs.command.help", CommandMode.PLAYER_ONLY);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class HelpConstruir extends BaseCommand {
         Player player = Player.getBTECSPlayer((org.bukkit.entity.Player) sender);
         Language language = player.getLanguage();
         String pluginPrefix = LanguageHandler.getText(language, "plugin-prefix");
-        List<String> lore = LanguageHandler.getTextList(language, "help-construir");
+        List<String> lore = LanguageHandler.getTextList(language, "help-discord");
         List<String> processedLore = new ArrayList<>();
         for (String line : lore) {
             processedLore.add(line.replace("%plugin-prefix%", pluginPrefix));
@@ -31,6 +31,5 @@ public class HelpConstruir extends BaseCommand {
         PlayerLogger.send(player, message, (String) null);
         return true;
     }
-
 
 }
