@@ -79,7 +79,7 @@ public class JsonUtils {
                 return Arrays.asList(arr);
             }
         } catch (Exception e) {
-            ConsoleLogger.error("Error al buscar ubicaciones (" + query + "): ", e);
+            ConsoleLogger.warn("Error al buscar ubicaciones (" + query + "): ", e);
             return null;
         } finally {
             if (conn != null) conn.disconnect();

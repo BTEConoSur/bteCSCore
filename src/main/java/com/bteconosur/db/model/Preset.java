@@ -93,7 +93,10 @@ public class Preset {
     }
 
     public static String parseBlock(BlockData blockData, double percentage) {
-        return percentage + "%" + blockData.getAsString(true).replace("minecraft:", "");
+        String blockString = blockData.getAsString(true).replace("minecraft:", "");
+        if (percentage >= 100.0) return blockString;
+        if (percentage == (long) percentage) return (long) percentage + "%" + blockString;
+        return percentage + "%" + blockString;
     }
 
     public static Map<BlockData, Double> parseBlocks(String input) {
