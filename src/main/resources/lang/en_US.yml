@@ -507,6 +507,11 @@ help-construir:
   - "> <u><blue><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ67DHFOuXKeILZh8kSiybSx'><hover:show_text:'Click to watch'>Basic tutorials</hover></click></blue></u>"
   - "> <blue><u><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ4-D8lmWpeUCDch3hTux5uY'><hover:show_text:'Click to watch'>Advanced tutorials</hover></click></u></blue>"
   - "<dark_gray>+---------------------------------------+</dark_gray>\n"
+
+help-wiki:
+ - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+ - "<blue><u><click:open_url:'https://resources.buildtheearth.net/s/adbd294f-c787-4ea1-ae13-88fe946aaf8a/doc/bte-cono-sur-DAKmKdHyYG'><hover:show_text:'Click to open'>Cono Sur Wiki</hover></click></u></blue>"
+ - "<dark_gray>+---------------------------------------+</dark_gray>\n "
 region:
   selected: "<green>Successfully selected the region."
   not-selected: "You haven't selected a region."

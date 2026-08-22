@@ -555,6 +555,11 @@ help-construir:
   - "> <blue><u><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ5mCILQIXTT2Kw_Gecv1t4v'><hover:show_text:'Click para ver'>Tutoriales avanzados</hover></click></u></blue>"
   - "<dark_gray>+---------------------------------------+</dark_gray>\n"
 
+help-wiki:
+  - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+  - "<blue><u><click:open_url:'https://resources.buildtheearth.net/s/adbd294f-c787-4ea1-ae13-88fe946aaf8a/doc/bte-cono-sur-DAKmKdHyYG'><hover:show_text:'Click para abrir'>Wiki del Cono Sur</hover></click></u></blue>"
+  - "<dark_gray>+---------------------------------------+</dark_gray>\n"
+
 region:
   selected: "<green>Región seleccionada correctamente."
   not-selected: "No tienes una región seleccionada."
