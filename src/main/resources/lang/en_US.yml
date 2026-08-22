@@ -566,6 +566,7 @@ player-info-command:
   - " <yellow>UUID:</yellow> <white>%player.uuid%</white>"
   - " <yellow>Language:</yellow> <white>%player.lenguaje%</white>"
   - " <yellow>Country:</yellow> <white>%player.paisPrefix%</white>"
+  - " <yellow>Chat:</yellow> <white>%player.chat%</white>"
   - " <yellow>User Type:</yellow> <white>%player.tipoUsuario%</white>"
   - " <yellow>User Role:</yellow> <white>%player.rangoUsuario%</white>"
   - " <yellow>Discord:</yellow> <white>%player.discordName%</white>"
