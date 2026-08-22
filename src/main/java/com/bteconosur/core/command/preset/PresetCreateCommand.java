@@ -41,6 +41,11 @@ public class PresetCreateCommand extends BaseCommand {
             return true;
         }
 
+        if (!presetName.matches("^[\\p{L}0-9_]+$")) {
+            PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-name-format"), (String) null);
+            return true;
+        }
+
         if (player.hasPreset(presetName)) {
             PlayerLogger.error(player, LanguageHandler.getText(language, "preset.already").replace("%nombre%", presetName), (String) null);
             return true;
@@ -58,7 +63,7 @@ public class PresetCreateCommand extends BaseCommand {
             }
 
             String blocksArg = args[1];
-            Map<BlockData, Integer> blocksMap;
+            Map<BlockData, Double> blocksMap;
             try {
                 blocksMap = Preset.parseBlocks(blocksArg, true);
             } catch (IllegalArgumentException e) {

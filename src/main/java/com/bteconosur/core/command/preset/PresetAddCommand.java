@@ -43,7 +43,7 @@ public class PresetAddCommand extends BaseCommand {
             return true;
         }
 
-        Map<BlockData, Integer> blocksMap;
+        Map<BlockData, Double> blocksMap;
         try {
             blocksMap = Preset.parseBlocks(args[1], true);
         } catch (IllegalArgumentException e) {
@@ -65,7 +65,7 @@ public class PresetAddCommand extends BaseCommand {
 
         Preset preset = player.getPreset(presetName);
 
-        Map<BlockData, Integer> blocks = new LinkedHashMap<>(preset.getBlocksMap());
+        Map<BlockData, Double> blocks = new LinkedHashMap<>(preset.getBlocksMap());
         blocks.putAll(blocksMap);
         if (blocks.size() > 36) {
             PlayerLogger.error(player, LanguageHandler.getText(language, "preset.max-blocks"), (String) null);

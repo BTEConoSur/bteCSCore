@@ -195,6 +195,7 @@ preset:
     WITHER_SKELETON_WALL_SKULL: "WITHER_SKELETON_SKULL"
     YELLOW_WALL_BANNER: "YELLOW_BANNER"
     ZOMBIE_WALL_HEAD: "ZOMBIE_HEAD"
+    AIR: "WIND_CHARGE"
 
 related-languages:
   es_ES: ["es_AR", "es_MX", "es_CL", "es_CO", "es_PE", "es_VE", "es_UY", "es_PY", "es_BO", "es_EC"]
@@ -338,6 +339,7 @@ commands-cooldowns:
   btecs: 10
   btecs.test: 200
   nightvision: 0
+  back: 0
 
 ds-help-command-per-page: 5 # Cantidad de comandos a mostrar por página en el comando de ayuda de Discord.
 ds-project-list-per-page: 9 # Cantidad de proyectos a mostrar por página en el comando de listado de proyectos de Discord por usuario.
@@ -365,6 +367,8 @@ commands-aliases:
      aliases: ["lang", "idioma"]
   nightvision:
     aliases: ["nv", "vn"]
+  pwarp:
+    aliases: ["pw"]
 
 # TAB
 tab-reload: 100 # Cada cuantos milisegundos se refresca el TAB.

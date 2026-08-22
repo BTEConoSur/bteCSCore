@@ -32,7 +32,7 @@ public class ManagerNameCommand extends BaseCommand {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         Language language = commandPlayer.getLanguage();
         PermissionManager permissionManager = PermissionManager.getInstance();
-        if (args.length != 2) {
+        if (args.length == 0) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(commandPlayer, message, (String) null);
             return true;
@@ -51,7 +51,12 @@ public class ManagerNameCommand extends BaseCommand {
             return true;
         }
 
-        String nombre = args[1];
+        StringBuilder nombreBuilder = new StringBuilder();
+        for (int i = 1; i < args.length; i++) {
+            if (i > 1) nombreBuilder.append(" ");
+            nombreBuilder.append(args[i]);
+        }
+        String nombre = nombreBuilder.toString();
         if (nombre.length() > 50) {
             PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "invalid-project-name"), (String) null);
             return true;
@@ -73,7 +78,8 @@ public class ManagerNameCommand extends BaseCommand {
         ApiManager.getInstance().updateClaim(targetProyecto);
         PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.update.name.success", language, commandPlayer, targetProyecto), (String) null);
         Set<Player> miembros = projectManager.getMembers(targetProyecto);
-        miembros.add(projectManager.getLider(targetProyecto));
+        Player lider = projectManager.getLider(targetProyecto);
+        if (lider != null) miembros.add(lider);
         for (Player miembro : miembros) 
             PlayerLogger.info(miembro, LanguageHandler.replaceMC("project.update.name.for-member", miembro.getLanguage(), targetProyecto), 
                 ChatUtil.getDsProjectNameUpdated(targetProyecto, nombre, miembro.getLanguage()));

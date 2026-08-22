@@ -42,7 +42,7 @@ public class ChatListener implements Listener {
         String presetSymbol = ConfigHandler.getInstance().getConfig().getString("preset.symbol");
         String quotedSymbol = Pattern.quote(presetSymbol);
         
-        Pattern pattern = Pattern.compile(quotedSymbol + "([a-zA-Z0-9_]{1,30})" + quotedSymbol);
+        Pattern pattern = Pattern.compile(quotedSymbol + "([\\p{L}0-9_]{1,30})" + quotedSymbol);
         Matcher matcher = pattern.matcher(msg);
 
         while (matcher.find()) {

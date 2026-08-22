@@ -299,7 +299,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
      * @param blocks mapa de bloques y sus porcentajes.
      * @param presetName nombre del preset.
      */
-    public void createPreset(UUID uuid, Map<BlockData, Integer> blocks, String presetName) {
+    public void createPreset(UUID uuid, Map<BlockData, Double> blocks, String presetName) {
         Player player = get(uuid);
         if (player == null) return;
         Preset preset = new Preset(player.getUuid(), presetName, "", player);
@@ -315,7 +315,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
      * @param blocks mapa de bloques y sus porcentajes.
      * @param presetName nombre del preset.
      */
-    public void editPreset(UUID uuid, Map<BlockData, Integer> blocks, String presetName) {
+    public void editPreset(UUID uuid, Map<BlockData, Double> blocks, String presetName) {
         Player player = get(uuid);
         if (player == null) return;
         Preset preset = player.getPreset(presetName);

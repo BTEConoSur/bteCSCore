@@ -31,8 +31,8 @@ import com.bteconosur.core.menu.Menu;
 public class PresetCreateMenu extends PaginatedMenu {
 
     private String presetName;
-    private Map<BlockData, Integer> blocks = new LinkedHashMap<>();
-    private Map<BlockData, Integer> originalBlocks = new LinkedHashMap<>();
+    private Map<BlockData, Double> blocks = new LinkedHashMap<>();
+    private Map<BlockData, Double> originalBlocks = new LinkedHashMap<>();
     private boolean isEditing = false;
 
     public PresetCreateMenu(Player player, String presetName) {
@@ -46,7 +46,7 @@ public class PresetCreateMenu extends PaginatedMenu {
         this.previousMenu = previousMenu;
     }
 
-    public PresetCreateMenu(Player player, String presetName, Map<BlockData, Integer> blocks) {
+    public PresetCreateMenu(Player player, String presetName, Map<BlockData, Double> blocks) {
         super(LanguageHandler.getText(player.getLanguage(), "gui-titles.preset-edit").replace("%nombre%", presetName), player);
         this.presetName = presetName;
         this.originalBlocks = new LinkedHashMap<>(blocks);
@@ -54,7 +54,7 @@ public class PresetCreateMenu extends PaginatedMenu {
         this.isEditing = true;
     }
 
-    public PresetCreateMenu(Player player, String presetName, Map<BlockData, Integer> blocks, Menu previousMenu) {
+    public PresetCreateMenu(Player player, String presetName, Map<BlockData, Double> blocks, Menu previousMenu) {
         super(LanguageHandler.getText(player.getLanguage(), "gui-titles.preset-edit").replace("%nombre%", presetName), player);
         this.presetName = presetName;
         this.originalBlocks = new LinkedHashMap<>(blocks);
@@ -65,7 +65,7 @@ public class PresetCreateMenu extends PaginatedMenu {
 
     @Override
     protected void populateItems() {
-        for (Entry<BlockData, Integer> entry : blocks.entrySet()) {
+        for (Entry<BlockData, Double> entry : blocks.entrySet()) {
             GuiItem item = MenuUtils.getPresetBlockItem(entry.getKey(), entry.getValue(), language, isEditing);
 
             item.setAction(event -> {
@@ -97,7 +97,7 @@ public class PresetCreateMenu extends PaginatedMenu {
 
             BlockData blockData = Bukkit.createBlockData(material);
             if (blocks.containsKey(blockData)) return;
-            blocks.put(blockData, 100);
+            blocks.put(blockData, 100.0);
 
             GuiItem guiItem = MenuUtils.getPresetBlockItem(blockData, 100, language, false);
         
@@ -220,7 +220,7 @@ public class PresetCreateMenu extends PaginatedMenu {
         Boolean opened = MenuUtils.createSignGUI(player, (p, result) -> {
             String input = result.getLine(0).trim();
             try {
-                int percentage = Integer.parseInt(input);
+                double percentage = Double.parseDouble(input);
                 if (percentage < 0 || percentage > 100) {
                     return List.of(SignGUIAction.run(() -> {
                         Bukkit.getScheduler().runTask(BTEConoSur.getInstance(), () -> {

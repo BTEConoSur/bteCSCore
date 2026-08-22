@@ -12,10 +12,11 @@ import com.bteconosur.db.model.Player;
 public class BTECSRestartCommand extends BaseCommand {
 
     public BTECSRestartCommand() {
-        super("restart", null, "btecs.command.btecs.restart", CommandMode.CONSOLE_ONLY);
+        super("restart", null, "btecs.command.btecs.restart", CommandMode.BOTH);
         this.addSubcommand(new BTECSRestartReloadCommand());
         this.addSubcommand(new BTECSRestartCancelCommand());
         this.addSubcommand(new BTECSRestartForceCommand());
+        this.addSubcommand(new BTECSRestartAtCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

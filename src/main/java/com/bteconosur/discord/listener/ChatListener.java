@@ -66,7 +66,7 @@ public class ChatListener extends ListenerAdapter {
             String idMessage = IDUtils.generarCodigoMessage();
             if (player != null && ChatService.isMuted(player.getUuid())) {
                 dsMessage.delete().queue();
-                dsMessage.reply(LanguageHandler.getText(player.getLanguage(), "discord-mute-message")).queue();
+                MessageService.sendDM(player.getDsIdUsuario(), LanguageHandler.getText(player.getLanguage(), "discord-mute-message"));
                 return;
             }
             MessageService.addMessageKey(idMessage);
@@ -78,7 +78,7 @@ public class ChatListener extends ListenerAdapter {
         if (!config.getBoolean("discord-country-chat")) return;
         if (player != null && ChatService.isMuted(player.getUuid())) {
             dsMessage.delete().queue();
-            dsMessage.reply(LanguageHandler.getText(player.getLanguage(), "discord-mute-message")).queue();
+            MessageService.sendDM(player.getDsIdUsuario(), LanguageHandler.getText(player.getLanguage(), "discord-mute-message"));
             return;
         }
         if (player != null) CountryChatService.sendMcChat(player, message, pais, attachments, stickers.size());

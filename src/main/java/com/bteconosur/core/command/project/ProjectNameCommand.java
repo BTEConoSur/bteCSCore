@@ -34,7 +34,7 @@ public class ProjectNameCommand extends BaseCommand {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         Language language = commandPlayer.getLanguage();
         PermissionManager permissionManager = PermissionManager.getInstance();
-        if (args.length != 2) {
+        if (args.length == 0) {
             String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(commandPlayer, message, (String) null);
             return true;
@@ -53,8 +53,8 @@ public class ProjectNameCommand extends BaseCommand {
         }
 
         StringBuilder nombreBuilder = new StringBuilder();
-        for (int i = 0; i < args.length; i++) {
-            if (i > 0) nombreBuilder.append(" ");
+        for (int i = 1; i < args.length; i++) {
+            if (i > 1) nombreBuilder.append(" ");
             nombreBuilder.append(args[i]);
         }
         String nombre = nombreBuilder.toString();

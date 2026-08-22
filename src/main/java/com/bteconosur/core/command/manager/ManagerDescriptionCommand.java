@@ -79,7 +79,8 @@ public class ManagerDescriptionCommand extends BaseCommand {
         ApiManager.getInstance().updateClaim(targetProyecto);
         PlayerLogger.info(commandPlayer, LanguageHandler.replaceMC("project.update.description.success", language, commandPlayer, targetProyecto), (String) null);
         Set<Player> miembros = projectManager.getMembers(targetProyecto);
-        miembros.add(projectManager.getLider(targetProyecto));
+        Player lider = projectManager.getLider(targetProyecto);
+        if (lider != null) miembros.add(lider);
         for (Player miembro : miembros) 
             PlayerLogger.info(miembro, LanguageHandler.replaceMC("project.update.description.for-member", miembro.getLanguage(), targetProyecto),
                 ChatUtil.getDsProjectDescriptionUpdated(targetProyecto, descripcion, miembro.getLanguage()));

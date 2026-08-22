@@ -48,7 +48,7 @@ public class PresetEditCommand extends BaseCommand {
             }
 
             String blocksArg = args[1];
-            Map<BlockData, Integer> blocksMap;
+            Map<BlockData, Double> blocksMap;
             try {
                 blocksMap = Preset.parseBlocks(blocksArg, true);
             } catch (IllegalArgumentException e) {

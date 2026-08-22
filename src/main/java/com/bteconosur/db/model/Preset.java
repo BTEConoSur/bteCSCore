@@ -70,7 +70,7 @@ public class Preset {
         this.blocks = blocks;
     }
 
-    public Map<BlockData, Integer> getBlocksMap() {
+    public Map<BlockData, Double> getBlocksMap() {
         return parseBlocks(blocks);
     }
 
@@ -82,26 +82,26 @@ public class Preset {
         this.player = player;
     }
 
-    public void setBlocksMap(Map<BlockData, Integer> blocksMap) {
+    public void setBlocksMap(Map<BlockData, Double> blocksMap) {
         this.blocks = parseBlocks(blocksMap);
     }
 
-    public static String parseBlocks(Map<BlockData, Integer> blocksMap) {
+    public static String parseBlocks(Map<BlockData, Double> blocksMap) {
         return blocksMap.entrySet().stream()
             .map(e -> parseBlock(e.getKey(), e.getValue()))
             .collect(Collectors.joining(","));
     }
 
-    public static String parseBlock(BlockData blockData, int percentage) {
+    public static String parseBlock(BlockData blockData, double percentage) {
         return percentage + "%" + blockData.getAsString(true).replace("minecraft:", "");
     }
 
-    public static Map<BlockData, Integer> parseBlocks(String input) {
+    public static Map<BlockData, Double> parseBlocks(String input) {
         return parseBlocks(input, false);
     }
 
-    public static Map<BlockData, Integer> parseBlocks(String input, boolean strict) throws IllegalArgumentException {
-        Map<BlockData, Integer> map = new LinkedHashMap<>();
+    public static Map<BlockData, Double> parseBlocks(String input, boolean strict) throws IllegalArgumentException {
+        Map<BlockData, Double> map = new LinkedHashMap<>();
 
         if (input == null || input.isBlank()) {
             return map;
@@ -112,12 +112,12 @@ public class Preset {
             try {
             
                 e = e.trim();
-                int percentage;
+                double percentage;
                 String blockString;
                 if (e.contains("%")) {
                     String[] split = e.split("%", 2);
 
-                    percentage = Integer.parseInt(split[0].trim());
+                    percentage = Double.parseDouble(split[0].trim());
                     if (percentage > 100) percentage = 100;
                     if (percentage < 0) percentage = 0;
                     blockString = split[1].trim();
@@ -160,7 +160,7 @@ public class Preset {
         @JdbcTypeCode(SqlTypes.CHAR)
         private UUID uuid;
 
-        @Column(name = "nombre", length = 30, nullable = false)
+        @Column(name = "nombre", length = 30, nullable = false, columnDefinition = "VARCHAR(30) COLLATE utf8mb4_bin")
         private String nombre;
 
         public PresetId() {

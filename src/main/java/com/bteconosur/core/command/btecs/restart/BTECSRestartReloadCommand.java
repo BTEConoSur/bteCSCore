@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class BTECSRestartReloadCommand extends BaseCommand {
 
     public BTECSRestartReloadCommand() {
-        super("reload", null, "btecs.command.btecs.restart", CommandMode.CONSOLE_ONLY);
+        super("reload", null, "btecs.command.btecs.restart", CommandMode.BOTH);
     }
 
     @Override

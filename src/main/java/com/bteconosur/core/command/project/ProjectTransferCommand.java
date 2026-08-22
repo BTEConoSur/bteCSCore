@@ -114,7 +114,7 @@ public class ProjectTransferCommand extends BaseCommand {
         int activeProjects = pr.getActivosCount(targetPlayer);
         int maxActiveProjects = targetPlayer.getTipoUsuario().getCantProyecSim();
         if (activeProjects >= maxActiveProjects) {
-            String message = LanguageHandler.replaceMC("project.leader.max-active-projects-transfer", language, targetPlayer).replace("%maxProyectos%", String.valueOf(maxActiveProjects)).replace("%currentProjectos%", String.valueOf(activeProjects));
+            String message = LanguageHandler.replaceMC("project.leader.max-active-projects-transfer", language, targetPlayer).replace("%maxProyectos%", String.valueOf(maxActiveProjects)).replace("%currentProyectos%", String.valueOf(activeProjects));
             PlayerLogger.error(commandPlayer, message, (String) null);
             return true;
         }

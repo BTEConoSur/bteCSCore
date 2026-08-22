@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class BTECSRestartCancelCommand extends BaseCommand {
 
     public BTECSRestartCancelCommand() {
-        super("cancel", null, "btecs.command.btecs.restart", CommandMode.CONSOLE_ONLY);
+        super("cancel", null, "btecs.command.btecs.restart", CommandMode.BOTH);
     }
 
     @Override

@@ -87,6 +87,24 @@ public class PresetListMenu extends PaginatedMenu {
             
             return List.of(SignGUIAction.run(() -> {
                 Bukkit.getScheduler().runTask(BTEConoSur.getInstance(), () -> {
+                    if (!input.matches("^[\\p{L}0-9_]+$")) {
+                        PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-name-format"), (String) null);
+                        gui.close(player);
+                        return;
+                    }
+
+                    if (BTECSPlayer.hasPreset(input)) {
+                        PlayerLogger.error(player, LanguageHandler.getText(language, "preset.already").replace("%nombre%", input), (String) null);
+                        gui.close(player);
+                        return;
+                    }
+
+                    if (input.length() > 30) {
+                        PlayerLogger.error(player, LanguageHandler.getText(language, "preset.invalid-name-length"), (String) null);
+                        gui.close(player);
+                        return;
+                    }
+
                     PresetCreateMenu menu = new PresetCreateMenu(BTECSPlayer, input, this);
                     menu.open();
                 });

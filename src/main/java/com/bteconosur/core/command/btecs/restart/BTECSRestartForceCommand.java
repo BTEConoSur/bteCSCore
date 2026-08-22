@@ -12,7 +12,7 @@ import com.bteconosur.db.model.Player;
 public class BTECSRestartForceCommand extends BaseCommand {
 
     public BTECSRestartForceCommand() {
-        super("force", "<minutos>", "btecs.command.btecs.restart", CommandMode.CONSOLE_ONLY);
+        super("force", "<minutos>", "btecs.command.btecs.restart", CommandMode.BOTH);
     }
 
     @Override

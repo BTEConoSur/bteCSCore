@@ -19,7 +19,7 @@
 #     id, nombre, descripcion, tamano (Tamaño), paisId, paisNombre, tipoId, tipo, lider (Nombre Público), miembrosCantidad (Si son 0 dice "Sin Miembros"), miembrosCantidad2 (Si son 0 dice 0)
 #     fechaCreacion, fechaFinalizacion, maxMiembros, divisionId, divisionNombre, divisionGna, divisionFna, divisionNam, divisionContexto, geoCoords, miembros (Listado de los nombres separados por comas).
 # País: %pais.<atributo>%
-#     id, nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest, logo (No aplicable en textos de MC), prefix.
+#     id, nombre, nombrePublico, dsIdGuild, dsIdGlobalChat, dsIdCountryChat, dsIdLog, dsIdRequest, logo (No aplicable en textos de MC), prefix, fromPrefix.
 # Rango de Usuario: %rango.<atributo>%
 #     id, nombre, prefijo (Determinado por placeholder.rango-<ds/mc>.format), badge, label.
 # Tipo de Usuario: %tipo.<atributo>%
@@ -38,6 +38,8 @@ restart-forced: "Restart forced in <yellow>%time%</yellow>."
 restart-cancelled: "Scheduled restart cancelled."
 restart-reloaded: "Restart settings reloaded."
 restart-status: "Restart in <yellow>%time%</yellow>."
+restart-programmed: "Reinicio programado para las <yellow>%time%</yellow> (En <yellow>%delay%</yellow>)."
+restart-invalid-hour: "La hora debe ser un formato válido de 24h (HH:mm)."
 restart-not-scheduled: "There is no scheduled restart."
 restart-invalid-minutes: "Minutes must be a valid number equal to or greater than zero."
 restart-bossbar: "Server restart in <yellow>%time%</yellow>."
@@ -547,6 +549,7 @@ preset:
   edited: "Preset <yellow>%nombre%</yellow> editado correctamente."
   copied: "Preset <yellow>%nombre%</yellow> copiado correctamente."
   invalid-name-length: "Máximo 30 caracteres permitidos para el nombre del preset."
+  invalid-name-format: "El nombre del preset no puede contener espacios ni caracteres especiales. Solo letras, números y guiones bajos."
   invalid-format: "El formato del preset es inválido (<yellow>%error%</yellow>). Por ejemplo: <yellow>50%stone,50%grass_block[snowy=true],dirt</yellow>."
   banned-block: "El bloque <yellow>%block%</yellow> no está permitido en los presets."
   max-presets: "No puedes crear más presets. El límite es de <yellow>%quantity%</yellow> presets."

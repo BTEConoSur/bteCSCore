@@ -99,7 +99,7 @@ public class MenuUtils {
         );
     }
 
-    public static GuiItem getPresetBlockItem(BlockData block, int quantity, Language language, boolean isEditing) {
+    public static GuiItem getPresetBlockItem(BlockData block, double quantity, Language language, boolean isEditing) {
         List<String> lore = LanguageHandler.getTextList(language, "items.preset-block.lore");
         if (isEditing) lore.addAll(LanguageHandler.getTextList(language, "items.preset-block.lore-create"));
         List<String> processedLore = new ArrayList<>();
@@ -134,7 +134,7 @@ public class MenuUtils {
             lore.add(LanguageHandler.getText(language, "items.preset.empty"));
         } else {
             lore.add(LanguageHandler.getText(language, "items.preset.blocks-title"));
-            Map<BlockData, Integer> blocks = preset.getBlocksMap();
+            Map<BlockData, Double> blocks = preset.getBlocksMap();
             int maxBlocksList = config.getInt("preset.max-blocks-list");
             int remainingStates = blocks.size() - maxBlocksList;
             int count = 0;
@@ -142,7 +142,7 @@ public class MenuUtils {
                 String originalName = blocks.keySet().iterator().next().getMaterial().name();
                 materialName = getDisplayMaterial(originalName);
             }
-            for (Entry<BlockData, Integer> e : blocks.entrySet()) {
+            for (Entry<BlockData, Double> e : blocks.entrySet()) {
                 if (count >= maxBlocksList) {
                     lore.add(LanguageHandler.getText(language, "items.preset.more-blocks").replace("%quantity%", String.valueOf(remainingStates)));
                     break;
