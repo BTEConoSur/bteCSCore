@@ -792,7 +792,7 @@ project:
       for-reviewer: "New redefine request in <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "New redefine request in %pais.nombrePublico%. [See request](%link%)"
       for-member: "%player.nombre% has requested to redefine project <yellow>%proyecto.id%</yellow>, of which you are a part of."
-      log: "♻️ | **%player.nombre%** has requested to redefine `%proyecto.id%`. New Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. New regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`."
+      log: "♻️ | **%player.nombre%** has requested to redefine `%proyecto.id%`. New Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. New regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | The redefine request for project `%proyecto.id%` has expired."
     accept:
       success: "You've accepted the redefine request for project <yellow>%proyecto.id%</yellow>."
@@ -819,7 +819,7 @@ project:
       expired: "Request to join project <yellow>%proyecto.id%</yellow> has expired."
       expired-lider: "The request from <yellow>%player.nombre%</yellow> to join project <yellow>%proyecto.id%</yellow> has expired."
       for-lider: "%player.nombre% has requested to join project <yellow>%proyecto.id%</yellow>, of which you are part of."
-      log: "🔔 | **%player.nombre%** has requested to join project `%proyecto.id%`."
+      log: "🔔 | **%player.nombre%** has requested to join project `%proyecto.id%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | **%player.nombre%**'s request to join project `%proyecto.id%` has expired."
     accept:
       success: "Request to join project <yellow>%proyecto.id%</yellow> accepted."

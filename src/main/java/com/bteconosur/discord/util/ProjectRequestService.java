@@ -50,12 +50,10 @@ public class ProjectRequestService {
      * Incluye un embed con la información del proyecto y una imagen del mapa satelital.
      * 
      * @param proyecto Proyecto a solicitar
-     * @param mapImage Archivo de imagen del mapa satelital
+     * @param expiration Instante de expiración de la solicitud
      * @return true si se envió exitosamente, false en caso contrario
      */
-      public static boolean sendProjectRequest(Proyecto proyecto) {
-        Instant now = DateUtils.instantOffset();
-        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.create-project") * 60L);
+      public static boolean sendProjectRequest(Proyecto proyecto, Instant now, Instant expiration) {
         MessageEmbed embed = ChatUtil.getDsProjectCreated(proyecto, Date.from(expiration) );
         Pais pais = proyecto.getPais();
         TextChannel channel = MessageService.getTextChannelById(pais.getDsIdRequest());
@@ -126,11 +124,11 @@ public class ProjectRequestService {
      * @param divisionId ID de la nueva división
      * @param mapImage Archivo de imagen del mapa satelital
      * @param requester Jugador que solicita la redefinición
+     * @param now Instante actual
+     * @param expiration Instante de expiración de la solicitud
      * @return true si se envió exitosamente, false en caso contrario
      */
-      public static boolean sendProjectRedefineRequest(Proyecto proyecto, Polygon newPolygon, Long tipoProyectoId, Long divisionId, Player requester) {
-        Instant now = DateUtils.instantOffset();
-        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.redefine-project") * 60L);
+      public static boolean sendProjectRedefineRequest(Proyecto proyecto, Polygon newPolygon, Long tipoProyectoId, Long divisionId, Player requester, Instant now, Instant expiration) {
         MessageEmbed embed = ChatUtil.getDsProjectRedefineRequested(proyecto, requester, newPolygon, Date.from(expiration));
         Pais pais = proyecto.getPais();
         TextChannel channel = MessageService.getTextChannelById(pais.getDsIdRequest());
@@ -210,16 +208,18 @@ public class ProjectRequestService {
      * 
      * @param proyecto Proyecto al que se solicita unirse
      * @param player Jugador que solicita unirse
+     * @param now Instante actual
+     * @param expiration Instante de expiración
      */
-      public static void sendProjectJoinRequest(Proyecto proyecto, Player player) {
+      public static void sendProjectJoinRequest(Proyecto proyecto, Player player, Instant now, Instant expiration) {
         Player lider = ProjectManager.getInstance().getLider(proyecto);
         InteractionRegistry ir = InteractionRegistry.getInstance();
         Interaction ctx = new Interaction(
             player.getUuid(),
             proyecto.getId(),
             InteractionKey.JOIN_PROJECT,
-            DateUtils.instantOffset(),
-            DateUtils.instantOffset().plusSeconds(config.getInt("interaction-expirations.join-project") * 60L)
+            now,
+            expiration
         );
         ir.load(ctx);
         if (LinkService.isPlayerLinked(lider)) {

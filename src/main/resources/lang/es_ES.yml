@@ -851,7 +851,7 @@ project:
       for-reviewer: "Nueva solicitud de redefinición de proyecto de <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "Nueva solicitud de redefinición de proyecto de %pais.nombrePublico%. [Ver solicitud](%link%)"
       for-member: "%player.nombre% ha solicitado redefinir el proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés."
-      log: "♻️ | **%player.nombre%** ha solicitado redefinir el proyecto `%proyecto.id%`. Nuevo Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. Nueva División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`."
+      log: "♻️ | **%player.nombre%** ha solicitado redefinir el proyecto `%proyecto.id%`. Nuevo Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. Nueva División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | La solicitud de redefinición del proyecto `%proyecto.id%` ha expirado."
     accept:
       success: "Has aceptado la redefinición del proyecto de ID <yellow>%proyecto.id%</yellow>."
@@ -878,7 +878,7 @@ project:
       expired: "La solicitud para unirte al proyecto de ID <yellow>%proyecto.id%</yellow> ha expirado."
       expired-lider: "La solicitud del jugador <yellow>%player.nombre%</yellow> para unirse al proyecto de ID <yellow>%proyecto.id%</yellow> ha expirado."
       for-lider: "%player.nombre% ha solicitado unirse al proyecto de ID <yellow>%proyecto.id%</yellow> al que pertenecés."
-      log: "🔔 | **%player.nombre%** ha solicitado unirse al proyecto `%proyecto.id%`."
+      log: "🔔 | **%player.nombre%** ha solicitado unirse al proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | La solicitud de **%player.nombre%** para unirse al proyecto `%proyecto.id%` ha expirado."
     accept:
       success: "Has aceptado la solicitud para unirse al proyecto de ID <yellow>%proyecto.id%</yellow>."

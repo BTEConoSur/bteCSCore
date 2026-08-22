@@ -255,7 +255,9 @@ public class ProjectManager {
         pr.load(proyecto);
 
         Pais pais = proyecto.getPais();
-        Boolean success = ProjectRequestService.sendProjectRequest(proyecto);
+        Instant now = DateUtils.instantOffset();
+        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.create-project") * 60L);
+        Boolean success = ProjectRequestService.sendProjectRequest(proyecto, now, expiration);
         if (!success){ 
             PlayerLogger.error(player, LanguageHandler.getText(language, "internal-error"), (String) null);
             pr.unload(proyecto.getId());
@@ -264,7 +266,9 @@ public class ProjectManager {
 
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.request.success", language, proyecto), (String) null);
         
-        String countryLog = LanguageHandler.replaceDS("project.create.request.log", language, player, proyecto);
+        Date expirationDate = Date.from(expiration);
+        String countryLog = LanguageHandler.replaceDS("project.create.request.log", language, player, proyecto)
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
     }
 
@@ -429,9 +433,15 @@ public class ProjectManager {
             PlayerLogger.warn(player, LanguageHandler.replaceMC("project.join.request.already", player.getLanguage(), proyecto), (String) null);
             return;
         }
-        ProjectRequestService.sendProjectJoinRequest(proyecto, player);
+
+        Instant now = DateUtils.instantOffset();
+        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.join-project") * 60L);
+
+        ProjectRequestService.sendProjectJoinRequest(proyecto, player, now, expiration);
+        Date expirationDate = Date.from(expiration);
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.join.request.success", player.getLanguage(), proyecto), (String) null);
-        String countryLog = LanguageHandler.replaceDS("project.join.request.log", Language.getDefault(), player, proyecto);
+        String countryLog = LanguageHandler.replaceDS("project.join.request.log", Language.getDefault(), player, proyecto)
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
     }
 
@@ -674,7 +684,7 @@ public class ProjectManager {
         
         Date expirationDate = Date.from(expiration);
         String countryLog = LanguageHandler.replaceDS("project.finish.request.log", Language.getDefault(), requester, proyecto)
-            .replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expirationDate, Language.getDefault()));
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
         
         String dsNotification = LanguageHandler.replaceDS("project.finish.request.ds-for-reviewer", Language.getDefault(), proyecto);
@@ -866,11 +876,15 @@ public class ProjectManager {
         Player lider = getLider(proyecto);
                 
         Pais pais = proyecto.getPais();
-        Boolean success = ProjectRequestService.sendProjectRedefineRequest(proyecto, newPolygon, tipoProyecto.getId(), division.getId(), commandPlayer);
+        Instant now = DateUtils.instantOffset();
+        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.redefine-project") * 60L);
+        Boolean success = ProjectRequestService.sendProjectRedefineRequest(proyecto, newPolygon, tipoProyecto.getId(), division.getId(), commandPlayer, now, expiration);
         if (!success) return false;
         proyecto.setTipoProyecto(tipoProyecto);
         proyecto.setDivision(division);
-        String countryLog = LanguageHandler.replaceDS("project.redefine.request.log", Language.getDefault(), commandPlayer, proyecto);
+        Date expirationDate = Date.from(expiration);
+        String countryLog = LanguageHandler.replaceDS("project.redefine.request.log", Language.getDefault(), commandPlayer, proyecto)
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
         
         Set<Player> members = getMembers(proyecto);
@@ -1052,7 +1066,7 @@ public class ProjectManager {
 
         Date expirationDate = Date.from(expiration);
         String countryLog = LanguageHandler.replaceDS("project.edit.finish.request.log", Language.getDefault(), commandPlayer, proyecto)
-            .replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expirationDate, Language.getDefault()));
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
         
         String dsNotification = LanguageHandler.replaceDS("project.edit.finish.request.ds-for-reviewer", Language.getDefault(), proyecto);
