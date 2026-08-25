@@ -61,6 +61,15 @@ public class LanguageSelectMenu extends Menu {
             if (!playerMenu.equals(BTECSPlayer)) PlayerLogger.info(playerMenu, LanguageHandler.replaceMC("language.set", playerLanguage, BTECSPlayer).replace("%language%", LanguageHandler.getText(Language.ENGLISH, "placeholder.lang-mc.en_US")), (String) null);
         });
         
+        gui.setItem(2,6, MenuUtils.getLanguageSelectionItem(Language.SPANISH_ARGENTINA, language.equals(Language.SPANISH_ARGENTINA)));
+        gui.addSlotAction(2,6, event -> {
+            event.getWhoClicked().closeInventory();
+            ConfigurationService.setLang(BTECSPlayer, Language.SPANISH_ARGENTINA);
+            BTECSPlayer = playerRegistry.merge(BTECSPlayer.getUuid());
+            PlayerLogger.info(BTECSPlayer, LanguageHandler.getText(Language.SPANISH_ARGENTINA, "language.switch").replace("%language%", LanguageHandler.getText(Language.SPANISH_ARGENTINA, "placeholder.lang-mc.es_AR")), (String) null);
+            if (!playerMenu.equals(BTECSPlayer)) PlayerLogger.info(playerMenu, LanguageHandler.replaceMC("language.set", playerLanguage, BTECSPlayer).replace("%language%", LanguageHandler.getText(Language.SPANISH_ARGENTINA, "placeholder.lang-mc.es_AR")), (String) null);
+        });
+
         return gui;
     }
 

@@ -83,6 +83,7 @@ item-materials:
         item: "hdb:49973"
         langs:
           es_ES: "hdb:23236"
+          es_AR: "hdb:4408"
           en_US: "hdb:27546"
       scoreboards: "PAPER"
     scoreboard:

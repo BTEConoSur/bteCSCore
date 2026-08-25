@@ -25,7 +25,6 @@ import com.bteconosur.core.command.crud.CrudCommand;
 import com.bteconosur.core.command.help.HelpCommand;
 import com.bteconosur.core.command.help.HelpConstruirCommand;
 import com.bteconosur.core.command.help.HelpDiscordCommand;
-import com.bteconosur.core.command.help.HelpProyectoCommand;
 import com.bteconosur.core.command.help.HelpVisitarCommand;
 import com.bteconosur.core.command.help.HelpWikiCommand;
 import com.bteconosur.core.command.manager.ManagerCommand;
