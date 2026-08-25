@@ -94,10 +94,10 @@ public class DiscordLogger {
      * @param embed embed a enviar.
      * @param message mensaje a enviar.
      */
-    public static void staffConsoleLog(MessageEmbed embed, String message) {
+    public static void staffConsoleLog(String message) {
         if (!enableStaffConsoleLog) return;
         if (!config.getBoolean("discord-staff-console-log")) return;
-        MessageService.sendEmbed(secret.getLong("discord-staff-console-log-id"), embed, message);
+        MessageService.sendMessage(secret.getLong("discord-staff-console-log-id"), message, null);
     }
 
     /**

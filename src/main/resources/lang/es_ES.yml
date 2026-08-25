@@ -1260,8 +1260,6 @@ ds-embeds:
       nombre-proyecto: "Nombre del proyecto"
       descripcion: "Descripción"
     footer: "Vence el %fechaHoraVencimiento% (GMT-3)"
-  error: "Error"
-  warn: "Warn"
 
 # GUI
 gui-titles:
@@ -1721,6 +1719,9 @@ player-error: "<dark_red>[!]</dark_red> <red>%message%" # %message% -> Mensaje a
 
 # Discord
 ds-activity: "Vigilando a %players% jugador(es)" # %players% -> Cantidad de jugadores online.
+
+ds-error-log: "**[ERROR]** %message%" # %message% -> Mensaje a enviar.
+ds-warn-log: "**[WARN]** %message%" # %message% -> Mensaje a enviar.
 
 ds-internal-error: "Un error interno ha ocurrido."
 ds-interaction-expired: "Esta interacción ha expirado."
