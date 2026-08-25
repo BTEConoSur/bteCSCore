@@ -6,6 +6,7 @@ import java.util.List;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.InteractionRegistry;
@@ -25,15 +26,27 @@ public class DiscordHelpAction implements ButtonAction {
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         InteractionRegistry ir = InteractionRegistry.getInstance();
         if (ctx.isExpired()) {
-            event.getMessage().delete().queue();
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.getMessage().delete().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+            );
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             ir.unload(ctx.getId());
             return;
         }
         if (buttonId.equals("help-cancel")) {
-            event.getMessage().delete().queue();
+            event.getMessage().delete().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+            );
             //event.reply(LanguageHandler.getText(language, "ds-help.cancel-message")).setEphemeral(true).queue();
-            event.deferEdit().queue();
+            event.deferEdit().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.edit"), error)
+            );
             ir.unload(ctx.getId());
             return;
         }
@@ -48,7 +61,7 @@ public class DiscordHelpAction implements ButtonAction {
             case "mc-help-previous":
                 page--;
                 if (!ChatUtil.hasMcHelpPreviousPage(page)) previousButton = previousButton.asDisabled().withCustomId("mc-help-previous");
-                 if (!ChatUtil.hasMcHelpNextPage(page)) nextButton = nextButton.asDisabled().withCustomId("mc-help-next");
+                if (!ChatUtil.hasMcHelpNextPage(page)) nextButton = nextButton.asDisabled().withCustomId("mc-help-next");
                 if (!ChatUtil.hasMcHelpNextPage(page)) nextButton = nextButton.asDisabled();
                 embed = ChatUtil.getDsHelpMinecraft(language, page);
                 pageButton = pageButton.replace("%totalPages%", String.valueOf(ChatUtil.getMcHelpTotalPages()));
@@ -75,7 +88,10 @@ public class DiscordHelpAction implements ButtonAction {
                 pageButton = pageButton.replace("%totalPages%", String.valueOf(ChatUtil.getDsHelpTotalPages()));
                 break;
             default:
-                event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue();
+                event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+                );
                 return;
         }
         pageButton = pageButton.replace("%currentPage%", String.valueOf(page));
@@ -91,7 +107,10 @@ public class DiscordHelpAction implements ButtonAction {
         
         event.editMessageEmbeds(embed)
             .setComponents(ActionRow.of(buttons))
-            .queue();
+            .queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.edit"), error)
+            );
     }
 
 }

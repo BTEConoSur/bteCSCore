@@ -48,7 +48,10 @@ public class SlashCommandListener extends ListenerAdapter {
             return;
         } else ConsoleLogger.warn(LanguageHandler.getText("ds-error.command-not-found").replace("%command%", commandName));
         
-        event.reply(LanguageHandler.getText("ds-internal-error")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText("ds-internal-error")).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 
 }

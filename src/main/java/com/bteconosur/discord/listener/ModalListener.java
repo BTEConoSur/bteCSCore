@@ -41,8 +41,14 @@ public class ModalListener extends ListenerAdapter {
             ConsoleLogger.warn(LanguageHandler.getText("ds-error.modal-interaction")
                 .replace("%modalId%", modalId)
                 .replace("%messageId%", event.getMessage() != null ? event.getMessage().getId() : "null"));
-            event.getMessage().delete().queue();
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.getMessage().delete().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+            );
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -53,14 +59,20 @@ public class ModalListener extends ListenerAdapter {
             if (ctx.getInteractionKey() == InteractionKey.REJECT_CREATE_PROJECT) ir.unload(ctx.getId());
             if (ctx.getInteractionKey() == InteractionKey.ACCEPT_REDEFINE_PROJECT) ir.unload(ctx.getId());
             if (ctx.getInteractionKey() == InteractionKey.REJECT_REDEFINE_PROJECT) ir.unload(ctx.getId());
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
         ModalAction action = registry.getModalAction(ctx.getInteractionKey());
         if (action == null) {
             ConsoleLogger.warn(LanguageHandler.getText("ds-error.modal-action-not-found").replace("%interactionKey%", ctx.getInteractionKey().name())  );
-            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -68,7 +80,10 @@ public class ModalListener extends ListenerAdapter {
             action.handle(event, ctx);
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.modal-internal-error"), e);
-            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         }
     }
 

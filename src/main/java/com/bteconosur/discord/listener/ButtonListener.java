@@ -46,8 +46,14 @@ public class ButtonListener extends ListenerAdapter {
                 .replace("%buttonId%", buttonId)
                 .replace("%messageId%", messageId)
             );
-            event.getMessage().delete().queue();
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.getMessage().delete().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+            );
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -57,17 +63,26 @@ public class ButtonListener extends ListenerAdapter {
             if (ctx.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) ProjectManager.getInstance().expiredRedefineRequest(ctx.getProjectId(), ctx.getId());
             if (ctx.getInteractionKey() == InteractionKey.JOIN_PROJECT) ProjectManager.getInstance().expiredJoinRequest(messageId, ctx.getPlayerId());
             if (ctx.getInteractionKey() == InteractionKey.PLAYER_INFO || ctx.getInteractionKey() == InteractionKey.HELP_COMMAND) {
-                event.getMessage().delete().queue();
+                event.getMessage().delete().queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+                );
                 InteractionRegistry.getInstance().unload(ctx.getId());
             };
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
         ButtonAction action = registry.getButtonAction(ctx.getInteractionKey());
         if (action == null) {
             ConsoleLogger.warn(LanguageHandler.getText("ds-error.button-action-not-found").replace("%interactionKey%", ctx.getInteractionKey().name())  );
-            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -75,7 +90,10 @@ public class ButtonListener extends ListenerAdapter {
             action.handle(event, ctx);
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.button-internal-error"), e);
-            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         }
     }
 

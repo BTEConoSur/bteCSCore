@@ -1,6 +1,7 @@
 package com.bteconosur.discord.command;
 
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.discord.util.CommandMode;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -20,7 +21,10 @@ public class DsHelpCommand extends DsCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        event.reply("No deberías ver esto :)").setEphemeral(true).queue();
+        event.reply("No deberías ver esto :)").setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
     
 }

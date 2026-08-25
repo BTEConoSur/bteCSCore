@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -33,7 +34,8 @@ public class LinkService {
         DiscordManager.getInstance().getJda()
             .retrieveUserById(discordId)
             .queue(
-                user -> discordNameCache.put(discordId, "@" + user.getName())
+                user -> discordNameCache.put(discordId, "@" + user.getName()),
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.get-user"), error)
             );
     }
 

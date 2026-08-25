@@ -60,21 +60,26 @@ public class DsHelpDiscordCommand extends DsSubcommand {
             .setEphemeral(true)
             .queue(
                 hook -> {
-                    hook.retrieveOriginal().queue(message -> {
-                        Interaction ctx = new Interaction(
-                            player != null ? player.getUuid() : null,
-                            InteractionKey.HELP_COMMAND,
-                            now,
-                            expiration
-                        );
-                        ctx.setMessageId(message.getIdLong());
-                        ctx.setChannelId(event.getChannel().getIdLong());
-                        ctx.addPayloadValue("page", 1);
-                        InteractionRegistry.getInstance().load(ctx);
-                    });
+                    hook.retrieveOriginal().queue(
+                        message -> {
+                            Interaction ctx = new Interaction(
+                                player != null ? player.getUuid() : null,
+                                InteractionKey.HELP_COMMAND,
+                                now,
+                                expiration
+                            );
+                            ctx.setMessageId(message.getIdLong());
+                            ctx.setChannelId(event.getChannel().getIdLong());
+                            ctx.addPayloadValue("page", 1);
+                            InteractionRegistry.getInstance().load(ctx);
+                        }, 
+                        error -> {
+                            ConsoleLogger.error(LanguageHandler.getText("ds-error.ds-help"), error);
+                        }
+                    );
                 },
                 error -> {
-                    ConsoleLogger.error(LanguageHandler.getText(language, "ds-error.ds-help"), error);
+                    ConsoleLogger.error(LanguageHandler.getText("ds-error.ds-help"), error);
                 }
             );
     }

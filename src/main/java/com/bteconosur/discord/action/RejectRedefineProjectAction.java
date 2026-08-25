@@ -20,7 +20,10 @@ public class RejectRedefineProjectAction implements ModalAction {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -29,12 +32,18 @@ public class RejectRedefineProjectAction implements ModalAction {
         Interaction parentCtx = ir.get(parentCtxId);
         if (parentCtx == null) {
             ConsoleLogger.debug("Debug: Parent context not found for RejectRedefineProjectAction, parentCtxId: " + parentCtxId);
-            event.reply(LanguageHandler.getText(language, "discord-interaction-expired")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "discord-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         ir.unload(ctx.getId());
         pm.rejectRedefineRequest(parentCtx.getProjectId(), player, parentCtxId, comentario); 
-        event.reply(LanguageHandler.getText(language, "project.redefine.reject.ds-success")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText(language, "project.redefine.reject.ds-success")).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 
 }

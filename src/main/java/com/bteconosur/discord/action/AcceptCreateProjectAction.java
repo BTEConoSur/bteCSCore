@@ -3,6 +3,7 @@ package com.bteconosur.discord.action;
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.InteractionRegistry;
@@ -12,15 +13,17 @@ import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 
 public class AcceptCreateProjectAction implements ModalAction {
 
-
-      @Override
+    @Override
     public void handle(ModalInteractionEvent event, Interaction ctx) {
         String comentario = event.getValue("comentario").getAsString();
         ProjectManager pm = ProjectManager.getInstance();
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -28,12 +31,18 @@ public class AcceptCreateProjectAction implements ModalAction {
         InteractionRegistry ir = InteractionRegistry.getInstance();
         Interaction parentCtx = ir.get(parentCtxId);
         if (parentCtx == null) {
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         ir.unload(ctx.getId());
         pm.acceptCreateRequest(parentCtx.getProjectId(), player, parentCtxId, comentario);
-        event.reply(LanguageHandler.getText(language, "project.create.accept.ds-success")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText(language, "project.create.accept.ds-success")).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 
 }

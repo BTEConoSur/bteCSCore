@@ -8,8 +8,6 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
-//TODO: Rework a esto
-
 /**
  * Clase de utilidad para validar elementos de Discord.
  * Proporciona métodos estáticos para verificar la validez de canales, usuarios, mensajes y embeds.

@@ -2,6 +2,8 @@ package com.bteconosur.discord.command;
 
 import java.util.Collections;
 
+import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.discord.util.CommandMode;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -15,7 +17,10 @@ public class TestCommand extends DsCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        event.reply("Usa un subcomando.").setEphemeral(true).queue();
+        event.reply("Usa un subcomando.").setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
     }
 
     public static class TestSubcommand1 extends DsSubcommand {
@@ -25,7 +30,10 @@ public class TestCommand extends DsCommand {
 
         @Override
         public void execute(SlashCommandInteractionEvent event) {
-            event.reply("Ejecutaste el subcomando 1 de /test").setEphemeral(true).queue();
+            event.reply("Ejecutaste el subcomando 1 de /test").setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         }
     }
 
@@ -36,7 +44,10 @@ public class TestCommand extends DsCommand {
 
         @Override
         public void execute(SlashCommandInteractionEvent event) {
-            event.reply("Ejecutaste el subcomando 2 de /test").setEphemeral(true).queue();
+            event.reply("Ejecutaste el subcomando 2 de /test").setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         }
     }
 }

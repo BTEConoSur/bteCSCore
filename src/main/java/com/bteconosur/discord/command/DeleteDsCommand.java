@@ -41,14 +41,20 @@ public class DeleteDsCommand extends DsCommand {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (comando == null || comando.getAsString().isEmpty()) {
-            event.reply(LanguageHandler.getText(language, "ds-comando-empty")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-comando-empty")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         String commandName = comando.getAsString();
         event.getJDA().retrieveCommands().queue(commands -> {
             for (Command command : commands) {
                 if (command.getName().equalsIgnoreCase(commandName)) {
-                    command.delete().queue();
+                    command.delete().queue(
+                        success -> {},
+                        error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-command"), error)
+                    );
                 }
             }
         });
@@ -62,45 +68,65 @@ public class DeleteDsCommand extends DsCommand {
             Guild guild = jda.getGuildById(guildId);
             if (guild == null) continue;
 
-            guild.retrieveCommands().queue(commands -> {
-                try {
-                    for (Command command : commands) {
-                        if (command.getName().equalsIgnoreCase(commandName)) {
-                            command.delete().queue();
+            guild.retrieveCommands().queue(
+                commands -> {
+                    try {
+                        for (Command command : commands) {
+                            if (command.getName().equalsIgnoreCase(commandName)) {
+                                command.delete().queue(
+                                    success -> {},
+                                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-command"), error)
+                                );
+                            }
                         }
+                    } catch (Exception e) {
+                        ConsoleLogger.error("Error al eliminar el comando '"+ commandName + "' en el país '" + pais.getNombre() + "'", e);
                     }
-                } catch (Exception e) {
-                    ConsoleLogger.error("Error al eliminar el comando '"+ commandName + "' en el país '" + pais.getNombre() + "'", e);
-                }
-            });
+                },
+                error -> ConsoleLogger.error("Error al recuperar los comandos del país '" + pais.getNombre() + "'", error)
+            );
         }
 
         Guild guild = jda.getGuildById(ConfigHandler.getInstance().getSecret().getLong("discord-staff-guild-id"));
         if (guild == null) return;
-        guild.retrieveCommands().queue(commands -> {
-            try {
-                for (Command command : commands) {
-                    if (command.getName().equalsIgnoreCase(commandName)) {
-                        command.delete().queue();
+        guild.retrieveCommands().queue(
+            commands -> {
+                try {
+                    for (Command command : commands) {
+                        if (command.getName().equalsIgnoreCase(commandName)) {
+                            command.delete().queue(
+                                success -> {},
+                                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-command"), error)
+                            );
+                        }
                     }
+                } catch (Exception e) {
+                    ConsoleLogger.error("Error al eliminar el comando '"+ commandName + "'", e);
                 }
-            } catch (Exception e) {
-                ConsoleLogger.error("Error al eliminar el comando '"+ commandName + "'", e);
-            }
-        });
+            },
+            error -> ConsoleLogger.error("Error al recuperar los comandos del servidor de staff", error)
+        );
 
-        jda.retrieveCommands().queue(commands -> {
-            try {
-                for (Command command : commands) {
-                    if (command.getName().equalsIgnoreCase(commandName)) {
-                        command.delete().queue();
+        jda.retrieveCommands().queue(
+            commands -> {
+                try {
+                    for (Command command : commands) {
+                        if (command.getName().equalsIgnoreCase(commandName)) {
+                            command.delete().queue(
+                                success -> {},
+                                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-command"), error)
+                            );
+                        }
                     }
+                } catch (Exception e) {
+                    ConsoleLogger.error("Error al eliminar el comando '"+ commandName + "'", e);
                 }
-            } catch (Exception e) {
-                ConsoleLogger.error("Error al eliminar el comando '"+ commandName + "'", e);
-            }
-            
-        });
-        event.reply(LanguageHandler.getText(language, "ds-comando-removed").replace("%comando%", commandName)).setEphemeral(true).queue();
+            },
+            error -> ConsoleLogger.error("Error al recuperar los comandos de JDA", error)
+        );
+        event.reply(LanguageHandler.getText(language, "ds-comando-removed").replace("%comando%", commandName)).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 }

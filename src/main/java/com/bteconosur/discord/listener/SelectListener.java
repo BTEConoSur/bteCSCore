@@ -43,21 +43,33 @@ public class SelectListener extends ListenerAdapter {
                 .replace("%selectId%", selectId)
                 .replace("%messageId%", event.getMessage().getId())
             );
-            event.getMessage().delete().queue();
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.getMessage().delete().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+            );
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
         if (ctx.isExpired()) {
             ConsoleLogger.debug("Interacción de selector expirada: " + selectId + ", " + ctx.getInteractionKey());
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
         SelectAction action = registry.getSelectAction(ctx.getInteractionKey());
         if (action == null) {
             ConsoleLogger.warn(LanguageHandler.getText("ds-error.select-action-not-found").replace("%interactionKey%", ctx.getInteractionKey().name()));
-            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -65,7 +77,10 @@ public class SelectListener extends ListenerAdapter {
             action.handle(event, ctx);
         } catch (Exception e) {
             ConsoleLogger.error(LanguageHandler.getText("ds-error.select-internal-error"), e);
-            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         }
     }
 

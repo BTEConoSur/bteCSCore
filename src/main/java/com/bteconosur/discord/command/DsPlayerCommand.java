@@ -48,19 +48,28 @@ public class DsPlayerCommand extends DsCommand {
         Player player = PlayerRegistry.getInstance().findByDiscordId(userId);
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         
         if (event.getOptions().size() > 1) {
             String message = LanguageHandler.getText(language, "ds-player-info.invalid-options-size");
-            event.reply(message).setEphemeral(true).queue();
+            event.reply(message).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
         if (event.getOptions().isEmpty()) {
             String message = LanguageHandler.getText(language, "ds-player-info.invalid-option");
-            event.reply(message).setEphemeral(true).queue();
+            event.reply(message).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -73,21 +82,30 @@ public class DsPlayerCommand extends DsCommand {
             targetPlayer = PlayerRegistry.getInstance().get(UUID.fromString(codigoOption.getAsString()));
             if (targetPlayer == null) {
                 String message = LanguageHandler.getText(language, "player-not-found").replace("%player%", codigoOption.getAsString());
-                event.reply(message).setEphemeral(true).queue();
+                event.reply(message).setEphemeral(true).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+                );
                 return;
             }
         } else if (nombreOption != null && !nombreOption.getAsString().isEmpty()) { 
             targetPlayer = PlayerRegistry.getInstance().findByName(nombreOption.getAsString());
             if (targetPlayer == null) {
                 String message = LanguageHandler.getText(language, "player-not-found").replace("%player%", nombreOption.getAsString());
-                event.reply(message).setEphemeral(true).queue();
+                event.reply(message).setEphemeral(true).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+                );
                 return;
             }
         } else {
             User discordUser = discordUserOption.getAsUser();
             targetPlayer = PlayerRegistry.getInstance().findByDiscordId(discordUser.getIdLong());
             if (targetPlayer == null) {
-                event.replyEmbeds(ChatUtil.getDsPlayerInfo(discordUser, language)).setEphemeral(true).queue();
+                event.replyEmbeds(ChatUtil.getDsPlayerInfo(discordUser, language)).setEphemeral(true).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+                );
                 return;
             }
         }
@@ -100,7 +118,10 @@ public class DsPlayerCommand extends DsCommand {
             replyWithInteraction(event, player, language, finalTargetPlayer, user);
         }, error -> {
             ConsoleLogger.error("Error al obtener el usuario de Discord para el jugador " + finalTargetPlayer.getNombrePublico() + ": " + error.getMessage());
-            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue(
+                success -> {},
+                error2 -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         });
 
     }
@@ -118,22 +139,30 @@ public class DsPlayerCommand extends DsCommand {
             .setEphemeral(true)
             .queue(
                 hook -> {
-                    hook.retrieveOriginal().queue(message -> {
-                        Interaction ctx = new Interaction(
-                            player != null ? player.getUuid() : null,
-                            InteractionKey.PLAYER_INFO,
-                            now,
-                            expiration
-                        );
-                        ctx.setMessageId(message.getIdLong());
-                        ctx.setChannelId(event.getChannel().getIdLong());
-                        ctx.addPayloadValue("targetUuid", targetPlayer.getUuid().toString());
-                        InteractionRegistry.getInstance().load(ctx);
-                    });
+                    hook.retrieveOriginal().queue(
+                        message -> {
+                            Interaction ctx = new Interaction(
+                                player != null ? player.getUuid() : null,
+                                InteractionKey.PLAYER_INFO,
+                                now,
+                                expiration
+                            );
+                            ctx.setMessageId(message.getIdLong());
+                            ctx.setChannelId(event.getChannel().getIdLong());
+                            ctx.addPayloadValue("targetUuid", targetPlayer.getUuid().toString());
+                            InteractionRegistry.getInstance().load(ctx);
+                        },
+                        error -> {
+                            ConsoleLogger.error("Error al recuperar el mensaje original para la interacción de información del jugador: " + error.getMessage());
+                        }
+                    );
                 },
                 error -> {
                     ConsoleLogger.error("Error al enviar la información del jugador: " + error.getMessage());
-                    event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
+                    event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue(
+                        success -> {},
+                        error2 -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+                    );
                 }
             );
     }

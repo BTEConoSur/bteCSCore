@@ -3,6 +3,7 @@ package com.bteconosur.discord.action;
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.InteractionRegistry;
@@ -19,7 +20,10 @@ public class RejectCreateProjectAction implements ModalAction {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -27,12 +31,18 @@ public class RejectCreateProjectAction implements ModalAction {
         InteractionRegistry ir = InteractionRegistry.getInstance();
         Interaction parentCtx = ir.get(parentCtxId);
         if (parentCtx == null) {
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         ir.unload(ctx.getId());
         pm.cancelCreateRequest(parentCtx.getProjectId(), player, parentCtxId, comentario); 
-        event.reply(LanguageHandler.getText(language, "project.create.reject.ds-success")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText(language, "project.create.reject.ds-success")).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 
 }

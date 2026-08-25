@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Interaction;
@@ -31,12 +32,18 @@ public class RedefineProjectAction implements ButtonAction {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         Pais pais = PaisRegistry.getInstance().findByRequestId(event.getChannelIdLong());
         if (!PermissionManager.getInstance().isReviewer(player, pais)) {
-            event.reply(LanguageHandler.replaceDS("reviewer.ds-not-reviewer-country", language, pais)).setEphemeral(true).queue();
+            event.reply(LanguageHandler.replaceDS("reviewer.ds-not-reviewer-country", language, pais)).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -61,7 +68,10 @@ public class RedefineProjectAction implements ButtonAction {
             ctxAccept.setComponentId(modalId);
             ctxAccept.addPayloadValue("parentCtxId", ctx.getId());
             InteractionRegistry.getInstance().load(ctxAccept);
-            event.replyModal(modal).queue();
+            event.replyModal(modal).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         } else if (buttonId.equals("cancel")) {
             String modalId = "reject_redefine_project:" + ctx.getProjectId();
             Modal modal = Modal.create(modalId, LanguageHandler.getText(language, "ds-modals.reject-project-redefinition"))
@@ -75,9 +85,15 @@ public class RedefineProjectAction implements ButtonAction {
             ctxAccept.setComponentId(modalId);
             ctxAccept.addPayloadValue("parentCtxId", ctx.getId());
             InteractionRegistry.getInstance().load(ctxAccept);
-            event.replyModal(modal).queue();
+            event.replyModal(modal).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         } else {
-            event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         }
     }
 

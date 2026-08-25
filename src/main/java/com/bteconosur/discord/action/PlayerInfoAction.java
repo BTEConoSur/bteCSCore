@@ -28,15 +28,27 @@ public class PlayerInfoAction implements ButtonAction {
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         InteractionRegistry ir = InteractionRegistry.getInstance();
         if (ctx.isExpired()) {
-            event.getMessage().delete().queue();
-            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue();
+            event.getMessage().delete().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+            );
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             ir.unload(ctx.getId());
             return;
         }
         if (buttonId.equals("player-info-cancel")) {
-            event.getMessage().delete().queue();
+            event.getMessage().delete().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+            );
             //event.reply(LanguageHandler.getText(language, "ds-embeds.player-info.cancel-message")).setEphemeral(true).queue();
-            event.deferEdit().queue();
+            event.deferEdit().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.edit"), error)
+            );
             ir.unload(ctx.getId());
             return;
         }
@@ -44,7 +56,10 @@ public class PlayerInfoAction implements ButtonAction {
         String targetUuid = (String) ctx.getPayloadValue("targetUuid");
         Player targetPlayer = PlayerRegistry.getInstance().get(UUID.fromString(targetUuid));
         if (targetPlayer == null) {
-            event.reply(LanguageHandler.getText(language, "player-not-found").replace("%player%", targetUuid)).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "player-not-found").replace("%player%", targetUuid)).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -58,7 +73,10 @@ public class PlayerInfoAction implements ButtonAction {
                 ctx.addPayloadValue("targetUuid", targetUuid);
                 ctx.addPayloadValue("page", page);
                 ir.merge(ctx.getId());
-                event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons), ActionRow.of(buttons2)).queue();
+                event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons), ActionRow.of(buttons2)).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.edit"), error)
+                );
                 break;
             }
             case "see-player": {
@@ -69,7 +87,10 @@ public class PlayerInfoAction implements ButtonAction {
                     ctx.clearPayload();
                     ctx.addPayloadValue("targetUuid", targetUuid);
                     ir.merge(ctx.getId());
-                    event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons)).queue();
+                    event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons)).queue(
+                        success -> {},
+                        error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.edit"), error)
+                    );
                 } else {
                     DiscordManager.getInstance().getJda().retrieveUserById(targetDsId).queue(user -> {
                         MessageEmbed embed = ChatUtil.getDsPlayerInfo(targetPlayer, user, language);
@@ -77,10 +98,16 @@ public class PlayerInfoAction implements ButtonAction {
                         ctx.clearPayload();
                         ctx.addPayloadValue("targetUuid", targetUuid);
                         ir.merge(ctx.getId());
-                        event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons)).queue();
+                        event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons)).queue(
+                            success -> {},
+                            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.edit"), error)
+                        );
                     }, error -> {
                         ConsoleLogger.error("Error al obtener el usuario de Discord: " + error.getMessage());
-                        event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue();
+                        event.reply(LanguageHandler.getText(language, "ds-internal-error")).setEphemeral(true).queue(
+                            success -> {},
+                            error2 -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error2)
+                        );
                     });
                 }
                 break;
@@ -94,7 +121,10 @@ public class PlayerInfoAction implements ButtonAction {
                 ctx.addPayloadValue("targetUuid", targetUuid);
                 ctx.addPayloadValue("page", page);
                 ir.merge(ctx.getId());
-                event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons), ActionRow.of(buttons2)).queue();
+                event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons), ActionRow.of(buttons2)).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.edit"), error)
+                );
                 break;
             }
             case "project-list-next": {
@@ -106,11 +136,17 @@ public class PlayerInfoAction implements ButtonAction {
                 ctx.addPayloadValue("targetUuid", targetUuid);
                 ctx.addPayloadValue("page", page);
                 ir.merge(ctx.getId());
-                event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons), ActionRow.of(buttons2)).queue();
+                event.editMessageEmbeds(embed).setComponents(ActionRow.of(buttons), ActionRow.of(buttons2)).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.edit"), error)
+                );
                 break;
             }
             default:
-                event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue();
+                event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+                );
                 break;
         }
     }

@@ -16,7 +16,6 @@ import com.bteconosur.discord.util.LinkService;
 import com.bteconosur.discord.util.MessageService;
 
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
@@ -112,11 +111,20 @@ public class DiscordLogger {
         List<Player> managers = PlayerRegistry.getInstance().getManagers(pais);
         for (Player manager : managers) {
             if (LinkService.isPlayerLinked(manager) && manager.getConfiguration().getManagerDsNotifications()) {
-                BTEConoSur.getDiscordManager().getJda().retrieveUserById(manager.getDsIdUsuario()).queue(user -> {
-                    user.openPrivateChannel().queue(privateChannel -> {
-                        privateChannel.sendMessage(LanguageHandler.getText(manager.getLanguage(), "ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage)).queue();
-                    });
-                });
+                BTEConoSur.getDiscordManager().getJda().retrieveUserById(manager.getDsIdUsuario()).queue(
+                    user -> {
+                        user.openPrivateChannel().queue(
+                            privateChannel -> {
+                                privateChannel.sendMessage(LanguageHandler.getText(manager.getLanguage(), "ds-manager-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage)).queue(
+                                    success -> {},
+                                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(manager.getDsIdUsuario())) + " " + error.getMessage())
+                                );
+                            },
+                            error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(manager.getDsIdUsuario())) + " " + error.getMessage())
+                        );
+                    },
+                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(manager.getDsIdUsuario())) + " " + error.getMessage())
+                );
             }
             PlayerLogger.info(manager, mcMessage, (String) null, extraResolvers);
         }
@@ -135,11 +143,20 @@ public class DiscordLogger {
         List<Player> reviewers = PlayerRegistry.getInstance().getReviewers(pais);
         for (Player reviewer : reviewers) {
             if (LinkService.isPlayerLinked(reviewer) && reviewer.getConfiguration().getReviewerDsNotifications()) {
-                BTEConoSur.getDiscordManager().getJda().retrieveUserById(reviewer.getDsIdUsuario()).queue(user -> {
-                    user.openPrivateChannel().queue(privateChannel -> {
-                        privateChannel.sendMessage(LanguageHandler.getText(reviewer.getLanguage(), "ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage)).queue();
-                    });
-                });
+                BTEConoSur.getDiscordManager().getJda().retrieveUserById(reviewer.getDsIdUsuario()).queue(
+                    user -> {
+                        user.openPrivateChannel().queue(
+                            privateChannel -> {
+                                privateChannel.sendMessage(LanguageHandler.getText(reviewer.getLanguage(), "ds-reviewer-notification").replace("%mention%", user.getAsMention()).replace("%message%", dsMessage)).queue(
+                                    success -> {},
+                                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(reviewer.getDsIdUsuario())) + " " + error.getMessage())
+                                );
+                            },
+                            error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(reviewer.getDsIdUsuario())) + " " + error.getMessage())
+                        );
+                    },
+                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(reviewer.getDsIdUsuario())) + " " + error.getMessage())
+                );
             }
             PlayerLogger.info(reviewer, mcMessage, (String) null, extraResolvers);
         }

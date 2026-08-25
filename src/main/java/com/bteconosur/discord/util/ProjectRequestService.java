@@ -222,20 +222,26 @@ public class ProjectRequestService {
         );
         ir.load(ctx);
         if (LinkService.isPlayerLinked(lider)) {
-            BTEConoSur.getDiscordManager().getJda().retrieveUserById(lider.getDsIdUsuario()).queue(user -> {
-                user.openPrivateChannel().queue(privateChannel -> {
-                    privateChannel.sendMessageEmbeds(ChatUtil.getDsMemberJoinRequest(proyecto, player, lider.getLanguage()))
-                        .addComponents(ActionRow.of(Button.success("accept", LanguageHandler.getText(lider.getLanguage(), "ds-button-accept")), Button.danger("cancel", LanguageHandler.getText(lider.getLanguage(), "ds-button-reject"))))
-                        .queue(message -> {
-                            Interaction ctx2 = ir.findJoinRequest(proyecto.getId(), player.getUuid());
-                            ctx2.addPayloadValue("liderDsId", lider.getDsIdUsuario());
-                            ctx2.setMessageId(message.getIdLong());
-                            ir.merge(ctx2.getId());
-                        }, error -> {
-                            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-join-request") + " " + proyecto.getId(), error);
-                        });
-                });
-            });
+            BTEConoSur.getDiscordManager().getJda().retrieveUserById(lider.getDsIdUsuario()).queue(
+                user -> {
+                    user.openPrivateChannel().queue(
+                        privateChannel -> {
+                            privateChannel.sendMessageEmbeds(ChatUtil.getDsMemberJoinRequest(proyecto, player, lider.getLanguage()))
+                                .addComponents(ActionRow.of(Button.success("accept", LanguageHandler.getText(lider.getLanguage(), "ds-button-accept")), Button.danger("cancel", LanguageHandler.getText(lider.getLanguage(), "ds-button-reject"))))
+                                .queue(message -> {
+                                    Interaction ctx2 = ir.findJoinRequest(proyecto.getId(), player.getUuid());
+                                    ctx2.addPayloadValue("liderDsId", lider.getDsIdUsuario());
+                                    ctx2.setMessageId(message.getIdLong());
+                                    ir.merge(ctx2.getId());
+                                }, error -> {
+                                    ConsoleLogger.error(LanguageHandler.getText("ds-error.send-join-request") + " " + proyecto.getId(), error);
+                                });
+                        },
+                        error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.send-join-request") + " " + proyecto.getId(), error)
+                    );
+                },
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.send-join-request") + " " + proyecto.getId(), error)
+            );
         }
         String notification = LanguageHandler.replaceMC("project.join.request.for-lider", lider.getLanguage(), player, proyecto);
         PlayerLogger.info(lider, notification, (String) null);

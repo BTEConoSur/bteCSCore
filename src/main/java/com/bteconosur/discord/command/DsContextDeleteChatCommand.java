@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.util.CommandMode;
@@ -23,7 +24,10 @@ public class DsContextDeleteChatCommand extends DsContextMessageCommand {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         Boolean success = MessageService.deleteByMessageId(event.getTarget().getIdLong());
-        event.reply(LanguageHandler.getText(language, success ? "ds-delete-global-chat.success" : "ds-delete-global-chat.not-found")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText(language, success ? "ds-delete-global-chat.success" : "ds-delete-global-chat.not-found")).setEphemeral(true).queue(
+            success2 -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 
 }

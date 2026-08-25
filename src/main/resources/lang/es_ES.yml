@@ -144,6 +144,13 @@ ds-error:
   bot-not-initialized: "Error de Discord: El bot de Discord no está iniciado."
   bot-shutting-down: "Error de Discord: No se pudo apagar el bot de Discord."
   bot-already-started: "Error de Discord: El bot de Discord ya está iniciado. Usar restartBot() para reiniciarlo."
+  reply: "Error de Discord: No se pudo responder."
+  delete: "Error de Discord: No se pudo eliminar el mensaje."
+  edit: "Error de Discord: No se pudo editar el mensaje."
+  delete-command: "Error de Discord: No se pudo eliminar el mensaje del comando."
+  update-command: "Error de Discord: No se pudo actualizar el comando."
+  add-command: "Error de Discord: No se pudo agregar el comando."
+  get-user: "Error de Discord: No se pudo obtener el usuario."
 
 pais-division-default-not-found: "No se encontró la división por defecto para el país <yellow>%pais.nombrePublico%</yellow>."
 
