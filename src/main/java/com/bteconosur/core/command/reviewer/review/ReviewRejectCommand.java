@@ -41,8 +41,8 @@ public class ReviewRejectCommand extends BaseCommand {
 
         if (args.length >= 1) {
             StringBuilder comentarioBuilder = new StringBuilder();
-            for (int i = 0; i < args.length; i++) {
-                if (i > 0) comentarioBuilder.append(" ");
+            for (int i = 1; i < args.length; i++) {
+                if (i > 1) comentarioBuilder.append(" ");
                 comentarioBuilder.append(args[i]);
             }
             comentario = comentarioBuilder.toString();
