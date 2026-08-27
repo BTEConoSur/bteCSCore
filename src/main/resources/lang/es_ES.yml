@@ -546,7 +546,14 @@ help-construir:
 
 help-wiki:
   - "\n<dark_gray>+---------------------------------------+</dark_gray>"
-  - "<blue><u><click:open_url:'https://resources.buildtheearth.net/s/adbd294f-c787-4ea1-ae13-88fe946aaf8a/doc/bte-cono-sur-DAKmKdHyYG'><hover:show_text:'Click para abrir'>Wiki del Cono Sur</hover></click></u></blue>"
+  - "> <blue><u><click:open_url:'https://resources.buildtheearth.net/s/adbd294f-c787-4ea1-ae13-88fe946aaf8a/doc/bte-cono-sur-DAKmKdHyYG'><hover:show_text:'Click para abrir'>Wiki del Cono Sur</hover></click></u></blue>"
+  - "<dark_gray>+---------------------------------------+</dark_gray>\n"
+
+help-mapa: 
+  - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+  - "<gold>Mapas útiles:</gold>"
+  - "> <u><blue><click:open_url:'https://buildtheearth.net/map?z=2.7&lat=-30.990365448831326&lng=-70.14370365618069'><hover:show_text:'Click para ver'>Mapa de progreso</hover></click></blue></u>"
+  - "> <u><blue><click:open_url:'https://umap.openstreetmap.fr/en/map/distribucion-de-mundos-cono-sur_1366035'><hover:show_text:'Click para ver'>Mapa técnico del Cono Sur</hover></click></blue></u>"
   - "<dark_gray>+---------------------------------------+</dark_gray>\n"
 
 region:

@@ -26,6 +26,7 @@ import com.bteconosur.core.command.crud.CrudCommand;
 import com.bteconosur.core.command.help.HelpCommand;
 import com.bteconosur.core.command.help.HelpConstruirCommand;
 import com.bteconosur.core.command.help.HelpDiscordCommand;
+import com.bteconosur.core.command.help.HelpMapaCommand;
 import com.bteconosur.core.command.help.HelpVisitarCommand;
 import com.bteconosur.core.command.help.HelpWikiCommand;
 import com.bteconosur.core.command.manager.ManagerCommand;
@@ -258,6 +259,7 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new HelpCommandCommand());
         PluginRegistry.registerCommand(new HelpConstruirCommand());
         PluginRegistry.registerCommand(new HelpWikiCommand());
+        PluginRegistry.registerCommand(new HelpMapaCommand());
         PluginRegistry.registerCommand(new HelpVisitarCommand());
     }
 

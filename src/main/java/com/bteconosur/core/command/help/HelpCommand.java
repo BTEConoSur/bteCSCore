@@ -21,6 +21,7 @@ public class HelpCommand extends BaseCommand {
         this.addSubcommand(new HelpVisitarCommand());
         this.addSubcommand(new HelpConstruirCommand());
         this.addSubcommand(new HelpWikiCommand());
+        this.addSubcommand(new HelpMapaCommand());
         this.addSubcommand(new HelpDiscordCommand());
     }
 
