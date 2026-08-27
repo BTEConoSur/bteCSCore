@@ -2,6 +2,8 @@ package com.bteconosur.core.config;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.bteconosur.core.util.BannerUtils;
+
 /**
  * Manejador centralizado de archivos de configuración del plugin.
  */
@@ -112,6 +114,7 @@ public class ConfigHandler {
         secret.reload();
         pending.reload();
         LanguageHandler.reload();
+        BannerUtils.loadColorAliases();
     }
 
     /**

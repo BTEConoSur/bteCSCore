@@ -322,6 +322,7 @@ commands-descriptions:
     edit.desc: "Editar un Preset."
     add.desc: "Agregar uno o varios bloques a un Preset."
     see.desc: "Obtener los bloques <b>copiables</b> de un Preset."
+  banner.desc: "Crear banderas de letras y números."
   nightvision.desc: "Activar o desactivar la visión nocturna."
   lobby.desc: "Teletransportarse al lobby."
   assets.desc: "Teletransportarse a Assets."
@@ -606,6 +607,12 @@ preset:
   max-blocks: "No puedes agregar más bloques al preset. El límite es de <yellow>36</yellow> bloques."
   empty-other: "El jugador <yellow>%player.nombre%</yellow> no tiene ningún preset creado."
   empty: "No tienes ningún preset creado."
+
+banner:
+  invalid-color: "El color <yellow>%color%</yellow> no es válido."
+  invalid-text: "El texto <yellow>%text%</yellow> no contiene letras ni números válidos."
+  no-space: "No tienes espacio suficiente. Necesitas <yellow>%espacio%</yellow> libres en el inventario."
+  success: "Se generaron <yellow>%cantidad%</yellow> banderas de texto."
 
 player-info-command:
   - "\n <b>=========</b> <gold>Información de %player.nombre%</gold> <b>=========</b>"

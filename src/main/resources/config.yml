@@ -197,6 +197,66 @@ preset:
     ZOMBIE_WALL_HEAD: "ZOMBIE_HEAD"
     AIR: "WIND_CHARGE"
 
+banners-dye:
+  white:
+    - "blanco"
+    - "white"
+  orange:
+    - "naranja"
+    - "naranjo"
+    - "anaranjado"
+    - "orange"
+  magenta:
+    - "magenta"
+  light_blue:
+    - "celeste"
+    - "azul_claro"
+    - "light_blue"
+  yellow:
+    - "amarillo"
+    - "yellow"
+  lime:
+    - "lima"
+    - "verde_claro"
+    - "lime"
+  pink:
+    - "rosa"
+    - "rosado"
+    - "pink"
+  gray:
+    - "gris_oscuro"
+    - "dark_gray"
+  light_gray:
+    - "gris"
+    - "gris_claro"
+    - "gray"
+    - "light_gray"
+  cyan:
+    - "cian"
+    - "cyan"
+  purple:
+    - "morado"
+    - "purpura"
+    - "purple"
+  blue:
+    - "azul"
+    - "azul_oscuro"
+    - "blue"
+  brown:
+    - "cafe"
+    - "marron"
+    - "brown"
+  green:
+    - "verde"
+    - "verde_oscuro"
+    - "green"
+  red:
+    - "rojo"
+    - "red"
+  black:
+    - "negro"
+    - "black"
+
 related-languages:
   es_ES: ["es_MX", "es_CL", "es_CO", "es_PE", "es_VE", "es_UY", "es_PY", "es_BO", "es_EC"]
   es_AR: []
