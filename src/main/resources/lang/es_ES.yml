@@ -174,6 +174,8 @@ interaction-registry-initializing: "Iniciando Registro de Interacciones de Disco
 interaction-registry-shutting-down: "Apagando Registro de Interacciones de Discord..."
 tipo-proyecto-registry-initializing: "Iniciando Registro de Tipos de Proyecto..."
 tipo-proyecto-registry-shutting-down: "Apagando Registro de Tipos de Proyecto..."
+tour-registry-initializing: "Iniciando Registro de Tours..."
+tour-registry-shutting-down: "Apagando Registro de Tours..."
 project-manager-initializing: "Iniciando Gestor de Proyectos..."
 project-manager-shutting-down: "Apagando gestor de Proyectos..."
 discord-initializing: "Iniciando Módulo: Discord..."
@@ -1027,6 +1029,31 @@ ds-schematic:
   success: "Schematic encontrado:"
   not-found: "No se encontró ningún schematic con el nombre **%nombre%**."
   name-needed: "Debes proporcionar el nombre del schematic."
+
+# Tour
+tour:
+  stop-title: "Parada <yellow>%count%</yellow>"
+  tour-title: "Tour <yellow>%id%</yellow>"
+
+
+# tours:
+#  ejemplo1:
+#    title: "Tour de ejemplo 1"
+#    desc:
+#      - "Este es un tour de ejemplo."
+#      - "Lorem impsu."
+#    stops:
+#      stopejemplo1:
+#        title: "Parada de ejemplo 1"
+#        desc:
+#          - "Esta es una parada de ejemplo."
+#          - "Lorem impsu."
+#      stopejemplo2:
+#        title: "Parada de ejemplo 2"
+#        desc:
+#          - "Esta es otra parada de ejemplo."
+#          - "Lorem impsu."
+tours:
 
 # Chat
 # En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.

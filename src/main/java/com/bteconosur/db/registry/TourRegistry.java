@@ -1,0 +1,205 @@
+package com.bteconosur.db.registry;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.bukkit.Location;
+import org.locationtech.jts.geom.Polygon;
+
+import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
+import com.bteconosur.db.model.Tour;
+import com.bteconosur.db.model.TourStop;
+
+public class TourRegistry extends Registry<String, Tour> {
+
+    private static TourRegistry instance;
+
+    public TourRegistry() {
+        super();
+        ConsoleLogger.info(LanguageHandler.getText("tour-registry-initializing"));
+        loadedObjects = new ConcurrentHashMap<>();
+        List<Tour> tours = dbManager.selectAll(Tour.class);
+        if (tours != null) {
+            for (Tour tour : tours) {
+                if (tour.getId() != null) {
+                    loadedObjects.put(tour.getId(), tour);
+                }
+            }
+        }
+    }
+
+    /**
+     * Carga un tour en persistencia y memoria.
+     *
+     * @param obj tour a cargar.
+     */
+    @Override
+    public void load(Tour obj) {
+        if (obj == null || obj.getId() == null) return;
+        dbManager.save(obj);
+        loadedObjects.put(obj.getId(), obj);
+    }
+
+    /**
+     * Obtiene un tour por id.
+     *
+     * @param id id del tour.
+     * @return tour encontrado, o {@code null}.
+     */
+    public Tour get(String id) {
+        for (Tour tour : loadedObjects.values()) {
+            if (tour.getId().equalsIgnoreCase(id)) {
+                return tour;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Crea una nueva parada para un tour.
+     *
+     * @param tourId id del tour.
+     * @param paradaId id de la parada.
+     * @param orden orden de la parada.
+     * @param location ubicación de la parada.
+     * @param poligono polígono de la parada.
+     */
+    public void createTourParada(String tourId, String paradaId, int orden, Location location, Polygon poligono) {
+        Tour tour = get(tourId);
+        if (tour == null) return;
+
+        List<TourStop> paradas = tour.getParadas();
+        int nuevoOrden = Math.max(1, Math.min(orden, paradas.size() + 1));
+
+        for (TourStop otraParada : paradas) {
+            if (otraParada.getOrden() >= nuevoOrden) {
+                otraParada.setOrden(otraParada.getOrden() + 1);
+            }
+        }
+
+        TourStop parada = new TourStop(tour, paradaId, nuevoOrden, location, poligono);
+        tour.addParada(parada);
+        paradas.sort(Comparator.comparingInt(TourStop::getOrden));
+        merge(tour.getId());
+    }
+
+    /**
+     * Edita el orden de una parada de un tour.
+     *
+     * @param tourId id del tour.
+     * @param paradaId id de la parada.
+     * @param orden nuevo orden de la parada.
+     */
+    public void editTourParada(String tourId, String paradaId, int orden) {
+        Tour tour = get(tourId);
+        if (tour == null) return;
+
+        List<TourStop> paradas = tour.getParadas();
+        TourStop parada = tour.getParada(paradaId);
+        if (parada == null) return;
+
+        int ordenActual = parada.getOrden();
+        int nuevoOrden = Math.max(1, Math.min(orden, paradas.size()));
+        if (ordenActual == nuevoOrden) return;
+
+        if (nuevoOrden > ordenActual) {
+            for (TourStop otraParada : paradas) {
+                if (otraParada == parada) continue;
+                int ordenOtra = otraParada.getOrden();
+                if (ordenOtra > ordenActual && ordenOtra <= nuevoOrden) {
+                    otraParada.setOrden(ordenOtra - 1);
+                }
+            }
+        } else {
+            for (TourStop otraParada : paradas) {
+                if (otraParada == parada) continue;
+                int ordenOtra = otraParada.getOrden();
+                if (ordenOtra >= nuevoOrden && ordenOtra < ordenActual) {
+                    otraParada.setOrden(ordenOtra + 1);
+                }
+            }
+        }
+
+        parada.setOrden(nuevoOrden);
+        paradas.sort(Comparator.comparingInt(TourStop::getOrden));
+
+        merge(tour.getId());
+    }
+
+    /**
+     * Edita la ubicación de una parada de un tour.
+     *
+     * @param tourId id del tour.
+     * @param paradaId id de la parada.
+     * @param location nueva ubicación de la parada.
+     */
+    public void editTourParada(String tourId, String paradaId, Location location) {
+        Tour tour = get(tourId);
+        if (tour == null) return;
+        TourStop parada = tour.getParada(paradaId);
+        if (parada == null) return;
+        parada.setLocation(location);
+        merge(parada.getTour().getId());
+    }
+
+    /**
+     * Edita el polígono de una parada de un tour.
+     *
+     * @param tourId id del tour.
+     * @param paradaId id de la parada.
+     * @param poligono nuevo polígono de la parada.
+     */
+    public void editTourParada(String tourId, String paradaId, Polygon poligono) {
+        Tour tour = get(tourId);
+        if (tour == null) return;
+        TourStop parada = tour.getParada(paradaId);
+        if (parada == null) return;
+        parada.setPoligono(poligono);
+        merge(parada.getTour().getId());
+    }
+
+    /**
+     * Elimina una parada de un tour.
+     *
+     * @param tourId id del tour.
+     * @param paradaId id de la parada.
+     */
+    public void removeTourParada(String tourId, String paradaId) {
+        Tour tour = get(tourId);
+        if (tour == null) return;
+
+        List<TourStop> paradas = tour.getParadas();
+        TourStop parada = tour.getParada(paradaId);
+        if (parada == null) return;
+
+        int ordenEliminado = parada.getOrden();
+        tour.removeParada(parada);
+
+        for (TourStop otraParada : paradas) {
+            if (otraParada.getOrden() > ordenEliminado) {
+                otraParada.setOrden(otraParada.getOrden() - 1);
+            }
+        }
+
+        paradas.sort(Comparator.comparingInt(TourStop::getOrden));
+        merge(tour.getId());
+    }
+
+    /**
+     * Cierra el registro y limpia su cache en memoria.
+     */
+    public void shutdown() {
+        ConsoleLogger.info(LanguageHandler.getText("tour-registry-shutting-down"));
+        loadedObjects.clear();
+        loadedObjects = null;
+    }
+
+    public static TourRegistry getInstance() {
+        if (instance == null) {
+            instance = new TourRegistry();
+        }
+        return instance;
+    }
+}

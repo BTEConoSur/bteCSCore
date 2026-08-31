@@ -255,7 +255,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
             loc.getYaw(), loc.getPitch()
         );
         player.addPwarp(newPwarp);
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        merge(player.getUuid());
     }
 
     /**
@@ -275,7 +275,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         pwarp.setZ(loc.getZ());
         pwarp.setYaw(loc.getYaw());
         pwarp.setPitch(loc.getPitch());
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        merge(player.getUuid());
     }
 
     /**
@@ -289,7 +289,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         if (player == null) return;
         Pwarp pwarp = player.getPwarp(nombreWarp);
         player.removePwarp(pwarp);
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        merge(player.getUuid());
     }
 
     /**
@@ -305,7 +305,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         Preset preset = new Preset(player.getUuid(), presetName, "", player);
         preset.setBlocksMap(blocks);
         player.addPreset(preset);
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        merge(player.getUuid());
     }
 
     /**
@@ -321,7 +321,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         Preset preset = player.getPreset(presetName);
         if (preset == null) return;
         preset.setBlocksMap(blocks);
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        merge(player.getUuid());
     }
 
     /**
@@ -335,7 +335,7 @@ public class PlayerRegistry extends Registry<UUID, Player> {
         if (player == null) return;
         Preset preset = player.getPreset(presetName);
         player.removePreset(preset);
-        PlayerRegistry.getInstance().merge(player.getUuid());
+        merge(player.getUuid());
     }
 
     /**
