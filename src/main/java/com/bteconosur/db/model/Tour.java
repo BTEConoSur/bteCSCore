@@ -104,15 +104,6 @@ public class Tour {
         return null;
     }
 
-    public String getTitle(Language language) {
-        String key = "tours." + id + ".title";
-        String translated = LanguageHandler.getText(language, key);
-        if (!"ERROR_KEY_NF".equals(translated)) return translated;
-        translated = LanguageHandler.getTextWithouthWarn(Language.getDefault(), key);
-        if (!"ERROR_KEY_NF".equals(translated)) return translated;
-        return LanguageHandler.getText(language, "tour.tour-title").replace("%id%", id);
-    }
-
     public List<String> getDescription(Language language) {
         String key = "tours." + id + ".title";
         List<String> translated = LanguageHandler.getTextList(language, key);

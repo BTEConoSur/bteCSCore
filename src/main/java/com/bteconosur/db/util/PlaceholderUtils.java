@@ -22,6 +22,8 @@ import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoProyecto;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.model.Tour;
+import com.bteconosur.db.model.TourStop;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.discord.util.LinkService;
@@ -223,6 +225,42 @@ public class PlaceholderUtils {
     public static String replaceDS(String text, Language language, Division... divisiones) {
         if (divisiones == null || divisiones.length == 0) return text;
         return replace(text, language, PlaceholderContext.DISCORD, divisiones);
+    }
+
+    /**
+     * Reemplaza placeholders de tours en contexto Minecraft.
+     * @return texto con placeholders reemplazados.
+     */
+    public static String replaceMC(String text, Language language, Tour... tours) {
+        if (tours == null || tours.length == 0) return text;
+        return replace(text, language, PlaceholderContext.MINECRAFT, tours);
+    }
+
+    /**
+     * Reemplaza placeholders de tours en contexto Discord.
+     * @return texto con placeholders reemplazados.
+     */
+    public static String replaceDS(String text, Language language, Tour... tours) {
+        if (tours == null || tours.length == 0) return text;
+        return replace(text, language, PlaceholderContext.DISCORD, tours);
+    }
+
+    /**
+     * Reemplaza placeholders de paradas de tours en contexto Minecraft.
+     * @return texto con placeholders reemplazados.
+     */
+    public static String replaceMC(String text, Language language, TourStop... paradas) {
+        if (paradas == null || paradas.length == 0) return text;
+        return replace(text, language, PlaceholderContext.MINECRAFT, paradas);
+    }
+
+    /**
+     * Reemplaza placeholders de paradas de tours en contexto Discord.
+     * @return texto con placeholders reemplazados.
+     */
+    public static String replaceDS(String text, Language language, TourStop... paradas) {
+        if (paradas == null || paradas.length == 0) return text;
+        return replace(text, language, PlaceholderContext.DISCORD, paradas);
     }
 
     /**
@@ -807,6 +845,121 @@ public class PlaceholderUtils {
             }
 
             text = text.replace("%division." + token + "%", value);
+        }
+
+        return text;
+    }
+
+    /**
+     * Reemplaza placeholders de tour en el texto.
+     * @return texto con placeholders reemplazados.
+     */
+    private static String replace(String text, Language language, PlaceholderContext context, Tour... tours) {
+        if (language == null) language = Language.getDefault();
+        if (text == null) return "TEXTO_NULL";
+        List<String> tourTokens = extractPlaceholderTokens(text, "tour");
+
+        for (String token : tourTokens) {
+            PlaceholderToken placeholderToken = parsePlaceholderToken(token);
+            if (placeholderToken == null) continue;
+
+            String field = placeholderToken.field;
+            int index = placeholderToken.index;
+
+            Tour tour = (index >= 0 && index < tours.length) ? tours[index] : null;
+            String value = "";
+            if (tour != null) {
+                switch (field) {
+                    case "id":
+                        value = tour.getId() != null ? tour.getId().toString() : "ERROR_ID_NULL";
+                        break;
+                    case "titulo":
+                        String key = "tours." + tour.getId() + ".title";
+                        String translated = LanguageHandler.getText(language, key);
+                        if (!"ERROR_KEY_NF".equals(translated)) return translated;
+                        translated = LanguageHandler.getTextWithouthWarn(Language.getDefault(), key);
+                        if (!"ERROR_KEY_NF".equals(translated)) return translated;
+                        value = LanguageHandler.getText(language, "tour.tour-title").replace("%id%", tour.getId());
+                        break;
+                    case "cantParadas":
+                        value = String.valueOf(tour.getParadas().size());
+                        break;
+                    case "paisId":
+                        value = tour.getPais() != null ? tour.getPais().getId().toString() : "ERROR_PAIS_NULL";
+                        break;
+                    case "paisNombre":
+                        value = tour.getPais() != null ? tour.getPais().getNombrePublico() : LanguageHandler.getText(language, "placeholder.tour.international");
+                        break;
+                    default:
+                        value = "";
+                        break;
+                }
+            }
+
+            text = text.replace("%tour." + token + "%", value);
+        }
+
+        return text;
+    }
+
+    /**
+     * Reemplaza placeholders de paradas de tour en el texto.
+     * @return texto con placeholders reemplazados.
+     */
+    private static String replace(String text, Language language, PlaceholderContext context, TourStop... paradas) {
+        if (language == null) language = Language.getDefault();
+        if (text == null) return "TEXTO_NULL";
+        List<String> tourTokens = extractPlaceholderTokens(text, "tourparada");
+
+        for (String token : tourTokens) {
+            PlaceholderToken placeholderToken = parsePlaceholderToken(token);
+            if (placeholderToken == null) continue;
+
+            String field = placeholderToken.field;
+            int index = placeholderToken.index;
+
+            TourStop parada = (index >= 0 && index < paradas.length) ? paradas[index] : null;
+            String value = "";
+            if (parada != null) {
+                switch (field) {
+                    case "id":
+                        value = parada.getId() != null ? parada.getId().toString() : "ERROR_ID_NULL";
+                        break;
+                    case "titulo":
+                        String key = "tours." + parada.getTour().getId() + ".stops." + parada.getOrden() + ".title";
+                        String translated = LanguageHandler.getText(language, key);
+                        if (!"ERROR_KEY_NF".equals(translated)) return translated;
+                        translated = LanguageHandler.getTextWithouthWarn(Language.getDefault(), key);
+                        if (!"ERROR_KEY_NF".equals(translated)) return translated;
+                        value = LanguageHandler.getText(language, "tour.stop-title").replace("%orden%", String.valueOf(parada.getOrden()));
+                        break;
+                    case "orden":
+                        value = String.valueOf(parada.getOrden());
+                        break;
+                    case "world":
+                        value = parada.getLocation() != null ? parada.getLocation().getWorld().getName() : "ERROR_WORLD_NULL";
+                        break;
+                    case "x":
+                        value = parada.getLocation() != null ? String.valueOf(parada.getLocation().getBlockX()) : "ERROR_LOCATION_NULL";
+                        break;
+                    case "y":
+                        value = parada.getLocation() != null ? String.valueOf(parada.getLocation().getBlockY()) : "ERROR_LOCATION_NULL";
+                    case "z":
+                        value = parada.getLocation() != null ? String.valueOf(parada.getLocation().getBlockZ()) : "ERROR_LOCATION_NULL";
+                        break;
+                    case "yaw":
+                        value = parada.getLocation() != null ? String.valueOf(parada.getLocation().getYaw()) : "ERROR_LOCATION_NULL";   
+                        break;
+                    case "pitch":
+                        value = parada.getLocation() != null ? String.valueOf(parada.getLocation().getPitch()) : "ERROR_LOCATION_NULL";
+                        break;
+                    default:
+                        value = "";
+                        break;
+                }
+            }
+
+            text = text.replace("%tour." + token + "%", value);
         }
 
         return text;

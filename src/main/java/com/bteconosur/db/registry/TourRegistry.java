@@ -65,10 +65,11 @@ public class TourRegistry extends Registry<String, Tour> {
      * @param orden orden de la parada.
      * @param location ubicación de la parada.
      * @param poligono polígono de la parada.
+     * @return la nueva parada creada, o {@code null} si no se pudo crear.
      */
-    public void createTourParada(String tourId, String paradaId, int orden, Location location, Polygon poligono) {
+    public TourStop createTourParada(String tourId, String paradaId, int orden, Location location, Polygon poligono) {
         Tour tour = get(tourId);
-        if (tour == null) return;
+        if (tour == null) return null;
 
         List<TourStop> paradas = tour.getParadas();
         int nuevoOrden = Math.max(1, Math.min(orden, paradas.size() + 1));
@@ -83,6 +84,7 @@ public class TourRegistry extends Registry<String, Tour> {
         tour.addParada(parada);
         paradas.sort(Comparator.comparingInt(TourStop::getOrden));
         merge(tour.getId());
+        return parada;
     }
 
     /**
@@ -92,17 +94,17 @@ public class TourRegistry extends Registry<String, Tour> {
      * @param paradaId id de la parada.
      * @param orden nuevo orden de la parada.
      */
-    public void editTourParada(String tourId, String paradaId, int orden) {
+    public TourStop editTourParada(String tourId, String paradaId, int orden) {
         Tour tour = get(tourId);
-        if (tour == null) return;
+        if (tour == null) return null;
 
         List<TourStop> paradas = tour.getParadas();
         TourStop parada = tour.getParada(paradaId);
-        if (parada == null) return;
+        if (parada == null) return null;
 
         int ordenActual = parada.getOrden();
         int nuevoOrden = Math.max(1, Math.min(orden, paradas.size()));
-        if (ordenActual == nuevoOrden) return;
+        if (ordenActual == nuevoOrden) return parada;
 
         if (nuevoOrden > ordenActual) {
             for (TourStop otraParada : paradas) {
@@ -126,6 +128,7 @@ public class TourRegistry extends Registry<String, Tour> {
         paradas.sort(Comparator.comparingInt(TourStop::getOrden));
 
         merge(tour.getId());
+        return parada;
     }
 
     /**
@@ -135,13 +138,14 @@ public class TourRegistry extends Registry<String, Tour> {
      * @param paradaId id de la parada.
      * @param location nueva ubicación de la parada.
      */
-    public void editTourParada(String tourId, String paradaId, Location location) {
+    public TourStop editTourParada(String tourId, String paradaId, Location location) {
         Tour tour = get(tourId);
-        if (tour == null) return;
+        if (tour == null) return null;
         TourStop parada = tour.getParada(paradaId);
-        if (parada == null) return;
+        if (parada == null) return null;
         parada.setLocation(location);
         merge(parada.getTour().getId());
+        return parada;
     }
 
     /**
@@ -151,13 +155,14 @@ public class TourRegistry extends Registry<String, Tour> {
      * @param paradaId id de la parada.
      * @param poligono nuevo polígono de la parada.
      */
-    public void editTourParada(String tourId, String paradaId, Polygon poligono) {
+    public TourStop editTourParada(String tourId, String paradaId, Polygon poligono) {
         Tour tour = get(tourId);
-        if (tour == null) return;
+        if (tour == null) return null;
         TourStop parada = tour.getParada(paradaId);
-        if (parada == null) return;
+        if (parada == null) return null;
         parada.setPoligono(poligono);
         merge(parada.getTour().getId());
+        return parada;
     }
 
     /**

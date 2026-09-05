@@ -103,6 +103,8 @@ public class WorldManager {
         return labelWorld.getRegionManager();
     }
 
+    //TODO añadir parada wg
+
     /**
      * Obtiene la región protegida de WorldGuard asociada a un proyecto.
      * 

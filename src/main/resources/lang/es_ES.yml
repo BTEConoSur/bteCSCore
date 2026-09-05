@@ -32,6 +32,10 @@
 #     id, nombre, maxMiembros, tamanoMin, tamanoMax, tamanoRango.
 # División: %division.<atributo>%
 #     id, nombre, gna, fna, nam, contexto, paisId, paisNombre.
+# Tour: %tour.<atributo>%
+#     id, titulo, cantParadas, paisId, paisNombre.
+# Tour Parada: %tourparada.<atributo>%
+#     id, titulo, orden, world, x, y, z, yaw, pitch.
 
 # Mensajes de Consola
 config-reloaded: "Configuración recargada correctamente."
@@ -304,6 +308,7 @@ invalid-project-comment: "Máximo 300 caracteres permitidos para el comentario."
 invalid-admin-id: "El ID de tipo de proyecto de admin no es válido. Verifica que el ID configurado en id-proyecto-admin corresponda a un tipo de proyecto existente en la base de datos."
 invalid-regex: "No se puede usar texto entre <>."
 invalid-chars: "No puedes usar esos caracteres."
+invalid-number: "Debes ingresar un número válido."
 
 commands-descriptions:
   scoreboard.desc: "Configurar los Scoreboard que se muestran."
@@ -324,6 +329,24 @@ commands-descriptions:
     edit.desc: "Editar un Preset."
     add.desc: "Agregar uno o varios bloques a un Preset."
     see.desc: "Obtener los bloques <b>copiables</b> de un Preset."
+  tour:
+    desc: "Comando principal de Tours en el servidor."
+    manage:
+      desc: "Comando principal para gestionar Tours."
+      create.desc: "Crear un nuevo Tour. Puede ser de un país o internacional."
+      delete.desc: "Eliminar un Tour."
+      edit.desc: "Editar un Tour existente."
+      get.desc: "Obtener información de un Tour."
+      addstop.desc: "Agregar una parada a un Tour."
+      stop:
+        desc: "Comando principal para gestionar paradas de un Tour."
+        edit:
+          desc: "Editar una parada de un Tour."
+          position.desc: "Editar la posición de una parada de un Tour."
+          polygon.desc: "Editar el polígono de una parada de un Tour."
+          order.desc: "Editar el orden de una parada de un Tour."
+        remove.desc: "Eliminar una parada de un Tour."
+        get.desc: "Obtener información de una parada de un Tour."
   banner.desc: "Crear banderas de letras y números."
   nightvision.desc: "Activar o desactivar la visión nocturna."
   lobby.desc: "Teletransportarse al lobby."
@@ -1034,7 +1057,32 @@ ds-schematic:
 tour:
   stop-title: "Parada <yellow>%count%</yellow>"
   tour-title: "Tour <yellow>%id%</yellow>"
-
+  exists: "El tour <yellow>%tour.id%</yellow> ya existe."
+  not-found: "No se encontró el tour <yellow>%id%</yellow>."
+  create-success: "Tour <yellow>%tour.id%</yellow> creado correctamente para <yellow>%tour.paisNombre%</yellow>."
+  edit-success: "Se actualizó el país del tour <yellow>%tour.id%</yellow> a <yellow>%tour.paisNombre%</yellow>."
+  remove-success: "Se eliminó el tour <yellow>%tour.id%</yellow>."
+  get-info: 
+    - "\n <b>=========</b> <gold>Información de %tour.id%</gold> <b>=========</b>"
+    - " País: <yellow>%tour.paisNombre%</yellow> - Paradas: <yellow>%tour.countParadas%</yellow>"
+    - " Título: <yellow>%tour.titulo%</yellow>"
+    - " Descripción:"
+  no-permission-country: "No tienes permisos para gestionar el país <yellow>%pais.nombrePublico%</yellow>."
+  no-permission-none-country: "Solo un administrador puede crear o editar tours sin país."
+  stop:
+    exists: "La parada <yellow>%id%</yellow> ya existe en este tour."
+    not-found: "No se encontró la parada <yellow>%id%</yellow> en este tour."
+    invalid-order: "El orden <yellow>%orden%</yellow> no es válido."
+    remove-success: "Se eliminó la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
+    edit-order-success: "Se movió la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow> al orden <yellow>%tourparada.orden%</yellow>."
+    edit-polygon-success: "Se actualizó el polígono de la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
+    edit-position-success: "Se actualizó la posición de la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
+    get-info:
+      - "\n <b>=========</b> <gold>Información de %tourparada.id%</gold> <b>=========</b>"
+      - " Tour <yellow>%tour.id%</yellow> - Orden: <yellow>%tourparada.orden%</yellow>"
+      - " Mundo: <yellow>%world%</yellow> - X: <yellow>%x%</yellow> - Y: <yellow>%y%</yellow> - Z: <yellow>%z%</ yellow>"
+      - " Yaw: <yellow>%yaw%</yellow> - Pitch: <yellow>%pitch%</yellow>"
+  addstop-success: "Se agregó la parada <yellow>%tourparada.id%</yellow> al tour <yellow>%tour.id%</yellow> en el orden <yellow>%tourparada.orden%</yellow>."
 
 # tours:
 #  ejemplo1:
@@ -2017,3 +2065,5 @@ placeholder:
   ds-logo: "后"
   ds-loading: "Cargando..."
   mc-loading: "Cargando..."
+  tour:
+    international: "Internacional"

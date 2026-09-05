@@ -134,15 +134,6 @@ public class TourStop {
         this.worldName = location.getWorld().getName();
     }
 
-    public String getTitle(Language language) {
-        String key = "tours." + tour.getId() + ".stops." + this.orden + ".title";
-        String translated = LanguageHandler.getText(language, key);
-        if (!"ERROR_KEY_NF".equals(translated)) return translated;
-        translated = LanguageHandler.getTextWithouthWarn(Language.getDefault(), key);
-        if (!"ERROR_KEY_NF".equals(translated)) return translated;
-        return LanguageHandler.getText(language, "tour.stop-title").replace("%orden%", String.valueOf(orden));
-    }
-
     public List<String> getDescription(Language language) {
         String key = "tour." + tour.getId() + ".stops." + this.orden + ".desc";
         List<String> translated = LanguageHandler.getTextList(language, key);

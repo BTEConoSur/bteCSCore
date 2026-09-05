@@ -122,6 +122,19 @@ public abstract class Registry<K extends Serializable, V> {
     }
 
     /**
+     * Elimina una entidad de persistencia y la descarga del registro en memoria.
+     *
+     * @param id identificador de la entidad a eliminar.
+     */
+    public void delete(K id) {
+        if (id == null || loadedObjects == null) return;
+        V obj = loadedObjects.get(id);
+        if (obj == null) return;
+        dbManager.remove(obj);
+        loadedObjects.remove(id);
+    }
+
+    /**
      * Verifica si una entidad existe en el registro en memoria.
      *
      * @param id identificador de la entidad.

@@ -36,6 +36,7 @@ import com.bteconosur.core.command.preset.PresetCommand;
 import com.bteconosur.core.command.project.ProjectCommand;
 import com.bteconosur.core.command.pwarp.PwarpCommand;
 import com.bteconosur.core.command.reviewer.ReviewerCommand;
+import com.bteconosur.core.command.tour.TourCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.listener.ChatListener;
@@ -201,6 +202,9 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new GetCommand());
         HelpCommandCommand.addCommand(new GetCommand());
         DsHelpMinecraftCommand.addHelpCommand(new GetCommand());
+        PluginRegistry.registerCommand(new TourCommand());
+        HelpCommandCommand.addCommand(new TourCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new TourCommand());
         PluginRegistry.registerCommand(new PwarpCommand());
         HelpCommandCommand.addCommand(new PwarpCommand());
         DsHelpMinecraftCommand.addHelpCommand(new PwarpCommand());
@@ -210,6 +214,9 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new ProjectCommand());
         HelpCommandCommand.addCommand(new ProjectCommand());
         DsHelpMinecraftCommand.addHelpCommand(new ProjectCommand());
+        PluginRegistry.registerCommand(new TourCommand());
+        HelpCommandCommand.addCommand(new TourCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new TourCommand());
         PluginRegistry.registerCommand(new NightvisionCommand());
         HelpCommandCommand.addCommand(new NightvisionCommand());
         DsHelpMinecraftCommand.addHelpCommand(new NightvisionCommand());
