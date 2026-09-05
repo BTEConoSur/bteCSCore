@@ -7,17 +7,17 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.world.WorldManager;
 
-public class BTECSCheckSyncProyectos extends BaseCommand {
+public class BTECSCheckSyncTourStops extends BaseCommand {
 
-    public BTECSCheckSyncProyectos() {
-        super("syncproyectos", "", "btecs.command.btecs.syncproyectos", CommandMode.CONSOLE_ONLY);
+    public BTECSCheckSyncTourStops() {
+        super("synctourstops", "", "btecs.command.btecs.synctourstops", CommandMode.CONSOLE_ONLY);
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        PlayerLogger.info(sender, LanguageHandler.getText("btecs-sync-proyectos-init"), (String) null);
-        WorldManager.getInstance().syncProjectRegions();
-        String message = LanguageHandler.getText("btecs-sync-proyectos-success");
+        PlayerLogger.info(sender, LanguageHandler.getText("btecs-sync-tourstops-init"), (String) null);
+        WorldManager.getInstance().syncTourStopRegions();
+        String message = LanguageHandler.getText("btecs-sync-tourstops-success");
         PlayerLogger.info(sender, message, (String) null);
         return true;
     }

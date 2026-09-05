@@ -73,6 +73,9 @@ public class TourStopEditPositionCommand extends BaseCommand {
         if (args.length == 1) {
             return TourRegistry.getInstance().getIds().stream().filter(id -> id.toLowerCase().startsWith(args[0].toLowerCase())).toList();
         }
+        if (args.length == 2) {
+            return TourRegistry.getInstance().getTourStopIds(args[0]).stream().filter(id -> id.toLowerCase().startsWith(args[1].toLowerCase())).toList();
+        }
         return Collections.emptyList();
     }
 }

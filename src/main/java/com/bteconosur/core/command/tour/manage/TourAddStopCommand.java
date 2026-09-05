@@ -28,6 +28,7 @@ public class TourAddStopCommand extends BaseCommand {
         this.addSubcommand(new GenericHelpCommand(this));
     }
 
+    //TODO: Location tiene que estar dentro del polígono de la parada, sino no se puede agregar la parada.
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         if (args.length < 1 || args.length > 3) {
@@ -72,8 +73,10 @@ public class TourAddStopCommand extends BaseCommand {
         } else {
             orden = tour.getParadas().size() + 1;
         }
-        if (tour.checkOrden(orden)) {
-            PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.stop.invalid-order").replace("%orden%", String.valueOf(orden)), (String) null);
+        if (!tour.checkOrden(orden)) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.stop.invalid-order")
+                .replace("%orden%", String.valueOf(orden))
+                .replace("%max%", String.valueOf(tour.getParadas().size() + 1)), (String) null);
             return true;
         }
 

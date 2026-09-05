@@ -8,26 +8,32 @@ import com.bteconosur.core.util.PluginRegistry;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
+import com.bteconosur.db.model.TourStop;
 import com.bteconosur.db.registry.ProyectoRegistry;
+import com.bteconosur.db.registry.TourRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.util.Estado;
 import com.bteconosur.world.model.BTEWorld;
 import com.bteconosur.world.model.LabelWorld;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.GlobalProtectedRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedPolygonalRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion.CircularInheritanceException;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
@@ -77,9 +83,23 @@ public class WorldManager {
                 }
             })
             .map(Material::valueOf)
-            .collect(java.util.stream.Collectors.toSet());
+            .collect(Collectors.toSet());
     
         bteWorld = new BTEWorld();
+
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        String parentName = config.getString("wg-parent-tourstop");
+        for (World world : Bukkit.getWorlds()) {
+            RegionManager regionManager = container.get(BukkitAdapter.adapt(world));
+            if (regionManager == null) continue;
+
+            ProtectedRegion parentProject = regionManager.getRegion(parentName);
+            if (parentProject == null) {
+                ConsoleLogger.warn("La región padre de paradas de tour " + parentName + " no existe en WorldGuard en el mundo " + world.getName() + ". Creándola...");
+                parentProject = new GlobalProtectedRegion(parentName);
+                regionManager.addRegion(parentProject);
+            }
+        }
     }
 
     /**
@@ -103,7 +123,17 @@ public class WorldManager {
         return labelWorld.getRegionManager();
     }
 
-    //TODO añadir parada wg
+    /**
+     * Obtiene el gestor de regiones de WorldGuard correspondiente al mundo de la parada de tour.
+     * 
+     * @param tourStop Parada de tour del cual obtener el gestor de regiones
+     * @return RegionManager del mundo correspondiente, o null si el proyecto no tiene location o no se encuentra el mundo
+     */
+    private RegionManager getRegionManager(TourStop tourStop) {
+        World bukkitWorld = tourStop.getLocation().getWorld();
+        if (bukkitWorld == null) return null;
+        return worldGuardContainer.get(BukkitAdapter.adapt(bukkitWorld));
+    }
 
     /**
      * Obtiene la región protegida de WorldGuard asociada a un proyecto.
@@ -117,6 +147,23 @@ public class WorldManager {
         ProtectedRegion region = regionManager.getRegion(config.getString("wg-proyecto-prefix") + proyecto.getId());
         if (region == null) {
             ConsoleLogger.info("Region no encontrada: " + config.getString("wg-proyecto-prefix") + proyecto.getId());
+            return null;
+        }
+        return region;
+    }
+
+    /**
+     * Obtiene la región protegida de WorldGuard asociada a una parada de tour.
+     * 
+     * @param tourStop Parada de tour del cual obtener la región
+     * @return ProtectedRegion de la parada de tour, o null si no existe
+     */
+    private ProtectedRegion getRegion(TourStop tourStop) {
+        RegionManager regionManager = getRegionManager(tourStop);
+        if (regionManager == null) return null;
+        ProtectedRegion region = regionManager.getRegion(config.getString("wg-tourstop-prefix") + tourStop.getId());
+        if (region == null) {
+            ConsoleLogger.info("Region no encontrada: " + config.getString("wg-tourstop-prefix") + tourStop.getId());
             return null;
         }
         return region;
@@ -138,10 +185,34 @@ public class WorldManager {
         }
         region.setPriority(1);
         ProtectedRegion parentProject = regionContainer.getRegion(config.getString("wg-parent-proyecto"));
+        if (parentProject == null) {
+            ConsoleLogger.error("No se encontró la región padre para los proyectos: " + config.getString("wg-parent-proyecto") + " (proyecto: " + proyecto.getId() + ")");
+        }
         try {
             region.setParent(parentProject);
-        } catch (CircularInheritanceException e) {
+        } catch (Exception e) {
             ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId(), e);
+        }
+        regionContainer.addRegion(region);
+    }
+
+    /**
+     * Crea una región de WorldGuard para una parada de tour.
+     * 
+     * @param tourStop TourStop para el cual crear la región
+     */
+    public void createRegion(TourStop tourStop) {
+        RegionManager regionContainer = getRegionManager(tourStop);
+        ProtectedPolygonalRegion region = RegionUtils.toProtectedRegion(tourStop.getPoligono(), config.getString("wg-tourstop-prefix") + tourStop.getId());
+        region.setPriority(1);
+        ProtectedRegion parent = regionContainer.getRegion(config.getString("wg-parent-tourstop"));
+        if (parent == null) {
+            ConsoleLogger.error("No se encontró la región padre para los tourstops: " + config.getString("wg-parent-tourstop") + " (tourstop: " + tourStop.getId() + ")");
+        }
+        try {
+            region.setParent(parent);
+        } catch (Exception e) {
+            ConsoleLogger.error("Error al establecer la región padre para el tourstop " + tourStop.getId(), e);
         }
         regionContainer.addRegion(region);
     }
@@ -160,7 +231,7 @@ public class WorldManager {
         ProtectedRegion parentProject = regionContainer.getRegion(config.getString("wg-parent-proyecto"));
         try {
             region.setParent(parentProject);
-        } catch (CircularInheritanceException e) {
+        } catch (Exception e) {
             ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId(), e);
         }
         regionContainer.addRegion(region);
@@ -174,6 +245,48 @@ public class WorldManager {
     public void removeRegion(Proyecto proyecto) {
         RegionManager regionContainer = getRegionManager(proyecto);
         regionContainer.removeRegion(config.getString("wg-proyecto-prefix") + proyecto.getId());
+    }
+
+    /**
+     * Elimina la región de WorldGuard asociada a una parada de tour.
+     * 
+     * @param tourStop TourStop cuya región se eliminará
+     */
+    public void removeRegion(TourStop tourStop) {
+        RegionManager regionContainer = getRegionManager(tourStop);
+        regionContainer.removeRegion(config.getString("wg-tourstop-prefix") + tourStop.getId());
+    }
+
+    /**
+     * Añade un jugador a los miembros de la región de una parada de tour.
+     * 
+     * @param tourStop Parada de tour a la cual añadir el jugador
+     * @param playerUuid UUID del jugador a añadir
+     */
+    public void addPlayer(TourStop tourStop, UUID playerUuid) {
+        RegionManager regionContainer = getRegionManager(tourStop);
+        ProtectedRegion region = getRegion(tourStop);
+        if (region == null) return;
+        DefaultDomain members = region.getMembers();
+        members.addPlayer(playerUuid);
+        region.setMembers(members);
+        regionContainer.addRegion(region);
+    }
+
+    /**
+     * Elimina un jugador de los miembros de la región de una parada de tour.
+     * 
+     * @param tourStop Parada de tour a la cual eliminar el jugador
+     * @param playerUuid UUID del jugador a eliminar
+     */
+    public void removePlayer(TourStop tourStop, UUID playerUuid) {
+        RegionManager regionContainer = getRegionManager(tourStop);
+        ProtectedPolygonalRegion region = (ProtectedPolygonalRegion) getRegion(tourStop);
+        if (region == null) return;
+        DefaultDomain members = region.getMembers();
+        members.removePlayer(playerUuid);
+        region.setMembers(members);
+        regionContainer.addRegion(region);
     }
 
     /**
@@ -264,6 +377,16 @@ public class WorldManager {
     }
 
     /**
+     * Actualiza la región de una parada de tour.
+     * 
+     * @param tourStop TourStop cuya región se actualizará
+     */
+    public void updateRegion(TourStop tourStop) {
+        removeRegion(tourStop);
+        createRegion(tourStop);
+    }
+
+    /**
      * Verifica si un jugador es miembro de la región de un proyecto.
      * 
      * @param proyecto Proyecto a verificar
@@ -277,11 +400,40 @@ public class WorldManager {
     }
 
     /**
+     * Sincroniza todas las regiones de paradas de tour con la base de datos.
+     */
+    public void syncTourStopRegions() {
+        for (TourStop tourStop : TourRegistry.getInstance().getAllTourStops()) {
+            ProtectedPolygonalRegion region = (ProtectedPolygonalRegion) getRegion(tourStop);
+            if (region == null) {
+                ConsoleLogger.info("Sincronizando región no creada del tourstop " + tourStop.getId());
+                createRegion(tourStop);
+                return;
+            }
+            RegionManager regionContainer = getRegionManager(tourStop);
+            ProtectedRegion parent = regionContainer.getRegion(config.getString("wg-parent-tourstop"));
+            if (parent == null) {
+                ConsoleLogger.error("No se encontró la región padre para los tourstops: " + config.getString("wg-parent-tourstop") + " (tourstop: " + tourStop.getId() + ")");
+            }
+            try {
+                region.setParent(parent);
+            } catch (Exception e) {
+                ConsoleLogger.error("Error al establecer la región padre para el tourstop " + tourStop.getId(), e);
+            }
+            region.setPriority(1);
+            DefaultDomain members = region.getMembers();
+            members.clear();
+            region.setMembers(members);
+            regionContainer.addRegion(region);
+        } 
+    }
+
+    /**
      * Sincroniza todas las regiones de proyectos con la base de datos.
      * Crea regiones faltantes, actualiza formas desactualizadas y ajusta miembros según el estado del proyecto.
      * Los revisores con toggle activo se mantienen incluso en proyectos no activos.
      */
-    public void syncRegions() {
+    public void syncProjectRegions() {
         for (Proyecto proyecto : ProyectoRegistry.getInstance().getList()) {
             ProtectedPolygonalRegion region = (ProtectedPolygonalRegion) getRegion(proyecto);
             if (region == null) {
@@ -291,9 +443,12 @@ public class WorldManager {
             RegionManager regionContainer = getRegionManager(proyecto);
             region = (ProtectedPolygonalRegion) getRegion(proyecto);
             ProtectedRegion parentProject = regionContainer.getRegion(config.getString("wg-parent-proyecto"));
+            if (parentProject == null) {
+                ConsoleLogger.error("No se encontró la región padre para los proyectos: " + config.getString("wg-parent-proyecto") + " (proyecto: " + proyecto.getId() + ")");
+            }
             try {
                 region.setParent(parentProject);
-            } catch (CircularInheritanceException e) {
+            } catch (Exception e) {
                 ConsoleLogger.error("Error al establecer la región padre para el proyecto " + proyecto.getId(), e);
             }
             region.setPriority(1);
@@ -390,7 +545,7 @@ public class WorldManager {
                     rm.removeRegion(regionId);
                 }
             }
-        }
+        }  
     }
 
     /**

@@ -69,8 +69,10 @@ public class TourStopEditOrderCommand extends BaseCommand {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-number"), (String) null);
             return true;
         }
-        if (tour.checkOrden(nuevoOrden)) {
-            PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.stop.invalid-order").replace("%orden%", String.valueOf(nuevoOrden)), (String) null);
+        if (!tour.checkOrden(nuevoOrden)) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.stop.invalid-order")
+                .replace("%orden%", String.valueOf(nuevoOrden))
+                .replace("%max%", String.valueOf(tour.getParadas().size() + 1)), (String) null);
             return true;
         }
 
@@ -84,6 +86,9 @@ public class TourStopEditOrderCommand extends BaseCommand {
     protected List<String> tabCompleteArgs(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         if (args.length == 1) {
             return TourRegistry.getInstance().getIds().stream().filter(id -> id.toLowerCase().startsWith(args[0].toLowerCase())).toList();
+        }
+        if (args.length == 2) {
+            return TourRegistry.getInstance().getTourStopIds(args[0]).stream().filter(id -> id.toLowerCase().startsWith(args[1].toLowerCase())).toList();
         }
         return Collections.emptyList();
     }

@@ -959,7 +959,7 @@ public class PlaceholderUtils {
                 }
             }
 
-            text = text.replace("%tour." + token + "%", value);
+            text = text.replace("%tourparada." + token + "%", value);
         }
 
         return text;

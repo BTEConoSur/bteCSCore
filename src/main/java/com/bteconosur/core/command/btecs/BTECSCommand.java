@@ -19,6 +19,7 @@ public class BTECSCommand extends BaseCommand {
         this.addSubcommand(new BTECSReloadCommand());
         this.addSubcommand(new BTECSTestCommand());
         this.addSubcommand(new BTECSCheckSyncProyectos());
+        this.addSubcommand(new BTECSCheckSyncTourStops());
         this.addSubcommand(new BTECSSyncWeb());
         this.addSubcommand(new BTECSDefaultCommand());
         this.addSubcommand(new BTECSRestartCommand());

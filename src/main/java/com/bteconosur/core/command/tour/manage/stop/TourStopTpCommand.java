@@ -10,7 +10,6 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
-import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Tour;
 import com.bteconosur.db.model.TourStop;
@@ -18,10 +17,10 @@ import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.TourRegistry;
 import com.bteconosur.db.util.PlaceholderUtils;
 
-public class TourStopRemoveCommand extends BaseCommand {
+public class TourStopTpCommand extends BaseCommand {
 
-    public TourStopRemoveCommand() {
-        super("remove", "<id_tour> <id_parada>", "btecs.command.tour.manage", CommandMode.PLAYER_ONLY);
+    public TourStopTpCommand() {
+        super("tp", "<id_tour> <id_parada>", "btecs.command.tour.manage", CommandMode.PLAYER_ONLY);
     }
 
     @Override
@@ -29,8 +28,7 @@ public class TourStopRemoveCommand extends BaseCommand {
         Player commandPlayer = PlayerRegistry.getInstance().get(sender);
         Language language = commandPlayer.getLanguage();
         if (args.length != 2) {
-            String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
-            PlayerLogger.info(sender, message, (String) null);
+            PlayerLogger.info(sender, LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand()), (String) null);
             return true;
         }
 
@@ -38,15 +36,6 @@ public class TourStopRemoveCommand extends BaseCommand {
         Tour tour = tr.get(args[0]);
         if (tour == null) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.not-found").replace("%id%", args[0]), (String) null);
-            return true;
-        }
-        PermissionManager pm = PermissionManager.getInstance();
-        if (tour.getPais() != null && !pm.isManager(commandPlayer, tour.getPais())) {
-            PlayerLogger.error(sender, LanguageHandler.replaceMC("tour.no-permission-country", language, tour.getPais()), (String) null);
-            return true;
-        }
-        if (tour.getPais() == null && !pm.isAdmin(commandPlayer)) {
-            PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.no-permission-none-country"), (String) null);
             return true;
         }
 
@@ -61,8 +50,9 @@ public class TourStopRemoveCommand extends BaseCommand {
             return true;
         }
 
-        tr.removeTourParada(tour.getId(), parada.getId());
-        String message = LanguageHandler.replaceMC("tour.stop.remove-success", language, tour);
+        org.bukkit.entity.Player bukkitPlayer = (org.bukkit.entity.Player) sender;
+        bukkitPlayer.teleport(parada.getLocation());
+        String message = LanguageHandler.replaceMC("tour.stop.tp-success", language, tour);
         PlayerLogger.info(sender, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
         return true;
     }
@@ -77,4 +67,5 @@ public class TourStopRemoveCommand extends BaseCommand {
         }
         return Collections.emptyList();
     }
+
 }

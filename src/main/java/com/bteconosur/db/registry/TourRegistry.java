@@ -11,6 +11,7 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Tour;
 import com.bteconosur.db.model.TourStop;
+import com.bteconosur.world.WorldManager;
 
 public class TourRegistry extends Registry<String, Tour> {
 
@@ -58,6 +59,31 @@ public class TourRegistry extends Registry<String, Tour> {
     }
 
     /**
+     * Obtiene los ids de las paradas de un tour.
+     *
+     * @param tourId id del tour.
+     * @return lista de ids de paradas, o lista vacía si no se encontró el tour.
+     */
+    public List<String> getTourStopIds(String tourId) {
+        Tour tour = get(tourId);
+        if (tour == null) return List.of();
+        return tour.getParadas().stream()
+            .map(TourStop::getId)
+            .toList();
+    }
+
+    /**
+     * Obtiene todas las paradas de todos los tours.
+     *
+     * @return lista de todas las paradas.
+     */
+    public List<TourStop> getAllTourStops() {
+        return loadedObjects.values().stream()
+            .flatMap(tour -> tour.getParadas().stream())
+            .toList();
+    }
+
+    /**
      * Crea una nueva parada para un tour.
      *
      * @param tourId id del tour.
@@ -84,6 +110,7 @@ public class TourRegistry extends Registry<String, Tour> {
         tour.addParada(parada);
         paradas.sort(Comparator.comparingInt(TourStop::getOrden));
         merge(tour.getId());
+        WorldManager.getInstance().createRegion(parada);
         return parada;
     }
 
@@ -162,6 +189,7 @@ public class TourRegistry extends Registry<String, Tour> {
         if (parada == null) return null;
         parada.setPoligono(poligono);
         merge(parada.getTour().getId());
+        WorldManager.getInstance().updateRegion(parada);
         return parada;
     }
 
@@ -190,6 +218,7 @@ public class TourRegistry extends Registry<String, Tour> {
 
         paradas.sort(Comparator.comparingInt(TourStop::getOrden));
         merge(tour.getId());
+        WorldManager.getInstance().removeRegion(parada);
     }
 
     /**

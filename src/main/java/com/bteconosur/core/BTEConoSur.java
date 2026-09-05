@@ -174,7 +174,8 @@ public final class BTEConoSur extends JavaPlugin {
         registerCommands();
         ConsoleLogger.info("El Plugin se ha activado.");
         
-        if (config.getBoolean("sync-project-regions")) worldManager.syncRegions();
+        if (config.getBoolean("sync-project-regions")) worldManager.syncProjectRegions();
+        if (config.getBoolean("sync-tourstop-regions")) worldManager.syncTourStopRegions();
         
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
     }

@@ -351,7 +351,11 @@ lobby.world: "lobby" # Nombre del mundo del lobby. Se asume que el mundo ya exis
 wg-proyecto-prefix: "proyecto_" # Prefijo para las regiones de los proyectos en WorldGuard.
 wg-parent-proyecto: "proyectos"
 
-sync-project-regions: true # Sincronizar las regiones de los proyectos en el lobby con WorldGuard al iniciar el plugin.
+wg-tourstop-prefix: "tourstop_" # Prefijo para las regiones de las paradas de tour en WorldGuard.
+wg-parent-tourstop: "tourstops"
+
+sync-project-regions: true # Sincronizar las regiones de los proyectos con WorldGuard al iniciar el plugin.
+sync-tourstop-regions: true # Sincronizar las regiones de las paradas de tour con WorldGuard al iniciar el plugin.
 
 border-particles:
   pais-enable: true # Habilitar partículas para los bordes de los países.
