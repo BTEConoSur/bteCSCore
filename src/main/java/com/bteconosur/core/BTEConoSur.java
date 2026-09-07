@@ -40,6 +40,7 @@ import com.bteconosur.core.command.tour.TourCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.listener.ChatListener;
+import com.bteconosur.core.listener.HotbarListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
 import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.listener.TabCompleteListener;
@@ -170,6 +171,7 @@ public final class BTEConoSur extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MovingListeners(), this);
         getServer().getPluginManager().registerEvents(new HeadDBUtil(), this);
         getServer().getPluginManager().registerEvents(new TabCompleteListener(), this);
+        getServer().getPluginManager().registerEvents(new HotbarListener(), this);
         
         registerCommands();
         ConsoleLogger.info("El Plugin se ha activado.");
