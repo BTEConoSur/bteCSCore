@@ -4,6 +4,9 @@
 # En caso de querer usar una cabeza con un valor base64, se debe usar 'base64:<base64-value>'.
 # En caso de un material inválido, se usará STONE por defecto.
 item-materials:
+  tour:
+    stop: "PAPER"
+    list: "BOOK"
   preset:
     create: "hdb:9885"
     delete: "REDSTONE_BLOCK"
@@ -111,6 +114,8 @@ item-materials:
   paraguay-head: "hdb:26394"
   bolivia-head: "hdb:4409"
   peru-head: "hdb:4413"
+  conosur-head: "hdb:104673"
+  antartida-head: "hdb:104673"
   global-chat-head: "hdb:104673"
   international-head: "hdb:104673"
   rango-usuario:

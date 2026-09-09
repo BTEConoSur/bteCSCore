@@ -1419,8 +1419,49 @@ gui-titles:
   confirm-preset-delete: "Confirmar eliminación: %nombre%"
   confirm-preset-delete-all: "Confirmar eliminación de los bloques"
   preset-list: "Presets: %player.nombre%"
+  parada-tour-manage: "Tour: %tour.id%"
+  parada-tour-list: "%tour.title%"
+  tour-list: "Tours: %pais.nombre%"
+  tour-pais-select: "Seleccionar país para ver tours"
+  parada-tour-delete: "Eliminar parada: %tourparada.id%"
+  tour-delete: "Eliminar tour: %tour.id%"
 
 items:
+  tour-stop:
+    name: "<green>%tourparada.title%"
+    lore:
+      - "<yellow>Orden: <white>%tourparada.orden%</white>"
+      - ""
+      - "<gray>Haz click para arrancar el"
+      - "<gray>tour desde esta parada."
+    manage:
+      name: "<green>%tourparada.id%"
+      lore:
+        - "<yellow>Título: <white>%tourparada.title%</white>"
+        - "<yellow>Orden: <white>%tourparada.orden%</white>"
+        - ""
+        - "<gray>Click izquierdo para teletransportarte a"
+        - "<gray>la parada del tour."
+        - "<gray>Click derecho para cambiar el orden."
+        - "<gray>Shift + click para eliminar la parada."
+  tour:
+    name: "<green>%tour.title%"
+    lore:
+      - ""
+      - "<yellow>Cantidad de paradas: <white>%tour.cantParadas%</white>"
+      - ""
+      - "<gray>Click izquierdo para arrancar el tour."
+      - "<gray>Click derecho para ver las paradas."
+    manage:
+      name: "<green>%tour.id%"
+      lore-1:
+        - "<yellow>Título: <white>%tour.title%</white>"
+        - "<yellow>Descripción:"
+      lore-2:
+        - "<yellow>Cantidad de paradas: <white>%tour.cantParadas%</white>"
+        - ""
+        - "<gray>Click para ver las paradas"
+        - "<gray>Shift + click para eliminar el tour."
   preset-see:
     name: "<green>Ver preset"
     lore:
@@ -1778,6 +1819,10 @@ items:
     name: "<color:#da291c>Bo</color><color:#f8e600>liv</color><color:#007a33>ia</color>"
   peru-head:
     name: "<color:#c8102e>P</color><white>er</white><color:#c8102e>ú</color>"
+  conosur-head:
+    name: "<gradient:#00335b:#76aada:#ffffff>Cono Sur</gradient>"
+  antartida-head:
+    name: "<color:#04a5de>Ant</color><white>árt</white><color:#04a5de>ida</color>"
   global-chat-head:
     name: "<aqua>Chat global"
     international-name: "<gray>Internacional"

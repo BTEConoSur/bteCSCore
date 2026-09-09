@@ -21,7 +21,7 @@ public class ChatSelectMenu extends Menu {
     private Language language;
 
     public ChatSelectMenu(Player player) {
-    super(LanguageHandler.getText(player.getLanguage(), "gui-titles.chat-select"), 4, player);
+        super(LanguageHandler.getText(player.getLanguage(), "gui-titles.chat-select"), 4, player);
         this.BTECSPlayer = player;
     }
 

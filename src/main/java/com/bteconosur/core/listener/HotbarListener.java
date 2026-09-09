@@ -1,6 +1,5 @@
 package com.bteconosur.core.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,7 +27,8 @@ public class HotbarListener implements Listener {
         if (menu == null) return;
 
         event.setCancelled(true);
-        event.setUseItemInHand(Result.DENY);
+        event.setUseItemInHand(Result.DENY); //TODO: Ver si se puede arreglar lo de las perlas
+        
         int slot = player.getInventory().getHeldItemSlot();
         menu.handleAction(slot);
     }

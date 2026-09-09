@@ -44,6 +44,25 @@ public class TourRegistry extends Registry<String, Tour> {
     }
 
     /**
+     * Elimina un tour de persistencia y la descarga del registro en memoria.
+     * También elimina las regiones de todas sus paradas del mundo.
+     *
+     * @param id identificador de la entidad a eliminar.
+     */
+    @Override
+    public void delete(String id) {
+        if (id == null || loadedObjects == null) return;
+        Tour tour = loadedObjects.get(id);
+        if (tour == null) return;
+        WorldManager wm = WorldManager.getInstance();
+        for (TourStop parada : tour.getParadas()) {
+            wm.removeRegion(parada);
+        }
+        dbManager.remove(tour);
+        loadedObjects.remove(id);
+    }
+
+    /**
      * Obtiene un tour por id.
      *
      * @param id id del tour.
@@ -56,6 +75,18 @@ public class TourRegistry extends Registry<String, Tour> {
             }
         }
         return null;
+    }
+
+    /**
+     * Obtiene todos los tours de un país.
+     *
+     * @param paisId id del país.
+     * @return lista de tours del país, o lista vacía si no se encontró ninguno.
+     */
+    public List<Tour> getTours(Long paisId) {
+        return loadedObjects.values().stream()
+            .filter(tour -> tour.getPais() != null && tour.getPais().getId().equals(paisId))
+            .toList();
     }
 
     /**
