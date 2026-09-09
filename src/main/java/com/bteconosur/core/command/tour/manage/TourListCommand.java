@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.tour;
+package com.bteconosur.core.command.tour.manage;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,18 +15,18 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.tour.TourListMenu;
 import com.bteconosur.core.menu.tour.TourPaisMenu;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
 
-public class TourCommand extends BaseCommand {
+public class TourListCommand extends BaseCommand {
 
-    private final Set<String> paises = PaisRegistry.getInstance().getMap().values()
-        .stream().map(Pais::getNombre).collect(Collectors.toSet());
+    private final Set<String> paises = PaisRegistry.getInstance().getMap().values().stream().map(Pais::getNombre).collect(Collectors.toSet());
 
-    public TourCommand() {
-        super("tour", "[pais]", "btecs.command.tour", CommandMode.BOTH);
+    public TourListCommand() {
+        super("list", "[pais]", "btecs.command.tour", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 
@@ -40,9 +40,14 @@ public class TourCommand extends BaseCommand {
             return true;
         }
 
+        PermissionManager pm = PermissionManager.getInstance();
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase(LanguageHandler.getText(language, "placeholder.tour.international").toLowerCase())) {
-                new TourListMenu(commandPlayer, (Pais) null, false).open();
+                if (!pm.isAdmin(commandPlayer)) {
+                    PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.no-permission-none-country"), (String) null);
+                    return true;
+                }
+                new TourListMenu(commandPlayer, (Pais) null, true).open();
                 return true;
             }
             Pais pais = PaisRegistry.getInstance().get(args[0]);
@@ -50,11 +55,15 @@ public class TourCommand extends BaseCommand {
                 PlayerLogger.error(sender, LanguageHandler.getText(language, "pais-not-found").replace("%search%", args[0]), (String) null);
                 return true;
             }
+            if (!pm.isManager(commandPlayer, pais)) {
+                PlayerLogger.error(sender, LanguageHandler.replaceMC("tour.no-permission-country", language, pais), (String) null);
+                return true;
+            }
             new TourListMenu(commandPlayer, pais, false).open();
             return true;
         }
 
-        new TourPaisMenu(commandPlayer, false).open();
+        new TourPaisMenu(commandPlayer, true).open();
         return true;
     }
 
@@ -67,4 +76,12 @@ public class TourCommand extends BaseCommand {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    protected boolean customPermissionCheck(CommandSender sender) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        PermissionManager pm = PermissionManager.getInstance();
+        return pm.isManager(commandPlayer) || pm.isAdmin(commandPlayer);
+    }
+
 }

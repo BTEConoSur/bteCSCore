@@ -3,6 +3,8 @@ package com.bteconosur.core.menu.tour;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.MenuUtils;
+import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
@@ -32,9 +34,14 @@ public class TourPaisMenu extends Menu {
         gui.getFiller().fill(MenuUtils.getFillerItem());
         
         PaisRegistry pr = PaisRegistry.getInstance();
+        PermissionManager pm = PermissionManager.getInstance();
         Pais arg = pr.getArgentina();
         gui.setItem(3,2, MenuUtils.getArgentinaHeadItem(false, language));
         gui.addSlotAction(3,2, event -> {
+            if (manage && !pm.isManager(BTECSPlayer, arg)) {
+                gui.close(player);
+                PlayerLogger.error(BTECSPlayer, LanguageHandler.replaceMC("tour.no-permission-country", language, arg), (String) null);
+            }
             tourListMenu = new TourListMenu(BTECSPlayer, this, arg, manage);
             tourListMenu.open();
         });
@@ -42,6 +49,10 @@ public class TourPaisMenu extends Menu {
         Pais chile = pr.getChile();
         gui.setItem(3,3, MenuUtils.getChileHeadItem(false, language));
         gui.addSlotAction(3,3, event -> {
+            if (manage && !pm.isManager(BTECSPlayer, chile)) {
+                gui.close(player);
+                PlayerLogger.error(BTECSPlayer, LanguageHandler.replaceMC("tour.no-permission-country", language, chile), (String) null);
+            }
             tourListMenu = new TourListMenu(BTECSPlayer, this, chile, manage);
             tourListMenu.open();
         });
@@ -49,12 +60,20 @@ public class TourPaisMenu extends Menu {
         Pais peru = pr.getPeru();
         gui.setItem(3,4, MenuUtils.getPeruHeadItem(false, language));
         gui.addSlotAction(3,4, event -> {
+            if (manage && !pm.isManager(BTECSPlayer, peru)) {
+                gui.close(player);
+                PlayerLogger.error(BTECSPlayer, LanguageHandler.replaceMC("tour.no-permission-country", language, peru), (String) null);
+            }
             tourListMenu = new TourListMenu(BTECSPlayer, this, peru, manage);
             tourListMenu.open();
         });
 
         gui.setItem(2,5, MenuUtils.getConosurHeadItem(language));
         gui.addSlotAction(2,5, event -> {
+            if (manage && !pm.isAdmin(BTECSPlayer)) {
+                gui.close(player);
+                PlayerLogger.error(BTECSPlayer, LanguageHandler.getText(language, "tour.no-permission-none-country"), (String) null);
+            }
             tourListMenu = new TourListMenu(BTECSPlayer, this, manage);
             tourListMenu.open();
         });
@@ -62,6 +81,10 @@ public class TourPaisMenu extends Menu {
         Pais antartida = pr.getAntartida();
         gui.setItem(3,5, MenuUtils.getAntartidaHeadItem(language));
         gui.addSlotAction(3,5, event -> {
+            if (manage && !pm.isManager(BTECSPlayer, antartida)) {
+                gui.close(player);
+                PlayerLogger.error(BTECSPlayer, LanguageHandler.replaceMC("tour.no-permission-country", language, antartida), (String) null);
+            }
             tourListMenu = new TourListMenu(BTECSPlayer, this, antartida, manage);
             tourListMenu.open();
         });
@@ -69,6 +92,10 @@ public class TourPaisMenu extends Menu {
         Pais bolivia = pr.getBolivia();
         gui.setItem(3,6, MenuUtils.getBoliviaHeadItem(false, language));
         gui.addSlotAction(3,6, event -> {
+            if (manage && !pm.isManager(BTECSPlayer, bolivia)) {
+                gui.close(player);
+                PlayerLogger.error(BTECSPlayer, LanguageHandler.replaceMC("tour.no-permission-country", language, bolivia), (String) null);
+            }
             tourListMenu = new TourListMenu(BTECSPlayer, this, bolivia, manage);
             tourListMenu.open();
         });
@@ -76,6 +103,10 @@ public class TourPaisMenu extends Menu {
         Pais uruguay = pr.getUruguay();
         gui.setItem(3,7, MenuUtils.getUruguayHeadItem(false, language));
         gui.addSlotAction(3,7, event -> {
+            if (manage && !pm.isManager(BTECSPlayer, uruguay)) {
+                gui.close(player);
+                PlayerLogger.error(BTECSPlayer, LanguageHandler.replaceMC("tour.no-permission-country", language, uruguay), (String) null);
+            }
             tourListMenu = new TourListMenu(BTECSPlayer, this, uruguay, manage);
             tourListMenu.open();
         });
@@ -83,6 +114,10 @@ public class TourPaisMenu extends Menu {
         Pais paraguay = pr.getParaguay();
         gui.setItem(3,8, MenuUtils.getParaguayHeadItem(false, language));
         gui.addSlotAction(3,8, event -> {
+            if (manage && !pm.isManager(BTECSPlayer, paraguay)) {
+                gui.close(player);
+                PlayerLogger.error(BTECSPlayer, LanguageHandler.replaceMC("tour.no-permission-country", language, paraguay), (String) null);
+            }
             tourListMenu = new TourListMenu(BTECSPlayer, this, paraguay, manage);
             tourListMenu.open();
         });
