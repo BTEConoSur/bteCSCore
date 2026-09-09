@@ -8,13 +8,14 @@ import com.bteconosur.core.command.tour.manage.stop.TourStopCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 
 public class TourManageCommand extends BaseCommand {
 
     public TourManageCommand() {
-        super("manage", null, "btecs.command.tour", CommandMode.PLAYER_ONLY);
+        super("tourmanage", null, "btecs.command.tour", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new TourCreateCommand());
         this.addSubcommand(new TourEditCommand());
         this.addSubcommand(new TourRemoveCommand());
@@ -31,6 +32,13 @@ public class TourManageCommand extends BaseCommand {
         String message = LanguageHandler.getText(language, "help-command-usage").replace("%comando%", getFullCommand());
         PlayerLogger.info(sender, message, (String) null);
         return true;
+    }
+
+    @Override
+    protected boolean customPermissionCheck(CommandSender sender) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        PermissionManager pm = PermissionManager.getInstance();
+        return pm.isManager(commandPlayer) || pm.isAdmin(commandPlayer);
     }
 
 }

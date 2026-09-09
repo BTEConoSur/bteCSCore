@@ -11,6 +11,7 @@ import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Tour;
 import com.bteconosur.db.registry.PlayerRegistry;
@@ -55,5 +56,12 @@ public class TourGetCommand extends BaseCommand {
             return TourRegistry.getInstance().getIds().stream().filter(id -> id.toLowerCase().startsWith(args[0].toLowerCase())).toList();
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    protected boolean customPermissionCheck(CommandSender sender) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        PermissionManager pm = PermissionManager.getInstance();
+        return pm.isManager(commandPlayer) || pm.isAdmin(commandPlayer);
     }
 }

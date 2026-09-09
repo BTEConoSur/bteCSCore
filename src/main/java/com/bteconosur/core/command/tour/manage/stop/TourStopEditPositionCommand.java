@@ -78,4 +78,11 @@ public class TourStopEditPositionCommand extends BaseCommand {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    protected boolean customPermissionCheck(CommandSender sender) {
+        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
+        PermissionManager pm = PermissionManager.getInstance();
+        return pm.isManager(commandPlayer) || pm.isAdmin(commandPlayer);
+    }
 }

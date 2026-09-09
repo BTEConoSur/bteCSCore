@@ -1,14 +1,11 @@
 package com.bteconosur.core.menu.tour;
 
-import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.util.MenuUtils;
-import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
-import com.bteconosur.db.util.PlaceholderUtils;
 
 import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
