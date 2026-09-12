@@ -7,12 +7,17 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import com.bteconosur.core.BTEConoSur;
+import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.HotbarMenu;
 import com.bteconosur.core.menu.tour.TourHotbarMenu;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.core.util.SoundUtils;
 import com.bteconosur.core.util.TagResolverUtils;
 import com.bteconosur.db.model.Player;
@@ -29,10 +34,38 @@ public class TourService {
 
     private static TourService instance;
     private final Map<UUID, TourSession> activeTours = new HashMap<>();
+    
+    private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
     public static TourService getInstance() {
-        if (instance == null) instance = new TourService();
+        if (instance == null) {
+            instance = new TourService();
+            if (config.getBoolean("border-particles.tour-stop-border")) {
+                instance.enableParticlesSpawning();
+            }
+        };
         return instance; 
+    }
+
+    /**
+     * Activa el renderizado periódico de partículas de bordes de paradas de tour.
+     */
+    private void enableParticlesSpawning() {
+        long periodTicks = ConfigHandler.getInstance().getConfig().getLong("border-particles.spawn-period");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : PlayerRegistry.getInstance().getOnlinePlayers()) {
+                    if (!player.getConfiguration().getGeneralPaisBorder()) continue;
+                    if (!isInTour(player.getUuid())) continue;
+                    TourSession session = activeTours.get(player.getUuid());
+                    if (session == null) continue;
+                    TourStop stop = TourRegistry.getInstance().getTourStop(session.getTourId(), session.getCurrentIndex());
+                    if (stop == null || stop.getPoligono() == null) continue;
+                    RegionUtils.spawnBorderParticles(player.getBukkitPlayer(), stop.getPoligono(), config.getString("border-particles.tourstop-particle"));
+                }
+            }
+        }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
     }
 
     /**
