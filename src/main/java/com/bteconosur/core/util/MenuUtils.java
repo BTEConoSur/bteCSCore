@@ -48,6 +48,38 @@ public class MenuUtils {
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    public static ItemStack getStopTourItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.stop-tour"),
+            LanguageHandler.getText(language, "items.stop-tour.name"),
+            LanguageHandler.getTextList(language, "items.stop-tour.lore"), false
+        ).getItemStack();
+    }
+
+    public static ItemStack getInfoStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.info"),
+            LanguageHandler.getText(language, "items.info-stop.name"),
+            LanguageHandler.getTextList(language, "items.info-stop.lore"), false
+        ).getItemStack();
+    }
+
+    public static ItemStack getBackStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.back"),
+            LanguageHandler.getText(language, "items.back-stop.name"),
+            LanguageHandler.getTextList(language, "items.back-stop.lore"), false
+        ).getItemStack();
+    }
+
+    public static ItemStack getNextStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.next"),
+            LanguageHandler.getText(language, "items.next-stop.name"),
+            LanguageHandler.getTextList(language, "items.next-stop.lore"), false
+        ).getItemStack();
+    }
+
     public static GuiItem getTourStopGuiItem(TourStop parada, Language language, boolean manage) {
         String path = manage ? "items.tour-stop.manage." : "items.tour-stop.";
         List<String> processedLore = new ArrayList<>();

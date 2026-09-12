@@ -7,8 +7,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.bteconosur.core.chat.GlobalChatService;
-import com.bteconosur.core.menu.HotbarMenu;
 import com.bteconosur.core.scoreboard.ScoreboardManager;
+import com.bteconosur.core.tour.TourService;
 import com.bteconosur.core.util.DateUtils;
 import com.bteconosur.core.util.RestartService;
 import com.bteconosur.core.chat.ChatService;
@@ -40,8 +40,7 @@ public class PlayerLeaveListener implements Listener {
 
             ChatService.leaveChat(player);
 
-            HotbarMenu menu = HotbarMenu.getActive(event.getPlayer());
-            if (menu != null)  menu.close();
+            TourService.getInstance().stopTour(player.getUuid());
         }
     }
 }

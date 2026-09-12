@@ -1447,6 +1447,26 @@ gui-titles:
   tour-delete: "Eliminar tour: %tour.id%"
 
 items:
+  stop-tour:
+    name: "<red>Salir del tour"
+    lore:
+      - "<gray>Haz click para salir del tour actual"
+      - "<gray>y volver a tu ubicación original."
+  next-stop:
+    name: "<green>Parada siguiente"
+    lore:
+      - "<gray>Haz click para ir a la siguiente"
+      - "<gray>parada del tour."
+  back-stop:
+    name: "<green>Parada anterior"
+    lore:
+      - "<gray>Haz click para ir a la parada"
+      - "<gray>anterior del tour."
+  info-stop:
+    name: "<green>Información de la parada"
+    lore:
+      - "<gray>Haz click para ver la información"
+      - "<gray>de la parada del tour."
   tour-stop:
     name: "<green>%tourparada.title%"
     lore:

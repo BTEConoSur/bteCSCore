@@ -10,6 +10,8 @@ import org.bukkit.Location;
 
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.menu.HotbarMenu;
+import com.bteconosur.core.menu.tour.TourHotbarMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.SoundUtils;
 import com.bteconosur.core.util.TagResolverUtils;
@@ -81,7 +83,7 @@ public class TourService {
         session.setCurrentIndex(startIndex);
         activeTours.put(player.getUuid(), session);
 
-        // TODO: Abrir gui de tour
+        new TourHotbarMenu(player).open();
 
         teleportToCurrentStop(player.getUuid(), session);
     }
@@ -97,12 +99,22 @@ public class TourService {
         Player player = PlayerRegistry.getInstance().get(playerUuid);
         if (player == null) return;
 
+        HotbarMenu.closeActive(playerUuid);
         org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
         if (bukkitPlayer != null && bukkitPlayer.isOnline()) {
             WorldManager.getInstance().removePlayer(TourRegistry.getInstance().getTourStop(session.getTourId(), session.getCurrentIndex()), playerUuid);
             bukkitPlayer.teleportAsync(session.getReturnLocation());
             Tour tour = TourRegistry.getInstance().get(session.getTourId());
             PlayerLogger.info(player, LanguageHandler.replaceMC("tour.end", player.getLanguage(), tour), (String) null);
+        }
+    }
+
+    /**
+     * Detiene todos los tours activos.
+     */
+    public void stopAllTours() {
+        for (UUID playerUuid : new ArrayList<>(activeTours.keySet())) {
+            stopTour(playerUuid);
         }
     }
 

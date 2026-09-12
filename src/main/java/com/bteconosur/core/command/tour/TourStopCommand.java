@@ -3,6 +3,7 @@ package com.bteconosur.core.command.tour;
 import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.tour.TourService;
@@ -13,6 +14,7 @@ public class TourStopCommand extends BaseCommand {
 
     public TourStopCommand() {
         super("tourstop", "", "btecs.command.tour", CommandMode.PLAYER_ONLY);
+        this.addSubcommand(new GenericHelpCommand(this));
     }
 
     @Override

@@ -72,6 +72,13 @@ public abstract class HotbarMenu extends Menu {
         ACTIVE.put(player.getUniqueId(), this);
     }
 
+    public static void closeActive(@NotNull UUID playerUuid) {
+        HotbarMenu activeMenu = ACTIVE.get(playerUuid);
+        if (activeMenu != null) {
+            activeMenu.close();
+        }
+    }
+
     public void close() {
         if (!open || player == null) return;
         open = false;
