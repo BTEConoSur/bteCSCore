@@ -104,6 +104,35 @@ public class TourRegistry extends Registry<String, Tour> {
     }
 
     /**
+     * Obtiene una parada de un tour por id.
+     *
+     * @param tourId id del tour.
+     * @param paradaId id de la parada.
+     * @return parada encontrada, o {@code null}.
+     */
+    public TourStop getTourStop(String tourId, String paradaId) {
+        Tour tour = get(tourId);
+        if (tour == null) return null;
+        return tour.getParada(paradaId);
+    }
+
+    /**
+     * Obtiene una parada de un tour por orden.
+     *
+     * @param tourId id del tour.
+     * @param orden orden de la parada.
+     * @return parada encontrada, o {@code null}.
+     */
+    public TourStop getTourStop(String tourId, int orden) {
+        Tour tour = get(tourId);
+        if (tour == null) return null;
+        return tour.getParadas().stream()
+            .filter(parada -> parada.getOrden() == orden)
+            .findFirst()
+            .orElse(null);
+    }
+
+    /**
      * Obtiene todas las paradas de todos los tours.
      *
      * @return lista de todas las paradas.

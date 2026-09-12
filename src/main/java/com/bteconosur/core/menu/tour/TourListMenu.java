@@ -4,8 +4,8 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.menu.PaginatedMenu;
+import com.bteconosur.core.tour.TourService;
 import com.bteconosur.core.util.MenuUtils;
-import com.bteconosur.core.util.TourService;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Tour;
@@ -50,7 +50,7 @@ public class TourListMenu extends PaginatedMenu {
 
     @Override
     protected void populateItems() {
-        
+        TourService trs = TourService.getInstance();
         TourRegistry tr = TourRegistry.getInstance();
         for (Tour tour : tr.getTours(pais.getId())) {
             GuiItem item = MenuUtils.getTourGuiItem(tour, language, manage);
@@ -70,7 +70,7 @@ public class TourListMenu extends PaginatedMenu {
                 } else {
                     if (event.getClick().isShiftClick()) {
                         gui.close(player);
-                        TourService.startTour(player.getUniqueId());
+                        trs.startTour(BTECSPlayer, tour);
                     } else {
                         paradaListMenu = new TourParadaListMenu(BTECSPlayer, this, tour, manage);
                         paradaListMenu.open();

@@ -32,9 +32,9 @@
 #     id, nombre, maxMiembros, tamanoMin, tamanoMax, tamanoRango.
 # División: %division.<atributo>%
 #     id, nombre, gna, fna, nam, contexto, paisId, paisNombre.
-# Tour: %tour.<atributo>%
+# tour: %tour.<atributo>%
 #     id, titulo, cantParadas, paisId, paisNombre.
-# Tour Parada: %tourparada.<atributo>%
+# tour Parada: %tourparada.<atributo>%
 #     id, titulo, orden, world, x, y, z, yaw, pitch.
 
 # Mensajes de Consola
@@ -180,8 +180,8 @@ interaction-registry-initializing: "Iniciando Registro de Interacciones de Disco
 interaction-registry-shutting-down: "Apagando Registro de Interacciones de Discord..."
 tipo-proyecto-registry-initializing: "Iniciando Registro de Tipos de Proyecto..."
 tipo-proyecto-registry-shutting-down: "Apagando Registro de Tipos de Proyecto..."
-tour-registry-initializing: "Iniciando Registro de Tours..."
-tour-registry-shutting-down: "Apagando Registro de Tours..."
+tour-registry-initializing: "Iniciando Registro de tours..."
+tour-registry-shutting-down: "Apagando Registro de tours..."
 project-manager-initializing: "Iniciando Gestor de Proyectos..."
 project-manager-shutting-down: "Apagando gestor de Proyectos..."
 discord-initializing: "Iniciando Módulo: Discord..."
@@ -332,24 +332,30 @@ commands-descriptions:
     add.desc: "Agregar uno o varios bloques a un Preset."
     see.desc: "Obtener los bloques <b>copiables</b> de un Preset."
   tour:
-    desc: "Comando principal de Tours en el servidor."
+    desc: "Comando principal de tours en el servidor."
     manage:
-      desc: "Comando principal para gestionar Tours."
-      create.desc: "Crear un nuevo Tour. Puede ser de un país o internacional."
-      delete.desc: "Eliminar un Tour."
-      edit.desc: "Editar un Tour existente."
-      get.desc: "Obtener información de un Tour."
-      addstop.desc: "Agregar una parada a un Tour."
+      desc: "Comando principal para gestionar tours."
+      create.desc: "Crear un nuevo tour. Puede ser de un país o internacional."
+      remove.desc: "Eliminar un tour."
+      edit.desc: "Editar un tour existente."
+      get.desc: "Obtener información de un tour."
+      addstop.desc: "Agregar una parada a un tour."
+      open.desc: "Abrir el menú de un tour."
+      list.desc: "Listar todos los tours de un país o internacionales."
       stop:
-        desc: "Comando principal para gestionar paradas de un Tour."
+        desc: "Comando principal para gestionar paradas de un tour."
         edit:
-          desc: "Editar una parada de un Tour."
-          position.desc: "Editar la posición de una parada de un Tour."
-          polygon.desc: "Editar el polígono de una parada de un Tour."
-          order.desc: "Editar el orden de una parada de un Tour."
-          tp.desc: "Teletransportarse a una parada de un Tour."
-        remove.desc: "Eliminar una parada de un Tour."
-        get.desc: "Obtener información de una parada de un Tour."
+          desc: "Editar una parada de un tour."
+          position.desc: "Editar la posición de una parada de un tour."
+          polygon.desc: "Editar el polígono de una parada de un tour."
+          order.desc: "Editar el orden de una parada de un tour."
+          tp.desc: "Teletransportarse a una parada de un tour."
+        remove.desc: "Eliminar una parada de un tour."
+        get.desc: "Obtener información de una parada de un tour."
+  tourstop.desc: "Terminar el tour actual."
+  tournext.desc: "Ir a la siguiente parada del tour actual."
+  tourprev.desc: "Ir a la parada anterior del tour actual."
+  tourinfo.desc: "Obtener información la parada de tour actual."
   banner.desc: "Crear banderas de letras y números."
   nightvision.desc: "Activar o desactivar la visión nocturna."
   lobby.desc: "Teletransportarse al lobby."
@@ -543,7 +549,7 @@ help-visitar:  # En cualquier línea se puede usar %plugin-prefix%
   tour:
     - "\n<dark_gray>+---------------------------------------+</dark_gray>"
     - "<gold>Realiza un recorrido por construcciones icónicas</gold>"
-    - "Tours disponibles: <blue><i>/tour list</i></blue>"
+    - "tours disponibles: <blue><i>/tour list</i></blue>"
     - "Iniciar un tour: <blue><i>/tour <tour></i></blue>"
     - "Ejemplo: <blue><i>/tour peru</i></blue>"
     - "<dark_gray>+---------------------------------------+</dark_gray>\n"
@@ -1057,13 +1063,15 @@ ds-schematic:
   not-found: "No se encontró ningún schematic con el nombre **%nombre%**."
   name-needed: "Debes proporcionar el nombre del schematic."
 
-# Tour
+# tour
 tour:
   stop-title: "Parada <yellow>%count%</yellow>"
-  tour-title: "Tour <yellow>%id%</yellow>"
+  tour-title: "tour <yellow>%id%</yellow>"
   exists: "El tour <yellow>%tour.id%</yellow> ya existe."
   not-found: "No se encontró el tour <yellow>%id%</yellow>."
-  create-success: "Tour <yellow>%tour.id%</yellow> creado correctamente para <yellow>%tour.paisNombre%</yellow>."
+  no-stops: "El tour <yellow>%tour.title%</yellow> no tiene paradas."
+  not-in-tour: "No estás en un tour actualmente."
+  create-success: "tour <yellow>%tour.id%</yellow> creado correctamente para <yellow>%tour.paisNombre%</yellow>."
   edit-success: "Se actualizó el país del tour <yellow>%tour.id%</yellow> a <yellow>%tour.paisNombre%</yellow>."
   remove-success: "Se eliminó el tour <yellow>%tour.id%</yellow>."
   get-info: 
@@ -1084,14 +1092,26 @@ tour:
     tp-success: "Teletransportado a la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
     get-info:
       - "\n <b>=========</b> <gold>Información de %tourparada.id%</gold> <b>=========</b>"
-      - " Tour <yellow>%tour.id%</yellow> - Orden: <yellow>%tourparada.orden%</yellow>"
+      - " tour <yellow>%tour.id%</yellow> - Orden: <yellow>%tourparada.orden%</yellow>"
       - " Mundo: <yellow>%world%</yellow> - X: <yellow>%x%</yellow> - Y: <yellow>%y%</yellow> - Z: <yellow>%z%</ yellow>"
       - " Yaw: <yellow>%yaw%</yellow> - Pitch: <yellow>%pitch%</yellow>"
+    message-1:
+      - "\n <b>=========</b> <gold>%tourparada.title%</gold> <b>=========</b>\n"
+    backtext: "<b><<<</b>"
+    backhover: "<gold>Parada anterior</gold>"
+    nexttext: "<b>>>></b>"
+    nexthover: "<gold>Parada siguiente</gold>"
+    stoptext: "<b>[X]</b>"
+    stophover: "<red>Salir del tour</red>"
+    message-2:
+      - "\n <b>=========</b> <gold><backtext> Parada <yellow>%currentStop%</yellow> de <yellow>%totalStop%</yellow> <red><stoptext></red> <nexttext></gold> <b>=========</b>\n"
   addstop-success: "Se agregó la parada <yellow>%tourparada.id%</yellow> al tour <yellow>%tour.id%</yellow> en el orden <yellow>%tourparada.orden%</yellow>."
+  end: "Has finalizado el tour <yellow>%tour.id%</yellow>."
+  first: "Esta es la primera parada del tour. No puedes retroceder más."
 
 # tours:
 #  ejemplo1:
-#    title: "Tour de ejemplo 1"
+#    title: "tour de ejemplo 1"
 #    desc:
 #      - "Este es un tour de ejemplo."
 #      - "Lorem impsu."
@@ -1419,9 +1439,9 @@ gui-titles:
   confirm-preset-delete: "Confirmar eliminación: %nombre%"
   confirm-preset-delete-all: "Confirmar eliminación de los bloques"
   preset-list: "Presets: %player.nombre%"
-  parada-tour-manage: "Tour: %tour.id%"
+  parada-tour-manage: "tour: %tour.id%"
   parada-tour-list: "%tour.title%"
-  tour-list: "Tours: %pais.nombre%"
+  tour-list: "tours: %pais.nombre%"
   tour-pais-select: "Seleccionar país para ver tours"
   parada-tour-delete: "Eliminar parada: %tourparada.id%"
   tour-delete: "Eliminar tour: %tour.id%"
@@ -1543,7 +1563,7 @@ items:
         - "<gray>dirección. Similar a buscar el"
         - "<gray>lugar por Google."
     tour:
-      name: "<green>Tour"
+      name: "<green>tour"
       lore:
         - "<gray>Realiza un tour de las construcciones"
         - "<gray>más icónicas de cada país."

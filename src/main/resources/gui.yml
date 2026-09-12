@@ -7,6 +7,10 @@ item-materials:
   tour:
     stop: "PAPER"
     list: "BOOK"
+    stop-tour: "BARRIER_BLOCK"
+    previous: "hdb:55984"
+    next: "hdb:55978"
+    info: "hdb:46488"
   preset:
     create: "hdb:9885"
     delete: "REDSTONE_BLOCK"

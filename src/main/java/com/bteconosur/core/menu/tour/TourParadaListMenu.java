@@ -8,9 +8,9 @@ import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.PaginatedMenu;
+import com.bteconosur.core.tour.TourService;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
-import com.bteconosur.core.util.TourService;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Tour;
 import com.bteconosur.db.model.TourStop;
@@ -39,7 +39,7 @@ public class TourParadaListMenu extends PaginatedMenu {
 
     @Override
     protected void populateItems() {
-        
+        TourService trs = TourService.getInstance();
         for (TourStop parada : tour.getParadas()) {
             GuiItem item = MenuUtils.getTourStopGuiItem(parada, language, manage);
             item.setAction(event -> {
@@ -62,7 +62,7 @@ public class TourParadaListMenu extends PaginatedMenu {
                     }
                 } else {
                     gui.close(player);
-                    TourService.startTour(player.getUniqueId());
+                    trs.startTour(BTECSPlayer, tour, parada.getOrden());
                 }
             });
             addItem(item);
