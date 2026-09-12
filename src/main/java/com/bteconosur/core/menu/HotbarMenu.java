@@ -79,6 +79,10 @@ public abstract class HotbarMenu extends Menu {
         }
     }
 
+    public static boolean hasActive(@NotNull UUID playerUuid) {
+        return ACTIVE.containsKey(playerUuid);
+    }
+
     public void close() {
         if (!open || player == null) return;
         open = false;

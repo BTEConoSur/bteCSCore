@@ -51,6 +51,7 @@ import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.listener.TabCompleteListener;
 import com.bteconosur.core.scoreboard.ScoreboardManager;
 import com.bteconosur.core.tab.TabManager;
+import com.bteconosur.core.tour.TourService;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.HeadDBUtil;
@@ -94,6 +95,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static ScoreboardManager scoreboardManager;
     private static TabManager tabManager;
     private static RestartService restartService;
+    private static TourService tourService;
 
     private static PlayerRegistry playerRegistry;
     private static ProyectoRegistry proyectoRegistry;
@@ -166,7 +168,7 @@ public final class BTEConoSur extends JavaPlugin {
 
         permissionManager = PermissionManager.getInstance();
         restartService = RestartService.getInstance();
-        
+        tourService = TourService.getInstance();
 
         getServer().getPluginManager().registerEvents(new BuildingListeners(), this);
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
@@ -293,6 +295,12 @@ public final class BTEConoSur extends JavaPlugin {
         if (restartService != null) {
             isRestarting = restartService.isRestarting();
         }
+
+        if (tourService != null) {
+            tourService.stopAllTours();
+            tourService = null;
+        }
+
         if (proyectoRegistry != null) {
             proyectoRegistry.shutdown();
             proyectoRegistry = null;

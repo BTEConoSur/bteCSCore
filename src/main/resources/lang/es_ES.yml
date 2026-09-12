@@ -311,6 +311,7 @@ invalid-admin-id: "El ID de tipo de proyecto de admin no es válido. Verifica qu
 invalid-regex: "No se puede usar texto entre <>."
 invalid-chars: "No puedes usar esos caracteres."
 invalid-number: "Debes ingresar un número válido."
+invalid-command-moment: "No puedes usar este comando en este momento."
 
 commands-descriptions:
   scoreboard.desc: "Configurar los Scoreboard que se muestran."
