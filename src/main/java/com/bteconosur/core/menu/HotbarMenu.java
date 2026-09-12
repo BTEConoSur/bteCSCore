@@ -95,5 +95,3 @@ public abstract class HotbarMenu extends Menu {
         ACTIVE.remove(player.getUniqueId());
     }
 }
-
-//TODO: ver lo de /get

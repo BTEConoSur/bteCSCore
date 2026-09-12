@@ -60,7 +60,7 @@ public class TourService {
         TourSession session = new TourSession(tour.getId(), returnLoc);
         activeTours.put(player.getUuid(), session);
 
-        // TODO: Abrir gui de tour
+        new TourHotbarMenu(player).open();
 
         teleportToCurrentStop(player.getUuid(), session);
     }

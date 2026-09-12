@@ -3,9 +3,11 @@ package com.bteconosur.core.command.tour.manage;
 import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
@@ -28,7 +30,6 @@ public class TourAddStopCommand extends BaseCommand {
         this.addSubcommand(new GenericHelpCommand(this));
     }
 
-    //TODO: Location tiene que estar dentro del polígono de la parada, sino no se puede agregar la parada.
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         if (args.length < 1 || args.length > 3) {
@@ -83,7 +84,12 @@ public class TourAddStopCommand extends BaseCommand {
         Polygon polygon = RegionUtils.getPolygon(sender);
         if (polygon == null) return true;
 
-        TourStop parada = tr.createTourParada(tour.getId(), stopId, orden, ((org.bukkit.entity.Player) sender).getLocation(), polygon);
+        Location loc = ((org.bukkit.entity.Player) sender).getLocation();
+        if (!RegionUtils.containsCoordinate(PreparedGeometryFactory.prepare(polygon), polygon.getEnvelopeInternal(), loc.getX(), loc.getZ())) {   
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.stop.bad-position"), (String) null);
+            return true;
+        }
+        TourStop parada = tr.createTourParada(tour.getId(), stopId, orden, loc, polygon);
         String message = LanguageHandler.replaceMC("tour.addstop-success", language, tour);
         PlayerLogger.info(sender, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
         return true;

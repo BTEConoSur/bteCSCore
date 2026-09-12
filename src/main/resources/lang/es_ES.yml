@@ -1085,6 +1085,7 @@ tour:
   stop:
     exists: "La parada <yellow>%id%</yellow> ya existe en este tour."
     not-found: "No se encontró la parada <yellow>%id%</yellow> en este tour."
+    bad-position: "La posición tiene que estar dentro del póligono de la parada"
     invalid-order: "El orden <yellow>%orden%</yellow> no es válido. Debe ser un número mayor a <yellow>0</yellow> y menor o igual a <yellow>%max%</yellow>."
     remove-success: "Se eliminó la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
     edit-order-success: "Se movió la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow> al orden <yellow>%tourparada.orden%</yellow>."

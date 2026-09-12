@@ -3,14 +3,18 @@ package com.bteconosur.core.command.tour.manage.stop;
 import java.util.Collections;
 import java.util.List;
 
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.prep.PreparedGeometryFactory;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
+import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Tour;
@@ -62,7 +66,13 @@ public class TourStopEditPositionCommand extends BaseCommand {
             return true;
         }
 
-        parada = tr.editTourParada(tour.getId(), parada.getId(), ((org.bukkit.entity.Player) sender).getLocation());
+        Polygon polygon = parada.getPoligono();
+        Location loc = ((org.bukkit.entity.Player) sender).getLocation();
+        if (!RegionUtils.containsCoordinate(PreparedGeometryFactory.prepare(polygon), polygon.getEnvelopeInternal(), loc.getX(), loc.getZ())) {   
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.stop.bad-position"), (String) null);
+            return true;
+        }
+        parada = tr.editTourParada(tour.getId(), parada.getId(), loc);
         String message = LanguageHandler.replaceMC("tour.stop.edit-position-success", language, tour);
         PlayerLogger.info(sender, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
         return true;
