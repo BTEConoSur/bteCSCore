@@ -68,10 +68,17 @@ public class GeneralConfigMenu extends Menu {
         });
 
         Boolean labelBorder = configuration.getGeneralLabelBorder();
-        gui.setItem(2, 8, MenuUtils.getGeneralConfigItem(language, "label-border", labelBorder));
-        gui.addSlotAction(2, 8, event -> {
+        gui.setItem(2, 7, MenuUtils.getGeneralConfigItem(language, "label-border", labelBorder));
+        gui.addSlotAction(2, 7, event -> {
             addSelectedKey(ConfigurationKey.GENERAL_LABEL_BORDER);
-            gui.updateItem(2, 8, MenuUtils.getGeneralConfigItem(language, "label-border", selectedKeys.contains(ConfigurationKey.GENERAL_LABEL_BORDER) ? !labelBorder : labelBorder));
+            gui.updateItem(2, 7, MenuUtils.getGeneralConfigItem(language, "label-border", selectedKeys.contains(ConfigurationKey.GENERAL_LABEL_BORDER) ? !labelBorder : labelBorder));
+        });
+
+        Boolean tourStopBorder = configuration.getGeneralTourStopBorder();
+        gui.setItem(2, 8, MenuUtils.getGeneralConfigItem(language, "tour-stop-border", tourStopBorder));
+        gui.addSlotAction(2, 8, event -> {
+            addSelectedKey(ConfigurationKey.GENERAL_TOUR_STOP_BORDER);
+            gui.updateItem(2, 8, MenuUtils.getGeneralConfigItem(language, "tour-stop-border", selectedKeys.contains(ConfigurationKey.GENERAL_TOUR_STOP_BORDER) ? !tourStopBorder : tourStopBorder));
         });
 
         Boolean projectTitle = configuration.getGeneralProjectTitle();

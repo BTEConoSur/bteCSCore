@@ -28,14 +28,14 @@ item-materials:
     tour: "SPYGLASS"
     warps: "END_CRYSTAL"
   project-estado:
-    activo: "LIME_WOOL"
-    en-finalizacion: "YELLOW_WOOL"
-    en-finalizacion-edit: "YELLOW_WOOL"
-    completado: "GREEN_WOOL"
-    en-creacion: "RED_WOOL"
-    editando: "ORANGE_WOOL"
-    redefiniendo: "ORANGE_WOOL"
-    abandonado: "BLACK_WOOL"
+    activo: "hdb:8621"
+    en-finalizacion: "hdb:8613"
+    en-finalizacion-edit: "hdb:8613"
+    completado: "hdb:21774"
+    en-creacion: "hdb:8615"
+    editando: "hdb:8622"
+    redefiniendo: "hdb:8615"
+    abandonado: "hdb:8623"
   teleport: "ENDER_PEARL"
   save: "hdb:21771"
   player-search-info: "NAME_TAG"
@@ -44,18 +44,18 @@ item-materials:
   previous-page: "STONE_BUTTON"
   next-page: "STONE_BUTTON"
   filler: "GRAY_STAINED_GLASS_PANE"
-  confirm: "GREEN_WOOL"
-  accept: "GREEN_CONCRETE"
-  reject: "RED_CONCRETE"
-  cancel: "RED_WOOL"
-  search: "SPYGLASS"
-  promote: "LIGHT_BLUE_WOOL"
+  confirm: "hdb:21771"
+  accept: "hdb:21771"
+  reject: "hdb:9382"
+  cancel: "hdb:9382"
+  search: SPYGLASS
+  promote: "hdb:10084"
   members: "PLAYER_HEAD"
   add-member: "hdb:9885"
   remove-member: "hdb:9351"
   leave-project: "hdb:9334"
   edit-project: "WRITABLE_BOOK"
-  finish-project: "hdb:67132"
+  finish-project: "hdb:21771"
   set-name-description: "NAME_TAG"
   transfer-leader: "hdb:67145"
   notifications: "BELL"
@@ -65,26 +65,29 @@ item-materials:
   configs:
     general:
       global-chat-on-join:
-        true: "RED_GLAZED_TERRACOTTA"
-        false: "RED_CONCRETE"
+        true: "hdb:46743"
+        false: "hdb:128057"
       simultaneous-notifications:
-        true: "YELLOW_GLAZED_TERRACOTTA"
-        false: "YELLOW_CONCRETE"
+        true: "hdb:23957"
+        false: "hdb:128100"
       pais-border:
-        true: "BLUE_GLAZED_TERRACOTTA"
-        false: "BLUE_CONCRETE"
+        true: "hdb:34656"
+        false: "hdb:128058"
       label-border:
-        true: "LIGHT_BLUE_GLAZED_TERRACOTTA"
-        false: "LIGHT_BLUE_CONCRETE"
+        true: "hdb:122671"
+        false: "hdb:128099"
+      tour-stop-border:
+        true: "hdb:34656"
+        false: "hdb:128058"
       project-title:
-        true: "GREEN_GLAZED_TERRACOTTA"
-        false: "GREEN_CONCRETE"
+        true: "hdb:74278"
+        false: "hdb:128088"
       division-title:
-        true: "PURPLE_GLAZED_TERRACOTTA"
-        false: "PURPLE_CONCRETE"
+        true: "hdb:74297"
+        false: "hdb:128091"
       scoreboard:
-        true: "ORANGE_GLAZED_TERRACOTTA"
-        false: "ORANGE_CONCRETE"
+        true: "hdb:63824"
+        false: "hdb:128101"
       pais-prefix: "hdb:32704"
       lang:
         item: "hdb:49973"
@@ -95,22 +98,22 @@ item-materials:
       scoreboards: "PAPER"
     scoreboard:
       player:
-        true: "CYAN_GLAZED_TERRACOTTA"
-        false: "CYAN_CONCRETE"
+        true: "hdb:74288"
+        false: "hdb:128090"
       online:
-        true: "MAGENTA_GLAZED_TERRACOTTA"
-        false: "MAGENTA_CONCRETE"
+        true: "hdb:74298"
+        false: "hdb:128090"
       proyecto:
-        true: "LIGHT_GRAY_GLAZED_TERRACOTTA"
-        false: "LIGHT_GRAY_CONCRETE"
+        true: "hdb:74309"
+        false: "hdb:128087"
     manager:
       ds-notifications:
-        true: "WHITE_GLAZED_TERRACOTTA"
-        false: "WHITE_CONCRETE"
+        true: "hdb:23957"
+        false: hdb:128100"
     reviewer:
       ds-notifications:
-        true: "WHITE_GLAZED_TERRACOTTA"
-        false: "WHITE_CONCRETE"
+        true: "hdb:23957"
+        false: "hdb:128100"
   notepad: "WRITABLE_BOOK"
   argentina-head: "hdb:4408"
   chile-head: "hdb:24746"

@@ -56,6 +56,7 @@ public class ConfigurationService {
         configuration.setGeneralSimultaneousNotifications(config.getBoolean("player-defaults.general.simultaneous-notifications"));
         configuration.setGeneralPaisBorder(config.getBoolean("player-defaults.general.pais-border"));
         configuration.setGeneralLabelBorder(config.getBoolean("player-defaults.general.label-border"));
+        configuration.setGeneralTourStopBorder(config.getBoolean("player-defaults.general.tour-stop-border"));
         configuration.setGeneralProjectTitle(config.getBoolean("player-defaults.general.project-title"));
         configuration.setGeneralDivisionTitle(config.getBoolean("player-defaults.general.division-title"));
         configuration.setGeneralScoreboard(config.getBoolean("player-defaults.general.scoreboard"));
@@ -134,6 +135,9 @@ public class ConfigurationService {
                     break;
                 case GENERAL_LABEL_BORDER:
                     configuration.toggleGeneralLabelBorder();
+                    break;
+                case GENERAL_TOUR_STOP_BORDER:
+                    configuration.toggleGeneralTourStopBorder();
                     break;
                 case GENERAL_PROJECT_TITLE:
                     configuration.toggleGeneralProjectTitle();

@@ -1791,6 +1791,11 @@ items:
           desc:
             - "Habilitar una barrera de partículas"
             - "en los límites de las capas."
+        tour-stop-border:
+          name: "Barrera de paradas de tour"
+          desc:
+            - "Habilitar una barrera de partículas"
+            - "en los límites de las paradas de tour."
         project-title:
           name: "Título de proyectos"
           desc:
