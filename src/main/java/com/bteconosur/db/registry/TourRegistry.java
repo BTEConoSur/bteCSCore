@@ -85,7 +85,12 @@ public class TourRegistry extends Registry<String, Tour> {
      */
     public List<Tour> getTours(Long paisId) {
         return loadedObjects.values().stream()
-            .filter(tour -> tour.getPais() != null && tour.getPais().getId().equals(paisId))
+            .filter(tour -> {
+                if (paisId == null) {
+                    return tour.getPais() == null;
+                }
+                return tour.getPais() != null && tour.getPais().getId().equals(paisId);
+            })
             .toList();
     }
 
@@ -101,6 +106,22 @@ public class TourRegistry extends Registry<String, Tour> {
         return tour.getParadas().stream()
             .map(TourStop::getId)
             .toList();
+    }
+
+    /**
+     * Verifica si hay tours disponibles para un país.
+     *
+     * @param paisId id del país.
+     * @return {@code true} si hay tours disponibles, {@code false} en caso contrario.
+     */
+    public boolean hasTours(Long paisId) {
+        return loadedObjects.values().stream()
+            .anyMatch(tour -> {
+                if (paisId == null) {
+                    return tour.getPais() == null;
+                }
+                return tour.getPais() != null && tour.getPais().getId().equals(paisId);
+            });
     }
 
     /**

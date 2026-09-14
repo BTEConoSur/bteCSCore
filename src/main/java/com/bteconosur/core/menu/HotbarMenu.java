@@ -40,6 +40,10 @@ public abstract class HotbarMenu extends Menu {
         return ACTIVE.get(player.getUniqueId());
     }
 
+    public static HotbarMenu getActive(@NotNull UUID playerUuid) {
+        return ACTIVE.get(playerUuid);
+    }
+
     protected abstract void setupItems();
 
     protected void setItem(int slot, @NotNull ItemStack item, @Nullable Consumer<Player> action) {

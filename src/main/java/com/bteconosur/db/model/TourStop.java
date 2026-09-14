@@ -135,7 +135,7 @@ public class TourStop {
     }
 
     public List<String> getDescription(Language language) {
-        String key = "tour." + tour.getId() + ".stops." + this.orden + ".desc";
+        String key = "tours." + tour.getId() + ".stops." + this.id + ".desc";
         List<String> translated = LanguageHandler.getTextList(language, key);
         if (!translated.isEmpty()) return translated;
         return LanguageHandler.getTextList(Language.getDefault(), key);

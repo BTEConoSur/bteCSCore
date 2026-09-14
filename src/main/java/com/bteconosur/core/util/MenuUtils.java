@@ -85,7 +85,7 @@ public class MenuUtils {
         List<String> processedLore = new ArrayList<>();
         List<String> lore = LanguageHandler.getTextList(language, path + "lore");
         for (String line : lore) {
-            line = LanguageHandler.replaceMC(line, language, parada);
+            line = PlaceholderUtils.replaceMC(line, language, parada);
             processedLore.add(line);
         }
         return buildGuiItem(
@@ -101,14 +101,14 @@ public class MenuUtils {
         if (manage) {
             List<String> lore = LanguageHandler.getTextList(language, path + "lore-1");
             for (String line : lore) {
-                line = LanguageHandler.replaceMC(line, language, tour);
+                line = PlaceholderUtils.replaceMC(line, language, tour);
                 processedLore.add(line);
             }
         }
         processedLore.addAll(tour.getDescription(language));
         List<String> lore = LanguageHandler.getTextList(language, path + (manage ? "lore-2" : "lore"));
         for (String line : lore) {
-            line = LanguageHandler.replaceMC(line, language, tour);
+            line = PlaceholderUtils.replaceMC(line, language, tour);
             processedLore.add(line);
         }
         return buildGuiItem(

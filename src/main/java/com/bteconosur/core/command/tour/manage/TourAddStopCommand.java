@@ -32,7 +32,7 @@ public class TourAddStopCommand extends BaseCommand {
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
-        if (args.length < 1 || args.length > 3) {
+        if (args.length < 2 || args.length > 3) {
             String message = LanguageHandler.getText(PlayerRegistry.getInstance().get(sender).getLanguage(), "help-command-usage").replace("%comando%", getFullCommand());
             PlayerLogger.info(sender, message, (String) null);
             return true;

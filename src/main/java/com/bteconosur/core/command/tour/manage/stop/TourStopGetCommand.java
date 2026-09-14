@@ -16,11 +16,12 @@ import com.bteconosur.db.model.Tour;
 import com.bteconosur.db.model.TourStop;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.TourRegistry;
+import com.bteconosur.db.util.PlaceholderUtils;
 
 public class TourStopGetCommand extends BaseCommand {
 
     public TourStopGetCommand() {
-        super("get", "<id_tour> <id_parada>", "btecs.command.tour.manage", CommandMode.PLAYER_ONLY);
+        super("get", "<id_tour> <id_parada>", "btecs.command.tour", CommandMode.PLAYER_ONLY);
     }
 
     @Override
@@ -62,7 +63,9 @@ public class TourStopGetCommand extends BaseCommand {
 
         List<String> lines = LanguageHandler.getTextList(language, "tour.stop.get-info");
         for (String line : lines) {
-           PlayerLogger.send(sender, LanguageHandler.replaceMC(line, language, parada), (String) null);
+            line = PlaceholderUtils.replaceMC(line, language, parada);
+            line = PlaceholderUtils.replaceMC(line, language, tour);
+            PlayerLogger.send(sender, line, (String) null);
         }
         for (String line : parada.getDescription(language)) {
             PlayerLogger.send(sender, " " + line, (String) null);

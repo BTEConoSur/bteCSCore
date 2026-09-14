@@ -875,7 +875,7 @@ public class PlaceholderUtils {
                         break;
                     case "titulo":
                         String key = "tours." + tour.getId() + ".title";
-                        String translated = LanguageHandler.getText(language, key);
+                        String translated = LanguageHandler.getTextWithouthWarn(language, key);
                         if (!"ERROR_KEY_NF".equals(translated)) return translated;
                         translated = LanguageHandler.getTextWithouthWarn(Language.getDefault(), key);
                         if (!"ERROR_KEY_NF".equals(translated)) return translated;
@@ -926,8 +926,8 @@ public class PlaceholderUtils {
                         value = parada.getId() != null ? parada.getId().toString() : "ERROR_ID_NULL";
                         break;
                     case "titulo":
-                        String key = "tours." + parada.getTour().getId() + ".stops." + parada.getOrden() + ".title";
-                        String translated = LanguageHandler.getText(language, key);
+                        String key = "tours." + parada.getTour().getId() + ".stops." + parada.getId() + ".title";
+                        String translated = LanguageHandler.getTextWithouthWarn(language, key);
                         if (!"ERROR_KEY_NF".equals(translated)) return translated;
                         translated = LanguageHandler.getTextWithouthWarn(Language.getDefault(), key);
                         if (!"ERROR_KEY_NF".equals(translated)) return translated;

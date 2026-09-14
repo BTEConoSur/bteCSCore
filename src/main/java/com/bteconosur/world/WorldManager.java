@@ -20,6 +20,7 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.managers.storage.StorageException;
 import com.sk89q.worldguard.protection.regions.GlobalProtectedRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedPolygonalRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -271,6 +272,11 @@ public class WorldManager {
         members.addPlayer(playerUuid);
         region.setMembers(members);
         regionContainer.addRegion(region);
+        try {
+            regionContainer.save();
+        } catch (StorageException e) {
+            ConsoleLogger.error("Error al guardar la región de tourstop " + tourStop.getId() + " después de añadir jugador " + playerUuid, e);
+        }
     }
 
     /**
@@ -287,6 +293,11 @@ public class WorldManager {
         members.removePlayer(playerUuid);
         region.setMembers(members);
         regionContainer.addRegion(region);
+        try {
+            regionContainer.save();
+        } catch (StorageException e) {
+            ConsoleLogger.error("Error al guardar la región de tourstop " + tourStop.getId() + " después de eliminar jugador " + playerUuid, e);
+        }
     }
 
     /**

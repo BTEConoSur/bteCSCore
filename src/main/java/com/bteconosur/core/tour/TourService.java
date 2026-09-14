@@ -40,7 +40,7 @@ public class TourService {
     public static TourService getInstance() {
         if (instance == null) {
             instance = new TourService();
-            if (config.getBoolean("border-particles.tour-stop-border")) {
+            if (config.getBoolean("border-particles.tourstop-enable")) {
                 instance.enableParticlesSpawning();
             }
         };
@@ -62,7 +62,7 @@ public class TourService {
                     if (session == null) continue;
                     TourStop stop = TourRegistry.getInstance().getTourStop(session.getTourId(), session.getCurrentIndex());
                     if (stop == null || stop.getPoligono() == null) continue;
-                    RegionUtils.spawnBorderParticles(player.getBukkitPlayer(), stop.getPoligono(), config.getString("border-particles.tourstop-particle"));
+                    RegionUtils.spawnBorderParticles(player.getBukkitPlayer(), stop.getPoligono(), config.getString("border-particles.tourstop-particle"), 0.5);
                 }
             }
         }.runTaskTimer(BTEConoSur.getInstance(), 0L, periodTicks);
@@ -93,8 +93,10 @@ public class TourService {
         TourSession session = new TourSession(tour.getId(), returnLoc);
         activeTours.put(player.getUuid(), session);
 
-        new TourHotbarMenu(player).open();
-
+        new TourHotbarMenu(player, false).open();
+        WorldManager wm = WorldManager.getInstance();
+        TourStop stop = TourRegistry.getInstance().getTourStop(tour.getId(), 1);
+        wm.addPlayer(stop, player.getUuid());
         teleportToCurrentStop(player.getUuid(), session);
     }
 
@@ -116,8 +118,10 @@ public class TourService {
         session.setCurrentIndex(startIndex);
         activeTours.put(player.getUuid(), session);
 
-        new TourHotbarMenu(player).open();
-
+        new TourHotbarMenu(player, startIndex != 1).open();
+        WorldManager wm = WorldManager.getInstance();
+        TourStop stop = TourRegistry.getInstance().getTourStop(tour.getId(), startIndex);
+        wm.addPlayer(stop, player.getUuid());
         teleportToCurrentStop(player.getUuid(), session);
     }
 
@@ -164,9 +168,9 @@ public class TourService {
         Tour tour = TourRegistry.getInstance().get(session.getTourId()); 
         if (player == null || tour == null) return;
 
-        if (session.getCurrentIndex() <= tour.getParadas().size()) {
+        if (session.getCurrentIndex() < tour.getParadas().size()) {
             session.setCurrentIndex(session.getCurrentIndex() + 1);
-            updateRegion(session.getCurrentIndex() - 1, session.getCurrentIndex(), playerUuid, tour.getId());            
+            updateRegion(session.getCurrentIndex() - 1, session.getCurrentIndex(), playerUuid, tour.getId());
             teleportToCurrentStop(playerUuid, session);
         } else {
             stopTour(playerUuid);
@@ -229,6 +233,7 @@ public class TourService {
         bukkitPlayer.teleportAsync(stop.getLocation()).thenAccept(success -> {
             if (success) {
                 SoundUtils.playSound(bukkitPlayer, "tour-teleport");
+                TourHotbarMenu.updateBackButton(player.getLanguage(), playerUuid, session.getCurrentIndex() != 1);
                 sendTourInfo(player);
             }
         });
@@ -254,26 +259,25 @@ public class TourService {
         List<String> message1 = LanguageHandler.getTextList(language, "tour.stop.message-1");
         List<String> desc = stop.getDescription(language);
         List<String> message2 = LanguageHandler.getTextList(language, "tour.stop.message-2");
-        List<String> lore = new ArrayList<>();
 
         TagResolver backResolver = TagResolverUtils.getCommandText("backtext", "/tourback", LanguageHandler.getText(language, "tour.stop.backtext"), LanguageHandler.getText(language, "tour.stop.backhover"));
         TagResolver nextResolver = TagResolverUtils.getCommandText("nexttext", "/tournext", LanguageHandler.getText(language, "tour.stop.nexttext"), LanguageHandler.getText(language, "tour.stop.nexthover"));
         TagResolver stopResolver = TagResolverUtils.getCommandText("stoptext", "/tourstop", LanguageHandler.getText(language, "tour.stop.stoptext"), LanguageHandler.getText(language, "tour.stop.stophover"));
         for (String line : message1) {
-            lore.add(PlaceholderUtils.replaceMC(line, language, stop).replace("%plugin-prefix%", pluginPrefix));
+            PlayerLogger.send(player, PlaceholderUtils.replaceMC(line, language, stop)
+                .replace("%plugin-prefix%", pluginPrefix), (String) null, backResolver, nextResolver, stopResolver);
         }
         for (String line : desc) {
-            lore.add(line);
+            PlayerLogger.send(player, line, (String) null);
         }
         for (String line : message2) {
             line = PlaceholderUtils.replaceMC(line, language, stop).replace("%plugin-prefix%", pluginPrefix)
                 .replace("%currentStop%", String.valueOf(session.getCurrentIndex()))
                 .replace("%totalStop%", String.valueOf(tour.getParadas().size()));
             if (session.getCurrentIndex() == 1) line = line.replace("<backtext>", "");
+            PlayerLogger.send(player, line, (String) null, backResolver, nextResolver, stopResolver);
         }
 
-        String message = String.join("\n", lore);
-        PlayerLogger.send(player, message, (String) null, backResolver, nextResolver, stopResolver);
     }
 
     public TourSession getSession(Player player) {

@@ -21,7 +21,7 @@ import com.bteconosur.db.util.PlaceholderUtils;
 public class TourStopTpCommand extends BaseCommand {
 
     public TourStopTpCommand() {
-        super("tp", "<id_tour> <id_parada>", "btecs.command.tour.manage", CommandMode.PLAYER_ONLY);
+        super("tp", "<id_tour> <id_parada>", "btecs.command.tour", CommandMode.PLAYER_ONLY);
     }
 
     @Override

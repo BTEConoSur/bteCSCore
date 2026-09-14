@@ -7,7 +7,7 @@ public class TourSession {
     private final String tourId;
     private final Location returnLocation;
     
-    private int currentIndex = 0;
+    private int currentIndex = 1;
 
     public TourSession(String tourId, Location returnLocation) {
         this.tourId = tourId;

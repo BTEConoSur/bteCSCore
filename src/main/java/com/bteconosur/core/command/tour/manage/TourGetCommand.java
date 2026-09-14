@@ -16,6 +16,7 @@ import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Tour;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.TourRegistry;
+import com.bteconosur.db.util.PlaceholderUtils;
 
 public class TourGetCommand extends BaseCommand {
 
@@ -42,7 +43,7 @@ public class TourGetCommand extends BaseCommand {
 
         List<String> lines = LanguageHandler.getTextList(language, "tour.get-info");
         for (String line : lines) {
-           PlayerLogger.send(sender, LanguageHandler.replaceMC(line, language, tour), (String) null);
+           PlayerLogger.send(sender, PlaceholderUtils.replaceMC(line, language, tour), (String) null);
         }
         for (String line : tour.getDescription(language)) {
             PlayerLogger.send(sender, " " + line, (String) null);

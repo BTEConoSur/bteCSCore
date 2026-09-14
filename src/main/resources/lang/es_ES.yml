@@ -332,9 +332,8 @@ commands-descriptions:
     edit.desc: "Editar un Preset."
     add.desc: "Agregar uno o varios bloques a un Preset."
     see.desc: "Obtener los bloques <b>copiables</b> de un Preset."
-  tour:
-    desc: "Comando principal de tours en el servidor."
-    manage:
+  tour.desc: "Comando principal de tours en el servidor."
+  tourmanage:
       desc: "Comando principal para gestionar tours."
       create.desc: "Crear un nuevo tour. Puede ser de un país o internacional."
       remove.desc: "Eliminar un tour."
@@ -550,7 +549,7 @@ help-visitar:  # En cualquier línea se puede usar %plugin-prefix%
   tour:
     - "\n<dark_gray>+---------------------------------------+</dark_gray>"
     - "<gold>Realiza un recorrido por construcciones icónicas</gold>"
-    - "tours disponibles: <blue><i>/tour list</i></blue>"
+    - "Tours disponibles: <blue><i>/tour list</i></blue>"
     - "Iniciar un tour: <blue><i>/tour <tour></i></blue>"
     - "Ejemplo: <blue><i>/tour peru</i></blue>"
     - "<dark_gray>+---------------------------------------+</dark_gray>\n"
@@ -1066,18 +1065,19 @@ ds-schematic:
 
 # tour
 tour:
-  stop-title: "Parada <yellow>%count%</yellow>"
-  tour-title: "tour <yellow>%id%</yellow>"
+  stop-title: "Parada <yellow>%orden%</yellow>"
+  tour-title: "Tour <yellow>%id%</yellow>"
   exists: "El tour <yellow>%tour.id%</yellow> ya existe."
   not-found: "No se encontró el tour <yellow>%id%</yellow>."
-  no-stops: "El tour <yellow>%tour.title%</yellow> no tiene paradas."
+  no-stops: "El tour <yellow>%tour.titulo%</yellow> no tiene paradas."
+  no-tours: "No hay tours disponibles para <yellow>%pais.nombrePublico%</yellow>."
   not-in-tour: "No estás en un tour actualmente."
-  create-success: "tour <yellow>%tour.id%</yellow> creado correctamente para <yellow>%tour.paisNombre%</yellow>."
+  create-success: "Tour <yellow>%tour.id%</yellow> creado correctamente para <yellow>%tour.paisNombre%</yellow>."
   edit-success: "Se actualizó el país del tour <yellow>%tour.id%</yellow> a <yellow>%tour.paisNombre%</yellow>."
   remove-success: "Se eliminó el tour <yellow>%tour.id%</yellow>."
   get-info: 
     - "\n <b>=========</b> <gold>Información de %tour.id%</gold> <b>=========</b>"
-    - " País: <yellow>%tour.paisNombre%</yellow> - Paradas: <yellow>%tour.countParadas%</yellow>"
+    - " País: <yellow>%tour.paisNombre%</yellow> - Paradas: <yellow>%tour.cantParadas%</yellow>"
     - " Título: <yellow>%tour.titulo%</yellow>"
     - " Descripción:"
   no-permission-country: "No tienes permisos para gestionar el país <yellow>%pais.nombrePublico%</yellow>."
@@ -1094,16 +1094,17 @@ tour:
     tp-success: "Teletransportado a la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
     get-info:
       - "\n <b>=========</b> <gold>Información de %tourparada.id%</gold> <b>=========</b>"
-      - " tour <yellow>%tour.id%</yellow> - Orden: <yellow>%tourparada.orden%</yellow>"
-      - " Mundo: <yellow>%world%</yellow> - X: <yellow>%x%</yellow> - Y: <yellow>%y%</yellow> - Z: <yellow>%z%</ yellow>"
-      - " Yaw: <yellow>%yaw%</yellow> - Pitch: <yellow>%pitch%</yellow>"
+      - " Tour: <yellow>%tour.id%</yellow> - Orden: <yellow>%tourparada.orden%</yellow>"
+      - " Mundo: <yellow>%tourparada.world%</yellow> - X: <yellow>%tourparada.x%</yellow> - Y: <yellow>%tourparada.y%</yellow> - Z: <yellow>%tourparada.z%</ yellow>"
+      - " Yaw: <yellow>%tourparada.yaw%</yellow> - Pitch: <yellow>%tourparada.pitch%</yellow>"
     message-1:
-      - "\n <b>=========</b> <gold>%tourparada.title%</gold> <b>=========</b>\n"
+      - "\n <b>=========</b> %plugin-prefix% <b>=========</b>\n"
+      - "%tourparada.titulo%"
     backtext: "<b><<<</b>"
     backhover: "<gold>Parada anterior</gold>"
     nexttext: "<b>>>></b>"
     nexthover: "<gold>Parada siguiente</gold>"
-    stoptext: "<b>[X]</b>"
+    stoptext: "<b>X</b>"
     stophover: "<red>Salir del tour</red>"
     message-2:
       - "\n <b>=========</b> <gold><backtext> Parada <yellow>%currentStop%</yellow> de <yellow>%totalStop%</yellow> <red><stoptext></red> <nexttext></gold> <b>=========</b>\n"
@@ -1129,7 +1130,28 @@ tour:
 #          - "Esta es otra parada de ejemplo."
 #          - "Lorem impsu."
 tours:
-
+  test:
+    title: "<gold><b>La paece</b></gold>"
+    desc:
+      - "<gray>Este es un tour de prueba."
+      - "<gray>Lorem impsu."
+    stops:
+      testeo:
+        title: <gold><b>Parada aki</b></gold>
+        desc:
+          - "<gray>Esta es una parada de prueba."
+          - "<gray>Lorem impsu sssssss."
+      crono:
+        title: "<gold><b>Parada desssba 2</b></gold>"
+        desc:
+          - "<gray>Esta es otra parada de prueba."
+          - "<gray>Lorem impsu."
+          - "<gray>Lorem impsu."
+      asddd:
+        title: "<gold><b>Parada desssba 3</b></gold>"
+        desc:
+          - "<gray>Esta es otra parada de prueba."
+          - "<gray>Lorem impsu."
 # Chat
 # En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
 mc-message: "%player.paisPrefix%%player.prefix% <gold><player></gold><reset><gray>: </gray>"
@@ -1441,10 +1463,10 @@ gui-titles:
   confirm-preset-delete: "Confirmar eliminación: %nombre%"
   confirm-preset-delete-all: "Confirmar eliminación de los bloques"
   preset-list: "Presets: %player.nombre%"
-  parada-tour-manage: "tour: %tour.id%"
-  parada-tour-list: "%tour.title%"
-  tour-list: "tours: %pais.nombre%"
-  tour-pais-select: "Seleccionar país para ver tours"
+  parada-tour-manage: "Tour: %tour.id%"
+  parada-tour-list: "%tour.titulo%"
+  tour-list: "Tours: %pais.nombrePublico%"
+  tour-pais-select: "Seleccionar país para tours"
   parada-tour-delete: "Eliminar parada: %tourparada.id%"
   tour-delete: "Eliminar tour: %tour.id%"
 
@@ -1470,7 +1492,7 @@ items:
       - "<gray>Haz click para ver la información"
       - "<gray>de la parada del tour."
   tour-stop:
-    name: "<green>%tourparada.title%"
+    name: "<green>%tourparada.titulo%"
     lore:
       - "<yellow>Orden: <white>%tourparada.orden%</white>"
       - ""
@@ -1479,7 +1501,7 @@ items:
     manage:
       name: "<green>%tourparada.id%"
       lore:
-        - "<yellow>Título: <white>%tourparada.title%</white>"
+        - "<yellow>Título: <white>%tourparada.titulo%</white>"
         - "<yellow>Orden: <white>%tourparada.orden%</white>"
         - ""
         - "<gray>Click izquierdo para teletransportarte a"
@@ -1487,7 +1509,7 @@ items:
         - "<gray>Click derecho para cambiar el orden."
         - "<gray>Shift + click para eliminar la parada."
   tour:
-    name: "<green>%tour.title%"
+    name: "<green>%tour.titulo%"
     lore:
       - ""
       - "<yellow>Cantidad de paradas: <white>%tour.cantParadas%</white>"
@@ -1497,7 +1519,7 @@ items:
     manage:
       name: "<green>%tour.id%"
       lore-1:
-        - "<yellow>Título: <white>%tour.title%</white>"
+        - "<yellow>Título: <white>%tour.titulo%</white>"
         - "<yellow>Descripción:"
       lore-2:
         - "<yellow>Cantidad de paradas: <white>%tour.cantParadas%</white>"
@@ -2045,11 +2067,11 @@ placeholder:
   selected: "<green><b>Seleccionado</b></green>"
   lang-mc:
     es_ES: "<yellow>Español</yellow>"
-    es_AR: "<yellow>Español Argentino</yellow>"
+    es_AR: "<yellow>Español (Argentino)</yellow>"
     en_US: "<yellow>Inglés</yellow>"
   lang-ds:
     es_ES: "Español"
-    es_AR: "Español Argentino"
+    es_AR: "Español (Argentino)"
     en_US: "Inglés"
   pais-mc:
     prefix:

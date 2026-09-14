@@ -105,7 +105,7 @@ public class Tour {
     }
 
     public List<String> getDescription(Language language) {
-        String key = "tours." + id + ".title";
+        String key = "tours." + id + ".desc";
         List<String> translated = LanguageHandler.getTextList(language, key);
         if (!translated.isEmpty()) return translated;
         return LanguageHandler.getTextList(Language.getDefault(), key);

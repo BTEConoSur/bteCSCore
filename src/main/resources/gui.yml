@@ -7,8 +7,8 @@ item-materials:
   tour:
     stop: "PAPER"
     list: "BOOK"
-    stop-tour: "BARRIER_BLOCK"
-    previous: "hdb:55984"
+    stop-tour: "BARRIER"
+    back: "hdb:55984"
     next: "hdb:55978"
     info: "hdb:46488"
   preset:

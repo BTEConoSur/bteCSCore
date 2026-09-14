@@ -20,6 +20,7 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.TourRegistry;
 
 public class TourListCommand extends BaseCommand {
 
@@ -40,11 +41,17 @@ public class TourListCommand extends BaseCommand {
             return true;
         }
 
+        TourRegistry tr = TourRegistry.getInstance();
         PermissionManager pm = PermissionManager.getInstance();
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase(LanguageHandler.getText(language, "placeholder.tour.international").toLowerCase())) {
                 if (!pm.isAdmin(commandPlayer)) {
                     PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.no-permission-none-country"), (String) null);
+                    return true;
+                }
+                if (!tr.hasTours(null)) {
+                    PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.no-tours").replace("%pais.nombrePublico%",
+                        LanguageHandler.getText(language, "placeholder.tour.international")), (String) null);
                     return true;
                 }
                 new TourListMenu(commandPlayer, (Pais) null, true).open();
@@ -57,6 +64,10 @@ public class TourListCommand extends BaseCommand {
             }
             if (!pm.isManager(commandPlayer, pais)) {
                 PlayerLogger.error(sender, LanguageHandler.replaceMC("tour.no-permission-country", language, pais), (String) null);
+                return true;
+            }
+            if (!tr.hasTours(pais.getId())) {
+                PlayerLogger.error(sender, LanguageHandler.replaceMC("tour.no-tours", language, pais), (String) null);
                 return true;
             }
             new TourListMenu(commandPlayer, pais, false).open();

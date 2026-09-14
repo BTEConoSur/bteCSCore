@@ -19,6 +19,7 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.TourRegistry;
 
 public class TourCommand extends BaseCommand {
 
@@ -40,14 +41,25 @@ public class TourCommand extends BaseCommand {
             return true;
         }
 
+        TourRegistry tr = TourRegistry.getInstance();
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase(LanguageHandler.getText(language, "placeholder.tour.international").toLowerCase())) {
+                if (!tr.hasTours(null)) {
+                    PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.no-tours").replace("%pais.nombrePublico%",
+                        LanguageHandler.getText(language, "placeholder.tour.international")), (String) null);
+                    return true;
+                }
                 new TourListMenu(commandPlayer, (Pais) null, false).open();
                 return true;
             }
             Pais pais = PaisRegistry.getInstance().get(args[0]);
             if (pais == null) {
                 PlayerLogger.error(sender, LanguageHandler.getText(language, "pais-not-found").replace("%search%", args[0]), (String) null);
+                return true;
+            }
+
+            if (!tr.hasTours(pais.getId())) {
+                PlayerLogger.error(sender, LanguageHandler.replaceMC("tour.no-tours", language, pais), (String) null);
                 return true;
             }
             new TourListMenu(commandPlayer, pais, false).open();

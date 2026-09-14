@@ -52,7 +52,7 @@ public class TourListMenu extends PaginatedMenu {
     protected void populateItems() {
         TourService trs = TourService.getInstance();
         TourRegistry tr = TourRegistry.getInstance();
-        for (Tour tour : tr.getTours(pais.getId())) {
+        for (Tour tour : tr.getTours(pais != null ? pais.getId() : null)) {
             GuiItem item = MenuUtils.getTourGuiItem(tour, language, manage);
             item.setAction(event -> {
                 event.setCancelled(true);
@@ -68,7 +68,7 @@ public class TourListMenu extends PaginatedMenu {
                         paradaListMenu.open();
                     }
                 } else {
-                    if (event.getClick().isShiftClick()) {
+                    if (event.getClick().isLeftClick()) {
                         gui.close(player);
                         trs.startTour(BTECSPlayer, tour);
                     } else {
