@@ -11,6 +11,8 @@ item-materials:
     back: "hdb:55984"
     next: "hdb:55978"
     info: "hdb:46488"
+    first: "hdb:59991"
+    last: "hdb:55967"
   preset:
     create: "hdb:9885"
     delete: "REDSTONE_BLOCK"
@@ -41,8 +43,8 @@ item-materials:
   player-search-info: "NAME_TAG"
   back: "STRUCTURE_VOID"
   close: "BARRIER"
-  previous-page: "STONE_BUTTON"
-  next-page: "STONE_BUTTON"
+  previous-page: "hdb:11218"
+  next-page: "hdb:11215"
   filler: "GRAY_STAINED_GLASS_PANE"
   confirm: "hdb:21771"
   accept: "hdb:21771"
@@ -122,7 +124,7 @@ item-materials:
   bolivia-head: "hdb:4409"
   peru-head: "hdb:4413"
   conosur-head: "hdb:104673"
-  antartida-head: "hdb:104673"
+  antartida-head: "hdb:128263"
   global-chat-head: "hdb:104673"
   international-head: "hdb:104673"
   rango-usuario:

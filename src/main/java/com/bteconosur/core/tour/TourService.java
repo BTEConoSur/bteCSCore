@@ -93,7 +93,7 @@ public class TourService {
         TourSession session = new TourSession(tour.getId(), returnLoc);
         activeTours.put(player.getUuid(), session);
 
-        new TourHotbarMenu(player, false).open();
+        new TourHotbarMenu(player, false, tour.getParadas().size() == 1).open();
         WorldManager wm = WorldManager.getInstance();
         TourStop stop = TourRegistry.getInstance().getTourStop(tour.getId(), 1);
         wm.addPlayer(stop, player.getUuid());
@@ -118,7 +118,7 @@ public class TourService {
         session.setCurrentIndex(startIndex);
         activeTours.put(player.getUuid(), session);
 
-        new TourHotbarMenu(player, startIndex != 1).open();
+        new TourHotbarMenu(player, startIndex != 1, startIndex == tour.getParadas().size()).open();
         WorldManager wm = WorldManager.getInstance();
         TourStop stop = TourRegistry.getInstance().getTourStop(tour.getId(), startIndex);
         wm.addPlayer(stop, player.getUuid());
@@ -174,6 +174,28 @@ public class TourService {
             teleportToCurrentStop(playerUuid, session);
         } else {
             stopTour(playerUuid);
+        }
+    }
+
+    /**
+     * Avanza a la primera parada.
+     * @param playerUuid UUID del jugador que avanza.
+     */
+    public void goFirst(UUID playerUuid) {
+        TourSession session = activeTours.get(playerUuid);
+        if (session == null) return;
+
+        Player player = PlayerRegistry.getInstance().get(playerUuid);
+        
+        Tour tour = TourRegistry.getInstance().get(session.getTourId()); 
+        if (player == null || tour == null) return;
+
+        if (session.getCurrentIndex() > 1) {
+            updateRegion(session.getCurrentIndex(), 1, playerUuid, tour.getId());
+            session.setCurrentIndex(1);
+            teleportToCurrentStop(playerUuid, session);
+        } else {
+            PlayerLogger.warn(player, LanguageHandler.getText(player.getLanguage(), "tour.first"), (String) null);
         }
     }
 
@@ -234,6 +256,7 @@ public class TourService {
             if (success) {
                 SoundUtils.playSound(bukkitPlayer, "tour-teleport");
                 TourHotbarMenu.updateBackButton(player.getLanguage(), playerUuid, session.getCurrentIndex() != 1);
+                TourHotbarMenu.updateLastButton(player.getLanguage(), playerUuid, session.getCurrentIndex() == tour.getParadas().size());
                 sendTourInfo(player);
             }
         });
@@ -263,9 +286,12 @@ public class TourService {
         TagResolver backResolver = TagResolverUtils.getCommandText("backtext", "/tourback", LanguageHandler.getText(language, "tour.stop.backtext"), LanguageHandler.getText(language, "tour.stop.backhover"));
         TagResolver nextResolver = TagResolverUtils.getCommandText("nexttext", "/tournext", LanguageHandler.getText(language, "tour.stop.nexttext"), LanguageHandler.getText(language, "tour.stop.nexthover"));
         TagResolver stopResolver = TagResolverUtils.getCommandText("stoptext", "/tourstop", LanguageHandler.getText(language, "tour.stop.stoptext"), LanguageHandler.getText(language, "tour.stop.stophover"));
+        TagResolver firstResolver = TagResolverUtils.getCommandText("firsttext", "/tourfirst", LanguageHandler.getText(language, "tour.stop.firsttext"), LanguageHandler.getText(language, "tour.stop.firsthover"));
+        TagResolver lastResolver = TagResolverUtils.getCommandText("lasttext", "/tourstop", LanguageHandler.getText(language, "tour.stop.lasttext"), LanguageHandler.getText(language, "tour.stop.lasthover"));
+
         for (String line : message1) {
             PlayerLogger.send(player, PlaceholderUtils.replaceMC(line, language, stop)
-                .replace("%plugin-prefix%", pluginPrefix), (String) null, backResolver, nextResolver, stopResolver);
+                .replace("%plugin-prefix%", pluginPrefix), (String) null);
         }
         for (String line : desc) {
             PlayerLogger.send(player, line, (String) null);
@@ -274,8 +300,11 @@ public class TourService {
             line = PlaceholderUtils.replaceMC(line, language, stop).replace("%plugin-prefix%", pluginPrefix)
                 .replace("%currentStop%", String.valueOf(session.getCurrentIndex()))
                 .replace("%totalStop%", String.valueOf(tour.getParadas().size()));
-            if (session.getCurrentIndex() == 1) line = line.replace("<backtext>", "");
-            PlayerLogger.send(player, line, (String) null, backResolver, nextResolver, stopResolver);
+            if (session.getCurrentIndex() == 1) line = line.replace("<backtext> ", "").replace("<firsttext>", "");
+            if (session.getCurrentIndex() == tour.getParadas().size()) line = line.replace("<nexttext>", "");
+            else line = line.replace("<lasttext>", "");
+               
+            PlayerLogger.send(player, line, (String) null, backResolver, nextResolver, stopResolver, firstResolver, lastResolver);
         }
 
     }

@@ -38,6 +38,7 @@ import com.bteconosur.core.command.pwarp.PwarpCommand;
 import com.bteconosur.core.command.reviewer.ReviewerCommand;
 import com.bteconosur.core.command.tour.TourBackCommand;
 import com.bteconosur.core.command.tour.TourCommand;
+import com.bteconosur.core.command.tour.TourFirstCommand;
 import com.bteconosur.core.command.tour.TourInfoCommand;
 import com.bteconosur.core.command.tour.TourNextCommand;
 import com.bteconosur.core.command.tour.TourStopCommand;
@@ -65,6 +66,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoProyectoRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
+import com.bteconosur.db.registry.TourRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.discord.command.DsCommandManager;
 import com.bteconosur.discord.command.DsHelpMinecraftCommand;
@@ -103,6 +105,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static RangoUsuarioRegistry rangoUsuarioRegistry;
     private static InteractionRegistry interactionRegistry;
     private static TipoProyectoRegistry tipoProyectoRegistry;
+    private static TourRegistry tourRegistry;
 
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
@@ -168,6 +171,7 @@ public final class BTEConoSur extends JavaPlugin {
 
         permissionManager = PermissionManager.getInstance();
         restartService = RestartService.getInstance();
+        tourRegistry = TourRegistry.getInstance();
         tourService = TourService.getInstance();
 
         getServer().getPluginManager().registerEvents(new BuildingListeners(), this);
@@ -235,6 +239,8 @@ public final class BTEConoSur extends JavaPlugin {
         HelpCommandCommand.addCommand(new TourBackCommand());
         PluginRegistry.registerCommand(new TourInfoCommand());
         HelpCommandCommand.addCommand(new TourInfoCommand());
+        PluginRegistry.registerCommand(new TourFirstCommand());
+        HelpCommandCommand.addCommand(new TourFirstCommand());
         PluginRegistry.registerCommand(new TourManageCommand());
         PluginRegistry.registerCommand(new NightvisionCommand());
         HelpCommandCommand.addCommand(new NightvisionCommand());
@@ -324,6 +330,11 @@ public final class BTEConoSur extends JavaPlugin {
         if (tipoProyectoRegistry != null) {
             tipoProyectoRegistry.shutdown();
             tipoProyectoRegistry = null;
+        }
+
+        if (tourRegistry != null) {
+            tourRegistry.shutdown();
+            tourRegistry = null;
         }
 
         if (projectManager != null) {

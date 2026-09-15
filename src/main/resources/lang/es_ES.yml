@@ -1100,31 +1100,35 @@ tour:
     message-1:
       - "\n <b>=========</b> %plugin-prefix% <b>=========</b>\n"
       - "%tourparada.titulo%"
+    firsttext: "<b>1°</b>"
+    firsthover: "<gold>Ir a la primera parada</gold>"
     backtext: "<b><<<</b>"
     backhover: "<gold>Parada anterior</gold>"
     nexttext: "<b>>>></b>"
     nexthover: "<gold>Parada siguiente</gold>"
+    lasttext: "<b>^^^</b>"
+    lasthover: "<gold>Terminar el tour</gold>"
     stoptext: "<b>X</b>"
     stophover: "<red>Salir del tour</red>"
     message-2:
-      - "\n <b>=========</b> <gold><backtext> Parada <yellow>%currentStop%</yellow> de <yellow>%totalStop%</yellow> <red><stoptext></red> <nexttext></gold> <b>=========</b>\n"
+      - "\n <b>=========</b> <gold><backtext> <green><firsttext></green> <yellow>%currentStop%</yellow> de <yellow>%totalStop%</yellow> <red><stoptext></red> <lasttext><nexttext></gold> <b>=========</b>\n"
   addstop-success: "Se agregó la parada <yellow>%tourparada.id%</yellow> al tour <yellow>%tour.id%</yellow> en el orden <yellow>%tourparada.orden%</yellow>."
   end: "Has finalizado el tour <yellow>%tour.id%</yellow>."
   first: "Esta es la primera parada del tour. No puedes retroceder más."
 
 # tours:
-#  ejemplo1:
+#  <id_tour>:
 #    title: "tour de ejemplo 1"
 #    desc:
 #      - "Este es un tour de ejemplo."
 #      - "Lorem impsu."
 #    stops:
-#      stopejemplo1:
+#      <id_parada1>:
 #        title: "Parada de ejemplo 1"
 #        desc:
 #          - "Esta es una parada de ejemplo."
 #          - "Lorem impsu."
-#      stopejemplo2:
+#      <id_parada2>:
 #        title: "Parada de ejemplo 2"
 #        desc:
 #          - "Esta es otra parada de ejemplo."
@@ -1139,19 +1143,19 @@ tours:
       testeo:
         title: <gold><b>Parada aki</b></gold>
         desc:
-          - "<gray>Esta es una parada de prueba."
-          - "<gray>Lorem impsu sssssss."
+          - "<gray> Esta es una parada de prueba."
+          - "<gray> Lorem impsu sssssss."
       crono:
         title: "<gold><b>Parada desssba 2</b></gold>"
         desc:
-          - "<gray>Esta es otra parada de prueba."
-          - "<gray>Lorem impsu."
-          - "<gray>Lorem impsu."
+          - "<gray> Esta es otra parada de prueba."
+          - "<gray> Lorem impsu."
+          - "<gray> Lorem impsu."
       asddd:
         title: "<gold><b>Parada desssba 3</b></gold>"
         desc:
-          - "<gray>Esta es otra parada de prueba."
-          - "<gray>Lorem impsu."
+          - "<gray> Esta es otra parada de prueba."
+          - "<gray> Lorem impsu."
 # Chat
 # En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
 mc-message: "%player.paisPrefix%%player.prefix% <gold><player></gold><reset><gray>: </gray>"
@@ -1471,6 +1475,16 @@ gui-titles:
   tour-delete: "Eliminar tour: %tour.id%"
 
 items:
+  last-stop:
+    name: "<green>Terminar tour"
+    lore:
+      - "<gray>Haz click para terminar el tour"
+      - "<gray>y volver a tu ubicación original." 
+  first-stop:
+    name: "<green>Ir a la primera parada"
+    lore:
+      - "<gray>Haz click para ir a la primera"
+      - "<gray>parada del tour."
   stop-tour:
     name: "<red>Salir del tour"
     lore:

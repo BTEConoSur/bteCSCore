@@ -58,11 +58,12 @@ public class TourAddStopCommand extends BaseCommand {
         }
 
         String stopId = args[1];
+        stopId = stopId.replaceAll("[^a-zA-Z0-9_-]", "_");
         if (tour.hasParada(stopId)) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.stop.exists").replace("%id%", stopId), (String) null);
             return true;
         }
-
+        
         int orden;
         if (args.length >= 3) {
             try {

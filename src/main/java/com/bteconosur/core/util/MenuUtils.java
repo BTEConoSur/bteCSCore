@@ -48,6 +48,22 @@ public class MenuUtils {
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    public static ItemStack getFirstStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.first"),
+            LanguageHandler.getText(language, "items.first-stop.name"),
+            LanguageHandler.getTextList(language, "items.first-stop.lore"), false
+        ).getItemStack();
+    }
+
+    public static ItemStack getLastStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.last"),
+            LanguageHandler.getText(language, "items.last-stop.name"),
+            LanguageHandler.getTextList(language, "items.last-stop.lore"), false
+        ).getItemStack();
+    }
+
     public static ItemStack getStopTourItem(Language language) {
         return buildGuiItem(
             gui.getString("item-materials.tour.stop-tour"),
