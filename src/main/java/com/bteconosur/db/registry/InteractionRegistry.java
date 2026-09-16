@@ -137,11 +137,21 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         if (interaction.getComponentId() != null) interaction.setComponentId(null);
         if (interaction.getInteractionKey() == InteractionKey.CREATE_PROJECT) {
             Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());
+            if (proyecto == null) {
+                loadedObjects.remove(interaction.getId());
+                dbManager.remove(interaction);
+                return;
+            }
             Pais pais = proyecto.getPais();
             MessageService.deleteMessage(pais.getDsIdRequest(), interaction.getMessageId());
         }
         if (interaction.getInteractionKey() == InteractionKey.JOIN_PROJECT && interaction.getMessageId() != null) {
             Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());
+            if (proyecto == null) {
+                loadedObjects.remove(interaction.getId());
+                dbManager.remove(interaction);
+                return;
+            }
             Player player = ProjectManager.getInstance().getLider(proyecto);
             if (player != null) MessageService.deleteDMMessage(player.getDsIdUsuario(), interaction.getMessageId());
             else {
@@ -153,6 +163,11 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         }
         if (interaction.getInteractionKey() == InteractionKey.REDEFINE_PROJECT) {
             Proyecto proyecto = ProyectoRegistry.getInstance().get(interaction.getProjectId());
+            if (proyecto == null) {
+                loadedObjects.remove(interaction.getId());
+                dbManager.remove(interaction);
+                return;
+            }
             Pais pais = proyecto.getPais();
             MessageService.deleteMessage(pais.getDsIdRequest(), interaction.getMessageId());
         }
@@ -171,6 +186,21 @@ public class InteractionRegistry extends Registry<Long, Interaction> {
         return findByInteractionKey(InteractionKey.CREATE_PROJECT)
             .stream()
             .filter(interaction -> project.getId().equals(interaction.getProjectId()))
+            .findFirst()
+            .orElse(null);
+    }
+
+    /**
+     * Busca la solicitud de creación asociada a un proyecto.
+     *
+     * @param projectId id del proyecto a buscar.
+     * @return interacción encontrada, o {@code null}.
+     */
+    public Interaction findCreateRequest(String projectId) {
+        if (projectId == null) return null;
+        return findByInteractionKey(InteractionKey.CREATE_PROJECT)
+            .stream()
+            .filter(interaction -> projectId.equals(interaction.getProjectId()))
             .findFirst()
             .orElse(null);
     }
