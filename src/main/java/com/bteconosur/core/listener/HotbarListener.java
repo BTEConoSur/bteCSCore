@@ -1,7 +1,9 @@
 package com.bteconosur.core.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -15,6 +17,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.event.Event.Result;
 
 import com.bteconosur.core.menu.HotbarMenu;
+
+import io.papermc.paper.event.player.PlayerPickItemEvent;
 
 public class HotbarListener implements Listener {
 
@@ -39,6 +43,13 @@ public class HotbarListener implements Listener {
             if (HotbarMenu.getActive(player) != null) {
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler
+    public void onPickItem(PlayerPickItemEvent event) {
+        if (HotbarMenu.getActive(event.getPlayer()) != null) {
+            event.setCancelled(true);
         }
     }
 
