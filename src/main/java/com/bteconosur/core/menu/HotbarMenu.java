@@ -43,7 +43,7 @@ public abstract class HotbarMenu extends Menu {
     public static HotbarMenu getActive(@NotNull UUID playerUuid) {
         return ACTIVE.get(playerUuid);
     }
-//TODO: CLick del medio
+
     protected abstract void setupItems();
 
     protected void setItem(int slot, @NotNull ItemStack item, @Nullable Consumer<Player> action) {

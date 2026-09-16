@@ -161,7 +161,7 @@ public class ProjectManager {
 
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.admin.success", language, proyecto), (String) null);
         
-        String countryLog = LanguageHandler.replaceDS("project.create.admin.log", language, player, proyecto);
+        String countryLog = LanguageHandler.replaceDS("project.create.admin.log", Language.getDefault(), player, proyecto);
         DiscordLogger.countryLog(countryLog, pais);
     }
 
@@ -210,7 +210,7 @@ public class ProjectManager {
         
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.manager.success", language, proyecto), (String) null);
         
-        String countryLog = LanguageHandler.replaceDS("project.create.manager.log", language, player, proyecto);
+        String countryLog = LanguageHandler.replaceDS("project.create.manager.log", Language.getDefault(), player, proyecto);
         DiscordLogger.countryLog(countryLog, pais);
     }
 
@@ -267,7 +267,7 @@ public class ProjectManager {
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.request.success", language, proyecto), (String) null);
         
         Date expirationDate = Date.from(expiration);
-        String countryLog = LanguageHandler.replaceDS("project.create.request.log", language, player, proyecto)
+        String countryLog = LanguageHandler.replaceDS("project.create.request.log", Language.getDefault(), player, proyecto)
             .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
     }
