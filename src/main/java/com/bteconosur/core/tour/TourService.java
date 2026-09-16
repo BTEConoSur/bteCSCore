@@ -1,14 +1,17 @@
 package com.bteconosur.core.tour;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.locationtech.jts.geom.Point;
 
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
@@ -20,11 +23,16 @@ import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.core.util.SoundUtils;
 import com.bteconosur.core.util.TagResolverUtils;
+import com.bteconosur.db.model.Division;
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
+import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.Tour;
 import com.bteconosur.db.model.TourStop;
 import com.bteconosur.db.registry.PlayerRegistry;
+import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.TourRegistry;
+import com.bteconosur.db.util.Estado;
 import com.bteconosur.db.util.PlaceholderUtils;
 import com.bteconosur.world.WorldManager;
 
@@ -88,6 +96,11 @@ public class TourService {
             return;
         }
 
+        if (isInTour(player.getUuid())) {
+            PlayerLogger.error(player, LanguageHandler.getText(player.getLanguage(), "tour.in-tour"), (String) null);
+            return;
+        }
+
         Location returnLoc = player.getBukkitPlayer().getLocation();
 
         TourSession session = new TourSession(tour.getId(), returnLoc);
@@ -112,6 +125,11 @@ public class TourService {
             return;
         }
 
+        if (isInTour(player.getUuid())) {
+            PlayerLogger.error(player, LanguageHandler.getText(player.getLanguage(), "tour.in-tour"), (String) null);
+            return;
+        }
+
         Location returnLoc = player.getBukkitPlayer().getLocation();
 
         TourSession session = new TourSession(tour.getId(), returnLoc);
@@ -122,6 +140,75 @@ public class TourService {
         WorldManager wm = WorldManager.getInstance();
         TourStop stop = TourRegistry.getInstance().getTourStop(tour.getId(), startIndex);
         wm.addPlayer(stop, player.getUuid());
+        teleportToCurrentStop(player.getUuid(), session);
+    }
+
+    /**
+     * Inicia un tour de proyectos.
+     * @param player jugador que inicia el tour.
+     * @param division división con proyectos a recorrer.
+     */
+    public void startProjectTour(Player player, Division division) {
+        if (isInTour(player.getUuid())) {
+            PlayerLogger.error(player, LanguageHandler.getText(player.getLanguage(), "tour.in-tour"), (String) null);
+            return;
+        }
+        List<Proyecto> proyectos = ProyectoRegistry.getInstance().getByDivision(division).stream()
+                .filter(p -> p.getEstado() == Estado.COMPLETADO)
+                .collect(Collectors.toList());
+        if (proyectos.isEmpty()) {
+            PlayerLogger.warn(player, LanguageHandler.replaceMC("tour.no-division", player.getLanguage(), division), (String) null);
+            return;
+        }
+        startProjectTour(player, proyectos);
+    }
+
+    /**
+     * Inicia un tour de proyectos.
+     * @param player jugador que inicia el tour.
+     * @param pais país con proyectos a recorrer.
+     */
+    public void startProjectTour(Player player, Pais pais) {
+        if (isInTour(player.getUuid())) {
+            PlayerLogger.error(player, LanguageHandler.getText(player.getLanguage(), "tour.in-tour"), (String) null);
+            return;
+        }
+
+        List<Proyecto> proyectos;
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        if (pais == null) {
+            proyectos = new ArrayList<>(pr.getCompleted());
+        } else {
+            proyectos = ProyectoRegistry.getInstance().getByPais(pais).stream()
+                .filter(p -> p.getEstado() == Estado.COMPLETADO)
+                .collect(Collectors.toList());
+        }
+        if (proyectos.isEmpty()) {
+            String message = LanguageHandler.replaceMC("tour.no-país", player.getLanguage(), pais);
+            if (pais == null) {
+                message = message.replace("%pais.nombrePublico%", LanguageHandler.getText(player.getLanguage(), "placeholder.tour.international"));
+            }
+            PlayerLogger.warn(player, message, (String) null);
+            return;
+        }
+        startProjectTour(player, proyectos);
+    }
+
+    /**
+     * Inicia un tour de proyectos.
+     * @param player jugador que inicia el tour.
+     * @param proyectos lista de proyectos a recorrer.
+     */
+    private void startProjectTour(Player player, List<Proyecto> proyectos) {
+        Collections.shuffle(proyectos);
+        List<String> projectIds = proyectos.stream().map(Proyecto::getId).collect(Collectors.toList());
+
+        Location returnLoc = player.getBukkitPlayer().getLocation();
+        TourSession session = new TourSession(projectIds, returnLoc);
+        activeTours.put(player.getUuid(), session);
+
+        new TourHotbarMenu(player, false, projectIds.size() == 1).open();
+                
         teleportToCurrentStop(player.getUuid(), session);
     }
 
@@ -139,10 +226,17 @@ public class TourService {
         HotbarMenu.closeActive(playerUuid);
         org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
         if (bukkitPlayer != null && bukkitPlayer.isOnline()) {
-            WorldManager.getInstance().removePlayer(TourRegistry.getInstance().getTourStop(session.getTourId(), session.getCurrentIndex()), playerUuid);
+            if (session.isProjectTour()) { 
+                PlayerLogger.info(player, LanguageHandler.getText(player.getLanguage(), "tour.end-project"), (String) null);   
+            } else {
+                TourStop stop = TourRegistry.getInstance().getTourStop(session.getTourId(), session.getCurrentIndex());
+                if (stop != null) WorldManager.getInstance().removePlayer(stop, playerUuid);
+                Tour tour = TourRegistry.getInstance().get(session.getTourId());
+                if (tour != null) {
+                    PlayerLogger.info(player, LanguageHandler.replaceMC("tour.end", player.getLanguage(), tour), (String) null);
+                }
+            }
             bukkitPlayer.teleportAsync(session.getReturnLocation());
-            Tour tour = TourRegistry.getInstance().get(session.getTourId());
-            PlayerLogger.info(player, LanguageHandler.replaceMC("tour.end", player.getLanguage(), tour), (String) null);
         }
     }
 
@@ -165,12 +259,11 @@ public class TourService {
 
         Player player = PlayerRegistry.getInstance().get(playerUuid);
         
-        Tour tour = TourRegistry.getInstance().get(session.getTourId()); 
-        if (player == null || tour == null) return;
+        if (player == null) return;
 
-        if (session.getCurrentIndex() < tour.getParadas().size()) {
+        if (session.getCurrentIndex() < getTotalStops(session)) {
             session.setCurrentIndex(session.getCurrentIndex() + 1);
-            updateRegion(session.getCurrentIndex() - 1, session.getCurrentIndex(), playerUuid, tour.getId());
+            updateRegion(session.getCurrentIndex() - 1, session.getCurrentIndex(), playerUuid, session);
             teleportToCurrentStop(playerUuid, session);
         } else {
             stopTour(playerUuid);
@@ -186,12 +279,10 @@ public class TourService {
         if (session == null) return;
 
         Player player = PlayerRegistry.getInstance().get(playerUuid);
-        
-        Tour tour = TourRegistry.getInstance().get(session.getTourId()); 
-        if (player == null || tour == null) return;
+        if (player == null) return;
 
         if (session.getCurrentIndex() > 1) {
-            updateRegion(session.getCurrentIndex(), 1, playerUuid, tour.getId());
+            updateRegion(session.getCurrentIndex(), 1, playerUuid, session);
             session.setCurrentIndex(1);
             teleportToCurrentStop(playerUuid, session);
         } else {
@@ -199,13 +290,16 @@ public class TourService {
         }
     }
 
-    private void updateRegion(int previousIndex, int currentIndex, UUID playerUuid, String tourId) {
-        TourRegistry tr = TourRegistry.getInstance();
-        TourStop currentStop = tr.getTourStop(tourId, currentIndex);
-        TourStop previousStop = tr.getTourStop(tourId, previousIndex);
+     private void updateRegion(int prevIndex, int newIndex, UUID playerUuid, TourSession session) {
         WorldManager wm = WorldManager.getInstance();
-        wm.removePlayer(previousStop, playerUuid);
-        wm.addPlayer(currentStop, playerUuid);
+        if (!session.isProjectTour()) {
+            TourRegistry tr = TourRegistry.getInstance();
+            TourStop prevStop = tr.getTourStop(session.getTourId(), prevIndex);
+            TourStop newStop = tr.getTourStop(session.getTourId(), newIndex);
+            
+            if (prevStop != null) wm.removePlayer(prevStop, playerUuid);
+            if (newStop != null) wm.addPlayer(newStop, playerUuid);
+        }
     }
 
     /**
@@ -221,7 +315,7 @@ public class TourService {
 
         if (session.getCurrentIndex() > 1) {
             session.setCurrentIndex(session.getCurrentIndex() - 1);
-            updateRegion(session.getCurrentIndex() + 1, session.getCurrentIndex(), playerUuid, session.getTourId());
+            updateRegion(session.getCurrentIndex() + 1, session.getCurrentIndex(), playerUuid, session);
             teleportToCurrentStop(playerUuid, session);
         } else {
             PlayerLogger.warn(player, LanguageHandler.getText(player.getLanguage(), "tour.first"), (String) null);
@@ -235,31 +329,52 @@ public class TourService {
      */
     private void teleportToCurrentStop(UUID playerUuid, TourSession session) {
         Player player = PlayerRegistry.getInstance().get(playerUuid);
-        TourRegistry tr = TourRegistry.getInstance();
-        Tour tour = tr.get(session.getTourId()); 
-
-        if (player == null || tour == null) return;
+        if (player == null) return;
 
         org.bukkit.entity.Player bukkitPlayer = player.getBukkitPlayer();
         if (bukkitPlayer == null || !bukkitPlayer.isOnline()) return;
 
-        List<TourStop> paradas = tour.getParadas();
+        Location loc;
         
-        if (session.getCurrentIndex() > paradas.size()) {
-            session.setCurrentIndex(paradas.size());
+        if (session.isProjectTour()) {
+            Proyecto proyecto = ProyectoRegistry.getInstance().get(session.getCurrentProjectId());
+            if (proyecto == null) {
+                nextStop(playerUuid); 
+                return;
+            }
+            Point centroid = proyecto.getPoligono().getCentroid();
+            double x = Math.floor(centroid.getX());
+            double z = Math.floor(centroid.getY());
+            
+            org.bukkit.World world = WorldManager.getInstance().getBTEWorld().getLabelWorld(x, z).getBukkitWorld();
+            int highestY = world.getHighestBlockYAt((int) x, (int) z);
+            
+            loc = new Location(world, x + 0.5, highestY + 1, z + 0.5, bukkitPlayer.getLocation().getYaw(), bukkitPlayer.getLocation().getPitch());
+        } else {
+            TourStop stop = TourRegistry.getInstance().getTourStop(session.getTourId(), session.getCurrentIndex());
+            if (stop == null) return;
+            loc = stop.getLocation();
         }
-        if (session.getCurrentIndex() < 0) return;
-
-        TourStop stop = tr.getTourStop(tour.getId(), session.getCurrentIndex());
-
-        bukkitPlayer.teleportAsync(stop.getLocation()).thenAccept(success -> {
+        bukkitPlayer.teleportAsync(loc).thenAccept(success -> {
             if (success) {
                 SoundUtils.playSound(bukkitPlayer, "tour-teleport");
                 TourHotbarMenu.updateBackButton(player.getLanguage(), playerUuid, session.getCurrentIndex() != 1);
-                TourHotbarMenu.updateLastButton(player.getLanguage(), playerUuid, session.getCurrentIndex() == tour.getParadas().size());
+                TourHotbarMenu.updateLastButton(player.getLanguage(), playerUuid, session.getCurrentIndex() == getTotalStops(session));
                 sendTourInfo(player);
             }
         });
+    }
+
+     /**
+     * Obtiene el número total de paradas en el tour.
+     * @param session sesión del tour.
+     * @return número total de paradas.
+     */
+    public int getTotalStops(TourSession session) {
+        if (session.isProjectTour()) return session.getProjectIds().size();
+        
+        Tour tour = TourRegistry.getInstance().get(session.getTourId());
+        return tour != null ? tour.getParadas().size() : 0;
     }
 
     /**
@@ -273,14 +388,18 @@ public class TourService {
         TourSession session = activeTours.get(player.getUuid());
         if (session == null) return;
         TourRegistry tr = TourRegistry.getInstance();
-        Tour tour = tr.get(session.getTourId());
-        if (tour == null) return;
-        TourStop stop = tr.getTourStop(tour.getId(), session.getCurrentIndex());
-        if (stop == null) return;
+        TourStop stop = null;
+        Tour tour = null;
+        if (!session.isProjectTour()) {
+            tour = tr.get(session.getTourId());
+            if (tour == null) return;
+            stop = tr.getTourStop(tour.getId(), session.getCurrentIndex());
+            if (stop == null) return;
+        }
         Language language = player.getLanguage();
         String pluginPrefix = LanguageHandler.getText(language, "plugin-prefix");
-        List<String> message1 = LanguageHandler.getTextList(language, "tour.stop.message-1");
-        List<String> desc = stop.getDescription(language);
+        String message1Key = session.isProjectTour() ? "tour.stop.message-proyecto-1" : "tour.stop.message-1";
+        List<String> message1 = LanguageHandler.getTextList(language, message1Key);
         List<String> message2 = LanguageHandler.getTextList(language, "tour.stop.message-2");
 
         TagResolver backResolver = TagResolverUtils.getCommandText("backtext", "/tourback", LanguageHandler.getText(language, "tour.stop.backtext"), LanguageHandler.getText(language, "tour.stop.backhover"));
@@ -289,19 +408,30 @@ public class TourService {
         TagResolver firstResolver = TagResolverUtils.getCommandText("firsttext", "/tourfirst", LanguageHandler.getText(language, "tour.stop.firsttext"), LanguageHandler.getText(language, "tour.stop.firsthover"));
         TagResolver lastResolver = TagResolverUtils.getCommandText("lasttext", "/tourstop", LanguageHandler.getText(language, "tour.stop.lasttext"), LanguageHandler.getText(language, "tour.stop.lasthover"));
 
+        ProyectoRegistry pr = ProyectoRegistry.getInstance();
+        Proyecto proyecto = session.isProjectTour() ? pr.get(session.getCurrentProjectId()) : null;
         for (String line : message1) {
-            PlayerLogger.send(player, PlaceholderUtils.replaceMC(line, language, stop)
-                .replace("%plugin-prefix%", pluginPrefix), (String) null);
+            String message;
+            if (session.isProjectTour()) {
+                message = PlaceholderUtils.replaceMC(line, language, proyecto).replace("%plugin-prefix%", pluginPrefix);
+            } else {
+                message = PlaceholderUtils.replaceMC(line, language, stop).replace("%plugin-prefix%", pluginPrefix);
+            }
+            PlayerLogger.send(player, message, (String) null);
         }
-        for (String line : desc) {
-            PlayerLogger.send(player, line, (String) null);
+        
+        if (!session.isProjectTour()) {
+            List<String> desc = stop.getDescription(language);
+            for (String line : desc) {
+                PlayerLogger.send(player, line, (String) null);
+            }
         }
         for (String line : message2) {
             line = PlaceholderUtils.replaceMC(line, language, stop).replace("%plugin-prefix%", pluginPrefix)
                 .replace("%currentStop%", String.valueOf(session.getCurrentIndex()))
-                .replace("%totalStop%", String.valueOf(tour.getParadas().size()));
+                .replace("%totalStop%", String.valueOf(getTotalStops(session)));
             if (session.getCurrentIndex() == 1) line = line.replace("<backtext> ", "").replace("<firsttext>", "");
-            if (session.getCurrentIndex() == tour.getParadas().size()) line = line.replace("<nexttext>", "");
+            if (session.getCurrentIndex() == getTotalStops(session)) line = line.replace("<nexttext>", "");
             else line = line.replace("<lasttext>", "");
                
             PlayerLogger.send(player, line, (String) null, backResolver, nextResolver, stopResolver, firstResolver, lastResolver);

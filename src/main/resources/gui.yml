@@ -7,6 +7,7 @@ item-materials:
   tour:
     stop: "PAPER"
     list: "BOOK"
+    proyecto: "BOOK"
     stop-tour: "BARRIER"
     back: "hdb:55984"
     next: "hdb:55978"

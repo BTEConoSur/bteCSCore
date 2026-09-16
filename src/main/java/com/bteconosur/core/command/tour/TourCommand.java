@@ -28,6 +28,7 @@ public class TourCommand extends BaseCommand {
 
     public TourCommand() {
         super("tour", "[pais]", "btecs.command.tour", CommandMode.BOTH);
+        this.addSubcommand(new TourHereCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

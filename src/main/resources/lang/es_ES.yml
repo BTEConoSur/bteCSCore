@@ -332,7 +332,9 @@ commands-descriptions:
     edit.desc: "Editar un Preset."
     add.desc: "Agregar uno o varios bloques a un Preset."
     see.desc: "Obtener los bloques <b>copiables</b> de un Preset."
-  tour.desc: "Comando principal de tours en el servidor."
+  tour:
+    desc: "Comando principal de tours en el servidor."
+    here.desc: "Visitar los proyectos terminados en esta zona."
   tourmanage:
       desc: "Comando principal para gestionar tours."
       create.desc: "Crear un nuevo tour. Puede ser de un país o internacional."
@@ -356,6 +358,7 @@ commands-descriptions:
   tournext.desc: "Ir a la siguiente parada del tour actual."
   tourprev.desc: "Ir a la parada anterior del tour actual."
   tourinfo.desc: "Obtener información la parada de tour actual."
+  tourfirst.desc: "Ir a la primera parada del tour actual."
   banner.desc: "Crear banderas de letras y números."
   nightvision.desc: "Activar o desactivar la visión nocturna."
   lobby.desc: "Teletransportarse al lobby."
@@ -979,6 +982,7 @@ reviewer:
 where:
   division: "\nPaís: <yellow>%division.paisNombre%</yellow> %division.gna%: <yellow>%division.contexto%, %division.nam%</yellow>\n Coordenadas: <yellow><coords></yellow>\n"
   no-division: "\nNo estás dentro de ninguna división de %pais.nombrePublico%.\n Coordenadas: <yellow><coords></yellow>\n"
+  no-division2: "No estás dentro de ninguna división de %pais.nombrePublico%."
   no-pais: "No estás dentro de ningún país."
   lobby: "Estás en el lobby."
 get-list:
@@ -1070,8 +1074,10 @@ tour:
   exists: "El tour <yellow>%tour.id%</yellow> ya existe."
   not-found: "No se encontró el tour <yellow>%id%</yellow>."
   no-stops: "El tour <yellow>%tour.titulo%</yellow> no tiene paradas."
-  no-tours: "No hay tours disponibles para <yellow>%pais.nombrePublico%</yellow>."
+  no-division: "No hay proyectos completados en <yellow>%division.contexto%, %division.nam%</yellow>."
+  no-país: "No hay proyectos completados en <yellow>%pais.nombrePublico%</yellow>."
   not-in-tour: "No estás en un tour actualmente."
+  in-tour: "Ya estás en un tour actualmente."
   create-success: "Tour <yellow>%tour.id%</yellow> creado correctamente para <yellow>%tour.paisNombre%</yellow>."
   edit-success: "Se actualizó el país del tour <yellow>%tour.id%</yellow> a <yellow>%tour.paisNombre%</yellow>."
   remove-success: "Se eliminó el tour <yellow>%tour.id%</yellow>."
@@ -1100,7 +1106,13 @@ tour:
     message-1:
       - "\n <b>=========</b> %plugin-prefix% <b>=========</b>\n"
       - "%tourparada.titulo%"
-    firsttext: "<b>1°</b>"
+    message-proyecto-1:
+      - "\n <b>=========</b> %plugin-prefix% <b>=========</b>\n"
+      - " <yellow>%proyecto.id%</yellow> - <yellow>%proyecto.nombre%</yellow>"
+      - " Descripción: <yellow>%proyecto.descripcion%</yellow>"
+      - " Lider: <yellow>%proyecto.lider%</yellow> - Miembros: <yellow>%proyecto.miembrosCantidad2%</yellow> - Tamaño: <yellow>%proyecto.tamano%</yellow>m²"
+      - " Creado: <yellow>%proyecto.fechaCreacion%</yellow> - Finalizado: <yellow>%proyecto.fechaFinalizacion%</yellow>"
+    firsttext: "<b>⏼</b>"
     firsthover: "<gold>Ir a la primera parada</gold>"
     backtext: "<b><<<</b>"
     backhover: "<gold>Parada anterior</gold>"
@@ -1114,6 +1126,7 @@ tour:
       - "\n <b>=========</b> <gold><backtext> <green><firsttext></green> <yellow>%currentStop%</yellow> de <yellow>%totalStop%</yellow> <red><stoptext></red> <lasttext><nexttext></gold> <b>=========</b>\n"
   addstop-success: "Se agregó la parada <yellow>%tourparada.id%</yellow> al tour <yellow>%tour.id%</yellow> en el orden <yellow>%tourparada.orden%</yellow>."
   end: "Has finalizado el tour <yellow>%tour.id%</yellow>."
+  end-project: "Has finalizado el tour de proyectos."
   first: "Esta es la primera parada del tour. No puedes retroceder más."
 
 # tours:
@@ -1522,6 +1535,11 @@ items:
         - "<gray>la parada del tour."
         - "<gray>Click derecho para cambiar el orden."
         - "<gray>Shift + click para eliminar la parada."
+  proyecto-tour:
+    name: "<green>Tour de proyectos."
+    lore:
+      - "<gray>Haz click para visitar los proyectos"
+      - "<gray>completados en este país."
   tour:
     name: "<green>%tour.titulo%"
     lore:

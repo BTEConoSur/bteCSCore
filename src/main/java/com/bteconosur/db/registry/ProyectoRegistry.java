@@ -20,6 +20,8 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.RegionUtils;
 import com.bteconosur.db.PermissionManager;
+import com.bteconosur.db.model.Division;
+import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.util.ChunkKey;
@@ -118,6 +120,38 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         if (proyecto != null) {
             dbManager.remove(proyecto);
         }
+    }
+
+    /**
+     * Obtiene proyectos asociados a una división.
+     *
+     * @param division división objetivo.
+     * @return conjunto de proyectos asociados.
+     */
+    public Set<Proyecto> getByDivision(Division division) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : loadedObjects.values()) {
+            if (proyecto.getDivision() != null && proyecto.getDivision().equals(division)) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
+    }
+
+    /**
+     * Obtiene proyectos asociados a un país.
+     *
+     * @param pais país objetivo.
+     * @return conjunto de proyectos asociados.
+     */
+    public Set<Proyecto> getByPais(Pais pais) {
+        Set<Proyecto> proyectos = new HashSet<>();
+        for (Proyecto proyecto : loadedObjects.values()) {
+            if (proyecto.getDivision() != null && proyecto.getDivision().getPais() != null && proyecto.getDivision().getPais().equals(pais)) {
+                proyectos.add(proyecto);
+            }
+        }
+        return proyectos;
     }
 
     /**
@@ -320,6 +354,15 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
             }
         }
         return proyectos;
+    }
+
+    /**
+     * Obtiene todos los proyectos en estado completado.
+     *
+     * @return conjunto de proyectos completados.
+     */
+    public Set<Proyecto> getCompleted() {
+        return getCompleted(new HashSet<>(loadedObjects.values()));
     }
 
     /**

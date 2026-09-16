@@ -48,6 +48,14 @@ public class MenuUtils {
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
+    public static GuiItem getProyectoTourGuiItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.proyecto"),
+            LanguageHandler.getText(language, "items.proyecto-tour.name"),
+            LanguageHandler.getTextList(language, "items.proyecto-tour.lore"), true
+        );
+    }
+
     public static ItemStack getFirstStopItem(Language language) {
         return buildGuiItem(
             gui.getString("item-materials.tour.first"),

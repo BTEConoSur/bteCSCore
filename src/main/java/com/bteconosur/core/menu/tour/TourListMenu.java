@@ -52,6 +52,15 @@ public class TourListMenu extends PaginatedMenu {
     protected void populateItems() {
         TourService trs = TourService.getInstance();
         TourRegistry tr = TourRegistry.getInstance();
+        if (!manage) {
+            GuiItem item2 = MenuUtils.getProyectoTourGuiItem(language);
+            item2.setAction(event -> {
+                event.setCancelled(true);
+                gui.close(player);
+                trs.startProjectTour(BTECSPlayer, pais);
+            });
+            addItem(item2);
+        }
         for (Tour tour : tr.getTours(pais != null ? pais.getId() : null)) {
             GuiItem item = MenuUtils.getTourGuiItem(tour, language, manage);
             item.setAction(event -> {
