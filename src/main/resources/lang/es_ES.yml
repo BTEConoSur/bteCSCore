@@ -2013,6 +2013,7 @@ ds-exec: "Comando ejecutado: %comando%."
 
 ds-delete-global-chat:
   success: "Chat global eliminado exitosamente."
+  log: "🗑️ | **%player.nombre%** ha eliminado un mensaje en el chat global."
   not-found: "No se encontró el chat global."
 
 ds-ip: "bteconosur.com"
@@ -2033,7 +2034,7 @@ project-title: "<dark_purple><white>%proyecto.nombre%</white></dark_purple>"
 project-subtitle: "<dark_gray>ID: <white>%proyecto.id%</white> Estado: <white>%proyecto.estado%</white></dark_gray>"
 
 division-title: "<dark_purple>%division.nam%</dark_purple>"
-division-subtitle: "<light_purple>%division.fna%</light_purple>"
+division-subtitle: "<light_purple>%division.contexto%</light_purple>"
 
 no-building-permissions: "No tienes permisos para construir aquí."
 not-limbo: "No puedes estar afuera de los países. Teletransportándose al lobby..."

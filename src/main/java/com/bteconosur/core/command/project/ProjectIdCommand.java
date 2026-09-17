@@ -45,7 +45,7 @@ public class ProjectIdCommand extends BaseCommand {
             return true;
         }
         if (proyectos.size() > 1) {
-            projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.replaceMC("gui-titles.proyectos-here-list", language, proyectoFinal), proyectos, (proyecto, event) -> {
+            projectListMenu = new ProjectListMenu(commandPlayer, LanguageHandler.getText(language, "gui-titles.proyectos-here-list"), proyectos, (proyecto, event) -> {
                 TagResolver tagResolver1 = TagResolverUtils.getCopyableText("id", proyecto.getId(), proyecto.getId(), language);
                 PlayerLogger.info(sender, LanguageHandler.getText(language, "project.id"), (String) null, tagResolver1);
                 event.getWhoClicked().closeInventory();

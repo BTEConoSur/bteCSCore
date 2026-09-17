@@ -25,7 +25,12 @@ public class DsContextDeleteChatCommand extends DsContextMessageCommand {
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         Boolean success = MessageService.deleteByMessageId(event.getTarget().getIdLong());
         event.reply(LanguageHandler.getText(language, success ? "ds-delete-global-chat.success" : "ds-delete-global-chat.not-found")).setEphemeral(true).queue(
-            success2 -> {},
+            success2 -> {
+                if (success && player != null) {
+                    String logMessage = LanguageHandler.replaceMC("ds-delete-global-chat.log", language, player);
+                    ConsoleLogger.info(logMessage);
+                }
+            },
             error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
         );
     }
