@@ -94,8 +94,14 @@ public class ProjectAddMemberCommand extends BaseCommand {
                     return;
                 }
 
-                if (permissionManager.isPostulante(player)) {
+                if (permissionManager.isPostulante(player) || permissionManager.isVisita(player)) {
                     PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.member.add.cant-add-postulante"), (String) null);
+                    event.getWhoClicked().closeInventory();
+                    return;
+                }
+
+                if (permissionManager.isVisita(commandPlayer)) {
+                    PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.member.add.visita-cant"), (String) null);
                     event.getWhoClicked().closeInventory();
                     return;
                 }
@@ -121,8 +127,13 @@ public class ProjectAddMemberCommand extends BaseCommand {
             return true;
         }
 
-        if (permissionManager.isPostulante(targetPlayer)) {
+        if (permissionManager.isPostulante(targetPlayer) || permissionManager.isVisita(targetPlayer)) {
             PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.member.add.cant-add-postulante"), (String) null);   
+            return true;
+        }
+
+        if (permissionManager.isVisita(commandPlayer)) {
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.member.add.visita-cant"), (String) null);
             return true;
         }
 

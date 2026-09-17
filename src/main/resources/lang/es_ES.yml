@@ -763,8 +763,9 @@ project:
       added: "Has sido agregado al proyecto <yellow>%proyecto.id%</yellow>."
       for-member: "El jugador <yellow>%player.nombre%</yellow> ha sido agregado al proyecto <yellow>%proyecto.id%</yellow> al que perteneces."
       max-reached: "El proyecto <yellow>%proyecto.id%</yellow> ha alcanzado el máximo de miembros permitidos. (Máx. <yellow>%proyecto.maxMiembros%</yellow>, Tiene <yellow>%current%</yellow>)" # %current% -> Cantidad actual de miembros.
-      cant-add-postulante: "No puedes agregar un usuario con rango postulante a un proyecto."
+      cant-add-postulante: "No puedes agregar un usuario con rango postulante o visita a un proyecto."
       postulante-max-reached: "Los usuarios con rango postulante solo pueden agregar %max% miembro a sus proyectos." # %max% -> Máximo de miembros permitidos.
+      visita-cant: "Los usuarios visita no pueden agregar miembros a sus proyectos."
       log: "➕ | **%player.nombre%** ha agregado a **%player.nombre.1%** al proyecto `%proyecto.id%`."
     remove:
       success: "El jugador <yellow>%player.nombre%</yellow> ha sido removido del proyecto <yellow>%proyecto.id%</yellow> correctamente."
@@ -922,6 +923,7 @@ project:
     log: "📌 | **%player.nombre%** ha reclamado el proyecto `%proyecto.id%`. El proyecto ha sido marcado como **activo**."
   join:
     log: "➕ | **%player.nombre%** ha sido añadido al proyecto `%proyecto.id%`."
+    visita-cant: "Los usuarios visita no pueden unirse a proyectos."
     request:
       success: "Has solicitado unirte al proyecto <yellow>%proyecto.id%</yellow> correctamente. Espera a que el líder la revise."
       already: "Ya has solicitado unirte al proyecto <yellow>%proyecto.id%</yellow>. Espera a que el líder la revise."
