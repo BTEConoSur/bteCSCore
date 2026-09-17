@@ -876,9 +876,15 @@ public class PlaceholderUtils {
                     case "titulo":
                         String key = "tours." + tour.getId() + ".title";
                         String translated = LanguageHandler.getTextWithouthWarn(language, key);
-                        if (!"ERROR_KEY_NF".equals(translated)) return translated;
+                        if (!"ERROR_KEY_NF".equals(translated)) {
+                            value = translated;
+                            break;
+                        }
                         translated = LanguageHandler.getTextWithouthWarn(Language.getDefault(), key);
-                        if (!"ERROR_KEY_NF".equals(translated)) return translated;
+                        if (!"ERROR_KEY_NF".equals(translated)) {
+                            value = translated;
+                            break;
+                        }
                         value = LanguageHandler.getText(language, "tour.tour-title").replace("%id%", tour.getId());
                         break;
                     case "cantParadas":
@@ -928,9 +934,15 @@ public class PlaceholderUtils {
                     case "titulo":
                         String key = "tours." + parada.getTour().getId() + ".stops." + parada.getId() + ".title";
                         String translated = LanguageHandler.getTextWithouthWarn(language, key);
-                        if (!"ERROR_KEY_NF".equals(translated)) return translated;
+                        if (!"ERROR_KEY_NF".equals(translated)) {
+                            value = translated;
+                            break;
+                        }
                         translated = LanguageHandler.getTextWithouthWarn(Language.getDefault(), key);
-                        if (!"ERROR_KEY_NF".equals(translated)) return translated;
+                        if (!"ERROR_KEY_NF".equals(translated)) {
+                            value = translated;
+                            break;
+                        }
                         value = LanguageHandler.getText(language, "tour.stop-title").replace("%orden%", String.valueOf(parada.getOrden()));
                         break;
                     case "orden":

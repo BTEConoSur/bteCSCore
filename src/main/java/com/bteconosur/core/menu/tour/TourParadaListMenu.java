@@ -9,6 +9,7 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.PaginatedMenu;
 import com.bteconosur.core.tour.TourService;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;

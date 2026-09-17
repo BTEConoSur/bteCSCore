@@ -187,7 +187,7 @@ public abstract class BaseCommand extends Command {
         }
         List<String> completions = new ArrayList<>();
 
-        if (!currentCommand.subcommands.isEmpty()) {
+        if (!currentCommand.subcommands.isEmpty() && (args.length - 1 == subcommandDepth)) {
             String currentArg = args[args.length - 1].toLowerCase();
             for (BaseCommand subcommand : currentCommand.subcommands.values()) {
                 if (subcommand.permission != null && !sender.hasPermission(subcommand.permission)) {

@@ -11,9 +11,9 @@ import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 
-public class TourStopCommand extends BaseCommand {
+public class TourStopManageCommand extends BaseCommand {
 
-    public TourStopCommand() {
+    public TourStopManageCommand() {
         super("stopmanage", null, "btecs.command.tour", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new TourStopRemoveCommand());
         this.addSubcommand(new TourStopEditCommand());
