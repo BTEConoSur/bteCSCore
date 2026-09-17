@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.tour.manage;
+package com.bteconosur.core.command.tour.manage.stop;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +26,7 @@ import com.bteconosur.db.util.PlaceholderUtils;
 public class TourAddStopCommand extends BaseCommand {
 
     public TourAddStopCommand() {
-        super("addstop", "<id_tour> <id_parada> [orden]", "btecs.command.tour", CommandMode.PLAYER_ONLY);
+        super("create", "<id_tour> <id_parada> [orden]", "btecs.command.tour", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

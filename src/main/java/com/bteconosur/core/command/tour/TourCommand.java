@@ -59,10 +59,6 @@ public class TourCommand extends BaseCommand {
                 return true;
             }
 
-            if (!tr.hasTours(pais.getId())) {
-                PlayerLogger.error(sender, LanguageHandler.replaceMC("tour.no-tours", language, pais), (String) null);
-                return true;
-            }
             new TourListMenu(commandPlayer, pais, false).open();
             return true;
         }

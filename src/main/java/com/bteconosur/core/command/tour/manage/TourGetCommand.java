@@ -48,6 +48,8 @@ public class TourGetCommand extends BaseCommand {
         for (String line : tour.getDescription(language)) {
             PlayerLogger.send(sender, " " + line, (String) null);
         }
+        String footer = LanguageHandler.getText(language, "tour.gets-footer").replace("%plugin-prefix%", LanguageHandler.getText(language, "plugin-prefix"));
+        PlayerLogger.send(sender, footer, (String) null);
         return true;
     }
 

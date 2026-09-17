@@ -10,6 +10,7 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
@@ -34,7 +35,8 @@ public class TourRemoveCommand extends BaseCommand {
             return true;
         }
 
-        Tour tour = TourRegistry.getInstance().get(args[0]);
+        TourRegistry tr = TourRegistry.getInstance();
+        Tour tour = tr.get(args[0]);
         if (tour == null) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.not-found").replace("%id%", args[0]), (String) null);
             return true;
@@ -49,8 +51,14 @@ public class TourRemoveCommand extends BaseCommand {
             return true;
         }
 
-        TourRegistry.getInstance().delete(tour.getId());
-        PlayerLogger.info(sender, LanguageHandler.replaceMC("tour.remove-success", language, tour), (String) null);
+        new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.tour-delete", language, tour), commandPlayer, 
+            event1 -> {
+                event1.getWhoClicked().closeInventory();
+                tr.delete(tour.getId());
+                PlayerLogger.info(sender, LanguageHandler.replaceMC("tour.remove-success", language, tour), (String) null);
+            }, cancelClick -> {
+            cancelClick.getWhoClicked().closeInventory();
+        }).open();
         return true;
     }
 

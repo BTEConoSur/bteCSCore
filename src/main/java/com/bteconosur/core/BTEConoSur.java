@@ -242,6 +242,7 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new TourFirstCommand());
         HelpCommandCommand.addCommand(new TourFirstCommand());
         PluginRegistry.registerCommand(new TourManageCommand());
+        PluginRegistry.registerCommand(new TourStopCommand());
         PluginRegistry.registerCommand(new NightvisionCommand());
         HelpCommandCommand.addCommand(new NightvisionCommand());
         DsHelpMinecraftCommand.addHelpCommand(new NightvisionCommand());

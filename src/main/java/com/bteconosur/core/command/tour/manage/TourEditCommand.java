@@ -58,7 +58,7 @@ public class TourEditCommand extends BaseCommand {
         }
 
         Pais pais;
-        if (args[1] == null || args[1].isBlank()) {
+        if (args.length == 1) {
             pais = null;
         } else {
             String normalized = args[1].trim();
@@ -71,6 +71,10 @@ public class TourEditCommand extends BaseCommand {
         }
         if (pais == null && !pm.isAdmin(commandPlayer)) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.no-permission-none-country"), (String) null);
+            return true;
+        }
+        if (pais.equals(tour.getPais())) {
+            PlayerLogger.error(sender, LanguageHandler.replaceMC("tour.edit-already", language, tour), (String) null);
             return true;
         }
 

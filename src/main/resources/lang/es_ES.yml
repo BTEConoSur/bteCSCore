@@ -341,19 +341,19 @@ commands-descriptions:
       remove.desc: "Eliminar un tour."
       edit.desc: "Editar un tour existente."
       get.desc: "Obtener información de un tour."
-      addstop.desc: "Agregar una parada a un tour."
       open.desc: "Abrir el menú de un tour."
       list.desc: "Listar todos los tours de un país o internacionales."
-      stop:
-        desc: "Comando principal para gestionar paradas de un tour."
-        edit:
-          desc: "Editar una parada de un tour."
-          position.desc: "Editar la posición de una parada de un tour."
-          polygon.desc: "Editar el polígono de una parada de un tour."
-          order.desc: "Editar el orden de una parada de un tour."
-          tp.desc: "Teletransportarse a una parada de un tour."
-        remove.desc: "Eliminar una parada de un tour."
-        get.desc: "Obtener información de una parada de un tour."
+  stopmanage:
+    desc: "Comando principal para gestionar paradas de un tour."
+    edit:
+      desc: "Editar una parada de un tour."
+      position.desc: "Editar la posición de una parada de un tour."
+      polygon.desc: "Editar el polígono de una parada de un tour."
+      order.desc: "Editar el orden de una parada de un tour."
+    tp.desc: "Teletransportarse a una parada de un tour."
+    create.desc: "Agregar una parada a un tour."
+    remove.desc: "Eliminar una parada de un tour."
+    get.desc: "Obtener información de una parada de un tour."
   tourstop.desc: "Terminar el tour actual."
   tournext.desc: "Ir a la siguiente parada del tour actual."
   tourprev.desc: "Ir a la parada anterior del tour actual."
@@ -1085,6 +1085,7 @@ tour:
   in-tour: "Ya estás en un tour actualmente."
   create-success: "Tour <yellow>%tour.id%</yellow> creado correctamente para <yellow>%tour.paisNombre%</yellow>."
   edit-success: "Se actualizó el país del tour <yellow>%tour.id%</yellow> a <yellow>%tour.paisNombre%</yellow>."
+  edit-already: "El tour <yellow>%tour.id%</yellow> ya tiene asignado el país <yellow>%tour.paisNombre%</yellow>."
   remove-success: "Se eliminó el tour <yellow>%tour.id%</yellow>."
   get-info: 
     - "\n <b>=========</b> <gold>Información de %tour.id%</gold> <b>=========</b>"
@@ -1100,14 +1101,17 @@ tour:
     invalid-order: "El orden <yellow>%orden%</yellow> no es válido. Debe ser un número mayor a <yellow>0</yellow> y menor o igual a <yellow>%max%</yellow>."
     remove-success: "Se eliminó la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
     edit-order-success: "Se movió la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow> al orden <yellow>%tourparada.orden%</yellow>."
+    edit-order-already: "La parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow> ya está en el orden <yellow>%tourparada.orden%</yellow>."
     edit-polygon-success: "Se actualizó el polígono de la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
     edit-position-success: "Se actualizó la posición de la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
     tp-success: "Teletransportado a la parada <yellow>%tourparada.id%</yellow> del tour <yellow>%tour.id%</yellow>."
+    tp-success-player: "Teletransportado a la parada <yellow>%tourparada.titulo%</yellow> del tour <yellow>%tour.titulo%</yellow>."
     get-info:
       - "\n <b>=========</b> <gold>Información de %tourparada.id%</gold> <b>=========</b>"
       - " Tour: <yellow>%tour.id%</yellow> - Orden: <yellow>%tourparada.orden%</yellow>"
       - " Mundo: <yellow>%tourparada.world%</yellow> - X: <yellow>%tourparada.x%</yellow> - Y: <yellow>%tourparada.y%</yellow> - Z: <yellow>%tourparada.z%</yellow>"
       - " Yaw: <yellow>%tourparada.yaw%</yellow> - Pitch: <yellow>%tourparada.pitch%</yellow>"
+      - " Título: <yellow>%tourparada.titulo%</yellow> - Descripción:"
     message-1:
       - "\n <b>=========</b> %plugin-prefix% <b>=========</b>\n"
       - "%tourparada.titulo%"
@@ -1133,6 +1137,7 @@ tour:
   end: "Has finalizado el tour <yellow>%tour.id%</yellow>."
   end-project: "Has finalizado el tour de proyectos."
   first: "Esta es la primera parada del tour. No puedes retroceder más."
+  gets-footer: "<b>=========</b> %plugin-prefix% <b>=========</b>\n"
 
 # tours:
 #  <id_tour>:
@@ -1528,8 +1533,10 @@ items:
     lore:
       - "<yellow>Orden: <white>%tourparada.orden%</white>"
       - ""
-      - "<gray>Haz click para arrancar el"
+      - "<gray>Click izquierdo para arrancar el"
       - "<gray>tour desde esta parada."
+      - "<gray>Click derecho para teletransportarte a"
+      - "<gray>a esta parada."
     manage:
       name: "<green>%tourparada.id%"
       lore:

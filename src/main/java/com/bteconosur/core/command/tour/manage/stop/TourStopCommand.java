@@ -14,10 +14,11 @@ import com.bteconosur.db.registry.PlayerRegistry;
 public class TourStopCommand extends BaseCommand {
 
     public TourStopCommand() {
-        super("stop", null, "btecs.command.tour", CommandMode.PLAYER_ONLY);
+        super("stopmanage", null, "btecs.command.tour", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new TourStopRemoveCommand());
         this.addSubcommand(new TourStopEditCommand());
         this.addSubcommand(new TourStopGetCommand());
+        this.addSubcommand(new TourAddStopCommand());
         this.addSubcommand(new TourStopTpCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }

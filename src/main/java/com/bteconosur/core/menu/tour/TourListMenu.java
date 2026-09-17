@@ -6,6 +6,7 @@ import com.bteconosur.core.menu.Menu;
 import com.bteconosur.core.menu.PaginatedMenu;
 import com.bteconosur.core.tour.TourService;
 import com.bteconosur.core.util.MenuUtils;
+import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Tour;
@@ -69,8 +70,9 @@ public class TourListMenu extends PaginatedMenu {
                     if (event.getClick().isShiftClick()) {
                         new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.tour-delete", language, tour), player, this, 
                             event1 -> {
-                                tr.delete(tour.getId());
                                 gui.close(player);
+                                tr.delete(tour.getId());
+                                PlayerLogger.info(player, LanguageHandler.replaceMC("tour.remove-success", language, tour), (String) null);
                             }).open();
                     } else {
                         paradaListMenu = new TourParadaListMenu(BTECSPlayer, this, tour, manage);

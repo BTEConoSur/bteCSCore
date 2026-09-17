@@ -69,6 +69,13 @@ public class TourStopEditOrderCommand extends BaseCommand {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "invalid-number"), (String) null);
             return true;
         }
+
+        if (parada.getOrden() == nuevoOrden) {
+            String message = LanguageHandler.replaceMC("tour.stop.edit-order-already", language, tour);
+            PlayerLogger.error(sender, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
+            return true;
+        }
+
         if (!tour.checkOrden(nuevoOrden)) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.stop.invalid-order")
                 .replace("%orden%", String.valueOf(nuevoOrden))

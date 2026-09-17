@@ -42,7 +42,7 @@ public class TourCreateCommand extends BaseCommand {
 
         String tourId = args[0];
         Pais pais;
-        if (args[1] == null || args[1].isBlank()) {
+        if (args.length == 1) {
             pais = null;
         } else {
             pais = PaisRegistry.getInstance().get(args[1]);

@@ -7,8 +7,10 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import com.bteconosur.core.command.BaseCommand;
+import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
@@ -22,6 +24,7 @@ public class TourStopRemoveCommand extends BaseCommand {
 
     public TourStopRemoveCommand() {
         super("remove", "<id_tour> <id_parada>", "btecs.command.tour", CommandMode.PLAYER_ONLY);
+        this.addSubcommand(new GenericHelpCommand(this));
     }
 
     @Override
@@ -61,9 +64,17 @@ public class TourStopRemoveCommand extends BaseCommand {
             return true;
         }
 
-        tr.removeTourParada(tour.getId(), parada.getId());
-        String message = LanguageHandler.replaceMC("tour.stop.remove-success", language, tour);
-        PlayerLogger.info(sender, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
+        final TourStop paradaFinal = parada;
+        new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.parada-tour-delete", language, tour), commandPlayer, 
+            event1 -> {
+                event1.getWhoClicked().closeInventory();
+                tr.removeTourParada(tour.getId(), paradaFinal.getId());
+                String message = LanguageHandler.replaceMC("tour.stop.remove-success", language, tour);
+                PlayerLogger.info(sender, PlaceholderUtils.replaceMC(message, language, paradaFinal), (String) null);
+            }, cancelClick -> {
+            cancelClick.getWhoClicked().closeInventory();
+        }).open();
+
         return true;
     }
 

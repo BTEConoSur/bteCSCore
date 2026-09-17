@@ -4,7 +4,6 @@ import org.bukkit.command.CommandSender;
 
 import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
-import com.bteconosur.core.command.tour.manage.stop.TourStopCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.PlayerLogger;
@@ -20,8 +19,6 @@ public class TourManageCommand extends BaseCommand {
         this.addSubcommand(new TourEditCommand());
         this.addSubcommand(new TourRemoveCommand());
         this.addSubcommand(new TourGetCommand());
-        this.addSubcommand(new TourAddStopCommand());
-        this.addSubcommand(new TourStopCommand());
         this.addSubcommand(new TourListCommand());
         this.addSubcommand(new TourOpenCommand());
         this.addSubcommand(new GenericHelpCommand(this));

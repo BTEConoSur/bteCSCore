@@ -48,9 +48,11 @@ public class TourParadaListMenu extends PaginatedMenu {
                     if (event.getClick().isShiftClick()) {
                         new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.parada-tour-delete", language, tour), player, this, 
                             event1 -> {
+                                gui.close(player);
                                 TourRegistry tr = TourRegistry.getInstance();
                                 tr.removeTourParada(tour.getId(), parada.getId());
-                                gui.close(player);
+                                String message = LanguageHandler.replaceMC("tour.stop.remove-success", language, tour);
+                                PlayerLogger.info(player, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
                             }).open();
                     } else if (event.getClick().isLeftClick()) {
                         player.teleport(parada.getLocation());
@@ -61,8 +63,15 @@ public class TourParadaListMenu extends PaginatedMenu {
                         editOrden(tour, parada.getId());
                     }
                 } else {
-                    gui.close(player);
-                    trs.startTour(BTECSPlayer, tour, parada.getOrden());
+                    if (event.getClick().isRightClick()) {
+                        gui.close(player);
+                        player.teleport(parada.getLocation());
+                        String message = LanguageHandler.replaceMC("tour.stop.tp-success-player", language, tour);
+                        PlayerLogger.info(player, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
+                    } else if (event.getClick().isLeftClick()) {
+                        gui.close(player);
+                        trs.startTour(BTECSPlayer, tour, parada.getOrden());
+                    }   
                 }
             });
             addItem(item);
