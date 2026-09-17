@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.bteconosur.core.BTEConoSur;
@@ -118,18 +119,20 @@ public class MessageService {
      */
       public static void sendMessage(TextChannel channel, String message, String messageId) {
         if (!DiscordValidate.jda()) return;
-        if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
-        try {
-            //ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
-            channel.sendMessage(message).queue(
-                messageSent -> {
-                    if (messageId != null) addMessageRef(messageId, new MessageRef(channel.getIdLong(), messageSent.getIdLong()));
-                },
-                error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()) + " " + error.getMessage())
-            );
-        } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
-        }
+        if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            try {
+                //ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
+                channel.sendMessage(message).queue(
+                    messageSent -> {
+                        if (messageId != null) addMessageRef(messageId, new MessageRef(channel.getIdLong(), messageSent.getIdLong()));
+                    },
+                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()) + " " + error.getMessage())
+                );
+            } catch (Exception e) {
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
+            }
+        });
     }
 
     /**
@@ -141,18 +144,20 @@ public class MessageService {
      */
       public static void sendMessage(TextChannel channel, String message, String messageId, List<StickerItem> stickers) {
         if (!DiscordValidate.jda()) return;
-        if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;  
-        try {
-            //ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
-            channel.sendMessage(message).setStickers(stickers).queue(
-                messageSent -> {
-                    if (messageId != null) addMessageRef(messageId, new MessageRef(channel.getIdLong(), messageSent.getIdLong()));
-                },
-                error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()) + " " + error.getMessage())
-            );
-        } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
-        }
+        if (!DiscordValidate.channel(channel) || !DiscordValidate.messageContent(message)) return;
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            try {
+                //ConsoleLogger.debug("Enviando mensaje al canal " + channel.getName() + " (" + channel.getId() + ")");
+                channel.sendMessage(message).setStickers(stickers).queue(
+                    messageSent -> {
+                        if (messageId != null) addMessageRef(messageId, new MessageRef(channel.getIdLong(), messageSent.getIdLong()));
+                    },
+                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()) + " " + error.getMessage())
+                );
+            } catch (Exception e) {
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-channel").replace("%channelId%", channel.getId()), e);
+            }
+        });
     }
 
     /**
@@ -164,10 +169,12 @@ public class MessageService {
     public static void sendDM(Long dsUserId, String message) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.messageContent(message)) return;
-        BTEConoSur.getDiscordManager().getJda().retrieveUserById(dsUserId).queue(
-            user -> sendDM(user, message),
-            error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(dsUserId)) + " " + error.getMessage())
-        );
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            BTEConoSur.getDiscordManager().getJda().retrieveUserById(dsUserId).queue(
+                user -> sendDM(user, message),
+                error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(dsUserId)) + " " + error.getMessage())
+            );
+        });
     }
 
     /**
@@ -179,16 +186,18 @@ public class MessageService {
       private static void sendDM(User user, String message) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.user(user) || !DiscordValidate.messageContent(message)) return;
-
-        try {
-            ConsoleLogger.debug("Enviando mensaje a usuario " + user.getName() + " (" + user.getId() + ")");
-            user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(message).queue(
-                success -> {},
-                error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(user.getIdLong())) + " " + error.getMessage())
-            ));
-        } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(user.getIdLong())), e);
-        }
+        
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            try {
+                ConsoleLogger.debug("Enviando mensaje a usuario " + user.getName() + " (" + user.getId() + ")");
+                user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage(message).queue(
+                    success -> {},
+                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(user.getIdLong())) + " " + error.getMessage())
+                ));
+            } catch (Exception e) {
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-user").replace("%userId%", String.valueOf(user.getIdLong())), e);
+            }
+        });
     }
 
     /**
@@ -225,15 +234,17 @@ public class MessageService {
       public static void sendEmbed(TextChannel channel, MessageEmbed embed) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.embed(embed)) return;
-        try {
-            //ConsoleLogger.debug("Enviando embed al canal " + channel.getName() + " (" + channel.getId() + ")");
-            channel.sendMessageEmbeds(embed).queue(
-                success -> {},
-                error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()) + " " + error.getMessage())
-            );
-        } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()), e);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            try {
+                //ConsoleLogger.debug("Enviando embed al canal " + channel.getName() + " (" + channel.getId() + ")");
+                channel.sendMessageEmbeds(embed).queue(
+                    success -> {},
+                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()) + " " + error.getMessage())
+                );
+            } catch (Exception e) {
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()), e);
+            }
+        });
     }
 
     /**
@@ -246,15 +257,17 @@ public class MessageService {
       public static void sendEmbed(TextChannel channel, MessageEmbed embed, String message) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channel(channel) || !DiscordValidate.embed(embed)) return;
-        try {
-            //ConsoleLogger.debug("Enviando embed al canal " + channel.getName() + " (" + channel.getId() + ")");
-            channel.sendMessageEmbeds(embed).addContent(message).queue(
-                success -> {},
-                error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()) + " " + error.getMessage())
-            );
-        } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()), e);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            try {
+                //ConsoleLogger.debug("Enviando embed al canal " + channel.getName() + " (" + channel.getId() + ")");
+                channel.sendMessageEmbeds(embed).addContent(message).queue(
+                    success -> {},
+                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()) + " " + error.getMessage())
+                );
+            } catch (Exception e) {
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()), e);
+            }
+        });
     }
 
     /**
@@ -266,10 +279,12 @@ public class MessageService {
     public static void sendEmbedDM(Long dsUserId, MessageEmbed embed) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.userId(dsUserId) || !DiscordValidate.embed(embed)) return;
-        BTEConoSur.getDiscordManager().getJda().retrieveUserById(dsUserId).queue(
-            user -> sendEmbedDM(user, embed),
-            error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-embed-user").replace("%userId%", String.valueOf(dsUserId)) + " " + error.getMessage())
-        );
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            BTEConoSur.getDiscordManager().getJda().retrieveUserById(dsUserId).queue(
+                user -> sendEmbedDM(user, embed),
+                error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-embed-user").replace("%userId%", String.valueOf(dsUserId)) + " " + error.getMessage())
+            );
+        });
     }
 
     /**
@@ -281,15 +296,17 @@ public class MessageService {
       private static void sendEmbedDM(User user, MessageEmbed embed) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.user(user) || !DiscordValidate.embed(embed)) return;
-        try {
-            ConsoleLogger.debug("Enviando embed a usuario " + user.getName() + " (" + user.getId() + ")");
-            user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessageEmbeds(embed).queue(
-                success -> {},
-                error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-embed-user").replace("%userId%", String.valueOf(user.getIdLong())) + " " + error.getMessage())
-            ));
-        } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-user").replace("%userId%", String.valueOf(user.getIdLong())), e);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            try {
+                ConsoleLogger.debug("Enviando embed a usuario " + user.getName() + " (" + user.getId() + ")");
+                user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessageEmbeds(embed).queue(
+                    success -> {},
+                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-embed-user").replace("%userId%", String.valueOf(user.getIdLong())) + " " + error.getMessage())
+                ));
+            } catch (Exception e) {
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.send-embed-user").replace("%userId%", String.valueOf(user.getIdLong())), e);
+            }
+        });
     }
 
     /**
@@ -382,21 +399,23 @@ public class MessageService {
     public static void deleteMessage(Long channelId, Long messageId) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.channelId(channelId) || !DiscordValidate.messageId(messageId)) return;
-        TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
-        if (channel == null) return;
-        try {
-            ConsoleLogger.debug("Eliminando mensaje de ID " + messageId + " del canal " + channel.getName() + " (" + channel.getId() + ")");
-            channel.deleteMessageById(messageId).queue(
-                success -> { },
-                failure -> {
-                    if (failure.getMessage() != null && !failure.getMessage().contains("Unknown Message")) {
-                        ConsoleLogger.warn(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), failure);
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            TextChannel channel = BTEConoSur.getDiscordManager().getJda().getTextChannelById(channelId);
+            if (channel == null) return;
+            try {
+                ConsoleLogger.debug("Eliminando mensaje de ID " + messageId + " del canal " + channel.getName() + " (" + channel.getId() + ")");
+                channel.deleteMessageById(messageId).queue(
+                    success -> { },
+                    failure -> {
+                        if (failure.getMessage() != null && !failure.getMessage().contains("Unknown Message")) {
+                            ConsoleLogger.warn(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), failure);
+                        }
                     }
-                }
-            );
-        } catch (Exception e) {
-            ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), e);
-        }
+                );
+            } catch (Exception e) {
+                ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-channel-message").replace("%channelId%", channelId.toString()).replace("%messageId%", messageId.toString()), e);
+            }
+        });
     }
 
     /**
@@ -408,18 +427,20 @@ public class MessageService {
     public static void deleteDMMessage(Long userId, Long messageId) {
         if (!DiscordValidate.jda()) return;
         if (!DiscordValidate.userId(userId) || !DiscordValidate.messageId(messageId)) return;
-        BTEConoSur.getDiscordManager().getJda().retrieveUserById(userId).queue(user -> {
-            try {
-                ConsoleLogger.debug("Eliminando mensaje de ID " + messageId + " del usuario " + user.getName() + " (" + user.getId() + ")");
-                user.openPrivateChannel().queue(privateChannel -> privateChannel.deleteMessageById(messageId).queue(
-                    success -> { },
-                    failure -> {
-                        ConsoleLogger.warn(LanguageHandler.getText("ds-error.delete-user-message").replace("%userId%", userId.toString()).replace("%messageId%", messageId.toString()), failure);
-                    }
-                ));
-            } catch (Exception e) {
-                ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-user-message").replace("%userId%", userId.toString()).replace("%messageId%", messageId.toString()), e);
-            }
+        Bukkit.getScheduler().runTaskAsynchronously(BTEConoSur.getInstance(), () -> {
+            BTEConoSur.getDiscordManager().getJda().retrieveUserById(userId).queue(user -> {
+                try {
+                    ConsoleLogger.debug("Eliminando mensaje de ID " + messageId + " del usuario " + user.getName() + " (" + user.getId() + ")");
+                    user.openPrivateChannel().queue(privateChannel -> privateChannel.deleteMessageById(messageId).queue(
+                        success -> { },
+                        failure -> {
+                            ConsoleLogger.warn(LanguageHandler.getText("ds-error.delete-user-message").replace("%userId%", userId.toString()).replace("%messageId%", messageId.toString()), failure);
+                        }
+                    ));
+                } catch (Exception e) {
+                    ConsoleLogger.error(LanguageHandler.getText("ds-error.delete-user-message").replace("%userId%", userId.toString()).replace("%messageId%", messageId.toString()), e);
+                }
+            });
         });
     }
 

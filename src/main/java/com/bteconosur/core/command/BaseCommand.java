@@ -4,6 +4,7 @@ import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.registry.PlayerRegistry;
 
@@ -125,37 +126,42 @@ public abstract class BaseCommand extends Command {
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         Language language = Language.getDefault();
-        if (!isAllowedSender(sender)) {
-            if (commandMode == CommandMode.PLAYER_ONLY && !(sender instanceof Player)) PlayerLogger.error(sender, LanguageHandler.getText("player-only-command"), (String) null);
-            else if (commandMode == CommandMode.CONSOLE_ONLY && sender instanceof Player) {
-                language = PlayerRegistry.getInstance().get(sender).getLanguage();
-                PlayerLogger.error(sender, LanguageHandler.getText(language, "console-only-command"), (String) null);
+        try {
+            if (!isAllowedSender(sender)) {
+                if (commandMode == CommandMode.PLAYER_ONLY && !(sender instanceof Player)) PlayerLogger.error(sender, LanguageHandler.getText("player-only-command"), (String) null);
+                else if (commandMode == CommandMode.CONSOLE_ONLY && sender instanceof Player) {
+                    language = PlayerRegistry.getInstance().get(sender).getLanguage();
+                    PlayerLogger.error(sender, LanguageHandler.getText(language, "console-only-command"), (String) null);
+                }
+                return false;
+            };
+            
+            if (permission != null && !sender.hasPermission(permission)) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "no-permission"), (String) null);
+                return false;
             }
-            return false;
-        };
-        
-        if (permission != null && !sender.hasPermission(permission)) {
-            PlayerLogger.error(sender, LanguageHandler.getText(language, "no-permission"), (String) null);
-            return false;
-        }
 
-        if (!customPermissionCheck(sender)) {
-            PlayerLogger.error(sender, LanguageHandler.getText(language, "no-permission"), (String) null);
-            return false;
-        }
-
-        if (args.length > 0 && !subcommands.isEmpty()) {
-            String subcommandName = args[0].toLowerCase();
-            BaseCommand subcommand = getSubcommand(subcommandName);
-
-            if (subcommand != null) {
-                return subcommand.execute(sender, commandLabel + " " + subcommand.getCommand(), shiftArgs(args));
+            if (!customPermissionCheck(sender)) {
+                PlayerLogger.error(sender, LanguageHandler.getText(language, "no-permission"), (String) null);
+                return false;
             }
+
+            if (args.length > 0 && !subcommands.isEmpty()) {
+                String subcommandName = args[0].toLowerCase();
+                BaseCommand subcommand = getSubcommand(subcommandName);
+
+                if (subcommand != null) {
+                    return subcommand.execute(sender, commandLabel + " " + subcommand.getCommand(), shiftArgs(args));
+                }
+            }
+
+            if (!checkCooldown(sender)) return false;
+            return onCommand(sender, args);
+        } catch (Exception e) {
+            PlayerLogger.error(sender, LanguageHandler.getText(language, "internal-error"), (String) null);
+            ConsoleLogger.error("Error al ejecutar el comando: " + commandLabel + " - " + String.join(" ", args), e);
+            return true;
         }
-
-        if (!checkCooldown(sender)) return false;
-
-        return onCommand(sender, args);
     }
 
     /**
