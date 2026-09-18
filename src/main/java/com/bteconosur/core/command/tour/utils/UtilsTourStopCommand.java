@@ -1,4 +1,4 @@
-package com.bteconosur.core.command.tour.manage.stop;
+package com.bteconosur.core.command.tour.utils;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,19 +10,18 @@ import com.bteconosur.core.command.BaseCommand;
 import com.bteconosur.core.command.GenericHelpCommand;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.tour.TourService;
 import com.bteconosur.core.util.PlayerLogger;
-import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.model.Tour;
 import com.bteconosur.db.model.TourStop;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.db.registry.TourRegistry;
-import com.bteconosur.db.util.PlaceholderUtils;
 
-public class TourStopGetCommand extends BaseCommand {
+public class UtilsTourStopCommand extends BaseCommand {
 
-    public TourStopGetCommand() {
-        super("get", "<id_tour> <id_parada>", "btecs.command.tour", CommandMode.PLAYER_ONLY);
+    public UtilsTourStopCommand() {
+        super("stop", "<id_tour> <id_parada>", "btecs.command.tour", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 
@@ -42,15 +41,6 @@ public class TourStopGetCommand extends BaseCommand {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.not-found").replace("%id%", args[0]), (String) null);
             return true;
         }
-        PermissionManager pm = PermissionManager.getInstance();
-        if (tour.getPais() != null && !pm.isManager(commandPlayer, tour.getPais())) {
-            PlayerLogger.error(sender, LanguageHandler.replaceMC("tour.no-permission-country", language, tour.getPais()), (String) null);
-            return true;
-        }
-        if (tour.getPais() == null && !pm.isAdmin(commandPlayer)) {
-            PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.no-permission-none-country"), (String) null);
-            return true;
-        }
 
         TourStop parada;
         try {
@@ -63,17 +53,8 @@ public class TourStopGetCommand extends BaseCommand {
             return true;
         }
 
-        List<String> lines = LanguageHandler.getTextList(language, "tour.stop.get-info");
-        for (String line : lines) {
-            line = PlaceholderUtils.replaceMC(line, language, parada);
-            line = PlaceholderUtils.replaceMC(line, language, tour);
-            PlayerLogger.send(sender, line, (String) null);
-        }
-        for (String line : parada.getDescription(language)) {
-            PlayerLogger.send(sender, " " + line, (String) null);
-        }
-        String footer = LanguageHandler.getText(language, "tour.gets-footer").replace("%plugin-prefix%", LanguageHandler.getText(language, "plugin-prefix"));
-        PlayerLogger.send(sender, footer, (String) null);
+        TourService ts = TourService.getInstance();
+        ts.startTour(commandPlayer, tour, parada.getOrden());
         return true;
     }
 
@@ -88,10 +69,4 @@ public class TourStopGetCommand extends BaseCommand {
         return Collections.emptyList();
     }
 
-    @Override
-    protected boolean customPermissionCheck(CommandSender sender) {
-        Player commandPlayer = PlayerRegistry.getInstance().get(((org.bukkit.entity.Player) sender).getUniqueId());
-        PermissionManager pm = PermissionManager.getInstance();
-        return pm.isManager(commandPlayer) || pm.isAdmin(commandPlayer);
-    }
 }

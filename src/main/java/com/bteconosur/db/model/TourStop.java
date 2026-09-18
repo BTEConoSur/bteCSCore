@@ -147,7 +147,7 @@ public class TourStop {
     }
 
     public List<String> getDescription(Language language) {
-        String key = "tours." + tour.getId() + ".stops." + this.id + ".desc";
+        String key = "tours." + tour.getId() + ".stops." + this.getTourStopId() + ".desc";
         List<String> translated = LanguageHandler.getTextList(language, key);
         if (!translated.isEmpty()) return translated;
         return LanguageHandler.getTextList(Language.getDefault(), key);
@@ -162,17 +162,12 @@ public class TourStop {
     }
 
     @Embeddable
-    /**
-     * Clave compuesta de un tour stop (tour + id).
-     */
     public static class TourStopId implements Serializable {
-        
+
         @Column(name = "tour_id", length = 30, nullable = false)
-        @JdbcTypeCode(SqlTypes.CHAR)
         private String tourId;
 
         @Column(name = "tour_stop_id", length = 30, nullable = false)
-        @JdbcTypeCode(SqlTypes.CHAR)
         private String tourstopId;
 
         public TourStopId() {
@@ -203,8 +198,10 @@ public class TourStop {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            TourStopId tourStopId = (TourStopId) o;
-            return tourId.equals(tourStopId.tourId) && tourstopId.equals(tourStopId.tourstopId);
+
+            TourStopId that = (TourStopId) o;
+            return Objects.equals(tourId, that.tourId)
+                    && Objects.equals(tourstopId, that.tourstopId);
         }
 
         @Override

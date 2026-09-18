@@ -932,7 +932,7 @@ public class PlaceholderUtils {
                         value = parada.getId() != null ? parada.getId().toString() : "ERROR_ID_NULL";
                         break;
                     case "titulo":
-                        String key = "tours." + parada.getTour().getId() + ".stops." + parada.getId() + ".title";
+                        String key = "tours." + parada.getTour().getId() + ".stops." + parada.getId().getTourstopId() + ".title";
                         String translated = LanguageHandler.getTextWithouthWarn(language, key);
                         if (!"ERROR_KEY_NF".equals(translated)) {
                             value = translated;

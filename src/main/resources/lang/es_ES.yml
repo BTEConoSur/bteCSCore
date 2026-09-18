@@ -343,6 +343,10 @@ commands-descriptions:
       get.desc: "Obtener información de un tour."
       open.desc: "Abrir el menú de un tour."
       list.desc: "Listar todos los tours de un país o internacionales."
+  utilstour:
+    desc: "Comando principal de utilidades para tours."
+    tour.desc: "Empezar un tour en particular."
+    stop.desc: "Empezar un tour en una parada en particular."
   stopmanage:
     desc: "Comando principal para gestionar paradas de un tour."
     edit:

@@ -44,6 +44,7 @@ import com.bteconosur.core.command.tour.TourNextCommand;
 import com.bteconosur.core.command.tour.TourStopCommand;
 import com.bteconosur.core.command.tour.manage.TourManageCommand;
 import com.bteconosur.core.command.tour.manage.stop.TourStopManageCommand;
+import com.bteconosur.core.command.tour.utils.UtilsTourCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.listener.ChatListener;
@@ -243,7 +244,10 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new TourFirstCommand());
         HelpCommandCommand.addCommand(new TourFirstCommand());
         PluginRegistry.registerCommand(new TourManageCommand());
+        HelpCommandCommand.addCommand(new TourManageCommand());
         PluginRegistry.registerCommand(new TourStopManageCommand());
+        HelpCommandCommand.addCommand(new TourStopManageCommand());
+        PluginRegistry.registerCommand(new UtilsTourCommand());
         PluginRegistry.registerCommand(new NightvisionCommand());
         HelpCommandCommand.addCommand(new NightvisionCommand());
         DsHelpMinecraftCommand.addHelpCommand(new NightvisionCommand());

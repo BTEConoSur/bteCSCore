@@ -47,7 +47,7 @@ public class TourParadaListMenu extends PaginatedMenu {
                 event.setCancelled(true);
                 if (manage) {
                     if (event.getClick().isShiftClick()) {
-                        new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.parada-tour-delete", language, tour), player, this, 
+                        new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.parada-tour-delete", language, parada), player, this, 
                             event1 -> {
                                 gui.close(player);
                                 TourRegistry tr = TourRegistry.getInstance();

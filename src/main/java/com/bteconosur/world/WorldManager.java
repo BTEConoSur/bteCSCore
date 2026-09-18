@@ -162,9 +162,9 @@ public class WorldManager {
     private ProtectedRegion getRegion(TourStop tourStop) {
         RegionManager regionManager = getRegionManager(tourStop);
         if (regionManager == null) return null;
-        ProtectedRegion region = regionManager.getRegion(config.getString("wg-tourstop-prefix") + tourStop.getId());
+        ProtectedRegion region = regionManager.getRegion(config.getString("wg-tourstop-prefix") + tourStop.getTourId() + "_" + tourStop.getTourStopId());
         if (region == null) {
-            ConsoleLogger.info("Region no encontrada: " + config.getString("wg-tourstop-prefix") + tourStop.getId());
+            ConsoleLogger.info("Region no encontrada: " + config.getString("wg-tourstop-prefix") + tourStop.getTourId() + "_" + tourStop.getTourStopId());
             return null;
         }
         return region;
@@ -204,16 +204,16 @@ public class WorldManager {
      */
     public void createRegion(TourStop tourStop) {
         RegionManager regionContainer = getRegionManager(tourStop);
-        ProtectedPolygonalRegion region = RegionUtils.toProtectedRegion(tourStop.getPoligono(), config.getString("wg-tourstop-prefix") + tourStop.getId());
+        ProtectedPolygonalRegion region = RegionUtils.toProtectedRegion(tourStop.getPoligono(), config.getString("wg-tourstop-prefix") + tourStop.getTourId() + "_" + tourStop.getTourStopId());
         region.setPriority(1);
         ProtectedRegion parent = regionContainer.getRegion(config.getString("wg-parent-tourstop"));
         if (parent == null) {
-            ConsoleLogger.error("No se encontró la región padre para los tourstops: " + config.getString("wg-parent-tourstop") + " (tourstop: " + tourStop.getId() + ")");
+            ConsoleLogger.error("No se encontró la región padre para los tourstops: " + config.getString("wg-parent-tourstop") + " (tourstop: " + tourStop.getTourId() + "_" + tourStop.getTourStopId() + ")");
         }
         try {
             region.setParent(parent);
         } catch (Exception e) {
-            ConsoleLogger.error("Error al establecer la región padre para el tourstop " + tourStop.getId(), e);
+            ConsoleLogger.error("Error al establecer la región padre para el tourstop " + tourStop.getTourId() + "_" + tourStop.getTourStopId(), e);
         }
         regionContainer.addRegion(region);
     }
@@ -255,7 +255,7 @@ public class WorldManager {
      */
     public void removeRegion(TourStop tourStop) {
         RegionManager regionContainer = getRegionManager(tourStop);
-        regionContainer.removeRegion(config.getString("wg-tourstop-prefix") + tourStop.getId());
+        regionContainer.removeRegion(config.getString("wg-tourstop-prefix") + tourStop.getTourId() + "_" + tourStop.getTourStopId());
     }
 
     /**
@@ -275,7 +275,7 @@ public class WorldManager {
         try {
             regionContainer.save();
         } catch (StorageException e) {
-            ConsoleLogger.error("Error al guardar la región de tourstop " + tourStop.getId() + " después de añadir jugador " + playerUuid, e);
+            ConsoleLogger.error("Error al guardar la región de tourstop " + tourStop.getTourId() + "_" + tourStop.getTourStopId() + " después de añadir jugador " + playerUuid, e);
         }
     }
 
@@ -296,7 +296,7 @@ public class WorldManager {
         try {
             regionContainer.save();
         } catch (StorageException e) {
-            ConsoleLogger.error("Error al guardar la región de tourstop " + tourStop.getId() + " después de eliminar jugador " + playerUuid, e);
+            ConsoleLogger.error("Error al guardar la región de tourstop " + tourStop.getTourId() + "_" + tourStop.getTourStopId() + " después de eliminar jugador " + playerUuid, e);
         }
     }
 
@@ -417,19 +417,19 @@ public class WorldManager {
         for (TourStop tourStop : TourRegistry.getInstance().getAllTourStops()) {
             ProtectedPolygonalRegion region = (ProtectedPolygonalRegion) getRegion(tourStop);
             if (region == null) {
-                ConsoleLogger.info("Sincronizando región no creada del tourstop " + tourStop.getId());
+                ConsoleLogger.info("Sincronizando región no creada del tourstop " + tourStop.getTourId() + "_" + tourStop.getTourStopId());
                 createRegion(tourStop);
-                return;
+                continue;
             }
             RegionManager regionContainer = getRegionManager(tourStop);
             ProtectedRegion parent = regionContainer.getRegion(config.getString("wg-parent-tourstop"));
             if (parent == null) {
-                ConsoleLogger.error("No se encontró la región padre para los tourstops: " + config.getString("wg-parent-tourstop") + " (tourstop: " + tourStop.getId() + ")");
+                ConsoleLogger.error("No se encontró la región padre para los tourstops: " + config.getString("wg-parent-tourstop") + " (tourstop: " + tourStop.getTourId() + "_" + tourStop.getTourStopId() + ")");
             }
             try {
                 region.setParent(parent);
             } catch (Exception e) {
-                ConsoleLogger.error("Error al establecer la región padre para el tourstop " + tourStop.getId(), e);
+                ConsoleLogger.error("Error al establecer la región padre para el tourstop " + tourStop.getTourId() + "_" + tourStop.getTourStopId(), e);
             }
             region.setPriority(1);
             DefaultDomain members = region.getMembers();

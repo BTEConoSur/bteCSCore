@@ -65,7 +65,7 @@ public class TourStopRemoveCommand extends BaseCommand {
         }
 
         final TourStop paradaFinal = parada;
-        new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.parada-tour-delete", language, tour), commandPlayer, 
+        new ConfirmationMenu(LanguageHandler.replaceMC("gui-titles.parada-tour-delete", language, parada), commandPlayer, 
             event1 -> {
                 event1.getWhoClicked().closeInventory();
                 tr.removeTourParada(tour.getId(), paradaFinal.getId().getTourstopId());
