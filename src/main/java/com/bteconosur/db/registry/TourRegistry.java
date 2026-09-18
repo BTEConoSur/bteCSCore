@@ -104,7 +104,7 @@ public class TourRegistry extends Registry<String, Tour> {
         Tour tour = get(tourId);
         if (tour == null) return List.of();
         return tour.getParadas().stream()
-            .map(TourStop::getId)
+            .map(stop -> stop.getId().getTourstopId())
             .toList();
     }
 

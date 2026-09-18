@@ -75,7 +75,7 @@ public class Tour {
     
     public boolean hasParada(String id) {
         for (TourStop parada : paradas) {
-            if (parada.getId().equalsIgnoreCase(id)) {
+            if (parada.getId().getTourstopId().equalsIgnoreCase(id)) {
                 return true;
             }
         }
@@ -97,7 +97,7 @@ public class Tour {
 
     public TourStop getParada(String id) {
         for (TourStop parada : paradas) {
-            if (parada.getId().equalsIgnoreCase(id)) {
+            if (parada.getId().getTourstopId().equalsIgnoreCase(id)) {
                 return parada;
             }
         }

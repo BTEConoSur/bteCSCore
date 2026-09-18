@@ -51,7 +51,7 @@ public class TourParadaListMenu extends PaginatedMenu {
                             event1 -> {
                                 gui.close(player);
                                 TourRegistry tr = TourRegistry.getInstance();
-                                tr.removeTourParada(tour.getId(), parada.getId());
+                                tr.removeTourParada(tour.getId(), parada.getId().getTourstopId());
                                 String message = LanguageHandler.replaceMC("tour.stop.remove-success", language, tour);
                                 PlayerLogger.info(player, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
                             }).open();
@@ -61,7 +61,7 @@ public class TourParadaListMenu extends PaginatedMenu {
                         PlayerLogger.info(player, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
                         gui.close(player);
                     } else if (event.getClick().isRightClick()) {
-                        editOrden(tour, parada.getId());
+                        editOrden(tour, parada.getId().getTourstopId());
                     }
                 } else {
                     if (event.getClick().isRightClick()) {

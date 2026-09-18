@@ -72,7 +72,7 @@ public class TourStopEditPositionCommand extends BaseCommand {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.stop.bad-position"), (String) null);
             return true;
         }
-        parada = tr.editTourParada(tour.getId(), parada.getId(), loc);
+        parada = tr.editTourParada(tour.getId(), parada.getId().getTourstopId(), loc);
         String message = LanguageHandler.replaceMC("tour.stop.edit-position-success", language, tour);
         PlayerLogger.info(sender, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
         return true;

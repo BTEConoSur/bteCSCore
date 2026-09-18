@@ -66,7 +66,7 @@ public class TourStopEditPolygonCommand extends BaseCommand {
 
         Polygon polygon = RegionUtils.getPolygon(sender);
         if (polygon == null) return true;
-        parada = tr.editTourParada(tour.getId(), parada.getId(), polygon);
+        parada = tr.editTourParada(tour.getId(), parada.getId().getTourstopId(), polygon);
         String message = LanguageHandler.replaceMC("tour.stop.edit-polygon-success", language, tour);
         PlayerLogger.info(sender, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
         return true;

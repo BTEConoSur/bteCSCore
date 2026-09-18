@@ -83,7 +83,7 @@ public class TourStopEditOrderCommand extends BaseCommand {
             return true;
         }
 
-        parada = tr.editTourParada(tour.getId(), parada.getId(), nuevoOrden);
+        parada = tr.editTourParada(tour.getId(), parada.getId().getTourstopId(), nuevoOrden);
         String message = LanguageHandler.replaceMC("tour.stop.edit-order-success", language, tour);
         PlayerLogger.info(sender, PlaceholderUtils.replaceMC(message, language, parada), (String) null);
         return true;

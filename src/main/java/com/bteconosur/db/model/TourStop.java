@@ -1,6 +1,9 @@
 package com.bteconosur.db.model;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,10 +19,13 @@ import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -28,11 +34,11 @@ import jakarta.persistence.Transient;
 @Table(name = "tour_stop")
 public class TourStop {
 
-    @Id
-    @Column(name = "id", length = 30)
-    private String id;
+    @EmbeddedId
+    private TourStopId id;
 
     @ManyToOne
+    @MapsId("tourId")
     @JoinColumn(name = "tour_id", nullable = false)
     private Tour tour;
 
@@ -58,8 +64,8 @@ public class TourStop {
     public TourStop() {}
 
     public TourStop(Tour tour, String id, int orden, Location location, Polygon poligono) {
+        this.id = new TourStopId(tour.getId(), id);
         this.tour = tour;
-        this.id = id;
         this.orden = orden;
         this.x = location.getX();
         this.y = location.getY();
@@ -72,12 +78,20 @@ public class TourStop {
         this.boundingBox = poligono.getEnvelopeInternal();
     }
 
-    public String getId() {
+    public TourStopId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(TourStopId id) {
         this.id = id;
+    }
+
+    public String getTourStopId() {
+        return id.getTourstopId();
+    }
+
+    public String getTourId() {
+        return id.getTourId();
     }
 
     public Tour getTour() {
@@ -146,6 +160,58 @@ public class TourStop {
         if (poligono != null) {
             this.preparedGeometry = PreparedGeometryFactory.prepare(poligono);
             this.boundingBox = poligono.getEnvelopeInternal();
+        }
+    }
+
+    @Embeddable
+    /**
+     * Clave compuesta de un tour stop (tour + id).
+     */
+    public static class TourStopId implements Serializable {
+        
+        @Column(name = "tour_id", length = 30, nullable = false)
+        @JdbcTypeCode(SqlTypes.CHAR)
+        private String tourId;
+
+        @Column(name = "tour_stop_id", length = 30, nullable = false)
+        @JdbcTypeCode(SqlTypes.CHAR)
+        private String tourstopId;
+
+        public TourStopId() {
+        }
+
+        public TourStopId(String tourId, String tourstopId) {
+            this.tourId = tourId;
+            this.tourstopId = tourstopId;
+        }
+
+        public String getTourId() {
+            return tourId;
+        }
+
+        public void setTourId(String tourId) {
+            this.tourId = tourId;
+        }
+
+        public String getTourstopId() {
+            return tourstopId;
+        }
+
+        public void setTourstopId(String tourstopId) {
+            this.tourstopId = tourstopId;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            TourStopId tourStopId = (TourStopId) o;
+            return tourId.equals(tourStopId.tourId) && tourstopId.equals(tourStopId.tourstopId);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(tourId, tourstopId);
         }
     }
 
