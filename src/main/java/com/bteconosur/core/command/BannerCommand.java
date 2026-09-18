@@ -21,7 +21,7 @@ import com.bteconosur.core.util.BannerUtils;
 public class BannerCommand extends BaseCommand {
 
     public BannerCommand() {
-        super("banner", "<color_letra> <color_fondo> <texto>", "btecs.command.banner", CommandMode.PLAYER_ONLY);
+        super("banner", "<color_fondo> <color_letra> <texto>", "btecs.command.banner", CommandMode.PLAYER_ONLY);
         this.addSubcommand(new GenericHelpCommand(this));
     }
 
@@ -37,15 +37,15 @@ public class BannerCommand extends BaseCommand {
             return true;
         }
 
-        DyeColor letterColor = BannerUtils.getColorByAlias(args[0]);
-        DyeColor backColor = BannerUtils.getColorByAlias(args[1]);
+        DyeColor backColor = BannerUtils.getColorByAlias(args[0]);
+        DyeColor letterColor = BannerUtils.getColorByAlias(args[1]);
 
-        if (letterColor == null) {
+        if (backColor == null) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "banner.invalid-color").replace("%color%", args[0]), (String) null);
             return true;
         }
 
-        if (backColor == null) {
+        if (letterColor == null) {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "banner.invalid-color").replace("%color%", args[1]), (String) null);
             return true;
         }
