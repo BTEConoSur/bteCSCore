@@ -45,11 +45,6 @@ public class TourCommand extends BaseCommand {
         TourRegistry tr = TourRegistry.getInstance();
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase(LanguageHandler.getText(language, "placeholder.tour.international").toLowerCase())) {
-                if (!tr.hasTours(null)) {
-                    PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.no-tours").replace("%pais.nombrePublico%",
-                        LanguageHandler.getText(language, "placeholder.tour.international")), (String) null);
-                    return true;
-                }
                 new TourListMenu(commandPlayer, (Pais) null, false).open();
                 return true;
             }
