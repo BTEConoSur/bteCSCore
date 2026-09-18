@@ -65,8 +65,11 @@ public class LanguageHandler {
         if (language == null) language = Language.getDefault();
         String value = getLanguageConfig(language).getString(key);
         if (value == null) {
-            ConsoleLogger.warn(getText("language-key-error").replace("%key%", key).replace("%language%", language.getCode()));
-            return "ERROR_KEY_NF";
+            value = getLanguageConfig(Language.getDefault()).getString(key);
+            if (value == null) {
+                ConsoleLogger.warn(getText("language-key-error").replace("%key%", key).replace("%language%", language.getCode()));
+                return "ERROR_KEY_NF";
+            }
         }
         return value;
     }
@@ -81,7 +84,12 @@ public class LanguageHandler {
     public static String getTextWithouthWarn(Language language, String key) {
         if (language == null) language = Language.getDefault();
         String value = getLanguageConfig(language).getString(key);
-        if (value == null) return "ERROR_KEY_NF";
+        if (value == null) {
+            value = getLanguageConfig(Language.getDefault()).getString(key);
+            if (value == null) {
+                return "ERROR_KEY_NF";
+            }
+        }
         return value;
     }
 
@@ -110,6 +118,9 @@ public class LanguageHandler {
     public static List<String> getTextList(Language language, String key) {
         if (language == null) language = Language.getDefault();
         List<String> list = getLanguageConfig(language).getStringList(key);
+        if (list == null || list.isEmpty()) {
+            list = getLanguageConfig(Language.getDefault()).getStringList(key);
+        }
         return list;
     }
 

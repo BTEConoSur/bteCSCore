@@ -1817,15 +1817,15 @@ placeholder:
     badge:
       normal: ""
       admin: ""
-      mod: ""
+      mod: ""
       influencer: ""
-      donador: ""
+      donador: ""
     label:
       normal: "前"
       admin: ""
-      mod: ""
+      mod: ""
       influencer: ""
-      donador: ""
+      donador: ""
   tipo-mc:
     format: "%tipo.badge%%tipo.label%"
     badge:

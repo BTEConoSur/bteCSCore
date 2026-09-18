@@ -19,7 +19,6 @@ import com.bteconosur.db.model.Pais;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PaisRegistry;
 import com.bteconosur.db.registry.PlayerRegistry;
-import com.bteconosur.db.registry.TourRegistry;
 
 public class TourCommand extends BaseCommand {
 
@@ -42,7 +41,6 @@ public class TourCommand extends BaseCommand {
             return true;
         }
 
-        TourRegistry tr = TourRegistry.getInstance();
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase(LanguageHandler.getText(language, "placeholder.tour.international").toLowerCase())) {
                 new TourListMenu(commandPlayer, (Pais) null, false).open();
