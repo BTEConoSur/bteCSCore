@@ -20,6 +20,7 @@ public class TourStopManageCommand extends BaseCommand {
         this.addSubcommand(new TourStopGetCommand());
         this.addSubcommand(new TourAddStopCommand());
         this.addSubcommand(new TourStopTpCommand());
+        this.addSubcommand(new TourStopSelectCommand());
         this.addSubcommand(new GenericHelpCommand(this));
     }
 

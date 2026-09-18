@@ -354,6 +354,7 @@ commands-descriptions:
     create.desc: "Agregar una parada a un tour."
     remove.desc: "Eliminar una parada de un tour."
     get.desc: "Obtener información de una parada de un tour."
+    select.desc: "Seleccionar el polígono de una parada de un tour."
   tourstop.desc: "Terminar el tour actual."
   tournext.desc: "Ir a la siguiente parada del tour actual."
   tourprev.desc: "Ir a la parada anterior del tour actual."
@@ -2239,7 +2240,7 @@ tours:
       - "Tour de recorridos patrimoniales por el"
       - "centro histórico y poniente de Santiago."
     stops:
-      PlazaDeArmas:
+      PlazaDeArmas2:
         title: "Plaza de Armas de Santiago"
         desc:
           - "Fundada en 1541 por Pedro de Valdivia, es el núcleo histórico y simbólico de Santiago. A lo largo de los siglos ha sido testigo de los eventos más relevantes del país. Está rodeada por edificaciones patrimoniales como la Catedral Metropolitana, el Museo Histórico Nacional (antiguo Palacio de la Real Audiencia), y el Correo Central. Es un espacio de encuentro social y cultural, con artistas, músicos, turistas y ciudadanos que dan vida diariamente a este icónico lugar."
