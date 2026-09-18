@@ -36,8 +36,7 @@ public class TourParadaListMenu extends PaginatedMenu {
         this.tour = tour;
         this.manage = manage;
     }
-//TODO: Item cuando es internacional
-//TODO: Pais cuando es internacional
+
     @Override
     protected void populateItems() {
         TourService trs = TourService.getInstance();

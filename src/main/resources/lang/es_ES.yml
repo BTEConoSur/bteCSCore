@@ -1126,6 +1126,7 @@ tour:
       - " <yellow>%proyecto.id%</yellow> - <yellow>%proyecto.nombre%</yellow>"
       - " Descripción: <yellow>%proyecto.descripcion%</yellow>"
       - " Lider: <yellow>%proyecto.lider%</yellow> - Miembros: <yellow>%proyecto.miembrosCantidad2%</yellow> - Tamaño: <yellow>%proyecto.tamano%</yellow>m²"
+      - " Pais: <yellow>%proyecto.paisNombre%</yellow> - %proyecto.divisionGna%: <yellow>%proyecto.divisionContexto%, %proyecto.divisionNam%</yellow>"
       - " Creado: <yellow>%proyecto.fechaCreacion%</yellow> - Finalizado: <yellow>%proyecto.fechaFinalizacion%</yellow>"
     firsttext: "<b>⏼</b>"
     firsthover: "<gold>Ir a la primera parada</gold>"
@@ -1518,6 +1519,9 @@ items:
     lore:
       - "<gray>Haz click para visitar los proyectos"
       - "<gray>completados en este país."
+    lore-international:
+      - "<gray>Haz click para visitar los proyectos"
+      - "<gray>completados en el Cono Sur."
   tour:
     name: "<green>%tour.titulo%"
     lore:

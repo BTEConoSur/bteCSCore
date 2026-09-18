@@ -48,11 +48,11 @@ public class MenuUtils {
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
 
-    public static GuiItem getProyectoTourGuiItem(Language language) {
+    public static GuiItem getProyectoTourGuiItem(Language language, boolean isInternacional) {
         return buildGuiItem(
             gui.getString("item-materials.tour.proyecto"),
             LanguageHandler.getText(language, "items.proyecto-tour.name"),
-            LanguageHandler.getTextList(language, "items.proyecto-tour.lore"), true
+            LanguageHandler.getTextList(language, isInternacional ? "items.proyecto-tour.lore-international" : "items.proyecto-tour.lore"), true
         );
     }
 

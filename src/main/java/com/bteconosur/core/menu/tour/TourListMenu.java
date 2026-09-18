@@ -54,7 +54,7 @@ public class TourListMenu extends PaginatedMenu {
         TourService trs = TourService.getInstance();
         TourRegistry tr = TourRegistry.getInstance();
         if (!manage) {
-            GuiItem item2 = MenuUtils.getProyectoTourGuiItem(language);
+            GuiItem item2 = MenuUtils.getProyectoTourGuiItem(language, pais == null);
             item2.setAction(event -> {
                 event.setCancelled(true);
                 gui.close(player);
