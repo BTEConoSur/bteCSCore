@@ -9,7 +9,6 @@ import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.menu.ConfirmationMenu;
 import com.bteconosur.core.menu.PaginatedMenu;
 import com.bteconosur.core.tour.TourService;
-import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.MenuUtils;
 import com.bteconosur.core.util.PlayerLogger;
 import com.bteconosur.db.model.Player;
@@ -37,7 +36,8 @@ public class TourParadaListMenu extends PaginatedMenu {
         this.tour = tour;
         this.manage = manage;
     }
-
+//TODO: Item cuando es internacional
+//TODO: Pais cuando es internacional
     @Override
     protected void populateItems() {
         TourService trs = TourService.getInstance();

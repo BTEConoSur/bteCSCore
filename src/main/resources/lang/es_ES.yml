@@ -552,9 +552,8 @@ help-visitar:  # En cualquier línea se puede usar %plugin-prefix%
   tour:
     - "\n<dark_gray>+---------------------------------------+</dark_gray>"
     - "<gold>Realiza un recorrido por construcciones icónicas</gold>"
-    - "Tours disponibles: <blue><i>/tour list</i></blue>"
-    - "Iniciar un tour: <blue><i>/tour <tour></i></blue>"
-    - "Ejemplo: <blue><i>/tour peru</i></blue>"
+    - "Tours disponibles: <blue><i>/tour</i></blue>"
+    - "Visitar los proyectos terminados de una zona: <blue><i>/tour here</i></blue>"
     - "<dark_gray>+---------------------------------------+</dark_gray>\n"
   warps:
     - "\n<dark_gray>+---------------------------------------+</dark_gray>"
@@ -1136,51 +1135,11 @@ tour:
     message-2:
       - "\n <b>=========</b> <gold><backtext> <green><firsttext></green> <yellow>%currentStop%</yellow> de <yellow>%totalStop%</yellow> <red><stoptext></red> <lasttext><nexttext></gold> <b>=========</b>\n"
   addstop-success: "Se agregó la parada <yellow>%tourparada.id%</yellow> al tour <yellow>%tour.id%</yellow> en el orden <yellow>%tourparada.orden%</yellow>."
-  end: "Has finalizado el tour <yellow>%tour.id%</yellow>."
+  end: "Has finalizado el tour <yellow>%tour.titulo%</yellow>."
   end-project: "Has finalizado el tour de proyectos."
   first: "Esta es la primera parada del tour. No puedes retroceder más."
   gets-footer: "<b>=========</b> %plugin-prefix% <b>=========</b>\n"
 
-# tours:
-#  <id_tour>:
-#    title: "tour de ejemplo 1"
-#    desc:
-#      - "Este es un tour de ejemplo."
-#      - "Lorem impsu."
-#    stops:
-#      <id_parada1>:
-#        title: "Parada de ejemplo 1"
-#        desc:
-#          - "Esta es una parada de ejemplo."
-#          - "Lorem impsu."
-#      <id_parada2>:
-#        title: "Parada de ejemplo 2"
-#        desc:
-#          - "Esta es otra parada de ejemplo."
-#          - "Lorem impsu."
-tours:
-  test:
-    title: "<gold><b>La paece</b></gold>"
-    desc:
-      - "<gray>Este es un tour de prueba."
-      - "<gray>Lorem impsu."
-    stops:
-      testeo:
-        title: <gold><b>Parada aki</b></gold>
-        desc:
-          - "<gray> Esta es una parada de prueba."
-          - "<gray> Lorem impsu sssssss."
-      crono:
-        title: "<gold><b>Parada desssba 2</b></gold>"
-        desc:
-          - "<gray> Esta es otra parada de prueba."
-          - "<gray> Lorem impsu."
-          - "<gray> Lorem impsu."
-      asddd:
-        title: "<gold><b>Parada desssba 3</b></gold>"
-        desc:
-          - "<gray> Esta es otra parada de prueba."
-          - "<gray> Lorem impsu."
 # Chat
 # En caso de que el jugador no está registrado en la base de datos, no se usa el resto de prefixes.
 mc-message: "%player.paisPrefix%%player.prefix% <gold><player></gold><reset><gray>: </gray>"
@@ -1653,7 +1612,7 @@ items:
         - "<gray>dirección. Similar a buscar el"
         - "<gray>lugar por Google."
     tour:
-      name: "<green>tour"
+      name: "<green>Tour"
       lore:
         - "<gray>Realiza un tour de las construcciones"
         - "<gray>más icónicas de cada país."
@@ -2233,3 +2192,132 @@ placeholder:
   mc-loading: "Cargando..."
   tour:
     international: "Internacional"
+
+# tours:
+#  <id_tour>:
+#    title: "tour de ejemplo 1"
+#    desc:
+#      - "Este es un tour de ejemplo."
+#      - "Lorem impsu."
+#    stops:
+#      <id_parada1>:
+#        title: "Parada de ejemplo 1"
+#        desc:
+#          - "Esta es una parada de ejemplo."
+#          - "Lorem impsu."
+#      <id_parada2>:
+#        title: "Parada de ejemplo 2"
+#        desc:
+#          - "Esta es otra parada de ejemplo."
+#          - "Lorem impsu."
+tours:
+  test:
+    title: "<gold><b>La paece</b></gold>"
+    desc:
+      - "<gray>Este es un tour de prueba."
+      - "<gray>Lorem impsu."
+    stops:
+      testeo:
+        title: <gold><b>Parada aki</b></gold>
+        desc:
+          - "<gray> Esta es una parada de prueba."
+          - "<gray> Lorem impsu sssssss."
+      crono:
+        title: "<gold><b>Parada desssba 2</b></gold>"
+        desc:
+          - "<gray> Esta es otra parada de prueba."
+          - "<gray> Lorem impsu."
+          - "<gray> Lorem impsu."
+      asddd:
+        title: "<gold><b>Parada desssba 3</b></gold>"
+        desc:
+          - "<gray> Esta es otra parada de prueba."
+          - "<gray> Lorem impsu."
+  RutaA:
+    title: "Plaza de Armas al Parque Quinta Normal"
+    desc:
+      - "Tour de recorridos patrimoniales por el"
+      - "centro histórico y poniente de Santiago."
+    stops:
+      PlazaDeArmas:
+        title: "Plaza de Armas de Santiago"
+        desc:
+          - "Fundada en 1541 por Pedro de Valdivia, es el núcleo histórico y simbólico de Santiago. A lo largo de los siglos ha sido testigo de los eventos más relevantes del país. Está rodeada por edificaciones patrimoniales como la Catedral Metropolitana, el Museo Histórico Nacional (antiguo Palacio de la Real Audiencia), y el Correo Central. Es un espacio de encuentro social y cultural, con artistas, músicos, turistas y ciudadanos que dan vida diariamente a este icónico lugar."
+      ExCongresoNacional:
+        title: "Ex Congreso Nacional"
+        desc:
+          - "Construido entre 1851 y 1876 en estilo neoclásico, fue la sede del Poder Legislativo de Chile hasta el golpe militar de 1973. Su arquitectura se destaca por sus columnas corintias, jardines interiores y salones ornamentados. Actualmente, se utiliza para eventos protocolares y algunas sesiones del Senado, y se puede visitar mediante tours guiados. Es Monumento Nacional y una representación tangible de la historia política chilena."
+      PalacioDeLaMoneda:
+        title: "Palacio de La Moneda"
+        desc:
+          - "Inaugurado en 1805 como casa de acuñación de moneda, en 1846 se convirtió en sede del Gobierno. Es un edificio de estilo neoclásico diseñado por el arquitecto italiano Joaquín Toesca. Fue bombardeado durante el golpe de Estado de 1973, y hoy en día se mantiene como símbolo de la institucionalidad chilena. Se puede visitar el Patio de los Naranjos y el Centro Cultural La Moneda, ubicado bajo la plaza ciudadana."
+      PalacioDeLaAlhambra:
+        title: "Palacio de La Alhambra"
+        desc:
+          - "Inspirado en el famoso palacio nazarí de Granada, este palacio de estilo neoárabe fue encargado por el minero del carbón Manuel Barañao en 1860. Es sede de la Sociedad Nacional de Bellas Artes y destaca por sus patios decorados, arcos de herradura y yeserías compuestas, constituyendo un ejemplo único de la arquitectura mudéjar en Chile."
+      BasilicaDelSalvador:
+        title: "Basílica del Salvador"
+        desc:
+          - "Templo neogótico diseñado por el arquitecto alemán Teodoro Burchard y construido entre 1870 y 1892. A pesar de los severos daños sufridos durante diversos terremotos, su imponente fachada y detalles arquitectónicos la convierten en un hito histórico de valor inestimable catalogado como Monumento Nacional."
+      PalacioElguin:
+        title: "Palacio Elguín"
+        desc:
+        - "Lujosa residencia de estilo francés construida a finales del siglo XIX por la familia Elguín. Representa el auge de la arquitectura palaciega de la aristocracia chilena con sus refinadas escaleras de mármol, elegantes salones de recepción y cuidados jardines interiores."
+      PalacioHindustan:
+        title: "Palacio Hindustán"
+        desc:
+          - "Singular edificación construida con marcadas influencias de la arquitectura oriental, india e islámica. Destaca en el entorno urbano de Santiago por su cúpula ornamentada, vitrales de vivos colores y detallada decoración, siendo una pieza arquitectónica única en el patrimonio de la ciudad."
+      MuseoArtequin:
+        title: "Museo Artequin"
+        desc:
+          - "Ubicado en el histórico pabellón de hierro y cristal que representó a Chile en la Exposición Universal de París de 1889, el cual fue trasladado pieza por pieza a Chile en 1890. Ofrece una innovadora experiencia educativa sobre la historia del arte universal a través de talleres interactivos y reproducciones didácticas."
+      ParqueQuintaNormal:
+        title: "Parque Quinta Normal"
+        desc:
+          - "Espacio verde de gran importancia para la comunidad, con instalaciones deportivas, áreas de recreación y zonas verdes que ofrecen un entorno ideal para el descanso y la relajación."
+  RutaB:
+    title: "Plaza de Armas al Palacio Cousiño"
+    desc:
+      - "Tour patrimonial por el circuito sur y"
+      - "cívico del Santiago colonial y republicano."
+    stops:
+      PlazaDeArmas:
+        title: "Plaza de Armas de Santiago"
+        desc:
+          - "Fundada en 1541 por Pedro de Valdivia, es el corazón histórico y simbólico de Santiago. A lo largo de los siglos ha concentrado la vida política, religiosa y social de la ciudad. Está rodeada por edificios emblemáticos como la Catedral Metropolitana, el Museo Histórico Nacional y el Correo Central, combinando arquitectura colonial, neoclásica y moderna en un entorno lleno de actividad cultural."
+      IglesiaSantoDomingo:
+        title: "Iglesia de Santo Domingo"
+        desc:
+          - "Templo religioso construido durante el siglo XVIII que combina elementos barrocos y neoclásicos. Levantado por la Orden de los Dominicos, destaca por su sólida fachada de piedra, sus torres campanario y sus valiosos vitrales interiores. Es uno de los principales monumentos religiosos del centro histórico de Santiago."
+      MercadoCentral:
+        title: "Mercado Central"
+        desc:
+          - "Inaugurado en 1872, posee una destacada estructura metálica de hierro fundido prefabricada en Inglaterra. Es uno de los mayores exponentes de la arquitectura industrial del siglo XIX en Chile y un importante centro gastronómico reconocido por su oferta de pescados y mariscos."
+      MuseoNacionalDeBellasArtes:
+        title: "Museo Nacional de Bellas Artes"
+        desc:
+          - "Fundado en 1880, es uno de los museos de arte más antiguos de América Latina. Su edificio, diseñado por el arquitecto Émile Jéquier e inaugurado en 1910 para el Centenario de la República, combina elementos neoclásicos y art nouveau. Alberga importantes colecciones de arte chileno e internacional."
+      CerroSantaLucia:
+        title: "Cerro SanTLucía"
+        desc:
+          - "Hito geográfico e histórico donde Pedro de Valdivia estableció la fundación de Santiago. Durante el siglo XIX fue transformado por Benjamín Vicuña Mackenna en un parque urbano con terrazas, jardines, fuentes, castillos y miradores que ofrecen amplias vistas de la ciudad."
+      IglesiaSanFrancisco:
+        title: "Iglesia de San Francisco"
+        desc:
+          - "Es el edificio colonial más antiguo conservado en Santiago. Su construcción comenzó en 1586 y ha resistido numerosos terremotos gracias a sus gruesos muros de piedra y adobe reforzado. En su interior alberga el Museo de Arte Colonial de San Francisco."
+      BarrioNuevaYork:
+        title: "Barrio Nueva York"
+        desc:
+          - "Tradicional sector peatonal de calles empedradas y arquitectura art déco y neoclásica, conocido como el antiguo centro financiero de Santiago. Durante gran parte del siglo XX concentró bancos, oficinas y la Bolsa de Comercio, convirtiéndose en uno de los espacios urbanos más característicos de la ciudad."
+      UniversidadDeChile:
+        title: "Universidad de Chile"
+        desc:
+          - "Fundada en 1842, es una de las principales instituciones de educación superior del país. Su Casa Central, ubicada en la Alameda, destaca por su arquitectura neoclásica y por su relevancia en el desarrollo de la educación pública, la investigación y la vida intelectual de Chile."
+      IglesiaDeLosSacramentinos:
+        title: "Iglesia de Los Sacramentinos"
+        desc:
+          - "Templo inspirado en la Basílica del Sacré-Cœur de París, construido entre 1911 y 1934 en estilos neorrománico y neobizantino. Destaca por su gran cúpula blanca, que constituye uno de los hitos arquitectónicos del sector sur del centro de Santiago."
+      PalacioCausino:
+        title: "Palacio Cousiño"
+        desc:
+          - "Construido entre 1870 y 1878 por encargo de Isidora Goyenechea, fue diseñado por el arquitecto Paul Lathoud en estilo neoclásico francés. Representa una de las máximas expresiones del lujo de la aristocracia chilena del siglo XIX y conserva mobiliario, vitrales y decoraciones originales de origen europeo."

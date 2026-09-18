@@ -414,6 +414,7 @@ commands-cooldowns:
   tourinfo: 0
   tournext: 0
   tourstop: 0
+  tourfirst: 0
 
 ds-help-command-per-page: 5 # Cantidad de comandos a mostrar por página en el comando de ayuda de Discord.
 ds-project-list-per-page: 9 # Cantidad de proyectos a mostrar por página en el comando de listado de proyectos de Discord por usuario.
