@@ -176,6 +176,17 @@ public class GlobalChatService {
     }
 
     /**
+     * Envia un embed a todos los canales globales de Discord de forma síncrona.
+     *
+     * @param embed embed a difundir.
+     */
+    public static void broadcastEmbedSync(MessageEmbed embed) {
+        if (!config.getBoolean("discord-global-chat")) return;
+        List<Long> ids = PaisRegistry.getInstance().getDsGlobalChatIds();
+        MessageService.sendBroadcastEmbedSync(ids, embed);
+    }
+
+    /**
      * Difunde el mensaje de ingreso de un jugador nuevo al servidor.
      *
      * @param player jugador que ingreso por primera vez.

@@ -25,6 +25,8 @@ import com.bteconosur.db.model.Preset;
 import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.model.Tour;
+import com.bteconosur.db.model.TourStop;
 import com.bteconosur.db.util.Estado;
 import com.bteconosur.db.util.PlaceholderUtils;
 import com.bteconosur.db.util.PlaceholderUtils.PlaceholderContext;
@@ -45,6 +47,100 @@ public class MenuUtils {
 
     private static final YamlConfiguration gui = ConfigHandler.getInstance().getGui();
     private static final YamlConfiguration config = ConfigHandler.getInstance().getConfig();
+
+    public static GuiItem getProyectoTourGuiItem(Language language, boolean isInternacional) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.proyecto"),
+            LanguageHandler.getText(language, "items.proyecto-tour.name"),
+            LanguageHandler.getTextList(language, isInternacional ? "items.proyecto-tour.lore-international" : "items.proyecto-tour.lore"), true
+        );
+    }
+
+    public static ItemStack getFirstStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.first"),
+            LanguageHandler.getText(language, "items.first-stop.name"),
+            LanguageHandler.getTextList(language, "items.first-stop.lore"), false
+        ).getItemStack();
+    }
+
+    public static ItemStack getLastStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.last"),
+            LanguageHandler.getText(language, "items.last-stop.name"),
+            LanguageHandler.getTextList(language, "items.last-stop.lore"), false
+        ).getItemStack();
+    }
+
+    public static ItemStack getStopTourItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.stop-tour"),
+            LanguageHandler.getText(language, "items.stop-tour.name"),
+            LanguageHandler.getTextList(language, "items.stop-tour.lore"), false
+        ).getItemStack();
+    }
+
+    public static ItemStack getInfoStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.info"),
+            LanguageHandler.getText(language, "items.info-stop.name"),
+            LanguageHandler.getTextList(language, "items.info-stop.lore"), false
+        ).getItemStack();
+    }
+
+    public static ItemStack getBackStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.back"),
+            LanguageHandler.getText(language, "items.back-stop.name"),
+            LanguageHandler.getTextList(language, "items.back-stop.lore"), false
+        ).getItemStack();
+    }
+
+    public static ItemStack getNextStopItem(Language language) {
+        return buildGuiItem(
+            gui.getString("item-materials.tour.next"),
+            LanguageHandler.getText(language, "items.next-stop.name"),
+            LanguageHandler.getTextList(language, "items.next-stop.lore"), false
+        ).getItemStack();
+    }
+
+    public static GuiItem getTourStopGuiItem(TourStop parada, Language language, boolean manage) {
+        String path = manage ? "items.tour-stop.manage." : "items.tour-stop.";
+        List<String> processedLore = new ArrayList<>();
+        List<String> lore = LanguageHandler.getTextList(language, path + "lore");
+        for (String line : lore) {
+            line = PlaceholderUtils.replaceMC(line, language, parada);
+            processedLore.add(line);
+        }
+        return buildGuiItem(
+            gui.getString("item-materials.tour.stop"),
+            LanguageHandler.replaceMC(path + "name", language, parada),
+            processedLore, false
+        );
+    }
+
+    public static GuiItem getTourGuiItem(Tour tour, Language language, boolean manage) {
+        String path = manage ? "items.tour.manage." : "items.tour.";
+        List<String> processedLore = new ArrayList<>();
+        if (manage) {
+            List<String> lore = LanguageHandler.getTextList(language, path + "lore-1");
+            for (String line : lore) {
+                line = PlaceholderUtils.replaceMC(line, language, tour);
+                processedLore.add(line);
+            }
+        }
+        processedLore.addAll(tour.getDescription(language));
+        List<String> lore = LanguageHandler.getTextList(language, path + (manage ? "lore-2" : "lore"));
+        for (String line : lore) {
+            line = PlaceholderUtils.replaceMC(line, language, tour);
+            processedLore.add(line);
+        }
+        return buildGuiItem(
+            gui.getString("item-materials.tour.list"),
+            LanguageHandler.replaceMC(path + "name", language, tour),
+            processedLore, false
+        );
+    }
 
     public static GuiItem getPresetCreateItem(Language language) {
         List<String> lore = LanguageHandler.getTextList(language, "items.preset-create.lore");
@@ -594,6 +690,26 @@ public class MenuUtils {
         return buildGuiItem(
             gui.getString("item-materials.peru-head"),
             (isSelected ? "<b>" : "") + LanguageHandler.getText(language, "items.peru-head.name"),
+            lore, false
+        );
+    }
+
+    public static GuiItem getConosurHeadItem(Language language) {
+        List<String> lore = LanguageHandler.getTextList(language,   "items.conosur-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        return buildGuiItem(
+            gui.getString("item-materials.conosur-head"),
+            LanguageHandler.getText(language, "items.conosur-head.name"),
+            lore, false
+        );
+    }
+
+    public static GuiItem getAntartidaHeadItem(Language language) {
+        List<String> lore = LanguageHandler.getTextList(language,   "items.antartida-head.lore");
+        if (lore == null) lore = new ArrayList<>();
+        return buildGuiItem(
+            gui.getString("item-materials.antartida-head"),
+            LanguageHandler.getText(language, "items.antartida-head.name"),
             lore, false
         );
     }

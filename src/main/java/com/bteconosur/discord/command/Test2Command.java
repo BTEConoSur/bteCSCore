@@ -2,6 +2,8 @@ package com.bteconosur.discord.command;
 
 import java.util.Arrays;
 
+import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.discord.util.CommandMode;
 
 import net.dv8tion.jda.api.Permission;
@@ -28,6 +30,9 @@ public class Test2Command extends DsCommand {
         Long numero = event.getOption("numero") != null ? event.getOption("numero").getAsLong() : null;
         String respuesta = "Comando /test2 ejecutado! Texto: '" + texto + "'";
         if (numero != null) respuesta += ", Número: " + numero;
-        event.reply(respuesta).setEphemeral(true).queue();
+        event.reply(respuesta).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 }

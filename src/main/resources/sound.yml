@@ -1,0 +1,8 @@
+# Los sonidos deben ser provenientes de https://jd.papermc.io/paper/26.2/org/bukkit/Sound.html.
+# Por defecto, se usará ENTITY_EXPERIENCE_ORB_PICKUP.
+# Se puede configurar el volumen y el pitch de cada sonido. Por defecto, ambos son 1.0.
+sound-effects:
+  tour-teleport:
+    particle: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    volume: 1.0
+    pitch: 1.0

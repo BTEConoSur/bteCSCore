@@ -10,13 +10,13 @@ import com.bteconosur.world.WorldManager;
 public class BTECSCheckSyncProyectos extends BaseCommand {
 
     public BTECSCheckSyncProyectos() {
-        super("syncworldguard", "", "btecs.command.btecs.syncworldguard", CommandMode.CONSOLE_ONLY);
+        super("syncproyectos", "", "btecs.command.btecs.syncproyectos", CommandMode.CONSOLE_ONLY);
     }
 
     @Override
     protected boolean onCommand(CommandSender sender, String[] args) {
         PlayerLogger.info(sender, LanguageHandler.getText("btecs-sync-proyectos-init"), (String) null);
-        WorldManager.getInstance().syncRegions();
+        WorldManager.getInstance().syncProjectRegions();
         String message = LanguageHandler.getText("btecs-sync-proyectos-success");
         PlayerLogger.info(sender, message, (String) null);
         return true;

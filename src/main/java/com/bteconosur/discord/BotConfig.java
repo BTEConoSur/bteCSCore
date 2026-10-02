@@ -51,7 +51,6 @@ public class BotConfig {
         try {
             jda = JDABuilder.createDefault(secret.getString("discord-bot-token"))
                     .enableIntents(GatewayIntent.MESSAGE_CONTENT)
-                    .enableIntents(GatewayIntent.GUILD_PRESENCES)
                     .enableIntents(GatewayIntent.GUILD_MEMBERS)
                     .setActivity(Activity.playing(LanguageHandler.getText("ds-activity").replace("%players%", String.valueOf(Bukkit.getOnlinePlayers().size()))))
                     .addEventListeners(new ButtonListener(), new ModalListener(), new SelectListener(), new SlashCommandListener(), new ChatListener(), new ContextCommandListener())

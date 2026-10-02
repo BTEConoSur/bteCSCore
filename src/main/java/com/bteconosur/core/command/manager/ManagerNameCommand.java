@@ -83,7 +83,7 @@ public class ManagerNameCommand extends BaseCommand {
         for (Player miembro : miembros) 
             PlayerLogger.info(miembro, LanguageHandler.replaceMC("project.update.name.for-member", miembro.getLanguage(), targetProyecto), 
                 ChatUtil.getDsProjectNameUpdated(targetProyecto, nombre, miembro.getLanguage()));
-        String countryLog = LanguageHandler.replaceDS("project.update.name.log", language, commandPlayer, targetProyecto);   
+        String countryLog = LanguageHandler.replaceDS("project.update.name.log", Language.getDefault(), commandPlayer, targetProyecto);   
         DiscordLogger.countryLog(countryLog, pais);
         return true;
     }

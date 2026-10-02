@@ -6,6 +6,7 @@ import java.util.Arrays;
 import com.bteconosur.core.BTEConoSur;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.util.CommandMode;
@@ -34,14 +35,20 @@ public class DsSchemCommand extends DsCommand {
         Player player = PlayerRegistry.getInstance().findByDiscordId(userId);
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         
         String nombre = event.getOption("nombre").getAsString();
         if (nombre == null || nombre.isEmpty()) {
             String message = LanguageHandler.getText(language, "ds-schematic.name-needed");
-            event.reply(message).setEphemeral(true).queue();
+            event.reply(message).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -49,11 +56,17 @@ public class DsSchemCommand extends DsCommand {
         File schemFile = new File(we.getDataFolder(), config.getString("schematic-path").replace("%nombre%", nombre));
         if (!schemFile.exists()) {
             String message = LanguageHandler.getText(language, "ds-schematic.not-found").replace("%nombre%", nombre);
-            event.reply(message).setEphemeral(true).queue();
+            event.reply(message).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         String respuesta = LanguageHandler.getText(language, "ds-schematic.success");
-        event.reply(respuesta).addFiles(FileUpload.fromData(schemFile)).setEphemeral(true).queue();
+        event.reply(respuesta).addFiles(FileUpload.fromData(schemFile)).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 
 }

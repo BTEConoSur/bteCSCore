@@ -136,13 +136,19 @@ public abstract class DsCommand {
         else commandData.setDefaultPermissions(DefaultMemberPermissions.ENABLED);
         if (options != null && !options.isEmpty()) commandData.addOptions(options);
         if (subcommands.isEmpty()) {
-            commandData.queue();
+            commandData.queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             ConsoleLogger.debug("Comando de Discord '"+ mode +"' registrado: /" + command);
         } else {
             for (DsSubcommand subcommand : subcommands.values()) {
                 commandData.addSubcommands(subcommand.geSubcommandData());
             }
-            commandData.queue();
+            commandData.queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.update-command"), error)
+            );
             ConsoleLogger.debug("Comando de Discord '"+ mode + "' con subcomandos registrado: /" + command);
         }
     }

@@ -84,9 +84,14 @@ public class MemberListMenu extends PaginatedMenu {
                             return;
                         }
 
-                        if (permissionManager.isPostulante(player)) {
+                        if (permissionManager.isPostulante(player) || permissionManager.isVisita(player)) {
                             String message = LanguageHandler.getText(language, "project.member.add.cant-add-postulante");
                             PlayerLogger.error(BTECSPlayer, message, (String) null);
+                            return;
+                        }
+
+                        if (permissionManager.isVisita(BTECSPlayer)) {
+                            PlayerLogger.error(BTECSPlayer, LanguageHandler.getText(language, "project.member.add.visita-cant"), (String) null);
                             return;
                         }
 

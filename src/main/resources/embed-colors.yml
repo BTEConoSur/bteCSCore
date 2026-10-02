@@ -9,9 +9,6 @@ ds-chat-notifications:
   player-new-join: 0x43B581
   chat-join: 0xf2cc0d
   chat-left: 0x0D33F2
-ds-console-notifications:
-  error: 0xED4245
-  warn: 0xf2cc0d
 ds-notifications:
   rango-switched: 0xF48245
   tipo-switched: 0x45B7F4

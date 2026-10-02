@@ -266,6 +266,18 @@ public class PermissionManager {
     }
 
     /**
+     * Verifica si un jugador tiene el tipo "Visita".
+     * 
+     * @param player Jugador a verificar
+     * @return true si el jugador es visitante, false en caso contrario
+     */
+    public boolean isVisita(Player player) {
+        if (player == null) return false;
+        TipoUsuario tipoVisitante = tipoUsuarioRegistry.getVisita();
+        return isTipoUsuario(player, tipoVisitante);
+    }
+
+    /**
      * Verifica si un jugador tiene el rango "Normal".
      * 
      * @param player Jugador a verificar

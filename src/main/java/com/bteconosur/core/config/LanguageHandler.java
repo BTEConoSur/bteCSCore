@@ -10,6 +10,8 @@ import com.bteconosur.db.model.Proyecto;
 import com.bteconosur.db.model.RangoUsuario;
 import com.bteconosur.db.model.TipoProyecto;
 import com.bteconosur.db.model.TipoUsuario;
+import com.bteconosur.db.model.Tour;
+import com.bteconosur.db.model.TourStop;
 import com.bteconosur.db.util.PlaceholderUtils;
 
 import java.util.HashMap;
@@ -63,8 +65,11 @@ public class LanguageHandler {
         if (language == null) language = Language.getDefault();
         String value = getLanguageConfig(language).getString(key);
         if (value == null) {
-            ConsoleLogger.warn(getText("language-key-error").replace("%key%", key).replace("%language%", language.getCode()));
-            return "ERROR_KEY_NF";
+            value = getLanguageConfig(Language.getDefault()).getString(key);
+            if (value == null) {
+                ConsoleLogger.warn(getText("language-key-error").replace("%key%", key).replace("%language%", language.getCode()));
+                return "ERROR_KEY_NF";
+            }
         }
         return value;
     }
@@ -79,7 +84,12 @@ public class LanguageHandler {
     public static String getTextWithouthWarn(Language language, String key) {
         if (language == null) language = Language.getDefault();
         String value = getLanguageConfig(language).getString(key);
-        if (value == null) return "ERROR_KEY_NF";
+        if (value == null) {
+            value = getLanguageConfig(Language.getDefault()).getString(key);
+            if (value == null) {
+                return "ERROR_KEY_NF";
+            }
+        }
         return value;
     }
 
@@ -108,6 +118,9 @@ public class LanguageHandler {
     public static List<String> getTextList(Language language, String key) {
         if (language == null) language = Language.getDefault();
         List<String> list = getLanguageConfig(language).getStringList(key);
+        if (list == null || list.isEmpty()) {
+            list = getLanguageConfig(Language.getDefault()).getStringList(key);
+        }
         return list;
     }
 
@@ -381,6 +394,58 @@ public class LanguageHandler {
     public static String replaceDS(String key, Language language, Division... divisiones) {
         String text = getText(language, key);
         return PlaceholderUtils.replaceDS(text, language, divisiones);
+    }
+
+    /**
+     * Obtiene un texto y reemplaza placeholders de tours para Minecraft.
+     *
+     * @param key clave de la traducción.
+     * @param language idioma del texto.
+     * @param tours tours cuyos placeholders se reemplazan.
+     * @return texto con placeholders procesados para Minecraft.
+     */
+    public static String replaceMC(String key, Language language, Tour... tours) {
+        String text = getText(language, key);
+        return PlaceholderUtils.replaceMC(text, language, tours);
+    }
+
+    /**
+     * Obtiene un texto y reemplaza placeholders de tours para Discord.
+     *
+     * @param key clave de la traducción.
+     * @param language idioma del texto.
+     * @param tours tours cuyos placeholders se reemplazan.
+     * @return texto con placeholders procesados para Discord.
+     */
+    public static String replaceDS(String key, Language language, Tour... tours) {
+        String text = getText(language, key);
+        return PlaceholderUtils.replaceDS(text, language, tours);
+    }
+
+    /**
+     * Obtiene un texto y reemplaza placeholders de paradas de tours para Minecraft.
+     *
+     * @param key clave de la traducción.
+     * @param language idioma del texto.
+     * @param paradas paradas de tours cuyos placeholders se reemplazan.
+     * @return texto con placeholders procesados para Minecraft.
+     */
+    public static String replaceMC(String key, Language language, TourStop... paradas) {
+        String text = getText(language, key);
+        return PlaceholderUtils.replaceMC(text, language, paradas);
+    }
+
+    /**
+     * Obtiene un texto y reemplaza placeholders de paradas de tours para Discord.
+     *
+     * @param key clave de la traducción.
+     * @param language idioma del texto.
+     * @param paradas paradas de tours cuyos placeholders se reemplazan.
+     * @return texto con placeholders procesados para Discord.
+     */
+    public static String replaceDS(String key, Language language, TourStop... paradas) {
+        String text = getText(language, key);
+        return PlaceholderUtils.replaceDS(text, language, paradas);
     }
 
     /**

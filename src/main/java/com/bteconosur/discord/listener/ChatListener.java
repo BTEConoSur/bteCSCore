@@ -9,6 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.chat.ChatService;
 import com.bteconosur.core.chat.CountryChatService;
 import com.bteconosur.db.model.Pais;
@@ -65,7 +66,10 @@ public class ChatListener extends ListenerAdapter {
             if (!config.getBoolean("discord-global-chat")) return;
             String idMessage = IDUtils.generarCodigoMessage();
             if (player != null && ChatService.isMuted(player.getUuid())) {
-                dsMessage.delete().queue();
+                dsMessage.delete().queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+                );
                 MessageService.sendDM(player.getDsIdUsuario(), LanguageHandler.getText(player.getLanguage(), "discord-mute-message"));
                 return;
             }
@@ -77,7 +81,10 @@ public class ChatListener extends ListenerAdapter {
         }
         if (!config.getBoolean("discord-country-chat")) return;
         if (player != null && ChatService.isMuted(player.getUuid())) {
-            dsMessage.delete().queue();
+            dsMessage.delete().queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.delete"), error)
+            );
             MessageService.sendDM(player.getDsIdUsuario(), LanguageHandler.getText(player.getLanguage(), "discord-mute-message"));
             return;
         }

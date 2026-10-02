@@ -9,8 +9,15 @@ import java.util.stream.Collectors;
  * Idiomas soportados por el plugin con sus códigos de localización.
  */
 public enum Language {
+    /* Pasos para añadir un nuevo idioma:
+     * 1. Agregar el enum con el código ISO del idioma.
+     * 2. Agregar el enum en la Base de Datos.
+     * 3. Agregar la configuración del idioma en el archivo de configuración.
+     * 4. Agregar las traducciones en los archivos de idioma.
+     */
     ENGLISH("en_US"),
-    SPANISH("es_ES");
+    SPANISH("es_ES"),
+    SPANISH_ARGENTINA("es_AR");
 
     private final String code;
 

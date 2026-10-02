@@ -161,7 +161,7 @@ public class ProjectManager {
 
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.admin.success", language, proyecto), (String) null);
         
-        String countryLog = LanguageHandler.replaceDS("project.create.admin.log", language, player, proyecto);
+        String countryLog = LanguageHandler.replaceDS("project.create.admin.log", Language.getDefault(), player, proyecto);
         DiscordLogger.countryLog(countryLog, pais);
     }
 
@@ -210,7 +210,7 @@ public class ProjectManager {
         
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.manager.success", language, proyecto), (String) null);
         
-        String countryLog = LanguageHandler.replaceDS("project.create.manager.log", language, player, proyecto);
+        String countryLog = LanguageHandler.replaceDS("project.create.manager.log", Language.getDefault(), player, proyecto);
         DiscordLogger.countryLog(countryLog, pais);
     }
 
@@ -255,7 +255,9 @@ public class ProjectManager {
         pr.load(proyecto);
 
         Pais pais = proyecto.getPais();
-        Boolean success = ProjectRequestService.sendProjectRequest(proyecto);
+        Instant now = DateUtils.instantOffset();
+        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.create-project") * 60L);
+        Boolean success = ProjectRequestService.sendProjectRequest(proyecto, now, expiration);
         if (!success){ 
             PlayerLogger.error(player, LanguageHandler.getText(language, "internal-error"), (String) null);
             pr.unload(proyecto.getId());
@@ -264,7 +266,9 @@ public class ProjectManager {
 
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.create.request.success", language, proyecto), (String) null);
         
-        String countryLog = LanguageHandler.replaceDS("project.create.request.log", language, player, proyecto);
+        Date expirationDate = Date.from(expiration);
+        String countryLog = LanguageHandler.replaceDS("project.create.request.log", Language.getDefault(), player, proyecto)
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
     }
 
@@ -278,9 +282,17 @@ public class ProjectManager {
      */
     public void acceptCreateRequest(String proyectoId, Player staff, Long interactionId, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        InteractionRegistry ir = InteractionRegistry.getInstance();
+        if (proyecto == null) {
+            Interaction interaction = ir.findCreateRequest(proyectoId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.create.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         proyecto.setEstado(Estado.ACTIVO);
         ProyectoRegistry.getInstance().merge(proyecto.getId());
-        InteractionRegistry.getInstance().unload(interactionId);
+        ir.unload(interactionId);
         WorldManager.getInstance().createRegion(proyecto);
         ApiManager.getInstance().createClaim(proyecto);
         TipoUsuarioRegistry tur = TipoUsuarioRegistry.getInstance();
@@ -328,10 +340,18 @@ public class ProjectManager {
      */
     public void cancelCreateRequest(String proyectoId, Player staff, Long interactionId , String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        InteractionRegistry ir = InteractionRegistry.getInstance();
+        if (proyecto == null) {
+            Interaction interaction = ir.findCreateRequest(proyectoId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.create.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         Pais pais = proyecto.getPais();
         Player lider = getLider(proyecto);
-
-        InteractionRegistry.getInstance().unload(interactionId);
+        
+        ir.unload(interactionId);
         if (!staff.equals(lider)) {
             String message = LanguageHandler.replaceMC("project.create.reject.for-leader", lider.getLanguage(), proyecto);
             PlayerLogger.info(lider, message, ChatUtil.getDsProjectRejected(proyecto, comentario, lider.getLanguage()));
@@ -363,10 +383,18 @@ public class ProjectManager {
      */
     public void expiredCreateRequest(String proyectoId, Long interactionId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        InteractionRegistry ir = InteractionRegistry.getInstance();
+        if (proyecto == null) {
+            Interaction interaction = ir.findCreateRequest(proyectoId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.create.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         Pais pais = proyecto.getPais();
         Player lider = getLider(proyecto);
 
-        InteractionRegistry.getInstance().unload(interactionId);
+        ir.unload(interactionId);
         String message = LanguageHandler.replaceMC("project.create.request.expired", lider.getLanguage(), proyecto);
         PlayerLogger.info(lider, message, ChatUtil.getDsProjectRequestExpired(proyecto, lider.getLanguage()));
 
@@ -429,9 +457,15 @@ public class ProjectManager {
             PlayerLogger.warn(player, LanguageHandler.replaceMC("project.join.request.already", player.getLanguage(), proyecto), (String) null);
             return;
         }
-        ProjectRequestService.sendProjectJoinRequest(proyecto, player);
+
+        Instant now = DateUtils.instantOffset();
+        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.join-project") * 60L);
+
+        ProjectRequestService.sendProjectJoinRequest(proyecto, player, now, expiration);
+        Date expirationDate = Date.from(expiration);
         PlayerLogger.info(player, LanguageHandler.replaceMC("project.join.request.success", player.getLanguage(), proyecto), (String) null);
-        String countryLog = LanguageHandler.replaceDS("project.join.request.log", Language.getDefault(), player, proyecto);
+        String countryLog = LanguageHandler.replaceDS("project.join.request.log", Language.getDefault(), player, proyecto)
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
     }
 
@@ -456,7 +490,16 @@ public class ProjectManager {
      */
     public void expiredJoinRequest(String proyectoId, UUID playerId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        InteractionRegistry ir = InteractionRegistry.getInstance();
         Player player = PlayerRegistry.getInstance().get(playerId);
+        if (proyecto == null) {
+            Interaction interaction = ir.findJoinRequest(proyectoId, playerId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.join.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            countryLog = PlaceholderUtils.replaceMC(countryLog, Language.getDefault(), player);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         cancelJoinRequest(proyectoId, playerId);
         Pais pais = proyecto.getPais();
         String message = LanguageHandler.replaceMC("project.join.request.expired", player.getLanguage(), proyecto);
@@ -480,9 +523,18 @@ public class ProjectManager {
      */
     public void acceptJoinRequest(String proyectoId, UUID playerId, Long interactionId, UUID commandId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        Player player = PlayerRegistry.getInstance().get(playerId);
+        if (proyecto == null) {
+            InteractionRegistry ir = InteractionRegistry.getInstance();
+            Interaction interaction = ir.findJoinRequest(proyectoId, playerId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.join.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            countryLog = PlaceholderUtils.replaceMC(countryLog, Language.getDefault(), player);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         cancelJoinRequest(proyectoId, playerId);
         Pais pais = proyecto.getPais();
-        Player player = PlayerRegistry.getInstance().get(playerId);
         Player commandPlayer = PlayerRegistry.getInstance().get(commandId);
         String message = LanguageHandler.replaceMC("project.join.accept.for-member", player.getLanguage(), proyecto);
         if (!commandPlayer.equals(player)) {
@@ -504,9 +556,18 @@ public class ProjectManager {
      */
     public void rejectJoinRequest(String proyectoId, UUID playerId, Long interactionId, UUID commandId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        Player player = PlayerRegistry.getInstance().get(playerId);
+        if (proyecto == null) {
+            InteractionRegistry ir = InteractionRegistry.getInstance();
+            Interaction interaction = ir.findJoinRequest(proyectoId, playerId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.join.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            countryLog = PlaceholderUtils.replaceMC(countryLog, Language.getDefault(), player);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         cancelJoinRequest(proyectoId, playerId);
         Pais pais = proyecto.getPais();
-        Player player = PlayerRegistry.getInstance().get(playerId);
         Player commandPlayer = PlayerRegistry.getInstance().get(commandId);
         String message = LanguageHandler.replaceMC("project.join.reject.for-member", player.getLanguage(), proyecto);
         if (!commandPlayer.equals(player)) {
@@ -674,7 +735,7 @@ public class ProjectManager {
         
         Date expirationDate = Date.from(expiration);
         String countryLog = LanguageHandler.replaceDS("project.finish.request.log", Language.getDefault(), requester, proyecto)
-            .replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expirationDate, Language.getDefault()));
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
         
         String dsNotification = LanguageHandler.replaceDS("project.finish.request.ds-for-reviewer", Language.getDefault(), proyecto);
@@ -720,6 +781,14 @@ public class ProjectManager {
      */
     public void acceptFinishRequest(String proyectoId, Player staff, String comentario, Boolean promote) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        if (proyecto == null) {
+            InteractionRegistry ir = InteractionRegistry.getInstance();
+            Interaction interaction = ir.findFinishRequest(proyectoId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.finish.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         proyecto.setFechaTerminado(Date.from(DateUtils.instantOffset()));
         cancelFinishRequest(proyecto, Estado.COMPLETADO);
 
@@ -761,6 +830,14 @@ public class ProjectManager {
      */
     public void rejectFinishRequest(String proyectoId, Player staff, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        if (proyecto == null) {
+            InteractionRegistry ir = InteractionRegistry.getInstance();
+            Interaction interaction = ir.findFinishRequest(proyectoId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.finish.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         cancelFinishRequest(proyecto, Estado.ACTIVO);
         WorldManager.getInstance().addPlayers(proyecto);
         Player lider = getLider(proyecto);
@@ -787,6 +864,14 @@ public class ProjectManager {
      */
     public void expiredFinishRequest(String proyectoId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        if (proyecto == null) {
+            InteractionRegistry ir = InteractionRegistry.getInstance();
+            Interaction interaction = ir.findFinishRequest(proyectoId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.finish.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         cancelFinishRequest(proyecto, Estado.ACTIVO);
         WorldManager.getInstance().addPlayers(proyecto);
         Player lider = getLider(proyecto);
@@ -866,11 +951,15 @@ public class ProjectManager {
         Player lider = getLider(proyecto);
                 
         Pais pais = proyecto.getPais();
-        Boolean success = ProjectRequestService.sendProjectRedefineRequest(proyecto, newPolygon, tipoProyecto.getId(), division.getId(), commandPlayer);
+        Instant now = DateUtils.instantOffset();
+        Instant expiration = now.plusSeconds(config.getInt("interaction-expirations.redefine-project") * 60L);
+        Boolean success = ProjectRequestService.sendProjectRedefineRequest(proyecto, newPolygon, tipoProyecto.getId(), division.getId(), commandPlayer, now, expiration);
         if (!success) return false;
         proyecto.setTipoProyecto(tipoProyecto);
         proyecto.setDivision(division);
-        String countryLog = LanguageHandler.replaceDS("project.redefine.request.log", Language.getDefault(), commandPlayer, proyecto);
+        Date expirationDate = Date.from(expiration);
+        String countryLog = LanguageHandler.replaceDS("project.redefine.request.log", Language.getDefault(), commandPlayer, proyecto)
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
         
         Set<Player> members = getMembers(proyecto);
@@ -904,7 +993,15 @@ public class ProjectManager {
      */
     public void expiredRedefineRequest(String proyectoId, Long interactionId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
-        Interaction interaction = InteractionRegistry.getInstance().get(interactionId);
+        InteractionRegistry ir = InteractionRegistry.getInstance();
+        Interaction interaction = ir.get(interactionId);
+        if (proyecto == null) {        
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.redefine.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
+
         Estado previousEstado = Estado.valueOf((String) interaction.getPayloadValue("previousEstado"));
         cancelRedefineRequest(proyecto, previousEstado);
         Player lider = getLider(proyecto);
@@ -927,6 +1024,12 @@ public class ProjectManager {
     public void acceptRedefineRequest(String proyectoId, Player staff, Long interactionId, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         InteractionRegistry ir = InteractionRegistry.getInstance();
+        if (proyecto == null) {        
+            ir.unload(interactionId);
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.redefine.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         Interaction interaction = ir.get(interactionId);
         Estado previousEstado = Estado.valueOf((String) interaction.getPayloadValue("previousEstado"));
         Long tipoId = ((Number) interaction.getPayloadValue("tipoId")).longValue();
@@ -974,6 +1077,12 @@ public class ProjectManager {
     public void rejectRedefineRequest(String proyectoId, Player staff, Long interactionId, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
         InteractionRegistry ir = InteractionRegistry.getInstance();
+        if (proyecto == null) {        
+            ir.unload(interactionId);
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.redefine.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         Interaction interaction = ir.get(interactionId);
         Estado previousEstado = Estado.valueOf((String) interaction.getPayloadValue("previousEstado"));
         cancelRedefineRequest(proyecto, previousEstado);
@@ -1052,7 +1161,7 @@ public class ProjectManager {
 
         Date expirationDate = Date.from(expiration);
         String countryLog = LanguageHandler.replaceDS("project.edit.finish.request.log", Language.getDefault(), commandPlayer, proyecto)
-            .replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expirationDate, Language.getDefault()));
+            .replace("%fechaHoraVencimiento%", DateUtils.getDsTimestamp(expirationDate, Language.getDefault()));
         DiscordLogger.countryLog(countryLog, pais);
         
         String dsNotification = LanguageHandler.replaceDS("project.edit.finish.request.ds-for-reviewer", Language.getDefault(), proyecto);
@@ -1094,6 +1203,15 @@ public class ProjectManager {
      */
     public void expiredFinishEditRequest(String proyectoId) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        if (proyecto == null) {
+            InteractionRegistry ir = InteractionRegistry.getInstance();
+            Interaction interaction = ir.findFinishEditRequest(proyectoId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.edit.finish.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
+
         cancelFinishEditRequest(proyecto, Estado.EDITANDO);
         WorldManager.getInstance().addPlayers(proyecto);
         Player lider = getLider(proyecto);
@@ -1115,6 +1233,14 @@ public class ProjectManager {
      */
     public void acceptEditRequest(String proyectoId, Player staff, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        if (proyecto == null) {
+            InteractionRegistry ir = InteractionRegistry.getInstance();
+            Interaction interaction = ir.findFinishEditRequest(proyectoId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.edit.finish.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         cancelFinishEditRequest(proyecto, Estado.COMPLETADO);
         Pais pais = proyecto.getPais();
 
@@ -1143,6 +1269,14 @@ public class ProjectManager {
      */
     public void rejectedEditRequest(String proyectoId, Player staff, String comentario) {
         Proyecto proyecto = ProyectoRegistry.getInstance().get(proyectoId);
+        if (proyecto == null) {
+            InteractionRegistry ir = InteractionRegistry.getInstance();
+            Interaction interaction = ir.findFinishEditRequest(proyectoId);
+            ir.unload(interaction.getId());
+            String countryLog = LanguageHandler.getText(Language.getDefault(), "project.edit.finish.request.project-null-log").replace("%proyecto.id%", proyectoId);
+            DiscordLogger.staffLog(countryLog);
+            return;
+        }
         cancelFinishEditRequest(proyecto, Estado.EDITANDO);
         WorldManager.getInstance().addPlayers(proyecto);
         Pais pais = proyecto.getPais();

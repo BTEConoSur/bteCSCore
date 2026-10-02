@@ -2,6 +2,8 @@ package com.bteconosur.core.config;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.bteconosur.core.util.BannerUtils;
+
 /**
  * Manejador centralizado de archivos de configuración del plugin.
  */
@@ -10,6 +12,7 @@ public class ConfigHandler {
     private final ConfigFile config = new ConfigFile("config.yml");
     private final ConfigFile data = new ConfigFile("data.yml");
     private final ConfigFile gui = new ConfigFile("gui.yml");
+    private final ConfigFile sound = new ConfigFile("sound.yml");
     private final ConfigFile embedColors = new ConfigFile("embed-colors.yml");
     private final ConfigFile secret = new ConfigFile("secret.yml");
     private final ConfigFile pending = new ConfigFile("pending.yml");
@@ -29,6 +32,7 @@ public class ConfigHandler {
         config.register();
         data.register();
         gui.register();
+        sound.register();
         embedColors.register();
         secret.register();
         pending.register();
@@ -80,6 +84,15 @@ public class ConfigHandler {
     }
 
     /**
+     * Obtiene la configuración de sonidos.
+     *
+     * @return configuración YAML de {@code sound.yml}.
+     */
+    public YamlConfiguration getSound() {
+        return sound.getFileConfiguration();
+    }
+
+    /**
      * Obtiene la configuración secreta (credenciales, tokens).
      *
      * @return configuración YAML de {@code secret.yml}.
@@ -108,10 +121,12 @@ public class ConfigHandler {
         config.reload();
         data.reload();
         gui.reload();
+        sound.reload();
         embedColors.reload();
         secret.reload();
         pending.reload();
         LanguageHandler.reload();
+        BannerUtils.loadColorAliases();
     }
 
     /**

@@ -18,6 +18,7 @@ import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DateUtils;
+import com.bteconosur.core.util.SatMapUtils;
 import com.bteconosur.core.util.TerraUtils;
 import com.bteconosur.db.model.Division;
 import com.bteconosur.db.model.Pais;
@@ -432,6 +433,10 @@ public class ChatUtil {
         if (tur.getPostulante().equals(player.getTipoUsuario())) eb.appendDescription("\n" + LanguageHandler.getText("ds-embeds.project-created.player-is-postulante"));
         if (pr.hasCollisions(proyecto.getId(), proyecto.getPoligono())) eb.appendDescription("\n" + LanguageHandler.getText("ds-embeds.project-created.has-collisions"));
 
+        String links = LanguageHandler.getText("ds-embeds.project-info.link")
+            .replace("%gmapsLink%", SatMapUtils.getGMapsLink(geoCoords[0], geoCoords[1]))
+            .replace("%gearthLink%", SatMapUtils.getGEarthLink(geoCoords[0], geoCoords[1]));
+
         String footer = LanguageHandler.getText("ds-embeds.project-created.footer").replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expiredDate, Language.getDefault()));
         eb.addField(LanguageHandler.getText("ds-embeds.project-created.fields.rango"), player.getRangoUsuario().getNombre(), true)   
             .addField(LanguageHandler.getText("ds-embeds.project-created.fields.tipo"), player.getTipoUsuario().getNombre(), true)
@@ -443,6 +448,7 @@ public class ChatUtil {
             .addField(LanguageHandler.getText("ds-embeds.project-created.fields.max-miembros"), String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
             .addField(LanguageHandler.getText("ds-embeds.project-created.fields.tamaño"), String.valueOf(polygon.getArea()), true)
             .addField(LanguageHandler.getText("ds-embeds.project-created.fields.coordenadas"), coords, false)
+            .addField(LanguageHandler.getText("ds-embeds.project-info.fields.links"), links, false)
             .setImage("attachment://map.png")
             .setColor(embedColors.getInt("ds-embeds.project-created"))
             .setFooter(footer);
@@ -467,11 +473,16 @@ public class ChatUtil {
         EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
         if (pr.hasCollisions(proyecto.getId(), newPolygon)) eb.appendDescription("\n" + LanguageHandler.getText("ds-embeds.project-redefine-requested.has-collisions"));
 
+        String links = LanguageHandler.getText("ds-embeds.project-info.link")
+            .replace("%gmapsLink%", SatMapUtils.getGMapsLink(geoCoords[0], geoCoords[1]))
+            .replace("%gearthLink%", SatMapUtils.getGEarthLink(geoCoords[0], geoCoords[1]));
+
         String footer = LanguageHandler.getText("ds-embeds.project-redefine-requested.footer").replace("%fechaHoraVencimiento%", DateUtils.formatDateHour(expiredDate, Language.getDefault()));
         eb.addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.tipo-proyecto"), proyecto.getTipoProyecto().getNombre(), true)
             .addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.max-miembros"), String.valueOf(proyecto.getTipoProyecto().getMaxMiembros()), true)
             .addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.tamaño"), String.valueOf(polygon.getArea()), true)
             .addField(LanguageHandler.getText("ds-embeds.project-redefine-requested.fields.coordenadas"), coords, false)
+            .addField(LanguageHandler.getText("ds-embeds.project-info.fields.links"), links, false)
             .setImage("attachment://map.png")
             .setColor(embedColors.getInt("ds-embeds.project-redefine-requested"))
             .setFooter(footer);
@@ -593,6 +604,14 @@ public class ChatUtil {
         String iconUrl = config.getString("cono-sur-logo");
         String title = LanguageHandler.replaceDS("ds-embeds.project-info.title", language, proyecto);
         EmbedBuilder eb = new EmbedBuilder().setTitle(title).setAuthor(author, null, iconUrl);
+
+        Polygon polygon = proyecto.getPoligono();
+        Point centroid = polygon.getCentroid();
+        double[] geoCoords = TerraUtils.toGeo(centroid.getX(), centroid.getY());
+        String links = LanguageHandler.getText("ds-embeds.project-info.link")
+            .replace("%gmapsLink%", SatMapUtils.getGMapsLink(geoCoords[0], geoCoords[1]))
+            .replace("%gearthLink%", SatMapUtils.getGEarthLink(geoCoords[0], geoCoords[1]));
+
         eb.addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.descripcion"), PlaceholderUtils.replaceDS("%proyecto.descripcion%", language, proyecto), false)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.nombre"), PlaceholderUtils.replaceDS("%proyecto.nombre%", language, proyecto), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.estado"), PlaceholderUtils.replaceDS("%proyecto.estado%", language, proyecto), true)
@@ -604,6 +623,7 @@ public class ChatUtil {
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.pais"), PlaceholderUtils.replaceDS("%proyecto.paisNombre%", language, proyecto), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.ubicacion"), PlaceholderUtils.replaceDS("%proyecto.divisionContexto%, %proyecto.divisionFna%", language, proyecto), false)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.coordenadas"), PlaceholderUtils.replaceDS("%proyecto.geoCoords%", language, proyecto), false)
+            .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.links"), links, false)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-creacion"), DateUtils.getDsTimestamp(proyecto.getFechaCreado(), language), true)
             .addField(LanguageHandler.getText(language, "ds-embeds.project-info.fields.fecha-finalizacion"), DateUtils.getDsTimestamp(proyecto.getFechaTerminado(), language), true)
             .setImage("attachment://map.png");

@@ -37,19 +37,28 @@ public class DsProyectoCommand extends DsCommand {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         String id = event.getOption("id").getAsString();
         if (id == null || id.isEmpty()) {
             String message = LanguageHandler.getText(language, "ds-proyecto-info.id-needed");
-            event.reply(message).setEphemeral(true).queue();
+            event.reply(message).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         Proyecto proyecto = ProyectoRegistry.getInstance().get(id);
 
         if (proyecto == null) {
-            event.reply(LanguageHandler.getText(language, "ds-proyecto-info.invalid-id").replace("%id%", id)).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-proyecto-info.invalid-id").replace("%id%", id)).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
@@ -59,9 +68,15 @@ public class DsProyectoCommand extends DsCommand {
         File imageFile = new File(folder, proyecto.getId() + ".png");
         
         if (imageFile.exists()) {
-            event.replyEmbeds(embed).addFiles(FileUpload.fromData(imageFile, "map.png")).setEphemeral(true).queue();
+            event.replyEmbeds(embed).addFiles(FileUpload.fromData(imageFile, "map.png")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         } else {
-            event.replyEmbeds(embed).setEphemeral(true).queue();
+            event.replyEmbeds(embed).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             ConsoleLogger.error("Imágen del proyecto " + proyecto.getId() + " no encontrada en " + imageFile.getAbsolutePath());
         }
     }

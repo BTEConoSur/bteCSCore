@@ -2,6 +2,7 @@ package com.bteconosur.discord.command;
 
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.model.Player;
 import com.bteconosur.db.registry.PlayerRegistry;
 import com.bteconosur.discord.util.CommandMode;
@@ -23,7 +24,10 @@ public class DsIpCommand extends DsCommand {
         Player player = PlayerRegistry.getInstance().findByDiscordId(userId);
         Language language = player != null ? player.getLanguage() : Language.getDefault();
 
-        event.reply(LanguageHandler.getText(language, "ds-ip")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText(language, "ds-ip")).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 
 }

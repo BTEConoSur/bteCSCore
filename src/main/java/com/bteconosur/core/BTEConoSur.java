@@ -5,6 +5,7 @@ import com.bteconosur.core.chat.GlobalChatService;
 import com.bteconosur.core.chat.ChatUtil;
 import com.bteconosur.core.command.AssetsCommand;
 import com.bteconosur.core.command.BackCommand;
+import com.bteconosur.core.command.BannerCommand;
 import com.bteconosur.core.command.DeletePlayerDataCommand;
 import com.bteconosur.core.command.GetCommand;
 import com.bteconosur.core.command.HelpCommandCommand;
@@ -23,7 +24,11 @@ import com.bteconosur.core.command.config.ScoreboardConfigCommand;
 import com.bteconosur.core.command.config.UnlinkCommand;
 import com.bteconosur.core.command.crud.CrudCommand;
 import com.bteconosur.core.command.help.HelpCommand;
+import com.bteconosur.core.command.help.HelpConstruirCommand;
+import com.bteconosur.core.command.help.HelpDiscordCommand;
+import com.bteconosur.core.command.help.HelpMapaCommand;
 import com.bteconosur.core.command.help.HelpVisitarCommand;
+import com.bteconosur.core.command.help.HelpWikiCommand;
 import com.bteconosur.core.command.manager.ManagerCommand;
 import com.bteconosur.core.command.pais.PaisPrefixCommand;
 import com.bteconosur.core.command.pais.WhereIAmCommand;
@@ -31,14 +36,25 @@ import com.bteconosur.core.command.preset.PresetCommand;
 import com.bteconosur.core.command.project.ProjectCommand;
 import com.bteconosur.core.command.pwarp.PwarpCommand;
 import com.bteconosur.core.command.reviewer.ReviewerCommand;
+import com.bteconosur.core.command.tour.TourBackCommand;
+import com.bteconosur.core.command.tour.TourCommand;
+import com.bteconosur.core.command.tour.TourFirstCommand;
+import com.bteconosur.core.command.tour.TourInfoCommand;
+import com.bteconosur.core.command.tour.TourNextCommand;
+import com.bteconosur.core.command.tour.TourStopCommand;
+import com.bteconosur.core.command.tour.manage.TourManageCommand;
+import com.bteconosur.core.command.tour.manage.stop.TourStopManageCommand;
+import com.bteconosur.core.command.tour.utils.UtilsTourCommand;
 import com.bteconosur.core.config.ConfigHandler;
 import com.bteconosur.core.config.LanguageHandler;
 import com.bteconosur.core.listener.ChatListener;
+import com.bteconosur.core.listener.HotbarListener;
 import com.bteconosur.core.listener.PlayerJoinListener;
 import com.bteconosur.core.listener.PlayerLeaveListener;
 import com.bteconosur.core.listener.TabCompleteListener;
 import com.bteconosur.core.scoreboard.ScoreboardManager;
 import com.bteconosur.core.tab.TabManager;
+import com.bteconosur.core.tour.TourService;
 import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.core.util.DiscordLogger;
 import com.bteconosur.core.util.HeadDBUtil;
@@ -52,6 +68,7 @@ import com.bteconosur.db.registry.ProyectoRegistry;
 import com.bteconosur.db.registry.RangoUsuarioRegistry;
 import com.bteconosur.db.registry.TipoProyectoRegistry;
 import com.bteconosur.db.registry.TipoUsuarioRegistry;
+import com.bteconosur.db.registry.TourRegistry;
 import com.bteconosur.discord.DiscordManager;
 import com.bteconosur.discord.command.DsCommandManager;
 import com.bteconosur.discord.command.DsHelpMinecraftCommand;
@@ -82,6 +99,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static ScoreboardManager scoreboardManager;
     private static TabManager tabManager;
     private static RestartService restartService;
+    private static TourService tourService;
 
     private static PlayerRegistry playerRegistry;
     private static ProyectoRegistry proyectoRegistry;
@@ -89,6 +107,7 @@ public final class BTEConoSur extends JavaPlugin {
     private static RangoUsuarioRegistry rangoUsuarioRegistry;
     private static InteractionRegistry interactionRegistry;
     private static TipoProyectoRegistry tipoProyectoRegistry;
+    private static TourRegistry tourRegistry;
 
     private static MultiverseCoreApi multiverseCoreApi;
     private static WorldEditPlugin worldEditPlugin;
@@ -154,7 +173,8 @@ public final class BTEConoSur extends JavaPlugin {
 
         permissionManager = PermissionManager.getInstance();
         restartService = RestartService.getInstance();
-        
+        tourRegistry = TourRegistry.getInstance();
+        tourService = TourService.getInstance();
 
         getServer().getPluginManager().registerEvents(new BuildingListeners(), this);
         getServer().getPluginManager().registerEvents(new BannedListeners(), this);
@@ -164,11 +184,13 @@ public final class BTEConoSur extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MovingListeners(), this);
         getServer().getPluginManager().registerEvents(new HeadDBUtil(), this);
         getServer().getPluginManager().registerEvents(new TabCompleteListener(), this);
+        getServer().getPluginManager().registerEvents(new HotbarListener(), this);
         
         registerCommands();
         ConsoleLogger.info("El Plugin se ha activado.");
         
-        if (config.getBoolean("sync-project-regions")) worldManager.syncRegions();
+        if (config.getBoolean("sync-project-regions")) worldManager.syncProjectRegions();
+        if (config.getBoolean("sync-tourstop-regions")) worldManager.syncTourStopRegions();
         
         if (config.getBoolean("discord-server-start-stop")) GlobalChatService.broadcastEmbed(ChatUtil.getServerStarted());
     }
@@ -196,6 +218,9 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new GetCommand());
         HelpCommandCommand.addCommand(new GetCommand());
         DsHelpMinecraftCommand.addHelpCommand(new GetCommand());
+        PluginRegistry.registerCommand(new TourCommand());
+        HelpCommandCommand.addCommand(new TourCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new TourCommand());
         PluginRegistry.registerCommand(new PwarpCommand());
         HelpCommandCommand.addCommand(new PwarpCommand());
         DsHelpMinecraftCommand.addHelpCommand(new PwarpCommand());
@@ -205,6 +230,24 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new ProjectCommand());
         HelpCommandCommand.addCommand(new ProjectCommand());
         DsHelpMinecraftCommand.addHelpCommand(new ProjectCommand());
+        PluginRegistry.registerCommand(new TourCommand());
+        HelpCommandCommand.addCommand(new TourCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new TourCommand());
+        PluginRegistry.registerCommand(new TourStopCommand());
+        HelpCommandCommand.addCommand(new TourStopCommand());
+        PluginRegistry.registerCommand(new TourNextCommand());
+        HelpCommandCommand.addCommand(new TourNextCommand());
+        PluginRegistry.registerCommand(new TourBackCommand());
+        HelpCommandCommand.addCommand(new TourBackCommand());
+        PluginRegistry.registerCommand(new TourInfoCommand());
+        HelpCommandCommand.addCommand(new TourInfoCommand());
+        PluginRegistry.registerCommand(new TourFirstCommand());
+        HelpCommandCommand.addCommand(new TourFirstCommand());
+        PluginRegistry.registerCommand(new TourManageCommand());
+        HelpCommandCommand.addCommand(new TourManageCommand());
+        PluginRegistry.registerCommand(new TourStopManageCommand());
+        HelpCommandCommand.addCommand(new TourStopManageCommand());
+        PluginRegistry.registerCommand(new UtilsTourCommand());
         PluginRegistry.registerCommand(new NightvisionCommand());
         HelpCommandCommand.addCommand(new NightvisionCommand());
         DsHelpMinecraftCommand.addHelpCommand(new NightvisionCommand());
@@ -246,6 +289,15 @@ public final class BTEConoSur extends JavaPlugin {
         PluginRegistry.registerCommand(new BTECSCommand());
         HelpCommandCommand.addCommand(new BTECSCommand());
 
+        PluginRegistry.registerCommand(new BannerCommand());
+        HelpCommandCommand.addCommand(new BannerCommand());
+        DsHelpMinecraftCommand.addHelpCommand(new BannerCommand());
+
+        PluginRegistry.registerCommand(new HelpDiscordCommand());
+        PluginRegistry.registerCommand(new HelpCommandCommand());
+        PluginRegistry.registerCommand(new HelpConstruirCommand());
+        PluginRegistry.registerCommand(new HelpWikiCommand());
+        PluginRegistry.registerCommand(new HelpMapaCommand());
         PluginRegistry.registerCommand(new HelpVisitarCommand());
     }
 
@@ -255,6 +307,12 @@ public final class BTEConoSur extends JavaPlugin {
         if (restartService != null) {
             isRestarting = restartService.isRestarting();
         }
+
+        if (tourService != null) {
+            tourService.stopAllTours();
+            tourService = null;
+        }
+
         if (proyectoRegistry != null) {
             proyectoRegistry.shutdown();
             proyectoRegistry = null;
@@ -278,6 +336,11 @@ public final class BTEConoSur extends JavaPlugin {
         if (tipoProyectoRegistry != null) {
             tipoProyectoRegistry.shutdown();
             tipoProyectoRegistry = null;
+        }
+
+        if (tourRegistry != null) {
+            tourRegistry.shutdown();
+            tourRegistry = null;
         }
 
         if (projectManager != null) {
@@ -332,7 +395,7 @@ public final class BTEConoSur extends JavaPlugin {
 
         if (discordManager != null) {
             DiscordLogger.toggleStaffConsoleLog();
-            if (config.getBoolean("discord-server-start-stop") && !isRestarting) GlobalChatService.broadcastEmbed(ChatUtil.getServerStopped());
+            if (config.getBoolean("discord-server-start-stop") && !isRestarting) GlobalChatService.broadcastEmbedSync(ChatUtil.getServerStopped());
             discordManager.shutdown();
             discordManager = null;
         }

@@ -37,7 +37,10 @@ public class ContextCommandListener extends ListenerAdapter {
             return;
         } else ConsoleLogger.warn(LanguageHandler.getText("ds-error.context-message-command-not-found").replace("%command%", commandName));
         
-        event.reply(LanguageHandler.getText("ds-internal-error")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText("ds-internal-error")).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 
     /**
@@ -58,7 +61,10 @@ public class ContextCommandListener extends ListenerAdapter {
             return;
         } else ConsoleLogger.warn(LanguageHandler.getText("ds-error.context-user-command-not-found").replace("%command%", commandName));
         
-        event.reply(LanguageHandler.getText("ds-internal-error")).setEphemeral(true).queue();
+        event.reply(LanguageHandler.getText("ds-internal-error")).setEphemeral(true).queue(
+            success -> {},
+            error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+        );
     }
 
 }

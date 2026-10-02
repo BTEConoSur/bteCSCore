@@ -230,7 +230,8 @@ public class RestartService {
         isRestarting = true;
         restartAtMillis = -1L;
         kickAllPlayers();
-        if (config.getBoolean("discord-server-restart")) GlobalChatService.broadcastEmbed(ChatUtil.getServerRestarted());
+        ConsoleLogger.info("discord-server-restart: " + config.getBoolean("discord-server-restart"));
+        if (config.getBoolean("discord-server-restart")) GlobalChatService.broadcastEmbedSync(ChatUtil.getServerRestarted());
         clearBossBars();
         Bukkit.restart();
     }

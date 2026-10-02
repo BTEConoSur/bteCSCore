@@ -197,8 +197,69 @@ preset:
     ZOMBIE_WALL_HEAD: "ZOMBIE_HEAD"
     AIR: "WIND_CHARGE"
 
+banners-dye:
+  white:
+    - "blanco"
+    - "white"
+  orange:
+    - "naranja"
+    - "naranjo"
+    - "anaranjado"
+    - "orange"
+  magenta:
+    - "magenta"
+  light_blue:
+    - "celeste"
+    - "azul_claro"
+    - "light_blue"
+  yellow:
+    - "amarillo"
+    - "yellow"
+  lime:
+    - "lima"
+    - "verde_claro"
+    - "lime"
+  pink:
+    - "rosa"
+    - "rosado"
+    - "pink"
+  gray:
+    - "gris_oscuro"
+    - "dark_gray"
+  light_gray:
+    - "gris"
+    - "gris_claro"
+    - "gray"
+    - "light_gray"
+  cyan:
+    - "cian"
+    - "cyan"
+  purple:
+    - "morado"
+    - "purpura"
+    - "purple"
+  blue:
+    - "azul"
+    - "azul_oscuro"
+    - "blue"
+  brown:
+    - "cafe"
+    - "marron"
+    - "brown"
+  green:
+    - "verde"
+    - "verde_oscuro"
+    - "green"
+  red:
+    - "rojo"
+    - "red"
+  black:
+    - "negro"
+    - "black"
+
 related-languages:
-  es_ES: ["es_AR", "es_MX", "es_CL", "es_CO", "es_PE", "es_VE", "es_UY", "es_PY", "es_BO", "es_EC"]
+  es_ES: ["es_MX", "es_CL", "es_CO", "es_PE", "es_VE", "es_UY", "es_PY", "es_BO", "es_EC"]
+  es_AR: []
   en_US: ["en_GB", "en_AU", "en_CA", "en_NZ", "en_IE", "en_ZA", "en_IN", "en_SG", "en_PH"]
 
 default-language: "es_ES" # Lenguaje por defecto del sistema.
@@ -227,6 +288,9 @@ map:
 
 tpdir-link: "https://nominatim.openstreetmap.org/search?q=%search%&format=json" # Link para buscar coordenadas en el comando /tpdir. Se reemplaza %search% por la consulta del usuario.
 tpdir-accept-language: "es-AR,es;q=0.9,en;q=0.7"
+
+gmaps-link: "https://www.google.com/maps?q=%lat%,%lon%"
+gearth-link: "https://earth.google.com/web/@%lat%,%lon%,1000a,1000d,35y,0h,0t,0r"
 
 # Base de Datos
 database-driver: "org.mariadb.jdbc.Driver"
@@ -287,15 +351,21 @@ lobby.world: "lobby" # Nombre del mundo del lobby. Se asume que el mundo ya exis
 wg-proyecto-prefix: "proyecto_" # Prefijo para las regiones de los proyectos en WorldGuard.
 wg-parent-proyecto: "proyectos"
 
-sync-project-regions: true # Sincronizar las regiones de los proyectos en el lobby con WorldGuard al iniciar el plugin.
+wg-tourstop-prefix: "tourstop_" # Prefijo para las regiones de las paradas de tour en WorldGuard.
+wg-parent-tourstop: "tourstops"
+
+sync-project-regions: true # Sincronizar las regiones de los proyectos con WorldGuard al iniciar el plugin.
+sync-tourstop-regions: true # Sincronizar las regiones de las paradas de tour con WorldGuard al iniciar el plugin.
 
 border-particles:
   pais-enable: true # Habilitar partículas para los bordes de los países.
   label-enable: true # Habilitar partículas para los bordes de las etiquetas.
   project-enable: true # Habilitar partículas para los bordes de los proyectos.
+  tourstop-enable: true # Habilitar partículas para los bordes de las paradas de tour.
   pais-particle: "VILLAGER_HAPPY" # Tipo de partícula que no requiera datos adicionales (https://jd.papermc.io/paper/1.21.11/org/bukkit/Particle.html)
   label-particle: "CLOUD" # Tipo de partícula que no requiera datos adicionales (https://jd.papermc.io/paper/1.21.11/org/bukkit/Particle.html)
   project-particle: "FLAME" # Tipo de partícula que no requiera datos adicionales (https://jd.papermc.io/paper/1.21.11/org/bukkit/Particle.html)
+  tourstop-particle: "SOUL_FIRE_FLAME" # Tipo de partícula que no requiera datos adicionales (https://jd.papermc.io/paper/1.21.11/org/bukkit/Particle.html)
   max-distance: 50.0 # Distancia máxima desde el jugador para renderizar partículas
   layers: 21 # Número de capas verticales de partículas
   spawn-period: 20 # Cada cuántos ticks se spawnean las partículas (20 ticks = 1 segundo)
@@ -340,6 +410,11 @@ commands-cooldowns:
   btecs.test: 200
   nightvision: 0
   back: 0
+  tourback: 0
+  tourinfo: 0
+  tournext: 0
+  tourstop: 0
+  tourfirst: 0
 
 ds-help-command-per-page: 5 # Cantidad de comandos a mostrar por página en el comando de ayuda de Discord.
 ds-project-list-per-page: 9 # Cantidad de proyectos a mostrar por página en el comando de listado de proyectos de Discord por usuario.
@@ -369,6 +444,12 @@ commands-aliases:
     aliases: ["nv", "vn"]
   pwarp:
     aliases: ["pw"]
+  visitar:
+    aliases: ["visit"]
+  command:
+    aliases: ["comando", "comandos", "commands"]
+  construir:
+    aliases: ["build", "tutorial", "tutoriales"]
 
 # TAB
 tab-reload: 100 # Cada cuantos milisegundos se refresca el TAB.
@@ -386,6 +467,7 @@ player-defaults:
     simultaneous-notifications: true
     pais-border: true
     label-border: true
+    tour-stop-border: false
     project-title: true
     scoreboard: true
   scoreboard:

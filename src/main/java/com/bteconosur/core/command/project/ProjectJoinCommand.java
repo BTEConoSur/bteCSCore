@@ -47,6 +47,11 @@ public class ProjectJoinCommand extends BaseCommand {
         ProyectoRegistry pr = ProyectoRegistry.getInstance();
         Proyecto proyectoFinal = null;
 
+         if (permissionManager.isVisita(commandPlayer)) {
+            PlayerLogger.error(commandPlayer, LanguageHandler.getText(language, "project.join.visita-cant"), (String) null);
+            return true;
+        }
+
         if (args.length == 1) {
             String proyectoId = args[0];
             proyectoFinal = ProyectoRegistry.getInstance().get(proyectoId);

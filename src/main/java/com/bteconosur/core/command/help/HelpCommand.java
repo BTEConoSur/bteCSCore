@@ -19,8 +19,10 @@ public class HelpCommand extends BaseCommand {
         this.addSubcommand(new HelpCommandCommand());
         this.addSubcommand(new HelpProyectoCommand());
         this.addSubcommand(new HelpVisitarCommand());
-        this.addSubcommand(new HelpConstruir());
-        this.addSubcommand(new HelpDiscord());
+        this.addSubcommand(new HelpConstruirCommand());
+        this.addSubcommand(new HelpWikiCommand());
+        this.addSubcommand(new HelpMapaCommand());
+        this.addSubcommand(new HelpDiscordCommand());
     }
 
     @Override

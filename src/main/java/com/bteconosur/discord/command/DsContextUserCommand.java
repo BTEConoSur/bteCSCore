@@ -70,16 +70,25 @@ public abstract class DsContextUserCommand {
                 Guild guild = jda.getGuildById(guildId);
                 if (guild == null) continue;
 
-                guild.upsertCommand(Commands.user(command).setDefaultPermissions(perm)).queue();; 
+                guild.upsertCommand(Commands.user(command).setDefaultPermissions(perm)).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.add-command"), error)
+                );
             }
         }
         if (mode == CommandMode.GLOBAL) {
-            jda.upsertCommand(Commands.user(command).setDefaultPermissions(perm)).queue();
+            jda.upsertCommand(Commands.user(command).setDefaultPermissions(perm)).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.add-command"), error)
+            );
         }
         if (mode == CommandMode.STAFFHUB_ONLY || mode == CommandMode.COUNTRY_AND_STAFFHUB) {
             Guild staffHubGuild = jda.getGuildById(secret.getLong("discord-staff-guild-id"));
             if (staffHubGuild != null) {
-                staffHubGuild.upsertCommand(Commands.user(command).setDefaultPermissions(perm)).queue();
+                staffHubGuild.upsertCommand(Commands.user(command).setDefaultPermissions(perm)).queue(
+                    success -> {},
+                    error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.add-command"), error)
+                );
             } else {
                 ConsoleLogger.warn(LanguageHandler.getText("ds-error.staffhub-not-found"));
             }

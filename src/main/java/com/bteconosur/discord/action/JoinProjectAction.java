@@ -3,6 +3,7 @@ package com.bteconosur.discord.action;
 import com.bteconosur.core.ProjectManager;
 import com.bteconosur.core.config.Language;
 import com.bteconosur.core.config.LanguageHandler;
+import com.bteconosur.core.util.ConsoleLogger;
 import com.bteconosur.db.PermissionManager;
 import com.bteconosur.db.model.Interaction;
 import com.bteconosur.db.model.Player;
@@ -20,24 +21,39 @@ public class JoinProjectAction implements ButtonAction {
         Player player = PlayerRegistry.getInstance().findByDiscordId(event.getUser().getIdLong());
         Language language = player != null ? player.getLanguage() : Language.getDefault();
         if (player == null) {
-            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "link.ds-link-needed")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
         Proyecto proyecto = ProyectoRegistry.getInstance().get(ctx.getProjectId());
         if (!PermissionManager.getInstance().isLider(player, proyecto)) {
-            event.reply(LanguageHandler.replaceDS("project.leader.ds-not-leader", language, proyecto)).setEphemeral(true).queue();
+            event.reply(LanguageHandler.replaceDS("project.leader.ds-not-leader", language, proyecto)).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
             return;
         }
 
         ProjectManager pm = ProjectManager.getInstance();
         if (buttonId.equals("accept")) {
             pm.acceptJoinRequest(proyecto.getId(), ctx.getPlayerId(), ctx.getId(), player.getUuid());
-            event.reply(LanguageHandler.getText(language, "project.join.accept.ds-success")).queue();
+            event.reply(LanguageHandler.getText(language, "project.join.accept.ds-success")).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         } else if (buttonId.equals("cancel")) {
             pm.rejectJoinRequest(proyecto.getId(), ctx.getPlayerId(), ctx.getId(), player.getUuid());
-            event.reply(LanguageHandler.getText(language, "project.join.reject.ds-success")).queue();
+            event.reply(LanguageHandler.getText(language, "project.join.reject.ds-success")).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         } else {
-            event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue();
+            event.reply(LanguageHandler.getText(language, "ds-invalid-action")).setEphemeral(true).queue(
+                success -> {},
+                error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
+            );
         }
     }
 

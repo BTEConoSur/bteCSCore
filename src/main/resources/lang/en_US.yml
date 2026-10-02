@@ -507,6 +507,11 @@ help-construir:
   - "> <u><blue><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ67DHFOuXKeILZh8kSiybSx'><hover:show_text:'Click to watch'>Basic tutorials</hover></click></blue></u>"
   - "> <blue><u><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ4-D8lmWpeUCDch3hTux5uY'><hover:show_text:'Click to watch'>Advanced tutorials</hover></click></u></blue>"
   - "<dark_gray>+---------------------------------------+</dark_gray>\n"
+
+help-wiki:
+ - "\n<dark_gray>+---------------------------------------+</dark_gray>"
+ - "<blue><u><click:open_url:'https://resources.buildtheearth.net/s/adbd294f-c787-4ea1-ae13-88fe946aaf8a/doc/bte-cono-sur-DAKmKdHyYG'><hover:show_text:'Click to open'>Cono Sur Wiki</hover></click></u></blue>"
+ - "<dark_gray>+---------------------------------------+</dark_gray>\n "
 region:
   selected: "<green>Successfully selected the region."
   not-selected: "You haven't selected a region."
@@ -713,7 +718,7 @@ project:
       for-reviewer: "New project creation request for <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "New project creation request for %pais.nombrePublico%. [See request](%link%)"
       expired: "Request with project ID <yellow>%proyecto.id%</yellow> has expired."
-      log: "📋 | **%player.nombre%** has created project `%proyecto.id%`. Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. Regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Name: `%proyecto.nombre%`."
+      log: "📋 | **%player.nombre%** has created project `%proyecto.id%`. Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. Regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Name: `%proyecto.nombre%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | Creation request for project `%proyecto.id%` by **%player.nombre%** has expired."
     accept:
       success: "You've accepted the request for project <yellow>%proyecto.id%</yellow>."
@@ -747,7 +752,7 @@ project:
         for-member: "%player.nombre% has requested to finish project <yellow>%proyecto.id%</yellow>, of which you are a part of."
         for-reviewer: "New request to finish editing for a project in <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordinates: <yellow><coords></yellow>"
         ds-for-reviewer: "New request to finish editing for a project in %pais.nombrePublico%. ID: `%proyecto.id%`. Coordinates: `%proyecto.geoCoords%`"
-        log: "✏️ | **%player.nombre%** has requested to finish editing of project `%proyecto.id%`. Expires on %fechaHoraVencimiento% (GMT-3)."
+        log: "✏️ | **%player.nombre%** has requested to finish editing of project `%proyecto.id%`. Expires on %fechaHoraVencimiento%."
         expired-log: "❌ | Request to finish editing for project `%proyecto.id%` has expired."
       accept:
         success: "You've accepted the request to finish editing for <yellow>%proyecto.id%</yellow>."
@@ -769,7 +774,7 @@ project:
       for-member: "%player.nombre% has requested to finish project <yellow>%proyecto.id%</yellow>, of which you are a part of."
       for-reviewer: "New request to finish project in <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordinates: <yellow><coords></yellow>"
       ds-for-reviewer: "New request to finish project in %pais.nombrePublico%. ID: `%proyecto.id%`. Coordinates: `%proyecto.geoCoords%`"
-      log: "⏰ | **%player.nombre%** has requested to finish project `%proyecto.id%`. Expires on %fechaHoraVencimiento% (GMT-3)."
+      log: "⏰ | **%player.nombre%** has requested to finish project `%proyecto.id%`. Expires on %fechaHoraVencimiento%."
       expired-log: "❌ | The request to finish project `%proyecto.id%` has expired."
     accept:
       success: "You've accepted the request to finish project <yellow>%proyecto.id%</yellow>."
@@ -792,7 +797,7 @@ project:
       for-reviewer: "New redefine request in <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "New redefine request in %pais.nombrePublico%. [See request](%link%)"
       for-member: "%player.nombre% has requested to redefine project <yellow>%proyecto.id%</yellow>, of which you are a part of."
-      log: "♻️ | **%player.nombre%** has requested to redefine `%proyecto.id%`. New Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. New regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`."
+      log: "♻️ | **%player.nombre%** has requested to redefine `%proyecto.id%`. New Type: `%proyecto.tipoId%`-`%proyecto.tipo%`. New regional division: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | The redefine request for project `%proyecto.id%` has expired."
     accept:
       success: "You've accepted the redefine request for project <yellow>%proyecto.id%</yellow>."
@@ -819,7 +824,7 @@ project:
       expired: "Request to join project <yellow>%proyecto.id%</yellow> has expired."
       expired-lider: "The request from <yellow>%player.nombre%</yellow> to join project <yellow>%proyecto.id%</yellow> has expired."
       for-lider: "%player.nombre% has requested to join project <yellow>%proyecto.id%</yellow>, of which you are part of."
-      log: "🔔 | **%player.nombre%** has requested to join project `%proyecto.id%`."
+      log: "🔔 | **%player.nombre%** has requested to join project `%proyecto.id%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | **%player.nombre%**'s request to join project `%proyecto.id%` has expired."
     accept:
       success: "Request to join project <yellow>%proyecto.id%</yellow> accepted."
@@ -1142,8 +1147,10 @@ ds-embeds:
       pais: "Country"
       ubicacion: "Location"
       coordenadas: "Coordinates"
+      links: "Links"
       fecha-creacion: "Creation date"
       fecha-finalizacion: "Completion date"
+    link: "[Google Maps](%gmapsLink%) - [Google Earth](%gearthLink%)"
   player-info:
     title: "Player: %player.nombre%"
     ds-no-link: "> **[!]** User does not have a linked Minecraft account."
@@ -1810,15 +1817,15 @@ placeholder:
     badge:
       normal: ""
       admin: ""
-      mod: ""
+      mod: ""
       influencer: ""
-      donador: ""
+      donador: ""
     label:
       normal: "前"
       admin: ""
-      mod: ""
+      mod: ""
       influencer: ""
-      donador: ""
+      donador: ""
   tipo-mc:
     format: "%tipo.badge%%tipo.label%"
     badge:

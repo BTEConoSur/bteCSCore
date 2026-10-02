@@ -41,6 +41,9 @@ public class Configuration {
     @Column(name = "general_label_border")
     private Boolean generalLabelBorder;
 
+    @Column(name = "general_tour_stop_border")
+    private Boolean generalTourStopBorder;
+
     @Column(name = "general_project_title")
     private Boolean generalProjectTitle;
 
@@ -87,6 +90,7 @@ public class Configuration {
         this.generalPaisBorder = false;
         this.generalLabelBorder = false;
         this.generalProjectTitle = false;
+        this.generalTourStopBorder = false;
         this.generalDivisionTitle = false;
         this.generalScoreboard = false;
         this.scoreboardPlayer = false;
@@ -129,6 +133,14 @@ public class Configuration {
 
     public void setGeneralLabelBorder(Boolean generalLabelBorder) {
         this.generalLabelBorder = generalLabelBorder;
+    }
+
+    public Boolean getGeneralTourStopBorder() {
+        return generalTourStopBorder;
+    }
+
+    public void setGeneralTourStopBorder(Boolean generalTourStopBorder) {
+        this.generalTourStopBorder = generalTourStopBorder;
     }
 
     public Boolean getGeneralProjectTitle() {
@@ -249,6 +261,10 @@ public class Configuration {
 
     public void toggleGeneralLabelBorder() {
         this.generalLabelBorder = !this.generalLabelBorder;
+    }
+
+    public void toggleGeneralTourStopBorder() {
+        this.generalTourStopBorder = !this.generalTourStopBorder;
     }
 
 }
