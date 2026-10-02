@@ -498,6 +498,7 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
         Set<Proyecto> search = getByChunk(chunkKey);
         Set<Proyecto> proyectos = new HashSet<>();
         for (Proyecto proyecto : search) {
+            if (proyecto == null) continue;
             Polygon poly = proyecto.getPoligono();
             if (poly != null && RegionUtils.containsCoordinate(proyecto.getPreparedGeometry(), proyecto.getBoundingBox(), x, z)) proyectos.add(proyecto);
         }
@@ -510,14 +511,11 @@ public class ProyectoRegistry extends Registry<String, Proyecto> {
      * @param proyecto proyecto a desindexar.
      */
     private void removeFromChunkIndex(Proyecto proyecto) {
-        Set<ChunkKey> oldChunks = RegionUtils.chunksFor(proyecto);
-        for (ChunkKey chunkKey : oldChunks) {
-            List<String> ids = loadedChunkProyectos.get(chunkKey);
-            if (ids != null) {
-                ids.remove(proyecto.getId());
-                if (ids.isEmpty()) loadedChunkProyectos.remove(chunkKey);
-            }
+        for (List<String> ids : loadedChunkProyectos.values()) {
+            ids.removeIf(id -> id.equals(proyecto.getId()));
         }
+
+        loadedChunkProyectos.entrySet().removeIf(entry -> entry.getValue().isEmpty());
     }
 
     /**

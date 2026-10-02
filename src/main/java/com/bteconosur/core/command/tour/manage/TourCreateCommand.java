@@ -62,6 +62,7 @@ public class TourCreateCommand extends BaseCommand {
             return true;
         }
 
+        
         TourRegistry tr = TourRegistry.getInstance();
         Tour existingTour = tr.get(tourId);
         if (existingTour != null) {

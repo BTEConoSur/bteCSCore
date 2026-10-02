@@ -32,7 +32,7 @@ public class RejectRedefineProjectAction implements ModalAction {
         Interaction parentCtx = ir.get(parentCtxId);
         if (parentCtx == null) {
             ConsoleLogger.debug("Debug: Parent context not found for RejectRedefineProjectAction, parentCtxId: " + parentCtxId);
-            event.reply(LanguageHandler.getText(language, "discord-interaction-expired")).setEphemeral(true).queue(
+            event.reply(LanguageHandler.getText(language, "ds-interaction-expired")).setEphemeral(true).queue(
                 success -> {},
                 error -> ConsoleLogger.error(LanguageHandler.getText("ds-error.reply"), error)
             );

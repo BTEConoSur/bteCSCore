@@ -73,7 +73,7 @@ public class TourEditCommand extends BaseCommand {
             PlayerLogger.error(sender, LanguageHandler.getText(language, "tour.no-permission-none-country"), (String) null);
             return true;
         }
-        if (pais.equals(tour.getPais())) {
+        if ((pais != null && pais.equals(tour.getPais())) || (pais == null && tour.getPais() == null)) {
             PlayerLogger.error(sender, LanguageHandler.replaceMC("tour.edit-already", language, tour), (String) null);
             return true;
         }

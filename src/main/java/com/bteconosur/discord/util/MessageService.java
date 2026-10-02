@@ -360,6 +360,29 @@ public class MessageService {
         }
     }
 
+
+    /**
+     * Envía un embed de forma síncrona a múltiples canales.
+     * Este método bloquea la ejecución hasta que se envíen todos los mensajes. Usar para mensajes de reinicio y apagado.
+     * 
+     * @param channelsIds Lista de IDs de canales destino
+     * @param embed Embed a enviar
+     */
+    public static void sendBroadcastEmbedSync(List<Long> channelsIds, MessageEmbed embed) {
+        if (!DiscordValidate.jda()) return;
+        ConsoleLogger.debug("Enviando embed síncrono a canales: " + channelsIds);
+        
+        for (Long channelId : channelsIds) {
+            TextChannel channel = getTextChannelById(channelId);
+            if (channel != null) {
+                channel.sendMessageEmbeds(embed).queue(
+                    success -> {},
+                    error -> ConsoleLogger.warn(LanguageHandler.getText("ds-error.send-embed-channel").replace("%channelId%", channel.getId()) + " " + error.getMessage())
+                );
+            }
+        }
+    }
+
     /**
      * Envía un mensaje directo a múltiples usuarios.
      * 

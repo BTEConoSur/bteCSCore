@@ -395,7 +395,7 @@ public final class BTEConoSur extends JavaPlugin {
 
         if (discordManager != null) {
             DiscordLogger.toggleStaffConsoleLog();
-            if (config.getBoolean("discord-server-start-stop") && !isRestarting) GlobalChatService.broadcastEmbed(ChatUtil.getServerStopped());
+            if (config.getBoolean("discord-server-start-stop") && !isRestarting) GlobalChatService.broadcastEmbedSync(ChatUtil.getServerStopped());
             discordManager.shutdown();
             discordManager = null;
         }

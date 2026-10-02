@@ -929,10 +929,10 @@ public class PlaceholderUtils {
             if (parada != null) {
                 switch (field) {
                     case "id":
-                        value = parada.getId() != null ? parada.getId().toString() : "ERROR_ID_NULL";
+                        value = parada.getTourStopId() != null ? parada.getTourStopId() : "ERROR_ID_NULL";
                         break;
                     case "titulo":
-                        String key = "tours." + parada.getTour().getId() + ".stops." + parada.getId().getTourstopId() + ".title";
+                        String key = "tours." + parada.getTour().getId() + ".stops." + parada.getTourStopId() + ".title";
                         String translated = LanguageHandler.getTextWithouthWarn(language, key);
                         if (!"ERROR_KEY_NF".equals(translated)) {
                             value = translated;

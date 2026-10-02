@@ -580,7 +580,7 @@ help-discord:
   - "<dark_gray>+---------------------------------------+</dark_gray>\n"
 
 help-construir:
-  - \n<dark_gray>+---------------------------------------+</dark_gray>
+  - "\n<dark_gray>+---------------------------------------+</dark_gray>"
   - "<gold>Tutoriales disponibles:</gold>"
   - "> <u><blue><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ5i8Yj4JzDdbQaK_5E9lRau'><hover:show_text:'Click para ver'>Tutoriales básicos</hover></click></blue></u>, para empezar a construir."
   - "> <blue><u><click:open_url:'https://www.youtube.com/playlist?list=PLIBMUF7-yYQ5mCILQIXTT2Kw_Gecv1t4v'><hover:show_text:'Click para ver'>Tutoriales avanzados</hover></click></u></blue>, para constructores con experiencia."
@@ -823,7 +823,7 @@ project:
       for-reviewer: "Nueva solicitud de creación de proyecto de <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "Nueva solicitud de creación de proyecto de %pais.nombrePublico%. [Ver solicitud](%link%)"
       expired: "La solicitud de proyecto <yellow>%proyecto.id%</yellow> ha expirado."
-      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%`. Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Nombre: `%proyecto.nombre%`."
+      log: "📋 | **%player.nombre%** ha creado el proyecto `%proyecto.id%`. Tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. División: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Nombre: `%proyecto.nombre%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | La solicitud de creación del proyecto `%proyecto.id%` de **%player.nombre%** ha expirado."
       project-null-log: "❌ | La solicitud de creación del proyecto `%proyecto.id%` ha sido eliminada porque el proyecto ya no existe."
     accept:
@@ -858,7 +858,7 @@ project:
         for-member: "%player.nombre% ha solicitado finalizar el proyecto <yellow>%proyecto.id%</yellow> al que perteneces."
         for-reviewer: "Nueva solicitud de finalización de edición de proyecto de <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>"
         ds-for-reviewer: "Nueva solicitud de finalización de edición de proyecto de %pais.nombrePublico%. ID: `%proyecto.id%`. Coordenadas: `%proyecto.geoCoords%`"
-        log: "✏️ | **%player.nombre%** ha solicitado terminar la edición del proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento% (GMT-3)."
+        log: "✏️ | **%player.nombre%** ha solicitado terminar la edición del proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento%."
         expired-log: "❌ | La solicitud de finalización de la edición del proyecto `%proyecto.id%` ha expirado."
         project-null-log: "❌ | La solicitud de finalización de la edición del proyecto `%proyecto.id%` ha sido eliminada porque el proyecto ya no existe."
       accept:
@@ -881,7 +881,7 @@ project:
       for-member: "%player.nombre% ha solicitado finalizar el proyecto <yellow>%proyecto.id%</yellow> al que perteneces."
       for-reviewer: "Nueva solicitud de finalización de proyecto de <yellow>%pais.nombrePublico%</yellow>. ID: <yellow><id></yellow>. Coordenadas: <yellow><coords></yellow>"
       ds-for-reviewer: "Nueva solicitud de finalización de proyecto de %pais.nombrePublico%. ID: `%proyecto.id%`. Coordenadas: `%proyecto.geoCoords%`"
-      log: "⏰ | **%player.nombre%** ha solicitado finalizar el proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento% (GMT-3)."
+      log: "⏰ | **%player.nombre%** ha solicitado finalizar el proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | La solicitud de finalización del proyecto `%proyecto.id%` ha expirado."
       project-null-log: "❌ | La solicitud de finalización del proyecto `%proyecto.id%` ha sido eliminada porque el proyecto ya no existe."
     accept:
@@ -905,7 +905,7 @@ project:
       for-reviewer: "Nueva solicitud de redefinición de proyecto de <yellow>%pais.nombrePublico%</yellow>. <gray><link>"
       ds-for-reviewer: "Nueva solicitud de redefinición de proyecto de %pais.nombrePublico%. [Ver solicitud](%link%)"
       for-member: "%player.nombre% ha solicitado redefinir el proyecto <yellow>%proyecto.id%</yellow> al que perteneces."
-      log: "♻️ | **%player.nombre%** ha solicitado redefinir el proyecto `%proyecto.id%`. Nuevo tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. Nueva división: `%proyecto.divisionContexto%, %proyecto.divisionNam%`."
+      log: "♻️ | **%player.nombre%** ha solicitado redefinir el proyecto `%proyecto.id%`. Nuevo tipo: `%proyecto.tipoId%`-`%proyecto.tipo%`. Nueva división: `%proyecto.divisionContexto%, %proyecto.divisionNam%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | La solicitud de redefinición del proyecto `%proyecto.id%` ha expirado."
       project-null-log: "❌ | La solicitud de redefinición del proyecto `%proyecto.id%` ha sido eliminada porque el proyecto ya no existe."
     accept:
@@ -934,7 +934,7 @@ project:
       expired: "La solicitud para unirte al proyecto <yellow>%proyecto.id%</yellow> ha expirado."
       expired-lider: "La solicitud del jugador <yellow>%player.nombre%</yellow> para unirse al proyecto <yellow>%proyecto.id%</yellow> ha expirado."
       for-lider: "%player.nombre% ha solicitado unirse al proyecto <yellow>%proyecto.id%</yellow> al que perteneces."
-      log: "🔔 | **%player.nombre%** ha solicitado unirse al proyecto `%proyecto.id%`."
+      log: "🔔 | **%player.nombre%** ha solicitado unirse al proyecto `%proyecto.id%`. Vence el %fechaHoraVencimiento%."
       expired-log: "❌ | La solicitud de **%player.nombre%** para unirse al proyecto `%proyecto.id%` ha expirado."
       project-null-log: "❌ | La solicitud de **%player.nombre%** para unirse al proyecto `%proyecto.id%` ha sido eliminada porque el proyecto ya no existe."
     accept:
@@ -1336,6 +1336,8 @@ ds-embeds:
       coordenadas: "Coordenadas geográficas"
       fecha-creacion: "Fecha de creación"
       fecha-finalizacion: "Fecha de finalización"
+      links: "Links"
+    link: "[Google Maps](%gmapsLink%) - [Google Earth](%gearthLink%)"
   player-info:
     title: "Información del jugador: %player.nombre%"
     ds-no-link: "> **[!]** El Usuario no tiene la cuenta de Minecraft vinculada."
@@ -2330,3 +2332,350 @@ tours:
         title: "Palacio Cousiño"
         desc:
           - "Construido entre 1870 y 1878 por encargo de Isidora Goyenechea, fue diseñado por el arquitecto Paul Lathoud en estilo neoclásico francés. Representa una de las máximas expresiones del lujo de la aristocracia chilena del siglo XIX y conserva mobiliario, vitrales y decoraciones originales de origen europeo."
+  BuenosAiresTourBusAMARILLO:
+    title: "<yellow>Buenos Aires Tour Bus (Amarillo)</yellow>"
+    desc:
+      - "<gray>Recorre la Ciudad de Buenos Aires</gray>"
+      - "<gray>con la línea <color:#c4c441>amarilla</color> del Bus Turístico.</gray>"
+    stops:
+      A01:
+        title: "<b><yellow>01 - Teatro Colón</yellow></b>"
+        desc:
+          - "<color:#c9c9c9> El Teatro Colón de Buenos Aires es una de las salas de ópera más importantes del mundo.</color>"
+          - "<color:#c9c9c9> Su rico y prestigioso historial y las excepcionales condiciones acústicas y arquitectónicas de su edificio lo colocan al nivel de teatros como la Scala de Milán, la Ópera de París, la Ópera de Viena y el Covent Garden de Londres.</color>"
+      A02:
+        title: "<b><yellow>02 - Avenida de Mayo</yellow></b>"
+        desc:
+          - "<color:#c9c9c9> La avenida de Mayo, situada en el barrio porteño de Monserrat, fue el primer bulevar de la ciudad de Buenos Aires, Argentina, y se convirtió en la columna vertebral de su centro histórico y cívico.</color>"
+          - "<color:#c9c9c9> La inauguración oficial tuvo lugar el 9 de julio de 1894.</color>"
+      A03:
+        title: "<b><yellow>03 - Plaza Congreso</yellow></b>"
+        desc:
+          - "<color:#c9c9c9> La Plaza del Congreso fue inaugurada durante los festejos del centenario de la Revolución de Mayo de 1810.</color>"
+          - "<color:#c9c9c9> La plaza está dominada por el Monumento a los Dos Congresos y su fuente monumental.</color>"
+          - "<color:#c9c9c9> En el extremo de Plaza Lorea está el Kilómetro Cero de las rutas argentinas.</color>"
+      A06:
+        title: "<b><yellow>06 - La Bombonera</yellow></b>"
+        desc:
+          - "<color:#c9c9c9> El Estadio Alberto J. Armando, ubicado en el barrio de La Boca, es la casa del Club Atlético Boca Juniors desde 1940.</color>"
+          - "<color:#c9c9c9> Cuenta con tres lados con bandejas curvas y un cuarto lado plano y aislado, una particularidad derivada de las limitaciones del terreno disponible en su construcción.</color>"
+      A09:
+        title: "<b><yellow>09 - Puente de la Mujer</yellow></b>"
+        desc:
+          - "<color:#c9c9c9> El puente de la Mujer es un puente atirantado de pilón contrapeso diseñado por el arquitecto español Santiago Calatrava.</color>"
+          - "<color:#c9c9c9> Ubicado en el barrio de Puerto Madero, el diseño es una síntesis de la imagen de una pareja bailando tango.</color>"
+      A11:
+        title: "<b><yellow>11 - Galerías Pacífico</yellow></b>"
+        desc:
+          - "<color:#c9c9c9> Galerías Pacífico es el nombre de un centro comercial inaugurado el 18 de mayo de 1992, ubicado en el histórico Edificio del Pacífico, construido en el siglo XIX en pleno centro de la ciudad.</color>"
+          - "<color:#c9c9c9> En el centro del mismo se encuentran una serie de célebres murales realizados en 1945-1947 en la pared interior de la cúpula, por varios de los más destacados pintores argentinos.</color>"
+      A12:
+        title: "<b><yellow>12 - 9 de Julio</yellow></b>"
+        desc:
+          - "<color:#c9c9c9> La avenida 9 de Julio es una de las avenidas principales de la ciudad.</color>"
+          - "<color:#c9c9c9> Es particularmente conocida porque en el punto medio de su recorrido se encuentra el Obelisco, en el cruce con la Avenida Corrientes.</color>"
+          - "<color:#c9c9c9> También destaca por ser considerada como la avenida más ancha del mundo, con 140 metros.</color>"
+      A13:
+        title: "<b><yellow>13 - Plaza San Martín</yellow></b>"
+        desc:
+          - "<color:#c9c9c9> La Plaza General San Martín es el principal espacio verde en el barrio de Retiro.</color>"
+          - "<color:#c9c9c9> Inaugurada en 1862, donde antes había existido una plaza de toros, fue declarada Lugar Histórico Nacional en 1942.</color>"
+  BuenosAiresTourBusROJO:
+    title: "<yellow>Buenos Aires Tour Bus (Rojo)</yellow>"
+    desc:
+      - "<gray>Recorre la Ciudad de Buenos Aires</gray>"
+      - "<gray>con la línea <color:#c40003>roja</color> del Bus Turístico.</gray>"
+    stops:
+      R00:
+        title: "<b><color:#d60000>00 - Diagonal Norte</color></b>"
+        desc:
+          - "<color:#c9c9c9> La Av. Roque Sáenz Peña fue abierta en 1913 para romper la cuadrícula colonial, uniendo Plaza de Mayo con el Obelisco.</color>"
+          - "<color:#c9c9c9> Sus edificios de altura y cúpulas uniformes le dan una perspectiva casi teatral hacia el Obelisco.</color>"
+      R01:
+        title: "<b><color:#d60000>01 - Plaza Congreso</color></b>"
+        desc:
+          - "<color:#c9c9c9> La Plaza del Congreso fue inaugurada durante los festejos del centenario de la Revolución de Mayo de 1810.</color>"
+          - "<color:#c9c9c9> La plaza está dominada por el Monumento a los Dos Congresos y su fuente monumental.</color>"
+          - "<color:#c9c9c9> En el extremo de Plaza Lorea está el Kilómetro Cero de las rutas argentinas.</color>"
+      R04:
+        title: "<b><color:#d60000>04 - Usina del arte</color></b>"
+        desc:
+          - "<color:#c9c9c9> La Usina del Arte es un ícono arquitectónico de la Ciudad de Buenos Aires, originalmente siendo construida en 1916 como usina eléctrica.</color>"
+          - "<color:#c9c9c9> En 2012 fue recuperada y convertida en un multiespacio donde se lleva adelante una variada programación cultural.</color>"
+      R05:
+        title: "<b><color:#d60000>05 - La Bombonera</color></b>"
+        desc:
+          - "<color:#c9c9c9> El Estadio Alberto J. Armando, ubicado en el barrio de La Boca, es la casa del Club Atlético Boca Juniors desde 1940.</color>"
+          - "<color:#c9c9c9> Cuenta con tres lados con bandejas curvas y un cuarto lado plano y aislado, una particularidad derivada de las limitaciones del terreno disponible en su construcción.</color>"
+      R08:
+        title: "<b><color:#d60000>08 - Puente de la Mujer</color></b>"
+        desc:
+          - "<color:#c9c9c9> El puente de la Mujer es un puente atirantado de pilón contrapeso diseñado por el arquitecto español Santiago Calatrava.</color>"
+          - "<color:#c9c9c9> Ubicado en el barrio de Puerto Madero, el diseño es una síntesis de la imagen de una pareja bailando tango.</color>"
+      R09:
+        title: "<b><color:#d60000>09 - Retiro</color></b>"
+        desc:
+          - "<color:#c9c9c9> Retiro es un barrio de la Ciudad de Buenos Aires, perteneciente a la Comuna 1.</color>"
+          - "<color:#c9c9c9> Nos encontramos al sur de él, en el Dock Norte, donde limita con Puerto Madero.</color>"
+      R10:
+        title: "<b><color:#d60000>10 - Plaza San Martín</color></b>"
+        desc:
+          - "<color:#c9c9c9> La Plaza General San Martín es el principal espacio verde en el barrio de Retiro.</color>"
+          - "<color:#c9c9c9> Inaugurada en 1862, donde antes había existido una plaza de toros, fue declarada Lugar Histórico Nacional en 1942.</color>"
+      R22:
+        title: "<b><color:#d60000>22 - Teatro Colón</color></b>"
+        desc:
+          - "<color:#c9c9c9> El Teatro Colón de Buenos Aires es una de las salas de ópera más importantes del mundo.</color>"
+          - "<color:#c9c9c9> Su rico y prestigioso historial y las excepcionales condiciones acústicas y arquitectónicas de su edificio lo colocan al nivel de teatros como la Scala de Milán, la Ópera de París, la Ópera de Viena y el Covent Garden de Londres.</color>"
+  EstadiosAR:
+    title: "<yellow>Tour de Estadios</yellow>"
+    desc:
+      - "<gray>Recorre los estadios de fútbol</gray>"
+      - "<gray>que tenemos construidos en Argentina.</gray>"
+    stops:
+      AR2_1:
+        title: "<gold><b>La Bombonera</b></gold>"
+        desc:
+          - "<color:#c9c9c9> El Estadio Alberto J. Armando, ubicado en el barrio de La Boca (C.A.B.A.), es la casa del Club Atlético Boca Juniors desde 1940.</color>"
+          - "<color:#c9c9c9> Cuenta con tres lados con bandejas curvas y un cuarto lado plano y aislado, una particularidad derivada de las limitaciones del terreno disponible en su construcción.</color>"
+      AR2_2:
+        title: "<gold><b>Estadio Monumental</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Se trata de un recinto deportivo mundialista propiedad del Club Atlético River Plate, ubicado en la ciudad de Buenos Aires. Fue inaugurado el 25 de mayo de 1938.</color>"
+          - "<color:#c9c9c9> A lo largo de su historia, el estadio ha sido escenario de importantes torneos internacionales, incluyendo ediciones de la Copa América y la Copa Mundial de la FIFA.</color>"
+      AR2_3:
+        title: "<gold><b>Estadio Mario Alberto Kempes</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Con una capacidad de más de 57.000 espectadores, es el segundo más grande del país después del Estadio Monumental de Buenos Aires.</color>"
+          - "<color:#c9c9c9> Está ubicado en el departamento Capital de Córdoba. Fue construido por el Estado Argentino con el objetivo primordial de ser una de las sedes del Mundial de Fútbol de 1978.</color>"
+      AR2_4:
+        title: "<gold><b>Estadio José María Minella</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Ubicado en la ciudad de Mar del Plata, es propiedad y está administrado por la municipalidad de General Pueyrredón. Fue inaugurado en el Mundial de 1978.</color>"
+          - "<color:#c9c9c9> Es usado para disputar los partidos de local por Aldosivi y Alvarado. También es el recinto deportivo más austral en el que se ha celebrado un encuentro de la Copa Mundial de la FIFA.</color>"
+      AR2_5:
+        title: "<gold><b>Estadio Julio César Villagra</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Conocido popularmente como el <i>Gigante de Alberdi</i>, es un estadio de fútbol perteneciente al Club Atlético Belgrano, ubicado en la ciudad de Córdoba.</color>"
+          - "<color:#c9c9c9> Fue el 17 de marzo de 1929 que Belgrano pudo cristalizar el sueño de contar con el estadio propio.</color>"
+      AR2_6:
+        title: "<gold><b>Estadio de Argentino de Quilmes</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Es un recinto ubicado en la ciudad de Quilmes, provincia de Buenos Aires. Pertenece al Club Atlético Argentino de Quilmes, uno de los más antiguos del país, fundado el 1 de diciembre de 1899 un grupo de estudiantes del Colegio Nacional de Buenos Aires.</color>"
+      AR2_7:
+        title: "<gold><b>Estadio Julio Humberto Grondona</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Arsenal Fútbol Club es un club de fútbol argentino de la ciudad de Sarandí, provincia de Buenos Aires. Juega como local en el Estadio Julio Humberto Grondona, que tiene capacidad para 18300 espectadores.</color>"
+          - "<color:#c9c9c9> Fue inaugurado el 7 de agosto de 2004.</color>"
+      AR2_8:
+        title: "<gold><b>Estadio Marcelo Bielsa</b></gold>"
+        desc:
+          - "<color:#c9c9c9> También conocido el <i>Coloso del Parque</i>, es el recinto deportivo del Club Atlético Newell's Old Boys, ubicado en la ciudad santafesina de Rosario. Se encuentra situado en pleno parque Independencia.</color>"
+          - "<color:#c9c9c9> Fue inaugurado el 23 de julio de 1911 y desde ese momento ha recibido distintas reformas.</color>"
+      AR2_9:
+        title: "<gold><b>Estadio Ciudad de Vicente López</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Ubicado en la localidad de Florida, en el partido de Vicente López (provincia de Buenos Aires), es propiedad del Club Atlético Platense y fue inaugurado el 22 de julio de 1979.</color>"
+      AR2_10:
+        title: "<gold><b>Estadio Saturnino Moure</b></gold>"
+        desc:
+          - "<color:#c9c9c9> El estadio del Club Atlético Victoriano Arenas lleva el nombre de <i>Saturnino Moure</i> y se encuentra técnicamente en la Ciudad de Buenos Aires, aunque solo es posible acceder a él desde la localidad de Piñeyro, partido de Avellaneda (provincia de Buenos Aires).</color>"
+          - "<color:#c9c9c9> Fue este estadio en el que debutó Florencia Romano, la primera árbitra que dirigió un partido de una división superior del fútbol argentino.</color>"
+      AR2_11:
+        title: "<gold><b>Estadio Brigadier General Estanislao López</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Es un recinto deportivo ubicado en la ciudad de Santa Fe, inaugurado en 1946 y propiedad del Club Atlético Colón.</color>"
+          - "<color:#c9c9c9> Originalmente llamado <i>Eva Perón</i>, tras el golpe de estado de la Revolución Libertadora fue renombrado en honor a Estanislao López, un caudillo argentino que gobernó la provincia de Santa Fe entre 1818 y 1838.</color>"
+      AR2_12:
+        title: "<gold><b>Estadio Padre Ernesto Martearena</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Ubicado en la zona sur de la ciudad de Salta, fue construido en 2001 por impulso del gobernador Juan Carlos Romero, para ser una de las sedes de la Copa Mundial de Fútbol Sub-20 Argentina 2001.</color>"
+          - "<color:#c9c9c9> Actualmente lo utilizan varios equipos de la zona, entre ellos el Club Atlético Central Norte y el Centro Juventud Antoniana.</color>"
+      AR2_13:
+        title: "<gold><b>Estadio Diego Armando Maradona</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Perteneciente a la Asociación Atlética Argentinos Juniors, está ubicado en el barrio de Villa General Mitre, Ciudad de Buenos Aires.</color>"
+          - "<color:#c9c9c9> Fue inaugurado el 27 de abril de 1940 en un partido entre Argentinos Juniors y Barracas Central, el cual terminó en victoria del local por 2 a 1. Recibió un nombre por primera vez en 2003, luego de su reinauguración, en honor al jugador histórico del club.</color>"
+      AR2_14:
+        title: "<gold><b>Estadio Pedro Bidegain</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Conocido popularmente como el <i>Nuevo Gasómetro</i>, es un recinto deportivo propiedad del Club Atlético San Lorenzo de Almagro, ubicado en el barrio de Flores, C.A.B.A.</color>"
+          - "<color:#c9c9c9> Después de perder el antiguo estadio El Gasómetro y haber oficiado de local en otros recintos, San Lorenzo construyó su nueva sede en 52 semanas.</color>"
+          - "<color:#c9c9c9> Posee el terreno de juego más grande de los estadios del fútbol profesional argentino con 110 metros de largo y 70 metros de ancho.</color>"
+      AR2_15:
+        title: "<gold><b>Estadio José Amalfitani</b></gold>"
+        desc:
+          - "<color:#c9c9c9> Ubicado en el barrio de Liniers (Ciudad de Buenos Aires), es el hogar del Club Atlético Vélez Sarsfield. También funciona como una de las sedes oficiales de la selección argentina de rugby.</color>"
+          - "<color:#c9c9c9> Debido al constante mantenimiento de sus instalaciones, las comodidades que ofrece, su ubicación y accesibilidad, es considerado uno de los mejores estadios de Argentina, y una de las primeras opciones para la realización de eventos de gran relevancia.</color>"
+  MainAR:
+    title: "<yellow>Tour Argentina</yellow>"
+    desc:
+      - "<gray>Recorre las construcciones completadas más</gray>"
+      - "<gray>importantes de Argentina.</gray>"
+      - "<gray><i>Nota: no incluye estadios</i></gray>"
+    stops:
+      AR1_1:
+        title: "<color:#74acdf><b>Plaza de Mayo, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> La Plaza de Mayo es la más antigua de Buenos Aires y escenario de la mayoría de los acontecimientos políticos más importantes de la historia argentina.</color>"
+          - "<color:#c9c9c9> Este punto de Buenos Aires es también el lugar donde fue fundada por segunda vez la Ciudad, el 11 de junio de 1580 por Juan de Garay.</color>"
+          - "<color:#c9c9c9> Bordeando la Plaza de Mayo, se ubican varios edificios históricos y gubernamentales: el Cabildo, la Catedral Metropolitana, la Casa de Gobierno (conocida también como Casa Rosada), el antiguo Palacio del Gobierno de la Ciudad, bancos y ministerios.</color>"
+      AR1_2:
+        title: "<color:#74acdf><b>San Telmo, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> Es uno de los barrios más antiguos y tradicionales, sede del Casco Histórico y de muchas tanguerías.</color>"
+      AR1_3:
+        title: "<color:#74acdf><b>Congreso, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> La Plaza del Congreso fue inaugurada durante los festejos del centenario de la Revolución de Mayo de 1810.</color>"
+          - "<color:#c9c9c9> La plaza está dominada por el Monumento a los Dos Congresos y su fuente monumental.</color>"
+          - "<color:#c9c9c9> En el extremo de Plaza Lorea está el Kilómetro Cero de las rutas argentinas.</color>"
+      AR1_4:
+        title: "<color:#74acdf><b>Obelisco, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> El Obelisco es el mayor emblema de la Ciudad de Buenos Aires. Fue inaugurado el 23 de mayo de 1936 en homenaje al cuarto centenario de la primera fundación de Buenos Aires., y se alza exactamente en el lugar donde se izó por primera vez la bandera nacional en la Ciudad.</color>"
+      AR1_5:
+        title: "<color:#74acdf><b>Caminito, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> Caminito es uno de los paseos más emblemáticos de la Ciudad, un atractivo imperdible para quienes la visitan. Con sus conventillos de chapa pintados de distintos colores es también un museo a cielo abierto de casi 150 metros de longitud.</color>"
+          - "<color:#c9c9c9> Pisar Caminito es asomarse a los orígenes de Buenos Aires.</color>"
+      AR1_6:
+        title: "<color:#74acdf><b>Puerto Madero, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> Puerto Madero es el barrio más moderno, exclusivo y uno de los más valorados de la Ciudad, ubicado a la vera del Río de la Plata.</color>"
+          - "<color:#c9c9c9> Aquí se emplazan sedes u oficinas de grandes empresas multinacionales, hoteles y residencias en altura de lujo, siendo hogar de figuras destacadas del país, empresarios, deportistas y funcionarios públicos entre otros.</color>"
+      AR1_7:
+        title: "<color:#74acdf><b>Retiro, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> Retiro es uno de los barrios más turísticos, por la Plaza San Martín, la Calle Florida y su zona comercial. En sus comienzos, la zona del barrio de Retiro estaba alejada del trazado de la ciudad.</color>"
+          - "<color:#c9c9c9> Retiro se caracteriza asimismo por ser un importante nodo de transporte, con tres estaciones de trenes (Belgrano, Mitre y San Martín) y dos de subterráneos (C y E) donde convergen varias líneas ferroviarias metropolitanas, además de numerosas líneas de colectivos y ómnibus de larga distancia.</color>"
+      AR1_8:
+        title: "<color:#74acdf><b>Barrio 31, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> La Villa 31, Barrio 31 o Barrio Padre Carlos Mugica es una villa miseria ubicada en el barrio de Retiro.</color>"
+          - "<color:#c9c9c9> El barrio existe desde 1932, cuando inmigrantes y obreros comenzaron a poblar la zona tras la crisis de 1929, aprovechando la cercanía con el puerto de Buenos Aires.</color>"
+          - "<color:#c9c9c9> En 2016 comenzó el proceso de urbanización con la construcción de obras de infraestructura, escuelas, centros de salud y otras políticas de integración.</color>"
+      AR1_9:
+        title: "<color:#74acdf><b>Parque Centenario, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> Al igual que muchos de los principales espacios verdes de la Ciudad, fue el paisajista francés Carlos Thays quien se encargó de diseñar el Parque Centenario, bautizado así en 1909, para conmemorar los cien años de la Revolución de Mayo.</color>"
+          - "<color:#c9c9c9> Los terrenos de este espacio verde están ubicados en el barrio de Caballito, centro geográfico de la Ciudad de Buenos Aires, y pertenecieron a la familia Lezica, propietaria también del predio que hoy ocupa el Parque Rivadavia.</color>"
+      AR1_10:
+        title: "<color:#74acdf><b>Museo de Ciencias Naturales, La Plata</b></color>"
+        desc:
+          - "<color:#c9c9c9> El Museo General de La Plata fue creado por un decreto del Gobierno de la Provincia de Buenos Aires, el 19 de septiembre de 1884, a partir de un proyecto presentado por Francisco Pascasio Moreno, quien fue su fundador y nombrado director vitalicio.</color>"
+          - "<color:#c9c9c9> Forma parte de la Facultad de Ciencias Naturales y Museo de la Universidad Nacional de La Plata, y su valor histórico y patrimonial lo constituyen en un referente nacional e internacional.</color>"
+      AR1_11:
+        title: "<color:#74acdf><b>Av. Colón, Mar del Plata</b></color>"
+        desc:
+          - "<color:#c9c9c9> La avenida Colón es la arteria más extensa y una de las postales más emblemáticas de Mar del Plata, famosa por su imponente bajada hacia el mar.</color>"
+          - "<color:#c9c9c9> Nos ecnontramos particularmente en la zona de la rambla, donde están ubicados los edificios del Casino Central y el Hotel Provincial, diseñados por el arquitecto Alejandro Bustillo.</color>"
+      AR1_12:
+        title: "<color:#74acdf><b>Hotel Llao Llao, Bariloche</b></color>"
+        desc:
+          - "<color:#c9c9c9> El <i>Llao Llao Hotel & Resort</i> es un tradicional hotel propiedad del Grupo Sutton Dabbah y del grupo IRSA, por partes iguales.</color>"
+          - "<color:#c9c9c9> El hotel fue diseñado por Alejandro Bustillo, siendo oficialmente inaugurado el 9 de enero de 1938. En 1939 un incendio consumió casi por completo las instalaciones. Reabrió el 15 de diciembre de 1940 tras una reconstrucción.</color>"
+      AR1_13:
+        title: "<color:#74acdf><b>Centro, Córdoba Capital</b></color>"
+        desc:
+          - "<color:#c9c9c9> Los orígenes de la ciudad de Córdoba se remontan a cuando el virrey del Perú en 1571 nombró a Jerónimo Luis de Cabrera gobernador del Tucumán y le encomendó poblar y fundar en el valle de Salta un pueblo de españoles.</color>"
+          - "<color:#c9c9c9> Cabrera desobedeció las órdenes del virrey y fundó la ciudad de Córdoba de La Nueva Andalucía el 6 de julio de 1573 a orillas del río Suquía.</color>"
+          - "<color:#c9c9c9> Luego de más de cuatro siglos los edificios del Cabildo y la Iglesia Catedral lucen como en aquel entonces y junto a la ex plaza Mayor, actual plaza San Martín forman el clásico circuito del centro histórico fundacional.</color>"
+      AR1_14:
+        title: "<color:#74acdf><b>Monumento a la Bandera, Rosario</b></color>"
+        desc:
+          - "<color:#c9c9c9> El Monumento Histórico Nacional a la Bandera es una construcción símbolo de la ciudad de Rosario.</color>"
+          - "<color:#c9c9c9> Fue diseñado por los arquitectos Ángel Guido y Alejandro Bustillo en estilo clasicismo despojado. Posee una torre de 70 m de altura con mirador en la cima, una cripta en homenaje al General Manuel Belgrano, un Patio Cívico y el Propileo, y una Urna cineraria al Soldado Desconocido.</color>"
+      AR1_15:
+        title: "<color:#74acdf><b>Centro, San Miguel de Tucumán</b></color>"
+        desc:
+          - "<color:#c9c9c9> Ubicada frente a la Plaza Independencia se encuentra la Casa de Gobierno, donde antiguamente se encontraba el Cabildo. Se construyó entre 1908 y 1910 por pedido del ex gobernador Luis F. Nougués y fue inaugurada el 9 de julio de 1912.</color>"
+      AR1_16:
+        title: "<color:#74acdf><b>Estación Villa Mercedes, San Luis</b></color>"
+        desc:
+          - "<color:#c9c9c9> Villa Mercedes es una estación ferroviaria ubicada en la localidad del mismo nombre. Hasta marzo de 1993 corría en forma diaria el tren <i>El Aconcagua</i> que unía Retiro con San Juan</color>"
+          - "<color:#c9c9c9> Villa Mercedes es la localidad cabecera del departamento General Pedernera, provincia de San Luis. Es la segunda ciudad más importante de la provincia y uno de los principales centros industriales del país.</color>"
+      AR1_17:
+        title: "<color:#74acdf><b>La Pedrera, Villa Mercedes, San Luis</b></color>"
+        desc:
+          - "<color:#c9c9c9> El Parque La Pedrera es un complejo deportivo de 66 hectáreas, contando con disponibilidad para recibir una enorme cantidad de público en múltiples formatos de actividades, pudiendo destinarse en su totalidad a un único evento o bien afectar simultáneamente distintos sectores del Parque a eventos o servicios completamente separados. Dentro del parque se encuentra el Estadio Único de Villa Mercedes y un autódromo.</color>"
+      AR1_18:
+        title: "<color:#74acdf><b>Rectorado de la UNSJ, San Juan</b></color>"
+        desc:
+          - "<color:#c9c9c9> La Universidad Nacional de San Juan (UNSJ) es una universidad nacional argentina con sede central en la ciudad de San Juan y otra sede en San José de Jáchal, fundada en 1973.</color>"
+          - "<color:#c9c9c9> Esta parada corresponde al edificio del rectorado de la universidad.</color>"
+      AR1_19:
+        title: "<color:#74acdf><b>Belgrano, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> Belgrano es uno de los 48 barrios de la Ciudad de Buenos Aires, y uno de los centros comerciales más importantes de la ciudad. Fue pueblo, ciudad, capital federal (por un breve período) y luego barrio.</color>"
+          - "<color:#c9c9c9> Esta parada corresponde a la Plaza Manuel Belgrano. Alrededor se encuentran: el Museo Sarmiento, construido en 1873; el Museo de Arte Español Enrique Larreta; y la Parroquia Inmaculada Concepción, más conocida como <i>La Redonda</i>, de 1864.</color>"
+      AR1_20:
+        title: "<color:#74acdf><b>Ciudad Universitaria, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> Se trata de un campus urbano de la Universidad de Buenos Aires, sede de sus facultades de Arquitectura y Diseño, Ciencias Exactas, el Instituto de Astronomía y Física del Espacio, el Instituto de Geocronología y Geología Isotópica.</color>"
+      AR1_21:
+        title: "<color:#74acdf><b>Barracas, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> La <i>Plaza Colombia</i> es el principal centro comercial y social del barrio de Barracas.</color>"
+          - "<color:#c9c9c9> La manzana de la plaza estaba ocupada por la Quinta de los Guerrero y se hizo famosa por el asesinato de Felicitas Guerrero en 1872, a raíz del cual en 1876 se construyó la Iglesia de Santa Felicitas que está sobre la calle Isabel la Católica.</color>"
+      AR1_22:
+        title: "<color:#74acdf><b>Parque Avellaneda, C.A.B.A.</b></color>"
+        desc:
+          - "<color:#c9c9c9> Con casi 30 hectáreas, es uno de los espacios verdes más grandes e históricos de la Ciudad de Buenos Aires.</color>"
+          - "<color:#c9c9c9> El parque se encuentra ubicado en casi toda su extensión en lo que fuera la antigua chacra <i>Los Remedios</i>, que perteneció a la familia de don Domingo Olivera.</color>"
+  EstadiosCL:
+    title: "<yellow><b>Tour de Estadios</b></yellow>"
+    desc:
+      - " <gray>Visita los <b>estadios de fútbol</b>"
+      - " <gray>construidos en Chile."
+    stops:
+      NacionalCL:
+        title: "<yellow><b>Estadio Nacional Julio Martínez Prádanos</b></yellow>"
+        desc:
+          - " <gray>El recinto deportivo más importante del país."
+          - " <gray>Inaugurado en 1938, entre sus eventos más destacados"
+          - " <gray>se encuentra la final del Mundial de 1962."
+      MonumentalCL:
+        title: "<yellow><b>Estadio Monumental David Arellano</b></yellow>"
+        desc:
+          - " <gray>Casa de Colo-Colo, inaugurado en 1989."
+          - " <gray>Tiene la segunda mayor capacidad del país,"
+          - " <gray>con un aforo aproximado de 43 mil personas."
+      SantaLaura:
+        title: "<yellow><b>Estadio Santa Laura - Universidad SEK</b></yellow>"
+        desc:
+          - " <gray>Ubicado en Independencia e inaugurado en 1923, es el recinto"
+          - " <gray>activo más antiguo y cuna del fútbol profesional en el país."
+          - " <gray>Hogar de Unión Española, conocido históricamente como <i>La Catedral</i>."
+      Huachipato:
+        title: "<yellow><b>Estadio Huachipato</b></yellow>"
+        desc:
+          - " <gray>Ubicado en Talcahuano, es el único estadio fuera de la"
+          - " <gray>Región Metropolitana perteneciente a su propio club."
+          - " <gray>Inaugurado en 2009, destaca por su diseño de estilo inglés"
+          - " <gray>y sus características tribunas rectangulares."
+      RubenMarcosPeralta:
+        title: "<yellow><b>Estadio Rubén Marcos Peralta</b></yellow>"
+        desc:
+          - " <gray>Tradicional estadio de Osorno, construido en 1940"
+          - " <gray>y conocido históricamente como <i>Parque Schott</i>."
+          - " <gray>Es la casa del club Provincial Osorno."
+      ElCobre:
+        title: "<yellow><b>Estadio El Cobre</b></yellow>"
+        desc:
+          - " <gray>Hogar de Cobresal en el campamento minero de El Salvador,"
+          - " <gray>en pleno desierto de Atacama."
+          - " <gray>Es famoso a nivel mundial porque su capacidad supera"
+          - " <gray>la cantidad total de habitantes de la ciudad."
+      LuisValenzuela:
+        title: "<yellow><b>Estadio Luis Valenzuela Hermosilla</b></yellow>"
+        desc:
+          - " <gray>Principal reducto de Copiapó y casa del <i>León de Atacama</i>."
+          - " <gray>Inaugurado en la década de 1960, fue modernizado en 2011"
+          - " <gray>y reconstruido tras los aluviones de 2015."
+      MunicipalNancagua:
+        title: "<yellow><b>Estadio Municipal de Nancagua</b></yellow>"
+        desc:
+          - " <gray>Recinto comunal ubicado en la provincia de Colchagua."
+          - " <gray>Representa la tradición del fútbol local de la zona"
+          - " <gray>y es sede habitual de campeonatos amateur."
